@@ -5,17 +5,18 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_vovf"
+  "full_name"
  ],
  "fields": [
   {
-   "fieldname": "section_break_vovf",
-   "fieldtype": "Section Break"
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Full name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-12 17:03:32.115554",
+ "modified": "2024-06-12 18:50:51.880290",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Family Member",
