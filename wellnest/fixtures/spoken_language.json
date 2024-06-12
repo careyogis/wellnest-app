@@ -1,0 +1,30 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Spoken Language",
+  "language": "English",
+  "modified": "2024-06-12 18:08:58.127639",
+  "name": "English"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Spoken Language",
+  "language": "Hindi",
+  "modified": "2024-06-12 18:09:10.021440",
+  "name": "Hindi"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Spoken Language",
+  "language": "Marathi",
+  "modified": "2024-06-12 18:09:19.198970",
+  "name": "Marathi"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Spoken Language",
+  "language": "Telugu",
+  "modified": "2024-06-12 18:09:29.553748",
+  "name": "Telugu"
+ }
+]
