@@ -1,24 +1,28 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:attendant_service",
  "creation": "2024-06-12 16:57:58.964146",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_iswc"
+  "attendant_service"
  ],
  "fields": [
   {
-   "fieldname": "section_break_iswc",
-   "fieldtype": "Section Break"
+   "fieldname": "attendant_service",
+   "fieldtype": "Data",
+   "label": "Attendant Service",
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-12 16:57:58.964146",
+ "modified": "2024-06-12 17:51:04.531736",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Attendant Service",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

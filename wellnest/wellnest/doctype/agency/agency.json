@@ -5,17 +5,135 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_7dn4"
+  "section_break_7dn4",
+  "primary_contact_section",
+  "full_name",
+  "primary_phone",
+  "secondary_contact_section",
+  "fullname",
+  "secondary_phone",
+  "email",
+  "complete_address",
+  "city",
+  "state",
+  "pincode",
+  "services_provided_section",
+  "attendant_services",
+  "nursing_service",
+  "specialization",
+  "years_in_service",
+  "required_documents",
+  "logoprofile_pic",
+  "approved"
  ],
  "fields": [
   {
    "fieldname": "section_break_7dn4",
-   "fieldtype": "Section Break"
+   "fieldtype": "Data",
+   "label": "Name"
+  },
+  {
+   "fieldname": "primary_contact_section",
+   "fieldtype": "Section Break",
+   "label": "Primary contact"
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Full name"
+  },
+  {
+   "fieldname": "primary_phone",
+   "fieldtype": "Phone",
+   "label": "Primary Phone"
+  },
+  {
+   "fieldname": "secondary_contact_section",
+   "fieldtype": "Section Break",
+   "label": "Secondary contact"
+  },
+  {
+   "fieldname": "fullname",
+   "fieldtype": "Data",
+   "label": "Fullname"
+  },
+  {
+   "fieldname": "secondary_phone",
+   "fieldtype": "Phone",
+   "label": "Secondary Phone"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "complete_address",
+   "fieldtype": "Small Text",
+   "label": "Complete Address"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "pincode",
+   "fieldtype": "Int",
+   "label": "Pincode"
+  },
+  {
+   "fieldname": "services_provided_section",
+   "fieldtype": "Section Break",
+   "label": "Services provided"
+  },
+  {
+   "fieldname": "attendant_services",
+   "fieldtype": "Table",
+   "label": "Attendant Service",
+   "options": "Attendant Service Option"
+  },
+  {
+   "fieldname": "nursing_service",
+   "fieldtype": "Table",
+   "label": "Nursing Service",
+   "options": "Nursing Service Option"
+  },
+  {
+   "fieldname": "specialization",
+   "fieldtype": "Data",
+   "label": "Specialization"
+  },
+  {
+   "fieldname": "years_in_service",
+   "fieldtype": "Int",
+   "label": "Years in service"
+  },
+  {
+   "fieldname": "required_documents",
+   "fieldtype": "Attach",
+   "label": "Required documents"
+  },
+  {
+   "fieldname": "logoprofile_pic",
+   "fieldtype": "Attach Image",
+   "label": "Logo/Profile pic"
+  },
+  {
+   "fieldname": "approved",
+   "fieldtype": "Select",
+   "label": "Approved",
+   "options": "Yes\nNo"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-12 16:56:27.256233",
+ "modified": "2024-06-12 18:28:07.752205",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Agency",

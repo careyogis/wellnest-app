@@ -1,24 +1,28 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:nursing_service",
  "creation": "2024-06-12 16:58:59.900895",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_p6lv"
+  "nursing_service"
  ],
  "fields": [
   {
-   "fieldname": "section_break_p6lv",
-   "fieldtype": "Section Break"
+   "fieldname": "nursing_service",
+   "fieldtype": "Data",
+   "label": "Nursing Service",
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-12 16:58:59.900895",
+ "modified": "2024-06-12 18:03:27.669963",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Nursing Service",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
