@@ -1,24 +1,28 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:caregiver",
  "creation": "2024-06-12 16:59:34.624132",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_mqdz"
+  "caregiver"
  ],
  "fields": [
   {
-   "fieldname": "section_break_mqdz",
-   "fieldtype": "Section Break"
+   "fieldname": "caregiver",
+   "fieldtype": "Data",
+   "label": "Caregiver",
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-12 16:59:34.624132",
+ "modified": "2024-06-12 18:07:54.487697",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Specialization",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
