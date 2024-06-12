@@ -1,0 +1,149 @@
+[
+ {
+  "attendant_service": "Assist in feeding",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:51:43.398486",
+  "name": "Assist in feeding"
+ },
+ {
+  "attendant_service": "Help in fluid intake",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:52:04.097672",
+  "name": "Help in fluid intake"
+ },
+ {
+  "attendant_service": "Mobility assist with walking and home exercises",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:52:42.596868",
+  "name": "Mobility assist with walking and home exercises"
+ },
+ {
+  "attendant_service": "Turn position in bed",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:52:59.290614",
+  "name": "Turn position in bed"
+ },
+ {
+  "attendant_service": "Range of motion exercises",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:53:16.193922",
+  "name": "Range of motion exercises"
+ },
+ {
+  "attendant_service": "Companionship polite conversations",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:54:00.257850",
+  "name": "Companionship polite conversations"
+ },
+ {
+  "attendant_service": "Light massages",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:54:22.553860",
+  "name": "Light massages"
+ },
+ {
+  "attendant_service": "Patient's laundry",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:54:46.040660",
+  "name": "Patient's laundry"
+ },
+ {
+  "attendant_service": "Take out trash from the patient's room",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:55:17.804518",
+  "name": "Take out trash from the patient's room"
+ },
+ {
+  "attendant_service": "Maintain patient's bedroom",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:55:49.118212",
+  "name": "Maintain patient's bedroom"
+ },
+ {
+  "attendant_service": "Maintain patient's general health note",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:56:05.850890",
+  "name": "Maintain patient's general health note"
+ },
+ {
+  "attendant_service": "Changing diapers",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:56:24.961945",
+  "name": "Changing diapers"
+ },
+ {
+  "attendant_service": "Assist to the bathroom or bedside commode",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:56:43.230348",
+  "name": "Assist to the bathroom or bedside commode"
+ },
+ {
+  "attendant_service": "Assist in using urinal/bedpan",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:56:54.679602",
+  "name": "Assist in using urinal/bedpan"
+ },
+ {
+  "attendant_service": "Incontinence care",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:57:04.896091",
+  "name": "Incontinence care"
+ },
+ {
+  "attendant_service": "Empty catheter bag",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:57:19.074739",
+  "name": "Empty catheter bag"
+ },
+ {
+  "attendant_service": "Oral Hygiene",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:57:32.354228",
+  "name": "Oral Hygiene"
+ },
+ {
+  "attendant_service": "Bed Bath/Sponge Bath",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:58:17.073784",
+  "name": "Bed Bath/Sponge Bath"
+ },
+ {
+  "attendant_service": "Skin Care/Non-medicated lotion to dry areas",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:58:28.976581",
+  "name": "Skin Care/Non-medicated lotion to dry areas"
+ },
+ {
+  "attendant_service": "Assist with getting dressed",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:58:46.936193",
+  "name": "Assist with getting dressed"
+ },
+ {
+  "attendant_service": "Restrict fluids",
+  "docstatus": 0,
+  "doctype": "Attendant Service",
+  "modified": "2024-06-12 17:59:02.340666",
+  "name": "Restrict fluids"
+ }
+]

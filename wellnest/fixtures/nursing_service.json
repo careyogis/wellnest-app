@@ -1,0 +1,142 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:03:50.676973",
+  "name": "Tracheostomy - Suction",
+  "nursing_service": "Tracheostomy - Suction"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:04:02.148608",
+  "name": "Ventilator Monitoring",
+  "nursing_service": "Ventilator Monitoring"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:04:15.065432",
+  "name": "Nebulizer Oxygen Concentrator",
+  "nursing_service": "Nebulizer Oxygen Concentrator"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:04:25.157756",
+  "name": "Oxygen Cylinder Catheterization",
+  "nursing_service": "Oxygen Cylinder Catheterization"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:04:35.962527",
+  "name": "Bladder Wash Sponging",
+  "nursing_service": "Bladder Wash Sponging"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:04:45.279999",
+  "name": "Proper Bathing",
+  "nursing_service": "Proper Bathing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:04:56.770870",
+  "name": "Giving Medicines",
+  "nursing_service": "Giving Medicines"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:05:06.995405",
+  "name": "Changing Bedpan Assistance",
+  "nursing_service": "Changing Bedpan Assistance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:05:17.053502",
+  "name": "Checking Vitals",
+  "nursing_service": "Checking Vitals"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:05:27.163675",
+  "name": "Bipap Assistance",
+  "nursing_service": "Bipap Assistance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:05:39.717023",
+  "name": "Stoma Bag Cleaning",
+  "nursing_service": "Stoma Bag Cleaning"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:05:51.926400",
+  "name": "Emptying Catheter",
+  "nursing_service": "Emptying Catheter"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:06:05.327042",
+  "name": "Ryles Tube Feeding",
+  "nursing_service": "Ryles Tube Feeding"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:06:17.571759",
+  "name": "Enema Application",
+  "nursing_service": "Enema Application"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:07:01.725307",
+  "name": "Administering Injection",
+  "nursing_service": "Administering Injection"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:07:15.115257",
+  "name": "Intramuscular/Intravenous",
+  "nursing_service": "Intramuscular/Intravenous"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:07:26.108365",
+  "name": "Subcutaneous Dressing Management",
+  "nursing_service": "Subcutaneous Dressing Management"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:07:36.808168",
+  "name": "Bedsores Management",
+  "nursing_service": "Bedsores Management"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:07:46.504219",
+  "name": "Oral Suction",
+  "nursing_service": "Oral Suction"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service",
+  "modified": "2024-06-12 18:07:56.161125",
+  "name": "Mobility Movements and Exercises",
+  "nursing_service": "Mobility Movements and Exercises"
+ }
+]
