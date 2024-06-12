@@ -1,24 +1,28 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:language",
  "creation": "2024-06-12 16:58:51.312553",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_1a2j"
+  "language"
  ],
  "fields": [
   {
-   "fieldname": "section_break_1a2j",
-   "fieldtype": "Section Break"
+   "fieldname": "language",
+   "fieldtype": "Data",
+   "label": "Language",
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-12 16:58:51.312553",
+ "modified": "2024-06-12 18:08:42.362597",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Spoken Language",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
