@@ -70,8 +70,9 @@
   },
   {
    "fieldname": "languages_spoken",
-   "fieldtype": "Data",
-   "label": "Languages spoken"
+   "fieldtype": "Table",
+   "label": "Languages spoken",
+   "options": "Spoken Language Option"
   },
   {
    "fieldname": "passport_size_photo",
@@ -155,8 +156,9 @@
   },
   {
    "fieldname": "availabilitynurse",
-   "fieldtype": "Data",
-   "label": "Availability(nurse)"
+   "fieldtype": "Select",
+   "label": "Availability(nurse)",
+   "options": "12\n24\nBoth"
   },
   {
    "fieldname": "shift_preferencenurse",
@@ -172,8 +174,9 @@
   },
   {
    "fieldname": "nursing_care",
-   "fieldtype": "Data",
-   "label": "Nursing care"
+   "fieldtype": "Table",
+   "label": "Nursing care",
+   "options": "Nursing Service Option"
   },
   {
    "fieldname": "any_other_experiencenurse",
@@ -209,8 +212,9 @@
   },
   {
    "fieldname": "attendant_care",
-   "fieldtype": "Data",
-   "label": "Attendant care"
+   "fieldtype": "Table",
+   "label": "Attendant care",
+   "options": "Attendant Service Option"
   },
   {
    "fieldname": "any_other_experienceattendant",
@@ -225,7 +229,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-12 18:13:55.949387",
+ "modified": "2024-06-12 20:56:43.145701",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",

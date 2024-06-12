@@ -106,8 +106,9 @@
   },
   {
    "fieldname": "specialization",
-   "fieldtype": "Data",
-   "label": "Specialization"
+   "fieldtype": "Table",
+   "label": "Specialization",
+   "options": "Specialization Option"
   },
   {
    "fieldname": "years_in_service",
@@ -133,7 +134,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-12 18:28:07.752205",
+ "modified": "2024-06-12 20:48:34.273067",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Agency",

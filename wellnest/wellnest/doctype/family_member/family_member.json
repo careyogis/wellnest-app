@@ -5,18 +5,90 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "full_name"
+  "full_name",
+  "gender",
+  "dob",
+  "phone",
+  "alternate_phone",
+  "whatsapp_number",
+  "email",
+  "photo",
+  "complete_address",
+  "country",
+  "city",
+  "state",
+  "pincode"
  ],
  "fields": [
   {
    "fieldname": "full_name",
    "fieldtype": "Data",
    "label": "Full name"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Data",
+   "label": "Gender"
+  },
+  {
+   "fieldname": "dob",
+   "fieldtype": "Date",
+   "label": "DOB"
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Phone",
+   "label": "Phone"
+  },
+  {
+   "fieldname": "alternate_phone",
+   "fieldtype": "Phone",
+   "label": "Alternate phone"
+  },
+  {
+   "fieldname": "whatsapp_number",
+   "fieldtype": "Phone",
+   "label": "Whatsapp number"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach",
+   "label": "Photo"
+  },
+  {
+   "fieldname": "complete_address",
+   "fieldtype": "Small Text",
+   "label": "Complete address"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Data",
+   "label": "Country"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "pincode",
+   "fieldtype": "Data",
+   "label": "Pincode"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-12 18:50:51.880290",
+ "modified": "2024-06-12 21:10:17.872976",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Family Member",
