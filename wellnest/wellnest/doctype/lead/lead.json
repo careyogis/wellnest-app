@@ -1,0 +1,211 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-13 15:34:10.143260",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_mpfo",
+  "applicantid",
+  "source",
+  "sourceid",
+  "referral_code",
+  "service_preference_section",
+  "type_of_service_needed",
+  "attendant_service_needed",
+  "nurse_service_needed",
+  "caregiver_language_preference",
+  "service_area",
+  "duration_of_service",
+  "preferred_start_date_of_service",
+  "hospital_discharge_detailif_the_patient_is_from_hospital_section",
+  "department_of_discharge",
+  "referred_by",
+  "discharge_summary",
+  "current_treating_doctor",
+  "the_current_treating_doctors_phone",
+  "medical_condition",
+  "available_medical_record",
+  "payment_related_information_section",
+  "payment_by",
+  "qualify",
+  "stage",
+  "created_on",
+  "last_updated_on",
+  "last_updated_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_mpfo",
+   "fieldtype": "Data",
+   "label": "PatientId"
+  },
+  {
+   "fieldname": "applicantid",
+   "fieldtype": "Data",
+   "label": "ApplicantId"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Data",
+   "label": "Source"
+  },
+  {
+   "fieldname": "sourceid",
+   "fieldtype": "Data",
+   "label": "SourceId"
+  },
+  {
+   "fieldname": "referral_code",
+   "fieldtype": "Data",
+   "label": "Referral code"
+  },
+  {
+   "fieldname": "service_preference_section",
+   "fieldtype": "Section Break",
+   "label": "Service Preference"
+  },
+  {
+   "fieldname": "type_of_service_needed",
+   "fieldtype": "Select",
+   "label": "Type of service needed",
+   "options": "Attendant\nNurse\nBoth"
+  },
+  {
+   "fieldname": "attendant_service_needed",
+   "fieldtype": "Table",
+   "label": "Attendant service needed",
+   "options": "Attendant Service Needed Option"
+  },
+  {
+   "fieldname": "nurse_service_needed",
+   "fieldtype": "Table",
+   "label": "Nurse service needed",
+   "options": "Nursing Service Option"
+  },
+  {
+   "fieldname": "caregiver_language_preference",
+   "fieldtype": "Data",
+   "label": "Caregiver language preference"
+  },
+  {
+   "fieldname": "service_area",
+   "fieldtype": "Small Text",
+   "label": "Service area"
+  },
+  {
+   "fieldname": "duration_of_service",
+   "fieldtype": "Select",
+   "label": "Duration of service",
+   "options": "12\n24\ncustom"
+  },
+  {
+   "fieldname": "preferred_start_date_of_service",
+   "fieldtype": "Date",
+   "label": "Preferred start date of service"
+  },
+  {
+   "fieldname": "hospital_discharge_detailif_the_patient_is_from_hospital_section",
+   "fieldtype": "Section Break",
+   "label": "Hospital discharge detail(if the patient is from hospital)"
+  },
+  {
+   "fieldname": "department_of_discharge",
+   "fieldtype": "Data",
+   "label": "Department of discharge"
+  },
+  {
+   "fieldname": "referred_by",
+   "fieldtype": "Data",
+   "label": "Referred by"
+  },
+  {
+   "fieldname": "discharge_summary",
+   "fieldtype": "Attach",
+   "label": "Discharge summary"
+  },
+  {
+   "fieldname": "current_treating_doctor",
+   "fieldtype": "Data",
+   "label": "Current treating doctor"
+  },
+  {
+   "fieldname": "the_current_treating_doctors_phone",
+   "fieldtype": "Phone",
+   "label": "The current treating doctor's phone"
+  },
+  {
+   "fieldname": "medical_condition",
+   "fieldtype": "Table",
+   "label": "Medical condition",
+   "options": "Medical Condition Option"
+  },
+  {
+   "fieldname": "available_medical_record",
+   "fieldtype": "Attach",
+   "label": "Available medical record"
+  },
+  {
+   "fieldname": "payment_related_information_section",
+   "fieldtype": "Section Break",
+   "label": "Payment related information"
+  },
+  {
+   "fieldname": "payment_by",
+   "fieldtype": "Select",
+   "label": "Payment by",
+   "options": "SELF\nAPPLICANT"
+  },
+  {
+   "fieldname": "qualify",
+   "fieldtype": "Select",
+   "label": "Qualify",
+   "options": "HOT - Potential customer likely to make a purchase.\nWARM - Customer enquired about the service and left the details to connect later.\nCOLD -\n1. Received by hospital staff on the potential customer.\n2. From direct customer targeting."
+  },
+  {
+   "fieldname": "stage",
+   "fieldtype": "Select",
+   "label": "Stage",
+   "options": "Lead\nProspect\nContact\nNurture\nNegotiation\nQualified - Sales qualified lead\nDisqualified"
+  },
+  {
+   "fieldname": "created_on",
+   "fieldtype": "Date",
+   "label": "Created on"
+  },
+  {
+   "fieldname": "last_updated_on",
+   "fieldtype": "Date",
+   "label": "Last updated on"
+  },
+  {
+   "fieldname": "last_updated_by",
+   "fieldtype": "Data",
+   "label": "Last updated by"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-13 23:26:58.751209",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Lead",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

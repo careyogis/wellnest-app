@@ -1,0 +1,37 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Hypertension",
+  "modified": "2024-06-13 16:50:48.438279",
+  "name": "Hypertension"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Diabetes",
+  "modified": "2024-06-13 16:51:00.931464",
+  "name": "Diabetes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Heart disease",
+  "modified": "2024-06-13 16:51:16.766170",
+  "name": "Heart disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Dementia",
+  "modified": "2024-06-13 16:51:29.323006",
+  "name": "Dementia"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Cancer",
+  "modified": "2024-06-13 16:51:43.304337",
+  "name": "Cancer"
+ }
+]

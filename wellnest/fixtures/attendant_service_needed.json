@@ -1,0 +1,142 @@
+[
+ {
+  "attendant_service_needed": "Assist in feeding",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:17:57.943161",
+  "name": "Assist in feeding"
+ },
+ {
+  "attendant_service_needed": "Help in fluid intake",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:24:33.446288",
+  "name": "Help in fluid intake"
+ },
+ {
+  "attendant_service_needed": "mobility Assist with walking and home exercises",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:25:17.301339",
+  "name": "mobility Assist with walking and home exercises"
+ },
+ {
+  "attendant_service_needed": "turn position in bed",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:26:00.707579",
+  "name": "turn position in bed"
+ },
+ {
+  "attendant_service_needed": "range of motion exercises",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:26:33.462113",
+  "name": "range of motion exercises"
+ },
+ {
+  "attendant_service_needed": "companionship & polite conversations",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:26:56.714194",
+  "name": "companionship & polite conversations"
+ },
+ {
+  "attendant_service_needed": "light massages",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:27:18.229520",
+  "name": "light massages"
+ },
+ {
+  "attendant_service_needed": "Patient's laundry",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:27:41.233443",
+  "name": "Patient's laundry"
+ },
+ {
+  "attendant_service_needed": "take out trash from patient's room",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:28:06.765014",
+  "name": "take out trash from patient's room"
+ },
+ {
+  "attendant_service_needed": "maintain patient's bedroom",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:28:24.374667",
+  "name": "maintain patient's bedroom"
+ },
+ {
+  "attendant_service_needed": "maintain patient's general health note",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:28:45.343294",
+  "name": "maintain patient's general health note"
+ },
+ {
+  "attendant_service_needed": "Changing diapers",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:29:05.651715",
+  "name": "Changing diapers"
+ },
+ {
+  "attendant_service_needed": "assisting to the bathroom or beside commode",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:29:35.805027",
+  "name": "assisting to the bathroom or beside commode"
+ },
+ {
+  "attendant_service_needed": "assisting in using urinal/bedpan Incontinence care",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:29:57.933965",
+  "name": "assisting in using urinal/bedpan Incontinence care"
+ },
+ {
+  "attendant_service_needed": "emptying catheter bag",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:30:11.839987",
+  "name": "emptying catheter bag"
+ },
+ {
+  "attendant_service_needed": "Oral Hygiene",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:30:26.323203",
+  "name": "Oral Hygiene"
+ },
+ {
+  "attendant_service_needed": "Bed Bath/Sponge Bath",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:30:43.326991",
+  "name": "Bed Bath/Sponge Bath"
+ },
+ {
+  "attendant_service_needed": "Skin Care/Non-medicated lotion to dry areas",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:31:05.761105",
+  "name": "Skin Care/Non-medicated lotion to dry areas"
+ },
+ {
+  "attendant_service_needed": "Assist with getting dressed",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:31:24.582527",
+  "name": "Assist with getting dressed"
+ },
+ {
+  "attendant_service_needed": "Restrict fluids",
+  "docstatus": 0,
+  "doctype": "Attendant Service Needed",
+  "modified": "2024-06-13 16:31:44.459641",
+  "name": "Restrict fluids"
+ }
+]
