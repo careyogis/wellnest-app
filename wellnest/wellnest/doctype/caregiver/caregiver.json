@@ -10,7 +10,7 @@
   "full_name",
   "dob",
   "gender",
-  "languages_spoken",
+  "language_spoken",
   "passport_size_photo",
   "full_length_photo",
   "phone_number",
@@ -19,23 +19,23 @@
   "city",
   "state",
   "pincode",
+  "column_break_pwtu",
+  "years_of_experiencenurse",
+  "availiabilitynurse",
+  "shift_preference",
+  "specialization",
+  "nursing_care",
+  "any_other_experiencenurse",
+  "certificate",
   "document_required_for_background_verification_section",
   "aadhar_number",
   "aadhar_photo",
   "pan_number",
   "pan_photo",
   "vaccination_certificate",
-  "applicable_for_nurse_section",
-  "year_of_experiencenurse",
-  "availabilitynurse",
-  "shift_preferencenurse",
-  "specialization",
-  "nursing_care",
-  "any_other_experiencenurse",
-  "certificatenurse",
-  "applicable_for_attendant_section",
-  "year_of_experienceattendant",
-  "availabilityattendent",
+  "column_break_wqyr",
+  "data_tene",
+  "availiabilityattendant",
   "shift_preferenceattendant",
   "attendant_care",
   "any_other_experienceattendant",
@@ -46,7 +46,7 @@
    "fieldname": "caregiver_type",
    "fieldtype": "Select",
    "label": "Caregiver type",
-   "options": "Nurses\nAttendant\nBoth"
+   "options": "Nurse\nAttendant\nBoth"
   },
   {
    "fieldname": "personal_information_section_section",
@@ -65,13 +65,14 @@
   },
   {
    "fieldname": "gender",
-   "fieldtype": "Data",
-   "label": "Gender"
+   "fieldtype": "Select",
+   "label": "Gender",
+   "options": "Male\nFemale\nOthers"
   },
   {
-   "fieldname": "languages_spoken",
+   "fieldname": "language_spoken",
    "fieldtype": "Table",
-   "label": "Languages spoken",
+   "label": "Language Spoken",
    "options": "Spoken Language Option"
   },
   {
@@ -81,7 +82,7 @@
   },
   {
    "fieldname": "full_length_photo",
-   "fieldtype": "Attach",
+   "fieldtype": "Attach Image",
    "label": "Full length photo"
   },
   {
@@ -97,7 +98,7 @@
   {
    "fieldname": "complete_address",
    "fieldtype": "Small Text",
-   "label": "Complete Address"
+   "label": "Complete address"
   },
   {
    "fieldname": "city",
@@ -112,7 +113,7 @@
   {
    "fieldname": "pincode",
    "fieldtype": "Int",
-   "label": "pincode"
+   "label": "Pincode"
   },
   {
    "fieldname": "document_required_for_background_verification_section",
@@ -127,7 +128,7 @@
   {
    "fieldname": "aadhar_photo",
    "fieldtype": "Attach",
-   "label": "Aadhar photo"
+   "label": "Aadhar Photo"
   },
   {
    "fieldname": "pan_number",
@@ -145,25 +146,30 @@
    "label": "Vaccination certificate"
   },
   {
-   "fieldname": "applicable_for_nurse_section",
-   "fieldtype": "Section Break",
+   "fieldname": "column_break_pwtu",
+   "fieldtype": "Column Break",
    "label": "Applicable for nurse"
   },
   {
-   "fieldname": "year_of_experiencenurse",
-   "fieldtype": "Int",
-   "label": "Year of experience(nurse)"
+   "fieldname": "column_break_wqyr",
+   "fieldtype": "Column Break",
+   "label": "Applicable for attendant"
   },
   {
-   "fieldname": "availabilitynurse",
+   "fieldname": "years_of_experiencenurse",
+   "fieldtype": "Int",
+   "label": "Years of experience(nurse)"
+  },
+  {
+   "fieldname": "availiabilitynurse",
    "fieldtype": "Select",
-   "label": "Availability(nurse)",
+   "label": "Availiability(nurse)",
    "options": "12\n24\nBoth"
   },
   {
-   "fieldname": "shift_preferencenurse",
+   "fieldname": "shift_preference",
    "fieldtype": "Select",
-   "label": "shift Preference(nurse)",
+   "label": "Shift preference(nurse)",
    "options": "Day\nNight\nFlexible"
   },
   {
@@ -180,34 +186,29 @@
   },
   {
    "fieldname": "any_other_experiencenurse",
-   "fieldtype": "Text",
+   "fieldtype": "Small Text",
    "label": "Any other experience(nurse)"
   },
   {
-   "fieldname": "certificatenurse",
+   "fieldname": "certificate",
    "fieldtype": "Attach",
    "label": "Certificate(nurse)"
   },
   {
-   "fieldname": "applicable_for_attendant_section",
-   "fieldtype": "Section Break",
-   "label": "Applicable for Attendant"
-  },
-  {
-   "fieldname": "year_of_experienceattendant",
+   "fieldname": "data_tene",
    "fieldtype": "Int",
-   "label": "year of experience(attendant)"
+   "label": "Years of experience(attendant)"
   },
   {
-   "fieldname": "availabilityattendent",
+   "fieldname": "availiabilityattendant",
    "fieldtype": "Select",
-   "label": "Availability(attendent)",
+   "label": "Availiability(attendant)",
    "options": "12\n24\nBoth"
   },
   {
    "fieldname": "shift_preferenceattendant",
    "fieldtype": "Select",
-   "label": "Shift preference(attendant)",
+   "label": "Shift Preference(attendant)",
    "options": "Day\nNight\nFlexible"
   },
   {
@@ -218,7 +219,7 @@
   },
   {
    "fieldname": "any_other_experienceattendant",
-   "fieldtype": "Text",
+   "fieldtype": "Small Text",
    "label": "Any other experience(attendant)"
   },
   {
@@ -229,7 +230,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-12 20:56:43.145701",
+ "modified": "2024-06-14 12:23:33.077877",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
