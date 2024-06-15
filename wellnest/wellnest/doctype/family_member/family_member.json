@@ -27,8 +27,9 @@
   },
   {
    "fieldname": "gender",
-   "fieldtype": "Data",
-   "label": "Gender"
+   "fieldtype": "Select",
+   "label": "Gender",
+   "options": "Male\nFemale\nOthers"
   },
   {
    "fieldname": "dob",
@@ -82,13 +83,13 @@
   },
   {
    "fieldname": "pincode",
-   "fieldtype": "Data",
+   "fieldtype": "Int",
    "label": "Pincode"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-12 21:10:17.872976",
+ "modified": "2024-06-14 21:44:51.464372",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Family Member",
