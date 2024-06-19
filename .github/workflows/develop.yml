@@ -110,11 +110,11 @@ jobs:
     - name: Deploy to Server
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.DEPLOY_HOST }}
-        username: ${{ secrets.DEPLOY_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        host: ${{ secrets.DEV_DEPLOY_HOST }}
+        username: ${{ secrets.DEV_DEPLOY_USER }}
+        key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
         script: |
           cd /home/ubuntu/frappe-bench/apps/wellness/
           git pull
-          bench --site ${{ secrets.SITE_NAME }} migrate 
+          bench --site ${{ secrets.DEV_SITE_NAME }} migrate 
           bench restart
