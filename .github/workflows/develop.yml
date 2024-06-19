@@ -3,7 +3,7 @@ name: Develop
 on:
   push:
     branches:
-      - develop
+      - main
   pull_request:
 
 concurrency:
@@ -86,7 +86,7 @@ jobs:
           bench get-app wellness $GITHUB_WORKSPACE
           bench setup requirements --dev
           bench new-site --db-root-password root --admin-password admin test_site
-          bench --site test_site install-app wellness
+          bench --site test_site install-app wellnest
           bench build
         env:
           CI: 'Yes'
@@ -95,7 +95,7 @@ jobs:
         working-directory: /home/runner/frappe-bench
         run: |
           bench --site test_site set-config allow_tests true
-          bench --site test_site run-tests --app wellness
+          bench --site test_site run-tests --app wellnest
         env:
           TYPE: server
 
@@ -114,7 +114,7 @@ jobs:
         username: ${{ secrets.DEV_DEPLOY_USER }}
         key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
         script: |
-          cd /home/ubuntu/frappe-bench/apps/wellness/
+          cd /home/ubuntu/frappe-bench/apps/wellnest/
           git pull
           bench --site ${{ secrets.DEV_SITE_NAME }} migrate 
           bench restart
