@@ -230,7 +230,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-14 12:23:33.077877",
+ "modified": "2024-06-18 10:13:17.527949",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
@@ -247,6 +247,28 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Sales Manager"
+  },
+  {
+   "read": 1,
+   "role": "Nursing Manager"
+  },
+  {
+   "read": 1,
+   "role": "Beneficiary"
+  },
+  {
+   "create": 1,
+   "report": 1,
+   "role": "Agency - Caregiver Manager",
+   "share": 1
+  },
+  {
+   "read": 1,
+   "role": "Customer Success"
   }
  ],
  "sort_field": "modified",
