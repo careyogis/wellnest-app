@@ -6,6 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "status",
   "full_name",
   "email",
   "phone_no",
@@ -46,13 +47,21 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Type",
-   "options": "customer\nagency\nhospital",
+   "options": "customer\nagency\nhospital\nothers",
+   "reqd": 1
+  },
+  {
+   "default": "New",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "New\nQualified\nEngaged",
    "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-20 13:42:56.126545",
+ "modified": "2024-06-20 22:34:00.847389",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Enquiry",
