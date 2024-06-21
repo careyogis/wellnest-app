@@ -1,884 +1,508 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "templates/wellnest_web.html" %}
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WellNesT - Home Care</title>
-
-  <!-- favicons -->
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/wellnest/images/favicon/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/wellnest//images/favicon/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/wellnest//images/favicon/favicon-32x32.png" />
-  <link rel="manifest" href="assets/wellnest/images/favicon/site.webmanifest" />
-
-  <!-- plugins styles -->
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Baloo+2:400,500,600,700,800%7CLato:100,300,400,700,900%7COpen+Sans:300,400,600,700,800%7CRoboto:300,400,500,700,900%7CRubik:300,400,500,700,900&display=swap" />
-  <link rel="stylesheet" href="assets/wellnest/css/animate.css" />
-  <link rel="stylesheet" href="assets/wellnest/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="assets/wellnest/css/bootstrap-datepicker.min.css" />
-  <link rel="stylesheet" href="assets/wellnest/css/bootstrap-select.min.css" />
-  <link rel="stylesheet" href="assets/wellnest/css/fontawesome-all.min.css" />
-  <link rel="stylesheet" href="assets/wellnest/css/hover-min.css" />
-  <link rel="stylesheet" href="assets/wellnest/css/swiper.min.css" />
-  <link rel="stylesheet" href="assets/wellnest/css/jquery.mCustomScrollbar.min.css" />
-  <link rel="stylesheet" href="assets/wellnest/css/magnific-popup.css" />
-  <link rel="stylesheet" href="assets/wellnest/css/owl.carousel.min.css" />
-  <link rel="stylesheet" href="assets/wellnest/css/owl.theme.default.min.css" />
-  <link rel="stylesheet" href="assets/wellnest/css/oberlin-icons.css" />
-
-  <!-- template styles -->
-  <link rel="stylesheet" href="assets/wellnest/css/style.css" />
-  <link rel="stylesheet" href="assets/wellnest/css/responsive.css" />
-</head>
-
+<title>
+    {% block title %}WellNesT - Home Care{% endblock %}
+</title>    
 <body>
-  <div class="preloader">
-    <div class="lds-ripple">
-      <div></div>
-      <div></div>
+{% block page_content %}
+<section class="slider-one__wrapper img-desktop">
+    <div class="slider-one__nav">
+      <a href="#" class="slider-one__nav-left">
+        <i class="far fa-angle-left"></i> </a><!-- /.slider-one__nav-left -->
+      <a href="#" class="slider-one__nav-right">
+        <i class="far fa-angle-right"></i> </a><!-- /.slider-one__nav-left -->
     </div>
-  </div>
-  <!-- /.preloader -->
+    <!-- /.slider-one__nav -->
+    <div class="slider-one__carousel owl-carousel owl-theme thm__owl-carousel" data-options='{
+              "items": 1, "loop": false, "autoplay": false, "autoplayHoverPause": false, "autoplayTimeout": false,
+              "margin": 0, "dots": false, "nav": false, "animateOut": "fadeOut", "animateIn": "fadeIn", "active": true, "smartSpeed": 1000
+          }' data-carousel-next-btn=".slider-one__nav-right" data-carousel-prev-btn=".slider-one__nav-left">
 
-  <div class="page-wrapper">
-    <section class="topbar-one">
-      <div class="container">
-        <div class="topbar-one__left">
-          <a href="#">
-            <i class="fa fa-map-marker-alt"></i>
-            3rd Floor, Subishi’s Town Centre Mokila, Shankarpalle Road Telangana
-          </a>
-          <a href="#">
-            <i class="far fa-clock"></i>
-            Mon - Sat 9.00 - 18.00
-          </a>
-          <a href="tel:9810918237">
-            <i class="far fa-phone"></i>
-            9810918237
-          </a>
-        </div>
-        <!-- /.topbar-one__left -->
-
-        <div class="topbar-one__right">
-          <div class="topbar-one__social">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-          </div>
-          <!-- /.topbar-one__social -->
-        </div>
-        <!-- /.topbar-one__right -->
-      </div>
-      <!-- /.container -->
-    </section>
-    <!-- /.topbar-one -->
-
-    <nav class="main-nav-one main-nav-one__inner-page stricky">
-      <div class="container">
-        <div class="inner-container">
-          <div class="logo-box">
-            <a href="index">
-              <img src="assets/wellnest/images/logo wellnest final-01.png" alt="" width="130" height="140" />
-            </a>
-          </div>
-          <!-- /.logo-box -->
-          <div class="main-nav__main-navigation">
-            <ul class="main-nav__navigation-box">
-              <li><a href="about-1">About</a></li>
-              <li class="dropdown active">
-                <a href="nursing-care">Our Services</a>
-                <ul>
-                    <li><a href="nursing-care">Nursing Care</a></li>
-                    <li><a href="caregiver-attendant">Caregiver Attendant</a></li>
-                    <li class="dropdown">
-                        <a href="#">Other Services</a>
-                        <ul>
-                            <li><a href="#">Physiotherapy</a></li>
-                            <li><a href="#">Doctor Consultation</a></li>
-                        </ul>
-                    </li>
-                </ul>
-              </li>
-              <li><a href="e-choupal">E-Choupal</a></li>
-              <li><a href="blog-grid">Blog</a></li>
-              <li><a href="contact-us/new">Contact for Care</a></li>
-              <li><a href="faq">FAQ</a></li>
-              <li class="dropdown active">
-                <a href="#">Partner With Us</a>
-                <ul>
-                  <li><a href="contact-us/new?type=agency">Caregiver Agencies</a></li>
-                  <li><a href="contact-us/new?type=hospital">Hospitals</a></li>
-                  <li><a href="contact-us/new?type=others">Others</a></li>
-                </ul>
-              </li>
-            </ul>
-            <!-- /.main-nav__navigation-box -->
-          </div>
-          <!-- /.main-nav__main-navigation -->
-          <div class="main-nav__right">
-            <a href="#" class="side-menu__toggler"><i class="fa fa-bars"></i></a>
-            <a href="#" class="main-nav-one__cta">
-              <i class="oberlin-icon-whatsapp"></i>
-              <span>WhatsApp 'Hi'</span>
-              <b>9810918237</b> </a><!-- /.main-nav-one__cta -->
-          </div>
-          <!-- /.main-nav__right -->
-        </div>
-        <!-- /.inner-container -->
-      </div>
-      <!-- /.container -->
-    </nav>
-    <!-- /.main-nav-one -->
-    <!-- /.main-nav-one -->
-
-    <section class="slider-one__wrapper img-desktop">
-      <div class="slider-one__nav">
-        <a href="#" class="slider-one__nav-left">
-          <i class="far fa-angle-left"></i> </a><!-- /.slider-one__nav-left -->
-        <a href="#" class="slider-one__nav-right">
-          <i class="far fa-angle-right"></i> </a><!-- /.slider-one__nav-left -->
-      </div>
-      <!-- /.slider-one__nav -->
-      <div class="slider-one__carousel owl-carousel owl-theme thm__owl-carousel" data-options='{
-                "items": 1, "loop": false, "autoplay": false, "autoplayHoverPause": false, "autoplayTimeout": false,
-                "margin": 0, "dots": false, "nav": false, "animateOut": "fadeOut", "animateIn": "fadeIn", "active": true, "smartSpeed": 1000
-            }' data-carousel-next-btn=".slider-one__nav-right" data-carousel-prev-btn=".slider-one__nav-left">
-
-        <div class="item " style="
-              background-image: url(./assets/wellnest/images/newimg/home\ page\ renew-01.jpg);
-              width: 1920px;
-              height: 500px;
-            ">
-          <div class="slider-one__item">
-            <div class="container">
-              <div class="row justify-content-end">
-                <div class="col-lg-12 d-flex justify-content-end" style="margin-right: 90px;">
-                  <div class="slider-one__content">
-                    <div class="slider-one__content-inner">
-                      <h3>
-                        WellNesT– Your Trusted Companion for Home-Based Care and Well-Being
-                      </h3>
-                      <p>
-                        WellNesT offers professional caregivers such as rehabilitation therapists, home health
-                        visiting nurses, attendants, geriatric caregivers , and healthcare social workers aided by
-                        technology for efficient service deliveries, making caregiving transparent and accountable.
-                        Professional caregiver services include helping the elderly not only cope at home but thrive in
-                        familiar home environments, aiding in the recovery and the rehabilitation process.
-                      </p>
-                      <!-- <a
-                          href="donation-single.html"
-                          class="thm-btn slider-one__btn"
-                          >Donate Now</a
-                        > -->
-                      <!-- /.thm-btn slider-one__btn -->
-                    </div>
-                    <!-- /.slider-one__content-inner -->
-                  </div>
-                  <!-- /.slider-one__content -->
-                </div>
-                <!-- /.col-lg-6 -->
-              </div>
-              <!-- /.row justify-content-end -->
-            </div>
-            <!-- /.container -->
-          </div>
-          <!-- /.slider-one__item -->
-        </div>
-
-    </section>
-
-
-    <section class="slider-one__wrapper display-mobile">
-      <div class="slider-one__nav">
-        <a href="#" class="slider-one__nav-left">
-          <i class="far fa-angle-left"></i> </a><!-- /.slider-one__nav-left -->
-        <a href="#" class="slider-one__nav-right">
-          <i class="far fa-angle-right"></i> </a><!-- /.slider-one__nav-left -->
-      </div>
-      <!-- /.slider-one__nav -->
-      <div class="slider-one__carousel owl-carousel owl-theme thm__owl-carousel" data-options='{
-                "items": 1, "loop": false, "autoplay": false, "autoplayHoverPause": false, "autoplayTimeout": false,
-                "margin": 0, "dots": false, "nav": false, "animateOut": "fadeOut", "animateIn": "fadeIn", "active": true, "smartSpeed": 1000
-            }' data-carousel-next-btn=".slider-one__nav-right" data-carousel-prev-btn=".slider-one__nav-left">
-
-        <div class="item" style="
-              background-image: url(./assets/wellnest/images/newimg/mobile\ banner-01.jpg);
-              width: 100%;
-              height: 100%;
-            ">
-          <div class="slider-one__item">
-            <div class="container">
-              <div class="row justify-content-end">
-                <div class="col-lg-12 d-flex justify-content-end">
-                  <div class="slider-one__content">
-                    <div class="slider-one__content-inner">
-                      <h3>
-                        WellNesT– Your Trusted Companion for Home-Based Care and Well-Being
-                      </h3>
-                      <p>
-                        WellNesT offers professional caregivers such as rehabilitation therapists, home health
-                        visiting nurses, attendants, geriatric caregivers , and healthcare social workers aided by
-                        technology for efficient service deliveries, making caregiving transparent and accountable.
-                        Professional caregiver services include helping the elderly not only cope at home but thrive in
-                        familiar home environments, aiding in the recovery and the rehabilitation process.
-                      </p>
-                      <!-- <a
-                          href="donation-single.html"
-                          class="thm-btn slider-one__btn"
-                          >Donate Now</a
-                        > -->
-                      <!-- /.thm-btn slider-one__btn -->
-                    </div>
-                    <!-- /.slider-one__content-inner -->
-                  </div>
-                  <!-- /.slider-one__content -->
-                </div>
-                <!-- /.col-lg-6 -->
-              </div>
-              <!-- /.row justify-content-end -->
-            </div>
-            <!-- /.container -->
-          </div>
-          <!-- /.slider-one__item -->
-        </div>
-
-
-
-
-        <!-- /.slider-one__carousel owl-carousel owl-theme thm__owl-carousel -->
-    </section>
-    <!-- 
-      <section>
-        <img src="./assets/wellnest/images/newimg/mobile banner-01.jpg" alt="" class="img-fluid">
-      </section> -->
-    <!-- /.slider-one__wrapper -->
-
-
-    <!-- <section class="appointment-one appointment-one__home-one">
+      <div class="item " style="
+            background-image: url(./assets/wellnest/images/newimg/home\ page\ renew-01.jpg);
+            width: 1920px;
+            height: 500px;
+          ">
+        <div class="slider-one__item">
           <div class="container">
             <div class="row justify-content-end">
-              <div class="col-lg-6">
-                <div class="block-title text-left">
-                  <p class="has-line">01. Contact Us</p>
-                  <h3>
-                    Want to Hear More About Us
-                  </h3>
-                </div>
-              
-                <form
-                  action="assets/wellnest/inc/sendemail.php"
-                  class="contact-one__form contact-form-validated"
-                >
-                  <div class="row">
-                    <div class="col-md-6">
-                      <input type="text" placeholder="Full Name" name="name" />
-                    </div>
-                  
-                    <div class="col-md-6">
-                      <input
-                        type="text"
-                        placeholder="Email Address"
-                        name="email"
-                      />
-                    </div>
-                    
-                    <div class="col-md-6">
-                      <input
-                        type="text"
-                        placeholder="Phone Number"
-                        name="phone"
-                      />
-                    </div>
-                    
-                    <div class="col-md-6">
-                      <select name="discussion" class="selectpicker">
-                        <option value="">Discussion For</option>
-                        <option value="">Basic Query</option>
-                        <option value="">Patient Admission</option></select
-                      >
-                    </div>
-                  
-                    <div class="col-md-12">
-                      <textarea name="message" placeholder="Message"></textarea>
-                    </div>
-                  
-                    <div class="col-md-12 text-left">
-                      <button type="submit" class="thm-btn contact-one__btn">
-                        Submit Now
-                      </button>
-                    
-                    </div>
-                  
+              <div class="col-lg-12 d-flex justify-content-end" style="margin-right: 90px;">
+                <div class="slider-one__content">
+                  <div class="slider-one__content-inner">
+                    <h3>
+                        {{ top_header3 }}
+                    </h3>
+                    <p>
+                        {{ offering_description }}
+                    </p>
+                    <!-- /.thm-btn slider-one__btn -->
                   </div>
-                
-                </form>
-                <div class="result"></div>
-                
+                  <!-- /.slider-one__content-inner -->
+                </div>
+                <!-- /.slider-one__content -->
               </div>
-              
+              <!-- /.col-lg-6 -->
             </div>
-          
+            <!-- /.row justify-content-end -->
           </div>
-          
-        </section> -->
-    <!-- /.appointment-one -->
-
-    <section class="service-one service-one__home-one">
-      <div class="container">
-        <div class="block-title text-center">
-          <p>Services</p>
-          <h3>
-            Everyone Deserves Our <br />
-            Best Services
-          </h3>
+          <!-- /.container -->
         </div>
-        <!-- /.block-title -->
-        <div class="service-one__carousel-two thm__owl-carousel owl-carousel owl-theme new_add">
-          <div class="item">
-            <div class="service-one__single">
-              <div class="service-one__content">
-                <div class="service-one__icon">
-
-                  <i class="oberlin-icon-disability"></i>
-                </div>
-                <!-- /.service-one__icon -->
-                <h3>Assisted Daily Living</h3>
-                <p>
-                  Compassionate help with activities of daily living for independence & dignity: Personal grooming like
-                  bathing, dressing, feeding, mobility, laundry light housekeeping for patients and most of it all
-                  ,companionship. </p>
-
-              </div>
-              <!-- /.service-one__content -->
-            </div>
-            <!-- /.service-one__single -->
-          </div>
-          <!-- /.col-lg-4 -->
-          <div class="item">
-            <div class="service-one__single">
-              <div class="service-one__content">
-                <div class="service-one__icon">
-                  <svg width="64px" height="64px" viewBox="0 0 1024 1024" class="icon" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg" fill="#000000">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                      <path
-                        d="M523.9 788.3H166.4V169c0-4.3 3.4-7.7 7.6-7.7h490.8c4.2 0 7.6 3.5 7.6 7.7v190h45.8V169c0-29.9-24-54.2-53.4-54.2H174c-29.5 0-53.4 24.3-53.4 54.2v689c0 29.9 24 54.2 53.4 54.2h359.1c-5.9-11.6-9.3-24.8-9.3-38.7v-85.2z m-102.6 96.2c-17 0-30.9-14-30.9-31.3s13.8-31.3 30.9-31.3c17 0 30.9 14 30.9 31.3-0.1 17.3-13.9 31.3-30.9 31.3z m442.9-479H607.9c-21.1 0-38.2 17.4-38.2 38.7v429.3c0 21.3 17.1 38.7 38.2 38.7h256.3c21.1 0 38.2-17.4 38.2-38.7V444.2c0-21.4-17.1-38.7-38.2-38.7zM736.1 888.9c-12.7 0-22.9-10.4-22.9-23.2 0-12.8 10.3-23.2 22.9-23.2 12.6 0 22.9 10.4 22.9 23.2 0 12.8-10.3 23.2-22.9 23.2z m120.5-69.7H615.5V451.9h241.1v367.3z"
-                        fill="#fff"></path>
-                    </g>
-                  </svg>
-                </div>
-                <!-- /.service-one__icon -->
-                <h3>Technology in aid</h3>
-                <p>
-                  Our technologies make life easier for all stakeholders- The patients, elders under our care,their
-                  families and more importantly the caregivers. </p>
-
-              </div>
-              <!-- /.service-one__content -->
-            </div>
-            <!-- /.service-one__single -->
-          </div>
-          <!-- /.col-lg-4 -->
-          <div class="item">
-            <div class="service-one__single">
-              <div class="service-one__content">
-                <div class="service-one__icon">
-                  <i class="oberlin-icon-stethoscope"></i>
-                </div>
-                <!-- /.service-one__icon -->
-                <h3>Nursing Care</h3>
-                <p>
-                  Hospital-level expertise at home: Complex medical needs, wound care, precise meds, vital sign
-                  monitoring - for optimal recovery.
-                </p>
-
-
-              </div>
-              <!-- /.service-one__content -->
-            </div>
-            <!-- /.service-one__single -->
-          </div>
-          <!-- /.col-lg-4 -->
-
-          <!-- /.col-lg-4 -->
-        </div>
-        <!-- /.row -->
+        <!-- /.slider-one__item -->
       </div>
-      <!-- /.container -->
-    </section>
-    <!-- /.service-one -->
+  </section>
 
-    <section class="about-three">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="about-three__content">
-              <div class="block-title">
-                <p class="has-line">Our Continuum of care</p>
-                <!-- /.has-line -->
-                <h3>
-                  WellNesT exists to take parental or patient care stress off your shoulder, and allow you to focus
-                  on your own life
-                </h3>
-              </div>
-              <!-- /.block-title -->
-              <p>
-                It is a pleasure to introduce WellNesT. We are an Elder
-                Care & out of hospital transitional care super
-                specialty, disrupting the way care is perceived. Our
-                soon to come HTHT (Hi-Tech- Hi Touch) platform enabled
-                by our passionate caregivers and unmatched caregiving
-                practices speeds patient outcomes & recovery.
-              </p>
-              <p>
-                We are strongly recommended by our partners-Hospitals,
-                Clinics and Doctors who lay their trust on us.At The
-                WellNesT, we are passionate about delivering the highest
-                standard of outcome based care. Be it the finest trained
-                care giver bed side attendants or nurses or
-                state-of-the-art technology for transparency and
-                efficiency.
-              </p>
-              <p>
-                When you are passionate about care giving for the lives
-                that have been entrusted to you, nothing is too big or
-                small to ignore.
-              </p>
-              <div class="row">
-                <div class="col-xl-6">
-                  <ul class="blog-details__list list-unstyled">
-                    <li>
-                      <i class="fa fa-check-circle"></i>
-                      Stroke Care
-                    </li>
-                    <li>
-                      <i class="fa fa-check-circle"></i>
-                      Feeding Tube Care
-                    </li>
-                    <li>
-                      <i class="fa fa-check-circle"></i>
-                      Oncology Care
-                    </li>
-                    <li>
-                      <i class="fa fa-check-circle"></i>
-                      Orthopedic Care
-                    </li>
-                    <li>
-                      <i class="fa fa-check-circle"></i>
-                      Trachestomy Care
-                    </li>
-                    <li>
-                      <i class="fa fa-check-circle"></i>
-                      Trauma Care
-                    </li>
-                  </ul>
-                  <!-- /.blog-details__list list-unstyled -->
-                </div>
-                <!-- /.col-md-6 -->
-                <div class="col-xl-6">
-                  <ul class="blog-details__list list-unstyled">
-                    <li>
-                      <i class="fa fa-check-circle"></i>
-                      Spine Care
-                    </li>
-                    <li>
-                      <i class="fa fa-check-circle"></i>
-                      Craniotomy Care
-                    </li>
-                    <li>
-                      <i class="fa fa-check-circle"></i>
-                      Cardiac Care
-                    </li>
-                    <li>
-                      <i class="fa fa-check-circle"></i>
-                      Post Covid-19 Care
-                    </li>
-                    <li>
-                      <i class="fa fa-check-circle"></i>
-                      Post-Operative Care
-                    </li>
-                    <li>
-                      <i class="fa fa-check-circle"></i>
-                      Parkinson's Care
-                    </li>
-                  </ul>
-                  <!-- /.blog-details__list list-unstyled -->
-                </div>
-                <!-- /.col-md-6 -->
-
-              </div>
-              <!-- /.row -->
-            </div>
-            <!-- /.about-three__content -->
-          </div>
-          <!-- /.col-lg-6 -->
-          <div class="col-lg-6 wow fadeInRight" data-wow-duration="1500ms">
-            <div class="about-three__image">
-              <img src="assets/wellnest/images/shapes/about-dot-3-1.png" class="about-dot-3-1" alt="" />
-
-              <!-- /.about-three__image-text -->
-              <img src="assets/wellnest/images/newimg/assisted living.jpg" alt="" width="470" height="540" />
-            </div>
-            <!-- /.about-three__image -->
-          </div>
-          <!-- /.col-lg-6 -->
-        </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container -->
-    </section>
-    <!-- /.about-three -->
-
-    <!-- /.funfact-one -->
-
-    <section class="faq-three">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="faq-three__image wow fadeInLeft" data-wow-duration="1500ms">
-              <img src="assets/wellnest/images/shapes/faq-2-dot.png" class="faq-three__image-dots" alt="" />
-              <img src="assets/wellnest/images/newimg/nursing care.jpg" alt="" width="470" height="600" />
-            </div>
-            <!-- /.faq-three__image -->
-          </div>
-          <!-- /.col-lg-6 -->
-          <div class="col-lg-6">
-            <div class="faq-one__block">
-              <div class="block-title text-left">
-                <p class="has-line">Why Choose Us</p>
-                <h3>
-                  WellNesT: Top Choice for Hassle-Free Home Care
-                </h3>
-              </div>
-              <!-- /.block-title -->
-
-              <p>
-                We evolved the concept of World Class services to unburden the patient and their families.
-              </p>
-              <div class="accrodion-grp" data-grp-name="career-one__accrodion">
-                <div class="accrodion">
-                  <div class="accrodion-title">
-                    <h4>Fast & Easy Booking</h4>
-                  </div>
-                  <div class="accrodion-content">
-                    <div class="inner">
-                      <p>
-                        Shedule care in minutes, with minimal stress
-                      </p>
-                    </div>
-                    <!-- /.inner -->
-                  </div>
-                </div>
-                <div class="accrodion active">
-                  <div class="accrodion-title">
-                    <h4>Top-Tier Caregivers</h4>
-                  </div>
-                  <div class="accrodion-content">
-                    <div class="inner">
-                      <p>
-                        Get matched with qualified compassionate caregivers
-                      </p>
-                    </div>
-                    <!-- /.inner -->
-                  </div>
-                </div>
-                <div class="accrodion">
-                  <div class="accrodion-title">
-                    <h4>Seamless Transitions</h4>
-                  </div>
-                  <div class="accrodion-content">
-                    <div class="inner">
-                      <p>
-                        Experience a smooth start to home care with clear communication.
-                      </p>
-                    </div>
-                    <!-- /.inner -->
-                  </div>
-                </div>
-                <div class="accrodion">
-                  <div class="accrodion-title">
-                    <h4>Thorough Background Checks</h4>
-                  </div>
-                  <div class="accrodion-content">
-                    <div class="inner">
-                      <p>
-                        Ensure peace of mind with rigorous caregiver screening.
-                      </p>
-                    </div>
-                    <!-- /.inner -->
-                  </div>
-                </div>
-                <div class="accrodion">
-                  <div class="accrodion-title">
-                    <h4>Flexible Refunds</h4>
-                  </div>
-                  <div class="accrodion-content">
-                    <div class="inner">
-                      <p>
-                        Benefit from hassle-free adjustments to your care plan.
-                      </p>
-                    </div>
-                    <!-- /.inner -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- /.faq-one__block -->
-          </div>
-          <!-- /.col-lg-6 -->
-        </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container -->
-    </section>
-    <!-- /.faq-three -->
-
-    <!-- /.event-two -->
-    <section class="testimonials-two" style="
-          background-image: url(assets/wellnest/images/background/testimonials-1-bg-1-1.jpg);
-        ">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-7 col-lg-8">
-            <div class="testimonials-two__content wow fadeInUp" data-wow-duration="1500ms">
-              <div class="block-title">
-                <p class="has-line"> Testimonials</p>
-                <!-- /.has-line -->
-                <h3>
-                  What Our Clients Say About
-                  WellNesT!
-                </h3>
-              </div>
-              <!-- /.block-title -->
-              <div class="testimonials-two__carousel">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide">
-                    <div class="testimonials-two__single">
-                      <p>
-                        <b>Great Care Made a Big Difference</b>
-                        Since we started using WellNesT for my mom's care, she's been feeling much better.
-                        Their exceptional Quality Elder Care has greatly improved her well-being. Highly
-                        recommend!.
-                      </p>
-                      <h3>Nimit Konda</h3>
-                      <span>Amberpet</span>
-                    </div>
-                    <!-- /.testimonials-two__single -->
-                  </div>
-                  <!-- /.swiper-slide -->
-                  <div class="swiper-slide">
-                    <div class="testimonials-two__single">
-                      <p>
-                        <b>Awesome Tech Helps Us Stay Calm</b>
-                        WellNesT’s technology lets us know how my dad is doing all the time. It’s comforting to
-                        know that he’s being watched over so carefully.
-                      </p>
-                      <h3>Chaitali Majumdar</h3>
-                      <span>Gurugram</span>
-                    </div>
-                    <!-- /.testimonials-two__single -->
-                  </div>
-                  <!-- /.swiper-slide -->
-                  <div class="swiper-slide">
-                    <div class="testimonials-two__single">
-                      <p>
-                        <b>Kind and Skilled People</b>
-                        Everyone from WellNesT is really good at their job and truly kind. They care a lot about
-                        their clients, which makes us feel very reassured.
-                      </p>
-                      <h3>Sariq Baddour</h3>
-                      <span>Secunderabad</span>
-                    </div>
-                    <!-- /.testimonials-two__single -->
-                  </div>
-                  <!-- /.swiper-slide -->
-                  <div class="swiper-slide">
-                    <div class="testimonials-two__single">
-                      <p>
-                        <b>Kind and Skilled People</b>
-                        Everyone from WellNesT is really good at their job and truly kind. They care a lot about
-                        their clients, which makes us feel very reassured.
-                      </p>
-                      <h3>Sariq Baddour</h3>
-                      <span>Secunderabad</span>
-                    </div>
-                    <!-- /.testimonials-two__single -->
-                  </div>
-                  <!-- /.swiper-slide -->
-                </div>
-                <!-- /.swiper-wrapper -->
-              </div>
-              <!-- /.testimonials-two__carousel -->
-
-              <!-- /.testimonials-two__carousel-wrap -->
-            </div>
-            <!-- /.testimonials-two__content -->
-          </div>
-          <!-- /.col-lg-7 -->
-        </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container -->
-    </section>
-    <!-- /.testimonials-two -->
-
-    <!-- /.blog-one -->
-
-
-
-    <footer class="site-footer" id="contact-section">
-      <div class="site-footer__upper">
-        <div class="container">
-          <div class="site-footer__logo">
-            <a href="index">
-              <img src="assets/wellnest/images/logo wellnest final-01.png" alt="" width="150" height="160" /></a>
-          </div>
-          <!-- /.site-footer__logo -->
-          <div class="site-footer__social">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-          </div>
-          <!-- /.site-footer__social -->
-        </div>
-        <!-- /.container -->
-      </div>
-      <!-- /.site-footer__upper -->
-      <div class="site-footer__main">
-        <div class="container">
-          <div class="row">
-            <div class="col-xl-9 col-lg-6 col-md-6">
-              <div class="footer-widget footer-widget__about">
-                <h3 class="footer-widget__title">Care Economy</h3>
-                <!-- /.footer-widget__title -->
-                <p>
-                  Destigmatise Professional Elder Care: Professional parental care is much more seamless, organised and
-                  structured than what ones loved ones can offer.
-                  According to 'The Caring Company Report' by Harvard Business School, American companies are facing a
-                  caregiving crisis. Changing demographics over the
-                  past few decades have put great pressure on American employees as they try to balance work and care
-                  responsibilities. Yet many employers remain largely
-                  oblivious to the growing costs of this hidden “care economy”— costs that hurt employers and employees
-                  alike. Similar is the case in India. It is time
-                  that human productivity is maximised by letting professionals do what family need not .
-                </p>
-              </div>
-              <!-- /.footer-widget -->
-            </div>
-
-            <div class="col-xl-3 col-lg-6 col-md-6">
-              <div class="footer-widget footer-widget__contact">
-                <h3 class="footer-widget__title">Contact</h3>
-                <!-- /.footer-widget__title -->
-                <p>
-                  <a href="contact-us/new">Write to Us</a>
-                </p>
-                <p>                  
-                  3rd Floor, Subishi’s Town Centre Mokila, Shankarpalle Road
-                  Telangana, 501203
-                </p>
-                <p><a href="tel:9810918237"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                      <g id="SVGRepo_iconCarrier">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                          d="M17.3545 22.2323C15.3344 21.7262 11.1989 20.2993 7.44976 16.5502C3.70065 12.8011 2.2738 8.66559 1.76767 6.6455C1.47681 5.48459 2.00058 4.36434 2.88869 3.72997L5.21694 2.06693C6.57922 1.09388 8.47432 1.42407 9.42724 2.80051L10.893 4.91776C11.5152 5.8165 11.3006 7.0483 10.4111 7.68365L9.24234 8.51849C9.41923 9.1951 9.96939 10.5846 11.6924 12.3076C13.4154 14.0306 14.8049 14.5807 15.4815 14.7576L16.3163 13.5888C16.9517 12.6994 18.1835 12.4847 19.0822 13.1069L21.1995 14.5727C22.5759 15.5257 22.9061 17.4207 21.933 18.783L20.27 21.1113C19.6356 21.9994 18.5154 22.5232 17.3545 22.2323ZM8.86397 15.136C12.2734 18.5454 16.0358 19.8401 17.8405 20.2923C18.1043 20.3583 18.4232 20.2558 18.6425 19.9488L20.3056 17.6205C20.6299 17.1665 20.5199 16.5348 20.061 16.2171L17.9438 14.7513L17.0479 16.0056C16.6818 16.5182 16.0047 16.9202 15.2163 16.7501C14.2323 16.5378 12.4133 15.8569 10.2782 13.7218C8.1431 11.5867 7.46219 9.7677 7.24987 8.7837C7.07977 7.9953 7.48181 7.31821 7.99439 6.95208L9.24864 6.05618L7.78285 3.93893C7.46521 3.48011 6.83351 3.37005 6.37942 3.6944L4.05117 5.35744C3.74413 5.57675 3.64162 5.89565 3.70771 6.15943C4.15989 7.96418 5.45459 11.7266 8.86397 15.136Z"
-                          fill="#ffffff"></path>
-                      </g>
-                    </svg> 9810918237</a></p>
-                <p><a href="mailto:info@thewellnest.in"><svg width="20px" height="20px" viewBox="0 0 24 24" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                      <g id="SVGRepo_iconCarrier">
-                        <path d="M4 9.00005L10.2 13.65C11.2667 14.45 12.7333 14.45 13.8 13.65L20 9" stroke="#ffffff"
-                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        <path
-                          d="M3 9.17681C3 8.45047 3.39378 7.78123 4.02871 7.42849L11.0287 3.5396C11.6328 3.20402 12.3672 3.20402 12.9713 3.5396L19.9713 7.42849C20.6062 7.78123 21 8.45047 21 9.17681V17C21 18.1046 20.1046 19 19 19H5C3.89543 19 3 18.1046 3 17V9.17681Z"
-                          stroke="#ffffff" stroke-width="2" stroke-linecap="round"></path>
-                      </g>
-                    </svg> info@thewellnest.in</a></p>
-              </div>
-              <!-- /.footer-widget footer-widget__contact -->
-            </div>
-            <!-- /.col-xl-3 col-lg-6 col-md-6 -->
-          </div>
-          <!-- /.row -->
-        </div>
-        <!-- /.container -->
-      </div>
-      <!-- /.site-footer__main -->
-      <div class="site-footer__bottom">
-        <div class="container">
-          <p>
-            WellNesT <i class="far fa-copyright"></i> 2024 All Right Reserved
-          </p>
-          <ul class="list-unstyled site-footer__menu">
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-          <!-- /.site-footer__menu -->
-        </div>
-        <!-- /.container -->
-      </div>
-      <!-- /.site-footer__bottom -->
-    </footer>
-    <!-- /.site-footer -->
-  </div>
-  <!-- /.page-wrapper -->
-
-  <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
-
-  <div class="side-menu__block">
-    <a href="#" class="side-menu__toggler side-menu__close-btn"><i class="fa fa-times"></i>
-      <!-- /.fa fa-close --></a>
-
-    <div class="side-menu__block-overlay custom-cursor__overlay">
-      <div class="cursor"></div>
-      <div class="cursor-follower"></div>
+  <section class="slider-one__wrapper display-mobile">
+    <div class="slider-one__nav">
+      <a href="#" class="slider-one__nav-left">
+        <i class="far fa-angle-left"></i> </a><!-- /.slider-one__nav-left -->
+      <a href="#" class="slider-one__nav-right">
+        <i class="far fa-angle-right"></i> </a><!-- /.slider-one__nav-left -->
     </div>
-    <!-- /.side-menu__block-overlay -->
-    <div class="side-menu__block-inner">
-      <a href="index" class="side-menu__logo"><img src="assets/wellnest/images/logo wellnest final-01.png" alt=""
-          width="190" /></a>
-      <nav class="mobile-nav__container">
-        <!-- content is loading via js -->
-      </nav>
-      <p class="side-menu__block__copy">
-        (c) 2024 <a href="#">WellNesT</a> - All rights reserved.
-      </p>
-      <div class="side-menu__social">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-      </div>
-    </div>
-    <!-- /.side-menu__block-inner -->
-  </div>
-  <!-- /.side-menu__block -->
+    <!-- /.slider-one__nav -->
+    <div class="slider-one__carousel owl-carousel owl-theme thm__owl-carousel" data-options='{
+              "items": 1, "loop": false, "autoplay": false, "autoplayHoverPause": false, "autoplayTimeout": false,
+              "margin": 0, "dots": false, "nav": false, "animateOut": "fadeOut", "animateIn": "fadeIn", "active": true, "smartSpeed": 1000
+          }' data-carousel-next-btn=".slider-one__nav-right" data-carousel-prev-btn=".slider-one__nav-left">
 
-  <!-- template scripts -->
-  <script src="assets/wellnest/js/jquery.min.js"></script>
-  <script src="assets/wellnest/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/wellnest/js/bootstrap-datepicker.min.js"></script>
-  <script src="assets/wellnest/js/bootstrap-select.min.js"></script>
-  <script src="assets/wellnest/js/isotope.js"></script>
-  <script src="assets/wellnest/js/jquery.ajaxchimp.min.js"></script>
-  <script src="assets/wellnest/js/jquery.circleType.js"></script>
-  <script src="assets/wellnest/js/waypoints.min.js"></script>
-  <script src="assets/wellnest/js/jquery.counterup.min.js"></script>
-  <script src="assets/wellnest/js/jquery.lettering.min.js"></script>
-  <script src="assets/wellnest/js/jquery.magnific-popup.min.js"></script>
-  <script src="assets/wellnest/js/jquery.mCustomScrollbar.concat.min.js"></script>
-  <script src="assets/wellnest/js/jquery.validate.min.js"></script>
-  <script src="assets/wellnest/js/owl.carousel.min.js"></script>
-  <script src="assets/wellnest/js/TweenMax.min.js"></script>
-  <script src="assets/wellnest/js/wow.min.js"></script>
-  <script src="assets/wellnest/js/swiper.min.js"></script>
-  <script src="assets/wellnest/js/theme.js"></script>
-  <script src="assets/wellnest/js/custom.js"></script>
+      <div class="item" style="
+            background-image: url(./assets/wellnest/images/newimg/mobile\ banner-01.jpg);
+            width: 100%;
+            height: 100%;
+          ">
+        <div class="slider-one__item">
+          <div class="container">
+            <div class="row justify-content-end">
+              <div class="col-lg-12 d-flex justify-content-end">
+                <div class="slider-one__content">
+                  <div class="slider-one__content-inner">
+                    <h3>
+                        {{ top_header3 }}
+                    </h3>
+                    <p>
+                        {{ offering_description }}
+                    </p>
+                    <!-- /.thm-btn slider-one__btn -->
+                  </div>
+                  <!-- /.slider-one__content-inner -->
+                </div>
+                <!-- /.slider-one__content -->
+              </div>
+              <!-- /.col-lg-6 -->
+            </div>
+            <!-- /.row justify-content-end -->
+          </div>
+          <!-- /.container -->
+        </div>
+        <!-- /.slider-one__item -->
+      </div>
+      <!-- /.slider-one__carousel owl-carousel owl-theme thm__owl-carousel -->
+  </section>
+  <!-- 
+    <section>
+      <img src="./assets/wellnest/images/newimg/mobile banner-01.jpg" alt="" class="img-fluid">
+    </section> -->
+  <!-- /.slider-one__wrapper -->
+
+  <section class="service-one service-one__home-one">
+    <div class="container">
+      <div class="block-title text-center">
+        <p>Services</p>
+        <h3>
+          Everyone Deserves Our <br />
+          Best Services
+        </h3>
+      </div>
+      <!-- /.block-title -->
+      <div class="service-one__carousel-two thm__owl-carousel owl-carousel owl-theme new_add">
+        <div class="item">
+          <div class="service-one__single">
+            <div class="service-one__content">
+              <div class="service-one__icon">
+
+                <i class="oberlin-icon-disability"></i>
+              </div>
+              <!-- /.service-one__icon -->
+              <h3>Assisted Daily Living</h3>
+              <p>
+                Compassionate help with activities of daily living for independence & dignity: Personal grooming like
+                bathing, dressing, feeding, mobility, laundry light housekeeping for patients and most of it all
+                ,companionship. </p>
+
+            </div>
+            <!-- /.service-one__content -->
+          </div>
+          <!-- /.service-one__single -->
+        </div>
+        <!-- /.col-lg-4 -->
+        <div class="item">
+          <div class="service-one__single">
+            <div class="service-one__content">
+              <div class="service-one__icon">
+                <svg width="64px" height="64px" viewBox="0 0 1024 1024" class="icon" version="1.1"
+                  xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M523.9 788.3H166.4V169c0-4.3 3.4-7.7 7.6-7.7h490.8c4.2 0 7.6 3.5 7.6 7.7v190h45.8V169c0-29.9-24-54.2-53.4-54.2H174c-29.5 0-53.4 24.3-53.4 54.2v689c0 29.9 24 54.2 53.4 54.2h359.1c-5.9-11.6-9.3-24.8-9.3-38.7v-85.2z m-102.6 96.2c-17 0-30.9-14-30.9-31.3s13.8-31.3 30.9-31.3c17 0 30.9 14 30.9 31.3-0.1 17.3-13.9 31.3-30.9 31.3z m442.9-479H607.9c-21.1 0-38.2 17.4-38.2 38.7v429.3c0 21.3 17.1 38.7 38.2 38.7h256.3c21.1 0 38.2-17.4 38.2-38.7V444.2c0-21.4-17.1-38.7-38.2-38.7zM736.1 888.9c-12.7 0-22.9-10.4-22.9-23.2 0-12.8 10.3-23.2 22.9-23.2 12.6 0 22.9 10.4 22.9 23.2 0 12.8-10.3 23.2-22.9 23.2z m120.5-69.7H615.5V451.9h241.1v367.3z"
+                      fill="#fff"></path>
+                  </g>
+                </svg>
+              </div>
+              <!-- /.service-one__icon -->
+              <h3>Technology in aid</h3>
+              <p>
+                Our technologies make life easier for all stakeholders- The patients, elders under our care,their
+                families and more importantly the caregivers. </p>
+
+            </div>
+            <!-- /.service-one__content -->
+          </div>
+          <!-- /.service-one__single -->
+        </div>
+        <!-- /.col-lg-4 -->
+        <div class="item">
+          <div class="service-one__single">
+            <div class="service-one__content">
+              <div class="service-one__icon">
+                <i class="oberlin-icon-stethoscope"></i>
+              </div>
+              <!-- /.service-one__icon -->
+              <h3>Nursing Care</h3>
+              <p>
+                Hospital-level expertise at home: Complex medical needs, wound care, precise meds, vital sign
+                monitoring - for optimal recovery.
+              </p>
+            </div>
+            <!-- /.service-one__content -->
+          </div>
+          <!-- /.service-one__single -->
+        </div>
+        <!-- /.col-lg-4 -->
+
+        <!-- /.col-lg-4 -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+  </section>
+  <!-- /.service-one -->
+
+  <section class="about-three">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="about-three__content">
+            <div class="block-title">
+              <p class="has-line">Our Continuum of care</p>
+              <!-- /.has-line -->
+              <h3>
+                WellNesT exists to take parental or patient care stress off your shoulder, and allow you to focus
+                on your own life
+              </h3>
+            </div>
+            <!-- /.block-title -->
+            <p>
+              It is a pleasure to introduce WellNesT. We are an Elder
+              Care & out of hospital transitional care super
+              specialty, disrupting the way care is perceived. Our
+              soon to come HTHT (Hi-Tech- Hi Touch) platform enabled
+              by our passionate caregivers and unmatched caregiving
+              practices speeds patient outcomes & recovery.
+            </p>
+            <p>
+              We are strongly recommended by our partners-Hospitals,
+              Clinics and Doctors who lay their trust on us.At The
+              WellNesT, we are passionate about delivering the highest
+              standard of outcome based care. Be it the finest trained
+              care giver bed side attendants or nurses or
+              state-of-the-art technology for transparency and
+              efficiency.
+            </p>
+            <p>
+              When you are passionate about care giving for the lives
+              that have been entrusted to you, nothing is too big or
+              small to ignore.
+            </p>
+            <div class="row">
+              <div class="col-xl-6">
+                <ul class="blog-details__list list-unstyled">
+                  <li>
+                    <i class="fa fa-check-circle"></i>
+                    Stroke Care
+                  </li>
+                  <li>
+                    <i class="fa fa-check-circle"></i>
+                    Feeding Tube Care
+                  </li>
+                  <li>
+                    <i class="fa fa-check-circle"></i>
+                    Oncology Care
+                  </li>
+                  <li>
+                    <i class="fa fa-check-circle"></i>
+                    Orthopedic Care
+                  </li>
+                  <li>
+                    <i class="fa fa-check-circle"></i>
+                    Trachestomy Care
+                  </li>
+                  <li>
+                    <i class="fa fa-check-circle"></i>
+                    Trauma Care
+                  </li>
+                </ul>
+                <!-- /.blog-details__list list-unstyled -->
+              </div>
+              <!-- /.col-md-6 -->
+              <div class="col-xl-6">
+                <ul class="blog-details__list list-unstyled">
+                  <li>
+                    <i class="fa fa-check-circle"></i>
+                    Spine Care
+                  </li>
+                  <li>
+                    <i class="fa fa-check-circle"></i>
+                    Craniotomy Care
+                  </li>
+                  <li>
+                    <i class="fa fa-check-circle"></i>
+                    Cardiac Care
+                  </li>
+                  <li>
+                    <i class="fa fa-check-circle"></i>
+                    Post Covid-19 Care
+                  </li>
+                  <li>
+                    <i class="fa fa-check-circle"></i>
+                    Post-Operative Care
+                  </li>
+                  <li>
+                    <i class="fa fa-check-circle"></i>
+                    Parkinson's Care
+                  </li>
+                </ul>
+                <!-- /.blog-details__list list-unstyled -->
+              </div>
+              <!-- /.col-md-6 -->
+
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.about-three__content -->
+        </div>
+        <!-- /.col-lg-6 -->
+        <div class="col-lg-6 wow fadeInRight" data-wow-duration="1500ms">
+          <div class="about-three__image">
+            <img src="assets/wellnest/images/shapes/about-dot-3-1.png" class="about-dot-3-1" alt="" />
+
+            <!-- /.about-three__image-text -->
+            <img src="assets/wellnest/images/newimg/assisted living.jpg" alt="" width="470" height="540" />
+          </div>
+          <!-- /.about-three__image -->
+        </div>
+        <!-- /.col-lg-6 -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+  </section>
+  <!-- /.about-three -->
+
+  <!-- /.funfact-one -->
+
+  <section class="faq-three">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="faq-three__image wow fadeInLeft" data-wow-duration="1500ms">
+            <img src="assets/wellnest/images/shapes/faq-2-dot.png" class="faq-three__image-dots" alt="" />
+            <img src="assets/wellnest/images/newimg/nursing care.jpg" alt="" width="470" height="600" />
+          </div>
+          <!-- /.faq-three__image -->
+        </div>
+        <!-- /.col-lg-6 -->
+        <div class="col-lg-6">
+          <div class="faq-one__block">
+            <div class="block-title text-left">
+              <p class="has-line">Why Choose Us</p>
+              <h3>
+                WellNesT: Top Choice for Hassle-Free Home Care
+              </h3>
+            </div>
+            <!-- /.block-title -->
+
+            <p>
+              We evolved the concept of World Class services to unburden the patient and their families.
+            </p>
+            <div class="accrodion-grp" data-grp-name="career-one__accrodion">
+              <div class="accrodion">
+                <div class="accrodion-title">
+                  <h4>Fast & Easy Booking</h4>
+                </div>
+                <div class="accrodion-content">
+                  <div class="inner">
+                    <p>
+                      Shedule care in minutes, with minimal stress
+                    </p>
+                  </div>
+                  <!-- /.inner -->
+                </div>
+              </div>
+              <div class="accrodion active">
+                <div class="accrodion-title">
+                  <h4>Top-Tier Caregivers</h4>
+                </div>
+                <div class="accrodion-content">
+                  <div class="inner">
+                    <p>
+                      Get matched with qualified compassionate caregivers
+                    </p>
+                  </div>
+                  <!-- /.inner -->
+                </div>
+              </div>
+              <div class="accrodion">
+                <div class="accrodion-title">
+                  <h4>Seamless Transitions</h4>
+                </div>
+                <div class="accrodion-content">
+                  <div class="inner">
+                    <p>
+                      Experience a smooth start to home care with clear communication.
+                    </p>
+                  </div>
+                  <!-- /.inner -->
+                </div>
+              </div>
+              <div class="accrodion">
+                <div class="accrodion-title">
+                  <h4>Thorough Background Checks</h4>
+                </div>
+                <div class="accrodion-content">
+                  <div class="inner">
+                    <p>
+                      Ensure peace of mind with rigorous caregiver screening.
+                    </p>
+                  </div>
+                  <!-- /.inner -->
+                </div>
+              </div>
+              <div class="accrodion">
+                <div class="accrodion-title">
+                  <h4>Flexible Refunds</h4>
+                </div>
+                <div class="accrodion-content">
+                  <div class="inner">
+                    <p>
+                      Benefit from hassle-free adjustments to your care plan.
+                    </p>
+                  </div>
+                  <!-- /.inner -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.faq-one__block -->
+        </div>
+        <!-- /.col-lg-6 -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+  </section>
+  <!-- /.faq-three -->
+
+  <!-- /.event-two -->
+  <section class="testimonials-two" style="
+        background-image: url(assets/wellnest/images/background/testimonials-1-bg-1-1.jpg);
+      ">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-7 col-lg-8">
+          <div class="testimonials-two__content wow fadeInUp" data-wow-duration="1500ms">
+            <div class="block-title">
+              <p class="has-line"> Testimonials</p>
+              <!-- /.has-line -->
+              <h3>
+                What Our Clients Say About
+                WellNesT!
+              </h3>
+            </div>
+            <!-- /.block-title -->
+            <div class="testimonials-two__carousel">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <div class="testimonials-two__single">
+                    <p>
+                      <b>Great Care Made a Big Difference</b>
+                      Since we started using WellNesT for my mom's care, she's been feeling much better.
+                      Their exceptional Quality Elder Care has greatly improved her well-being. Highly
+                      recommend!.
+                    </p>
+                    <h3>Nimit Konda</h3>
+                    <span>Amberpet</span>
+                  </div>
+                  <!-- /.testimonials-two__single -->
+                </div>
+                <!-- /.swiper-slide -->
+                <div class="swiper-slide">
+                  <div class="testimonials-two__single">
+                    <p>
+                      <b>Awesome Tech Helps Us Stay Calm</b>
+                      WellNesT’s technology lets us know how my dad is doing all the time. It’s comforting to
+                      know that he’s being watched over so carefully.
+                    </p>
+                    <h3>Chaitali Majumdar</h3>
+                    <span>Gurugram</span>
+                  </div>
+                  <!-- /.testimonials-two__single -->
+                </div>
+                <!-- /.swiper-slide -->
+                <div class="swiper-slide">
+                  <div class="testimonials-two__single">
+                    <p>
+                      <b>Kind and Skilled People</b>
+                      Everyone from WellNesT is really good at their job and truly kind. They care a lot about
+                      their clients, which makes us feel very reassured.
+                    </p>
+                    <h3>Sariq Baddour</h3>
+                    <span>Secunderabad</span>
+                  </div>
+                  <!-- /.testimonials-two__single -->
+                </div>
+                <!-- /.swiper-slide -->
+                <div class="swiper-slide">
+                  <div class="testimonials-two__single">
+                    <p>
+                      <b>Kind and Skilled People</b>
+                      Everyone from WellNesT is really good at their job and truly kind. They care a lot about
+                      their clients, which makes us feel very reassured.
+                    </p>
+                    <h3>Sariq Baddour</h3>
+                    <span>Secunderabad</span>
+                  </div>
+                  <!-- /.testimonials-two__single -->
+                </div>
+                <!-- /.swiper-slide -->
+              </div>
+              <!-- /.swiper-wrapper -->
+            </div>
+            <!-- /.testimonials-two__carousel -->
+
+            <!-- /.testimonials-two__carousel-wrap -->
+          </div>
+          <!-- /.testimonials-two__content -->
+        </div>
+        <!-- /.col-lg-7 -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+  </section>
+  <!-- /.testimonials-two -->
+
+  <!-- /.blog-one -->
+
+{% endblock %}
 </body>
-
-</html>
