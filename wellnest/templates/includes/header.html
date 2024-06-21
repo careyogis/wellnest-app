@@ -1,0 +1,30 @@
+	<!-- plugins styles -->
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css?family=Baloo+2:400,500,600,700,800%7CLato:100,300,400,700,900%7COpen+Sans:300,400,600,700,800%7CRoboto:300,400,500,700,900%7CRubik:300,400,500,700,900&display=swap" />
+	<link rel="stylesheet" href="assets/wellnest/css/animate.css" />
+	<link rel="stylesheet" href="assets/wellnest/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="assets/wellnest/css/bootstrap-datepicker.min.css" />
+	<link rel="stylesheet" href="assets/wellnest/css/bootstrap-select.min.css" />
+	<link rel="stylesheet" href="assets/wellnest/css/fontawesome-all.min.css" />
+	<link rel="stylesheet" href="assets/wellnest/css/hover-min.css" />
+	<link rel="stylesheet" href="assets/wellnest/css/swiper.min.css" />
+	<link rel="stylesheet" href="assets/wellnest/css/jquery.mCustomScrollbar.min.css" />
+	<link rel="stylesheet" href="assets/wellnest/css/magnific-popup.css" />
+	<link rel="stylesheet" href="assets/wellnest/css/owl.carousel.min.css" />
+	<link rel="stylesheet" href="assets/wellnest/css/owl.theme.default.min.css" />
+	<link rel="stylesheet" href="assets/wellnest/css/oberlin-icons.css" />
+
+	<!-- template styles -->
+	<link rel="stylesheet" href="assets/wellnest/css/style.css" />
+	<link rel="stylesheet" href="assets/wellnest/css/responsive.css" />
+
+	<script>
+		window.frappe = {};
+		frappe.ready_events = [];
+		frappe.ready = function(fn) {
+			frappe.ready_events.push(fn);
+		}
+		window.dev_server = {{ dev_server }};
+		window.socketio_port = {{ (frappe.socketio_port or 9000) }};
+		window.show_language_picker = {{ show_language_picker or 'false' }};
+	</script>
