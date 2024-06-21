@@ -1,4 +1,4 @@
-name: Development
+name: Production Deployment CI
 
 on:
   push:
@@ -102,7 +102,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: tests
-    environment: Develop
+    environment: Production
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
