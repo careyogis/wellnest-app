@@ -1,0 +1,23 @@
+{
+ "button_gradients": 1,
+ "button_rounded_corners": 1,
+ "button_shadows": 1,
+ "creation": "2024-06-22 01:51:56.015885",
+ "custom": 0,
+ "custom_overrides": "",
+ "docstatus": 0,
+ "doctype": "Website Theme",
+ "font_properties": "wght:400;500;600;700;800",
+ "font_size": "12",
+ "google_font": "poppins",
+ "idx": 0,
+ "ignored_apps": [],
+ "modified": "2024-06-22 01:51:56.015885",
+ "modified_by": "randhirk@thewellnest.in",
+ "module": "WellNest",
+ "name": "Wellnest-theme",
+ "owner": "randhirk@thewellnest.in",
+ "theme": "Wellnest-theme",
+ "theme_scss": "\n@import url(\"https://fonts.googleapis.com/css2?family=poppins:wght:400;500;600;700;800&display=swap\");\n// backward compatibility. deprecated in v15\n$font-family-sans-serif: \"poppins\", \"InterVariable\", \"Inter\", -apple-system, BlinkMacSystemFont,\n\t\"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\",\n\t\"Droid Sans\", \"Helvetica Neue\", sans-serif;\n\n// override font stack if custom font is set in website theme\n:root {\n\t--font-stack: \"poppins\", \"InterVariable\", \"Inter\", -apple-system, BlinkMacSystemFont,\n\t\"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\",\n\t\"Droid Sans\", \"Helvetica Neue\", sans-serif !important;\n}\n$enable-shadows: true;\n$enable-gradients: true;\n$enable-rounded: true;\n\n// Bootstrap Variable Overrides\n\n\n// Import themes from installed apps\n@import \"frappe/public/scss/website.bundle\";\n\nbody {\n\tfont-size: 12;\n}\n\n// Custom Theme\n\n\n:root {\n\t}\n",
+ "theme_url": "/files/website_theme/wellnest_theme_style.css"
+}
