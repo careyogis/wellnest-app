@@ -1,9 +1,9 @@
 [project]
 name = "wellnest"
 authors = [
-    { name = "www.thewellnest.in", email = "info@thewellnest.in"}
+    { name = "www.careyogis.com", email = "info@careyogis.com"}
 ]
-description = "The Web Application for WellNesT home care service"
+description = "The Web Application for CareYogi home care service"
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]

@@ -1,6 +1,6 @@
 ## WellNest
 
-The Web Application for WellNesT home care service
+The Web Application for CareYogi home care service
 
 #### License
 

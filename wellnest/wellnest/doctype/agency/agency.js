@@ -1,4 +1,4 @@
-// Copyright (c) 2024, www.thewellnest.in and contributors
+// Copyright (c) 2024, www.careyogis.com and contributors
 // For license information, please see license.txt
 
 // frappe.ui.form.on("Agency", {

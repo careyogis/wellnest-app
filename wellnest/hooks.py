@@ -1,8 +1,8 @@
 app_name = "wellnest"
 app_title = "WellNest"
-app_publisher = "www.thewellnest.in"
-app_description = "The Web Application for WellNesT home care service"
-app_email = "info@thewellnest.in"
+app_publisher = "www.careyogis.com"
+app_description = "The Web Application for CareYogi home care service"
+app_email = "info@careyogis.com"
 app_license = "mit"
 # required_apps = []
 
