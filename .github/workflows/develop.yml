@@ -99,6 +99,8 @@ jobs:
         env:
           TYPE: server
 
+  ## Uncomment When We are configuring develop server
+
   # deploy:
   #   runs-on: ubuntu-latest
   #   needs: tests
