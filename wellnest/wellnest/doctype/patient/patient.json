@@ -1,0 +1,148 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:Pa-####",
+ "creation": "2024-06-12 16:57:54.313301",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_tmax",
+  "full_name",
+  "gender",
+  "date_of_birth",
+  "height",
+  "weight",
+  "phone_number",
+  "alternative_phone_number",
+  "whatsapp_number",
+  "email",
+  "photo",
+  "complete_address",
+  "city",
+  "state",
+  "pincode",
+  "languages_spoken"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_tmax",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Full Name"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "Gender",
+   "options": "Male\nFemale\nOther"
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "label": "Date of Birth"
+  },
+  {
+   "fieldname": "height",
+   "fieldtype": "Date",
+   "label": "Height"
+  },
+  {
+   "fieldname": "weight",
+   "fieldtype": "Data",
+   "label": "Weight"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Phone",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "alternative_phone_number",
+   "fieldtype": "Phone",
+   "label": "Alternative Phone Number"
+  },
+  {
+   "fieldname": "whatsapp_number",
+   "fieldtype": "Phone",
+   "label": "Whatsapp Number"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "label": "Photo"
+  },
+  {
+   "fieldname": "complete_address",
+   "fieldtype": "Small Text",
+   "label": "Complete Address"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "pincode",
+   "fieldtype": "Int",
+   "label": "Pincode"
+  },
+  {
+   "fieldname": "languages_spoken",
+   "fieldtype": "Table",
+   "label": "Languages Spoken",
+   "options": "Spoken Language Option"
+  }
+ ],
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-18 21:56:27.117760",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Patient",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Beneficiary",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

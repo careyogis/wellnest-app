@@ -1,0 +1,32 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-12 16:57:29.775221",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "link_ebyl"
+ ],
+ "fields": [
+  {
+   "fieldname": "link_ebyl",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Attendant Service Option",
+   "options": "Attendant Service"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-06-12 18:24:13.300351",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Attendant Service Option",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

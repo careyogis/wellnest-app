@@ -1,0 +1,100 @@
+{% extends "templates/wellnest_web.html" %}
+
+<title>
+    {% block title %}CareYogi - Physiotherapy{% endblock %}
+</title>    
+<body>
+{% block page_content %}
+<section class="service-details" style="padding-top: 35px !important">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="service-details__sidebar">
+          <div class="sidebar__single sidebar__category">
+            <h3 class="sidebar__title">Category</h3>
+            <!-- /.sidebar__title -->
+            <ul class="sidebar__cat-list">
+              <li>
+                <a href="nursing-care">Nursing Care</a>
+              </li>
+              <li>
+                <a href="caregiver-attendant">Caregiver Attendant</a>
+              </li>
+              <li class="active">
+                <a href="physiotherapy">Physiotherapy</a>
+              </li>
+            </ul>
+            <!-- /.sidebar__cat-list -->
+          </div>
+          <!-- /.sidebar__single -->
+        </div>
+        <!-- /.service-details__sidebar -->
+      </div>
+      <!-- /.col-lg-4 -->
+      <div class="col-lg-8">
+        <div class="service-details__main">
+          <div class="service-details__image">
+            <img src="assets/wellnest/images/newimg/physiotherapy-service.png" alt="" />
+          </div>
+          <!-- /.service-details__image -->
+          <div class="service-details__content">
+            <h3>Physiotherapy and Older People</h3>
+            <p>
+                There is reliable evidence for physiotherapy involvement for older people, 
+                especially those with falls, stroke, arthritis and frailty.
+            </p>            
+            <ul>
+              <li>
+                There is strong evidence on the effectiveness of primary care/community-based 
+                falls prevention interventions for older people, eg. Otago Exercise Programme, 
+                with physiotherapy supervision. International evidence exists showing the benefit 
+                of exercise interventions for older people with frailty, which are primarily 
+                physiotherapy-led, or supervised.
+            </li>
+              <li>
+                Physiotherapy is a core component of the comprehensive geriatric assessment 
+                (CGA), known to improve outcomes for older people, particularly those with 
+                frailty. A CGA approach is part of successful orthogeriatric care, and in the 
+                new area of perioperative surgical care for older people.
+              </li>
+              <li>
+                Along with specialist elderly care wards, physiotherapists are core members 
+                of CareYogis, providing therapy for patients on acute stroke units, stroke 
+                rehabilitation units and community stroke teams. Multidisciplinary stroke care 
+                offered byCareYogis team of Physiotherapists has been seen to be very 
+                effective at improving outcome.
+              </li>
+              <li>
+                The Fundamental Principles of Physiotherapy for Older People Disability is generally 
+                regarded as being due to a pathological process, or injury, not prima facie 'old age'
+              </li>
+              <li>
+                The effects of biological ageing reduce the efficiency of the body's systems, 
+                but throughout life, optimum function is maintained in each individual by 
+                continuing to use these systems to their maximum capacity
+              </li>
+              <li>
+                CareYogi physiotherapists have a key role in enabling older people to use a 
+                number of the body's systems fully to enhance mobility and independence
+              </li>
+              <li>
+                When neither improvement nor even maintenance of functional mobility is a 
+                reasonable goal, CareYogi physiotherapists can contribute to helping older 
+                people to remain comfortable and pain-free
+              </li>
+              <li>
+                Prevention of the development of problems in later life through health promotion.              
+              </li>
+            </ul>
+          </div><!-- /.service-details__content -->
+        </div><!-- /.service-details__main -->
+      </div><!-- /.col-lg-8 -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+</section>
+<!-- /.service-details -->
+
+{% endblock %}
+</body>

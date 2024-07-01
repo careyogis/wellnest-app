@@ -1,0 +1,156 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-13 13:23:51.191882",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_dv0i",
+  "applicant_id",
+  "payment_mode",
+  "payment_link",
+  "transaction_id",
+  "transaction_status",
+  "transaction_receipt",
+  "amount",
+  "payment_datetime",
+  "card_number",
+  "card_expiry",
+  "bank_branch",
+  "bank_ifsc",
+  "refund",
+  "refund_reason",
+  "refund_amount",
+  "created_on",
+  "created_by",
+  "modified_on",
+  "modified_by1"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_dv0i",
+   "fieldtype": "Data",
+   "label": "Patient Id"
+  },
+  {
+   "fieldname": "applicant_id",
+   "fieldtype": "Data",
+   "label": "Applicant Id"
+  },
+  {
+   "fieldname": "payment_mode",
+   "fieldtype": "Data",
+   "label": "Payment mode"
+  },
+  {
+   "fieldname": "payment_link",
+   "fieldtype": "Data",
+   "label": "Payment link"
+  },
+  {
+   "fieldname": "transaction_id",
+   "fieldtype": "Data",
+   "label": "Transaction Id"
+  },
+  {
+   "fieldname": "transaction_status",
+   "fieldtype": "Data",
+   "label": "Transaction status"
+  },
+  {
+   "fieldname": "transaction_receipt",
+   "fieldtype": "Attach",
+   "label": "Transaction receipt"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Int",
+   "label": "Amount"
+  },
+  {
+   "fieldname": "payment_datetime",
+   "fieldtype": "Date",
+   "label": "Payment datetime"
+  },
+  {
+   "fieldname": "card_number",
+   "fieldtype": "Int",
+   "label": "Card number"
+  },
+  {
+   "fieldname": "card_expiry",
+   "fieldtype": "Data",
+   "label": "Card expiry"
+  },
+  {
+   "fieldname": "bank_branch",
+   "fieldtype": "Data",
+   "label": "Bank branch"
+  },
+  {
+   "fieldname": "bank_ifsc",
+   "fieldtype": "Int",
+   "label": "Bank IFSC"
+  },
+  {
+   "fieldname": "refund",
+   "fieldtype": "Select",
+   "label": "Refund?",
+   "options": "Yes\nNo"
+  },
+  {
+   "fieldname": "refund_reason",
+   "fieldtype": "Data",
+   "label": "Refund reason"
+  },
+  {
+   "fieldname": "refund_amount",
+   "fieldtype": "Int",
+   "label": "Refund amount"
+  },
+  {
+   "fieldname": "created_on",
+   "fieldtype": "Date",
+   "label": "Created on"
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Data",
+   "label": "Created by"
+  },
+  {
+   "fieldname": "modified_on",
+   "fieldtype": "Date",
+   "label": "Modified on"
+  },
+  {
+   "fieldname": "modified_by1",
+   "fieldtype": "Data",
+   "label": "Modified by"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-14 21:43:28.168678",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Payment",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

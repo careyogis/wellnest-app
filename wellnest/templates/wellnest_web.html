@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="{{boot.lang}}">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title>{% block title %}{{ title }}{% endblock %}</title>
+
+	{% block favicon %}
+		<!-- favicons -->
+		<link rel="apple-touch-icon" sizes="180x180" href="assets/wellnest/images/favicon/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="assets/wellnest/images/favicon/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="assets/wellnest/images/favicon/favicon-16x16.png" />
+		<link rel="manifest" href="assets/wellnest/images/favicon/site.webmanifest" />
+	{% endblock %}
+
+	{%- block head_include -%}
+	{% include "templates/includes/header.html" %}
+	{%- endblock -%}
+</head>
+
+<body frappe-session-status="{{ 'logged-in' if frappe.session.user != 'Guest' else 'logged-out'}}" data-path="{{ path | e }}" {%- if template and template.endswith('.md') %} frappe-content-type="markdown" {%- endif %} class="{{ body_class or ''}}">
+	<div class="preloader">
+		<div class="lds-ripple">
+		  <div></div>
+		  <div></div>
+		</div>
+	  </div>
+	  <!-- /.preloader -->
+	<div class="page-wrapper">	  
+		{%- block navbar -%}
+		{% include "templates/includes/navbar.html" %}
+		{%- endblock -%}
+
+		{% block page_content %}
+		Blank - to be overridden
+		{% endblock %}
+
+		{%- block footer -%}
+		{% include "templates/includes/footer.html" %}
+		{%- endblock -%}
+		<!-- /.site-footer -->
+	</div>
+	<!-- /.page-wrapper -->
+
+    <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
+
+	{%- block sidemenu -%}
+	{% include "templates/includes/sidemenu.html" %}
+	{%- endblock -%}
+	  <!-- /.side-menu__block -->
+
+	{% block base_scripts %}
+	<!-- template scripts -->
+	<script src="assets/wellnest/js/jquery.min.js"></script>
+	<script src="assets/wellnest/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/wellnest/js/bootstrap-datepicker.min.js"></script>
+	<script src="assets/wellnest/js/bootstrap-select.min.js"></script>
+	<script src="assets/wellnest/js/isotope.js"></script>
+	<script src="assets/wellnest/js/jquery.ajaxchimp.min.js"></script>
+	<script src="assets/wellnest/js/jquery.circleType.js"></script>
+	<script src="assets/wellnest/js/waypoints.min.js"></script>
+	<script src="assets/wellnest/js/jquery.counterup.min.js"></script>
+	<script src="assets/wellnest/js/jquery.lettering.min.js"></script>
+	<script src="assets/wellnest/js/jquery.magnific-popup.min.js"></script>
+	<script src="assets/wellnest/js/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="assets/wellnest/js/jquery.validate.min.js"></script>
+	<script src="assets/wellnest/js/owl.carousel.min.js"></script>
+	<script src="assets/wellnest/js/TweenMax.min.js"></script>
+	<script src="assets/wellnest/js/wow.min.js"></script>
+	<script src="assets/wellnest/js/swiper.min.js"></script>
+	<script src="assets/wellnest/js/theme.js"></script>
+	<script src="assets/wellnest/js/custom.js"></script>
+
+	<!-- frappe related scripts -->
+	<!-- js should be loaded in body! -->
+	<script>
+		frappe.boot = {{ boot }}
+		// for backward compatibility of some libs
+		frappe.sys_defaults = frappe.boot.sysdefaults;
+	</script>
+	{{ include_script('frappe-web.bundle.js') }}
+
+	{% endblock %}
+
+	{%- for link in web_include_js %}
+	{{ include_script(link) }}
+	{%- endfor -%}
+
+	{%- block script %}
+		{% if colocated_js -%}
+			<script>{{ colocated_js }}</script>
+		{%- endif %}
+	{%- endblock %}
+	<!-- csrf_token -->
+	{%- block body_include %}{{ body_include or "" }}{% endblock -%}
+</body>
+</html>

@@ -1,0 +1,277 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-12 16:58:23.076217",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "caregiver_type",
+  "personal_information_section_section",
+  "full_name",
+  "dob",
+  "gender",
+  "language_spoken",
+  "passport_size_photo",
+  "full_length_photo",
+  "phone_number",
+  "email",
+  "complete_address",
+  "city",
+  "state",
+  "pincode",
+  "column_break_pwtu",
+  "years_of_experiencenurse",
+  "availiabilitynurse",
+  "shift_preference",
+  "specialization",
+  "nursing_care",
+  "any_other_experiencenurse",
+  "certificate",
+  "document_required_for_background_verification_section",
+  "aadhar_number",
+  "aadhar_photo",
+  "pan_number",
+  "pan_photo",
+  "vaccination_certificate",
+  "column_break_wqyr",
+  "data_tene",
+  "availiabilityattendant",
+  "shift_preferenceattendant",
+  "attendant_care",
+  "any_other_experienceattendant",
+  "certificateattendant"
+ ],
+ "fields": [
+  {
+   "fieldname": "caregiver_type",
+   "fieldtype": "Select",
+   "label": "Caregiver type",
+   "options": "Nurse\nAttendant\nBoth"
+  },
+  {
+   "fieldname": "personal_information_section_section",
+   "fieldtype": "Section Break",
+   "label": "Personal Information Section"
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Full name"
+  },
+  {
+   "fieldname": "dob",
+   "fieldtype": "Date",
+   "label": "DOB"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "Gender",
+   "options": "Male\nFemale\nOthers"
+  },
+  {
+   "fieldname": "language_spoken",
+   "fieldtype": "Table",
+   "label": "Language Spoken",
+   "options": "Spoken Language Option"
+  },
+  {
+   "fieldname": "passport_size_photo",
+   "fieldtype": "Attach",
+   "label": "Passport size photo"
+  },
+  {
+   "fieldname": "full_length_photo",
+   "fieldtype": "Attach Image",
+   "label": "Full length photo"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Phone",
+   "label": "Phone number"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "complete_address",
+   "fieldtype": "Small Text",
+   "label": "Complete address"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "pincode",
+   "fieldtype": "Int",
+   "label": "Pincode"
+  },
+  {
+   "fieldname": "document_required_for_background_verification_section",
+   "fieldtype": "Section Break",
+   "label": "Document required for background verification"
+  },
+  {
+   "fieldname": "aadhar_number",
+   "fieldtype": "Int",
+   "label": "Aadhar number"
+  },
+  {
+   "fieldname": "aadhar_photo",
+   "fieldtype": "Attach",
+   "label": "Aadhar Photo"
+  },
+  {
+   "fieldname": "pan_number",
+   "fieldtype": "Data",
+   "label": "Pan number"
+  },
+  {
+   "fieldname": "pan_photo",
+   "fieldtype": "Attach",
+   "label": "Pan photo"
+  },
+  {
+   "fieldname": "vaccination_certificate",
+   "fieldtype": "Attach",
+   "label": "Vaccination certificate"
+  },
+  {
+   "fieldname": "column_break_pwtu",
+   "fieldtype": "Column Break",
+   "label": "Applicable for nurse"
+  },
+  {
+   "fieldname": "column_break_wqyr",
+   "fieldtype": "Column Break",
+   "label": "Applicable for attendant"
+  },
+  {
+   "fieldname": "years_of_experiencenurse",
+   "fieldtype": "Int",
+   "label": "Years of experience(nurse)"
+  },
+  {
+   "fieldname": "availiabilitynurse",
+   "fieldtype": "Select",
+   "label": "Availiability(nurse)",
+   "options": "12\n24\nBoth"
+  },
+  {
+   "fieldname": "shift_preference",
+   "fieldtype": "Select",
+   "label": "Shift preference(nurse)",
+   "options": "Day\nNight\nFlexible"
+  },
+  {
+   "fieldname": "specialization",
+   "fieldtype": "Table",
+   "label": "Specialization",
+   "options": "Specialization Option"
+  },
+  {
+   "fieldname": "nursing_care",
+   "fieldtype": "Table",
+   "label": "Nursing care",
+   "options": "Nursing Service Option"
+  },
+  {
+   "fieldname": "any_other_experiencenurse",
+   "fieldtype": "Small Text",
+   "label": "Any other experience(nurse)"
+  },
+  {
+   "fieldname": "certificate",
+   "fieldtype": "Attach",
+   "label": "Certificate(nurse)"
+  },
+  {
+   "fieldname": "data_tene",
+   "fieldtype": "Int",
+   "label": "Years of experience(attendant)"
+  },
+  {
+   "fieldname": "availiabilityattendant",
+   "fieldtype": "Select",
+   "label": "Availiability(attendant)",
+   "options": "12\n24\nBoth"
+  },
+  {
+   "fieldname": "shift_preferenceattendant",
+   "fieldtype": "Select",
+   "label": "Shift Preference(attendant)",
+   "options": "Day\nNight\nFlexible"
+  },
+  {
+   "fieldname": "attendant_care",
+   "fieldtype": "Table",
+   "label": "Attendant care",
+   "options": "Attendant Service Option"
+  },
+  {
+   "fieldname": "any_other_experienceattendant",
+   "fieldtype": "Small Text",
+   "label": "Any other experience(attendant)"
+  },
+  {
+   "fieldname": "certificateattendant",
+   "fieldtype": "Attach",
+   "label": "Certificate(attendant)"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-18 10:13:17.527949",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Caregiver",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Sales Manager"
+  },
+  {
+   "read": 1,
+   "role": "Nursing Manager"
+  },
+  {
+   "read": 1,
+   "role": "Beneficiary"
+  },
+  {
+   "create": 1,
+   "report": 1,
+   "role": "Agency - Caregiver Manager",
+   "share": 1
+  },
+  {
+   "read": 1,
+   "role": "Customer Success"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

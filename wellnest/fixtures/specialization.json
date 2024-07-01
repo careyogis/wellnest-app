@@ -1,0 +1,51 @@
+[
+ {
+  "caregiver": "Oncology",
+  "docstatus": 0,
+  "doctype": "Specialization",
+  "modified": "2024-06-12 18:08:16.049038",
+  "name": "Oncology"
+ },
+ {
+  "caregiver": "Neurology",
+  "docstatus": 0,
+  "doctype": "Specialization",
+  "modified": "2024-06-12 18:08:30.188493",
+  "name": "Neurology"
+ },
+ {
+  "caregiver": "Cardiology",
+  "docstatus": 0,
+  "doctype": "Specialization",
+  "modified": "2024-06-12 18:08:44.027666",
+  "name": "Cardiology"
+ },
+ {
+  "caregiver": "Orthopedic",
+  "docstatus": 0,
+  "doctype": "Specialization",
+  "modified": "2024-06-12 18:08:58.558654",
+  "name": "Orthopedic"
+ },
+ {
+  "caregiver": "Dementia",
+  "docstatus": 0,
+  "doctype": "Specialization",
+  "modified": "2024-06-12 18:09:21.365253",
+  "name": "Dementia"
+ },
+ {
+  "caregiver": "ICU",
+  "docstatus": 0,
+  "doctype": "Specialization",
+  "modified": "2024-06-12 18:09:38.266567",
+  "name": "ICU"
+ },
+ {
+  "caregiver": "ICCU",
+  "docstatus": 0,
+  "doctype": "Specialization",
+  "modified": "2024-06-12 18:09:46.675237",
+  "name": "ICCU"
+ }
+]

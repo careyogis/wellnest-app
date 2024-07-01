@@ -1,0 +1,32 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-12 16:58:35.123095",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "nursing_service_option"
+ ],
+ "fields": [
+  {
+   "fieldname": "nursing_service_option",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Nursing Service Option",
+   "options": "Nursing Service"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-06-12 18:09:22.434088",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Nursing Service Option",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

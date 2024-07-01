@@ -1,0 +1,149 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-13 13:13:29.326130",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_38iw",
+  "patient",
+  "applicant",
+  "caregiver",
+  "agency",
+  "service_start_date",
+  "service_end_date",
+  "service_type",
+  "service_hours",
+  "daily_reporting_time",
+  "notes_to_caregiver",
+  "paymentid",
+  "payment_due_date",
+  "payment_done",
+  "assigned_care_manager",
+  "created_by",
+  "created_on",
+  "updated_by",
+  "updated_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_38iw",
+   "fieldtype": "Data",
+   "label": "Originating Lead"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Data",
+   "label": "Patient"
+  },
+  {
+   "fieldname": "applicant",
+   "fieldtype": "Data",
+   "label": "Applicant"
+  },
+  {
+   "fieldname": "caregiver",
+   "fieldtype": "Data",
+   "label": "Caregiver"
+  },
+  {
+   "fieldname": "agency",
+   "fieldtype": "Data",
+   "label": "Agency"
+  },
+  {
+   "fieldname": "service_start_date",
+   "fieldtype": "Data",
+   "label": "Service Start Date"
+  },
+  {
+   "fieldname": "service_end_date",
+   "fieldtype": "Data",
+   "label": "Service End Date"
+  },
+  {
+   "fieldname": "service_type",
+   "fieldtype": "Data",
+   "label": "Service Type"
+  },
+  {
+   "fieldname": "service_hours",
+   "fieldtype": "Data",
+   "label": "Service Hours"
+  },
+  {
+   "fieldname": "daily_reporting_time",
+   "fieldtype": "Data",
+   "label": "Daily Reporting Time"
+  },
+  {
+   "fieldname": "notes_to_caregiver",
+   "fieldtype": "Data",
+   "label": "Notes to caregiver"
+  },
+  {
+   "fieldname": "paymentid",
+   "fieldtype": "Data",
+   "label": "Paymentid"
+  },
+  {
+   "fieldname": "payment_due_date",
+   "fieldtype": "Data",
+   "label": "Payment due date"
+  },
+  {
+   "fieldname": "payment_done",
+   "fieldtype": "Data",
+   "label": "Payment done"
+  },
+  {
+   "fieldname": "assigned_care_manager",
+   "fieldtype": "Data",
+   "label": "Assigned care manager"
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Data",
+   "label": "Created by"
+  },
+  {
+   "fieldname": "created_on",
+   "fieldtype": "Data",
+   "label": "Created on"
+  },
+  {
+   "fieldname": "updated_by",
+   "fieldtype": "Data",
+   "label": "Updated by"
+  },
+  {
+   "fieldname": "updated_on",
+   "fieldtype": "Data",
+   "label": "Updated on"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-13 13:21:00.119002",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Engagement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

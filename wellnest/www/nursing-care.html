@@ -1,0 +1,105 @@
+{% extends "templates/wellnest_web.html" %}
+
+<title>
+    {% block title %}CareYogi - Nursing Care{% endblock %}
+</title>    
+<body>
+{% block page_content %}
+<section class="service-details" style="padding-top: 35px !important">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="service-details__sidebar">
+          <div class="sidebar__single sidebar__category">
+            <h3 class="sidebar__title">Category</h3>
+            <!-- /.sidebar__title -->
+            <ul class="sidebar__cat-list">
+              <li class="active">
+                <a href="nursing-care">Nursing Care</a>
+              </li>
+              <li>
+                <a href="caregiver-attendant">Caregiver Attendant</a>
+              </li>
+              <li>
+                <a href="physiotherapy">Physiotherapy</a>
+              </li>
+            </ul>
+            <!-- /.sidebar__cat-list -->
+          </div>
+          <!-- /.sidebar__single -->
+        </div>
+        <!-- /.service-details__sidebar -->
+      </div>
+      <!-- /.col-lg-4 -->
+      <div class="col-lg-8">
+        <div class="service-details__main">
+          <div class="service-details__image">
+            <img src="assets/wellnest/images/newimg/nursing care service.jpg" alt="" />
+          </div>
+          <!-- /.service-details__image -->
+          <div class="service-details__content">
+            <h3>Nursing Care at CareYogi</h3>
+            <p>
+              Our nursing care services are designed to support a wide
+              range of medical needs right at your home:
+            </p>
+            
+            <ul>
+              <li>
+                Respiratory and Tracheostomy Care: Including ventilator
+                monitoring, nebulizer treatments, and oxygen therapy using
+                both concentrators and cylinders.
+              </li>
+              <li>
+                Personal Hygiene and Daily Living Support: We provide
+                sponging, proper bathing, bedpan assistance, and more with
+                elderly empathy.
+              </li>
+              <li>
+                Medical Management: Administering injections (IM, IV,
+                subcutaneous), medication dispensing, and managing
+                dressings and bedsores.
+              </li>
+              <li>
+                Nutritional Support: From Ryles tube feeding to
+                catheterization and bladder wash, we ensure your
+                nutritional and physiological needs meet the needs of
+                caring for elderly.
+              </li>
+            </ul>
+
+            <br />
+            <h4>Support Services</h4>
+            <br />
+            <p>
+              We take care of the little things so you can focus on
+              recovery and comfort:
+            </p>
+          
+            <ul>
+              <li>
+                Home Management: Taking care of patient laundry, trash
+                removal, and maintaining cleanliness and orderliness in
+                the patient's room.
+              </li>
+              <li>
+                Toileting Assistance: Supporting families with changing
+                diapers, assisting with bathroom needs, and managing
+                incontinence care.
+              </li>
+            </ul>
+          </div>
+          <!-- /.service-details__content -->
+        </div>
+        <!-- /.service-details__main -->
+      </div>
+      <!-- /.col-lg-8 -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+</section>
+<!-- /.service-details -->
+
+{% endblock %}
+</body>
