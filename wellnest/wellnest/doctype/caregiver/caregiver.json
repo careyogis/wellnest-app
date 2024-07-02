@@ -5,7 +5,6 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "caregiver_type",
   "personal_information_section_section",
   "full_name",
   "dob",
@@ -19,6 +18,16 @@
   "city",
   "state",
   "pincode",
+  "caregiver_details_tab",
+  "caregiver_type",
+  "section_break_cemg",
+  "column_break_wqyr",
+  "data_tene",
+  "availiabilityattendant",
+  "shift_preferenceattendant",
+  "attendant_care",
+  "any_other_experienceattendant",
+  "certificateattendant",
   "column_break_pwtu",
   "years_of_experiencenurse",
   "availiabilitynurse",
@@ -27,26 +36,22 @@
   "nursing_care",
   "any_other_experiencenurse",
   "certificate",
+  "background_verification_tab",
   "document_required_for_background_verification_section",
   "aadhar_number",
   "aadhar_photo",
   "pan_number",
   "pan_photo",
-  "vaccination_certificate",
-  "column_break_wqyr",
-  "data_tene",
-  "availiabilityattendant",
-  "shift_preferenceattendant",
-  "attendant_care",
-  "any_other_experienceattendant",
-  "certificateattendant"
+  "vaccination_certificate"
  ],
  "fields": [
   {
    "fieldname": "caregiver_type",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Caregiver type",
-   "options": "Nurse\nAttendant\nBoth"
+   "options": "Nurse\nAttendant\nBoth",
+   "reqd": 1
   },
   {
    "fieldname": "personal_information_section_section",
@@ -56,18 +61,22 @@
   {
    "fieldname": "full_name",
    "fieldtype": "Data",
-   "label": "Full name"
+   "in_list_view": 1,
+   "label": "Full name",
+   "reqd": 1
   },
   {
    "fieldname": "dob",
    "fieldtype": "Date",
-   "label": "DOB"
+   "label": "DOB",
+   "reqd": 1
   },
   {
    "fieldname": "gender",
    "fieldtype": "Select",
    "label": "Gender",
-   "options": "Male\nFemale\nOthers"
+   "options": "Male\nFemale\nOthers",
+   "reqd": 1
   },
   {
    "fieldname": "language_spoken",
@@ -88,7 +97,8 @@
   {
    "fieldname": "phone_number",
    "fieldtype": "Phone",
-   "label": "Phone number"
+   "label": "Phone number",
+   "reqd": 1
   },
   {
    "fieldname": "email",
@@ -98,22 +108,26 @@
   {
    "fieldname": "complete_address",
    "fieldtype": "Small Text",
-   "label": "Complete address"
+   "label": "Complete address",
+   "reqd": 1
   },
   {
    "fieldname": "city",
    "fieldtype": "Data",
-   "label": "City"
+   "label": "City",
+   "reqd": 1
   },
   {
    "fieldname": "state",
    "fieldtype": "Data",
-   "label": "State"
+   "label": "State",
+   "reqd": 1
   },
   {
    "fieldname": "pincode",
    "fieldtype": "Int",
-   "label": "Pincode"
+   "label": "Pincode",
+   "reqd": 1
   },
   {
    "fieldname": "document_required_for_background_verification_section",
@@ -146,91 +160,120 @@
    "label": "Vaccination certificate"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
    "fieldname": "column_break_pwtu",
    "fieldtype": "Column Break",
    "label": "Applicable for nurse"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
    "fieldname": "column_break_wqyr",
    "fieldtype": "Column Break",
    "label": "Applicable for attendant"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
    "fieldname": "years_of_experiencenurse",
    "fieldtype": "Int",
    "label": "Years of experience(nurse)"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
    "fieldname": "availiabilitynurse",
    "fieldtype": "Select",
    "label": "Availiability(nurse)",
    "options": "12\n24\nBoth"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
    "fieldname": "shift_preference",
    "fieldtype": "Select",
    "label": "Shift preference(nurse)",
    "options": "Day\nNight\nFlexible"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
    "fieldname": "specialization",
    "fieldtype": "Table",
    "label": "Specialization",
    "options": "Specialization Option"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
    "fieldname": "nursing_care",
    "fieldtype": "Table",
    "label": "Nursing care",
    "options": "Nursing Service Option"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
    "fieldname": "any_other_experiencenurse",
    "fieldtype": "Small Text",
    "label": "Any other experience(nurse)"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
    "fieldname": "certificate",
    "fieldtype": "Attach",
    "label": "Certificate(nurse)"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
    "fieldname": "data_tene",
    "fieldtype": "Int",
    "label": "Years of experience(attendant)"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
    "fieldname": "availiabilityattendant",
    "fieldtype": "Select",
    "label": "Availiability(attendant)",
    "options": "12\n24\nBoth"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
    "fieldname": "shift_preferenceattendant",
    "fieldtype": "Select",
    "label": "Shift Preference(attendant)",
    "options": "Day\nNight\nFlexible"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
    "fieldname": "attendant_care",
    "fieldtype": "Table",
    "label": "Attendant care",
    "options": "Attendant Service Option"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
    "fieldname": "any_other_experienceattendant",
    "fieldtype": "Small Text",
    "label": "Any other experience(attendant)"
   },
   {
+   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
    "fieldname": "certificateattendant",
    "fieldtype": "Attach",
    "label": "Certificate(attendant)"
+  },
+  {
+   "fieldname": "caregiver_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Caregiver Details"
+  },
+  {
+   "fieldname": "background_verification_tab",
+   "fieldtype": "Tab Break",
+   "label": "Background Verification"
+  },
+  {
+   "fieldname": "section_break_cemg",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-18 10:13:17.527949",
+ "modified": "2024-07-02 16:50:10.836587",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
