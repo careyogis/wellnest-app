@@ -49,7 +49,7 @@
   "column_break_nfwb",
   "aadhar_photo",
   "pan_photo",
-  "verification_certificate"
+  "police_verification_certificate"
  ],
  "fields": [
   {
@@ -134,7 +134,7 @@
    "fieldname": "aadhar_number",
    "fieldtype": "Int",
    "label": "Aadhar number",
-   "length": 9
+   "length": 12
   },
   {
    "fieldname": "aadhar_photo",
@@ -261,11 +261,6 @@
    "label": "Any other experience"
   },
   {
-   "fieldname": "verification_certificate",
-   "fieldtype": "Attach Image",
-   "label": "Verification Certificate"
-  },
-  {
    "fieldname": "section_break_covu",
    "fieldtype": "Section Break"
   },
@@ -291,11 +286,16 @@
    "fieldname": "service_details_tab",
    "fieldtype": "Tab Break",
    "label": "Service Details"
+  },
+  {
+   "fieldname": "police_verification_certificate",
+   "fieldtype": "Attach",
+   "label": "Police Verification Certificate"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-05 07:11:38.860279",
+ "modified": "2024-07-05 14:26:18.076206",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
