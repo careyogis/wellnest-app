@@ -38,17 +38,24 @@
   {
    "fieldname": "section_break_mpfo",
    "fieldtype": "Data",
-   "label": "PatientId"
+   "in_list_view": 1,
+   "label": "PatientId",
+   "reqd": 1
   },
   {
    "fieldname": "applicantid",
    "fieldtype": "Data",
-   "label": "ApplicantId"
+   "in_list_view": 1,
+   "label": "ApplicantId",
+   "reqd": 1
   },
   {
    "fieldname": "source",
-   "fieldtype": "Data",
-   "label": "Source"
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Source",
+   "options": "\nHospital\nOnline\nSales",
+   "reqd": 1
   },
   {
    "fieldname": "sourceid",
@@ -186,7 +193,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-28 10:00:29.799749",
+ "modified": "2024-07-05 20:32:26.680284",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Lead",

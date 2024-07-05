@@ -42,7 +42,8 @@
   {
    "fieldname": "primary_phone",
    "fieldtype": "Phone",
-   "label": "Primary Phone"
+   "label": "Primary Phone",
+   "reqd": 1
   },
   {
    "fieldname": "secondary_contact_section",
@@ -57,22 +58,26 @@
   {
    "fieldname": "email",
    "fieldtype": "Data",
-   "label": "Email"
+   "label": "Email",
+   "reqd": 1
   },
   {
    "fieldname": "complete_address",
    "fieldtype": "Small Text",
-   "label": "Complete Address"
+   "label": "Complete Address",
+   "reqd": 1
   },
   {
    "fieldname": "city",
    "fieldtype": "Data",
-   "label": "City"
+   "label": "City",
+   "reqd": 1
   },
   {
    "fieldname": "state",
    "fieldtype": "Data",
-   "label": "State"
+   "label": "State",
+   "reqd": 1
   },
   {
    "fieldname": "services_provided_section",
@@ -133,7 +138,8 @@
   {
    "fieldname": "primary_contact_full_name",
    "fieldtype": "Data",
-   "label": "Full name"
+   "label": "Full name",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_pokp",
@@ -151,7 +157,8 @@
   {
    "fieldname": "pin_code",
    "fieldtype": "Int",
-   "label": "Pin code"
+   "label": "Pin code",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_bwdq",
@@ -174,7 +181,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-05 09:08:18.973085",
+ "modified": "2024-07-05 20:28:56.778793",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Agency",
