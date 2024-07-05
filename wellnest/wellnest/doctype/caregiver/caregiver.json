@@ -21,30 +21,26 @@
   "column_break_sxsz",
   "city",
   "state",
-  "pincode",
+  "pin_code",
   "section_break_vdmr",
   "language_spoken",
   "section_break_bhhj",
   "passport_size_photo",
   "column_break_okpg",
   "full_length_photo",
-  "caregiver_details_tab",
-  "section_break_cemg",
-  "column_break_wqyr",
-  "data_tene",
-  "availiabilityattendant",
-  "shift_preferenceattendant",
+  "service_details_tab",
+  "section_break_iwtq",
   "attendant_care",
-  "any_other_experienceattendant",
-  "certificateattendant",
-  "column_break_pwtu",
-  "years_of_experiencenurse",
-  "availiabilitynurse",
-  "shift_preference",
-  "specialization",
+  "section_break_ffpd",
   "nursing_care",
-  "any_other_experiencenurse",
+  "nursing_specialization",
+  "section_break_covu",
+  "shift_preference",
+  "years_of_experience",
   "certificate",
+  "column_break_yizw",
+  "availability",
+  "any_other_experience",
   "background_verification_tab",
   "document_required_for_background_verification_section",
   "aadhar_number",
@@ -52,7 +48,8 @@
   "vaccination_certificate",
   "column_break_nfwb",
   "aadhar_photo",
-  "pan_photo"
+  "pan_photo",
+  "verification_certificate"
  ],
  "fields": [
   {
@@ -91,7 +88,7 @@
   },
   {
    "fieldname": "passport_size_photo",
-   "fieldtype": "Attach",
+   "fieldtype": "Attach Image",
    "label": "Passport size photo"
   },
   {
@@ -129,12 +126,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "pincode",
-   "fieldtype": "Int",
-   "label": "Pincode",
-   "reqd": 1
-  },
-  {
    "fieldname": "document_required_for_background_verification_section",
    "fieldtype": "Section Break",
    "label": "Document required for background verification"
@@ -142,21 +133,23 @@
   {
    "fieldname": "aadhar_number",
    "fieldtype": "Int",
-   "label": "Aadhar number"
+   "label": "Aadhar number",
+   "length": 9
   },
   {
    "fieldname": "aadhar_photo",
-   "fieldtype": "Attach",
+   "fieldtype": "Attach Image",
    "label": "Aadhar Photo"
   },
   {
    "fieldname": "pan_number",
    "fieldtype": "Data",
-   "label": "Pan number"
+   "label": "Pan number",
+   "length": 10
   },
   {
    "fieldname": "pan_photo",
-   "fieldtype": "Attach",
+   "fieldtype": "Attach Image",
    "label": "Pan photo"
   },
   {
@@ -165,115 +158,27 @@
    "label": "Vaccination certificate"
   },
   {
-   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
-   "fieldname": "column_break_pwtu",
-   "fieldtype": "Column Break",
-   "label": "Applicable for nurse"
-  },
-  {
-   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
-   "fieldname": "column_break_wqyr",
-   "fieldtype": "Column Break",
-   "label": "Applicable for attendant"
-  },
-  {
-   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
-   "fieldname": "years_of_experiencenurse",
-   "fieldtype": "Int",
-   "label": "Years of experience(nurse)"
-  },
-  {
-   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
-   "fieldname": "availiabilitynurse",
-   "fieldtype": "Select",
-   "label": "Availiability(nurse)",
-   "options": "12\n24\nBoth"
-  },
-  {
-   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
    "fieldname": "shift_preference",
    "fieldtype": "Select",
-   "label": "Shift preference(nurse)",
+   "label": "Shift Preference",
    "options": "Day\nNight\nFlexible"
   },
   {
-   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
-   "fieldname": "specialization",
-   "fieldtype": "Table",
-   "label": "Specialization",
-   "options": "Specialization Option"
-  },
-  {
-   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
    "fieldname": "nursing_care",
    "fieldtype": "Table",
    "label": "Nursing care",
    "options": "Nursing Service Option"
   },
   {
-   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
-   "fieldname": "any_other_experiencenurse",
-   "fieldtype": "Small Text",
-   "label": "Any other experience(nurse)"
-  },
-  {
-   "depends_on": "eval: doc.caregiver_type === \"Nurse\";",
-   "fieldname": "certificate",
-   "fieldtype": "Attach",
-   "label": "Certificate(nurse)"
-  },
-  {
-   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
-   "fieldname": "data_tene",
-   "fieldtype": "Int",
-   "label": "Years of experience(attendant)"
-  },
-  {
-   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
-   "fieldname": "availiabilityattendant",
-   "fieldtype": "Select",
-   "label": "Availiability(attendant)",
-   "options": "12\n24\nBoth"
-  },
-  {
-   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
-   "fieldname": "shift_preferenceattendant",
-   "fieldtype": "Select",
-   "label": "Shift Preference(attendant)",
-   "options": "Day\nNight\nFlexible"
-  },
-  {
-   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
    "fieldname": "attendant_care",
    "fieldtype": "Table",
    "label": "Attendant care",
    "options": "Attendant Service Option"
   },
   {
-   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
-   "fieldname": "any_other_experienceattendant",
-   "fieldtype": "Small Text",
-   "label": "Any other experience(attendant)"
-  },
-  {
-   "depends_on": "eval: doc.caregiver_type === \"Attendant\";",
-   "fieldname": "certificateattendant",
-   "fieldtype": "Attach",
-   "label": "Certificate(attendant)"
-  },
-  {
-   "fieldname": "caregiver_details_tab",
-   "fieldtype": "Tab Break",
-   "label": "Service Details"
-  },
-  {
    "fieldname": "background_verification_tab",
    "fieldtype": "Tab Break",
    "label": "Background Verification"
-  },
-  {
-   "fieldname": "section_break_cemg",
-   "fieldtype": "Section Break"
   },
   {
    "fieldname": "personal_details_tab",
@@ -322,11 +227,75 @@
    "fieldname": "personal_information_section",
    "fieldtype": "Section Break",
    "label": "Personal Information"
+  },
+  {
+   "fieldname": "years_of_experience",
+   "fieldtype": "Int",
+   "label": "Years of experience"
+  },
+  {
+   "fieldname": "column_break_yizw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "availability",
+   "fieldtype": "Select",
+   "label": "Availability",
+   "options": "12\n24\nBoth"
+  },
+  {
+   "depends_on": "eval: doc.caregiver_type === \"Attendant\" || doc.caregiver_type === \"Both\";",
+   "fieldname": "section_break_iwtq",
+   "fieldtype": "Section Break",
+   "label": "Attendant"
+  },
+  {
+   "depends_on": "eval: doc.caregiver_type === \"Nurse\" || doc.caregiver_type === \"Both\";",
+   "fieldname": "section_break_ffpd",
+   "fieldtype": "Section Break",
+   "label": "Nurse"
+  },
+  {
+   "fieldname": "any_other_experience",
+   "fieldtype": "Small Text",
+   "label": "Any other experience"
+  },
+  {
+   "fieldname": "verification_certificate",
+   "fieldtype": "Attach Image",
+   "label": "Verification Certificate"
+  },
+  {
+   "fieldname": "section_break_covu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "certificate",
+   "fieldtype": "Attach",
+   "label": "Certificate"
+  },
+  {
+   "fieldname": "pin_code",
+   "fieldtype": "Int",
+   "label": "Pin code",
+   "length": 6,
+   "reqd": 1
+  },
+  {
+   "fieldname": "nursing_specialization",
+   "fieldtype": "Table",
+   "label": "Nursing Specialization",
+   "options": "Specialization Option"
+  },
+  {
+   "fieldname": "service_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Service Details"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-05 05:48:43.527118",
+ "modified": "2024-07-05 07:11:38.860279",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
