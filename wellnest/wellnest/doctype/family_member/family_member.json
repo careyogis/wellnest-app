@@ -89,7 +89,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-18 21:57:56.233024",
+ "modified": "2024-06-28 10:05:49.944134",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Family Member",
@@ -109,14 +109,33 @@
   },
   {
    "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
+   "read": 1,
+   "role": "Sales Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Nursing Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Customer Success"
+  },
+  {
+   "read": 1,
+   "role": "Agency - Caregiver Manager"
+  },
+  {
+   "read": 1,
+   "role": "Caregiver"
+  },
+  {
+   "create": 1,
    "read": 1,
    "report": 1,
    "role": "Beneficiary",
-   "share": 1,
    "write": 1
   }
  ],

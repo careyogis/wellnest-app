@@ -63,13 +63,15 @@
   },
   {
    "fieldname": "service_type",
-   "fieldtype": "Data",
-   "label": "Service Type"
+   "fieldtype": "Select",
+   "label": "Service Type",
+   "options": "\nAttendant\nNursing"
   },
   {
    "fieldname": "service_hours",
-   "fieldtype": "Data",
-   "label": "Service Hours"
+   "fieldtype": "Select",
+   "label": "Service Hours",
+   "options": "\n12\n24\nCustom"
   },
   {
    "fieldname": "daily_reporting_time",
@@ -93,8 +95,9 @@
   },
   {
    "fieldname": "payment_done",
-   "fieldtype": "Data",
-   "label": "Payment done"
+   "fieldtype": "Select",
+   "label": "Payment done",
+   "options": "\nYes\nNo"
   },
   {
    "fieldname": "assigned_care_manager",
@@ -124,7 +127,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-13 13:21:00.119002",
+ "modified": "2024-07-02 16:30:09.578525",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement",
@@ -140,6 +143,28 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Customer Success",
    "write": 1
   }
  ],

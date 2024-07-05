@@ -113,7 +113,7 @@
  "modified": "2024-06-18 21:56:27.117760",
  "modified_by": "Administrator",
  "module": "WellNest",
- "name": "Patient",
+ "name": "Beneficiary",
  "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [

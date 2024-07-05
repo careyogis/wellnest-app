@@ -55,13 +55,13 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "New\nQualified\nEngaged",
+   "options": "New\nQualified\nEngaged\nLost\nInvalid",
    "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-20 22:34:00.847389",
+ "modified": "2024-07-05 04:36:56.394626",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Enquiry",
