@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class PatientApplicantMap(Document):
+class Beneficiary(Document):
 	pass

@@ -5,21 +5,30 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "personal_information_section_section",
+  "personal_details_tab",
+  "caregiver_type",
+  "column_break_almc",
+  "agency",
+  "personal_information_section",
   "full_name",
-  "dob",
-  "gender",
-  "language_spoken",
-  "passport_size_photo",
-  "full_length_photo",
   "phone_number",
   "email",
+  "column_break_qepj",
+  "gender",
+  "dob",
+  "section_break_rwti",
   "complete_address",
+  "column_break_sxsz",
   "city",
   "state",
   "pincode",
+  "section_break_vdmr",
+  "language_spoken",
+  "section_break_bhhj",
+  "passport_size_photo",
+  "column_break_okpg",
+  "full_length_photo",
   "caregiver_details_tab",
-  "caregiver_type",
   "section_break_cemg",
   "column_break_wqyr",
   "data_tene",
@@ -39,10 +48,11 @@
   "background_verification_tab",
   "document_required_for_background_verification_section",
   "aadhar_number",
-  "aadhar_photo",
   "pan_number",
-  "pan_photo",
-  "vaccination_certificate"
+  "vaccination_certificate",
+  "column_break_nfwb",
+  "aadhar_photo",
+  "pan_photo"
  ],
  "fields": [
   {
@@ -52,11 +62,6 @@
    "label": "Caregiver type",
    "options": "Nurse\nAttendant\nBoth",
    "reqd": 1
-  },
-  {
-   "fieldname": "personal_information_section_section",
-   "fieldtype": "Section Break",
-   "label": "Personal Information Section"
   },
   {
    "fieldname": "full_name",
@@ -259,7 +264,7 @@
   {
    "fieldname": "caregiver_details_tab",
    "fieldtype": "Tab Break",
-   "label": "Caregiver Details"
+   "label": "Service Details"
   },
   {
    "fieldname": "background_verification_tab",
@@ -269,11 +274,59 @@
   {
    "fieldname": "section_break_cemg",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "personal_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Personal Details"
+  },
+  {
+   "fieldname": "column_break_almc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "agency",
+   "fieldtype": "Link",
+   "label": "Agency",
+   "options": "Agency"
+  },
+  {
+   "fieldname": "column_break_qepj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_rwti",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_sxsz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_vdmr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_bhhj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_okpg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_nfwb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "personal_information_section",
+   "fieldtype": "Section Break",
+   "label": "Personal Information"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-02 16:50:10.836587",
+ "modified": "2024-07-05 05:48:43.527118",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
