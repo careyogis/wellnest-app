@@ -23,23 +23,31 @@
   {
    "fieldname": "full_name",
    "fieldtype": "Data",
-   "label": "Full name"
+   "in_list_view": 1,
+   "label": "Full name",
+   "reqd": 1
   },
   {
    "fieldname": "gender",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Gender",
-   "options": "Male\nFemale\nOthers"
+   "options": "Male\nFemale\nOthers",
+   "reqd": 1
   },
   {
    "fieldname": "dob",
    "fieldtype": "Date",
-   "label": "DOB"
+   "in_list_view": 1,
+   "label": "DOB",
+   "reqd": 1
   },
   {
    "fieldname": "phone",
    "fieldtype": "Phone",
-   "label": "Phone"
+   "in_list_view": 1,
+   "label": "Phone",
+   "reqd": 1
   },
   {
    "fieldname": "alternate_phone",
@@ -89,7 +97,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-28 10:05:49.944134",
+ "modified": "2024-07-05 20:34:16.889897",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Family Member",

@@ -29,22 +29,30 @@
   {
    "fieldname": "section_break_38iw",
    "fieldtype": "Data",
-   "label": "Originating Lead"
+   "in_list_view": 1,
+   "label": "Originating Lead",
+   "reqd": 1
   },
   {
    "fieldname": "patient",
    "fieldtype": "Data",
-   "label": "Patient"
+   "in_list_view": 1,
+   "label": "Patient",
+   "reqd": 1
   },
   {
    "fieldname": "applicant",
    "fieldtype": "Data",
-   "label": "Applicant"
+   "in_list_view": 1,
+   "label": "Applicant",
+   "reqd": 1
   },
   {
    "fieldname": "caregiver",
    "fieldtype": "Data",
-   "label": "Caregiver"
+   "in_list_view": 1,
+   "label": "Caregiver",
+   "reqd": 1
   },
   {
    "fieldname": "agency",
@@ -107,12 +115,14 @@
   {
    "fieldname": "created_by",
    "fieldtype": "Data",
-   "label": "Created by"
+   "label": "Created by",
+   "reqd": 1
   },
   {
    "fieldname": "created_on",
    "fieldtype": "Data",
-   "label": "Created on"
+   "label": "Created on",
+   "reqd": 1
   },
   {
    "fieldname": "updated_by",
@@ -127,7 +137,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-02 16:30:09.578525",
+ "modified": "2024-07-05 21:19:48.750152",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement",

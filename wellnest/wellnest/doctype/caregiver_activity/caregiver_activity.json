@@ -36,7 +36,7 @@
   {
    "fieldname": "activityname",
    "fieldtype": "Data",
-   "label": "ActivityName"
+   "label": "Activity Name"
   },
   {
    "fieldname": "beneficiary",
@@ -137,7 +137,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-04 16:36:07.725295",
+ "modified": "2024-07-05 21:18:33.482645",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver Activity",
