@@ -5,42 +5,39 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_7dn4",
+  "agency_name",
+  "column_break_hcjq",
+  "approved",
   "primary_contact_section",
-  "full_name",
+  "primary_contact_full_name",
+  "column_break_pokp",
   "primary_phone",
   "secondary_contact_section",
-  "fullname",
+  "secondary_contact_full_name",
+  "column_break_socz",
   "secondary_phone",
+  "address_section",
   "email",
   "complete_address",
+  "column_break_tclq",
   "city",
   "state",
-  "pincode",
+  "pin_code",
   "services_provided_section",
   "attendant_services",
   "nursing_service",
   "specialization",
   "years_in_service",
+  "section_break_bwdq",
   "required_documents",
-  "logoprofile_pic",
-  "approved"
+  "column_break_inab",
+  "logoprofile_pic"
  ],
  "fields": [
-  {
-   "fieldname": "section_break_7dn4",
-   "fieldtype": "Data",
-   "label": "Name"
-  },
   {
    "fieldname": "primary_contact_section",
    "fieldtype": "Section Break",
    "label": "Primary contact"
-  },
-  {
-   "fieldname": "full_name",
-   "fieldtype": "Data",
-   "label": "Full name"
   },
   {
    "fieldname": "primary_phone",
@@ -51,11 +48,6 @@
    "fieldname": "secondary_contact_section",
    "fieldtype": "Section Break",
    "label": "Secondary contact"
-  },
-  {
-   "fieldname": "fullname",
-   "fieldtype": "Data",
-   "label": "Fullname"
   },
   {
    "fieldname": "secondary_phone",
@@ -81,11 +73,6 @@
    "fieldname": "state",
    "fieldtype": "Data",
    "label": "State"
-  },
-  {
-   "fieldname": "pincode",
-   "fieldtype": "Int",
-   "label": "Pincode"
   },
   {
    "fieldname": "services_provided_section",
@@ -126,15 +113,68 @@
    "label": "Logo/Profile pic"
   },
   {
+   "default": "Pending",
    "fieldname": "approved",
    "fieldtype": "Select",
    "label": "Approved",
-   "options": "Yes\nNo"
+   "options": "Pending\nYes\nNo"
+  },
+  {
+   "fieldname": "agency_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_hcjq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "primary_contact_full_name",
+   "fieldtype": "Data",
+   "label": "Full name"
+  },
+  {
+   "fieldname": "column_break_pokp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "secondary_contact_full_name",
+   "fieldtype": "Data",
+   "label": "Full name"
+  },
+  {
+   "fieldname": "column_break_socz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pin_code",
+   "fieldtype": "Int",
+   "label": "Pin code"
+  },
+  {
+   "fieldname": "section_break_bwdq",
+   "fieldtype": "Section Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "column_break_inab",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "address_section",
+   "fieldtype": "Section Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "column_break_tclq",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-18 10:14:38.580209",
+ "modified": "2024-07-05 09:08:18.973085",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Agency",
@@ -165,7 +205,9 @@
    "role": "Customer Success"
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "agency_name"
 }
