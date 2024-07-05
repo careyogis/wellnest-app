@@ -1,0 +1,173 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-02 16:45:42.463865",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "id",
+  "activityname",
+  "beneficiary",
+  "caregiver",
+  "nursing_manager",
+  "engagement",
+  "activity_type_id",
+  "activity_name",
+  "activity_date",
+  "activity_prescribed_time",
+  "activitynotes",
+  "activity_data",
+  "activity_data_unit",
+  "activity_proof",
+  "activity_notes",
+  "activity_completion_time",
+  "activity_completed",
+  "created_on",
+  "created_by",
+  "modified_on",
+  "modified_by1"
+ ],
+ "fields": [
+  {
+   "fieldname": "id",
+   "fieldtype": "Data",
+   "label": "Id"
+  },
+  {
+   "fieldname": "activityname",
+   "fieldtype": "Data",
+   "label": "ActivityName"
+  },
+  {
+   "fieldname": "beneficiary",
+   "fieldtype": "Data",
+   "label": "Beneficiary"
+  },
+  {
+   "fieldname": "caregiver",
+   "fieldtype": "Data",
+   "label": "Caregiver"
+  },
+  {
+   "fieldname": "nursing_manager",
+   "fieldtype": "Data",
+   "label": "Nursing Manager"
+  },
+  {
+   "fieldname": "engagement",
+   "fieldtype": "Data",
+   "label": "Engagement"
+  },
+  {
+   "fieldname": "activity_type_id",
+   "fieldtype": "Data",
+   "label": "Activity Type Id"
+  },
+  {
+   "fieldname": "activity_name",
+   "fieldtype": "Data",
+   "label": "Activity Name"
+  },
+  {
+   "fieldname": "activity_date",
+   "fieldtype": "Data",
+   "label": "Activity Date"
+  },
+  {
+   "fieldname": "activity_prescribed_time",
+   "fieldtype": "Data",
+   "label": "Activity Prescribed Time"
+  },
+  {
+   "fieldname": "activitynotes",
+   "fieldtype": "Data",
+   "label": "ActivityNotes"
+  },
+  {
+   "fieldname": "activity_data",
+   "fieldtype": "Data",
+   "label": "Activity Data"
+  },
+  {
+   "fieldname": "activity_data_unit",
+   "fieldtype": "Data",
+   "label": "Activity Data Unit"
+  },
+  {
+   "fieldname": "activity_proof",
+   "fieldtype": "Attach Image",
+   "label": "Activity Proof"
+  },
+  {
+   "fieldname": "activity_notes",
+   "fieldtype": "Data",
+   "label": "Activity Notes"
+  },
+  {
+   "fieldname": "activity_completion_time",
+   "fieldtype": "Data",
+   "label": "Activity Completion Time"
+  },
+  {
+   "fieldname": "activity_completed",
+   "fieldtype": "Select",
+   "label": "Activity Completed",
+   "options": "\nTrue\nFalse"
+  },
+  {
+   "fieldname": "created_on",
+   "fieldtype": "Data",
+   "label": "Created On"
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Data",
+   "label": "Created by"
+  },
+  {
+   "fieldname": "modified_on",
+   "fieldtype": "Data",
+   "label": "Modified on"
+  },
+  {
+   "fieldname": "modified_by1",
+   "fieldtype": "Data",
+   "label": "Modified by"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-04 16:36:07.725295",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Caregiver Activity",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "report": 1,
+   "role": "Agency - Caregiver Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Caregiver"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

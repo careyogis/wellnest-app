@@ -186,7 +186,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-14 10:06:58.183590",
+ "modified": "2024-06-28 10:00:29.799749",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Lead",
@@ -202,6 +202,21 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing Manager",
    "write": 1
   }
  ],
