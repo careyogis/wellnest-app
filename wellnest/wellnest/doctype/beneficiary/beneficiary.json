@@ -1,26 +1,28 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:Pa-{####}",
+ "autoname": "format:Ben-{####}",
  "creation": "2024-06-12 16:57:54.313301",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "section_break_tmax",
   "full_name",
-  "gender",
-  "date_of_birth",
-  "height",
+  "age",
   "weight",
-  "phone_number",
   "alternative_phone_number",
-  "whatsapp_number",
   "email",
-  "photo",
   "complete_address",
+  "column_break_syad",
+  "gender",
+  "height",
+  "phone_number",
+  "whatsapp_number",
+  "photo",
   "city",
   "state",
   "pincode",
+  "section_break_jxgj",
   "languages_spoken"
  ],
  "fields": [
@@ -32,40 +34,30 @@
    "fieldname": "full_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Full Name",
-   "reqd": 1
+   "label": "Full Name"
   },
   {
    "fieldname": "gender",
    "fieldtype": "Select",
-   "in_list_view": 1,
    "label": "Gender",
-   "options": "Male\nFemale\nOther",
-   "reqd": 1
-  },
-  {
-   "fieldname": "date_of_birth",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "DOB",
-   "reqd": 1
+   "options": "Male\nFemale\nOther"
   },
   {
    "fieldname": "height",
-   "fieldtype": "Date",
+   "fieldtype": "Data",
    "label": "Height"
   },
   {
    "fieldname": "weight",
-   "fieldtype": "Data",
-   "label": "Weight"
+   "fieldtype": "Int",
+   "label": "Weight",
+   "length": 3
   },
   {
    "fieldname": "phone_number",
    "fieldtype": "Phone",
    "in_list_view": 1,
-   "label": "Phone Number",
-   "reqd": 1
+   "label": "Phone Number"
   },
   {
    "fieldname": "alternative_phone_number",
@@ -95,30 +87,51 @@
   },
   {
    "fieldname": "city",
-   "fieldtype": "Data",
-   "label": "City"
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "City",
+   "options": "City"
   },
   {
+   "fetch_from": "city.state",
    "fieldname": "state",
-   "fieldtype": "Data",
-   "label": "State"
+   "fieldtype": "Link",
+   "label": "State",
+   "options": "State"
   },
   {
    "fieldname": "pincode",
    "fieldtype": "Int",
-   "label": "Pincode"
+   "label": "Pincode",
+   "length": 6
   },
   {
    "fieldname": "languages_spoken",
    "fieldtype": "Table",
    "label": "Languages Spoken",
    "options": "Spoken Language Option"
+  },
+  {
+   "fieldname": "age",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Age",
+   "length": 3
+  },
+  {
+   "fieldname": "column_break_syad",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_jxgj",
+   "fieldtype": "Section Break"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-05 22:16:39.825777",
+ "modified": "2024-07-08 00:59:10.969419",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Beneficiary",

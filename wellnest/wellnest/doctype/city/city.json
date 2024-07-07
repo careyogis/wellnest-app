@@ -1,0 +1,58 @@
+{
+ "actions": [],
+ "autoname": "format:{city_name}, {state}",
+ "creation": "2024-07-06 00:22:28.360037",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "city_name",
+  "column_break_kjte",
+  "state"
+ ],
+ "fields": [
+  {
+   "fieldname": "city_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "City Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_kjte",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "State",
+   "options": "State"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-08 01:03:19.966237",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "City",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "city_name"
+}

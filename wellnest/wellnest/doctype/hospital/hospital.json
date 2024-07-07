@@ -1,0 +1,188 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:Hosp-{####}",
+ "creation": "2024-07-08 01:11:00.479352",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "hospital_name",
+  "column_break_aebp",
+  "approved",
+  "contact_section",
+  "primary_contact_name",
+  "secondary_contact_name",
+  "email",
+  "column_break_xoih",
+  "primary_phone",
+  "secondary_phone",
+  "section_break_kgll",
+  "complete_address",
+  "column_break_rqlu",
+  "city",
+  "state",
+  "pin_code",
+  "contract_section",
+  "signed_contract",
+  "column_break_dnej",
+  "contract_signing_date",
+  "section_break_vigk",
+  "notes",
+  "column_break_lzut",
+  "logo_or_profile_picture"
+ ],
+ "fields": [
+  {
+   "fieldname": "hospital_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Hospital Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_aebp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "approved",
+   "fieldtype": "Check",
+   "label": "Approved?"
+  },
+  {
+   "fieldname": "contact_section",
+   "fieldtype": "Section Break",
+   "label": "Contact"
+  },
+  {
+   "fieldname": "primary_contact_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Primary Contact Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "secondary_contact_name",
+   "fieldtype": "Data",
+   "label": "Secondary Contact Name"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Email"
+  },
+  {
+   "fieldname": "column_break_xoih",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "primary_phone",
+   "fieldtype": "Phone",
+   "in_list_view": 1,
+   "label": "Primary Phone",
+   "reqd": 1
+  },
+  {
+   "fieldname": "secondary_phone",
+   "fieldtype": "Phone",
+   "label": "Secondary Phone"
+  },
+  {
+   "fieldname": "section_break_kgll",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "complete_address",
+   "fieldtype": "Small Text",
+   "label": "Complete Address"
+  },
+  {
+   "fieldname": "column_break_rqlu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "City",
+   "options": "City"
+  },
+  {
+   "fetch_from": "city.state",
+   "fieldname": "state",
+   "fieldtype": "Link",
+   "label": "State",
+   "options": "State"
+  },
+  {
+   "fieldname": "pin_code",
+   "fieldtype": "Int",
+   "label": "Pin Code",
+   "length": 6
+  },
+  {
+   "fieldname": "contract_section",
+   "fieldtype": "Section Break",
+   "label": "Contract"
+  },
+  {
+   "fieldname": "signed_contract",
+   "fieldtype": "Attach",
+   "label": "Signed Contract"
+  },
+  {
+   "fieldname": "column_break_dnej",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contract_signing_date",
+   "fieldtype": "Date",
+   "label": "Contract Signing Date"
+  },
+  {
+   "fieldname": "section_break_vigk",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Data",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "column_break_lzut",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "logo_or_profile_picture",
+   "fieldtype": "Attach Image",
+   "label": "Logo/Profile Picture"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-08 01:34:26.272001",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Hospital",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

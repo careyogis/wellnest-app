@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:Caregiver-{####}",
  "creation": "2024-06-12 16:58:23.076217",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -115,14 +116,17 @@
   },
   {
    "fieldname": "city",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "City",
+   "options": "City",
    "reqd": 1
   },
   {
+   "fetch_from": "city.state",
    "fieldname": "state",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "State",
+   "options": "State",
    "reqd": 1
   },
   {
@@ -295,10 +299,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-05 14:26:18.076206",
+ "modified": "2024-07-07 23:58:01.773044",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

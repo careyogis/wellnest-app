@@ -5,60 +5,43 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_dv0i",
-  "column_break_apun",
-  "applicant_id",
-  "section_break_iuma",
+  "beneficiary",
   "payment_mode",
   "transaction_id",
-  "transaction_receipt",
-  "column_break_fuhx",
+  "amount",
+  "payment_datetime",
+  "refund",
+  "refund_reason",
+  "column_break_vyez",
+  "applicant",
   "payment_link",
   "transaction_status",
-  "section_break_wxup",
-  "amount",
-  "card_number",
-  "column_break_xlce",
-  "payment_datetime",
-  "card_expiry",
-  "section_break_sxuz",
-  "bank_branch",
-  "refund",
+  "transaction_receipt",
+  "purpose",
   "refund_amount",
-  "column_break_gcdt",
+  "bank_information_section",
+  "bank_branch",
+  "column_break_rvbo",
   "bank_ifsc",
-  "refund_reason",
-  "section_break_jvmt",
-  "created_on",
-  "modified_on",
-  "column_break_xubm",
-  "created_by",
-  "modified_by1"
+  "card_information_section",
+  "card_number",
+  "column_break_yrpo",
+  "card_expiry"
  ],
  "fields": [
   {
-   "fieldname": "section_break_dv0i",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Patient Id",
-   "reqd": 1
-  },
-  {
-   "fieldname": "applicant_id",
-   "fieldtype": "Data",
-   "label": "Applicant Id",
-   "reqd": 1
-  },
-  {
+   "default": "UPI",
    "fieldname": "payment_mode",
    "fieldtype": "Select",
-   "label": "Payment Mode",
-   "options": "\nCredit Card\nDebit Card\nUPI\nNet banking"
+   "in_list_view": 1,
+   "label": "Payment mode",
+   "options": "UPI\nCredit Card\nDebit Card\nBank Transfer",
+   "reqd": 1
   },
   {
    "fieldname": "payment_link",
    "fieldtype": "Data",
-   "label": "Payment Link"
+   "label": "Payment link"
   },
   {
    "fieldname": "transaction_id",
@@ -66,28 +49,34 @@
    "label": "Transaction Id"
   },
   {
+   "default": "Pending",
    "fieldname": "transaction_status",
-   "fieldtype": "Data",
-   "label": "Transaction status"
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Transaction status",
+   "options": "Pending\nSuccess\nFailed"
   },
   {
    "fieldname": "transaction_receipt",
-   "fieldtype": "Data",
+   "fieldtype": "Attach",
    "label": "Transaction receipt"
   },
   {
    "fieldname": "amount",
-   "fieldtype": "Data",
-   "label": "Amount"
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "non_negative": 1,
+   "reqd": 1
   },
   {
    "fieldname": "payment_datetime",
-   "fieldtype": "Datetime",
-   "label": "Payment datetime"
+   "fieldtype": "Date",
+   "label": "Payment date"
   },
   {
    "fieldname": "card_number",
-   "fieldtype": "Data",
+   "fieldtype": "Int",
    "label": "Card number"
   },
   {
@@ -102,87 +91,74 @@
   },
   {
    "fieldname": "bank_ifsc",
-   "fieldtype": "Data",
+   "fieldtype": "Int",
    "label": "Bank IFSC"
   },
   {
    "fieldname": "refund",
    "fieldtype": "Select",
    "label": "Refund?",
-   "options": "\nYes\nNo"
+   "options": "Yes\nNo"
   },
   {
    "fieldname": "refund_reason",
-   "fieldtype": "Small Text",
-   "label": "Refund Reason"
+   "fieldtype": "Data",
+   "label": "Refund reason"
   },
   {
    "fieldname": "refund_amount",
    "fieldtype": "Int",
-   "label": "Refund Amount"
+   "label": "Refund amount"
   },
   {
-   "fieldname": "created_on",
-   "fieldtype": "Data",
-   "label": "Created on ",
+   "fieldname": "beneficiary",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Beneficiary",
+   "options": "Beneficiary",
    "reqd": 1
   },
   {
-   "fieldname": "created_by",
+   "fieldname": "column_break_vyez",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "applicant",
+   "fieldtype": "Link",
+   "label": "Applicant",
+   "options": "Family Member"
+  },
+  {
+   "fieldname": "purpose",
    "fieldtype": "Data",
-   "label": "Created by ",
-   "reqd": 1
+   "label": "Purpose"
   },
   {
-   "fieldname": "modified_on",
-   "fieldtype": "Data",
-   "label": "Modified on"
+   "depends_on": "eval: doc.payment_mode === \"Bank Transfer\";",
+   "fieldname": "bank_information_section",
+   "fieldtype": "Section Break",
+   "label": "Bank Information",
+   "mandatory_depends_on": "eval: doc.payment_mode === \"Bank Transfer\";"
   },
   {
-   "fieldname": "modified_by1",
-   "fieldtype": "Data",
-   "label": "Modified by"
-  },
-  {
-   "fieldname": "column_break_apun",
+   "fieldname": "column_break_rvbo",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "section_break_iuma",
-   "fieldtype": "Section Break"
+   "depends_on": "eval: doc.payment_mode === \"Credit Card\" || doc.payment_mode === \"Debit Card\";",
+   "fieldname": "card_information_section",
+   "fieldtype": "Section Break",
+   "label": "Card Information",
+   "mandatory_depends_on": "eval: doc.payment_mode === \"Credit Card\" || doc.payment_mode === \"Debit Card\";"
   },
   {
-   "fieldname": "column_break_fuhx",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "section_break_wxup",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_xlce",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "section_break_sxuz",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_gcdt",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "section_break_jvmt",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_xubm",
+   "fieldname": "column_break_yrpo",
    "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-05 22:05:20.223044",
+ "modified": "2024-07-08 01:08:04.129212",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Payment",

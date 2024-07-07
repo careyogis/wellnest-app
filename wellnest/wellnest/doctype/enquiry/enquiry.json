@@ -8,15 +8,18 @@
  "field_order": [
   "status",
   "full_name",
-  "email",
   "phone_no",
-  "enquiry_details",
-  "type"
+  "column_break_ihkd",
+  "type",
+  "email",
+  "section_break_yjaw",
+  "enquiry_details"
  ],
  "fields": [
   {
    "fieldname": "full_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Full Name",
    "reqd": 1
   },
@@ -54,14 +57,24 @@
    "default": "New",
    "fieldname": "status",
    "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Status",
    "options": "New\nQualified\nEngaged\nLost\nInvalid",
    "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ihkd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_yjaw",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-05 04:36:56.394626",
+ "modified": "2024-07-08 00:51:40.304188",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Enquiry",

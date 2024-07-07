@@ -29,6 +29,8 @@
   {
    "fieldname": "beneficiary",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Beneficiary",
    "options": "Beneficiary"
   },
@@ -39,13 +41,15 @@
   {
    "fieldname": "applicant",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Applicant",
    "options": "Family Member"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-05 06:02:06.094506",
+ "modified": "2024-07-08 01:01:15.210642",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Beneficiary Applicant Map",

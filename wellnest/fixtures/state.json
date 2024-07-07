@@ -1,0 +1,261 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.511872",
+  "name": "Sikkim",
+  "state_name": "Sikkim"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.596237",
+  "name": "Union Territory",
+  "state_name": "Union Territory"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.685589",
+  "name": "Ladakh",
+  "state_name": "Ladakh"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.698587",
+  "name": "Lakshadweep",
+  "state_name": "Lakshadweep"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.614070",
+  "name": "Andaman and Nicobar Islands",
+  "state_name": "Andaman and Nicobar Islands"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.631471",
+  "name": "Chandigarh",
+  "state_name": "Chandigarh"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.645443",
+  "name": "Dadra and Nagar Haveli and Daman and Diu",
+  "state_name": "Dadra and Nagar Haveli and Daman and Diu"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.225989",
+  "name": "Arunachal Pradesh",
+  "state_name": "Arunachal Pradesh"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.663213",
+  "name": "Delhi (National Capital Territory)",
+  "state_name": "Delhi (National Capital Territory)"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.399659",
+  "name": "Meghalaya",
+  "state_name": "Meghalaya"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.412688",
+  "name": "Mizoram",
+  "state_name": "Mizoram"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.275367",
+  "name": "Goa",
+  "state_name": "Goa"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.391403",
+  "name": "Manipur",
+  "state_name": "Manipur"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.713534",
+  "name": "Puducherry",
+  "state_name": "Puducherry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.431570",
+  "name": "Nagaland",
+  "state_name": "Nagaland"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.539089",
+  "name": "Tripura",
+  "state_name": "Tripura"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.314741",
+  "name": "Himachal Pradesh",
+  "state_name": "Himachal Pradesh"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.678192",
+  "name": "Jammu and Kashmir",
+  "state_name": "Jammu and Kashmir"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.556172",
+  "name": "Uttarakhand",
+  "state_name": "Uttarakhand"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.262108",
+  "name": "Chhattisgarh",
+  "state_name": "Chhattisgarh"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.232554",
+  "name": "Assam",
+  "state_name": "Assam"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.329017",
+  "name": "Jharkhand",
+  "state_name": "Jharkhand"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.452086",
+  "name": "Odisha",
+  "state_name": "Odisha"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.300712",
+  "name": "Haryana",
+  "state_name": "Haryana"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.531554",
+  "name": "Telangana",
+  "state_name": "Telangana"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 21:25:32.135465",
+  "name": "West Bengal",
+  "state_name": "West Bengal"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.347996",
+  "name": "Kerala",
+  "state_name": "Kerala"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.464951",
+  "name": "Punjab",
+  "state_name": "Punjab"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.251196",
+  "name": "Bihar",
+  "state_name": "Bihar"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.284928",
+  "name": "Gujarat",
+  "state_name": "Gujarat"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.479286",
+  "name": "Rajasthan",
+  "state_name": "Rajasthan"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.337909",
+  "name": "Karnataka",
+  "state_name": "Karnataka"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.362371",
+  "name": "Madhya Pradesh",
+  "state_name": "Madhya Pradesh"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.196514",
+  "name": "Andhra Pradesh",
+  "state_name": "Andhra Pradesh"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.519434",
+  "name": "Tamil Nadu",
+  "state_name": "Tamil Nadu"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.577717",
+  "name": "Uttar Pradesh",
+  "state_name": "Uttar Pradesh"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "State",
+  "modified": "2024-07-07 02:07:11.381564",
+  "name": "Maharashtra",
+  "state_name": "Maharashtra"
+ }
+]

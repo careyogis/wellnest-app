@@ -1,1 +1,22 @@
-[]
+[
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service Option",
+  "modified": "2024-07-05 09:02:09.131648",
+  "name": "k71rm2b9oe",
+  "nursing_service_option": "Bedsores Management",
+  "parent": "k71ra714uv",
+  "parentfield": "nursing_service",
+  "parenttype": "Agency"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Nursing Service Option",
+  "modified": "2024-07-05 09:02:09.131648",
+  "name": "k71renreqb",
+  "nursing_service_option": "Administering Injection",
+  "parent": "k71ra714uv",
+  "parentfield": "nursing_service",
+  "parenttype": "Agency"
+ }
+]

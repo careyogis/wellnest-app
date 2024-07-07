@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:Agency-{####}",
  "creation": "2024-06-12 16:56:27.256233",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -42,6 +43,7 @@
   {
    "fieldname": "primary_phone",
    "fieldtype": "Phone",
+   "in_list_view": 1,
    "label": "Primary Phone",
    "reqd": 1
   },
@@ -58,26 +60,25 @@
   {
    "fieldname": "email",
    "fieldtype": "Data",
-   "label": "Email",
-   "reqd": 1
+   "label": "Email"
   },
   {
    "fieldname": "complete_address",
    "fieldtype": "Small Text",
-   "label": "Complete Address",
-   "reqd": 1
+   "label": "Complete Address"
   },
   {
    "fieldname": "city",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "City",
-   "reqd": 1
+   "options": "City"
   },
   {
+   "fetch_from": "city.state",
    "fieldname": "state",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "State",
-   "reqd": 1
+   "options": "State"
   },
   {
    "fieldname": "services_provided_section",
@@ -121,8 +122,10 @@
    "default": "Pending",
    "fieldname": "approved",
    "fieldtype": "Select",
+   "in_standard_filter": 1,
    "label": "Approved",
-   "options": "Pending\nYes\nNo"
+   "options": "Pending\nYes\nNo",
+   "reqd": 1
   },
   {
    "fieldname": "agency_name",
@@ -138,6 +141,7 @@
   {
    "fieldname": "primary_contact_full_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Full name",
    "reqd": 1
   },
@@ -158,7 +162,7 @@
    "fieldname": "pin_code",
    "fieldtype": "Int",
    "label": "Pin code",
-   "reqd": 1
+   "length": 6
   },
   {
    "fieldname": "section_break_bwdq",
@@ -181,10 +185,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-05 20:28:56.778793",
+ "modified": "2024-07-08 00:48:24.046036",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Agency",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
