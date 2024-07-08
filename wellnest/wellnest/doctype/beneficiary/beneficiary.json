@@ -131,7 +131,7 @@
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 00:59:10.969419",
+ "modified": "2024-07-08 10:42:03.556719",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Beneficiary",
@@ -163,7 +163,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "full_name"
 }

@@ -20,9 +20,10 @@
   "purpose",
   "refund_amount",
   "bank_information_section",
-  "bank_branch",
-  "column_break_rvbo",
+  "account_number",
   "bank_ifsc",
+  "column_break_rvbo",
+  "bank_branch",
   "card_information_section",
   "card_number",
   "column_break_yrpo",
@@ -30,12 +31,11 @@
  ],
  "fields": [
   {
-   "default": "UPI",
    "fieldname": "payment_mode",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Payment mode",
-   "options": "UPI\nCredit Card\nDebit Card\nBank Transfer",
+   "options": "\nUPI\nCredit Card\nDebit Card\nBank Transfer",
    "reqd": 1
   },
   {
@@ -77,28 +77,33 @@
   {
    "fieldname": "card_number",
    "fieldtype": "Int",
-   "label": "Card number"
+   "label": "Card number",
+   "mandatory_depends_on": "eval: doc.payment_mode === \"Credit Card\" || doc.payment_mode === \"Debit Card\";"
   },
   {
    "fieldname": "card_expiry",
    "fieldtype": "Data",
-   "label": "Card expiry"
+   "label": "Card expiry",
+   "mandatory_depends_on": "eval: doc.payment_mode === \"Credit Card\" || doc.payment_mode === \"Debit Card\";"
   },
   {
    "fieldname": "bank_branch",
    "fieldtype": "Data",
-   "label": "Bank branch"
+   "label": "Bank branch",
+   "mandatory_depends_on": "eval: doc.payment_mode === \"Bank Transfer\";"
   },
   {
    "fieldname": "bank_ifsc",
-   "fieldtype": "Int",
-   "label": "Bank IFSC"
+   "fieldtype": "Data",
+   "label": "Bank IFSC",
+   "length": 11,
+   "mandatory_depends_on": "eval: doc.payment_mode === \"Bank Transfer\";"
   },
   {
    "fieldname": "refund",
    "fieldtype": "Select",
    "label": "Refund?",
-   "options": "Yes\nNo"
+   "options": "\nNo\nYes"
   },
   {
    "fieldname": "refund_reason",
@@ -137,8 +142,7 @@
    "depends_on": "eval: doc.payment_mode === \"Bank Transfer\";",
    "fieldname": "bank_information_section",
    "fieldtype": "Section Break",
-   "label": "Bank Information",
-   "mandatory_depends_on": "eval: doc.payment_mode === \"Bank Transfer\";"
+   "label": "Bank Information"
   },
   {
    "fieldname": "column_break_rvbo",
@@ -148,17 +152,22 @@
    "depends_on": "eval: doc.payment_mode === \"Credit Card\" || doc.payment_mode === \"Debit Card\";",
    "fieldname": "card_information_section",
    "fieldtype": "Section Break",
-   "label": "Card Information",
-   "mandatory_depends_on": "eval: doc.payment_mode === \"Credit Card\" || doc.payment_mode === \"Debit Card\";"
+   "label": "Card Information"
   },
   {
    "fieldname": "column_break_yrpo",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "account_number",
+   "fieldtype": "Data",
+   "label": "Account Number",
+   "length": 15
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 01:08:04.129212",
+ "modified": "2024-07-08 10:54:46.140524",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Payment",
