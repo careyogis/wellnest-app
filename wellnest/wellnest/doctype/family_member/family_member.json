@@ -1,23 +1,27 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:Family Member-{####}",
  "creation": "2024-06-12 17:03:32.115554",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "personal_details_section",
   "full_name",
-  "gender",
   "dob",
   "phone",
+  "email",
+  "country",
+  "state",
+  "column_break_lbzb",
+  "gender",
   "alternate_phone",
   "whatsapp_number",
-  "email",
-  "photo",
-  "complete_address",
-  "country",
   "city",
-  "state",
-  "pincode"
+  "pincode",
+  "complete_address",
+  "attachment_section",
+  "photo"
  ],
  "fields": [
   {
@@ -76,31 +80,49 @@
   },
   {
    "fieldname": "country",
-   "fieldtype": "Data",
-   "label": "Country"
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
   },
   {
    "fieldname": "city",
-   "fieldtype": "Data",
-   "label": "City"
+   "fieldtype": "Link",
+   "label": "City",
+   "options": "City"
   },
   {
    "fieldname": "state",
-   "fieldtype": "Data",
-   "label": "State"
+   "fieldtype": "Link",
+   "label": "State",
+   "options": "State"
   },
   {
    "fieldname": "pincode",
    "fieldtype": "Int",
    "label": "Pincode"
+  },
+  {
+   "fieldname": "personal_details_section",
+   "fieldtype": "Section Break",
+   "label": "Personal Details"
+  },
+  {
+   "fieldname": "column_break_lbzb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attachment_section",
+   "fieldtype": "Section Break",
+   "label": "Attachment"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-05 20:34:16.889897",
+ "modified": "2024-07-08 18:43:15.262266",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Family Member",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

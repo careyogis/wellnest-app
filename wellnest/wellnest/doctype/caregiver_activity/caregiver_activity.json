@@ -1,52 +1,39 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:Caregiver Activity-{####}",
  "creation": "2024-07-02 16:45:42.463865",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "id",
-  "activityname",
   "beneficiary",
-  "caregiver",
   "nursing_manager",
-  "engagement",
   "activity_type_id",
-  "activity_name",
   "activity_date",
-  "activity_prescribed_time",
-  "activitynotes",
   "activity_data",
-  "activity_data_unit",
   "activity_proof",
-  "activity_notes",
   "activity_completion_time",
-  "activity_completed",
-  "created_on",
-  "created_by",
-  "modified_on",
-  "modified_by1"
+  "column_break_kihk",
+  "activity_name",
+  "caregiver",
+  "engagement",
+  "activity_prescribed_time",
+  "activity_notes",
+  "activity_data_unit",
+  "activity_completed"
  ],
  "fields": [
   {
-   "fieldname": "id",
-   "fieldtype": "Data",
-   "label": "Id"
-  },
-  {
-   "fieldname": "activityname",
-   "fieldtype": "Data",
-   "label": "Activity Name"
-  },
-  {
    "fieldname": "beneficiary",
-   "fieldtype": "Data",
-   "label": "Beneficiary"
+   "fieldtype": "Link",
+   "label": "Beneficiary",
+   "options": "Beneficiary"
   },
   {
    "fieldname": "caregiver",
-   "fieldtype": "Data",
-   "label": "Caregiver"
+   "fieldtype": "Link",
+   "label": "Caregiver",
+   "options": "Caregiver"
   },
   {
    "fieldname": "nursing_manager",
@@ -55,33 +42,32 @@
   },
   {
    "fieldname": "engagement",
-   "fieldtype": "Data",
-   "label": "Engagement"
+   "fieldtype": "Link",
+   "label": "Engagement",
+   "options": "Engagement"
   },
   {
    "fieldname": "activity_type_id",
-   "fieldtype": "Data",
-   "label": "Activity Type Id"
+   "fieldtype": "Link",
+   "label": "Activity Type Id",
+   "options": "Activity Type"
   },
   {
    "fieldname": "activity_name",
-   "fieldtype": "Data",
-   "label": "Activity Name"
+   "fieldtype": "Link",
+   "label": "Activity Name",
+   "options": "Activity Type"
   },
   {
    "fieldname": "activity_date",
-   "fieldtype": "Data",
-   "label": "Activity Date"
+   "fieldtype": "Date",
+   "label": "Activity Date",
+   "options": "Activity Weekly Frequency Map"
   },
   {
    "fieldname": "activity_prescribed_time",
-   "fieldtype": "Data",
+   "fieldtype": "Time",
    "label": "Activity Prescribed Time"
-  },
-  {
-   "fieldname": "activitynotes",
-   "fieldtype": "Data",
-   "label": "ActivityNotes"
   },
   {
    "fieldname": "activity_data",
@@ -115,32 +101,17 @@
    "options": "\nTrue\nFalse"
   },
   {
-   "fieldname": "created_on",
-   "fieldtype": "Data",
-   "label": "Created On"
-  },
-  {
-   "fieldname": "created_by",
-   "fieldtype": "Data",
-   "label": "Created by"
-  },
-  {
-   "fieldname": "modified_on",
-   "fieldtype": "Data",
-   "label": "Modified on"
-  },
-  {
-   "fieldname": "modified_by1",
-   "fieldtype": "Data",
-   "label": "Modified by"
+   "fieldname": "column_break_kihk",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-05 21:18:33.482645",
+ "modified": "2024-07-08 17:35:37.477505",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver Activity",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

@@ -1,0 +1,71 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-08 17:10:41.213644",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "duty_roaster_item_id",
+  "time",
+  "notes",
+  "column_break_tswg",
+  "duty_roster_item",
+  "duration"
+ ],
+ "fields": [
+  {
+   "fieldname": "duty_roaster_item_id",
+   "fieldtype": "Link",
+   "label": "Duty Roaster Item Id",
+   "options": "Duty Roster Item"
+  },
+  {
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "label": "Time"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "column_break_tswg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "duty_roster_item",
+   "fieldtype": "Data",
+   "label": "Duty Roster Item"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Duration",
+   "label": "Duration"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-08 17:44:57.948182",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Activity Daily Frequency Map",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

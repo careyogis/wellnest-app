@@ -1,28 +1,40 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:Attendant Service Needed-{####}",
- "creation": "2024-06-13 15:57:12.684052",
+ "creation": "2024-07-08 13:09:10.156149",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "attendant_service_needed"
+  "activity_id",
+  "column_break_gray",
+  "activity_name"
  ],
  "fields": [
   {
-   "fieldname": "attendant_service_needed",
+   "fieldname": "activity_id",
    "fieldtype": "Data",
-   "label": "Attendant Service Needed",
-   "unique": 1
+   "in_list_view": 1,
+   "label": "Activity Id",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_gray",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "activity_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Activity Name",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 18:46:21.026344",
+ "modified": "2024-07-08 16:51:54.455665",
  "modified_by": "Administrator",
  "module": "WellNest",
- "name": "Attendant Service Needed",
- "naming_rule": "Expression",
+ "name": "Activity Type",
  "owner": "Administrator",
  "permissions": [
   {

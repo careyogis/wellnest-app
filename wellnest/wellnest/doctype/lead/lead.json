@@ -1,54 +1,42 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:Lead-{####}",
  "creation": "2024-06-13 15:34:10.143260",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_mpfo",
-  "applicantid",
+  "patient_id",
   "source",
-  "sourceid",
+  "column_break_naxz",
+  "applicant_id",
+  "source_id",
   "referral_code",
   "service_preference_section",
   "type_of_service_needed",
+  "duration_of_service",
+  "preferred_start_date_of_service",
   "attendant_service_needed",
   "nurse_service_needed",
   "caregiver_language_preference",
   "service_area",
-  "duration_of_service",
-  "preferred_start_date_of_service",
+  "hospital_discharge_detail_tab",
   "hospital_discharge_detailif_the_patient_is_from_hospital_section",
   "department_of_discharge",
-  "referred_by",
   "discharge_summary",
+  "referred_by",
   "current_treating_doctor",
   "the_current_treating_doctors_phone",
   "medical_condition",
   "available_medical_record",
+  "payment_details_tab",
   "payment_related_information_section",
   "payment_by",
-  "qualify",
   "stage",
-  "created_on",
-  "last_updated_on",
-  "last_updated_by"
+  "column_break_ywjg",
+  "qualify"
  ],
  "fields": [
-  {
-   "fieldname": "section_break_mpfo",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "PatientId",
-   "reqd": 1
-  },
-  {
-   "fieldname": "applicantid",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "ApplicantId",
-   "reqd": 1
-  },
   {
    "fieldname": "source",
    "fieldtype": "Select",
@@ -56,11 +44,6 @@
    "label": "Source",
    "options": "\nHospital\nOnline\nSales",
    "reqd": 1
-  },
-  {
-   "fieldname": "sourceid",
-   "fieldtype": "Data",
-   "label": "SourceId"
   },
   {
    "fieldname": "referral_code",
@@ -75,46 +58,47 @@
   {
    "fieldname": "type_of_service_needed",
    "fieldtype": "Select",
-   "label": "Type of service needed",
-   "options": "Attendant\nNurse\nBoth"
+   "label": "Service Needed",
+   "options": "\nAttendant\nNurse\nBoth"
   },
   {
    "fieldname": "attendant_service_needed",
    "fieldtype": "Table",
-   "label": "Attendant service needed",
+   "label": "Attendant Service Needed",
    "options": "Attendant Service Needed Option"
   },
   {
    "fieldname": "nurse_service_needed",
    "fieldtype": "Table",
-   "label": "Nurse service needed",
+   "label": "Nurse Service Needed",
    "options": "Nursing Service Option"
   },
   {
    "fieldname": "caregiver_language_preference",
-   "fieldtype": "Data",
-   "label": "Caregiver language preference"
+   "fieldtype": "Table",
+   "label": "Caregiver Language Preference",
+   "options": "Spoken Language Option"
   },
   {
    "fieldname": "service_area",
    "fieldtype": "Small Text",
-   "label": "Service area"
+   "label": "Service Area"
   },
   {
    "fieldname": "duration_of_service",
    "fieldtype": "Select",
-   "label": "Duration of service",
-   "options": "12\n24\ncustom"
+   "label": "Duration ",
+   "options": "\n12\n24\ncustom"
   },
   {
    "fieldname": "preferred_start_date_of_service",
    "fieldtype": "Date",
-   "label": "Preferred start date of service"
+   "label": "Preferred Start Date "
   },
   {
    "fieldname": "hospital_discharge_detailif_the_patient_is_from_hospital_section",
    "fieldtype": "Section Break",
-   "label": "Hospital discharge detail(if the patient is from hospital)"
+   "label": "Hospital Discharge Detail"
   },
   {
    "fieldname": "department_of_discharge",
@@ -134,12 +118,12 @@
   {
    "fieldname": "current_treating_doctor",
    "fieldtype": "Data",
-   "label": "Current treating doctor"
+   "label": "Current Treating Doctor"
   },
   {
    "fieldname": "the_current_treating_doctors_phone",
    "fieldtype": "Phone",
-   "label": "The current treating doctor's phone"
+   "label": " Current Treating Doctor's Phone"
   },
   {
    "fieldname": "medical_condition",
@@ -161,42 +145,68 @@
    "fieldname": "payment_by",
    "fieldtype": "Select",
    "label": "Payment by",
-   "options": "SELF\nAPPLICANT"
+   "options": "\nSELF\nAPPLICANT"
   },
   {
    "fieldname": "qualify",
    "fieldtype": "Select",
    "label": "Qualify",
-   "options": "HOT - Potential customer likely to make a purchase.\nWARM - Customer enquired about the service and left the details to connect later.\nCOLD -\n1. Received by hospital staff on the potential customer.\n2. From direct customer targeting."
+   "options": "\nHOT\nWARM\nCOLD"
   },
   {
    "fieldname": "stage",
    "fieldtype": "Select",
    "label": "Stage",
-   "options": "Lead\nProspect\nContact\nNurture\nNegotiation\nQualified - Sales qualified lead\nDisqualified"
+   "options": "\nLead\nProspect\nContact\nNurture\nNegotiation\nQualified - Sales qualified lead\nDisqualified",
+   "reqd": 1
   },
   {
-   "fieldname": "created_on",
-   "fieldtype": "Date",
-   "label": "Created on"
+   "fieldname": "column_break_naxz",
+   "fieldtype": "Column Break"
   },
   {
-   "fieldname": "last_updated_on",
-   "fieldtype": "Date",
-   "label": "Last updated on"
+   "fieldname": "column_break_ywjg",
+   "fieldtype": "Column Break"
   },
   {
-   "fieldname": "last_updated_by",
+   "fieldname": "patient_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient Id",
+   "options": "Beneficiary",
+   "reqd": 1
+  },
+  {
+   "fieldname": "applicant_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Applicant Id",
+   "options": "Family Member",
+   "reqd": 1
+  },
+  {
+   "fieldname": "source_id",
    "fieldtype": "Data",
-   "label": "Last updated by"
+   "label": "Source Id"
+  },
+  {
+   "fieldname": "hospital_discharge_detail_tab",
+   "fieldtype": "Tab Break",
+   "label": "Hospital discharge detail"
+  },
+  {
+   "fieldname": "payment_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Payment Details"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-05 20:32:26.680284",
+ "modified": "2024-07-08 18:14:35.438265",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Lead",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

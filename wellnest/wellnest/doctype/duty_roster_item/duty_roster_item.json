@@ -1,0 +1,88 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:Duty Roster Item-{####}",
+ "creation": "2024-07-08 17:18:32.167783",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "duty_roaster_item_id",
+  "caregiver",
+  "engagement",
+  "description",
+  "column_break_vglx",
+  "beneficiary",
+  "nursing_manager",
+  "activity_type_id"
+ ],
+ "fields": [
+  {
+   "fieldname": "duty_roaster_item_id",
+   "fieldtype": "Data",
+   "label": "Duty Roaster Item Id"
+  },
+  {
+   "fieldname": "caregiver",
+   "fieldtype": "Link",
+   "label": "Caregiver",
+   "options": "Caregiver"
+  },
+  {
+   "fieldname": "engagement",
+   "fieldtype": "Link",
+   "label": "Engagement",
+   "options": "Engagement"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_vglx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "beneficiary",
+   "fieldtype": "Link",
+   "label": "Beneficiary",
+   "options": "Beneficiary"
+  },
+  {
+   "fieldname": "nursing_manager",
+   "fieldtype": "Data",
+   "label": "Nursing Manager"
+  },
+  {
+   "fieldname": "activity_type_id",
+   "fieldtype": "Link",
+   "label": "Activity Type Id",
+   "options": "Activity Type"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-08 17:41:31.692707",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Duty Roster Item",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
