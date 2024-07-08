@@ -34,13 +34,15 @@
    "fieldname": "full_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Full Name"
+   "label": "Full Name",
+   "reqd": 1
   },
   {
    "fieldname": "gender",
    "fieldtype": "Select",
    "label": "Gender",
-   "options": "Male\nFemale\nOther"
+   "options": "\nMale\nFemale\nOther",
+   "reqd": 1
   },
   {
    "fieldname": "height",
@@ -50,7 +52,7 @@
   {
    "fieldname": "weight",
    "fieldtype": "Int",
-   "label": "Weight",
+   "label": "Weight (Kgs)",
    "length": 3
   },
   {
@@ -91,7 +93,8 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "City",
-   "options": "City"
+   "options": "City",
+   "reqd": 1
   },
   {
    "fetch_from": "city.state",
@@ -116,8 +119,9 @@
    "fieldname": "age",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Age",
-   "length": 3
+   "label": "Age (Yrs)",
+   "length": 3,
+   "reqd": 1
   },
   {
    "fieldname": "column_break_syad",
@@ -131,7 +135,7 @@
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 10:42:03.556719",
+ "modified": "2024-07-08 18:22:36.159402",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Beneficiary",
