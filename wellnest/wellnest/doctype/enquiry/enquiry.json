@@ -50,7 +50,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Type",
-   "options": "customer\nagency\nhospital\nothers",
+   "options": "customer\ncaregiver\nagency\nhospital\ndoctor\nstartup\nreal-estate\nhousing-society\ncorporate\nothers",
    "reqd": 1
   },
   {
@@ -60,7 +60,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "New\nQualified\nEngaged\nLost\nInvalid",
+   "options": "New\nIn Progress\nQualified\nEngaged\nLost\nInvalid",
    "reqd": 1
   },
   {
@@ -74,7 +74,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 00:51:40.304188",
+ "modified": "2024-07-10 15:08:38.340325",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Enquiry",
