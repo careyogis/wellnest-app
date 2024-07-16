@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:Caregiver-{####}",
+ "autoname": "format:CGV-{#####}",
  "creation": "2024-06-12 16:58:23.076217",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -19,6 +19,7 @@
   "dob",
   "section_break_rwti",
   "complete_address",
+  "city_of_work",
   "column_break_sxsz",
   "city",
   "state",
@@ -57,7 +58,7 @@
    "fieldname": "caregiver_type",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Caregiver type",
+   "label": "Caregiver Type",
    "options": "Nurse\nAttendant\nBoth",
    "reqd": 1
   },
@@ -65,7 +66,7 @@
    "fieldname": "full_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Full name",
+   "label": "Full Name",
    "reqd": 1
   },
   {
@@ -90,17 +91,17 @@
   {
    "fieldname": "passport_size_photo",
    "fieldtype": "Attach Image",
-   "label": "Passport size photo"
+   "label": "Passport Size Photo"
   },
   {
    "fieldname": "full_length_photo",
    "fieldtype": "Attach Image",
-   "label": "Full length photo"
+   "label": "Full Length Photo"
   },
   {
    "fieldname": "phone_number",
    "fieldtype": "Phone",
-   "label": "Phone number",
+   "label": "Phone Number",
    "reqd": 1
   },
   {
@@ -111,7 +112,7 @@
   {
    "fieldname": "complete_address",
    "fieldtype": "Small Text",
-   "label": "Complete address",
+   "label": "Complete Address",
    "reqd": 1
   },
   {
@@ -137,7 +138,7 @@
   {
    "fieldname": "aadhar_number",
    "fieldtype": "Int",
-   "label": "Aadhar number",
+   "label": "Aadhar Number",
    "length": 12
   },
   {
@@ -148,18 +149,18 @@
   {
    "fieldname": "pan_number",
    "fieldtype": "Data",
-   "label": "Pan number",
+   "label": "Pan Number",
    "length": 10
   },
   {
    "fieldname": "pan_photo",
    "fieldtype": "Attach Image",
-   "label": "Pan photo"
+   "label": "Pan Photo"
   },
   {
    "fieldname": "vaccination_certificate",
    "fieldtype": "Attach",
-   "label": "Vaccination certificate"
+   "label": "Vaccination Certificate"
   },
   {
    "fieldname": "shift_preference",
@@ -170,13 +171,13 @@
   {
    "fieldname": "nursing_care",
    "fieldtype": "Table",
-   "label": "Nursing care",
+   "label": "Nursing Care",
    "options": "Nursing Service Option"
   },
   {
    "fieldname": "attendant_care",
    "fieldtype": "Table",
-   "label": "Attendant care",
+   "label": "Attendant Care",
    "options": "Attendant Service Option"
   },
   {
@@ -235,7 +236,7 @@
   {
    "fieldname": "years_of_experience",
    "fieldtype": "Int",
-   "label": "Years of experience"
+   "label": "Years of Experience"
   },
   {
    "fieldname": "column_break_yizw",
@@ -262,7 +263,7 @@
   {
    "fieldname": "any_other_experience",
    "fieldtype": "Small Text",
-   "label": "Any other experience"
+   "label": "Any Other Experience"
   },
   {
    "fieldname": "section_break_covu",
@@ -276,7 +277,7 @@
   {
    "fieldname": "pin_code",
    "fieldtype": "Int",
-   "label": "Pin code",
+   "label": "Pin Code",
    "length": 6,
    "reqd": 1
   },
@@ -295,11 +296,18 @@
    "fieldname": "police_verification_certificate",
    "fieldtype": "Attach",
    "label": "Police Verification Certificate"
+  },
+  {
+   "fieldname": "city_of_work",
+   "fieldtype": "Link",
+   "label": "City of Work",
+   "options": "City",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-07 23:58:01.773044",
+ "modified": "2024-07-16 17:24:47.643326",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
