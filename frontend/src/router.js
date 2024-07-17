@@ -18,11 +18,6 @@ const routes = [
     path: '/account/login',
     component: () => import('@/pages/Login.vue'),
   },
-  {
-    name: 'Profile',
-    path: '/profile',
-    component: () => import('@/pages/Profile.vue'),
-  },
 ]
 
 let router = createRouter({
