@@ -1,0 +1,65 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Lead Source",
+  "modified": "2024-07-16 15:35:44.922208",
+  "name": "Website",
+  "source_name": "Website"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Source",
+  "modified": "2024-07-16 15:36:02.461484",
+  "name": "WhatsApp",
+  "source_name": "WhatsApp"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Source",
+  "modified": "2024-07-16 15:36:19.235116",
+  "name": "Sales",
+  "source_name": "Sales"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Source",
+  "modified": "2024-07-16 15:36:30.732484",
+  "name": "Hospital",
+  "source_name": "Hospital"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Source",
+  "modified": "2024-07-16 15:36:44.523579",
+  "name": "Advertisement",
+  "source_name": "Advertisement"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Source",
+  "modified": "2024-07-16 15:36:56.052803",
+  "name": "Campaign",
+  "source_name": "Campaign"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Source",
+  "modified": "2024-07-16 15:37:10.233374",
+  "name": "Existing Customer",
+  "source_name": "Existing Customer"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Source",
+  "modified": "2024-07-16 15:37:23.371064",
+  "name": "Walk In",
+  "source_name": "Walk In"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Source",
+  "modified": "2024-07-16 15:37:41.920491",
+  "name": "Cold Calling",
+  "source_name": "Cold Calling"
+ }
+]
