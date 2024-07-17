@@ -228,3 +228,5 @@ app_license = "mit"
 # }
 
 fixtures = ["State", "City", "Specialization", "Specialization Option", "Attendant Service", "Attendant Service Option", "Nursing Service", "Nursing Service Option", "Spoken Language", "Medical Condition", "Attendant Service Needed", "Lead Source", "Lead Status"]
+
+website_route_rules = [{'from_route': '/frontend/<path:app_path>', 'to_route': 'frontend'},]
