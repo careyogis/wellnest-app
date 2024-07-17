@@ -227,4 +227,4 @@ app_license = "mit"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
-fixtures = ["State", "City", "Specialization", "Specialization Option", "Attendant Service", "Attendant Service Option", "Nursing Service", "Nursing Service Option", "Spoken Language", "Medical Condition", "Attendant Service Needed"]
+fixtures = ["State", "City", "Specialization", "Specialization Option", "Attendant Service", "Attendant Service Option", "Nursing Service", "Nursing Service Option", "Spoken Language", "Medical Condition", "Attendant Service Needed", "Lead Source", "Lead Status"]
