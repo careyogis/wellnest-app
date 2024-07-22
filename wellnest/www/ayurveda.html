@@ -1,0 +1,90 @@
+{% extends "templates/wellnest_web.html" %}
+
+<title>
+    {% block title %}CareYogi - Ayurveda{% endblock %}
+</title>    
+<body>
+{% block page_content %}
+<section class="service-details" style="padding-top: 35px !important">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="service-details__sidebar">
+          <div class="sidebar__single sidebar__category">
+            <h3 class="sidebar__title">Category</h3>
+            <!-- /.sidebar__title -->
+            <ul class="sidebar__cat-list">
+              <li>
+                <a href="nursing-care">Nursing Care</a>
+              </li>
+              <li>
+                <a href="caregiver-attendant">Caregiver Attendant</a>
+              </li>
+              <li>
+                <a href="physiotherapy">Physiotherapy</a>
+              </li>
+              <li class="active">
+                <a href="ayurveda">Ayurveda</a>
+              </li>
+            </ul>
+            <!-- /.sidebar__cat-list -->
+          </div>
+          <!-- /.sidebar__single -->
+        </div>
+        <!-- /.service-details__sidebar -->
+      </div>
+      <!-- /.col-lg-4 -->
+      <div class="col-lg-8">
+        <div class="service-details__main">
+          <div class="service-details__image">
+            <img src="assets/wellnest/images/newimg/ayurveda-service.png" class="img-fluid" alt="" />
+          </div>
+          <!-- /.service-details__image -->
+          <div class="service-details__content">
+            <h3>Essence of Ayurveda</h3>
+            <p>
+              At its core, Ayurveda emphasizes the interconnectedness of all things and believes that health is achieved through a harmonious balance between the body, 
+              mind, and environment.            
+            </p>            
+            <ul>
+              <li>
+                One of the key principles of Ayurveda is that each person is unique, with their own individual 
+                constitution or dosha (Vata, Pitta, and Kapha), which influences their physical, mental, 
+                and emotional characteristics. Ayurvedic practices, including herbal remedies, dietary guidelines, 
+                yoga, meditation, and detoxification routines, are tailored to restore and maintain this balance. 
+                This personalized approach aims not only to treat illness but also to prevent disease and promote longevity.
+              </li>
+              <li>
+                We at CareYogi™️  believe in this ancient wisdom and encourage integration of treatments- 
+                Ayurveda with Allopathy for an overall better outcome approach. Ayurvedic treatments are often 
+                gentle and natural, utilizing herbs, oils, and therapeutic practices that support the body's 
+                innate healing mechanisms and supplement other therapies.              
+              </li>
+              <li>
+                Panchakarma, a detoxification and rejuvenation treatment; Rasayana, which focuses on rejuvenation 
+                and longevity; and specific herbal remedies tailored to balance each dosha are some of our service 
+                offerings. Our Ayurvedic massage therapies such as Abhyanga and Shirodhara are renowned for their 
+                relaxation and rejuvenation.
+              </li>
+              <li>
+                In essence, Ayurveda offers a holistic approach to health and well-being that continues 
+                to resonate in modern times, offering timeless wisdom and practical solutions to achieve 
+                balance and vitality in life.
+              </li>
+              <li>
+                CareYogi™️ has teamed up with some of the best practitioners of Ayurveda to extend it 
+                as part of its holistic offerings.              
+              </li>
+            </ul>
+          </div><!-- /.service-details__content -->
+        </div><!-- /.service-details__main -->
+      </div><!-- /.col-lg-8 -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+</section>
+<!-- /.service-details -->
+
+{% endblock %}
+</body>

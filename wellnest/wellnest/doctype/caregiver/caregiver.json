@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:CGV-{#####}",
+ "autoname": "format:CGVR-{######}",
  "creation": "2024-06-12 16:58:23.076217",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -30,6 +30,8 @@
   "passport_size_photo",
   "column_break_okpg",
   "full_length_photo",
+  "section_break_xtbq",
+  "user_id",
   "service_details_tab",
   "section_break_iwtq",
   "attendant_care",
@@ -59,7 +61,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Caregiver Type",
-   "options": "Nurse\nAttendant\nBoth",
+   "options": "\nAttendant\nNurse\nBoth",
    "reqd": 1
   },
   {
@@ -107,7 +109,8 @@
   {
    "fieldname": "email",
    "fieldtype": "Data",
-   "label": "Email"
+   "label": "Email",
+   "options": "Email"
   },
   {
    "fieldname": "complete_address",
@@ -303,11 +306,24 @@
    "label": "City of Work",
    "options": "City",
    "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_xtbq",
+   "fieldtype": "Section Break",
+   "label": "User Details"
+  },
+  {
+   "description": "System User (login) ID. The caregiver uses this to login to CareYogi app.",
+   "fieldname": "user_id",
+   "fieldtype": "Link",
+   "label": "User ID",
+   "options": "User"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-16 17:24:47.643326",
+ "modified": "2024-07-18 17:26:48.040602",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
@@ -349,7 +365,9 @@
    "role": "Customer Success"
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "full_name"
 }
