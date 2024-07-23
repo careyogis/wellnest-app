@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:Engagement-{####}",
+ "autoname": "format:EGMT-YYYY-MM-YY-{###}",
  "creation": "2024-06-13 13:13:29.326130",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -13,7 +13,7 @@
   "service_hours",
   "assigned_care_manager",
   "column_break_fhbl",
-  "patient",
+  "beneficiary",
   "caregiver",
   "service_start_date",
   "service_type",
@@ -25,22 +25,6 @@
   "payment_done"
  ],
  "fields": [
-  {
-   "fieldname": "patient",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Patient",
-   "options": "Beneficiary",
-   "reqd": 1
-  },
-  {
-   "fieldname": "applicant",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Applicant",
-   "options": "Family Member",
-   "reqd": 1
-  },
   {
    "fieldname": "caregiver",
    "fieldtype": "Link",
@@ -125,11 +109,27 @@
    "fieldname": "payment_details_section",
    "fieldtype": "Section Break",
    "label": "Payment Details"
+  },
+  {
+   "fieldname": "beneficiary",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Beneficiary",
+   "options": "Beneficiary",
+   "reqd": 1
+  },
+  {
+   "fieldname": "applicant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Applicant",
+   "options": "Family Member",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 17:50:13.505576",
+ "modified": "2024-07-18 18:44:07.289140",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement",
@@ -171,7 +171,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "beneficiary"
 }

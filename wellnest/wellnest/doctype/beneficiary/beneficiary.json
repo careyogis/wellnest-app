@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:Ben-{####}",
+ "autoname": "format:BENF-{######}",
  "creation": "2024-06-12 16:57:54.313301",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -13,15 +13,14 @@
   "alternative_phone_number",
   "email",
   "complete_address",
+  "registered",
   "column_break_syad",
   "gender",
   "height",
   "phone_number",
   "whatsapp_number",
   "photo",
-  "city",
-  "state",
-  "pincode",
+  "billing_address",
   "section_break_jxgj",
   "languages_spoken"
  ],
@@ -59,7 +58,8 @@
    "fieldname": "phone_number",
    "fieldtype": "Phone",
    "in_list_view": 1,
-   "label": "Phone Number"
+   "label": "Phone Number",
+   "reqd": 1
   },
   {
    "fieldname": "alternative_phone_number",
@@ -84,30 +84,9 @@
   },
   {
    "fieldname": "complete_address",
-   "fieldtype": "Small Text",
-   "label": "Complete Address"
-  },
-  {
-   "fieldname": "city",
    "fieldtype": "Link",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "City",
-   "options": "City",
-   "reqd": 1
-  },
-  {
-   "fetch_from": "city.state",
-   "fieldname": "state",
-   "fieldtype": "Link",
-   "label": "State",
-   "options": "State"
-  },
-  {
-   "fieldname": "pincode",
-   "fieldtype": "Int",
-   "label": "Pincode",
-   "length": 6
+   "label": "Residential Address",
+   "options": "Address"
   },
   {
    "fieldname": "languages_spoken",
@@ -130,12 +109,24 @@
   {
    "fieldname": "section_break_jxgj",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "registered",
+   "fieldtype": "Select",
+   "label": "Registered",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "billing_address",
+   "fieldtype": "Link",
+   "label": "Billing Address",
+   "options": "Address"
   }
  ],
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 18:22:36.159402",
+ "modified": "2024-07-18 18:00:04.544446",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Beneficiary",

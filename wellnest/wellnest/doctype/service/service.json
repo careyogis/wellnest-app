@@ -18,7 +18,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-16 15:41:41.605496",
+ "modified": "2024-07-18 18:50:46.190630",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Service",
@@ -38,7 +38,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "service_option"
 }

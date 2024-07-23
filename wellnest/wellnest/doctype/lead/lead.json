@@ -1,15 +1,15 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:Lead-{####}",
+ "autoname": "format:LEAD-{YY}-{MM}-{DD}-{###}",
  "creation": "2024-06-13 15:34:10.143260",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "patient_id",
+  "applicant",
   "source",
   "column_break_naxz",
-  "applicant_id",
+  "beneficiary_id",
   "source_id",
   "referral_code",
   "service_preference_section",
@@ -157,22 +157,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "patient_id",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Patient Id",
-   "options": "Beneficiary",
-   "reqd": 1
-  },
-  {
-   "fieldname": "applicant_id",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Applicant Id",
-   "options": "Family Member",
-   "reqd": 1
-  },
-  {
    "fieldname": "source_id",
    "fieldtype": "Data",
    "label": "Source Id"
@@ -216,11 +200,26 @@
    "fieldname": "service_periodother",
    "fieldtype": "Data",
    "label": "Service Period(Other)"
+  },
+  {
+   "fieldname": "beneficiary_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Beneficiary",
+   "options": "Beneficiary"
+  },
+  {
+   "fieldname": "applicant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Applicant",
+   "options": "Family Member",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-16 15:38:23.008680",
+ "modified": "2024-07-18 18:23:26.229387",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Lead",
@@ -255,7 +254,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "applicant"
 }

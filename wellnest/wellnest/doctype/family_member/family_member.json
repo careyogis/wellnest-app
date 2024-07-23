@@ -1,25 +1,23 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:Family Member-{####}",
+ "autoname": "format:FMLY{######}",
  "creation": "2024-06-12 17:03:32.115554",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "personal_details_section",
   "full_name",
-  "dob",
+  "age",
   "phone",
   "email",
-  "country",
-  "state",
+  "address",
   "column_break_lbzb",
   "gender",
+  "beneficiary_name",
   "alternate_phone",
   "whatsapp_number",
-  "city",
-  "pincode",
-  "complete_address",
+  "registered",
   "attachment_section",
   "photo"
  ],
@@ -40,13 +38,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "dob",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "DOB",
-   "reqd": 1
-  },
-  {
    "fieldname": "phone",
    "fieldtype": "Phone",
    "in_list_view": 1,
@@ -56,12 +47,12 @@
   {
    "fieldname": "alternate_phone",
    "fieldtype": "Phone",
-   "label": "Alternate phone"
+   "label": "Alternate Phone"
   },
   {
    "fieldname": "whatsapp_number",
    "fieldtype": "Phone",
-   "label": "Whatsapp number"
+   "label": "Whatsapp Number"
   },
   {
    "fieldname": "email",
@@ -72,34 +63,6 @@
    "fieldname": "photo",
    "fieldtype": "Attach",
    "label": "Photo"
-  },
-  {
-   "fieldname": "complete_address",
-   "fieldtype": "Small Text",
-   "label": "Complete address"
-  },
-  {
-   "fieldname": "country",
-   "fieldtype": "Link",
-   "label": "Country",
-   "options": "Country"
-  },
-  {
-   "fieldname": "city",
-   "fieldtype": "Link",
-   "label": "City",
-   "options": "City"
-  },
-  {
-   "fieldname": "state",
-   "fieldtype": "Link",
-   "label": "State",
-   "options": "State"
-  },
-  {
-   "fieldname": "pincode",
-   "fieldtype": "Int",
-   "label": "Pincode"
   },
   {
    "fieldname": "personal_details_section",
@@ -114,11 +77,34 @@
    "fieldname": "attachment_section",
    "fieldtype": "Section Break",
    "label": "Attachment"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Link",
+   "label": "Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "age",
+   "fieldtype": "Data",
+   "label": "Age"
+  },
+  {
+   "fieldname": "beneficiary_name",
+   "fieldtype": "Link",
+   "label": "Beneficiary Name",
+   "options": "Beneficiary"
+  },
+  {
+   "fieldname": "registered",
+   "fieldtype": "Select",
+   "label": "Registered",
+   "options": "\nYes\nNo"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 18:43:15.262266",
+ "modified": "2024-07-23 12:20:21.939697",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Family Member",
@@ -169,7 +155,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "full_name"
 }

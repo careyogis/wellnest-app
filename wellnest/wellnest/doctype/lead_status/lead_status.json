@@ -18,7 +18,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-16 15:53:16.670186",
+ "modified": "2024-07-18 18:49:59.965540",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Lead Status",
@@ -38,7 +38,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "status_name"
 }

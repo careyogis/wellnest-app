@@ -18,7 +18,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-16 15:35:23.237855",
+ "modified": "2024-07-18 18:52:10.337243",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Lead Source",
@@ -38,7 +38,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "source_name"
 }
