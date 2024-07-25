@@ -50,7 +50,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Type",
-   "options": "customer\ncaregiver\nagency\nhospital\ndoctor\nstartup\nreal-estate\nhousing-society\ncorporate\nothers",
+   "options": "customer\ncaregiver\nagency\nhospital\ndoctor\nayurvedic\nphysiotherapist\nspeech-therapist\nstartup\nreal-estate\nhousing-society\ncorporate\nothers",
    "reqd": 1
   },
   {
@@ -74,7 +74,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-10 15:08:38.340325",
+ "modified": "2024-07-26 00:01:46.026181",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Enquiry",
@@ -96,5 +96,30 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {
+   "color": "Blue",
+   "title": "New"
+  },
+  {
+   "color": "Purple",
+   "title": "In Progress"
+  },
+  {
+   "color": "Orange",
+   "title": "Qualified"
+  },
+  {
+   "color": "Green",
+   "title": "Engaged"
+  },
+  {
+   "color": "Red",
+   "title": "Lost"
+  },
+  {
+   "color": "Gray",
+   "title": "Invalid"
+  }
+ ]
 }
