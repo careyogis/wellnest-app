@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:FMLY{######}",
+ "autoname": "format:FMLY-{######}",
  "creation": "2024-06-12 17:03:32.115554",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -104,7 +104,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-23 12:20:21.939697",
+ "modified": "2024-07-29 22:11:33.817551",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Family Member",

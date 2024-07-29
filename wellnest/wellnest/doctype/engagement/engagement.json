@@ -1,28 +1,27 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:EGMT-YYYY-MM-YY-{###}",
+ "autoname": "format:EGMT-{YYYY}{MM}{DD}-{######}",
  "creation": "2024-06-13 13:13:29.326130",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "originating_lead",
-  "applicant",
-  "agency",
-  "service_end_date",
-  "service_hours",
-  "assigned_care_manager",
-  "column_break_fhbl",
   "beneficiary",
   "caregiver",
   "service_start_date",
+  "service_end_date",
+  "service_hours",
+  "column_break_fhbl",
+  "agency",
   "service_type",
   "daily_reporting_time",
+  "assigned_care_manager",
   "notes_to_caregiver",
   "payment_details_section",
-  "payment_id",
-  "payment_due_date",
-  "payment_done"
+  "payment",
+  "column_break_saiv",
+  "payment_due_date"
  ],
  "fields": [
   {
@@ -74,13 +73,7 @@
   {
    "fieldname": "payment_due_date",
    "fieldtype": "Date",
-   "label": "Payment due date"
-  },
-  {
-   "fieldname": "payment_done",
-   "fieldtype": "Select",
-   "label": "Payment done",
-   "options": "\nYes\nNo"
+   "label": "Payment Due Date"
   },
   {
    "fieldname": "assigned_care_manager",
@@ -96,12 +89,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "payment_id",
-   "fieldtype": "Link",
-   "label": "Payment Id",
-   "options": "Payment"
-  },
-  {
    "fieldname": "column_break_fhbl",
    "fieldtype": "Column Break"
   },
@@ -111,6 +98,7 @@
    "label": "Payment Details"
   },
   {
+   "fetch_from": "originating_lead.beneficiary",
    "fieldname": "beneficiary",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -119,17 +107,19 @@
    "reqd": 1
   },
   {
-   "fieldname": "applicant",
+   "fieldname": "payment",
    "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Applicant",
-   "options": "Family Member",
-   "reqd": 1
+   "label": "Payment",
+   "options": "Payment"
+  },
+  {
+   "fieldname": "column_break_saiv",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-18 18:44:07.289140",
+ "modified": "2024-07-29 22:33:51.917260",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement",

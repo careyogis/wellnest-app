@@ -1,0 +1,91 @@
+{% extends "templates/wellnest_web.html" %}
+
+<title>
+    {% block title %}CareYogi - Speech Therapy{% endblock %}
+</title>    
+<body>
+{% block page_content %}
+<section class="service-details" style="padding-top: 35px !important">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="service-details__sidebar">
+          <div class="sidebar__single sidebar__category">
+            <h3 class="sidebar__title">Category</h3>
+            <!-- /.sidebar__title -->
+            <ul class="sidebar__cat-list">
+              <li>
+                <a href="nursing-care">Nursing Care</a>
+              </li>
+              <li>
+                <a href="caregiver-attendant">Caregiver Attendant</a>
+              </li>
+              <li>
+                <a href="physiotherapy">Physiotherapy</a>
+              </li>
+              <li>
+                <a href="ayurveda">Ayurveda</a>
+              </li>
+              <li class="active">
+                <a href="speech-therapy">Speech Therapy</a>
+              </li>
+            </ul>
+            <!-- /.sidebar__cat-list -->
+          </div>
+          <!-- /.sidebar__single -->
+        </div>
+        <!-- /.service-details__sidebar -->
+      </div>
+      <!-- /.col-lg-4 -->
+      <div class="col-lg-8">
+        <div class="service-details__main">
+          <div class="service-details__image">
+            <img src="assets/wellnest/images/newimg/speech-therapy.jpg" class="img-fluid" alt="" />
+          </div>
+          <!-- /.service-details__image -->
+          <div class="service-details__content">
+            <h3>Speech Therapy</h3>
+            <p>
+              CareYogi™ has partnered with renowned speech therapists in Hyderabad to offer diagnosis and treatment of speech, language, 
+              swallowing, and communication disorders.
+            </p>            
+            <ul>
+              <li>
+                Our expert Speech therapists work with individuals of all ages to address a range of issues, from articulation 
+                problems and fluency disorders to voice disorders and receptive/expressive language impairments. 
+                These professionals employ various techniques and exercises to help individuals improve their communication skills, 
+                which can significantly impact their social interactions, academic performance, and overall quality of life.
+              </li>
+              <li>
+                One key area of speech therapy is the treatment of speech sound disorders, which include difficulties 
+                with articulation and phonological. For instance, children with articulation disorders may struggle to pronounce 
+                certain sounds correctly, leading to unclear speech. Through targeted exercises and practice, speech therapists help 
+                individuals develop the correct motor patterns and strengthen the muscles involved in speech production.
+              </li>
+              <li>
+                Another critical component of speech therapy is addressing language disorders. These can be related to difficulty in 
+                understanding language or difficulty in using language to express thoughts. Our Speech Therapists use various strategies to 
+                enhance language skills, such as expanding vocabulary, improving sentence structure, and fostering effective communication strategies. 
+                Early intervention is particularly important in children, as language skills are foundational for learning and social development.
+              </li>
+              <li>
+                Our expertise also extends to individuals with conditions such as autism spectrum disorder (ASD), stuttering, and voice disorders. 
+                For example, people who stutter may benefit from techniques that promote fluent speech, while those with voice disorders might need 
+                exercises to reduce strain and improve vocal quality. Moreover, speech therapy can be crucial for individuals recovering from strokes 
+                or traumatic brain injuries, helping them regain their communication abilities. Overall, the goal of speech therapy is to empower 
+                individuals to communicate more effectively and confidently in their daily lives. We also provide Oro Peripheral Therapy assistance 
+                improving swallowing and feeding experience when needed.
+              </li>
+            </ul>
+          </div><!-- /.service-details__content -->
+        </div><!-- /.service-details__main -->
+      </div><!-- /.col-lg-8 -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+</section>
+<!-- /.service-details -->
+
+{% endblock %}
+</body>
