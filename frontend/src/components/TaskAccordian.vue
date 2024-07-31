@@ -30,10 +30,8 @@
                 </div>
                     <FileUploader
                     :fileTypes="['image/*']"
-                    :validateFile="(fileObject) => {
-                        }"
-                    @success="(file) => {
-                        }"
+                    :validateFile="validateFileFunction"
+                    @success="onSuccess"
                     >
                         <template #default="{ file, uploading, progress, uploaded, message, error, total, success, openFileSelector }">
                             <Button
@@ -66,6 +64,10 @@
 import { TextInput, FileUploader, Button } from 'frappe-ui';
 import { createListResource } from 'frappe-ui'
 
+const validateFileFunction = (fileObject) => {}
+const onSuccess = (file) => {
+    console.log(file)
+}
 
 
 </script>

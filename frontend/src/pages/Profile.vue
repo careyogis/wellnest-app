@@ -66,25 +66,16 @@
               <div class="mySpecialities">
                 <b>My Specialities</b>
                 <div>
-                  <span>
+                  <span
+                    v-for="specialization in caregiver.nursing_specialization"
+                  >
                     <Badge
                       :variant="'solid'"
                       size="sm"
                       label="Badge"
                       theme="orange"
                     >
-                      Meal Preperation
-                    </Badge>
-                  </span>
-
-                  <span>
-                    <Badge
-                      :variant="'solid'"
-                      size="sm"
-                      label="Badge"
-                      theme="orange"
-                    >
-                      Bathing
+                      {{ specialization.link_liob }}
                     </Badge>
                   </span>
                 </div>
@@ -106,6 +97,20 @@ import { Tabs, FeatherIcon, Badge } from 'frappe-ui'
 import { computed, reactive, ref } from 'vue'
 import { createDocumentResource } from 'frappe-ui'
 import CaregiverNavbar from '../components/CaregiverNavbar.vue'
+import { createResource } from 'frappe-ui'
+
+// TODO: Need to get the doctype instance not just the doctype list
+let todos = createResource({
+  url: '/api/method/frappe.client.get_list',
+  // url: '/api/method/frappe.get_doc',
+  // url: '/api/v2/document/Caregiver',
+  // method: 'GET',
+  params: {
+    doctype: 'Caregiver',
+    name: 'Caregiver-0009'
+  },
+})
+todos.fetch()
 
 const state = reactive({
   index: 0,
@@ -132,11 +137,12 @@ let caregiverResource = createDocumentResource({
 })
 
 let agencyResource = (agency_name) => {
-  return createDocumentResource({
+  let agency_resource = createDocumentResource({
     doctype: 'Agency',
     name: agency_name,
     auto: true,
   })
+  return agency_resource
 }
 
 const caregiver = computed(() => {
