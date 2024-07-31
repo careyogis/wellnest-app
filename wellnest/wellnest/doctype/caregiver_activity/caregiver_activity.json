@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:Caregiver Activity-{####}",
+ "autoname": "format:CGAC-{######}",
  "creation": "2024-07-02 16:45:42.463865",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -107,7 +107,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 17:35:37.477505",
+ "modified": "2024-07-31 12:54:20.345399",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver Activity",
@@ -138,7 +138,9 @@
    "role": "Caregiver"
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "beneficiary"
 }

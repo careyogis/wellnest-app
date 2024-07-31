@@ -18,7 +18,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-13 16:08:26.568269",
+ "modified": "2024-07-31 12:50:22.211108",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Attendant Service",
@@ -38,7 +38,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "attendant_service"
 }

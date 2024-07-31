@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:Hosp-{####}",
+ "autoname": "format:HOSP-{######}",
  "creation": "2024-07-08 01:11:00.479352",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -22,12 +22,19 @@
   "city",
   "state",
   "pin_code",
+  "unique_identifications_section",
+  "pan",
+  "registrationlicense_no",
+  "column_break_bmfl",
+  "gstin",
+  "payment_instruments",
   "contract_section",
   "signed_contract",
   "column_break_dnej",
   "contract_signing_date",
   "section_break_vigk",
   "notes",
+  "referral_code",
   "column_break_lzut",
   "logo_or_profile_picture"
  ],
@@ -70,7 +77,8 @@
    "fieldname": "email",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Email"
+   "label": "Email",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_xoih",
@@ -95,7 +103,8 @@
   {
    "fieldname": "complete_address",
    "fieldtype": "Small Text",
-   "label": "Complete Address"
+   "label": "Complete Address",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_rqlu",
@@ -107,20 +116,23 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "City",
-   "options": "City"
+   "options": "City",
+   "reqd": 1
   },
   {
    "fetch_from": "city.state",
    "fieldname": "state",
    "fieldtype": "Link",
    "label": "State",
-   "options": "State"
+   "options": "State",
+   "reqd": 1
   },
   {
    "fieldname": "pin_code",
    "fieldtype": "Int",
    "label": "Pin Code",
-   "length": 6
+   "length": 6,
+   "reqd": 1
   },
   {
    "fieldname": "contract_section",
@@ -158,11 +170,45 @@
    "fieldname": "logo_or_profile_picture",
    "fieldtype": "Attach Image",
    "label": "Logo/Profile Picture"
+  },
+  {
+   "fieldname": "unique_identifications_section",
+   "fieldtype": "Section Break",
+   "label": "Unique Identifications"
+  },
+  {
+   "fieldname": "pan",
+   "fieldtype": "Data",
+   "label": "PAN"
+  },
+  {
+   "fieldname": "registrationlicense_no",
+   "fieldtype": "Data",
+   "label": "Registration/License No"
+  },
+  {
+   "fieldname": "column_break_bmfl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "gstin",
+   "fieldtype": "Data",
+   "label": "GSTIN"
+  },
+  {
+   "fieldname": "payment_instruments",
+   "fieldtype": "Data",
+   "label": "Payment Instruments"
+  },
+  {
+   "fieldname": "referral_code",
+   "fieldtype": "Data",
+   "label": "Referral Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 01:34:26.272001",
+ "modified": "2024-07-30 20:01:35.299641",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Hospital",
@@ -182,7 +228,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "hospital_name"
 }

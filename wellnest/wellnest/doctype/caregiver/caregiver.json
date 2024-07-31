@@ -8,6 +8,7 @@
  "field_order": [
   "personal_details_tab",
   "caregiver_type",
+  "approved",
   "column_break_almc",
   "agency",
   "personal_information_section",
@@ -24,6 +25,7 @@
   "city",
   "state",
   "pin_code",
+  "referral_code",
   "section_break_vdmr",
   "language_spoken",
   "section_break_bhhj",
@@ -50,6 +52,7 @@
   "aadhar_number",
   "pan_number",
   "vaccination_certificate",
+  "registration_no",
   "column_break_nfwb",
   "aadhar_photo",
   "pan_photo",
@@ -304,8 +307,7 @@
    "fieldname": "city_of_work",
    "fieldtype": "Link",
    "label": "City of Work",
-   "options": "City",
-   "reqd": 1
+   "options": "City"
   },
   {
    "collapsible": 1,
@@ -319,11 +321,27 @@
    "fieldtype": "Link",
    "label": "User ID",
    "options": "User"
+  },
+  {
+   "fieldname": "registration_no",
+   "fieldtype": "Data",
+   "label": "Registration No"
+  },
+  {
+   "fieldname": "approved",
+   "fieldtype": "Select",
+   "label": "Approved",
+   "options": "\nPending\nYes\nNo"
+  },
+  {
+   "fieldname": "referral_code",
+   "fieldtype": "Data",
+   "label": "Referral Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-18 17:26:48.040602",
+ "modified": "2024-07-30 18:31:09.509501",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",

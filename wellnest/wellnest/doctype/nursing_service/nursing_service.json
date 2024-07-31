@@ -18,7 +18,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-12 18:03:27.669963",
+ "modified": "2024-07-31 12:50:53.569221",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Nursing Service",
@@ -38,7 +38,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "nursing_service"
 }

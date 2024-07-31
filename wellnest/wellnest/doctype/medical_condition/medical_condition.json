@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:Medical Condition-{####}",
+ "autoname": "field:medical_condtion",
  "creation": "2024-06-13 16:49:30.710413",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -18,11 +18,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 18:44:47.217918",
+ "modified": "2024-07-31 09:23:25.081312",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Medical Condition",
- "naming_rule": "Expression",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -38,7 +38,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "medical_condtion"
 }

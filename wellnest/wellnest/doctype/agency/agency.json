@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:Agency-{####}",
+ "autoname": "format:AGEN-{######}",
  "creation": "2024-06-12 16:56:27.256233",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -24,6 +24,7 @@
   "city",
   "state",
   "pin_code",
+  "referral_code",
   "services_provided_section",
   "attendant_services",
   "nursing_service",
@@ -181,11 +182,16 @@
   {
    "fieldname": "column_break_tclq",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "referral_code",
+   "fieldtype": "Data",
+   "label": "Referral Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-18 18:29:52.615309",
+ "modified": "2024-07-30 17:49:10.180710",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Agency",
