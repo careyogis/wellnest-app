@@ -36,21 +36,13 @@
                   {{ caregiverResource.data.phone_number.slice(0, 3) }}
                   {{ caregiverResource.data.phone_number.slice(4) }}
                 </div>
-                <div v-if="caregiverResource.data.email">
+                <div>
                   <Badge :variant="'ghost'" theme="gray">
                     <template #prefix>
                       <FeatherIcon class="w-4" name="mail" />
                     </template>
                   </Badge>
                   {{ caregiverResource.data.email }}
-                </div>
-                <div v-else-if="caregiverResource.data.email === null">
-                  <Badge :variant="'ghost'" theme="gray">
-                    <template #prefix>
-                      <FeatherIcon class="w-4" name="mail" />
-                    </template>
-                  </Badge>
-                  None
                 </div>
               </div>
               <!-- TODO: MAKE ALL THE BELOW INFO DYNAMIC -->
@@ -130,39 +122,15 @@ const state = reactive({
   ],
 })
 
-let agencyResource;
 let caregiverResource = createResource({
-  // url: '/api/method/frappe.client.get_list',
-  url: '/api/method/frappe.client.get',
+  url: 'frappe.client.get',
   params: {
     doctype: 'Caregiver',
-    // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', ],  
+    // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],  
     filters: {
       user_id: session.user,
     },
   },
-  onSuccess(data) {
-    agencyResource = loadAgency(data.agency);
-  },
   auto: true,
 })
-
-function loadAgency(agencyName) {
-  let agencyData;
-  if (agencyName) {
-    agencyData = createResource({
-      url: '/api/method/frappe.client.get',
-      params: {
-        doctype: 'Agency',
-        //fields: ['agency_name', 'primary_contact_full_name', 'primary_phone', 'email', 'complete_address', ],  
-        name: agencyName,
-      },
-    })
-    agencyData.fetch();
-    return agencyData;
-  }
-  else {
-    return null;
-  }
-}
 </script>
