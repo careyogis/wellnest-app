@@ -15,6 +15,9 @@
     <div class="flex flex-row space-x-2 mt-4">
       <Button @click="showDialog = true">Open Dialog</Button>
       <Button @click="session.logout.submit()">Logout</Button>
+      <Button>
+        <router-link :to="{ name: 'Profile' }">Go to Profile</router-link>
+      </Button>
     </div>
 
     <!-- Dialog -->

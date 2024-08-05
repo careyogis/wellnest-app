@@ -70,7 +70,7 @@
                 <div v-if="caregiverResource.data.caregiver_type === 'Nurse'">
                   <!-- make this dynamic for when it's attendant and when it's nursing -->
                   <span
-                    v-for="specialization in caregiverResource.data.nursing_care"
+                    v-for="specialization in caregiverResource.data.nursing_specialization"
                     class="mx-1"
                   >
                     <Badge

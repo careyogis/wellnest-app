@@ -5,6 +5,10 @@ import frappeui from 'frappe-ui/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    // Set to 'true' for detailed mismatch info in production
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'true'
+  },
   plugins: [frappeui(), vue()],
   resolve: {
     alias: {

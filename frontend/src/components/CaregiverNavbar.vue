@@ -1,7 +1,7 @@
 <template>
   <nav class="flex mx-5 my-2 items-center justify-between">
     <div class="w-15 h-15 flex items-center">
-      <Button :variant="'outline'" class="w-8 h-8 rounded-full">
+      <Button :variant="'outline'" @click="$router.go(-1)" class="w-8 h-8 rounded-full">
         <FeatherIcon class="w-5 stroke-[#070707] stroke-2" name="arrow-left" />
       </Button>
     </div>
