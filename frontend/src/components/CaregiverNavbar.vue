@@ -7,7 +7,7 @@
     </div>
     <!-- <Badge class="flex-auto w-15" :variant="'ghost'" theme="gray">
     </Badge> -->
-    <h1 class="text-2xl text-[#070707] font-medium justify-self-center">Profile</h1>
+    <h1 class="text-2xl text-[#070707] font-semibold justify-self-center">Profile</h1>
     <img class="w-15" src="/public/favicon.png" alt="" />
   </nav>
   <hr>
@@ -19,7 +19,7 @@
       label="EY"
       size="3xl"
     />
-    <div class="text-xl text-[#070707] font-medium">
+    <div class="text-xl text-[#070707] font-semibold">
       {{ caregiver.full_name }}
     </div>
     <div>

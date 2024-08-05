@@ -6,11 +6,11 @@
         <div class="p-5">
           <div>
             <div v-if="state.index === 0">
-              <div>
-                <div class="text-xl text-[#070707] font-medium">
-                Contact Information
+              <div class="mb-7">
+                <div class="text-xl text-[#070707] font-semibold mb-3">
+                  Contact Information
                 </div>
-                <div>
+                <div class="mb-3">
                   <Badge :variant="'ghost'" theme="gray">
                     <template #prefix>
                       <FeatherIcon class="w-4" name="phone" />
@@ -37,20 +37,20 @@
                 </div>
               </div>
               <!-- TODO: MAKE ALL THE BELOW INFO DYNAMIC -->
-              <div class="agencyDetails">
-                <div class="text-xl text-[#070707] font-medium">
-                  Agency info
+              <div class="agencyDetails mb-7">
+                <div class="text-xl text-[#070707] font-semibold mb-3">
+                  Agency Details
                 </div>
-                <div>
+                <div class="mb-3">
                   <Badge :variant="'ghost'" theme="gray">
                     <template #prefix>
                       <FeatherIcon class="w-5" name="user" />
                     </template>
                   </Badge>
-                  <!-- Agency Name Here -->
+                  Agency Name Here
                   <!-- {{ agency.agency_name }} -->
                 </div>
-                <div>
+                <div class="mb-3">
                   <Badge :variant="'ghost'" theme="gray">
                     <template #prefix>
                       <FeatherIcon class="w-4" name="phone" />
@@ -67,23 +67,29 @@
                   Agency Adress here
                 </div>
               </div>
-              <div class="mySpecialities">
-                <div >
+              <div class="mySpecialities mb-5">
+                <div class="text-xl text-[#070707] font-semibold mb-2">
                   My Specialities
                 </div>
                 <div>
                   <span
                     v-for="specialization in caregiver.nursing_specialization"
+                    class="mx-1"
                   >
                     <Badge
                       :variant="'solid'"
-                      size="sm"
+                      size="lg"
                       label="Badge"
                       theme="orange"
                     >
                       {{ specialization.link_liob }}
                     </Badge>
                   </span>
+                </div>
+              </div>
+              <div class="mb-5">
+                <div class="text-xl text-[#070707] font-semibold mb-2">
+                  Important Documents
                 </div>
               </div>
             </div>
@@ -166,7 +172,7 @@ console.log(agencyResource.doc)
 
 let agency = computed(() => {
   if (agencyResource.doc) {
-    console.log("agencyResource being read")
+    console.log('agencyResource being read')
     return agencyResource.doc
   }
 })
