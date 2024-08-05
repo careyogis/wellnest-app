@@ -1,7 +1,7 @@
 <template>
   <div v-if="!caregiverResource.loading && caregiverResource.data">
     <CaregiverNavbar title="Profile" />
-    <center class="my-3">
+    <div class="my-3 flex flex-col items-center">
       <Avatar
         class="flex-auto"
         :shape="'circle'"
@@ -16,7 +16,7 @@
         {{ caregiverResource.data.caregiver_type }}
       </div>
       <div>Member Since: {{ caregiverResource.data.creation.slice(0, 11) }}</div>
-    </center>
+    </div>
 
     <Tabs class="bro" v-model="state.index" :tabs="state.tabs">
       <template #default="{ tab }">
@@ -39,7 +39,7 @@
                 <div v-if="caregiverResource.data.email">
                   <Badge :variant="'ghost'" theme="gray">
                     <template #prefix>
-                      <FeatherIcon class="w-4" name="phone" />
+                      <FeatherIcon class="w-4" name="mail" />
                     </template>
                   </Badge>
                   {{ caregiverResource.data.email }}
@@ -59,9 +59,10 @@
                 <div class="text-xl text-[#070707] font-semibold mb-2">
                   My Specialities
                 </div>
-                <div>
+                <div v-if="caregiverResource.data.caregiver_type === 'Attendant'">
+                  <!-- make this dynamic for when it's attendant and when it's nursing -->
                   <span
-                    v-for="specialization in caregiverResource.data.nursing_specialization"
+                    v-for="specialization in caregiverResource.data.attendant_care"
                     class="mx-1"
                   >
                     <Badge
@@ -70,7 +71,23 @@
                       label="Badge"
                       theme="orange"
                     >
-                      {{ specialization.link_liob }}
+                      {{ specialization.link_ebyl }}
+                    </Badge>
+                  </span>
+                </div>
+                <div v-if="caregiverResource.data.caregiver_type === 'Nurse'">
+                  <!-- make this dynamic for when it's attendant and when it's nursing -->
+                  <span
+                    v-for="specialization in caregiverResource.data.nursing_care"
+                    class="mx-1"
+                  >
+                    <Badge
+                      :variant="'solid'"
+                      size="lg"
+                      label="Badge"
+                      theme="orange"
+                    >
+                      {{ specialization.link_liob}}
                     </Badge>
                   </span>
                 </div>
