@@ -1,14 +1,15 @@
 <template>
-  <h1 class="text-gray-900 font-bold text-[32px]">Profile</h1>
   <div v-if="caregiver">
     <CaregiverNavbar />
-    <Tabs v-model="state.index" :tabs="state.tabs">
+    <Tabs class="bro" v-model="state.index" :tabs="state.tabs">
       <template #default="{ tab }">
         <div class="p-5">
           <div>
             <div v-if="state.index === 0">
-              <div class="contactInfo">
-                <b>Contact Information</b>
+              <div>
+                <div class="text-xl text-[#070707] font-medium">
+                Contact Information
+                </div>
                 <div>
                   <Badge :variant="'ghost'" theme="gray">
                     <template #prefix>
@@ -37,14 +38,17 @@
               </div>
               <!-- TODO: MAKE ALL THE BELOW INFO DYNAMIC -->
               <div class="agencyDetails">
-                <b>Agency Info</b>
+                <div class="text-xl text-[#070707] font-medium">
+                  Agency info
+                </div>
                 <div>
                   <Badge :variant="'ghost'" theme="gray">
                     <template #prefix>
                       <FeatherIcon class="w-5" name="user" />
                     </template>
                   </Badge>
-                  Agency Name Here
+                  <!-- Agency Name Here -->
+                  <!-- {{ agency.agency_name }} -->
                 </div>
                 <div>
                   <Badge :variant="'ghost'" theme="gray">
@@ -64,7 +68,9 @@
                 </div>
               </div>
               <div class="mySpecialities">
-                <b>My Specialities</b>
+                <div >
+                  My Specialities
+                </div>
                 <div>
                   <span
                     v-for="specialization in caregiver.nursing_specialization"
@@ -87,30 +93,29 @@
         </div>
       </template>
     </Tabs>
-    <div>
-    </div>
+    <div></div>
   </div>
 </template>
 
 <script setup>
 import { Tabs, FeatherIcon, Badge } from 'frappe-ui'
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { createDocumentResource } from 'frappe-ui'
 import CaregiverNavbar from '../components/CaregiverNavbar.vue'
 import { createResource } from 'frappe-ui'
 
 // TODO: Need to get the doctype instance not just the doctype list
-let todos = createResource({
-  url: '/api/method/frappe.client.get_list',
-  // url: '/api/method/frappe.get_doc',
-  // url: '/api/v2/document/Caregiver',
-  // method: 'GET',
-  params: {
-    doctype: 'Caregiver',
-    name: 'Caregiver-0009'
-  },
-})
-todos.fetch()
+// let todos = createResource({
+//   url: '/api/method/frappe.client.get_list',
+//   // url: '/api/method/frappe.get_doc',
+//   // url: '/api/v2/document/Caregiver',
+//   // method: 'GET',
+//   params: {
+//     doctype: 'Caregiver',
+//     name: 'Caregiver-0009'
+//   },
+// })
+// todos.fetch()
 
 const state = reactive({
   index: 0,
@@ -131,9 +136,15 @@ let caregiverResource = createDocumentResource({
   doctype: 'Caregiver',
   name: 'Caregiver-0009',
   auto: true,
-  onSuccess(data) {
-    let agency = agencyResource(data.agency)
-  },
+  // onSuccess(data) {
+  //   let agency = agencyResource(data.agency)
+  // },
+})
+
+const caregiver = computed(() => {
+  if (caregiverResource.doc) {
+    return caregiverResource.doc
+  }
 })
 
 let agencyResource = (agency_name) => {
@@ -145,15 +156,19 @@ let agencyResource = (agency_name) => {
   return agency_resource
 }
 
-const caregiver = computed(() => {
-  if (caregiverResource.doc) {
-    return caregiverResource.doc
-  }
+watch(caregiver, () => {
+  console.log(caregiver.value.agency)
+  agencyResource(caregiver.value.agency)
+  console.log(agencyResource.doc)
 })
 
-// const agency = computed(() => {
-//   if (agencyResource.doc) {
-//     return agencyResource.doc
-//   }
-// })
+console.log(agencyResource.doc)
+
+let agency = computed(() => {
+  if (agencyResource.doc) {
+    console.log("agencyResource being read")
+    return agencyResource.doc
+  }
+})
+console.log(agency.value)
 </script>
