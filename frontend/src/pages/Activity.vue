@@ -41,7 +41,7 @@ const state = reactive({
 
 let beneficiaryResource = createDocumentResource({
   doctype: 'Beneficiary',
-  name: 'Ben-0010',
+  name: 'BENF-000017',
   auto: true,
 })
 

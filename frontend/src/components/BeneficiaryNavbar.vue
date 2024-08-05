@@ -24,7 +24,7 @@ import { createDocumentResource } from 'frappe-ui';
 
 let beneficiaryResource = createDocumentResource({
     doctype: 'Beneficiary',
-    name: 'Ben-0010',
+    name: 'BENF-000017',
     auto: true,
     // onSuccess(data) {
     //     console.log(data.agency)

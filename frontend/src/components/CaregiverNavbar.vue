@@ -7,45 +7,14 @@
     </div>
     <!-- <Badge class="flex-auto w-15" :variant="'ghost'" theme="gray">
     </Badge> -->
-    <h1 class="text-2xl text-[#070707] font-semibold justify-self-center">Profile</h1>
+    <h1 class="text-2xl text-[#070707] font-semibold justify-self-center">{{ title }}</h1>
     <img class="w-15" src="/public/favicon.png" alt="" />
   </nav>
   <hr>
-  <center class="my-3">
-    <Avatar
-      class="flex-auto"
-      :shape="'circle'"
-      :image="caregiver.passport_size_photo"
-      label="EY"
-      size="3xl"
-    />
-    <div class="text-xl text-[#070707] font-semibold">
-      {{ caregiver.full_name }}
-    </div>
-    <div>
-      {{ caregiver.caregiver_type }}
-    </div>
-    <div>Member Since: {{ caregiver.creation.slice(0, 11) }}</div>
-  </center>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { Avatar, Badge, FeatherIcon } from 'frappe-ui'
-import { createDocumentResource } from 'frappe-ui'
+import { FeatherIcon } from 'frappe-ui'
+defineProps(['title'])
 
-let caregiverResource = createDocumentResource({
-  doctype: 'Caregiver',
-  name: 'Caregiver-0009',
-  auto: true,
-  // onSuccess(data) {
-  //     console.log(data.agency)
-  //     const agency_data = data.agency
-  // }
-})
-const caregiver = computed(() => {
-  if (caregiverResource.doc) {
-    return caregiverResource.doc
-  }
-})
 </script>
