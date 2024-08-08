@@ -29,22 +29,18 @@
                 <div class="text-xl text-[#070707] font-semibold mb-3">
                   Contact Information
                 </div>
-                <div class="mb-3">
-                  <Badge :variant="'ghost'" theme="gray">
-                    <template #prefix>
-                      <FeatherIcon class="w-4" name="phone" />
-                    </template>
-                  </Badge>
-                  {{ caregiverResource.data.phone_number.slice(0, 3) }}
-                  {{ caregiverResource.data.phone_number.slice(4) }}
+                <div class="mb-3 flex gap-2">
+                  <FeatherIcon class="w-4" name="phone" />
+                  <div>
+                    {{ caregiverResource.data.phone_number.slice(0, 3) }}
+                    {{ caregiverResource.data.phone_number.slice(4) }}
+                  </div>
                 </div>
-                <div>
-                  <Badge :variant="'ghost'" theme="gray">
-                    <template #prefix>
-                      <FeatherIcon class="w-4" name="mail" />
-                    </template>
-                  </Badge>
-                  {{ caregiverResource.data.email }}
+                <div class="flex gap-2">
+                  <FeatherIcon class="w-4 mt-0.5" name="mail" />
+                  <div>
+                    {{ caregiverResource.data.email }}
+                  </div>
                 </div>
               </div>
               <!-- TODO: MAKE ALL THE BELOW INFO DYNAMIC -->
