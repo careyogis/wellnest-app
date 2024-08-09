@@ -1,0 +1,44 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Payment Mode",
+  "modified": "2024-07-31 19:06:39.486930",
+  "name": "Cash",
+  "type_name": "Cash"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Payment Mode",
+  "modified": "2024-07-31 19:06:52.388484",
+  "name": "Bank Account",
+  "type_name": "Bank Account"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Payment Mode",
+  "modified": "2024-07-31 19:08:53.228100",
+  "name": "Cheque",
+  "type_name": "Cheque"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Payment Mode",
+  "modified": "2024-07-31 19:09:03.110138",
+  "name": "UPI",
+  "type_name": "UPI"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Payment Mode",
+  "modified": "2024-07-31 19:09:18.954000",
+  "name": "Credit Card",
+  "type_name": "Credit Card"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Payment Mode",
+  "modified": "2024-07-31 19:09:31.160646",
+  "name": "Debit Card",
+  "type_name": "Debit Card"
+ }
+]
