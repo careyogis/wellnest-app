@@ -227,6 +227,6 @@ app_license = "mit"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
-fixtures = ["State", "City", "Specialization", "Specialization Option", "Attendant Service", "Attendant Service Option", "Nursing Service", "Nursing Service Option", "Spoken Language", "Medical Condition", "Attendant Service Needed", "Lead Source", "Lead Status"]
+fixtures = ["State", "City", "Specialization", "Specialization Option", "Attendant Service", "Attendant Service Option", "Nursing Service", "Nursing Service Option", "Spoken Language", "Medical Condition", "Attendant Service Needed", "Lead Source", "Lead Status", "Account Type", "Service", "Payment Mode", "Transaction Status", "Payment Type"]
 
 website_route_rules = [{'from_route': '/frontend/<path:app_path>', 'to_route': 'frontend'},]

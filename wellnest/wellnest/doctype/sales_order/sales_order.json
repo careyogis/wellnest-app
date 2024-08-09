@@ -1,0 +1,280 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-08-01 12:37:16.498046",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "beneficiary",
+  "family_member",
+  "start_date",
+  "paid_by",
+  "column_break_aagq",
+  "orginating_lead",
+  "order_date",
+  "end_date",
+  "service_delivery_section",
+  "service_address",
+  "state",
+  "column_break_jbvj",
+  "billing_address",
+  "city",
+  "pin_code",
+  "tab_break_gfvu",
+  "sales_order_service_code_section",
+  "sales_order",
+  "unit",
+  "quantity",
+  "cgst",
+  "igst",
+  "total_amount",
+  "column_break_sjzg",
+  "service_code",
+  "rate_inr",
+  "net_amount",
+  "sgst",
+  "tax_amount",
+  "notes",
+  "payment_terms_tab",
+  "payment_section",
+  "grand_totalinr",
+  "discount",
+  "total_amount_to_pay_after_discount_inr",
+  "amount_billed_",
+  "column_break_zgrc",
+  "advance_paidinr",
+  "discount_amount_inr",
+  "payment_status"
+ ],
+ "fields": [
+  {
+   "fieldname": "beneficiary",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Beneficiary",
+   "reqd": 1
+  },
+  {
+   "fieldname": "family_member",
+   "fieldtype": "Link",
+   "label": "Family Member",
+   "options": "Family Member"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date "
+  },
+  {
+   "fieldname": "paid_by",
+   "fieldtype": "Select",
+   "label": "Paid by ",
+   "options": "\nBeneficiary\nFamily Member"
+  },
+  {
+   "fieldname": "column_break_aagq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "orginating_lead",
+   "fieldtype": "Data",
+   "label": "Orginating Lead"
+  },
+  {
+   "fieldname": "order_date",
+   "fieldtype": "Date",
+   "label": "Order Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date "
+  },
+  {
+   "fieldname": "service_delivery_section",
+   "fieldtype": "Section Break",
+   "label": "Service Delivery"
+  },
+  {
+   "fieldname": "service_address",
+   "fieldtype": "Small Text",
+   "label": "Service Address "
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Link",
+   "label": "State ",
+   "options": "State"
+  },
+  {
+   "fieldname": "billing_address",
+   "fieldtype": "Small Text",
+   "label": "Billing Address "
+  },
+  {
+   "fieldname": "column_break_jbvj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Link",
+   "label": "City ",
+   "options": "City"
+  },
+  {
+   "fieldname": "pin_code",
+   "fieldtype": "Data",
+   "label": "Pin Code "
+  },
+  {
+   "fieldname": "tab_break_gfvu",
+   "fieldtype": "Tab Break",
+   "label": "Service"
+  },
+  {
+   "fieldname": "sales_order_service_code_section",
+   "fieldtype": "Section Break",
+   "label": "Sales Order Service Code "
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Data",
+   "label": "Sales Order "
+  },
+  {
+   "fieldname": "unit",
+   "fieldtype": "Duration",
+   "label": "Unit ",
+   "options": "\nHour\nSession\nDay"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Data",
+   "label": "Quantity "
+  },
+  {
+   "fieldname": "cgst",
+   "fieldtype": "Data",
+   "label": "CGST "
+  },
+  {
+   "fieldname": "igst",
+   "fieldtype": "Data",
+   "label": "IGST "
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Data",
+   "label": "Total Amount "
+  },
+  {
+   "fieldname": "column_break_sjzg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "service_code",
+   "fieldtype": "Link",
+   "label": "Service Code ",
+   "options": "Service Code"
+  },
+  {
+   "fieldname": "rate_inr",
+   "fieldtype": "Data",
+   "label": "Rate (INR) "
+  },
+  {
+   "fieldname": "net_amount",
+   "fieldtype": "Data",
+   "label": "Net Amount "
+  },
+  {
+   "fieldname": "sgst",
+   "fieldtype": "Data",
+   "label": "SGST "
+  },
+  {
+   "fieldname": "tax_amount",
+   "fieldtype": "Data",
+   "label": "Tax Amount "
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Data",
+   "label": "Notes "
+  },
+  {
+   "fieldname": "payment_terms_tab",
+   "fieldtype": "Tab Break",
+   "label": "Payment Terms"
+  },
+  {
+   "fieldname": "payment_section",
+   "fieldtype": "Section Break",
+   "label": "Payment"
+  },
+  {
+   "fieldname": "grand_totalinr",
+   "fieldtype": "Currency",
+   "label": "Grand Total(INR)"
+  },
+  {
+   "fieldname": "discount",
+   "fieldtype": "Percent",
+   "label": "Discount%"
+  },
+  {
+   "fieldname": "total_amount_to_pay_after_discount_inr",
+   "fieldtype": "Currency",
+   "label": "Total Amount to pay after discount (INR) "
+  },
+  {
+   "fieldname": "amount_billed_",
+   "fieldtype": "Currency",
+   "label": "Amount Billed (%) "
+  },
+  {
+   "fieldname": "column_break_zgrc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "advance_paidinr",
+   "fieldtype": "Currency",
+   "label": "Advance Paid(INR)"
+  },
+  {
+   "fieldname": "discount_amount_inr",
+   "fieldtype": "Currency",
+   "label": "Discount Amount (INR) "
+  },
+  {
+   "fieldname": "payment_status",
+   "fieldtype": "Select",
+   "label": "Payment Status ",
+   "options": "\nPartial\nCompleted"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-08-05 18:34:35.566575",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Sales Order",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

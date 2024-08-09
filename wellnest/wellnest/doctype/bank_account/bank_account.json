@@ -1,0 +1,194 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:BACT--{#####} ",
+ "creation": "2024-08-07 11:38:52.711334",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "account_name",
+  "account_type",
+  "column_break_rqhl",
+  "bank_name",
+  "party_detail_section",
+  "party_type",
+  "column_break_ijur",
+  "party",
+  "account_tab",
+  "account_detail_section",
+  "branch_code",
+  "bank_account_no",
+  "pan",
+  "document",
+  "column_break_kbuw",
+  "swift_code",
+  "tan",
+  "gstin",
+  "approved",
+  "other_detail_section",
+  "primary_account_holder",
+  "phone",
+  "whatsapp",
+  "column_break_zzvi",
+  "address"
+ ],
+ "fields": [
+  {
+   "fieldname": "account_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Account Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "account_type",
+   "fieldtype": "Link",
+   "label": "Account Type",
+   "options": "Account Type"
+  },
+  {
+   "fieldname": "column_break_rqhl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bank_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Bank Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "party_detail_section",
+   "fieldtype": "Section Break",
+   "label": "Party Detail"
+  },
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Link",
+   "label": "Party Type",
+   "link_filters": "[[\"DocType\",\"module\",\"=\",\"WellNest\"]]",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "column_break_ijur",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "party_type"
+  },
+  {
+   "fieldname": "account_tab",
+   "fieldtype": "Tab Break",
+   "label": "Account"
+  },
+  {
+   "fieldname": "account_detail_section",
+   "fieldtype": "Section Break",
+   "label": "Account Detail"
+  },
+  {
+   "fieldname": "branch_code",
+   "fieldtype": "Data",
+   "label": "Branch Code "
+  },
+  {
+   "fieldname": "bank_account_no",
+   "fieldtype": "Data",
+   "label": "Bank Account No "
+  },
+  {
+   "fieldname": "pan",
+   "fieldtype": "Data",
+   "label": "PAN "
+  },
+  {
+   "fieldname": "document",
+   "fieldtype": "Attach",
+   "label": "Document "
+  },
+  {
+   "fieldname": "column_break_kbuw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "swift_code",
+   "fieldtype": "Data",
+   "label": "SWIFT Code "
+  },
+  {
+   "fieldname": "tan",
+   "fieldtype": "Data",
+   "label": "TAN "
+  },
+  {
+   "fieldname": "gstin",
+   "fieldtype": "Data",
+   "label": "GSTIN "
+  },
+  {
+   "fieldname": "approved",
+   "fieldtype": "Select",
+   "label": "Approved ",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "other_detail_section",
+   "fieldtype": "Section Break",
+   "label": "Other Detail"
+  },
+  {
+   "fieldname": "primary_account_holder",
+   "fieldtype": "Data",
+   "label": "Primary account holder "
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Phone",
+   "label": "Phone "
+  },
+  {
+   "fieldname": "column_break_zzvi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address "
+  },
+  {
+   "fieldname": "whatsapp",
+   "fieldtype": "Phone",
+   "label": "WhatsApp "
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-08-09 10:16:48.928502",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Bank Account",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "account_name"
+}

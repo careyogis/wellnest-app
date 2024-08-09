@@ -1,176 +1,131 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:PYMT-{#####}",
  "creation": "2024-06-13 13:23:51.191882",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "beneficiary",
-  "payment_mode",
-  "transaction_id",
-  "amount",
-  "payment_datetime",
-  "refund",
-  "refund_reason",
-  "column_break_vyez",
-  "applicant",
-  "payment_link",
-  "transaction_status",
-  "transaction_receipt",
-  "purpose",
-  "refund_amount",
+  "sales_order",
   "bank_information_section",
-  "account_number",
-  "bank_ifsc",
+  "party_type",
+  "name_optional",
   "column_break_rvbo",
-  "bank_branch",
-  "card_information_section",
-  "card_number",
+  "party",
+  "payment_details",
+  "account_paid_to",
+  "payment_mode",
+  "transaction_status",
+  "transaction_amount",
+  "transaction_remarks",
   "column_break_yrpo",
-  "card_expiry"
+  "account_paid_from",
+  "transaction_id",
+  "transaction_receipt",
+  "transaction_datetime"
  ],
  "fields": [
   {
    "fieldname": "payment_mode",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Payment mode",
-   "options": "\nUPI\nCredit Card\nDebit Card\nBank Transfer",
-   "reqd": 1
-  },
-  {
-   "fieldname": "payment_link",
-   "fieldtype": "Data",
-   "label": "Payment link"
+   "fieldtype": "Link",
+   "label": "Payment Mode ",
+   "options": "Payment Mode"
   },
   {
    "fieldname": "transaction_id",
    "fieldtype": "Data",
-   "label": "Transaction Id"
+   "label": "Transaction Id "
   },
   {
-   "default": "Pending",
    "fieldname": "transaction_status",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Transaction status",
-   "options": "Pending\nSuccess\nFailed"
+   "fieldtype": "Link",
+   "label": "Transaction Status ",
+   "options": "Transaction Status"
   },
   {
    "fieldname": "transaction_receipt",
-   "fieldtype": "Attach",
-   "label": "Transaction receipt"
-  },
-  {
-   "fieldname": "amount",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Amount",
-   "non_negative": 1,
-   "reqd": 1
-  },
-  {
-   "fieldname": "payment_datetime",
-   "fieldtype": "Date",
-   "label": "Payment date"
-  },
-  {
-   "fieldname": "card_number",
-   "fieldtype": "Int",
-   "label": "Card number",
-   "mandatory_depends_on": "eval: doc.payment_mode === \"Credit Card\" || doc.payment_mode === \"Debit Card\";"
-  },
-  {
-   "fieldname": "card_expiry",
    "fieldtype": "Data",
-   "label": "Card expiry",
-   "mandatory_depends_on": "eval: doc.payment_mode === \"Credit Card\" || doc.payment_mode === \"Debit Card\";"
+   "label": "Transaction Receipt "
   },
   {
-   "fieldname": "bank_branch",
-   "fieldtype": "Data",
-   "label": "Bank branch",
-   "mandatory_depends_on": "eval: doc.payment_mode === \"Bank Transfer\";"
-  },
-  {
-   "fieldname": "bank_ifsc",
-   "fieldtype": "Data",
-   "label": "Bank IFSC",
-   "length": 11,
-   "mandatory_depends_on": "eval: doc.payment_mode === \"Bank Transfer\";"
-  },
-  {
-   "fieldname": "refund",
-   "fieldtype": "Select",
-   "label": "Refund?",
-   "options": "\nNo\nYes"
-  },
-  {
-   "fieldname": "refund_reason",
-   "fieldtype": "Data",
-   "label": "Refund reason"
-  },
-  {
-   "fieldname": "refund_amount",
-   "fieldtype": "Int",
-   "label": "Refund amount"
-  },
-  {
-   "fieldname": "beneficiary",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Beneficiary",
-   "options": "Beneficiary",
-   "reqd": 1
-  },
-  {
-   "fieldname": "column_break_vyez",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "applicant",
-   "fieldtype": "Link",
-   "label": "Applicant",
-   "options": "Family Member"
-  },
-  {
-   "fieldname": "purpose",
-   "fieldtype": "Data",
-   "label": "Purpose"
-  },
-  {
-   "depends_on": "eval: doc.payment_mode === \"Bank Transfer\";",
    "fieldname": "bank_information_section",
    "fieldtype": "Section Break",
-   "label": "Bank Information"
+   "label": "Sending party detail"
   },
   {
    "fieldname": "column_break_rvbo",
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval: doc.payment_mode === \"Credit Card\" || doc.payment_mode === \"Debit Card\";",
-   "fieldname": "card_information_section",
-   "fieldtype": "Section Break",
-   "label": "Card Information"
-  },
-  {
    "fieldname": "column_break_yrpo",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "account_number",
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "label": "Sales Order ",
+   "options": "Sales Order"
+  },
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Link",
+   "label": "Party Type ",
+   "link_filters": "[[\"DocType\",\"module\",\"=\",\"WellNest\"]]",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "name_optional",
    "fieldtype": "Data",
-   "label": "Account Number",
-   "length": 15
+   "label": "Name "
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "party_type"
+  },
+  {
+   "fieldname": "transaction_amount",
+   "fieldtype": "Data",
+   "label": "Transaction Amount "
+  },
+  {
+   "fieldname": "transaction_remarks",
+   "fieldtype": "Data",
+   "label": "Transaction Remarks "
+  },
+  {
+   "fieldname": "transaction_datetime",
+   "fieldtype": "Date",
+   "label": "Transaction Datetime "
+  },
+  {
+   "fieldname": "payment_details",
+   "fieldtype": "Section Break",
+   "label": "Payment Details"
+  },
+  {
+   "fieldname": "account_paid_to",
+   "fieldtype": "Link",
+   "label": "Account Paid To ",
+   "mandatory_depends_on": "eval: doc.payment_mode === \"Credit Card\" || doc.payment_mode === \"Debit Card\";",
+   "options": "Bank Account"
+  },
+  {
+   "fieldname": "account_paid_from",
+   "fieldtype": "Link",
+   "label": "Account Paid From ",
+   "mandatory_depends_on": "eval: doc.payment_mode === \"Credit Card\" || doc.payment_mode === \"Debit Card\";",
+   "options": "Bank Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 10:54:46.140524",
+ "modified": "2024-08-08 12:16:43.312458",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Payment",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -186,7 +141,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "name_optional"
 }
