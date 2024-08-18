@@ -6,7 +6,7 @@
       </Button>
     </div>
     <h1 class="text-2xl text-[#070707] font-semibold justify-self-center">{{ title }}</h1>
-    <img class="w-15" src="/public/favicon.png" alt="" />
+    <img class="w-15" src="/favicon.png" alt="" />
   </nav>
   <hr>
 </template>
