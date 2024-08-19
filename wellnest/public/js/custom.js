@@ -8,7 +8,7 @@
     });
 
     $('.main-nav-one__cta').on('click', function() {
-        window.open('https://wa.me/+919810918237?text=hi','_blank');
+        window.open('https://wa.me/+916302693084?text=hi','_blank');
     });
 
     $('.fa.fa-map-marker-alt').on('click', function() {
