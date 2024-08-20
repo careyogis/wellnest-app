@@ -250,19 +250,19 @@ let caregiverResource = createResource({
   auto: true,
 })
 
-console.log(caregiverResource)
-window.sankalp = caregiverResource
+// console.log(caregiverResource)
+// window.sankalp = caregiverResource
 
-let agencyResource
-agencyResource = createResource({
-  url: 'frappe.client.get_list',
-  params: {
-    doctype: 'Agency',
-    fields: ['agency_name', 'primary_phone', 'complete_address'],
-    name: props.agencyName,
-  },
-  auto: true,
-})
+// let agencyResource
+// agencyResource = createResource({
+//   url: 'frappe.client.get_list',
+//   params: {
+//     doctype: 'Agency',
+//     fields: ['agency_name', 'primary_phone', 'complete_address'],
+//     name: props.agencyName,
+//   },
+//   auto: true,
+// })
 
 // let caregiverResource
 // let agencyResource
