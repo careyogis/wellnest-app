@@ -99,27 +99,26 @@
                 <p class="text-xl text-[#070707] font-semibold mb-1">
                   Total Earnings
                 </p>
-                <!-- How to get the currency symbol -->
                 <p class="text-[36px] text-[#070707] font-semibold mb-2">
-                  1,65,000
+                  {{ formatCurrency(165000, 'INR') }}
                 </p>
                 <div class="grid grid-cols-2 grid-rows-2">
                   <div>Next Settlement</div>
-                  <div class="flex">
+                  <div class="flex gap-2">
                     <FeatherIcon
-                      class="w-4 mr-1 stroke-[#78abaf] stroke-2"
+                      class="w-4 stroke-[#78abaf] stroke-2"
                       name="calendar"
                     />
                     <div class="font-semibold text-[#78abaf]">15 July 2024</div>
                   </div>
                   <div>Amount</div>
-                  <div class="flex">
-                    <!-- Replace with currency icon -->
-                    <FeatherIcon
-                      class="w-4 mr-1 stroke-[#78abaf] stroke-2"
-                      name="calendar"
-                    />
-                    <div class="font-semibold text-[#78abaf]">65,000</div>
+                  <div class="flex gap-2">
+                    <div class="font-semibold text-[#78abaf] ml-1">
+                      {{ formatCurrency(0, 'INR').slice(0, 1) }}
+                    </div>
+                    <div class="font-semibold text-[#78abaf] ml-0.5">
+                      {{ formatCurrency(65000, 'INR').slice(1) }}
+                    </div>
                   </div>
                 </div>
                 <button
@@ -139,10 +138,22 @@
               <div class="flex justify-between">
                 <div class="text-3xl font-semibold">Overall Rating</div>
                 <div class="flex">
-                  <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
-                  <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
-                  <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
-                  <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
+                  <FeatherIcon
+                    class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
+                    name="heart"
+                  />
+                  <FeatherIcon
+                    class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
+                    name="heart"
+                  />
+                  <FeatherIcon
+                    class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
+                    name="heart"
+                  />
+                  <FeatherIcon
+                    class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
+                    name="heart"
+                  />
                   <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
                 </div>
               </div>
@@ -176,10 +187,22 @@
                     Amazing service provided by Sankalp Srivastava
                   </p>
                   <div class="flex">
-                    <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
-                    <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
-                    <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
-                    <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
+                    <FeatherIcon
+                      class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
+                      name="heart"
+                    />
+                    <FeatherIcon
+                      class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
+                      name="heart"
+                    />
+                    <FeatherIcon
+                      class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
+                      name="heart"
+                    />
+                    <FeatherIcon
+                      class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
+                      name="heart"
+                    />
                     <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
                   </div>
                 </div>
@@ -189,7 +212,6 @@
         </div>
       </template>
     </Tabs>
-    <div></div>
   </div>
 </template>
 
@@ -199,6 +221,7 @@ import { Tabs, FeatherIcon, Badge, Avatar, createResource } from 'frappe-ui'
 import { session } from '../data/session'
 import CaregiverNavbar from '../components/CaregiverNavbar.vue'
 import Agency from '../components/Agency.vue'
+import { formatCurrency } from '../utils'
 
 const state = reactive({
   index: 0,
@@ -226,4 +249,53 @@ let caregiverResource = createResource({
   },
   auto: true,
 })
+
+console.log(caregiverResource)
+window.sankalp = caregiverResource
+
+let agencyResource
+agencyResource = createResource({
+  url: 'frappe.client.get_list',
+  params: {
+    doctype: 'Agency',
+    fields: ['agency_name', 'primary_phone', 'complete_address'],
+    name: props.agencyName,
+  },
+  auto: true,
+})
+
+// let caregiverResource
+// let agencyResource
+
+// apiCall()
+
+// async function apiCall() {
+//   caregiverResource = createResource({
+//     url: 'frappe.client.get',
+//     params: {
+//       doctype: 'Caregiver',
+//       // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
+//       filters: {
+//         user_id: session.user,
+//     },
+//     },
+//       },
+//     },
+//     auto: true,
+//   })
+//   await caregiverResource.promise
+//   console.log(caregiverResource.data)
+
+//   agencyResource = createResource({
+//     url: 'frappe.client.get_list',
+//     params: {
+//       doctype: 'Agency',
+//       fields: ['agency_name', 'primary_phone', 'complete_address'],
+//       name: caregiverResource.data.agency,
+//     },
+//     auto: true,
+//   })
+//   await agencyResource.promise
+//   console.log(agencyResource.data)
+// }
 </script>
