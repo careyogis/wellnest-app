@@ -10,7 +10,7 @@
   "caregiver_type",
   "approved",
   "column_break_almc",
-  "agency",
+  "supplier",
   "personal_information_section",
   "full_name",
   "phone_number",
@@ -201,12 +201,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "agency",
-   "fieldtype": "Link",
-   "label": "Agency",
-   "options": "Agency"
-  },
-  {
    "fieldname": "column_break_qepj",
    "fieldtype": "Column Break"
   },
@@ -337,11 +331,17 @@
    "fieldname": "referral_code",
    "fieldtype": "Data",
    "label": "Referral Code"
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-30 18:31:09.509501",
+ "modified": "2024-08-21 21:59:11.424534",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
