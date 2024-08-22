@@ -446,7 +446,7 @@ a:focus {
   border-radius: 50%;
   position: fixed;
   bottom: 40px;
-  right: 40px;
+  right: 20px;
   z-index: 990;
   text-align: center;
   -webkit-transition: all 0.4s ease;
@@ -462,7 +462,7 @@ a:focus {
 }
 
 .scroll-to-top i {
-  font-size: 14px;
+  font-size: 20px;
   line-height: 50px;
   color: #fff;
   position: relative;
@@ -478,10 +478,51 @@ a:focus {
   }
 }
 
+.whatsapp-contact-btn {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background: var(--thm-primary);
+  border-radius: 50%;
+  position: fixed;
+  bottom: 40px;
+  left: 20px;
+  z-index: 990;
+  text-align: center;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+@media (max-width: 480px) {
+  .whatsapp-contact-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.whatsapp-contact-btn i {
+  font-size: 20px;
+  line-height: 50px;
+  color: #fff;
+  position: relative;
+  z-index: 10;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+@media (max-width: 480px) {
+  .whatsapp-contact-btn i {
+    font-size: 18px;
+    line-height: 40px;
+  }
+}
+
+.whatsapp-contact-btn:hover,
 .scroll-to-top:hover {
   background-color: var(--thm-black);
 }
 
+.whatsapp-contact-btn:hover,
 .scroll-to-top:hover i {
   color: #fff;
 }
