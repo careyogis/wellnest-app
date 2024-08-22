@@ -134,40 +134,19 @@
                 </button>
               </div>
             </div>
+            <!-- RATINGS SECTION -->
             <div v-else-if="state.index === 2">
               <div class="flex justify-between">
                 <div class="text-3xl font-semibold">Overall Rating</div>
                 <div class="flex">
                   <FeatherIcon
-                    class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
-                    name="heart"
-                  />
-                  <FeatherIcon
-                    class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
-                    name="heart"
-                  />
-                  <FeatherIcon
-                    class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
-                    name="heart"
-                  />
-                  <FeatherIcon
+                    v-for="heart in 4"
                     class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
                     name="heart"
                   />
                   <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
                 </div>
               </div>
-              <!-- <div class="mt-8 flex items-center gap-2">
-                <Avatar
-                  class="mr-2.5"
-                  :shape="'circle'"
-                  :image="caregiverResource.data.passport_size_photo"
-                  label="EY"
-                  size="xl"
-                />
-                <div class="text-sm text-[#78abaf] font-semibold self-start mt-1">Sankalp Srivastava</div>
-                <div class="text-sm self-start mt-1">20 June 2024</div>
-              </div> -->
               <div class="mt-8 grid grid-cols-8">
                 <Avatar
                   class=""
@@ -188,22 +167,10 @@
                   </p>
                   <div class="flex">
                     <FeatherIcon
+                      v-for="heart in 5"
                       class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
                       name="heart"
                     />
-                    <FeatherIcon
-                      class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
-                      name="heart"
-                    />
-                    <FeatherIcon
-                      class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
-                      name="heart"
-                    />
-                    <FeatherIcon
-                      class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
-                      name="heart"
-                    />
-                    <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
                   </div>
                 </div>
               </div>
