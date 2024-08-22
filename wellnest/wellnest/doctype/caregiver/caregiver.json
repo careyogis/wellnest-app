@@ -47,6 +47,8 @@
   "column_break_yizw",
   "availability",
   "any_other_experience",
+  "section_break_iyzd",
+  "rating",
   "background_verification_tab",
   "document_required_for_background_verification_section",
   "aadhar_number",
@@ -337,11 +339,21 @@
    "fieldtype": "Link",
    "label": "Supplier",
    "options": "Supplier"
+  },
+  {
+   "fieldname": "section_break_iyzd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "rating",
+   "fieldtype": "Table",
+   "label": "Rating",
+   "options": "Caregiver Rating"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-21 21:59:11.424534",
+ "modified": "2024-08-22 16:19:58.343964",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
