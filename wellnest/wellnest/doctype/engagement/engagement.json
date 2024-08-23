@@ -57,8 +57,7 @@
   },
   {
    "fieldname": "payment_details_section",
-   "fieldtype": "Section Break",
-   "label": "Assigned Caregivers"
+   "fieldtype": "Section Break"
   },
   {
    "fetch_from": "originating_lead.beneficiary",
@@ -82,6 +81,7 @@
   {
    "fieldname": "table_tymq",
    "fieldtype": "Table",
+   "label": "Services to Render",
    "options": "Service Option"
   },
   {
@@ -97,7 +97,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-23 14:03:05.466868",
+ "modified": "2024-08-23 14:39:37.720384",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement",
