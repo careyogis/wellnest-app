@@ -1244,8 +1244,8 @@ li {
   display: inline-block;
   padding-top: 14.5px;
   padding-bottom: 14.5px;
-  padding-right: 45px;
-  padding-left: 75px;
+  padding-right: 30px;
+  padding-left: 70px;
   position: relative;
   transition: 500ms;
 }
@@ -1257,7 +1257,7 @@ li {
 .main-nav-one__cta>i {
   position: absolute;
   top: 50%;
-  left: 30px;
+  left: 25px;
   transform: translateY(-50%);
   color: #fff;
   font-size: 34px;
