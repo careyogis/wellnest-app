@@ -1,34 +1,29 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:LEAD-{YYYY}{MM}{DD}-{######}",
- "creation": "2024-06-13 15:34:10.143260",
+ "autoname": "format:CY-LEAD-{YYYY}{MM}{DD}-{#####}",
+ "creation": "2024-08-23 12:40:26.316511",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "status",
-  "applicant",
   "source",
+  "source_enquiry",
   "column_break_naxz",
-  "beneficiary",
+  "customer",
   "referral_type",
   "referrer",
+  "payment_details_section",
+  "services_required",
+  "service_details",
+  "caregiver_language_preference",
   "service_preference_section",
   "preferred_start_date_of_service",
   "service_hours",
-  "service_hoursother",
-  "type_of_service_needed",
-  "attendant_service_needed",
-  "column_break_johq",
-  "service_period",
-  "service_periodother",
   "service_area",
-  "nurse_service_needed",
-  "caregiver_language_preference",
-  "payment_details_section",
-  "payment_by",
-  "column_break_pbov",
-  "qualify",
+  "column_break_johq",
+  "potential_end_date",
+  "additional_details",
   "hospital_discharge_detail_tab",
   "hospital_discharge_detailif_the_patient_is_from_hospital_section",
   "department_of_discharge",
@@ -52,24 +47,6 @@
    "fieldname": "service_preference_section",
    "fieldtype": "Section Break",
    "label": "Service Preference"
-  },
-  {
-   "fieldname": "type_of_service_needed",
-   "fieldtype": "Table",
-   "label": "Service Needed",
-   "options": "Service Option"
-  },
-  {
-   "fieldname": "attendant_service_needed",
-   "fieldtype": "Table",
-   "label": "Attendant Service Needed",
-   "options": "Attendant Service Needed Option"
-  },
-  {
-   "fieldname": "nurse_service_needed",
-   "fieldtype": "Table",
-   "label": "Nurse Service Needed",
-   "options": "Nursing Service Option"
   },
   {
    "fieldname": "caregiver_language_preference",
@@ -129,18 +106,6 @@
    "label": "Available medical record"
   },
   {
-   "fieldname": "payment_by",
-   "fieldtype": "Select",
-   "label": "Payment by",
-   "options": "\nSELF\nAPPLICANT"
-  },
-  {
-   "fieldname": "qualify",
-   "fieldtype": "Select",
-   "label": "Qualify",
-   "options": "\nHOT\nWARM\nCOLD"
-  },
-  {
    "fieldname": "column_break_naxz",
    "fieldtype": "Column Break"
   },
@@ -152,11 +117,7 @@
   {
    "fieldname": "payment_details_section",
    "fieldtype": "Section Break",
-   "label": "Payment Details"
-  },
-  {
-   "fieldname": "column_break_pbov",
-   "fieldtype": "Column Break"
+   "label": "Requirements"
   },
   {
    "fieldname": "service_hours",
@@ -165,32 +126,8 @@
    "options": "\n12\n24\nOther"
   },
   {
-   "fieldname": "service_hoursother",
-   "fieldtype": "Data",
-   "label": "Service Hours(Other)"
-  },
-  {
    "fieldname": "column_break_johq",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "service_period",
-   "fieldtype": "Select",
-   "label": "Service Period",
-   "options": "\n1 week\n2 weeks\n3 weeks\n1 month\n2 months\n3 months\n4 months\n5 months\n6 months\nOther"
-  },
-  {
-   "fieldname": "service_periodother",
-   "fieldtype": "Data",
-   "label": "Service Period(Other)"
-  },
-  {
-   "fieldname": "applicant",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Applicant",
-   "options": "Family Member",
-   "reqd": 1
   },
   {
    "default": "New Request",
@@ -199,13 +136,6 @@
    "label": "Status",
    "options": "Lead Status",
    "reqd": 1
-  },
-  {
-   "fieldname": "beneficiary",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Beneficiary",
-   "options": "Beneficiary"
   },
   {
    "fieldname": "referral_type",
@@ -219,14 +149,50 @@
    "fieldtype": "Dynamic Link",
    "label": "Referrer",
    "options": "referral_type"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "source_enquiry",
+   "fieldtype": "Link",
+   "label": "Source Enquiry",
+   "options": "Enquiry"
+  },
+  {
+   "fieldname": "services_required",
+   "fieldtype": "Table",
+   "label": "Services Required",
+   "options": "Blanket Order Item"
+  },
+  {
+   "fieldname": "service_details",
+   "fieldtype": "Table",
+   "label": "Service Details",
+   "options": "Service Option"
+  },
+  {
+   "fieldname": "additional_details",
+   "fieldtype": "Small Text",
+   "label": "Additional Details"
+  },
+  {
+   "fieldname": "potential_end_date",
+   "fieldtype": "Date",
+   "label": "Potential End Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-01 17:01:58.963738",
+ "modified": "2024-08-23 13:20:10.487467",
  "modified_by": "Administrator",
  "module": "WellNest",
- "name": "Lead",
+ "name": "CY Lead",
  "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [

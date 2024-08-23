@@ -6,7 +6,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "service_option"
+  "service_option",
+  "service_category"
  ],
  "fields": [
   {
@@ -14,11 +15,17 @@
    "fieldtype": "Data",
    "label": "Service Option",
    "unique": 1
+  },
+  {
+   "fieldname": "service_category",
+   "fieldtype": "Link",
+   "label": "Service Category",
+   "options": "Item"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-31 12:44:48.473793",
+ "modified": "2024-08-23 13:32:45.734377",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Service",

@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class Lead(Document):
+class CYLead(Document):
 	pass

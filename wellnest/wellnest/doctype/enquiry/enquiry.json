@@ -9,9 +9,12 @@
   "status",
   "full_name",
   "phone_no",
+  "city",
   "column_break_ihkd",
   "type",
   "email",
+  "source",
+  "requirement",
   "section_break_yjaw",
   "enquiry_details"
  ],
@@ -70,11 +73,30 @@
   {
    "fieldname": "section_break_yjaw",
    "fieldtype": "Section Break"
+  },
+  {
+   "default": "Web",
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "label": "Source",
+   "options": "\nWeb\nWhatsApp"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Link",
+   "label": "City",
+   "options": "City"
+  },
+  {
+   "fieldname": "requirement",
+   "fieldtype": "Select",
+   "label": "Requirement",
+   "options": "\nAttendant at Home\nNursing Care\nPhysiotherapy\nSpeech Therapy\nAyurveda\nICU at Home\nMedical Equipments\nOther Services"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-29 22:41:45.881186",
+ "modified": "2024-08-23 12:16:43.360405",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Enquiry",

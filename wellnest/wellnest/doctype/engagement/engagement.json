@@ -7,52 +7,25 @@
  "engine": "InnoDB",
  "field_order": [
   "originating_lead",
-  "beneficiary",
-  "caregiver",
-  "service_start_date",
-  "service_end_date",
+  "customer",
+  "start_date",
+  "end_date",
   "service_hours",
   "column_break_fhbl",
   "agency",
-  "service_type",
   "daily_reporting_time",
-  "assigned_care_manager",
   "notes_to_caregiver",
   "payment_details_section",
-  "payment",
-  "column_break_saiv",
-  "payment_due_date"
+  "table_tymq",
+  "section_break_hdyn",
+  "assigned_caregivers"
  ],
  "fields": [
   {
-   "fieldname": "caregiver",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Caregiver",
-   "options": "Caregiver",
-   "reqd": 1
-  },
-  {
    "fieldname": "agency",
    "fieldtype": "Link",
-   "label": "Agency",
-   "options": "Agency"
-  },
-  {
-   "fieldname": "service_start_date",
-   "fieldtype": "Date",
-   "label": "Service Start Date"
-  },
-  {
-   "fieldname": "service_end_date",
-   "fieldtype": "Date",
-   "label": "Service End Date"
-  },
-  {
-   "fieldname": "service_type",
-   "fieldtype": "Select",
-   "label": "Service Type",
-   "options": "\nAttendant\nNursing"
+   "label": "Sales Order",
+   "options": "Sales Order"
   },
   {
    "fieldname": "service_hours",
@@ -71,16 +44,6 @@
    "label": "Notes to caregiver"
   },
   {
-   "fieldname": "payment_due_date",
-   "fieldtype": "Date",
-   "label": "Payment Due Date"
-  },
-  {
-   "fieldname": "assigned_care_manager",
-   "fieldtype": "Data",
-   "label": "Assigned care manager"
-  },
-  {
    "fieldname": "originating_lead",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -95,31 +58,46 @@
   {
    "fieldname": "payment_details_section",
    "fieldtype": "Section Break",
-   "label": "Payment Details"
+   "label": "Assigned Caregivers"
   },
   {
    "fetch_from": "originating_lead.beneficiary",
-   "fieldname": "beneficiary",
+   "fieldname": "customer",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Beneficiary",
-   "options": "Beneficiary",
+   "label": "Customer",
+   "options": "Customer",
    "reqd": 1
   },
   {
-   "fieldname": "payment",
-   "fieldtype": "Link",
-   "label": "Payment",
-   "options": "Payment"
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
   },
   {
-   "fieldname": "column_break_saiv",
-   "fieldtype": "Column Break"
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "table_tymq",
+   "fieldtype": "Table",
+   "options": "Service Option"
+  },
+  {
+   "fieldname": "section_break_hdyn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "assigned_caregivers",
+   "fieldtype": "Table",
+   "label": "Assigned Caregivers",
+   "options": "Engagement Caregiver"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-29 22:33:51.917260",
+ "modified": "2024-08-23 14:03:05.466868",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement",
@@ -165,5 +143,5 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "beneficiary"
+ "title_field": "customer"
 }

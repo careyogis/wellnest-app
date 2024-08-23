@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class LeadSource(Document):
+class EngagementCaregiver(Document):
 	pass
