@@ -36,10 +36,7 @@
   "user_id",
   "service_details_tab",
   "section_break_iwtq",
-  "attendant_care",
-  "section_break_ffpd",
-  "nursing_care",
-  "nursing_specialization",
+  "services_provided",
   "section_break_covu",
   "shift_preference",
   "years_of_experience",
@@ -177,18 +174,6 @@
    "options": "Day\nNight\nFlexible"
   },
   {
-   "fieldname": "nursing_care",
-   "fieldtype": "Table",
-   "label": "Nursing Care",
-   "options": "Nursing Service Option"
-  },
-  {
-   "fieldname": "attendant_care",
-   "fieldtype": "Table",
-   "label": "Attendant Care",
-   "options": "Attendant Service Option"
-  },
-  {
    "fieldname": "background_verification_tab",
    "fieldtype": "Tab Break",
    "label": "Background Verification"
@@ -251,16 +236,8 @@
    "options": "12\n24\nBoth"
   },
   {
-   "depends_on": "eval: doc.caregiver_type === \"Attendant\" || doc.caregiver_type === \"Both\";",
    "fieldname": "section_break_iwtq",
-   "fieldtype": "Section Break",
-   "label": "Attendant"
-  },
-  {
-   "depends_on": "eval: doc.caregiver_type === \"Nurse\" || doc.caregiver_type === \"Both\";",
-   "fieldname": "section_break_ffpd",
-   "fieldtype": "Section Break",
-   "label": "Nurse"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "any_other_experience",
@@ -282,12 +259,6 @@
    "label": "Pin Code",
    "length": 6,
    "reqd": 1
-  },
-  {
-   "fieldname": "nursing_specialization",
-   "fieldtype": "Table",
-   "label": "Nursing Specialization",
-   "options": "Specialization Option"
   },
   {
    "fieldname": "service_details_tab",
@@ -349,11 +320,17 @@
    "fieldtype": "Table",
    "label": "Rating",
    "options": "Caregiver Rating"
+  },
+  {
+   "fieldname": "services_provided",
+   "fieldtype": "Table",
+   "label": "Services Provided",
+   "options": "Service"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-22 16:19:58.343964",
+ "modified": "2024-08-27 18:49:45.872623",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
