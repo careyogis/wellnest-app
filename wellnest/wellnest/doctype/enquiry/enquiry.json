@@ -15,6 +15,7 @@
   "email",
   "source",
   "requirement",
+  "referrer",
   "section_break_yjaw",
   "enquiry_details"
  ],
@@ -34,8 +35,10 @@
   },
   {
    "fieldname": "phone_no",
-   "fieldtype": "Phone",
+   "fieldtype": "Data",
    "label": "Phone No",
+   "length": 13,
+   "options": "Phone",
    "reqd": 1
   },
   {
@@ -82,21 +85,32 @@
    "options": "\nWeb\nWhatsApp"
   },
   {
+   "default": "Hyderabad",
    "fieldname": "city",
-   "fieldtype": "Link",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "City",
-   "options": "City"
+   "options": "Delhi\nHyderabad",
+   "reqd": 1
   },
   {
    "fieldname": "requirement",
    "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Requirement",
    "options": "\nAttendant at Home\nNursing Care\nPhysiotherapy\nSpeech Therapy\nAyurveda\nICU at Home\nMedical Equipments\nOther Services"
+  },
+  {
+   "fieldname": "referrer",
+   "fieldtype": "Data",
+   "label": "Referrer"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-23 12:16:43.360405",
+ "modified": "2024-08-29 16:47:18.916410",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Enquiry",
