@@ -1,0 +1,322 @@
+[
+ {
+  "description": "Assist in feeding",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 10:57:59.060906",
+  "name": "Assist in feeding"
+ },
+ {
+  "description": "Assist in using urinal/bedpan",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 10:45:49.085001",
+  "name": "Assist in using urinal/bedpan"
+ },
+ {
+  "description": "Assist to the bathroom or bedside commode",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 10:48:05.062488",
+  "name": "Assist to the bathroom or bedside commode"
+ },
+ {
+  "description": "Assist with getting dressed",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 10:48:42.971144",
+  "name": "Assist with getting dressed"
+ },
+ {
+  "description": "Bed Bath/Sponge Bath",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 10:49:27.945912",
+  "name": "Bed Bath/Sponge Bath"
+ },
+ {
+  "description": "Bedsores Management",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:00:36.679424",
+  "name": "Bedsores Management"
+ },
+ {
+  "description": "Bipap Assistance",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:01:07.149584",
+  "name": "Bipap Assistance"
+ },
+ {
+  "description": "Bladder Wash Sponging",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:01:36.946160",
+  "name": "Bladder Wash Sponging"
+ },
+ {
+  "description": "Changing Bedpan Assistance",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:02:08.625605",
+  "name": "Changing Bedpan Assistance"
+ },
+ {
+  "description": "Changing diapers",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:02:33.808278",
+  "name": "Changing diapers"
+ },
+ {
+  "description": "Checking Vitals",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:02:57.955401",
+  "name": "Checking Vitals"
+ },
+ {
+  "description": "Companionship polite conversations",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:03:24.636172",
+  "name": "Companionship polite conversations"
+ },
+ {
+  "description": "Empty catheter bag",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:04:16.558141",
+  "name": "Empty catheter bag"
+ },
+ {
+  "description": "Emptying Catheter",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:04:46.038380",
+  "name": "Emptying Catheter"
+ },
+ {
+  "description": "Enema Application",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:06:55.809837",
+  "name": "Enema Application"
+ },
+ {
+  "description": "Giving Medicines",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:08:17.436160",
+  "name": "Giving Medicines"
+ },
+ {
+  "description": "Help in fluid intake",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:08:38.522774",
+  "name": "Help in fluid intake"
+ },
+ {
+  "description": "Incontinence care",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:08:54.434283",
+  "name": "Incontinence care"
+ },
+ {
+  "description": "Intramuscular/Intravenous Injection",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:09:53.707090",
+  "name": "Intramuscular/Intravenous Injection"
+ },
+ {
+  "description": "Light massages",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:10:10.892453",
+  "name": "Light massages"
+ },
+ {
+  "description": "Maintain patient's bedroom",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:10:30.504530",
+  "name": "Maintain patient's bedroom"
+ },
+ {
+  "description": "Maintain patient's general health note",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:10:48.568571",
+  "name": "Maintain patient's general health note"
+ },
+ {
+  "description": "Mobility assist with walking and home exercises",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:11:06.611129",
+  "name": "Mobility assist with walking and home exercises"
+ },
+ {
+  "description": "Mobility Movements and Exercises",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:11:23.571343",
+  "name": "Mobility Movements and Exercises"
+ },
+ {
+  "description": "Nebulizer Oxygen Concentrator",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:11:41.015620",
+  "name": "Nebulizer Oxygen Concentrator"
+ },
+ {
+  "description": "Oral Hygiene",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:12:18.892331",
+  "name": "Oral Hygiene"
+ },
+ {
+  "description": "Oral Suction",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:13:01.025455",
+  "name": "Oral Suction"
+ },
+ {
+  "description": "Oxygen Cylinder Catheterization",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:13:08.715627",
+  "name": "Oxygen Cylinder Catheterization"
+ },
+ {
+  "description": "Patient's laundry",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:13:27.577101",
+  "name": "Patient's laundry"
+ },
+ {
+  "description": "Proper Bathing",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:13:46.744038",
+  "name": "Proper Bathing"
+ },
+ {
+  "description": "Range of motion exercises",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:14:02.428727",
+  "name": "Range of motion exercises"
+ },
+ {
+  "description": "Restrict fluids",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:14:19.697179",
+  "name": "Restrict fluids"
+ },
+ {
+  "description": "Ryles Tube Feeding",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:14:41.231029",
+  "name": "Ryles Tube Feeding"
+ },
+ {
+  "description": "Skin Care/Non-medicated lotion to dry areas",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:14:57.620814",
+  "name": "Skin Care/Non-medicated lotion to dry areas"
+ },
+ {
+  "description": "Stoma Bag Cleaning",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:15:13.835067",
+  "name": "Stoma Bag Cleaning"
+ },
+ {
+  "description": "Subcutaneous Dressing Management",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:15:28.375589",
+  "name": "Subcutaneous Dressing Management"
+ },
+ {
+  "description": "Take out trash from the patient's room",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:15:45.374888",
+  "name": "Take out trash from the patient's room"
+ },
+ {
+  "description": "Tracheostomy - Suction",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:16:00.193531",
+  "name": "Tracheostomy - Suction"
+ },
+ {
+  "description": "Turn position in bed",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "General Duty Attendant",
+  "modified": "2024-08-29 11:16:12.473808",
+  "name": "Turn position in bed"
+ },
+ {
+  "description": "Ventilator Monitoring",
+  "docstatus": 0,
+  "doctype": "Item Activity",
+  "item": "Nursing Care at Home",
+  "modified": "2024-08-29 11:16:24.593344",
+  "name": "Ventilator Monitoring"
+ }
+]

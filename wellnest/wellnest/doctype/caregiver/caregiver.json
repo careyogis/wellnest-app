@@ -13,19 +13,18 @@
   "supplier",
   "personal_information_section",
   "full_name",
-  "phone_number",
-  "email",
-  "column_break_qepj",
   "gender",
   "dob",
+  "column_break_qepj",
+  "phone_number",
+  "email",
   "section_break_rwti",
   "complete_address",
-  "city_of_work",
-  "column_break_sxsz",
   "city",
+  "column_break_sxsz",
   "state",
   "pin_code",
-  "referral_code",
+  "city_of_work",
   "section_break_vdmr",
   "language_spoken",
   "section_break_bhhj",
@@ -35,8 +34,7 @@
   "section_break_xtbq",
   "user_id",
   "service_details_tab",
-  "section_break_iwtq",
-  "services_provided",
+  "offered_activities",
   "section_break_covu",
   "shift_preference",
   "years_of_experience",
@@ -103,8 +101,9 @@
   },
   {
    "fieldname": "phone_number",
-   "fieldtype": "Phone",
+   "fieldtype": "Data",
    "label": "Phone Number",
+   "options": "Phone",
    "reqd": 1
   },
   {
@@ -132,6 +131,7 @@
    "fieldtype": "Link",
    "label": "State",
    "options": "State",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -235,10 +235,6 @@
    "options": "12\n24\nBoth"
   },
   {
-   "fieldname": "section_break_iwtq",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "any_other_experience",
    "fieldtype": "Small Text",
    "label": "Any Other Experience"
@@ -294,15 +290,11 @@
    "label": "Registration No"
   },
   {
+   "default": "Pending",
    "fieldname": "approved",
    "fieldtype": "Select",
    "label": "Approved",
-   "options": "\nPending\nYes\nNo"
-  },
-  {
-   "fieldname": "referral_code",
-   "fieldtype": "Data",
-   "label": "Referral Code"
+   "options": "Pending\nYes\nNo"
   },
   {
    "fieldname": "supplier",
@@ -321,15 +313,15 @@
    "options": "Caregiver Rating"
   },
   {
-   "fieldname": "services_provided",
+   "fieldname": "offered_activities",
    "fieldtype": "Table",
-   "label": "Services Provided",
-   "options": "Service"
+   "label": "Offered Activities",
+   "options": "Caregiver Capable Activity"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-28 09:55:26.856472",
+ "modified": "2024-08-29 14:01:04.675550",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
