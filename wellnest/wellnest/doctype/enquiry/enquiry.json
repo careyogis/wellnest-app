@@ -37,7 +37,7 @@
    "fieldname": "phone_no",
    "fieldtype": "Data",
    "label": "Phone No",
-   "length": 13,
+   "length": 20,
    "options": "Phone",
    "reqd": 1
   },
@@ -87,11 +87,10 @@
   {
    "default": "Hyderabad",
    "fieldname": "city",
-   "fieldtype": "Select",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "City",
-   "options": "Delhi\nHyderabad",
    "reqd": 1
   },
   {
@@ -110,7 +109,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-29 16:47:18.916410",
+ "modified": "2024-08-30 22:13:51.820139",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Enquiry",
