@@ -174,7 +174,7 @@
    "fieldname": "service_details",
    "fieldtype": "Table",
    "label": "Service Details",
-   "options": "Service Option"
+   "options": "Required Activity"
   },
   {
    "fieldname": "additional_details",
@@ -189,7 +189,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-23 13:20:10.487467",
+ "modified": "2024-09-02 12:59:03.713977",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",

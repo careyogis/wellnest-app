@@ -34,7 +34,7 @@
   "section_break_xtbq",
   "user_id",
   "service_details_tab",
-  "offered_activities",
+  "proficient_activities",
   "section_break_covu",
   "shift_preference",
   "years_of_experience",
@@ -313,16 +313,16 @@
    "options": "Caregiver Rating"
   },
   {
-   "fieldname": "offered_activities",
+   "fieldname": "proficient_activities",
    "fieldtype": "Table",
-   "label": "Offered Activities",
-   "options": "Caregiver Capable Activity"
+   "label": "Proficient Activities",
+   "options": "Caregiver Proficient Activity"
   }
  ],
  "image_field": "passport_size_photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-29 14:28:18.804438",
+ "modified": "2024-09-02 12:45:12.012425",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
