@@ -15,8 +15,8 @@
   "agency",
   "daily_reporting_time",
   "notes_to_caregiver",
-  "payment_details_section",
-  "table_tymq",
+  "required_services_section",
+  "required_activity",
   "section_break_hdyn",
   "assigned_caregivers"
  ],
@@ -48,7 +48,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Originating Lead",
-   "options": "Lead",
+   "options": "CY Lead",
    "reqd": 1
   },
   {
@@ -56,17 +56,14 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "payment_details_section",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fetch_from": "originating_lead.beneficiary",
+   "fetch_from": "originating_lead.customer",
    "fieldname": "customer",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Customer",
    "options": "Customer",
-   "reqd": 1
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "fieldname": "start_date",
@@ -79,12 +76,6 @@
    "label": "End Date"
   },
   {
-   "fieldname": "table_tymq",
-   "fieldtype": "Table",
-   "label": "Services to Render",
-   "options": "Service Option"
-  },
-  {
    "fieldname": "section_break_hdyn",
    "fieldtype": "Section Break"
   },
@@ -93,11 +84,21 @@
    "fieldtype": "Table",
    "label": "Assigned Caregivers",
    "options": "Engagement Caregiver"
+  },
+  {
+   "fieldname": "required_services_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "required_activity",
+   "fieldtype": "Table",
+   "label": "Services to Render",
+   "options": "Required Activity"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-23 14:39:37.720384",
+ "modified": "2024-09-03 22:16:53.785339",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement",
