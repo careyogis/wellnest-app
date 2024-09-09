@@ -8,6 +8,7 @@
  "field_order": [
   "rating",
   "rater",
+  "rating_date",
   "column_break_ytri",
   "comment"
  ],
@@ -34,12 +35,17 @@
    "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": "Comment"
+  },
+  {
+   "fieldname": "rating_date",
+   "fieldtype": "Date",
+   "label": "Rating Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-29 14:03:16.229078",
+ "modified": "2024-09-09 23:15:47.375608",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver Rating",

@@ -8,7 +8,8 @@
  "field_order": [
   "caregiver",
   "start_date",
-  "end_date"
+  "end_date",
+  "daily_rate"
  ],
  "fields": [
   {
@@ -29,12 +30,18 @@
    "fieldtype": "Date",
    "in_list_view": 1,
    "label": "End Date"
+  },
+  {
+   "fieldname": "daily_rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Daily Rate"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-23 14:45:32.552382",
+ "modified": "2024-09-09 23:20:05.589780",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement Caregiver",

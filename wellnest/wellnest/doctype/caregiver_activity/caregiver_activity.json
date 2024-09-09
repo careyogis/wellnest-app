@@ -6,57 +6,37 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "beneficiary",
-  "nursing_manager",
-  "activity_type_id",
+  "caregiver",
+  "engagement",
+  "activity",
   "activity_date",
   "activity_data",
   "activity_proof",
-  "activity_completion_time",
   "column_break_kihk",
-  "activity_name",
-  "caregiver",
-  "engagement",
   "activity_prescribed_time",
   "activity_notes",
   "activity_data_unit",
-  "activity_completed"
+  "activity_completed",
+  "activity_completion_time"
  ],
  "fields": [
   {
-   "fieldname": "beneficiary",
-   "fieldtype": "Link",
-   "label": "Beneficiary",
-   "options": "Beneficiary"
-  },
-  {
    "fieldname": "caregiver",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Caregiver",
-   "options": "Caregiver"
-  },
-  {
-   "fieldname": "nursing_manager",
-   "fieldtype": "Data",
-   "label": "Nursing Manager"
+   "options": "Caregiver",
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "fieldname": "engagement",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Engagement",
-   "options": "Engagement"
-  },
-  {
-   "fieldname": "activity_type_id",
-   "fieldtype": "Link",
-   "label": "Activity Type Id",
-   "options": "Activity Type"
-  },
-  {
-   "fieldname": "activity_name",
-   "fieldtype": "Link",
-   "label": "Activity Name",
-   "options": "Activity Type"
+   "options": "Engagement",
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "fieldname": "activity_date",
@@ -103,11 +83,17 @@
   {
    "fieldname": "column_break_kihk",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "activity",
+   "fieldtype": "Link",
+   "label": "Activity",
+   "options": "Item Activity"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-31 12:54:20.345399",
+ "modified": "2024-09-09 23:38:24.160116",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver Activity",
@@ -142,5 +128,5 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "beneficiary"
+ "title_field": "caregiver"
 }

@@ -48,8 +48,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Originating Lead",
-   "options": "CY Lead",
-   "reqd": 1
+   "options": "CY Lead"
   },
   {
    "fieldname": "column_break_fhbl",
@@ -98,7 +97,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-03 22:16:53.785339",
+ "modified": "2024-09-09 23:16:11.382695",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement",
