@@ -32,8 +32,9 @@
                 <div class="mb-3 flex gap-2">
                   <FeatherIcon class="w-4" name="phone" />
                   <div>
-                    {{ caregiverResource.data.phone_number.slice(0, 3) }}
-                    {{ caregiverResource.data.phone_number.slice(4) }}
+                    <!-- {{ caregiverResource.data.phone_number.slice(0, 3) }}
+                    {{ caregiverResource.data.phone_number.slice(4) }} -->
+                    {{ caregiverResource.data.phone_number }}
                   </div>
                 </div>
                 <div class="flex gap-2">
@@ -44,7 +45,7 @@
                 </div>
               </div>
               <!-- TODO: MAKE ALL THE BELOW INFO DYNAMIC -->
-              <Agency :agencyName="caregiverResource.data.agency" />
+              <Agency :agencyName="caregiverResource.data.supplier" />
               <div class="mySpecialities mb-5">
                 <div class="text-xl text-[#070707] font-semibold mb-2">
                   My Specialities
@@ -55,7 +56,7 @@
                   <!-- make this dynamic for when it's attendant and when it's nursing -->
                   <span
                     v-for="specialization in caregiverResource.data
-                      .attendant_care"
+                      .proficient_activities"
                     class="mx-1"
                   >
                     <Badge
@@ -64,7 +65,7 @@
                       label="Badge"
                       theme="orange"
                     >
-                      {{ specialization.link_ebyl }}
+                      {{ specialization.activity }}
                     </Badge>
                   </span>
                 </div>
@@ -93,6 +94,7 @@
               </div>
             </div>
             <div v-else-if="state.index === 1">
+              <!-- TODO: MAKE THIS AS A SETTLEMENT COMPONENT => FETCH FROM PAYMENT DOCTYPE -->
               <div
                 class="block max-w py-5 px-6 border border-gray-400 rounded-lg"
               >
@@ -147,30 +149,32 @@
                   <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
                 </div>
               </div>
-              <div class="mt-8 grid grid-cols-8">
-                <Avatar
-                  class=""
-                  :shape="'circle'"
-                  :image="caregiverResource.data.passport_size_photo"
-                  label="EY"
-                  size="xl"
-                />
-                <div class="col-span-7 flex-col">
-                  <div class="flex mb-2 items-end gap-2">
-                    <div class="text-sm text-[#78abaf] font-semibold">
-                      Sankalp Srivastava
+              <div v-for="rater in caregiverResource.data.rating">
+                <div class="mt-8 grid grid-cols-8">
+                  <Avatar
+                    class=""
+                    :shape="'circle'"
+                    :image="caregiverResource.data.passport_size_photo"
+                    :label="rater.rater"
+                    size="xl"
+                  />
+                  <div class="col-span-7 flex-col">
+                    <div class="flex mb-2 items-end gap-2">
+                      <div class="text-sm text-[#78abaf] font-semibold">
+                        {{ rater.rater }}
+                      </div>
+                      <div class="text-sm">20 June 2024</div>
                     </div>
-                    <div class="text-sm">20 June 2024</div>
-                  </div>
-                  <p class="col-span-2 text-sm mb-2">
-                    Amazing service provided by Sankalp Srivastava
-                  </p>
-                  <div class="flex">
-                    <FeatherIcon
-                      v-for="heart in 5"
-                      class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
-                      name="heart"
-                    />
+                    <p class="col-span-2 text-sm mb-2">
+                      {{ rater.comment }}
+                    </p>
+                    <div class="flex">
+                      <FeatherIcon
+                        v-for="heart in 5"
+                        class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
+                        name="heart"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -183,7 +187,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { Tabs, FeatherIcon, Badge, Avatar, createResource } from 'frappe-ui'
 import { session } from '../data/session'
 import CaregiverNavbar from '../components/CaregiverNavbar.vue'
@@ -217,6 +221,18 @@ let caregiverResource = createResource({
   auto: true,
 })
 
+// const ratings = ref(null)
+
+// function calculateRatings(rating) {
+//   let temp = rating * 10
+//   ratings.value = Math.floor(temp / 2)
+// }
+
+// const caregiverRatings = computed((rating) => {
+//   let temp = rating * 10;
+//   ratings = Math.floor(temp/2);
+// })
+
 // console.log(caregiverResource)
 // window.sankalp = caregiverResource
 
@@ -244,8 +260,6 @@ let caregiverResource = createResource({
 //       // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
 //       filters: {
 //         user_id: session.user,
-//     },
-//     },
 //       },
 //     },
 //     auto: true,

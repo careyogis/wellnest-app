@@ -7,21 +7,18 @@
     <div class="mb-3 flex gap-2">
       <FeatherIcon class="w-5" name="user" />
       <div>
-        {{ agencyResource.data[0].agency_name }}
+        {{ agencyResource.data[0].supplier_name }}
       </div>
     </div>
     <div class="mb-3 flex gap-2">
       <FeatherIcon class="w-4" name="phone" />
       <div>
-        {{ agencyResource.data[0].primary_phone.slice(0, 3) }}
-        {{ agencyResource.data[0].primary_phone.slice(4) }}
+        {{ agencyResource.data[0].mobile_no }}
       </div>
     </div>
     <div class="flex gap-2">
       <FeatherIcon class="w-4 self-start mt-1" name="map-pin" />
-      <div>
-        {{ agencyResource.data[0].complete_address }}
-      </div>
+      <div v-html="agencyResource.data[0].primary_address"></div>
     </div>
   </div>
 </template>
@@ -38,8 +35,14 @@ if (props.agencyName) {
   agencyResource = createResource({
     url: 'frappe.client.get_list',
     params: {
-      doctype: 'Agency',
-      fields: ['agency_name', 'primary_phone', 'complete_address'],
+      doctype: 'Supplier',
+      fields: [
+        'supplier_name',
+        'supplier_primary_contact',
+        'primary_address',
+        'mobile_no',
+        'email_id',
+      ],
       name: props.agencyName,
     },
     auto: true,
