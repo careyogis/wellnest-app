@@ -148,6 +148,9 @@
                   />
                   <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
                 </div>
+                <!-- <div>
+                  <star-rating :increment="0.5" :rating="4"></star-rating>
+                </div> -->
               </div>
               <div v-for="rater in caregiverResource.data.rating">
                 <div class="mt-8 grid grid-cols-8">
