@@ -11,7 +11,6 @@
   "source_enquiry",
   "column_break_naxz",
   "customer",
-  "referral_type",
   "referrer",
   "payment_details_section",
   "services_required",
@@ -138,17 +137,10 @@
    "reqd": 1
   },
   {
-   "fieldname": "referral_type",
-   "fieldtype": "Link",
-   "label": "Referrer Type",
-   "link_filters": "[[\"DocType\",\"module\",\"=\",\"WellNest\"]]",
-   "options": "DocType"
-  },
-  {
    "fieldname": "referrer",
-   "fieldtype": "Dynamic Link",
+   "fieldtype": "Link",
    "label": "Referrer",
-   "options": "referral_type"
+   "options": "Sales Partner"
   },
   {
    "fieldname": "customer",
@@ -189,7 +181,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-02 12:59:03.713977",
+ "modified": "2024-09-11 22:40:14.423858",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",
