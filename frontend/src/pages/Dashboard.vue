@@ -53,7 +53,11 @@
               {{ caregiverResource.data.full_name }}
             </div>
             <!-- calculate age and replace it with the static data -->
-            <div class="">{{ caregiverResource.data.gender }} 23</div>
+            <!-- <div class="">{{ caregiverResource.data.gender }} 23</div> -->
+            <div class="">
+              {{ caregiverResource.data.gender }}
+              {{ getAge(caregiverResource.data.dob) }} Years
+            </div>
           </div>
         </div>
         <div class="flex">
@@ -81,8 +85,7 @@
         <div class="mb-3 flex gap-2">
           <FeatherIcon class="w-4" name="phone" />
           <div class="text-[14px]">
-            {{ caregiverResource.data.phone_number.slice(0, 3) }}
-            {{ caregiverResource.data.phone_number.slice(4) }}
+            {{ caregiverResource.data.phone_number }}
           </div>
         </div>
         <div class="flex gap-2">
@@ -163,21 +166,90 @@
 
 <script setup>
 import { reactive } from 'vue'
-import { FeatherIcon, Badge, Avatar, createResource } from 'frappe-ui'
+import {
+  FeatherIcon,
+  Badge,
+  Avatar,
+  createResource,
+  createDocumentResource,
+  createListResource,
+} from 'frappe-ui'
 import { session } from '../data/session'
 import Agency from '../components/Agency.vue'
 import Customer from '../components/Customer.vue'
 import NursingManager from '../components/NursingManager.vue'
 
-let caregiverResource = createResource({
-  url: 'frappe.client.get',
-  params: {
-    doctype: 'Caregiver',
-    // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
-    filters: {
-      user_id: session.user,
+function getAge(dateString) {
+  let today = new Date()
+  let birthDate = new Date(dateString)
+  let age = today.getFullYear() - birthDate.getFullYear()
+  let m = today.getMonth() - birthDate.getMonth()
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--
+  }
+  return age
+}
+
+// let caregiverResource = createResource({
+//   url: 'frappe.client.get',
+//   params: {
+//     doctype: 'Caregiver',
+//     // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
+//     filters: {
+//       user_id: session.user,
+//     },
+//   },
+//   auto: true,
+// })
+let caregiverResource
+let customerResource
+let engagementResource
+
+apiCall()
+
+async function apiCall() {
+  caregiverResource = createResource({
+    url: 'frappe.client.get',
+    params: {
+      doctype: 'Caregiver',
+      // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
+      filters: {
+        user_id: session.user,
+      },
     },
-  },
-  auto: true,
-})
+    auto: true,
+  })
+  await caregiverResource.promise
+  console.log(caregiverResource.data)
+
+  //   customerResource = createResource({
+  //     url: 'frappe.client.get',
+  //     params: {
+  //       doctype: 'Customer',
+  //       // fields: ['agency_name', 'primary_phone', 'complete_address'],
+  //       // name: caregiverResource.data.,
+  //     },
+  //     auto: true,
+  //   })
+  // //   await agencyResource.promise
+  // //   console.log(agencyResource.data)
+
+  customerResource = createDocumentResource({
+    doctype: 'Customer',
+    name: 'Test Customer',
+    auto: true,
+  })
+  await customerResource.promise
+  console.log(customerResource)
+
+  engagementResource = createListResource({
+    doctype: 'Enagement',
+    fields: ['*'],
+    filters: {
+      assigned_caregivers: session.user
+    }
+  })
+  await engagementResource.promise
+  console.log(engagementResource)
+}
 </script>

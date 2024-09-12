@@ -16,7 +16,8 @@
         {{ caregiverResource.data.caregiver_type }}
       </div>
       <div>
-        Member Since: {{ caregiverResource.data.creation.slice(0, 11) }}
+        <!-- Member Since: {{ caregiverResource.data.creation.slice(0, 11) }} -->
+        Member Since: {{ dateFormatter(caregiverResource.data.creation) }}
       </div>
     </div>
 
@@ -73,7 +74,7 @@
                   <!-- make this dynamic for when it's attendant and when it's nursing -->
                   <span
                     v-for="specialization in caregiverResource.data
-                      .nursing_specialization"
+                      .proficient_activities"
                     class="mx-1"
                   >
                     <Badge
@@ -82,7 +83,7 @@
                       label="Badge"
                       theme="orange"
                     >
-                      {{ specialization.link_liob }}
+                      {{ specialization.activity }}
                     </Badge>
                   </span>
                 </div>
@@ -93,51 +94,9 @@
                 </div>
               </div>
             </div>
-            <div v-else-if="state.index === 1">
-              <!-- TODO: MAKE THIS AS A SETTLEMENT COMPONENT => FETCH FROM PAYMENT DOCTYPE -->
-              <div
-                class="block max-w py-5 px-6 border border-gray-400 rounded-lg"
-              >
-                <p class="text-xl text-[#070707] font-semibold mb-1">
-                  Total Earnings
-                </p>
-                <p class="text-[36px] text-[#070707] font-semibold mb-2">
-                  {{ formatCurrency(165000, 'INR') }}
-                </p>
-                <div class="grid grid-cols-2 grid-rows-2">
-                  <div>Next Settlement</div>
-                  <div class="flex gap-2">
-                    <FeatherIcon
-                      class="w-4 stroke-[#78abaf] stroke-2"
-                      name="calendar"
-                    />
-                    <div class="font-semibold text-[#78abaf]">15 July 2024</div>
-                  </div>
-                  <div>Amount</div>
-                  <div class="flex gap-2">
-                    <div class="font-semibold text-[#78abaf] ml-1">
-                      {{ formatCurrency(0, 'INR').slice(0, 1) }}
-                    </div>
-                    <div class="font-semibold text-[#78abaf] ml-0.5">
-                      {{ formatCurrency(65000, 'INR').slice(1) }}
-                    </div>
-                  </div>
-                </div>
-                <button
-                  class="bg-[#DB7706] text-white rounded-sm w-full mr-5 mt-15"
-                >
-                  <div class="flex justify-center gap-1">
-                    <FeatherIcon
-                      class="w-4 mr-1 stroke-[#ffffff] stroke-2"
-                      name="rotate-ccw"
-                    />
-                    Settlement History
-                  </div>
-                </button>
-              </div>
-            </div>
+            
             <!-- RATINGS SECTION -->
-            <div v-else-if="state.index === 2">
+            <div v-else-if="state.index === 1">
               <div class="flex justify-between">
                 <div class="text-3xl font-semibold">Overall Rating</div>
                 <div class="flex">
@@ -146,6 +105,7 @@
                     class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
                     name="heart"
                   />
+
                   <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
                 </div>
                 <!-- <div>
@@ -166,7 +126,10 @@
                       <div class="text-sm text-[#78abaf] font-semibold">
                         {{ rater.rater }}
                       </div>
-                      <div class="text-sm">20 June 2024</div>
+                      <!-- <div class="text-sm">20 June 2024</div> -->
+                      <div class="text-sm">
+                        {{ dateFormatter(rater.rating_date) }}
+                      </div>
                     </div>
                     <p class="col-span-2 text-sm mb-2">
                       {{ rater.comment }}
@@ -195,16 +158,23 @@ import { Tabs, FeatherIcon, Badge, Avatar, createResource } from 'frappe-ui'
 import { session } from '../data/session'
 import CaregiverNavbar from '../components/CaregiverNavbar.vue'
 import Agency from '../components/Agency.vue'
+import Earning from '../components/Earnings.vue'
 import { formatCurrency } from '../utils'
+
+const dateFormatter = (date) => {
+  let temp = new Date(date)
+  return temp.toLocaleDateString('en-In', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
+}
 
 const state = reactive({
   index: 0,
   tabs: [
     {
       label: 'General',
-    },
-    {
-      label: 'Earnings',
     },
     {
       label: 'Ratings',

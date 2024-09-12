@@ -67,12 +67,11 @@ async function apiCall() {
     auto: true,
   })
   await agencyResource.promise
-  console.log(agencyResource.data[0].supplier_primary_address)
 
   agencyAddress = createDocumentResource({
     doctype: 'Address',
     name: agencyResource.data[0].supplier_primary_address,
-    // auto: true,
+    auto: true,
   })
 }
 </script>
