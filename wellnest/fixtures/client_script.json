@@ -1,0 +1,13 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Quotation",
+  "enabled": 1,
+  "modified": "2024-09-12 23:47:11.816411",
+  "module": "WellNest",
+  "name": "Load Quotation Items from Lead",
+  "script": "frappe.ui.form.on(\"Quotation\", {\n\trefresh(frm) {\n\t\tif (frm.doc.docstatus === 1) {\n\t\t    // no need to add the the button\n            return;\n\t\t}\n\n        frm.add_custom_button(\"Load Items from Lead\", function() {\n            if (frm.doc.custom_originating_lead) {\n                frm.clear_table('items');\n                frappe.model.with_doc('CY Lead', frm.doc.custom_originating_lead, function () {\n                    let source_doc = frappe.model.get_doc('CY Lead', frm.doc.custom_originating_lead);\n                    \n                    if (source_doc.customer) {\n                        frm.doc.party_name = source_doc.customer;\n                        frm.refresh_field('party_name');\n                    }\n                    $.each(source_doc.services_required, function (index, source_row) {\n                        target_row = frm.add_child('items');\n                        target_row.item_code = source_row.item_code;\n                        target_row.item_name = source_row.item_name;\n                        target_row.qty = source_row.qty;\n                        target_row.uom = \"Day\";\n                        target_row.rate = source_row.rate;\n                        target_row.amount = target_row.qty * target_row.rate;\n                        frm.refresh_field('items');\n                    });\n                });\n            }\n            else {\n                frappe.msgprint(\"Select 'Originating Lead' first\");\n            }\n        })\n\t}\n});\n",
+  "view": "Form"
+ }
+]

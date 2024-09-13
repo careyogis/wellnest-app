@@ -229,6 +229,8 @@ app_license = "mit"
 
 fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Service", "Spoken Language", "Medical Condition", "Lead Status", "Item Activity", 
             # export only those records that match the filter from Custom Field table
-    {"dt": "Custom Field", "filters": [["module", "like", "WellNest%"]]},]
+        {"doctype": "Custom Field", "filters": [["module", "like", "WellNest%"]]},
+        { "doctype": "Client Script", "filters": [["module", "like", "WellNest%"]] }
+        ]
 
 website_route_rules = [{'from_route': '/frontend/<path:app_path>', 'to_route': 'frontend'},]
