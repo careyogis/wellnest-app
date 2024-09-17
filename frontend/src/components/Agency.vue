@@ -54,14 +54,7 @@ async function apiCall() {
     url: 'frappe.client.get_list',
     params: {
       doctype: 'Supplier',
-      fields: [
-        'supplier_name',
-        'supplier_primary_contact',
-        'primary_address',
-        'mobile_no',
-        'email_id',
-        'supplier_primary_address',
-      ],
+      fields: ['*'],
       name: props.agencyName,
     },
     auto: true,

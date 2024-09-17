@@ -92,6 +92,7 @@
                 <div class="text-xl text-[#070707] font-semibold mb-2">
                   Important Documents
                 </div>
+                <a :href="caregiverResource.data.aadhar_photo">aadhar</a>
               </div>
             </div>
             
@@ -158,8 +159,10 @@ import { Tabs, FeatherIcon, Badge, Avatar, createResource } from 'frappe-ui'
 import { session } from '../data/session'
 import CaregiverNavbar from '../components/CaregiverNavbar.vue'
 import Agency from '../components/Agency.vue'
-import Earning from '../components/Earnings.vue'
+import Earnings from '../components/Earnings.vue'
 import { formatCurrency } from '../utils'
+
+console.log(session.user)
 
 const dateFormatter = (date) => {
   let temp = new Date(date)
@@ -252,4 +255,9 @@ let caregiverResource = createResource({
 //   await agencyResource.promise
 //   console.log(agencyResource.data)
 // }
+
+let caregiver = createResource({
+    url: '/api/method/wellnest.api.profile',
+    auto: true
+  })
 </script>

@@ -163,7 +163,6 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { reactive } from 'vue'
 import {
@@ -204,6 +203,7 @@ function getAge(dateString) {
 let caregiverResource
 let customerResource
 let engagementResource
+let engagementCaregiverResource
 
 apiCall()
 
@@ -243,13 +243,36 @@ async function apiCall() {
   console.log(customerResource)
 
   engagementResource = createListResource({
-    doctype: 'Enagement',
+    doctype: 'Engagement',
     fields: ['*'],
-    filters: {
-      assigned_caregivers: session.user
-    }
+    // filters: {
+    //   assigned_caregivers: session.user,
+    // },
   })
+  engagementResource.fetch()
   await engagementResource.promise
-  console.log(engagementResource)
+  // console.log(engagementResource)
+  console.log(engagementResource.data)
+
+
+  engagementCaregiverResource = createListResource({
+    doctype: 'Engagement Caregiver',
+    fields: ['*'],
+    // filters: {
+    //   assigned_caregivers: session.user,
+    // },
+  })
+  engagementCaregiverResource.fetch()
+  await engagementResource.promise
+  // console.log(engagementResource)
+  console.log(engagementCaregiverResource.data)
+
+  customerResource = createDocumentResource({
+    doctype: 'Engagement',
+    name: 'EGMT-20240905-000003',
+    auto: true,
+  })
+  await customerResource.promise
+  console.log(customerResource)
 }
 </script>
