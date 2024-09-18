@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-18 21:53:12.179543",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "engagement",
+  "caregiver",
+  "check_in_date_and_time",
+  "check_out_date_and_time",
+  "performed_activities"
+ ],
+ "fields": [
+  {
+   "fieldname": "engagement",
+   "fieldtype": "Link",
+   "label": "Engagement",
+   "options": "Engagement"
+  },
+  {
+   "fieldname": "caregiver",
+   "fieldtype": "Link",
+   "label": "Caregiver",
+   "options": "Caregiver"
+  },
+  {
+   "fieldname": "check_in_date_and_time",
+   "fieldtype": "Datetime",
+   "label": "Check in Date and Time"
+  },
+  {
+   "fieldname": "check_out_date_and_time",
+   "fieldtype": "Datetime",
+   "label": "Check out Date and Time"
+  },
+  {
+   "fieldname": "performed_activities",
+   "fieldtype": "Table",
+   "label": "Performed Activities",
+   "options": "Engagement Daily Activity"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-09-18 22:17:32.470348",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Engagement Daily Record",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

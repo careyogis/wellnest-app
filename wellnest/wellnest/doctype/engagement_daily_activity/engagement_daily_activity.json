@@ -1,0 +1,52 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-18 22:01:12.950046",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "activity",
+  "completion_time",
+  "activity_data",
+  "proof"
+ ],
+ "fields": [
+  {
+   "fieldname": "activity",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Activity",
+   "options": "Item Activity"
+  },
+  {
+   "fieldname": "completion_time",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Completion Time"
+  },
+  {
+   "fieldname": "activity_data",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Activity Data"
+  },
+  {
+   "fieldname": "proof",
+   "fieldtype": "Attach Image",
+   "label": "Proof"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-09-18 22:14:55.533277",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Engagement Daily Activity",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
