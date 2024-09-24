@@ -20,7 +20,9 @@ def profile():
     caregiver_data = frappe.get_doc("Caregiver", caregiver_name[0].name)
     agency = frappe.get_doc("Supplier", caregiver_name[0].supplier)
     agency_contact = frappe.get_doc("Address", agency.supplier_primary_address)
-    return {"caregiver_name": caregiver_name, "caregiver_data": caregiver_data, "agency_data": agency, "agency_contact": agency_contact}
-    # return agency_contact
-
-
+    return {
+        "caregiver_name": caregiver_name[0],
+        "caregiver_data": caregiver_data,
+        "agency_data": agency,
+        "agency_contact": agency_contact,
+    }

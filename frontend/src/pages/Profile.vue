@@ -1,23 +1,23 @@
 <template>
-  <div v-if="!caregiverResource.loading && caregiverResource.data">
+  <div v-if="!caregiver.loading && caregiver.data">
     <CaregiverNavbar title="Profile" />
     <div class="my-3 flex flex-col items-center">
       <Avatar
         class="flex-auto w-20 h-20 mb-2.5"
         :shape="'circle'"
-        :image="caregiverResource.data.passport_size_photo"
+        :image="caregiver.data.caregiver_name.passport_size_photo"
         label="EY"
         size="3xl"
       />
       <div class="text-xl text-[#070707] font-semibold">
-        {{ caregiverResource.data.full_name }}
+        {{ caregiver.data.caregiver_name.full_name }}
       </div>
       <div>
-        {{ caregiverResource.data.caregiver_type }}
+        {{ caregiver.data.caregiver_name.caregiver_type }}
       </div>
       <div>
-        <!-- Member Since: {{ caregiverResource.data.creation.slice(0, 11) }} -->
-        Member Since: {{ dateFormatter(caregiverResource.data.creation) }}
+        Member Since:
+        {{ dateFormatter(caregiver.data.caregiver_name.creation) }}
       </div>
     </div>
 
@@ -33,30 +33,57 @@
                 <div class="mb-3 flex gap-2">
                   <FeatherIcon class="w-4" name="phone" />
                   <div>
-                    <!-- {{ caregiverResource.data.phone_number.slice(0, 3) }}
-                    {{ caregiverResource.data.phone_number.slice(4) }} -->
-                    {{ caregiverResource.data.phone_number }}
+                    {{ caregiver.data.caregiver_name.phone_number }}
                   </div>
                 </div>
                 <div class="flex gap-2">
                   <FeatherIcon class="w-4 mt-0.5" name="mail" />
                   <div>
-                    {{ caregiverResource.data.email }}
+                    {{ caregiver.data.caregiver_name.email }}
                   </div>
                 </div>
               </div>
-              <!-- TODO: MAKE ALL THE BELOW INFO DYNAMIC -->
-              <Agency :agencyName="caregiverResource.data.supplier" />
+              <!-- AGENCY SECTION -->
+              <div class="agencyDetails mb-7">
+                <div class="text-xl text-[#070707] font-semibold mb-3">
+                  Agency Details
+                </div>
+                <div class="mb-3 flex gap-2">
+                  <FeatherIcon class="w-5" name="user" />
+                  <div>
+                    {{ caregiver.data.agency_data.supplier_name }}
+                  </div>
+                </div>
+                <div class="mb-3 flex gap-2">
+                  <FeatherIcon class="w-4" name="phone" />
+                  <div>
+                    {{ caregiver.data.agency_contact.phone }}
+                  </div>
+                </div>
+                <div class="flex gap-2">
+                  <FeatherIcon class="w-4 self-start mt-1" name="map-pin" />
+                  <p>
+                    {{ caregiver.data.agency_contact.address_line1 }} <br />
+                    {{ caregiver.data.agency_contact.address_line2 }} <br />
+                    {{ caregiver.data.agency_contact.city }} <br />
+                    {{ caregiver.data.agency_contact.state }} <br />
+                    {{ caregiver.data.agency_contact.country }} <br />
+                    {{ caregiver.data.agency_contact.pincode }}
+                  </p>
+                </div>
+              </div>
+              <!-- SPECIALITIES SECTION -->
               <div class="mySpecialities mb-5">
                 <div class="text-xl text-[#070707] font-semibold mb-2">
                   My Specialities
                 </div>
                 <div
-                  v-if="caregiverResource.data.caregiver_type === 'Attendant'"
+                  v-if="
+                    caregiver.data.caregiver_data.caregiver_type === 'Attendant'
+                  "
                 >
-                  <!-- make this dynamic for when it's attendant and when it's nursing -->
                   <span
-                    v-for="specialization in caregiverResource.data
+                    v-for="specialization in caregiver.data.caregiver_data
                       .proficient_activities"
                     class="mx-1"
                   >
@@ -70,12 +97,15 @@
                     </Badge>
                   </span>
                 </div>
-                <div v-if="caregiverResource.data.caregiver_type === 'Nurse'">
-                  <!-- make this dynamic for when it's attendant and when it's nursing -->
+                <div
+                  v-if="
+                    caregiver.data.caregiver_data.caregiver_type === 'Nurse'
+                  "
+                >
                   <span
-                    v-for="specialization in caregiverResource.data
+                    v-for="specialization in caregiver.data.caregiver_data
                       .proficient_activities"
-                    class="mx-1"
+                    class=""
                   >
                     <Badge
                       :variant="'solid'"
@@ -88,14 +118,54 @@
                   </span>
                 </div>
               </div>
+              <!-- IMPORTANT DOCUMENTS SECTION -->
               <div class="mb-5">
                 <div class="text-xl text-[#070707] font-semibold mb-2">
                   Important Documents
                 </div>
-                <a :href="caregiverResource.data.aadhar_photo">aadhar</a>
+              </div>
+              <div
+                class="mb-3 flex gap-2"
+                v-if="caregiver.data.caregiver_name.aadhar_photo"
+              >
+                <FeatherIcon class="w-4" name="paperclip" />
+                <a :href="caregiver.data.caregiver_name.aadhar_photo"
+                  >Aadhar Card</a
+                >
+              </div>
+              <div
+                class="mb-3 flex gap-2"
+                v-if="caregiver.data.caregiver_name.pan_photo"
+              >
+                <FeatherIcon class="w-4" name="paperclip" />
+                <a :href="caregiver.data.caregiver_name.pan_photo">Pan Card</a>
+              </div>
+              <div
+                class="mb-3 flex gap-2"
+                v-if="
+                  caregiver.data.caregiver_name.police_verification_certificate
+                "
+              >
+                <FeatherIcon class="w-4" name="paperclip" />
+                <a
+                  :href="
+                    caregiver.data.caregiver_name
+                      .police_verification_certificate
+                  "
+                  >Police Verification Certificate</a
+                >
+              </div>
+              <div
+                class="mb-3 flex gap-2"
+                v-if="caregiver.data.caregiver_name.vaccination_certificate"
+              >
+                <FeatherIcon class="w-4" name="paperclip" />
+                <a :href="caregiver.data.caregiver_name.vaccination_certificate"
+                  >Vaccination Certificate</a
+                >
               </div>
             </div>
-            
+
             <!-- RATINGS SECTION -->
             <div v-else-if="state.index === 1">
               <div class="flex justify-between">
@@ -113,12 +183,12 @@
                   <star-rating :increment="0.5" :rating="4"></star-rating>
                 </div> -->
               </div>
-              <div v-for="rater in caregiverResource.data.rating">
+              <div v-for="rater in caregiver.data.caregiver_data.rating">
                 <div class="mt-8 grid grid-cols-8">
                   <Avatar
                     class=""
                     :shape="'circle'"
-                    :image="caregiverResource.data.passport_size_photo"
+                    :image="caregiver.data.caregiver_name.passport_size_photo"
                     :label="rater.rater"
                     size="xl"
                   />
@@ -127,7 +197,6 @@
                       <div class="text-sm text-[#78abaf] font-semibold">
                         {{ rater.rater }}
                       </div>
-                      <!-- <div class="text-sm">20 June 2024</div> -->
                       <div class="text-sm">
                         {{ dateFormatter(rater.rating_date) }}
                       </div>
@@ -158,20 +227,8 @@ import { computed, reactive, ref } from 'vue'
 import { Tabs, FeatherIcon, Badge, Avatar, createResource } from 'frappe-ui'
 import { session } from '../data/session'
 import CaregiverNavbar from '../components/CaregiverNavbar.vue'
-import Agency from '../components/Agency.vue'
 import Earnings from '../components/Earnings.vue'
-import { formatCurrency } from '../utils'
-
-console.log(session.user)
-
-const dateFormatter = (date) => {
-  let temp = new Date(date)
-  return temp.toLocaleDateString('en-In', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
-}
+import { formatCurrency, dateFormatter } from '../utils'
 
 const state = reactive({
   index: 0,
@@ -185,17 +242,22 @@ const state = reactive({
   ],
 })
 
-let caregiverResource = createResource({
-  url: 'frappe.client.get',
-  params: {
-    doctype: 'Caregiver',
-    // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
-    filters: {
-      user_id: session.user,
-    },
-  },
+let caregiver = createResource({
+  url: '/api/method/wellnest.api.profile',
   auto: true,
 })
+
+// let caregiverResource = createResource({
+//   url: 'frappe.client.get',
+//   params: {
+//     doctype: 'Caregiver',
+//     // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
+//     filters: {
+//       user_id: session.user,
+//     },
+//   },
+//   auto: true,
+// })
 
 // const ratings = ref(null)
 
@@ -255,9 +317,4 @@ let caregiverResource = createResource({
 //   await agencyResource.promise
 //   console.log(agencyResource.data)
 // }
-
-let caregiver = createResource({
-    url: '/api/method/wellnest.api.profile',
-    auto: true
-  })
 </script>
