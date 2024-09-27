@@ -7,7 +7,8 @@
       <summary
         class="[&::-webkit-details-marker]:hidden flex justify-between items-center relative font-medium list-none cursor-pointer text-slate-700 focus-visible:outline-none transition-colors duration-300 group-hover:text-slate-900"
       >
-        <div class="order-2 text-[#070707] font-semibold">Blood Pressure</div>
+        <!-- <div class="order-2 text-[#070707] font-semibold">Blood Pressure</div> -->
+        <div class="order-2 text-[#070707] font-semibold">{{ title }}</div>
         <div class="order-3 flex justify-between items-center">
           <div>
             <FeatherIcon
@@ -39,25 +40,37 @@
             size="lg"
             variant="outline"
             placeholder="120/65"
+            v-model="inputField"
           />
           <div class="self-end">mm/hg</div>
         </div>
-        <FeatherIcon
-          class="inline-block w-3 -rotate-45 mr-1 stroke-[blue] stroke-1"
-          name="paperclip"
-        />
-        <div class="inline-block my-5 text-blue-500">reading1.png</div>
+        <div v-if="recording.doc && recording.doc.activity_proof">
+          <FeatherIcon
+            class="inline-block w-3 -rotate-45 mr-1 stroke-[blue] stroke-1"
+            name="paperclip"
+          />
+          <!-- <a
+            class="inline-block my-5 text-blue-500"
+            :href="recording.doc.activity_proof"
+            >{{ recording.doc.activity_proof.slice(7) }}</a
+          > -->
+          <a
+            class="inline-block my-5 text-blue-500"
+            :href="recording.doc.activity_proof"
+            >proof screenshot</a
+          >
+        </div>
         <div class="text-[#070707] font-semibold">Notes:</div>
-        <div>
+        <!-- <div>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatum
           iste suscipit laudantium, odit sunt ipsa dolorem dolorum beatae
           voluptatem ratione in, neque ea culpa provident doloribus tempore a
           facere veritatis.
-        </div>
+        </div>  -->
+        <div>{{ notes }}</div>
         <FileUploader
           class="mt-5"
           :fileTypes="['image/*']"
-          :validateFile="validateFileFunction"
           @success="onSuccess"
         >
           <template
@@ -88,21 +101,21 @@
         <div class="flex justify-between items-center">
           <button
             class="text-xl font-medium border-2 border-gray-500 rounded w-2/3 py-2 mb-2"
+            @click="sendRequest"
           >
             Mark as Completed
-            <!-- TODO: Items are not centered properly -->
           </button>
           <div class="order-3 flex justify-between items-center">
-              <FeatherIcon
-                class="w-6 mr-1 stroke-[#78abaf] stroke-2"
-                name="clock"
-              />
+            <FeatherIcon
+              class="w-6 mr-1 stroke-[#78abaf] stroke-2"
+              name="clock"
+            />
             <div class="text-[#070707] font-semibold">10 AM</div>
           </div>
         </div>
-        <!-- <Button :variant="'outline'" theme="gray" size="xl" label="Button">
-          Mark as Completed
-        </Button> -->
+        <!-- <div v-if="recording.doc && recording.doc.activity_proof">
+          {{ recording.doc.activity_proof }}
+        </div> -->
       </div>
     </details>
   </section>
@@ -111,10 +124,30 @@
 
 <script setup>
 import { TextInput, FileUploader, Button, FeatherIcon } from 'frappe-ui'
-import { createListResource } from 'frappe-ui'
+import {
+  createResource,
+  createListResource,
+  createDocumentResource,
+} from 'frappe-ui'
 
-const validateFileFunction = (fileObject) => {}
+const props = defineProps(['title', 'notes', 'id'])
+
+let recording = createDocumentResource({
+  doctype: 'Caregiver Activity',
+  name: props.id,
+})
+
+const inputField = defineModel()
+
+function sendRequest() {
+  recording.setValue.submit({
+    activity_data: inputField.value,
+  })
+}
+
 const onSuccess = (file) => {
-  console.log(file)
+  recording.setValue.submit({
+    activity_proof: file.file_url,
+  })
 }
 </script>
