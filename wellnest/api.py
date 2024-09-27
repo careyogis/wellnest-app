@@ -1,7 +1,5 @@
 import frappe
 
-
-@frappe.whitelist()
 # def dashboard():
 #     # return frappe.db.get_all('Engagement', fields=['*'])
 #     # frappe.db.get_all('Caregier', fields=['*'], filters={'user_id': frappe.user})
@@ -13,6 +11,33 @@ import frappe
 #     # return [caregiver_engagement1, caregiver_engagement2]
 
 
+@frappe.whitelist()
+def dashboard():
+    caregiver_name = frappe.db.get_list(
+        "Caregiver", fields=["*"], filters={"user_id": frappe.session.user}
+    )
+    # caregiver_data = frappe.get_doc("Caregiver", caregiver_name[0].name)
+    engagements = frappe.get_all(
+        "Engagement Caregiver",
+        fields=["*"],
+        filters={"caregiver": caregiver_name[0].name},
+    )
+    engagementsId = list(
+        set([engagementsId["parent"] for engagementsId in engagements])
+    )
+
+    engagementDocs = frappe.get_doc("Engagement", engagementsId)
+
+    customer = frappe.get_doc("Customer", engagementDocs.customer)
+
+    return {
+        "caregiver": caregiver_name[0],
+        "engagement": engagementDocs,
+        "customer": customer,
+    }
+
+
+@frappe.whitelist()
 def profile():
     caregiver_name = frappe.db.get_list(
         "Caregiver", fields=["*"], filters={"user_id": frappe.session.user}
@@ -26,3 +51,28 @@ def profile():
         "agency_data": agency,
         "agency_contact": agency_contact,
     }
+
+
+@frappe.whitelist()
+def activity():
+    caregiver_name = frappe.db.get_list(
+        "Caregiver", fields=["*"], filters={"user_id": frappe.session.user}
+    )
+    # caregiver_data = frappe.get_doc("Caregiver", caregiver_name[0].name)
+    engagements = frappe.get_all(
+        "Engagement Caregiver",
+        fields=["*"],
+        filters={"caregiver": caregiver_name[0].name},
+    )
+    engagementsId = list(
+        set([engagementsId["parent"] for engagementsId in engagements])
+    )
+    activities = frappe.db.get_list(
+        "Caregiver Activity",
+        fields=["*"],
+        filters={"engagement": engagements[0].parent},
+    )
+    customerName = frappe.get_doc("Engagement", engagements[0].parent).customer
+    customerDoc = frappe.get_doc("Customer", customerName)
+    # return activities
+    return {"customerDoc": customerDoc, "activities": activities}
