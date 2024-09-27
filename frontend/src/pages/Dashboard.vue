@@ -10,7 +10,7 @@
     <img class="w-15" src="/public/favicon.png" alt="" />
     <Avatar
       :shape="'circle'"
-      :image="'https://lh5.googleusercontent.com/proxy/gXCFTaGwqD6OXUkJWgLLGw5vAFyJUTnFQjRGF9N_n9dH7alWLedGpd_6mPfAMrJWyVw5fmx_4zMNhUnP-CFnDVe7HLbbWrAQgpgrf7aR32eoZ3euxAX48BrCXtGajHMd'"
+      :image="dashboard.data.caregiver.passport_size_photo"
       label="EY"
       size="2xl"
     />
@@ -23,8 +23,9 @@
         <FeatherIcon class="pl-2.5 w-8 h-8 stroke-white" name="calendar" />
       </button>
       <div class="flex flex-col">
-        <div class="font-semibold">20 June 2024</div>
-        <div class="text-sm">Thursday</div>
+        <!-- <div class="font-semibold">20 June 2024</div> -->
+        <div class="font-semibold">{{ longDateFormatter(new Date) }}</div>
+        <div class="text-sm">{{ dayFormatter(new Date) }}</div>
       </div>
     </div>
     <div class="flex justify-between w-full">
@@ -44,19 +45,19 @@
         <div class="flex items-center gap-1">
           <Avatar
             :shape="'circle'"
-            :image="'https://lh5.googleusercontent.com/proxy/gXCFTaGwqD6OXUkJWgLLGw5vAFyJUTnFQjRGF9N_n9dH7alWLedGpd_6mPfAMrJWyVw5fmx_4zMNhUnP-CFnDVe7HLbbWrAQgpgrf7aR32eoZ3euxAX48BrCXtGajHMd'"
+            :image="dashboard.data.customer.image"
             label="EY"
             size="2xl"
           />
           <div>
             <div class="font-semibold">
-              {{ caregiverResource.data.full_name }}
+              {{ dashboard.data.customer.customer_name }}
             </div>
-            <!-- calculate age and replace it with the static data -->
-            <!-- <div class="">{{ caregiverResource.data.gender }} 23</div> -->
-            <div class="">
-              {{ caregiverResource.data.gender }}
-              {{ getAge(caregiverResource.data.dob) }} Years
+            <div>
+              {{ dashboard.data.customer.gender }}
+              <!-- TODO: FETCH AGE ONCE IT IS IN THE CUSTOMER DOCTYPE -->
+              <!-- {{ getAge(caregiverResource.data.dob) }} Years -->
+              62 Years
             </div>
           </div>
         </div>
@@ -85,41 +86,28 @@
         <div class="mb-3 flex gap-2">
           <FeatherIcon class="w-4" name="phone" />
           <div class="text-[14px]">
-            {{ caregiverResource.data.phone_number }}
+            {{ dashboard.data.customer.mobile_no }}
           </div>
         </div>
         <div class="flex gap-2">
           <FeatherIcon class="w-4 mt-0.5" name="mail" />
           <div class="text-[14px]">
-            {{ caregiverResource.data.email }}
+            {{ dashboard.data.customer.email_id }}
           </div>
         </div>
       </div>
-      <Customer />
+      <!-- <Customer /> -->
       <NursingManager />
       <div class="mySpecialities mb-5">
         <div class="text-[#070707] font-semibold mb-2">Services Needed</div>
-        <div v-if="caregiverResource.data.caregiver_type === 'Attendant'">
-          <span
-            v-for="specialization in caregiverResource.data.attendant_care"
-            class="mx-1"
-          >
-            <Badge :variant="'solid'" size="lg" label="Badge" theme="orange">
-              {{ specialization.link_ebyl }}
-            </Badge>
-          </span>
-        </div>
-        <div v-if="caregiverResource.data.caregiver_type === 'Nurse'">
-          <span
-            v-for="specialization in caregiverResource.data
-              .nursing_specialization"
-            class="mx-1"
-          >
-            <Badge :variant="'solid'" size="lg" label="Badge" theme="orange">
-              {{ specialization.link_liob }}
-            </Badge>
-          </span>
-        </div>
+        <span
+          v-for="services in dashboard.data.engagement.required_activity"
+          class="mx-1"
+        >
+          <Badge :variant="'solid'" size="lg" label="Badge" theme="orange">
+            {{ services.activity }}
+          </Badge>
+        </span>
       </div>
       <button
         class="text-xl font-medium border border-gray-300 rounded w-1/2 py-2 mb-4"
@@ -177,17 +165,17 @@ import { session } from '../data/session'
 import Agency from '../components/Agency.vue'
 import Customer from '../components/Customer.vue'
 import NursingManager from '../components/NursingManager.vue'
-
-function getAge(dateString) {
-  let today = new Date()
-  let birthDate = new Date(dateString)
-  let age = today.getFullYear() - birthDate.getFullYear()
-  let m = today.getMonth() - birthDate.getMonth()
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--
-  }
-  return age
-}
+import { getAge, dayFormatter, longDateFormatter, shortDateFormatter } from '../utils'
+// function getAge(dateString) {
+//   let today = new Date()
+//   let birthDate = new Date(dateString)
+//   let age = today.getFullYear() - birthDate.getFullYear()
+//   let m = today.getMonth() - birthDate.getMonth()
+//   if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+//     age--
+//   }
+//   return age
+// }
 
 // let caregiverResource = createResource({
 //   url: 'frappe.client.get',
@@ -200,79 +188,84 @@ function getAge(dateString) {
 //   },
 //   auto: true,
 // })
-let caregiverResource
-let customerResource
-let engagementResource
-let engagementCaregiverResource
 
-apiCall()
+let dashboard = createResource({
+  url: '/api/method/wellnest.api.dashboard',
+  auto: true,
+})
 
-async function apiCall() {
-  caregiverResource = createResource({
-    url: 'frappe.client.get',
-    params: {
-      doctype: 'Caregiver',
-      // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
-      filters: {
-        user_id: session.user,
-      },
-    },
-    auto: true,
-  })
-  await caregiverResource.promise
-  console.log(caregiverResource.data)
+// let caregiverResource
+// let customerResource
+// let engagementResource
+// let engagementCaregiverResource
 
-  //   customerResource = createResource({
-  //     url: 'frappe.client.get',
-  //     params: {
-  //       doctype: 'Customer',
-  //       // fields: ['agency_name', 'primary_phone', 'complete_address'],
-  //       // name: caregiverResource.data.,
-  //     },
-  //     auto: true,
-  //   })
-  // //   await agencyResource.promise
-  // //   console.log(agencyResource.data)
+// apiCall()
 
-  customerResource = createDocumentResource({
-    doctype: 'Customer',
-    name: 'Test Customer',
-    auto: true,
-  })
-  await customerResource.promise
-  console.log(customerResource)
+// async function apiCall() {
+//   caregiverResource = createResource({
+//     url: 'frappe.client.get',
+//     params: {
+//       doctype: 'Caregiver',
+//       // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
+//       filters: {
+//         user_id: session.user,
+//       },
+//     },
+//     auto: true,
+//   })
+//   await caregiverResource.promise
+//   console.log(caregiverResource.data)
 
-  engagementResource = createListResource({
-    doctype: 'Engagement',
-    fields: ['*'],
-    // filters: {
-    //   assigned_caregivers: session.user,
-    // },
-  })
-  engagementResource.fetch()
-  await engagementResource.promise
-  // console.log(engagementResource)
-  console.log(engagementResource.data)
+//   //   customerResource = createResource({
+//   //     url: 'frappe.client.get',
+//   //     params: {
+//   //       doctype: 'Customer',
+//   //       // fields: ['agency_name', 'primary_phone', 'complete_address'],
+//   //       // name: caregiverResource.data.,
+//   //     },
+//   //     auto: true,
+//   //   })
+//   // //   await agencyResource.promise
+//   // //   console.log(agencyResource.data)
 
+//   customerResource = createDocumentResource({
+//     doctype: 'Customer',
+//     name: 'Test Customer',
+//     auto: true,
+//   })
+//   await customerResource.promise
+//   console.log(customerResource)
 
-  engagementCaregiverResource = createListResource({
-    doctype: 'Engagement Caregiver',
-    fields: ['*'],
-    // filters: {
-    //   assigned_caregivers: session.user,
-    // },
-  })
-  engagementCaregiverResource.fetch()
-  await engagementResource.promise
-  // console.log(engagementResource)
-  console.log(engagementCaregiverResource.data)
+//   engagementResource = createListResource({
+//     doctype: 'Engagement',
+//     fields: ['*'],
+//     // filters: {
+//     //   assigned_caregivers: session.user,
+//     // },
+//   })
+//   engagementResource.fetch()
+//   await engagementResource.promise
+//   // console.log(engagementResource)
+//   console.log(engagementResource)
 
-  customerResource = createDocumentResource({
-    doctype: 'Engagement',
-    name: 'EGMT-20240905-000003',
-    auto: true,
-  })
-  await customerResource.promise
-  console.log(customerResource)
-}
+//   engagementCaregiverResource = createListResource({
+//     doctype: 'Engagement Caregiver',
+//     fields: ['*'],
+//     // filters: {
+//     //   assigned_caregivers: session.user,
+//     // },
+//   })
+//   engagementCaregiverResource.fetch()
+//   await engagementResource.promise
+//   // console.log(engagementResource)
+//   console.log(engagementCaregiverResource.data)
+
+//   customerResource = createDocumentResource({
+//     doctype: 'Engagement',
+//     name: 'EGMT-20240905-000003',
+//     auto: true,
+//   })
+//   await customerResource.promise
+//   console.log(customerResource)
+// }
 </script>
