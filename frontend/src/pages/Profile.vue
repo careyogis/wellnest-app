@@ -17,7 +17,7 @@
       </div>
       <div>
         Member Since:
-        {{ dateFormatter(caregiver.data.caregiver_name.creation) }}
+        {{ shortDateFormatter(caregiver.data.caregiver_name.creation) }}
       </div>
     </div>
 
@@ -137,7 +137,7 @@
                 class="mb-3 flex gap-2"
                 v-if="caregiver.data.caregiver_name.pan_photo"
               >
-                <FeatherIcon class="w-4" name="paperclip" />
+                <FeatherIcon class="w-4 -rotate-45" name="paperclip" />
                 <a :href="caregiver.data.caregiver_name.pan_photo">Pan Card</a>
               </div>
               <div
@@ -146,7 +146,7 @@
                   caregiver.data.caregiver_name.police_verification_certificate
                 "
               >
-                <FeatherIcon class="w-4" name="paperclip" />
+                <FeatherIcon class="w-4 -rotate-45" name="paperclip" />
                 <a
                   :href="
                     caregiver.data.caregiver_name
@@ -159,7 +159,7 @@
                 class="mb-3 flex gap-2"
                 v-if="caregiver.data.caregiver_name.vaccination_certificate"
               >
-                <FeatherIcon class="w-4" name="paperclip" />
+                <FeatherIcon class="w-4 -rotate-45" name="paperclip" />
                 <a :href="caregiver.data.caregiver_name.vaccination_certificate"
                   >Vaccination Certificate</a
                 >
@@ -198,7 +198,7 @@
                         {{ rater.rater }}
                       </div>
                       <div class="text-sm">
-                        {{ dateFormatter(rater.rating_date) }}
+                        {{ shortDateFormatter(rater.rating_date) }}
                       </div>
                     </div>
                     <p class="col-span-2 text-sm mb-2">
@@ -228,7 +228,7 @@ import { Tabs, FeatherIcon, Badge, Avatar, createResource } from 'frappe-ui'
 import { session } from '../data/session'
 import CaregiverNavbar from '../components/CaregiverNavbar.vue'
 import Earnings from '../components/Earnings.vue'
-import { formatCurrency, dateFormatter } from '../utils'
+import { formatCurrency, shortDateFormatter } from '../utils'
 
 const state = reactive({
   index: 0,
