@@ -24,8 +24,8 @@
       </button>
       <div class="flex flex-col">
         <!-- <div class="font-semibold">20 June 2024</div> -->
-        <div class="font-semibold">{{ longDateFormatter(new Date) }}</div>
-        <div class="text-sm">{{ dayFormatter(new Date) }}</div>
+        <div class="font-semibold">{{ longDateFormatter(new Date()) }}</div>
+        <div class="text-sm">{{ dayFormatter(new Date()) }}</div>
       </div>
     </div>
     <div class="flex justify-between w-full">
@@ -67,7 +67,11 @@
             name="calendar"
           />
           <div class="flex flex-col items-center">
-            <div class="font-semibold">15 June 2024 - 25 June 2024</div>
+            <!-- <div class="font-semibold">15 June 2024 - 25 June 2024</div> -->
+            <div class="font-semibold">
+              {{ longDateFormatter(dashboard.data.engagement.start_date) }} -
+              {{ longDateFormatter(dashboard.data.engagement.end_date) }}
+            </div>
             <div>5 more days to go</div>
             <div class="flex gap-1">
               <FeatherIcon
@@ -127,6 +131,7 @@
       <div class="flex gap-6">
         <button
           class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1"
+          @click="checkin"
         >
           <div class="flex justify-center gap-1">
             <FeatherIcon
@@ -138,6 +143,7 @@
         </button>
         <button
           class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1"
+          @click="checkout"
         >
           <div class="flex justify-center gap-1">
             <FeatherIcon
@@ -165,107 +171,65 @@ import { session } from '../data/session'
 import Agency from '../components/Agency.vue'
 import Customer from '../components/Customer.vue'
 import NursingManager from '../components/NursingManager.vue'
-import { getAge, dayFormatter, longDateFormatter, shortDateFormatter } from '../utils'
-// function getAge(dateString) {
-//   let today = new Date()
-//   let birthDate = new Date(dateString)
-//   let age = today.getFullYear() - birthDate.getFullYear()
-//   let m = today.getMonth() - birthDate.getMonth()
-//   if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-//     age--
-//   }
-//   return age
-// }
+import {
+  getAge,
+  dayFormatter,
+  longDateFormatter,
+  shortDateFormatter,
+} from '../utils'
 
-// let caregiverResource = createResource({
-//   url: 'frappe.client.get',
-//   params: {
-//     doctype: 'Caregiver',
-//     // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
-//     filters: {
-//       user_id: session.user,
-//     },
-//   },
-//   auto: true,
-// })
+let dashboard
+let engagementActivity
+let engagementRecord
 
-let dashboard = createResource({
-  url: '/api/method/wellnest.api.dashboard',
-  auto: true,
-})
+apiCall()
 
-// let caregiverResource
-// let customerResource
-// let engagementResource
-// let engagementCaregiverResource
+async function apiCall() {
+  dashboard = createResource({
+    url: '/api/method/wellnest.api.dashboard',
+    auto: true,
+  })
+  await dashboard.promise
+  console.log(dashboard)
 
-// apiCall()
+  engagementActivity = createResource({
+    url: 'frappe.client.get_list',
+    params: {
+      doctype: 'Engagement Daily Record',
+      fields: ['*'],
+      filters: {
+        engagement: dashboard.data.engagement.name,
+      },
+    },
+    auto: true,
+  })
+  await engagementActivity.promise
 
-// async function apiCall() {
-//   caregiverResource = createResource({
-//     url: 'frappe.client.get',
-//     params: {
-//       doctype: 'Caregiver',
-//       // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
-//       filters: {
-//         user_id: session.user,
-//       },
-//     },
-//     auto: true,
-//   })
-//   await caregiverResource.promise
-//   console.log(caregiverResource.data)
+  engagementRecord = createDocumentResource({
+    doctype: 'Engagement Daily Record',
+    name: engagementActivity.data[0].name,
+  })
+  await engagementRecord.promise
+}
 
-//   //   customerResource = createResource({
-//   //     url: 'frappe.client.get',
-//   //     params: {
-//   //       doctype: 'Customer',
-//   //       // fields: ['agency_name', 'primary_phone', 'complete_address'],
-//   //       // name: caregiverResource.data.,
-//   //     },
-//   //     auto: true,
-//   //   })
-//   // //   await agencyResource.promise
-//   // //   console.log(agencyResource.data)
+function checkin() {
+  let date = new Date()
+  engagementRecord.setValue.submit({
+    check_in_date_and_time: date.toUTCString(),
+  })
+}
 
-//   customerResource = createDocumentResource({
-//     doctype: 'Customer',
-//     name: 'Test Customer',
-//     auto: true,
-//   })
-//   await customerResource.promise
-//   console.log(customerResource)
+function checkout() {
+  let date = new Date()
+  engagementRecord.setValue.submit({
+    // check_out_date_and_time: date.toUTCString()
+    // check_out_date_and_time: date
+    //   .toISOString()
+    //   .replace(/T/, ' ')
+    //   .replace(/Z/, ''),
+    // check_out_date_and_time: '2018-08-29 06:28:57.985997',
+  })
+}
 
-//   engagementResource = createListResource({
-//     doctype: 'Engagement',
-//     fields: ['*'],
-//     // filters: {
-//     //   assigned_caregivers: session.user,
-//     // },
-//   })
-//   engagementResource.fetch()
-//   await engagementResource.promise
-//   // console.log(engagementResource)
-//   console.log(engagementResource)
-
-//   engagementCaregiverResource = createListResource({
-//     doctype: 'Engagement Caregiver',
-//     fields: ['*'],
-//     // filters: {
-//     //   assigned_caregivers: session.user,
-//     // },
-//   })
-//   engagementCaregiverResource.fetch()
-//   await engagementResource.promise
-//   // console.log(engagementResource)
-//   console.log(engagementCaregiverResource.data)
-
-//   customerResource = createDocumentResource({
-//     doctype: 'Engagement',
-//     name: 'EGMT-20240905-000003',
-//     auto: true,
-//   })
-//   await customerResource.promise
-//   console.log(customerResource)
-// }
+// check_in_date_and_time: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
 </script>

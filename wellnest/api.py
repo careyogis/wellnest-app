@@ -1,4 +1,4 @@
-import frappe
+import frappe # type: ignore
 
 # def dashboard():
 #     # return frappe.db.get_all('Engagement', fields=['*'])
