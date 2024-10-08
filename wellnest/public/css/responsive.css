@@ -220,9 +220,9 @@
 }
 
 @media (max-width: 991px) {
-  .topbar-one {
+  /* .topbar-one {
     display: none;
-  }
+  } */
 
   .main-nav-one__main-logo {
     display: none;

@@ -765,7 +765,7 @@ a:focus {
 }
 
 .topbar-one__left>a {
-  color: #93969b;
+  color: #e9f242;
   font-size: 15px;
   display: flex;
   align-items: center;
@@ -795,7 +795,7 @@ a:focus {
 
 .topbar-one__social a {
   font-size: 14px;
-  color: #93969b;
+  color: #e9f242;
   display: flex;
   align-items: center;
   transition: 500ms;
