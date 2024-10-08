@@ -7,7 +7,6 @@
       <summary
         class="[&::-webkit-details-marker]:hidden flex justify-between items-center relative font-medium list-none cursor-pointer text-slate-700 focus-visible:outline-none transition-colors duration-300 group-hover:text-slate-900"
       >
-        <!-- <div class="order-2 text-[#070707] font-semibold">Blood Pressure</div> -->
         <div class="order-2 text-[#070707] font-semibold">{{ title }}</div>
         <div class="order-3 flex justify-between items-center">
           <div>
@@ -18,16 +17,6 @@
           </div>
           <div class="text-[#070707] font-semibold">10 AM</div>
         </div>
-
-        <!-- <Button
-            :variant="'ghost'"
-            class="transition duration-300 stroke-slate-700 group-open:rotate-90 w-8 h-8"
-          >
-            <FeatherIcon
-              class="w-5 stroke-[#070707] stroke-2"
-              name="chevron-right"
-            />
-          </Button> -->
         <FeatherIcon
           class="transition duration-300 stroke-slate-700 group-open:rotate-90 w-5 stroke-[#070707] stroke-2"
           name="chevron-right"
@@ -44,30 +33,19 @@
           />
           <div class="self-end">mm/hg</div>
         </div>
-        <div v-if="recording.doc && recording.doc.activity_proof">
+        <!-- <div v-if="recording.doc && recording.doc.activity_proof">
           <FeatherIcon
             class="inline-block w-3 -rotate-45 mr-1 stroke-[blue] stroke-1"
             name="paperclip"
           />
-          <!-- <a
-            class="inline-block my-5 text-blue-500"
-            :href="recording.doc.activity_proof"
-            >{{ recording.doc.activity_proof.slice(7) }}</a
-          > -->
           <a
             class="inline-block my-5 text-blue-500"
             :href="recording.doc.activity_proof"
             >proof screenshot</a
           >
-        </div>
+        </div> -->
         <div class="text-[#070707] font-semibold">Notes:</div>
-        <!-- <div>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatum
-          iste suscipit laudantium, odit sunt ipsa dolorem dolorum beatae
-          voluptatem ratione in, neque ea culpa provident doloribus tempore a
-          facere veritatis.
-        </div>  -->
-        <div>{{ notes }}</div>
+        <!-- <div>{{ notes }}</div> -->
         <FileUploader
           class="mt-5"
           :fileTypes="['image/*']"
@@ -86,9 +64,6 @@
               openFileSelector,
             }"
           >
-            <!-- <Button :variant="'outline'" theme="gray" size="lg" @click="openFileSelector" :loading="uploading">
-                {{ uploading ? `Uploading ${progress}%` : 'Upload Image' }}
-              </Button> -->
             <button
               class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1"
               @click="openFileSelector"
@@ -113,9 +88,6 @@
             <div class="text-[#070707] font-semibold">10 AM</div>
           </div>
         </div>
-        <!-- <div v-if="recording.doc && recording.doc.activity_proof">
-          {{ recording.doc.activity_proof }}
-        </div> -->
       </div>
     </details>
   </section>
@@ -130,14 +102,18 @@ import {
   createDocumentResource,
 } from 'frappe-ui'
 
-const props = defineProps(['title', 'notes', 'id'])
+// const props = defineProps(['title', 'notes', 'id', 'engagementId'])
+const props = defineProps(['title', 'id', 'engagementId'])
+
 
 let recording = createDocumentResource({
-  doctype: 'Caregiver Activity',
-  name: props.id,
+  doctype: 'Engagement Daily Record',
+  name: props.engagementId,
 })
 
 const inputField = defineModel()
+
+
 
 function sendRequest() {
   recording.setValue.submit({

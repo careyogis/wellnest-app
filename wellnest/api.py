@@ -1,4 +1,4 @@
-import frappe # type: ignore
+import frappe  # type: ignore
 
 # def dashboard():
 #     # return frappe.db.get_all('Engagement', fields=['*'])
@@ -75,4 +75,25 @@ def activity():
     customerName = frappe.get_doc("Engagement", engagements[0].parent).customer
     customerDoc = frappe.get_doc("Customer", customerName)
     # return activities
-    return {"customerDoc": customerDoc, "activities": activities}
+
+    engagementDailyRecord = frappe.get_doc("Engagement Daily Record", "0elg2f8g8b")
+
+    return {
+        "customerDoc": customerDoc,
+        "activities": activities,
+        "engagementRecord": engagementDailyRecord,
+    }
+
+
+@frappe.whitelist()
+def testing(data, time):
+    frappe.db.set_value(
+        "Engagement Daily Activity",
+        "n1si2gh72p",
+        {
+            "activity_data": data,
+            "completion_time": time,
+        },
+    )
+    # return {"activity_data": activity_data,"completion_time": completion_time}
+    # return {"activity_data": activity_data,"completion_time": completion_time}

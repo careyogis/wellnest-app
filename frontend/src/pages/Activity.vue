@@ -9,7 +9,7 @@
         size="3xl"
       />
       <div class="text-xl text-[#070707] font-semibold">
-         {{ taskResource.data.customerDoc.name }}
+        {{ taskResource.data.customerDoc.name }}
       </div>
       <div>
         <!-- TODO: fetch gender, age from backend -->
@@ -21,7 +21,13 @@
         <div class="p-5">
           <div>
             <div v-if="state.index === 0">
-              <TaskAccordian v-for="task in taskResource.data.activities" :title="task.activity" :notes="task.activity_notes" :id="task.name"/>
+              <TaskAccordian
+                v-for="task in taskResource.data.engagementRecord
+                  .performed_activities"
+                :title="task.activity"
+                :id="task.name"
+                :engagementId="task.engagement"
+              />
             </div>
             <div v-else-if="state.index === 1">
               <div class="flex justify-between items-center w-full">
@@ -34,7 +40,7 @@
                     reading1.png
                   </div>
                 </div>
-                <div class="text-sm"> 20 June 2024 </div>
+                <div class="text-sm">20 June 2024</div>
               </div>
             </div>
           </div>
@@ -68,4 +74,8 @@ let taskResource = createResource({
   auto: true,
 })
 
+let test = createResource({
+  url: '/api/method/wellnest.api.testing?data=testing123&time=17:55:31',
+  auto: true,
+})
 </script>

@@ -190,7 +190,6 @@ async function apiCall() {
     auto: true,
   })
   await dashboard.promise
-  console.log(dashboard)
 
   engagementActivity = createResource({
     url: 'frappe.client.get_list',
@@ -210,6 +209,13 @@ async function apiCall() {
     name: engagementActivity.data[0].name,
   })
   await engagementRecord.promise
+  console.log(engagementRecord.doc.performed_activities)
+
+
+  test = createResource({
+    url: '/api/method/wellnest.api.testing?data="testing"&time="15:55:31"',
+    auto: true,
+  })
 }
 
 function checkin() {
@@ -222,7 +228,7 @@ function checkin() {
 function checkout() {
   let date = new Date()
   engagementRecord.setValue.submit({
-    // check_out_date_and_time: date.toUTCString()
+    check_out_date_and_time: date.toUTCString()
     // check_out_date_and_time: date
     //   .toISOString()
     //   .replace(/T/, ' ')
