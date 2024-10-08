@@ -15,6 +15,7 @@
   "agency",
   "daily_reporting_time",
   "notes_to_caregiver",
+  "nursing_manager",
   "nursing_manager_contact",
   "required_services_section",
   "required_activity",
@@ -100,11 +101,17 @@
    "fieldtype": "Data",
    "label": "Nursing Manager Contact",
    "options": "Phone"
+  },
+  {
+   "fieldname": "nursing_manager",
+   "fieldtype": "Data",
+   "label": "Nursing Manager",
+   "options": "Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-25 15:10:25.150781",
+ "modified": "2024-10-08 17:49:16.522672",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement",
