@@ -1,4 +1,5 @@
 import frappe  # type: ignore
+from datetime import datetime
 
 # def dashboard():
 #     # return frappe.db.get_all('Engagement', fields=['*'])
@@ -86,14 +87,35 @@ def activity():
 
 
 @frappe.whitelist()
-def testing(data, time):
+def setActivityData(taskName, data):
+    currentTime = datetime.now().time()
     frappe.db.set_value(
         "Engagement Daily Activity",
-        "n1si2gh72p",
+        taskName,
         {
             "activity_data": data,
+            "completion_time": currentTime,
+        },
+    )
+    return currentTime
+
+
+@frappe.whitelist()
+def setActivityCompletionTime(taskName, time):
+    frappe.db.set_value(
+        "Engagement Daily Activity",
+        taskName,
+        {
             "completion_time": time,
         },
     )
-    # return {"activity_data": activity_data,"completion_time": completion_time}
-    # return {"activity_data": activity_data,"completion_time": completion_time}
+
+@frappe.whitelist()
+def setFilePath(taskName, fileURL):
+    frappe.db.set_value(
+        "Engagement Daily Activity",
+        taskName,
+        {
+            "proof": fileURL,
+        },
+    )

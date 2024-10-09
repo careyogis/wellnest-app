@@ -210,12 +210,6 @@ async function apiCall() {
   })
   await engagementRecord.promise
   console.log(engagementRecord.doc.performed_activities)
-
-
-  test = createResource({
-    url: '/api/method/wellnest.api.testing?data="testing"&time="15:55:31"',
-    auto: true,
-  })
 }
 
 function checkin() {

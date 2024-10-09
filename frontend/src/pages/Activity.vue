@@ -13,7 +13,9 @@
       </div>
       <div>
         <!-- TODO: fetch gender, age from backend -->
-        Gender, Age
+        <!-- Gender, Age -->
+        {{ taskResource.data.customerDoc.gender }},
+        {{ taskResource.data.customerDoc.custom_age }}
       </div>
     </div>
     <Tabs class="bro" v-model="state.index" :tabs="state.tabs">
@@ -27,6 +29,11 @@
                 :title="task.activity"
                 :id="task.name"
                 :engagementId="task.engagement"
+                :taskName="task.name"
+                :proof="task.proof"
+                :taskResource="taskResource"
+                :prescribedTime="task.prescribed_time"
+                :notes="task.notes"
               />
             </div>
             <div v-else-if="state.index === 1">
@@ -74,8 +81,4 @@ let taskResource = createResource({
   auto: true,
 })
 
-let test = createResource({
-  url: '/api/method/wellnest.api.testing?data=testing123&time=17:55:31',
-  auto: true,
-})
 </script>

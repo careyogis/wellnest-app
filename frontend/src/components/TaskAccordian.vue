@@ -15,7 +15,10 @@
               name="clock"
             />
           </div>
-          <div class="text-[#070707] font-semibold">10 AM</div>
+          <!-- <div class="text-[#070707] font-semibold">10 AM</div> -->
+          <div v-if="prescribedTime" class="text-[#070707] font-semibold">
+            {{ prescribedTime.slice(0, 4) }}
+          </div>
         </div>
         <FeatherIcon
           class="transition duration-300 stroke-slate-700 group-open:rotate-90 w-5 stroke-[#070707] stroke-2"
@@ -33,19 +36,17 @@
           />
           <div class="self-end">mm/hg</div>
         </div>
-        <!-- <div v-if="recording.doc && recording.doc.activity_proof">
+        <div v-if="proof">
           <FeatherIcon
             class="inline-block w-3 -rotate-45 mr-1 stroke-[blue] stroke-1"
             name="paperclip"
           />
-          <a
-            class="inline-block my-5 text-blue-500"
-            :href="recording.doc.activity_proof"
-            >proof screenshot</a
+          <a class="inline-block my-5 text-blue-500" :href="proof"
+            >Uploaded Image</a
           >
-        </div> -->
+        </div>
         <div class="text-[#070707] font-semibold">Notes:</div>
-        <!-- <div>{{ notes }}</div> -->
+        <div>{{ notes }}</div>
         <FileUploader
           class="mt-5"
           :fileTypes="['image/*']"
@@ -86,6 +87,7 @@
               name="clock"
             />
             <div class="text-[#070707] font-semibold">10 AM</div>
+            <!-- <div v-if="activityCompletionTime" class="text-[#070707] font-semibold">{{ activityCompletionTime }}</div> -->
           </div>
         </div>
       </div>
@@ -103,27 +105,55 @@ import {
 } from 'frappe-ui'
 
 // const props = defineProps(['title', 'notes', 'id', 'engagementId'])
-const props = defineProps(['title', 'id', 'engagementId'])
-
-
-let recording = createDocumentResource({
-  doctype: 'Engagement Daily Record',
-  name: props.engagementId,
-})
+const props = defineProps([
+  'title',
+  'id',
+  'engagementId',
+  'taskName',
+  'proof',
+  'taskResource',
+  'prescribedTime',
+  'notes',
+])
+// let testing1 = testingSankalp;
+// let testing2 = "17:55:31";
+// let task = createResource({
+//   url: '/api/method/wellnest.api.testing?data={testing1}&time={testing2}',
+//   auto: true,
+// })
 
 const inputField = defineModel()
 
+// let recording = createDocumentResource({
+//   doctype: 'Engagement Daily Activity',
+//   name: props.engagementId,
+// })
 
-
+// let task = createResource({
+//   url: `/api/method/wellnest.api.testing?data=${testing1}&time=${testing2}&taskName=${props.taskName}`,
+//   auto: true,
+// })
+let activityCompletionTime
 function sendRequest() {
-  recording.setValue.submit({
-    activity_data: inputField.value,
+  // recording.setValue.submit({
+  //   activity_data: inputField.value,
+  // })
+  let time = new Date()
+  time = time.getTime()
+  activityCompletionTime = createResource({
+    url: `/api/method/wellnest.api.setActivityData?taskName=${props.taskName}&data=${inputField.value}`,
+    auto: true,
   })
 }
 
 const onSuccess = (file) => {
-  recording.setValue.submit({
-    activity_proof: file.file_url,
+  // recording.setValue.submit({
+  //   activity_proof: file.file_url,
+  // })
+  activityCompletionTime = createResource({
+    url: `/api/method/wellnest.api.setFilePath?taskName=${props.taskName}&fileURL=${file.file_url}`,
+    auto: true,
   })
+  props.taskResource.reload()
 }
 </script>
