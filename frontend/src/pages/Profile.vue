@@ -44,7 +44,7 @@
                 </div>
               </div>
               <!-- AGENCY SECTION -->
-              <div class="agencyDetails mb-7">
+              <div v-if="caregiver.data.agency_data" class="agencyDetails mb-7">
                 <div class="text-xl text-[#070707] font-semibold mb-3">
                   Agency Details
                 </div>
@@ -244,6 +244,7 @@ const state = reactive({
 
 let caregiver = createResource({
   url: '/api/method/wellnest.api.profile',
+  // url: 'https://playground.thewellnest.in/api/method/wellnest.api.profile',
   auto: true,
 })
 
