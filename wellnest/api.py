@@ -44,14 +44,21 @@ def profile():
         "Caregiver", fields=["*"], filters={"user_id": frappe.session.user}
     )
     caregiver_data = frappe.get_doc("Caregiver", caregiver_name[0].name)
-    agency = frappe.get_doc("Supplier", caregiver_name[0].supplier)
-    agency_contact = frappe.get_doc("Address", agency.supplier_primary_address)
-    return {
-        "caregiver_name": caregiver_name[0],
-        "caregiver_data": caregiver_data,
-        "agency_data": agency,
-        "agency_contact": agency_contact,
-    }
+    # If Caregiver is Solo and not from an Agency
+    if caregiver_name[0].supplier:
+        agency = frappe.get_doc("Supplier", caregiver_name[0].supplier)
+        agency_contact = frappe.get_doc("Address", agency.supplier_primary_address)
+        return {
+            "caregiver_name": caregiver_name[0],
+            "caregiver_data": caregiver_data,
+            "agency_data": agency,
+            "agency_contact": agency_contact,
+        }
+    else:
+        return {
+            "caregiver_name": caregiver_name[0],
+            "caregiver_data": caregiver_data,
+        }
 
 
 @frappe.whitelist()
@@ -77,7 +84,16 @@ def activity():
     customerDoc = frappe.get_doc("Customer", customerName)
     # return activities
 
-    engagementDailyRecord = frappe.get_doc("Engagement Daily Record", "0elg2f8g8b")
+    engagementDailyRecordId = frappe.get_all(
+        "Engagement Daily Record",
+        fields=["*"],
+        filters={"engagement": engagements[0].parent},
+    )[0].name
+
+    engagementDailyRecord = frappe.get_doc(
+        "Engagement Daily Record",
+        engagementDailyRecordId
+    )
 
     return {
         "customerDoc": customerDoc,
@@ -119,3 +135,23 @@ def setFilePath(taskName, fileURL):
             "proof": fileURL,
         },
     )
+
+# @frappe.whitelist()
+# def checkin(record, time):
+#     frappe.db.set_value(
+#         "Engagement Daily Record",
+#         record,
+#         {
+#             "check_in_date_and_time": time, 
+#         },
+#     )
+
+# @frappe.whitelist()
+# def checkout(record, time):
+#     frappe.db.set_value(
+#         "Engagement Daily Record",
+#         record,
+#         {
+#             "check_out_date_and_time": time, 
+#         },
+#     )
