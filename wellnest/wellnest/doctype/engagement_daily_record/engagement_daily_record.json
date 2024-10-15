@@ -30,20 +30,20 @@
    "label": "Check in Date and Time"
   },
   {
-   "fieldname": "check_out_date_and_time",
-   "fieldtype": "Datetime",
-   "label": "Check out Date and Time"
-  },
-  {
    "fieldname": "performed_activities",
    "fieldtype": "Table",
    "label": "Performed Activities",
    "options": "Engagement Daily Activity"
+  },
+  {
+   "fieldname": "check_out_date_and_time",
+   "fieldtype": "Datetime",
+   "label": "Check out Date and Time"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-18 22:17:32.470348",
+ "modified": "2024-10-15 11:35:29.900841",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement Daily Record",
