@@ -121,7 +121,10 @@
             class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2"
             name="check-square"
           />
-          <div class="text-[#10BAAB]">Tasks</div>
+          <!-- <div class="text-[#10BAAB]">Tasks</div> -->
+          <router-link class="text-[#10BAAB]" :to="{ name: 'Activity' }"
+            >Tasks</router-link
+          >
           <FeatherIcon
             class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2"
             name="chevron-right"
@@ -176,6 +179,7 @@ import {
   dayFormatter,
   longDateFormatter,
   shortDateFormatter,
+  formatCurrentDateTime,
 } from '../utils'
 
 let dashboard
@@ -209,27 +213,49 @@ async function apiCall() {
     name: engagementActivity.data[0].name,
   })
   await engagementRecord.promise
-  console.log(engagementRecord.doc.performed_activities)
+  console.log(engagementRecord.doc)
+  console.log(engagementActivity.data[0].name)
 }
 
 function checkin() {
-  let date = new Date()
   engagementRecord.setValue.submit({
-    check_in_date_and_time: date.toUTCString(),
+    // check_in_date_and_time: date.toUTCString(),
+    check_in_date_and_time: formatCurrentDateTime(),
   })
 }
 
 function checkout() {
-  let date = new Date()
   engagementRecord.setValue.submit({
-    check_out_date_and_time: date.toUTCString()
-    // check_out_date_and_time: date
-    //   .toISOString()
-    //   .replace(/T/, ' ')
-    //   .replace(/Z/, ''),
-    // check_out_date_and_time: '2018-08-29 06:28:57.985997',
+    // check_in_date_and_time: date.toUTCString(),
+    check_out_date_and_time: formatCurrentDateTime(),
   })
 }
+// function checkin() {
+//   createResource({
+//     url: `/api/method/wellnest.api.checkin?record=${engagementActivity.data[0].name}&time=${formatCurrentDateTime()}`,
+//     auto: true,
+//   })
+// }
+
+// function checkout() {
+//   createResource({
+//     url: `/api/method/wellnest.api.checkout?record=${engagementActivity.data[0].name}&time=${formatCurrentDateTime()}`,
+//     auto: true,
+//   })
+// }
+
+// function checkout() {
+//   // let date = new Date()
+//   engagementRecord.setValue.submit({
+//     // check_out_date_and_time: date.toUTCString()
+//     check_out_date_and_time: formatCurrentDateTime()
+//     // check_out_date_and_time: date
+//     //   .toISOString()
+//     //   .replace(/T/, ' ')
+//     //   .replace(/Z/, ''),
+//     // check_out_date_and_time: '2018-08-29 06:28:57.985997',
+//   })
+// }
 
 // check_in_date_and_time: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
 </script>
