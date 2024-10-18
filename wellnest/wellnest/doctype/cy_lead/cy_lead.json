@@ -188,7 +188,6 @@
    "options": "Sales Partner"
   },
   {
-   "collapsible": 1,
    "fieldname": "section_break_hhtr",
    "fieldtype": "Section Break",
    "label": "Enquiry Details"
@@ -246,7 +245,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-18 23:43:51.368469",
+ "modified": "2024-10-19 00:19:17.009198",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",
