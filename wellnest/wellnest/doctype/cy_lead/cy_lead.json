@@ -6,12 +6,21 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "section_break_hhtr",
+  "full_name",
+  "phone_number",
+  "city",
+  "service_pincode",
+  "column_break_rhmr",
+  "enquiry_details",
+  "requirement",
+  "referrer",
+  "section_break_kwow",
   "status",
   "source",
-  "source_enquiry",
   "column_break_naxz",
   "customer",
-  "referrer",
+  "sales_partner",
   "payment_details_section",
   "services_required",
   "service_details",
@@ -22,6 +31,7 @@
   "service_area",
   "column_break_johq",
   "potential_end_date",
+  "gender_preference",
   "additional_details",
   "hospital_discharge_detail_tab",
   "hospital_discharge_detailif_the_patient_is_from_hospital_section",
@@ -35,6 +45,7 @@
  ],
  "fields": [
   {
+   "default": "Website",
    "fieldname": "source",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -138,23 +149,15 @@
   },
   {
    "fieldname": "referrer",
-   "fieldtype": "Link",
-   "label": "Referrer",
-   "options": "Sales Partner"
+   "fieldtype": "Data",
+   "label": "Referrer"
   },
   {
    "fieldname": "customer",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Customer",
-   "options": "Customer",
-   "reqd": 1
-  },
-  {
-   "fieldname": "source_enquiry",
-   "fieldtype": "Link",
-   "label": "Source Enquiry",
-   "options": "Enquiry"
+   "options": "Customer"
   },
   {
    "fieldname": "services_required",
@@ -177,11 +180,73 @@
    "fieldname": "potential_end_date",
    "fieldtype": "Date",
    "label": "Potential End Date"
+  },
+  {
+   "fieldname": "sales_partner",
+   "fieldtype": "Link",
+   "label": "Sales Partner",
+   "options": "Sales Partner"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_hhtr",
+   "fieldtype": "Section Break",
+   "label": "Enquiry Details"
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Full Name",
+   "options": "Name"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number",
+   "options": "Phone"
+  },
+  {
+   "fieldname": "column_break_rhmr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "service_pincode",
+   "fieldtype": "Data",
+   "label": "Service Pincode"
+  },
+  {
+   "fieldname": "enquiry_details",
+   "fieldtype": "Small Text",
+   "label": "Enquiry Details"
+  },
+  {
+   "fieldname": "section_break_kwow",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Any",
+   "fieldname": "gender_preference",
+   "fieldtype": "Select",
+   "label": "Gender Preference",
+   "options": "Any\nMale\nFemale"
+  },
+  {
+   "fieldname": "requirement",
+   "fieldtype": "Select",
+   "label": "Requirement",
+   "options": "\nAttendant at Home\nAyurveda\nICU at Home\nMedical Equipments\nNursing Care\nPhysiotherapy\nSpeech Therapy\nOther Services"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "City"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-11 22:40:14.423858",
+ "modified": "2024-10-18 23:43:51.368469",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",
