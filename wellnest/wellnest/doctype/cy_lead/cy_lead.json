@@ -11,6 +11,7 @@
   "phone_number",
   "city",
   "service_pincode",
+  "service_area",
   "column_break_rhmr",
   "enquiry_details",
   "requirement",
@@ -28,7 +29,6 @@
   "service_preference_section",
   "preferred_start_date_of_service",
   "service_hours",
-  "service_area",
   "column_break_johq",
   "potential_end_date",
   "gender_preference",
@@ -66,7 +66,7 @@
   },
   {
    "fieldname": "service_area",
-   "fieldtype": "Small Text",
+   "fieldtype": "Data",
    "label": "Service Area"
   },
   {
@@ -188,6 +188,8 @@
    "options": "Sales Partner"
   },
   {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval: doc.customer",
    "fieldname": "section_break_hhtr",
    "fieldtype": "Section Break",
    "label": "Enquiry Details"
@@ -245,7 +247,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-19 00:19:17.009198",
+ "modified": "2024-10-19 09:45:38.176091",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",

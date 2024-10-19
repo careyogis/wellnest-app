@@ -61,5 +61,12 @@
   "modified": "2024-07-16 15:55:18.347775",
   "name": "Disqualified",
   "status_name": "Disqualified"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Status",
+  "modified": "2024-10-19 09:48:21.149087",
+  "name": "On Hold",
+  "status_name": "On Hold"
  }
 ]
