@@ -189,7 +189,7 @@
   },
   {
    "collapsible": 1,
-   "collapsible_depends_on": "eval: doc.customer",
+   "collapsible_depends_on": "eval: !doc.customer",
    "fieldname": "section_break_hhtr",
    "fieldtype": "Section Break",
    "label": "Enquiry Details"
@@ -247,7 +247,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-19 09:45:38.176091",
+ "modified": "2024-10-19 10:16:23.720004",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",
