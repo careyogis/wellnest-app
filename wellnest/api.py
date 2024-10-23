@@ -75,11 +75,11 @@ def activity():
     engagementsId = list(
         set([engagementsId["parent"] for engagementsId in engagements])
     )
-    activities = frappe.db.get_list(
-        "Caregiver Activity",
-        fields=["*"],
-        filters={"engagement": engagements[0].parent},
-    )
+    # activities = frappe.db.get_list(
+    #     "Caregiver Activity",
+    #     fields=["*"],
+    #     filters={"engagement": engagements[0].parent},
+    # )
     customerName = frappe.get_doc("Engagement", engagements[0].parent).customer
     customerDoc = frappe.get_doc("Customer", customerName)
     # return activities
@@ -91,13 +91,12 @@ def activity():
     )[0].name
 
     engagementDailyRecord = frappe.get_doc(
-        "Engagement Daily Record",
-        engagementDailyRecordId
+        "Engagement Daily Record", engagementDailyRecordId
     )
 
     return {
         "customerDoc": customerDoc,
-        "activities": activities,
+        # "activities": activities,
         "engagementRecord": engagementDailyRecord,
     }
 
@@ -126,6 +125,7 @@ def setActivityCompletionTime(taskName, time):
         },
     )
 
+
 @frappe.whitelist()
 def setFilePath(taskName, fileURL):
     frappe.db.set_value(
@@ -136,22 +136,49 @@ def setFilePath(taskName, fileURL):
         },
     )
 
+
+@frappe.whitelist()
+def createDailyRecord(engagement, caregiver, time):
+    # fetch activities data from engagement
+    required_activities = frappe.get_doc("Engagement", engagement).required_activity
+    # create a new document
+    doc = frappe.get_doc(
+        {
+            "doctype": "Engagement Daily Record",
+            "engagement": engagement,
+            "caregiver": caregiver,
+            "check_in_date_and_time": time,
+        }
+    )
+    for activity in required_activities:
+        doc.append(
+            "performed_activities",
+            {
+                "activity": activity.activity,
+                "prescribed_time": activity.prescribed_time,
+                "notes": activity.notes,
+            },
+        )
+    doc.insert()
+    return doc
+
+
 # @frappe.whitelist()
 # def checkin(record, time):
 #     frappe.db.set_value(
 #         "Engagement Daily Record",
 #         record,
 #         {
-#             "check_in_date_and_time": time, 
+#             "check_in_date_and_time": time,
 #         },
 #     )
 
-# @frappe.whitelist()
-# def checkout(record, time):
-#     frappe.db.set_value(
-#         "Engagement Daily Record",
-#         record,
-#         {
-#             "check_out_date_and_time": time, 
-#         },
-#     )
+@frappe.whitelist()
+def checkout(record, time):
+    frappe.db.set_value(
+        "Engagement Daily Record",
+        record,
+        {
+            "check_out_date_and_time": time,
+        },
+    )

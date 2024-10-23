@@ -217,32 +217,35 @@ async function apiCall() {
   console.log(engagementActivity.data[0].name)
 }
 
-function checkin() {
-  engagementRecord.setValue.submit({
-    // check_in_date_and_time: date.toUTCString(),
-    check_in_date_and_time: formatCurrentDateTime(),
+// function checkin() {
+//   engagementRecord.setValue.submit({
+//     // check_in_date_and_time: date.toUTCString(),
+//     check_in_date_and_time: formatCurrentDateTime(),
+//   })
+// }
+// function checkout() {
+//   newRecord.setValue.submit({
+//     // check_in_date_and_time: date.toUTCString(),
+//     check_out_date_and_time: formatCurrentDateTime(),
+//   })
+// }
+
+let newRecord 
+async function checkin() {
+  newRecord = createResource({
+    url: `/api/method/wellnest.api.createDailyRecord?engagement=EGMT-20240905-000003&caregiver=CGVR-000004&time=${formatCurrentDateTime()}`,
+    auto: true,
   })
+  await newRecord.promise
+  console.log(newRecord)
 }
 
 function checkout() {
-  engagementRecord.setValue.submit({
-    // check_in_date_and_time: date.toUTCString(),
-    check_out_date_and_time: formatCurrentDateTime(),
+  createResource({
+    url: `/api/method/wellnest.api.checkout?record=${newRecord.data.name}&time=${formatCurrentDateTime()}`,
+    auto: true,
   })
 }
-// function checkin() {
-//   createResource({
-//     url: `/api/method/wellnest.api.checkin?record=${engagementActivity.data[0].name}&time=${formatCurrentDateTime()}`,
-//     auto: true,
-//   })
-// }
-
-// function checkout() {
-//   createResource({
-//     url: `/api/method/wellnest.api.checkout?record=${engagementActivity.data[0].name}&time=${formatCurrentDateTime()}`,
-//     auto: true,
-//   })
-// }
 
 // function checkout() {
 //   // let date = new Date()
