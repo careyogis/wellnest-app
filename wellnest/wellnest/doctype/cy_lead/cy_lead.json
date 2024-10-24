@@ -247,7 +247,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-19 10:16:23.720004",
+ "modified": "2024-10-24 12:49:34.036376",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",
@@ -284,5 +284,50 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {
+   "color": "Blue",
+   "title": "New Request"
+  },
+  {
+   "color": "Purple",
+   "title": "Qualified"
+  },
+  {
+   "color": "Orange",
+   "title": "On Hold"
+  },
+  {
+   "color": "Green",
+   "title": "Caregiver Assigned"
+  },
+  {
+   "color": "Yellow",
+   "title": "Rate Negotiation In Progress"
+  },
+  {
+   "color": "Cyan",
+   "title": "Attempting Call"
+  },
+  {
+   "color": "Red",
+   "title": "Lost"
+  },
+  {
+   "color": "Yellow",
+   "title": "Request Intake In Progress"
+  },
+  {
+   "color": "Green",
+   "title": "Engagement Started"
+  },
+  {
+   "color": "Yellow",
+   "title": "Caregiver Client Interaction In progress"
+  },
+  {
+   "color": "Purple",
+   "title": "Matching Caregiver In Progress"
+  }
+ ]
 }
