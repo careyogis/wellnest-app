@@ -8,9 +8,12 @@
  "field_order": [
   "personal_details_tab",
   "caregiver_type",
-  "approved",
+  "status",
+  "has_transport",
   "column_break_almc",
   "supplier",
+  "salary_expectation",
+  "need_accommodation",
   "personal_information_section",
   "full_name",
   "gender",
@@ -31,6 +34,7 @@
   "passport_size_photo",
   "column_break_okpg",
   "full_length_photo",
+  "resume",
   "section_break_xtbq",
   "user_id",
   "service_details_tab",
@@ -290,13 +294,6 @@
    "label": "Registration No"
   },
   {
-   "default": "Pending",
-   "fieldname": "approved",
-   "fieldtype": "Select",
-   "label": "Approved",
-   "options": "Pending\nYes\nNo"
-  },
-  {
    "fieldname": "supplier",
    "fieldtype": "Link",
    "label": "Supplier",
@@ -317,12 +314,41 @@
    "fieldtype": "Table",
    "label": "Proficient Activities",
    "options": "Caregiver Proficient Activity"
+  },
+  {
+   "default": "Sourced",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Sourced\nQualified\nSelected\nApproved"
+  },
+  {
+   "default": "0",
+   "fieldname": "need_accommodation",
+   "fieldtype": "Check",
+   "label": "Need Accommodation"
+  },
+  {
+   "fieldname": "resume",
+   "fieldtype": "Attach",
+   "label": "Resume"
+  },
+  {
+   "fieldname": "salary_expectation",
+   "fieldtype": "Data",
+   "label": "Salary Expectation"
+  },
+  {
+   "default": "0",
+   "fieldname": "has_transport",
+   "fieldtype": "Check",
+   "label": "Has Transport"
   }
  ],
  "image_field": "passport_size_photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-02 12:45:12.012425",
+ "modified": "2024-10-29 19:06:05.823463",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
