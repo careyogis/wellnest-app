@@ -247,48 +247,10 @@ async function apiCall() {
       todaysCheckin,
     ]),
   )
-  console.log(checkins)
-  // console.log(dashboard.data.latestEngagementDate.slice(8, 10))
-
-  // engagementActivity = createResource({
-  //   url: 'frappe.client.get_list',
-  //   params: {
-  //     doctype: 'Engagement Daily Record',
-  //     fields: ['*'],
-  //     filters: {
-  //       engagement: dashboard.data.engagement.name,
-  //     },
-  //   },
-  //   auto: true,
-  // })
-  // await engagementActivity.promise
-
-  // engagementRecord = createDocumentResource({
-  //   doctype: 'Engagement Daily Record',
-  //   name: engagementActivity.data[0].name,
-  // })
-  // await engagementRecord.promise
-  // console.log(engagementRecord.doc)
-  // console.log(engagementActivity.data[0].name)
 }
 
-// function checkin() {
-//   engagementRecord.setValue.submit({
-//     // check_in_date_and_time: date.toUTCString(),
-//     check_in_date_and_time: formatCurrentDateTime(),
-//   })
-// }
-// function checkout() {
-//   checkins.setValue.submit({
-//     // check_in_date_and_time: date.toUTCString(),
-//     check_out_date_and_time: formatCurrentDateTime(),
-//   })
-// }
-let checkoutStatus;
-let checkinStatus;
 let checkins = {};
 async function checkin(engagementId) {
-  // let today = new Date().getDate()
 
   if (!checkins[engagementId]) {
     const response = createResource({
@@ -297,9 +259,6 @@ async function checkin(engagementId) {
     });
     await response.promise;
     checkins[engagementId] = response.data;
-    // console.log(checkins.data.check_in_date_and_time)
-    // console.log(checkins.data.check_out_date_and_time)
-    // dashboard.reload()
   } else {
     alert('Already Checked in today');
   }
@@ -316,23 +275,8 @@ async function checkout(engagementId) {
     auto: true,
   })
   await update.promise;
-  // checkins = null
 }
 
-// function checkout() {
-//   // let date = new Date()
-//   engagementRecord.setValue.submit({
-//     // check_out_date_and_time: date.toUTCString()
-//     check_out_date_and_time: formatCurrentDateTime()
-//     // check_out_date_and_time: date
-//     //   .toISOString()
-//     //   .replace(/T/, ' ')
-//     //   .replace(/Z/, ''),
-//     // check_out_date_and_time: '2018-08-29 06:28:57.985997',
-//   })
-// }
-
-// check_in_date_and_time: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`,
 </script>
 
 <style scoped>
