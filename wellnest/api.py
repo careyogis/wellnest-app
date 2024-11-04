@@ -1,6 +1,7 @@
 import frappe  # type: ignore
 from datetime import datetime, date
 
+
 @frappe.whitelist()
 def dashboard():
     caregiver = frappe.db.get_list(
@@ -67,41 +68,15 @@ def profile():
 
 
 @frappe.whitelist()
-def activity(engagementId):
-    caregiver_name = frappe.db.get_list(
-        "Caregiver", fields=["*"], filters={"user_id": frappe.session.user}
-    )
-    engagements = frappe.get_all(
-        "Engagement Caregiver",
-        fields=["*"],
-        filters={"caregiver": caregiver_name[0].name},
-    )
-    engagementsId = list(
-        set([engagementsId["parent"] for engagementsId in engagements])
-    )
-    customerName = frappe.get_doc("Engagement", engagements[0].parent).customer
-    customerDoc = frappe.get_doc("Customer", customerName)
+def activity(dailyRecordId):
+    engagementDailyRecord = frappe.get_doc("Engagement Daily Record", dailyRecordId)
 
-    engagementDailyRecordId = frappe.get_all(
-        "Engagement Daily Record",
-        fields=["*"],
-        filters={"engagement": engagements[0].parent},
-    )[0].name
+    engagement = frappe.get_doc("Engagement", engagementDailyRecord.engagement)
 
-    test = frappe.get_all(
-        "Engagement Daily Record",
-        fields=["*"],
-        filters={"engagement": engagements[0].parent},
-    )
-
-    engagementDailyRecord = frappe.get_doc(
-        "Engagement Daily Record", engagementDailyRecordId
-    )
+    customer = frappe.get_doc("Customer", engagement.customer)
 
     return {
-        "customerDoc": customerDoc,
-        "test": test,
-        "recent": engagementDailyRecordId,
+        "customerDoc": customer,
         "engagementRecord": engagementDailyRecord,
     }
 
@@ -166,6 +141,7 @@ def createDailyRecord(engagement, caregiver, time):
         )
     doc.insert()
     return doc
+
 
 @frappe.whitelist()
 def checkout(record, time):

@@ -104,7 +104,6 @@ import {
   createDocumentResource,
 } from 'frappe-ui'
 
-// const props = defineProps(['title', 'notes', 'id', 'engagementId'])
 const props = defineProps([
   'title',
   'id',
@@ -115,29 +114,10 @@ const props = defineProps([
   'prescribedTime',
   'notes',
 ])
-// let testing1 = testingSankalp;
-// let testing2 = "17:55:31";
-// let task = createResource({
-//   url: '/api/method/wellnest.api.testing?data={testing1}&time={testing2}',
-//   auto: true,
-// })
 
 const inputField = defineModel()
-
-// let recording = createDocumentResource({
-//   doctype: 'Engagement Daily Activity',
-//   name: props.engagementId,
-// })
-
-// let task = createResource({
-//   url: `/api/method/wellnest.api.testing?data=${testing1}&time=${testing2}&taskName=${props.taskName}`,
-//   auto: true,
-// })
 let activityCompletionTime
 function sendRequest() {
-  // recording.setValue.submit({
-  //   activity_data: inputField.value,
-  // })
   let time = new Date()
   time = time.getTime()
   activityCompletionTime = createResource({
@@ -147,9 +127,6 @@ function sendRequest() {
 }
 
 const onSuccess = (file) => {
-  // recording.setValue.submit({
-  //   activity_proof: file.file_url,
-  // })
   activityCompletionTime = createResource({
     url: `/api/method/wellnest.api.setFilePath?taskName=${props.taskName}&fileURL=${file.file_url}`,
     auto: true,

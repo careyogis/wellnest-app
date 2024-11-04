@@ -12,8 +12,6 @@
         {{ taskResource.data.customerDoc.name }}
       </div>
       <div>
-        <!-- TODO: fetch gender, age from backend -->
-        <!-- Gender, Age -->
         {{ taskResource.data.customerDoc.gender }},
         {{ taskResource.data.customerDoc.custom_age }}
       </div>
@@ -64,6 +62,10 @@ import { createDocumentResource, createResource } from 'frappe-ui'
 import CaregiverNavbar from '../components/CaregiverNavbar.vue'
 import TaskAccordian from '../components/TaskAccordian.vue'
 
+const props = defineProps({
+  dailyRecordId: String,
+})
+
 const state = reactive({
   index: 0,
   tabs: [
@@ -76,9 +78,13 @@ const state = reactive({
   ],
 })
 
-let taskResource = createResource({
-  url: '/api/method/wellnest.api.activity',
-  auto: true,
-})
-
+let taskResource = null
+apiCall()
+async function apiCall() {
+  taskResource = createResource({
+    url: `/api/method/wellnest.api.activity?dailyRecordId=${props.dailyRecordId}`,
+    auto: true,
+  })
+  await taskResource.promise
+}
 </script>

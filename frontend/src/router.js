@@ -25,8 +25,9 @@ const routes = [
   },
   {
     name: 'Activity',
-    path: '/activity',
+    path: '/activity/:dailyRecordId',
     component: () => import('@/pages/Activity.vue'),
+    props: true
   },
   {
     name: 'Dashboard',

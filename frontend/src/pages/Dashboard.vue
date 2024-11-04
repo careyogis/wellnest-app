@@ -157,7 +157,7 @@
               name="check-square"
             />
             <!-- <div class="text-[#10BAAB]">Tasks</div> -->
-            <router-link class="text-[#10BAAB]" :to="{ name: 'Activity' }"
+            <router-link class="text-[#10BAAB]" :to="{ name: 'Activity', params: { dailyRecordId: checkins[engagement.engagement.name].name }}"
               >Tasks</router-link
             >
             <FeatherIcon
