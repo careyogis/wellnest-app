@@ -1,5 +1,5 @@
 import frappe  # type: ignore
-from datetime import datetime
+from datetime import datetime, date
 
 # def dashboard():
 #     # return frappe.db.get_all('Engagement', fields=['*'])
@@ -14,27 +14,47 @@ from datetime import datetime
 
 @frappe.whitelist()
 def dashboard():
-    caregiver_name = frappe.db.get_list(
+    caregiver = frappe.db.get_list(
         "Caregiver", fields=["*"], filters={"user_id": frappe.session.user}
-    )
-    # caregiver_data = frappe.get_doc("Caregiver", caregiver_name[0].name)
-    engagements = frappe.get_all(
+    )[0]
+
+    engagementEdges = frappe.get_all(
         "Engagement Caregiver",
         fields=["*"],
-        filters={"caregiver": caregiver_name[0].name},
-    )
-    engagementsId = list(
-        set([engagementsId["parent"] for engagementsId in engagements])
+        filters={"caregiver": caregiver.name},
     )
 
-    engagementDocs = frappe.get_doc("Engagement", engagementsId)
+    engagementIds = list(set([edge["parent"] for edge in engagementEdges]))
 
-    customer = frappe.get_doc("Customer", engagementDocs.customer)
+    todayDateString = date.today()
+
+    engagements = []
+    for engagementId in engagementIds:
+        engagement = frappe.get_doc("Engagement", engagementId)
+        checkinsToday = frappe.get_list(
+            "Engagement Daily Record",
+            fields=["*"],
+            filters=[
+                ["engagement", "=", engagement.name],
+                ["creation", "between", [todayDateString, todayDateString]],
+            ],
+        )
+
+        engagements.append(
+            {
+                "engagement": engagement,
+                "customer": frappe.get_doc("Customer", engagement.customer),
+                "todaysCheckin": checkinsToday[0] if len(checkinsToday) > 0 else None,
+            }
+        )
 
     return {
-        "caregiver": caregiver_name[0],
-        "engagement": engagementDocs,
-        "customer": customer,
+        "caregiver": caregiver,
+        "engagements": engagements,
+        # "customers": customers,
+        # "latestEngagementDate": latestEngagementDate,
+        # "engagementsId": engagementIds,
+        # "test_id_list": engagementEdges,
     }
 
 
@@ -62,7 +82,7 @@ def profile():
 
 
 @frappe.whitelist()
-def activity():
+def activity(engagementId):
     caregiver_name = frappe.db.get_list(
         "Caregiver", fields=["*"], filters={"user_id": frappe.session.user}
     )
@@ -90,6 +110,12 @@ def activity():
         filters={"engagement": engagements[0].parent},
     )[0].name
 
+    test = frappe.get_all(
+        "Engagement Daily Record",
+        fields=["*"],
+        filters={"engagement": engagements[0].parent},
+    )
+
     engagementDailyRecord = frappe.get_doc(
         "Engagement Daily Record", engagementDailyRecordId
     )
@@ -97,6 +123,8 @@ def activity():
     return {
         "customerDoc": customerDoc,
         # "activities": activities,
+        "test": test,
+        "recent": engagementDailyRecordId,
         "engagementRecord": engagementDailyRecord,
     }
 
@@ -172,6 +200,7 @@ def createDailyRecord(engagement, caregiver, time):
 #             "check_in_date_and_time": time,
 #         },
 #     )
+
 
 @frappe.whitelist()
 def checkout(record, time):
