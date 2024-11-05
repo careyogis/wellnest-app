@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="taskResource.data">
     <CaregiverNavbar title="Daily Tasks" />
     <div class="flex flex-col items-center my-3">
       <Avatar
@@ -72,9 +72,9 @@ const state = reactive({
     {
       label: 'Daily Tasks',
     },
-    {
-      label: 'Assessment',
-    },
+    // {
+    //   label: 'Assessment',
+    // },
   ],
 })
 
@@ -85,6 +85,6 @@ async function apiCall() {
     url: `/api/method/wellnest.api.activity?dailyRecordId=${props.dailyRecordId}`,
     auto: true,
   })
-  await taskResource.promise
+  // await taskResource.promise
 }
 </script>

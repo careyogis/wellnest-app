@@ -17,7 +17,7 @@
           </div>
           <!-- <div class="text-[#070707] font-semibold">10 AM</div> -->
           <div v-if="prescribedTime" class="text-[#070707] font-semibold">
-            {{ prescribedTime.slice(0, 4) }}
+            {{ prescribedTime.slice(0, 5) }}
           </div>
         </div>
         <FeatherIcon
@@ -31,10 +31,10 @@
             :type="'text'"
             size="lg"
             variant="outline"
-            placeholder="120/65"
+            placeholder=""
             v-model="inputField"
           />
-          <div class="self-end">mm/hg</div>
+          <!-- <div class="self-end">mm/hg</div> -->
         </div>
         <div v-if="proof">
           <FeatherIcon
@@ -81,13 +81,18 @@
           >
             Mark as Completed
           </button>
-          <div class="order-3 flex justify-between items-center">
+          <div
+            v-if="completionTime"
+            class="order-3 flex justify-between items-center"
+          >
             <FeatherIcon
               class="w-6 mr-1 stroke-[#78abaf] stroke-2"
               name="clock"
             />
-            <div class="text-[#070707] font-semibold">10 AM</div>
-            <!-- <div v-if="activityCompletionTime" class="text-[#070707] font-semibold">{{ activityCompletionTime }}</div> -->
+            <!-- <div class="text-[#070707] font-semibold">10 AM</div> -->
+            <div class="text-[#070707] font-semibold">
+              {{ completionTime }}
+            </div>
           </div>
         </div>
       </div>
@@ -97,6 +102,7 @@
 </template>
 
 <script setup>
+import { reactive, ref } from 'vue'
 import { TextInput, FileUploader, Button, FeatherIcon } from 'frappe-ui'
 import {
   createResource,
@@ -116,18 +122,23 @@ const props = defineProps([
 ])
 
 const inputField = defineModel()
-let activityCompletionTime
-function sendRequest() {
+let activityCompletionResponse
+let completionTime = ref()
+async function sendRequest() {
   let time = new Date()
   time = time.getTime()
-  activityCompletionTime = createResource({
+  activityCompletionResponse = createResource({
     url: `/api/method/wellnest.api.setActivityData?taskName=${props.taskName}&data=${inputField.value}`,
     auto: true,
   })
+  await activityCompletionResponse.promise
+  console.log("completion time: " + completionTime)
+  completionTime.value = activityCompletionResponse.data.slice(0, 5)
+  console.log(completionTime.value)
 }
 
 const onSuccess = (file) => {
-  activityCompletionTime = createResource({
+  createResource({
     url: `/api/method/wellnest.api.setFilePath?taskName=${props.taskName}&fileURL=${file.file_url}`,
     auto: true,
   })
