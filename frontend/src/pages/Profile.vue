@@ -77,35 +77,11 @@
                 <div class="text-xl text-[#070707] font-semibold mb-2">
                   My Specialities
                 </div>
-                <div
-                  v-if="
-                    caregiver.data.caregiver_data.caregiver_type === 'Attendant'
-                  "
-                >
+                <div class="whitespace-nowrap overflow-x-auto">
                   <span
                     v-for="specialization in caregiver.data.caregiver_data
                       .proficient_activities"
                     class="mx-1"
-                  >
-                    <Badge
-                      :variant="'solid'"
-                      size="lg"
-                      label="Badge"
-                      theme="orange"
-                    >
-                      {{ specialization.activity }}
-                    </Badge>
-                  </span>
-                </div>
-                <div
-                  v-if="
-                    caregiver.data.caregiver_data.caregiver_type === 'Nurse'
-                  "
-                >
-                  <span
-                    v-for="specialization in caregiver.data.caregiver_data
-                      .proficient_activities"
-                    class=""
                   >
                     <Badge
                       :variant="'solid'"
@@ -170,17 +146,18 @@
             <div v-else-if="state.index === 1">
               <div class="flex justify-between">
                 <div class="text-3xl font-semibold">Overall Rating</div>
-                <div class="flex">
-                  <FeatherIcon
-                    v-for="heart in 4"
-                    class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
-                    name="heart"
-                  />
-
-                  <FeatherIcon class="w-4 mr-1 stroke-1" name="heart" />
+                <div>
+                  <star-rating
+                    :read-only="true"
+                    :increment="0.01"
+                    :rating="totalRatings"
+                    :star-size="25"
+                    active-color="#DB7706"
+                    :show-rating="false"
+                  ></star-rating>
                 </div>
                 <!-- <div>
-                  <star-rating :increment="0.5" :rating="4"></star-rating>
+                  {{ totalRatings.toFixed(1) }}
                 </div> -->
               </div>
               <div v-for="rater in caregiver.data.caregiver_data.rating">
@@ -204,13 +181,14 @@
                     <p class="col-span-2 text-sm mb-2">
                       {{ rater.comment }}
                     </p>
-                    <div class="flex">
-                      <FeatherIcon
-                        v-for="heart in 5"
-                        class="w-4 mr-1 fill-current text-[#DB7706] stroke-2"
-                        name="heart"
-                      />
-                    </div>
+                    <star-rating
+                      :read-only="true"
+                      :increment="0.5"
+                      :rating="(rater.rating / 2) * 10"
+                      :star-size="15"
+                      active-color="#DB7706"
+                      :show-rating="false"
+                    ></star-rating>
                   </div>
                 </div>
               </div>
@@ -229,6 +207,7 @@ import { session } from '../data/session'
 import CaregiverNavbar from '../components/CaregiverNavbar.vue'
 import Earnings from '../components/Earnings.vue'
 import { formatCurrency, shortDateFormatter } from '../utils'
+import StarRating from '../components/star-rating.vue'
 
 const state = reactive({
   index: 0,
@@ -241,81 +220,19 @@ const state = reactive({
     },
   ],
 })
+let caregiver
+let totalRatings = 0
+apiCall()
 
-let caregiver = createResource({
-  url: '/api/method/wellnest.api.profile',
-  // url: 'https://playground.thewellnest.in/api/method/wellnest.api.profile',
-  auto: true,
-})
-
-// let caregiverResource = createResource({
-//   url: 'frappe.client.get',
-//   params: {
-//     doctype: 'Caregiver',
-//     // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
-//     filters: {
-//       user_id: session.user,
-//     },
-//   },
-//   auto: true,
-// })
-
-// const ratings = ref(null)
-
-// function calculateRatings(rating) {
-//   let temp = rating * 10
-//   ratings.value = Math.floor(temp / 2)
-// }
-
-// const caregiverRatings = computed((rating) => {
-//   let temp = rating * 10;
-//   ratings = Math.floor(temp/2);
-// })
-
-// console.log(caregiverResource)
-// window.sankalp = caregiverResource
-
-// let agencyResource
-// agencyResource = createResource({
-//   url: 'frappe.client.get_list',
-//   params: {
-//     doctype: 'Agency',
-//     fields: ['agency_name', 'primary_phone', 'complete_address'],
-//     name: props.agencyName,
-//   },
-//   auto: true,
-// })
-
-// let caregiverResource
-// let agencyResource
-
-// apiCall()
-
-// async function apiCall() {
-//   caregiverResource = createResource({
-//     url: 'frappe.client.get',
-//     params: {
-//       doctype: 'Caregiver',
-//       // fields: ['name', 'full_name', 'caregiver_type', 'phone_number', 'email', 'agency', 'nursing_specialization', 'passport_size_photo', 'creation', ],
-//       filters: {
-//         user_id: session.user,
-//       },
-//     },
-//     auto: true,
-//   })
-//   await caregiverResource.promise
-//   console.log(caregiverResource.data)
-
-//   agencyResource = createResource({
-//     url: 'frappe.client.get_list',
-//     params: {
-//       doctype: 'Agency',
-//       fields: ['agency_name', 'primary_phone', 'complete_address'],
-//       name: caregiverResource.data.agency,
-//     },
-//     auto: true,
-//   })
-//   await agencyResource.promise
-//   console.log(agencyResource.data)
-// }
+async function apiCall() {
+  caregiver = createResource({
+    url: '/api/method/wellnest.api.profile',
+    auto: true,
+  })
+  await caregiver.promise
+  for (const rater of caregiver.data.caregiver_data.rating) {
+    totalRatings += (rater.rating / 2) * 10
+  }
+  totalRatings = totalRatings / caregiver.data.caregiver_data.rating.length
+}
 </script>
