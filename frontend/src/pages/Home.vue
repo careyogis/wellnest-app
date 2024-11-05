@@ -16,7 +16,7 @@
       <Button @click="showDialog = true">Open Dialog</Button>
       <Button @click="session.logout.submit()">Logout</Button>
       <Button>
-        <router-link :to="{ name: 'Profile' }">Go to Profile</router-link>
+        <router-link :to="{ name: 'Dashboard' }">Go to Dashboard</router-link>
       </Button>
     </div>
 
