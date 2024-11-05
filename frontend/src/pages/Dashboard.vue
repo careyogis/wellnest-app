@@ -26,10 +26,14 @@
             <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
           </li>
           <li>
-            <router-link class="link" :to="{ name: '' }">Profile</router-link>
+            <router-link class="link" :to="{ name: 'Profile' }"
+              >Profile</router-link
+            >
           </li>
           <li>
-            <router-link class="link" :to="{ name: '' }">Dashboard</router-link>
+            <router-link class="link" :to="{ name: 'Dashboard' }"
+              >Dashboard</router-link
+            >
           </li>
         </ul>
       </div>
@@ -49,19 +53,19 @@
       </div>
       <div class="flex justify-between w-full">
         <div class="font-semibold">Beneficiary</div>
-        <div class="flex items-center">
+        <!-- <div class="flex items-center">
           <div class="text-sm text-[#10BAAB]">See All</div>
           <FeatherIcon
             class="pl-2.5 w-6 h-6 stroke-[#10BAAB]"
             name="chevron-right"
           />
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- card -->
     <div v-for="engagement in dashboard.data.engagements" class="w-90%">
       <div class="m-[10px] p-4 bg-white border rounded border-slate-600">
-        <div class="flex justify-between">
+        <div class="flex justify-between gap-4">
           <div class="flex items-center gap-1">
             <Avatar
               v-if="!mobileNav"
@@ -76,11 +80,13 @@
               </div>
               <div>
                 {{ engagement.customer.gender }}
+              </div>
+              <div v-if="engagement.customer.custom_age">
                 {{ engagement.customer.custom_age }} Years
               </div>
             </div>
           </div>
-          <div class="flex">
+          <div class="flex gap-1">
             <FeatherIcon
               class="w-6 mt-0.5 stroke-[#10BAAB] stroke-2 self-start"
               name="calendar"
@@ -88,17 +94,29 @@
             <div class="flex flex-col items-center">
               <!-- <div class="font-semibold">15 June 2024 - 25 June 2024</div> -->
               <div class="font-semibold">
-                <!-- TODO: ADD VALIDATION FOR IF THERE IS NO END DATE -->
-                {{ longDateFormatter(engagement.engagement.start_date) }} -
-                {{ longDateFormatter(engagement.engagement.end_date) }}
+                {{
+                  engagement.engagement.start_date
+                    ? longDateFormatter(engagement.engagement.start_date)
+                    : 'Present'
+                }}
+                -
+                {{
+                  engagement.engagement.end_date
+                    ? longDateFormatter(engagement.engagement.end_date)
+                    : 'Present'
+                }}
               </div>
-              <div>5 more days to go</div>
-              <div class="flex gap-1">
+              <!-- <div>5 more days to go</div> -->
+              <div
+                v-show="engagement.engagement.service_hours"
+                class="flex gap-1"
+              >
                 <FeatherIcon
                   class="w-5 mt-0.5 stroke-[#10BAAB] stroke-2"
                   name="clock"
                 />
-                <div>10 AM - 5 PM</div>
+                <!-- <div>10 AM - 5 PM</div> -->
+                <div>{{ engagement.engagement.service_hours }} Hours</div>
               </div>
             </div>
           </div>
@@ -139,16 +157,19 @@
         </div>
         <div class="mySpecialities mb-5">
           <div class="text-[#070707] font-semibold mb-2">Services Needed</div>
-          <span
-            v-for="services in engagement.engagement.required_activity"
-            class="mx-1"
-          >
-            <Badge :variant="'solid'" size="lg" label="Badge" theme="orange">
-              {{ services.activity }}
-            </Badge>
-          </span>
+          <div class="whitespace-nowrap overflow-x-auto">
+            <span
+              v-for="services in engagement.engagement.required_activity"
+              class="mx-1"
+            >
+              <Badge :variant="'solid'" size="lg" label="Badge" theme="orange">
+                {{ services.activity }}
+              </Badge>
+            </span>
+          </div>
         </div>
         <button
+          v-if="checkins[engagement.engagement.name]"
           class="text-xl font-medium border border-gray-300 rounded w-1/2 py-2 mb-4"
         >
           <div class="flex justify-evenly">
@@ -156,8 +177,14 @@
               class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2"
               name="check-square"
             />
-            <!-- <div class="text-[#10BAAB]">Tasks</div> -->
-            <router-link class="text-[#10BAAB]" :to="{ name: 'Activity', params: { dailyRecordId: checkins[engagement.engagement.name].name }}"
+            <router-link
+              class="text-[#10BAAB]"
+              :to="{
+                name: 'Activity',
+                params: {
+                  dailyRecordId: checkins[engagement.engagement.name].name,
+                },
+              }"
               >Tasks</router-link
             >
             <FeatherIcon
@@ -168,6 +195,7 @@
         </button>
         <div class="flex gap-6">
           <button
+            v-if="!checkins[engagement.engagement.name]"
             class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1"
             @click="checkin(engagement.engagement.name)"
           >
@@ -176,10 +204,11 @@
                 class="w-4 mt-0.5 stroke-gray-500 stroke-2"
                 name="eye"
               />
-              <div>Checkin</div>
+              <div>Check-In</div>
             </div>
           </button>
           <button
+            v-else
             class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1"
             @click="checkout(engagement.engagement.name)"
           >
@@ -188,14 +217,20 @@
                 class="w-4 mt-0.5 stroke-gray-500 stroke-2"
                 name="eye"
               />
-              <div>Checkout</div>
+              <div>Check-Out</div>
             </div>
           </button>
         </div>
       </div>
     </div>
   </div>
-  <div v-else>Loading...</div>
+  <!-- <div v-else>Loading...</div> -->
+  <div v-else class="flex items-center justify-center min-h-screen">
+    <div class="bg-gray-200 p-8 rounded-md">
+      <!-- Your content here -->
+      Loading...
+    </div>
+  </div>
 </template>
 <script setup>
 import { reactive, ref } from 'vue'
@@ -249,34 +284,33 @@ async function apiCall() {
   )
 }
 
-let checkins = {};
+let checkins = {}
 async function checkin(engagementId) {
-
   if (!checkins[engagementId]) {
     const response = createResource({
       url: `/api/method/wellnest.api.createDailyRecord?engagement=${engagementId}&caregiver=${dashboard.data.caregiver.name}&time=${formatCurrentDateTime()}`,
       auto: true,
-    });
-    await response.promise;
-    checkins[engagementId] = response.data;
+    })
+    await response.promise
+    checkins[engagementId] = response.data
   } else {
-    alert('Already Checked in today');
+    alert('Already Checked in today')
   }
-};
+  dashboard.reload()
+}
 
 async function checkout(engagementId) {
   const checkin = checkins[engagementId]
   if (!checkin) {
     alert('You have not checked in')
-    return;
+    return
   }
   let update = createResource({
     url: `/api/method/wellnest.api.checkout?record=${checkin.name}&time=${formatCurrentDateTime()}`,
     auto: true,
   })
-  await update.promise;
+  await update.promise
 }
-
 </script>
 
 <style scoped>
@@ -308,10 +342,6 @@ nav {
     flex: 1;
     justify-content: flex-end
   } */
-
-  .icon-active {
-    transform: rotate(180deg);
-  }
 
   .dropdown-nav {
     display: flex;
