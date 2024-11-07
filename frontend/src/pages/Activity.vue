@@ -5,7 +5,7 @@
       <Avatar
         :shape="'circle'"
         :image="taskResource.data.customerDoc.image"
-        label="EY"
+        :label="taskResource.data.customerDoc.name"
         size="3xl"
       />
       <div class="text-xl text-[#070707] font-semibold">

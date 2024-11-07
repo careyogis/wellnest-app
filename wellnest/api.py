@@ -50,6 +50,12 @@ def profile():
         "Caregiver", fields=["*"], filters={"user_id": frappe.session.user}
     )
     caregiver_data = frappe.get_doc("Caregiver", caregiver_name[0].name)
+
+    # Get customer data for profile pic for Ratings Tab
+    customer_data = []
+    for rater in caregiver_data.rating:
+        customer_data.append(frappe.get_doc("Customer", rater.rater))
+
     # If Caregiver is Solo and not from an Agency
     if caregiver_name[0].supplier:
         agency = frappe.get_doc("Supplier", caregiver_name[0].supplier)
@@ -59,11 +65,13 @@ def profile():
             "caregiver_data": caregiver_data,
             "agency_data": agency,
             "agency_contact": agency_contact,
+            "customer_data": customer_data,
         }
     else:
         return {
             "caregiver_name": caregiver_name[0],
             "caregiver_data": caregiver_data,
+            "customer_data": customer_data,
         }
 
 

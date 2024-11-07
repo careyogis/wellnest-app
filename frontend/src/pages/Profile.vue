@@ -165,7 +165,7 @@
                   <Avatar
                     class=""
                     :shape="'circle'"
-                    :image="caregiver.data.caregiver_name.passport_size_photo"
+                    :image="findCustomerImage(rater.rater)"
                     :label="rater.rater"
                     size="xl"
                   />
@@ -234,5 +234,10 @@ async function apiCall() {
     totalRatings += (rater.rating / 2) * 10
   }
   totalRatings = totalRatings / caregiver.data.caregiver_data.rating.length
+}
+
+function findCustomerImage(name) {
+  let ratingData = caregiver.data.customer_data.find((obj) => obj.name === name)
+  return ratingData.image
 }
 </script>

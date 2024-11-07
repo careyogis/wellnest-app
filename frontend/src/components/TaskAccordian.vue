@@ -132,7 +132,7 @@ async function sendRequest() {
     auto: true,
   })
   await activityCompletionResponse.promise
-  console.log("completion time: " + completionTime)
+  console.log('completion time: ' + completionTime)
   completionTime.value = activityCompletionResponse.data.slice(0, 5)
   console.log(completionTime.value)
 }
