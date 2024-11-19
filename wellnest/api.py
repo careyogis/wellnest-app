@@ -123,6 +123,7 @@ def setFilePath(taskName, fileURL):
             "proof": fileURL,
         },
     )
+    return fileURL
 
 
 @frappe.whitelist()

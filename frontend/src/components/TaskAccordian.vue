@@ -36,12 +36,12 @@
           />
           <!-- <div class="self-end">mm/hg</div> -->
         </div>
-        <div v-if="proof">
+        <div v-if="taskProof">
           <FeatherIcon
             class="inline-block w-3 -rotate-45 mr-1 stroke-[blue] stroke-1"
             name="paperclip"
           />
-          <a class="inline-block my-5 text-blue-500" :href="proof"
+          <a class="inline-block my-5 text-blue-500" :href="taskProof.data || taskProof"
             >Uploaded Image</a
           >
         </div>
@@ -124,6 +124,7 @@ const props = defineProps([
 const inputField = defineModel()
 let activityCompletionResponse
 let completionTime = ref()
+let taskProof = ref(props.proof)
 async function sendRequest() {
   let time = new Date()
   time = time.getTime()
@@ -138,10 +139,11 @@ async function sendRequest() {
 }
 
 const onSuccess = (file) => {
-  createResource({
+  taskProof.value = createResource({
     url: `/api/method/wellnest.api.setFilePath?taskName=${props.taskName}&fileURL=${file.file_url}`,
     auto: true,
   })
-  props.taskResource.reload()
+  // props.taskResource.reload()
+  // console.log(taskProof)
 }
 </script>
