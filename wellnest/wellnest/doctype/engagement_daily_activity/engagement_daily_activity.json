@@ -24,7 +24,7 @@
   },
   {
    "fieldname": "completion_time",
-   "fieldtype": "Time",
+   "fieldtype": "Datetime",
    "in_list_view": 1,
    "label": "Completion Time"
   },
@@ -60,7 +60,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-10-09 09:00:44.244333",
+ "modified": "2024-11-20 12:47:20.017381",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement Daily Activity",

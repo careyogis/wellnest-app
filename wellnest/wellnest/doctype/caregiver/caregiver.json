@@ -65,7 +65,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Caregiver Type",
-   "options": "\nAttendant\nNurse\nBoth"
+   "options": "\nAttendant\nChild Care\nNurse"
   },
   {
    "fieldname": "full_name",
@@ -348,7 +348,7 @@
  "image_field": "passport_size_photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-29 19:06:05.823463",
+ "modified": "2024-11-20 13:00:23.990935",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
