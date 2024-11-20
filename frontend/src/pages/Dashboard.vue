@@ -289,9 +289,11 @@ let checkins = {}
 async function checkin(engagementId) {
   if (!checkins[engagementId]) {
     const response = createResource({
-      url: `/api/method/wellnest.api.createDailyRecord?engagement=${engagementId}&caregiver=${dashboard.data.caregiver.name}&time=${formatCurrentDateTime()}`,
+      // url: `/api/method/wellnest.api.createDailyRecord?engagement=${engagementId}&caregiver=${dashboard.data.caregiver.name}&time=${formatCurrentDateTime()}`,
+      url: `/api/method/wellnest.api.createDailyRecord?engagement=${engagementId}&caregiver=${dashboard.data.caregiver.name}`,
       auto: true,
     })
+    console.log(formatCurrentDateTime());
     await response.promise
     checkins[engagementId] = response.data
   } else {
@@ -307,7 +309,7 @@ async function checkout(engagementId) {
     return
   }
   let update = createResource({
-    url: `/api/method/wellnest.api.checkout?record=${checkin.name}&time=${formatCurrentDateTime()}`,
+    url: `/api/method/wellnest.api.checkout?record=${checkin.name}`,
     auto: true,
   })
   await update.promise

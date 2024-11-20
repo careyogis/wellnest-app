@@ -1,6 +1,6 @@
 import frappe  # type: ignore
-from datetime import datetime, date
-
+from datetime import datetime, date, timezone
+import pytz
 
 @frappe.whitelist()
 def dashboard():
@@ -91,17 +91,16 @@ def activity(dailyRecordId):
 
 @frappe.whitelist()
 def setActivityData(taskName, data):
-    currentTime = datetime.now().time()
+    ist_time = datetime.now(pytz.timezone('Asia/Kolkata')).time()
     frappe.db.set_value(
         "Engagement Daily Activity",
         taskName,
         {
             "activity_data": data,
-            "completion_time": currentTime,
+            "completion_time": ist_time,
         },
     )
-    return currentTime
-
+    return ist_time
 
 @frappe.whitelist()
 def setActivityCompletionTime(taskName, time):
@@ -127,20 +126,21 @@ def setFilePath(taskName, fileURL):
 
 
 @frappe.whitelist()
-def createDailyRecord(engagement, caregiver, time):
+def createDailyRecord(engagement, caregiver):
+    ist_datetime = str(datetime.now(pytz.timezone('Asia/Kolkata')).date()) + " " + str(datetime.now(pytz.timezone('Asia/Kolkata')).time())
     # fetch activities data from engagement
     required_activities = frappe.get_doc("Engagement", engagement).required_activity
     # create a new document
-    doc = frappe.get_doc(
+    new_doc = frappe.get_doc(
         {
             "doctype": "Engagement Daily Record",
             "engagement": engagement,
             "caregiver": caregiver,
-            "check_in_date_and_time": time,
+            "check_in_date_and_time": ist_datetime,
         }
     )
     for activity in required_activities:
-        doc.append(
+        new_doc.append(
             "performed_activities",
             {
                 "activity": activity.activity,
@@ -148,16 +148,20 @@ def createDailyRecord(engagement, caregiver, time):
                 "notes": activity.notes,
             },
         )
-    doc.insert()
-    return doc
+    new_doc.insert()
+
+    # existing_docs_of_other_caregivers = frappe.db.get_list('Engagement Daily Record', filters={'creation': ['>=', ist_datetime]})
+
+    return new_doc
 
 
 @frappe.whitelist()
-def checkout(record, time):
+def checkout(record):
+    ist_datetime = str(datetime.now(pytz.timezone('Asia/Kolkata')).date()) + " " + str(datetime.now(pytz.timezone('Asia/Kolkata')).time())
     frappe.db.set_value(
         "Engagement Daily Record",
         record,
         {
-            "check_out_date_and_time": time,
+            "check_out_date_and_time": ist_datetime,
         },
     )
