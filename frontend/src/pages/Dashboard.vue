@@ -171,28 +171,19 @@
         <button
           v-if="checkins[engagement.engagement.name]"
           class="text-xl font-medium border border-gray-300 rounded w-1/2 py-2 mb-4"
+          @click="$router.push({ name: 'Activity', params: { dailyRecordId: checkins[engagement.engagement.name].name } })"
         >
-          <router-link
-            class="text-[#10BAAB]"
-            :to="{
-              name: 'Activity',
-              params: {
-                dailyRecordId: checkins[engagement.engagement.name].name,
-              },
-            }"
-          >
             <div class="flex justify-evenly">
               <FeatherIcon
                 class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2"
                 name="check-square"
               />
-              <div>Tasks</div>
+              <div class="text-[#10BAAB]">Tasks</div>
               <FeatherIcon
                 class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2"
                 name="chevron-right"
               />
             </div>
-          </router-link>
         </button>
         <div class="flex gap-6">
           <button
