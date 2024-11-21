@@ -1,12 +1,14 @@
 <template>
   <div v-if="dashboard.data">
     <nav class="flex mx-5 my-2 items-center justify-between mb-10">
-      <Avatar
-        :shape="'circle'"
-        :image="dashboard.data.caregiver.passport_size_photo"
-        label="EY"
-        size="2xl"
-      />
+      <div class="w-15 h-15 flex items-center justify-center">
+        <Avatar
+          :shape="'circle'"
+          :image="dashboard.data.caregiver.passport_size_photo"
+          label="EY"
+          size="2xl"
+        />
+      </div>
       <img class="w-15" src="/public/favicon.png" alt="" />
       <div class="w-15 h-15 flex items-center justify-center">
         <button
@@ -171,19 +173,26 @@
         <button
           v-if="checkins[engagement.engagement.name]"
           class="text-xl font-medium border border-gray-300 rounded w-1/2 py-2 mb-4"
-          @click="$router.push({ name: 'Activity', params: { dailyRecordId: checkins[engagement.engagement.name].name } })"
+          @click="
+            $router.push({
+              name: 'Activity',
+              params: {
+                dailyRecordId: checkins[engagement.engagement.name].name,
+              },
+            })
+          "
         >
-            <div class="flex justify-evenly">
-              <FeatherIcon
-                class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2"
-                name="check-square"
-              />
-              <div class="text-[#10BAAB]">Tasks</div>
-              <FeatherIcon
-                class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2"
-                name="chevron-right"
-              />
-            </div>
+          <div class="flex justify-evenly">
+            <FeatherIcon
+              class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2"
+              name="check-square"
+            />
+            <div class="text-[#10BAAB]">Tasks</div>
+            <FeatherIcon
+              class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2"
+              name="chevron-right"
+            />
+          </div>
         </button>
         <div class="flex gap-6">
           <button
@@ -284,7 +293,7 @@ async function checkin(engagementId) {
       url: `/api/method/wellnest.api.createDailyRecord?engagement=${engagementId}&caregiver=${dashboard.data.caregiver.name}`,
       auto: true,
     })
-    console.log(formatCurrentDateTime());
+    console.log(formatCurrentDateTime())
     await response.promise
     checkins[engagementId] = response.data
   } else {
