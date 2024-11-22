@@ -165,3 +165,20 @@ def checkout(record):
             "check_out_date_and_time": ist_datetime,
         },
     )
+
+@frappe.whitelist()
+def get_customer_for_user(user):
+    # This API returns the Customer which the given User is associated withi.
+    # Can be used by external apps (like phone app) to get customer for the logged in user
+    contact = frappe.get_all('Contact', fields=['name'], filters = {'user' : user})
+
+    if (contact is None or len(contact) == 0):
+        return
+    
+    customers = frappe.db.get_values("Dynamic Link", {
+        'parent' : contact[0].name,
+        'parenttype' : 'Contact',
+        'link_doctype' : 'Customer',
+    }, "link_name as name, link_title as customer_name", as_dict=True)            
+
+    return customers
