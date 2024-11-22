@@ -1,6 +1,6 @@
 import frappe  # type: ignore
 from datetime import datetime, date
-from .utils.sms_service import generate_otp_for_phone, verify_otp_for_phone, send_sms_by_twilio
+from .utils.sms_service import send_otp_using_twilio, verify_otp_for_phone 
 
 from datetime import datetime, date, timezone
 import pytz
@@ -185,3 +185,28 @@ def get_customer_for_user(user):
     }, "link_name as name, link_title as customer_name", as_dict=True)            
 
     return customers
+
+
+@frappe.whitelist(allow_guest=True)
+def generate_otp(phone):
+    payload = {
+                "success": False,
+                "message": None,
+            }
+
+    # Check if a user exists with this phone number
+    try:        
+        user = frappe.db.get("User", {"mobile_no": phone})
+    except Exception as e:
+        payload["message"] = "User not found."
+        return payload
+
+    return send_otp_using_twilio(phone)
+    #return "Your OTP is: 8924"
+
+
+@frappe.whitelist(allow_guest=True)
+def verify_otp(phone, otp):
+    # the following method verifies if the OTP is correct
+    # if yes, logs in the user and returns the user 
+    return verify_otp_for_phone(phone, otp)

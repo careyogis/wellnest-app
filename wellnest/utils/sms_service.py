@@ -10,7 +10,7 @@ REDIS_PREFIX = "otp"
 def random_string_generator(str_size, allowed_chars):
     return "".join(random.choice(allowed_chars) for x in range(str_size))
 
-def send_sms_by_twilio(to_phone):
+def send_otp_using_twilio(to_phone):
 
     # Your Account SID and Auth Token from twilio.com/console
     account_sid = '[asscount_sid copied from twilio service]'
