@@ -191,18 +191,26 @@ def get_customer_for_user(user):
 def generate_otp(phone):
     payload = {
                 "success": False,
-                "message": None,
+                "message": "No user found with this number",
             }
 
     # Check if a user exists with this phone number
     try:        
         user = frappe.db.get("User", {"mobile_no": phone})
     except Exception as e:
-        payload["message"] = "User not found."
-        return payload
+        payload["message"] = e
 
-    return send_otp_using_twilio(phone)
-    #return "Your OTP is: 8924"
+    if (user is None):
+        return payload    
+
+    # if user exists with this phone number, then send an OTP to this number
+    send_otp_using_twilio(phone)
+
+    payload["message"] = "OTP has been sent on: " + phone
+    payload["success"] = True
+
+
+    return payload
 
 
 @frappe.whitelist(allow_guest=True)
