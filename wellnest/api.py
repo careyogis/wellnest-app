@@ -188,8 +188,12 @@ def get_customer_for_user(user):
     if (customers is None or len(customers) == 0):
         return
     
-    customerDoc = frappe.get_doc("Customer", customers[0].name)
-    return customerDoc
+    customerDocs = list()
+
+    for customer in customers:        
+        customerDocs.append (frappe.get_doc("Customer", customers[0].name))
+    
+    return customerDocs
 
 
 @frappe.whitelist(allow_guest=True)
