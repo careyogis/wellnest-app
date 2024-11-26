@@ -182,9 +182,14 @@ def get_customer_for_user(user):
         'parent' : contact[0].name,
         'parenttype' : 'Contact',
         'link_doctype' : 'Customer',
-    }, "link_name as name, link_title as customer_name", as_dict=True)            
+    }, "link_name as name", as_dict=True)
 
-    return customers
+    # if no customer found associated for the contact, return
+    if (customers is None or len(customers) == 0):
+        return
+    
+    customerDoc = frappe.get_doc("Customer", customers[0].name)
+    return customerDoc
 
 
 @frappe.whitelist(allow_guest=True)
