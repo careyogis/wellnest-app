@@ -175,8 +175,9 @@ def get_customer_for_user(user):
     # Can be used by external apps (like phone app) to get customer for the logged in user
     contact = frappe.get_all('Contact', fields=['name'], filters = {'user' : user})
 
+    customerDocs = list()
     if (contact is None or len(contact) == 0):
-        return
+        return customerDocs
     
     customers = frappe.db.get_values("Dynamic Link", {
         'parent' : contact[0].name,
@@ -186,10 +187,8 @@ def get_customer_for_user(user):
 
     # if no customer found associated for the contact, return
     if (customers is None or len(customers) == 0):
-        return
+        return customerDocs
     
-    customerDocs = list()
-
     for customer in customers:        
         customerDocs.append (frappe.get_doc("Customer", customers[0].name))
     
