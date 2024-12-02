@@ -94,26 +94,29 @@ def activity(dailyRecordId):
 
 @frappe.whitelist()
 def setActivityData(taskName, data):
+    # ist_time = datetime.now(pytz.timezone('Asia/Kolkata'))
+    ist_date = datetime.now(pytz.timezone('Asia/Kolkata')).date()
     ist_time = datetime.now(pytz.timezone('Asia/Kolkata')).time()
+    ist_datetime = str(ist_date) + " " + str(ist_time)
     frappe.db.set_value(
         "Engagement Daily Activity",
         taskName,
         {
             "activity_data": data,
-            "completion_time": ist_time,
+            "completion_time": ist_datetime,
         },
     )
     return ist_time
 
-@frappe.whitelist()
-def setActivityCompletionTime(taskName, time):
-    frappe.db.set_value(
-        "Engagement Daily Activity",
-        taskName,
-        {
-            "completion_time": time,
-        },
-    )
+# @frappe.whitelist()
+# def setActivityCompletionTime(taskName, time):
+#     frappe.db.set_value(
+#         "Engagement Daily Activity",
+#         taskName,
+#         {
+#             "completion_time": time,
+#         },
+#     )
 
 
 @frappe.whitelist()
@@ -157,6 +160,32 @@ def createDailyRecord(engagement, caregiver):
 
     return new_doc
 
+# @frappe.whitelist()
+# def test(engagement):
+#     todayDateString = date.today()
+#     # NOTE: might not be part of this endpoint, end goal: show something similar in task accordian component
+#     engagement_daily_record_ids_of_today = frappe.db.get_list('Engagement Daily Record', filters={'creation': ['between', [todayDateString, todayDateString]], 'engagement': engagement})
+
+#     current_session_records = []
+#     state_of_tasks_combined = []
+#     for id in engagement_daily_record_ids_of_today:
+#         current_ids_performed_activities = frappe.get_doc("Engagement Daily Record", id).performed_activities
+#         # current_ids_performed_activities = frappe.get_doc("Engagement Daily Record", id)
+#         current_session_records.append(current_ids_performed_activities)
+
+#     return current_session_records
+
+
+# @frappe.whitelist()
+# def test2(engagement):
+#     temp = frappe.db.get_all('Engagement Daily Activity', filters={"parent": engagement})
+#     frappe.db.set_value('Engagement Daily Activity', '1kf1on1f1s', {
+#         'activity':,
+#         'completion_time':,
+#         'activity_data':,
+#         'proof': ,
+#     })
+#     return temp
 
 @frappe.whitelist()
 def checkout(record):
