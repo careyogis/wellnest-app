@@ -41,7 +41,9 @@
             class="inline-block w-3 -rotate-45 mr-1 stroke-[blue] stroke-1"
             name="paperclip"
           />
-          <a class="inline-block my-5 text-blue-500" :href="taskProof.data || taskProof"
+          <a
+            class="inline-block my-5 text-blue-500"
+            :href="taskProof.data || taskProof"
             >Uploaded Image</a
           >
         </div>
@@ -74,15 +76,15 @@
             </button>
           </template>
         </FileUploader>
-        <div class="flex justify-between items-center">
+
+        <div v-if="completionTime" class="flex justify-between items-center">
           <button
             class="text-xl font-medium border-2 border-gray-500 rounded w-2/3 py-2 mb-2"
             @click="sendRequest"
           >
-            Mark as Completed
+            Update
           </button>
           <div
-            v-if="completionTime"
             class="order-3 flex justify-between items-center"
           >
             <FeatherIcon
@@ -95,6 +97,13 @@
             </div>
           </div>
         </div>
+        <button
+          v-else
+          class="text-xl font-medium border-2 border-gray-500 rounded w-2/3 py-2 mb-2"
+          @click="sendRequest"
+        >
+          Mark as Completed
+        </button>
       </div>
     </details>
   </section>
@@ -119,11 +128,14 @@ const props = defineProps([
   'taskResource',
   'prescribedTime',
   'notes',
+  'completionDateTime',
 ])
 
 const inputField = defineModel()
 let activityCompletionResponse
-let completionTime = ref()
+let completionTime = props.completionDateTime
+  ? ref(props.completionDateTime.slice(10, 16))
+  : ref()
 let taskProof = ref(props.proof)
 async function sendRequest() {
   let time = new Date()
@@ -133,6 +145,7 @@ async function sendRequest() {
     auto: true,
   })
   await activityCompletionResponse.promise
+  console.log('initial state: ' + completionTime.value)
   completionTime.value = activityCompletionResponse.data.slice(0, 5)
   console.log(completionTime.value)
 }

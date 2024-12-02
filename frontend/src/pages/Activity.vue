@@ -32,6 +32,7 @@
                 :taskResource="taskResource"
                 :prescribedTime="task.prescribed_time"
                 :notes="task.notes"
+                :completionDateTime="task.completion_time"
               />
             </div>
             <div v-else-if="state.index === 1">
