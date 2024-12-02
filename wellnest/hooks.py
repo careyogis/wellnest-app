@@ -234,3 +234,11 @@ fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Ser
         ]
 
 website_route_rules = [{'from_route': '/frontend/<path:app_path>', 'to_route': 'frontend'},]
+
+# app_include_js = [
+#     "/assets/frappe-datatable/dist/frappe-datatable.min.js"
+# ]
+# app_include_css = [
+#     "/assets/frappe-datatable/dist/frappe-datatable.min.css"
+# ]
+

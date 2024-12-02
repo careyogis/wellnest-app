@@ -1,0 +1,19 @@
+{
+ "content": null,
+ "creation": "2024-11-20 13:07:20.928280",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2024-11-20 13:07:20.928280",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "ops-dashboard",
+ "owner": "Administrator",
+ "page_name": "ops-dashboard",
+ "roles": [],
+ "script": null,
+ "standard": "No",
+ "style": null,
+ "system_page": 0,
+ "title": "Ops Dashboard"
+}
