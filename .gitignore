@@ -7,3 +7,4 @@ node_modules
 __pycache__
 wellnest/www/frontend.html
 wellnest/public/frontend/
+.vscode
