@@ -33,6 +33,7 @@
                 :prescribedTime="task.prescribed_time"
                 :notes="task.notes"
                 :completionDateTime="task.completion_time"
+                :checkedOut = "taskResource.data.engagementRecord.check_out_date_and_time ? true : false"
               />
             </div>
             <div v-else-if="state.index === 1">

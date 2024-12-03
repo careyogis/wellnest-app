@@ -15,7 +15,6 @@
               name="clock"
             />
           </div>
-          <!-- <div class="text-[#070707] font-semibold">10 AM</div> -->
           <div v-if="prescribedTime" class="text-[#070707] font-semibold">
             {{ prescribedTime.slice(0, 5) }}
           </div>
@@ -34,7 +33,6 @@
             placeholder=""
             v-model="inputField"
           />
-          <!-- <div class="self-end">mm/hg</div> -->
         </div>
         <div v-if="taskProof">
           <FeatherIcon
@@ -68,9 +66,10 @@
             }"
           >
             <button
-              class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1"
+              class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1 disabled:border-gray-200"
               @click="openFileSelector"
               :loading="updloading"
+              :disabled="checkedOut"
             >
               {{ uploading ? `Uploading ${progress}%` : 'Upload Image' }}
             </button>
@@ -79,7 +78,8 @@
 
         <div v-if="completionTime" class="flex justify-between items-center">
           <button
-            class="text-xl font-medium border-2 border-gray-500 rounded w-2/3 py-2 mb-2"
+            class="text-xl font-medium border-2 border-gray-500 rounded w-2/3 py-2 mb-2 disabled:border-gray-200"
+            :disabled="checkedOut"
             @click="sendRequest"
           >
             Update
@@ -89,7 +89,6 @@
               class="w-6 mr-1 stroke-[#78abaf] stroke-2"
               name="clock"
             />
-            <!-- <div class="text-[#070707] font-semibold">10 AM</div> -->
             <div class="text-[#070707] font-semibold">
               {{ completionTime }}
             </div>
@@ -97,7 +96,8 @@
         </div>
         <button
           v-else
-          class="text-xl font-medium border-2 border-gray-500 rounded w-2/3 py-2 mb-2"
+          class="text-xl font-medium border-2 border-gray-500 rounded w-2/3 py-2 mb-2 disabled:border-gray-200"
+          :disabled="checkedOut"
           @click="sendRequest"
         >
           Mark as Completed
@@ -127,6 +127,7 @@ const props = defineProps([
   'prescribedTime',
   'notes',
   'completionDateTime',
+  'checkedOut'
 ])
 
 const inputField = defineModel()
@@ -143,9 +144,7 @@ async function sendRequest() {
     auto: true,
   })
   await activityCompletionResponse.promise
-  console.log('initial state: ' + completionTime.value)
   completionTime.value = activityCompletionResponse.data.slice(0, 5)
-  console.log(completionTime.value)
 }
 
 const onSuccess = (file) => {
@@ -154,6 +153,5 @@ const onSuccess = (file) => {
     auto: true,
   })
   // props.taskResource.reload()
-  // console.log(taskProof)
 }
 </script>
