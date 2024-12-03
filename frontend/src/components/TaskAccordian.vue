@@ -84,9 +84,7 @@
           >
             Update
           </button>
-          <div
-            class="order-3 flex justify-between items-center"
-          >
+          <div class="order-3 flex justify-between items-center">
             <FeatherIcon
               class="w-6 mr-1 stroke-[#78abaf] stroke-2"
               name="clock"

@@ -210,7 +210,8 @@
           </button>
           <button
             v-else
-            class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1"
+            :disabled="isDisabled[checkins[engagement.engagement.name].name]"
+            class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1 disabled:border-gray-200 disabled:text-zinc-400"
             @click="checkout(engagement.engagement.name)"
           >
             <div class="flex justify-center gap-1">
@@ -218,7 +219,8 @@
                 class="w-4 mt-0.5 stroke-gray-500 stroke-2"
                 name="eye"
               />
-              <div>Check-Out</div>
+              <div v-if="isDisabled[checkins[engagement.engagement.name].name]">Checked-Out</div>
+              <div v-else>Check-Out</div>
             </div>
           </button>
         </div>
@@ -271,6 +273,14 @@ function toggleMobileNav() {
 
 apiCall()
 
+let isDisabled = reactive({})
+// function updateIsDisabled(engagements) {
+//   for (let obj of engagements) {
+//     if (obj.todaysCheckin) {
+//       isDisabled[obj.todaysCheckin.name] = obj.todaysCheckin.check_out_date_and_time ? true : false
+//     }
+//   }
+// }
 async function apiCall() {
   dashboard = createResource({
     url: '/api/method/wellnest.api.dashboard',
@@ -283,6 +293,11 @@ async function apiCall() {
       todaysCheckin,
     ]),
   )
+  for (let obj of dashboard.data.engagements) {
+    if (obj.todaysCheckin) {
+      isDisabled[obj.todaysCheckin.name] = obj.todaysCheckin.check_out_date_and_time ? true : false
+    }
+  }
 }
 
 let checkins = {}
@@ -313,6 +328,10 @@ async function checkout(engagementId) {
     auto: true,
   })
   await update.promise
+  // dashboard.reload()
+  apiCall()
+  console.log(isDisabled)
+  console.log(checkins[engagementId].name)
 }
 </script>
 
