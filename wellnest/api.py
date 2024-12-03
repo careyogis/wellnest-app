@@ -7,9 +7,15 @@ import pytz
 
 @frappe.whitelist()
 def dashboard():
-    caregiver = frappe.db.get_list(
-        "Caregiver", fields=["*"], filters={"user_id": frappe.session.user}
-    )[0]
+    caregivers = frappe.db.get_list( "Caregiver", fields=["*"], filters={"user_id": frappe.session.user} ) 
+    
+    if caregivers: 
+        caregiver = caregivers[0] 
+    else: 
+        caregiver = None # couldn't find caregiver for the logged-in user
+
+    if caregiver is None:
+        return {"message": "No data to display for you"}
 
     engagementEdges = frappe.get_all(
         "Engagement Caregiver",
