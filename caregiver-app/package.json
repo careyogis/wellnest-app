@@ -1,12 +1,12 @@
 {
-  "name": "frappe-ui-frontend",
+  "name": "frappe-ui-caregiver-app",
   "private": true,
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/assets/wellnest/frontend/ && yarn copy-html-entry",
+    "build": "vite build --base=/assets/wellnest/caregiver-app/ && yarn copy-html-entry",
     "preview": "vite preview",
-    "copy-html-entry": "cp ../wellnest/public/frontend/index.html ../wellnest/www/frontend.html"
+    "copy-html-entry": "cp ../wellnest/public/caregiver-app/index.html ../wellnest/www/caregiver-app.html"
   },
   "dependencies": {
     "feather-icons": "^4.28.0",

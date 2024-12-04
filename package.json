@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd frontend && yarn install",
-    "dev": "cd frontend && yarn dev",
-    "build": "cd frontend && yarn build"
+    "postinstall": "cd caregiver-app && yarn install",
+    "dev": "cd caregiver-app && yarn dev",
+    "build": "cd caregiver-app && yarn build"
   },
   "keywords": [],
   "author": "",

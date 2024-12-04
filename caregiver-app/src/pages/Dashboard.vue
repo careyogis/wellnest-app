@@ -9,7 +9,7 @@
           size="2xl"
         />
       </div>
-      <img class="w-15" src="/public/favicon.png" alt="" />
+      <img class="w-15" src="/favicon.png" alt="" />
       <div class="w-15 h-15 flex items-center justify-center">
         <button
           @click="toggleMobileNav"
@@ -25,17 +25,13 @@
       <div v-if="mobileNav" class="dropdown-nav">
         <ul class="navigation">
           <li>
-            <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
+            <router-link class="link" :to="{ name: 'Dashboard' }">Dashboard</router-link>
           </li>
           <li>
-            <router-link class="link" :to="{ name: 'Profile' }"
-              >Profile</router-link
-            >
+            <router-link class="link" :to="{ name: 'Profile' }">Profile</router-link>
           </li>
           <li>
-            <router-link class="link" :to="{ name: 'Dashboard' }"
-              >Dashboard</router-link
-            >
+            <button class="link" @click="session.logout.submit()">Logout</button>
           </li>
         </ul>
       </div>

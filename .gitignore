@@ -5,6 +5,6 @@
 tags
 node_modules
 __pycache__
-wellnest/www/frontend.html
-wellnest/public/frontend/
+wellnest/www/caregiver-app.html
+wellnest/public/caregiver-app/
 .vscode

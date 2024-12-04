@@ -9,7 +9,7 @@
     </div>
     <img
       class="w-[125px] h-[125px] mx-auto mt-10 mb-5"
-      src="/public/favicon.png"
+      src="/favicon.png"
       alt=""
     />
     <div

@@ -5,8 +5,8 @@ import { userResource } from '@/data/user'
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: () => import('@/pages/Home.vue'),
+    name: 'Dashboard',
+    component: () => import('@/pages/Dashboard.vue'),
   },
   {
     path: '/city',
@@ -30,19 +30,19 @@ const routes = [
     props: true
   },
   {
-    name: 'Dashboard',
-    path: '/dashboard',
-    component: () => import('@/pages/Dashboard.vue'),
+    name: 'Test',
+    path: '/test',
+    component: () => import('@/pages/Test.vue'),
   },
   {
     name: 'staticLogin',
     path: '/staticLogin',
     component: () => import('@/pages/static_login.vue')
-  }
+  },
 ]
 
 let router = createRouter({
-  history: createWebHistory('/frontend'),
+  history: createWebHistory('/caregiver-app'),
   routes,
 })
 
@@ -55,7 +55,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (to.name === 'Login' && isLoggedIn) {
-    next({ name: 'Home' })
+    next({ name: 'Dashboard' })
   } else if (to.name !== 'Login' && !isLoggedIn) {
     next({ name: 'Login' })
   } else {
