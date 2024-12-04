@@ -25,3 +25,25 @@ def get_engagements_for_caregiver(caregiver_name):
 	engagementDocs = frappe.get_doc('Engagement', engagement_ids)
 
 	return engagementDocs
+
+@frappe.whitelist()
+def invite_user(caregiver: str):
+	caregiver = frappe.get_doc("Caregiver", caregiver)
+	caregiver.check_permission()
+
+	if not caregiver.email:
+		frappe.throw(("Please set Email Address"))
+
+	user = frappe.get_doc(
+		{
+			"doctype": "User",
+			"first_name": caregiver.full_name,
+			"email": caregiver.email,
+			"mobile_no": caregiver.phone_number,
+			"user_type": "Website User",
+			'roles': [ { 'role': 'Caregiver' } ],
+			"send_welcome_email": 1,
+		}
+	).insert()
+
+	return user.name

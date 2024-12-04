@@ -282,7 +282,7 @@
    "label": "User Details"
   },
   {
-   "description": "System User (login) ID. The caregiver uses this to login to CareYogi app.",
+   "description": "System User (login) ID. The caregiver uses this to login to Caregiver app on the web.",
    "fieldname": "user_id",
    "fieldtype": "Link",
    "label": "User ID",
@@ -348,7 +348,7 @@
  "image_field": "passport_size_photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-20 13:00:23.990935",
+ "modified": "2024-12-04 16:01:23.270534",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
@@ -372,23 +372,23 @@
    "role": "Sales Manager"
   },
   {
-    "create": 1,
-    "delete": 1,
-    "email": 1,
-    "export": 1,
-    "print": 1,
-    "read": 1,
-    "report": 1,
-    "role": "Nursing Manager",
-    "share": 1,
-    "write": 1 
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing Manager",
+   "share": 1,
+   "write": 1
   },
   {
-    "print": 1,
-    "read": 1,
-    "role": "Caregiver",
-    "share": 1,
-    "write": 1 
+   "print": 1,
+   "read": 1,
+   "role": "Caregiver",
+   "share": 1,
+   "write": 1
   },
   {
    "read": 1,
@@ -402,15 +402,15 @@
    "share": 1
   },
   {
-    "create": 1,
-    "email": 1,
-    "export": 1,
-    "print": 1,
-    "read": 1,
-    "report": 1,
-    "role": "Customer Success",
-    "share": 1,
-    "write": 1 
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Customer Success",
+   "share": 1,
+   "write": 1
   }
  ],
  "show_title_field_in_link": 1,
