@@ -358,6 +358,7 @@ async function checkin(engagementId) {
     alert('Already Checked in today')
   }
   dashboard.reload()
+  confirmCheckin.value = false
 }
 
 async function checkout(engagementId) {
@@ -372,6 +373,7 @@ async function checkout(engagementId) {
   })
   await update.promise
   apiCall()
+  confirmCheckout.value = false
 }
 </script>
 
