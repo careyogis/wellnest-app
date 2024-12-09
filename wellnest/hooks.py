@@ -235,10 +235,5 @@ fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Ser
 
 website_route_rules = [{'from_route': '/caregiver-app/<path:app_path>', 'to_route': 'caregiver-app'},]
 
-# app_include_js = [
-#     "/assets/frappe-datatable/dist/frappe-datatable.min.js"
-# ]
-# app_include_css = [
-#     "/assets/frappe-datatable/dist/frappe-datatable.min.css"
-# ]
+
 
