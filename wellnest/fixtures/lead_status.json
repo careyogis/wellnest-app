@@ -2,71 +2,85 @@
  {
   "docstatus": 0,
   "doctype": "Lead Status",
-  "modified": "2024-07-16 15:53:42.015882",
-  "name": "New Request",
-  "status_name": "New Request"
- },
- {
-  "docstatus": 0,
-  "doctype": "Lead Status",
-  "modified": "2024-07-16 15:53:54.442011",
-  "name": "Attempting Call",
-  "status_name": "Attempting Call"
- },
- {
-  "docstatus": 0,
-  "doctype": "Lead Status",
   "modified": "2024-07-16 15:54:07.609395",
-  "name": "Request Intake In Progress",
-  "status_name": "Request Intake In Progress"
- },
- {
-  "docstatus": 0,
-  "doctype": "Lead Status",
-  "modified": "2024-07-16 15:54:19.733246",
-  "name": "Rate Negotiation In Progress",
-  "status_name": "Rate Negotiation In Progress"
+  "name": "03-Request Intake In Progress",
+  "status_name": "03-Request Intake In Progress"
  },
  {
   "docstatus": 0,
   "doctype": "Lead Status",
   "modified": "2024-07-16 15:54:33.586667",
-  "name": "Matching Caregiver In Progress",
-  "status_name": "Matching Caregiver In Progress"
+  "name": "05-Matching Caregiver In Progress",
+  "status_name": "05-Matching Caregiver In Progress"
  },
  {
   "docstatus": 0,
   "doctype": "Lead Status",
   "modified": "2024-07-16 15:54:45.413523",
-  "name": "Caregiver Client Interaction In progress",
-  "status_name": "Caregiver Client Interaction In progress"
+  "name": "06-Caregiver Client Interaction In progress",
+  "status_name": "06-Caregiver Client Interaction In progress"
  },
  {
   "docstatus": 0,
   "doctype": "Lead Status",
   "modified": "2024-07-16 15:54:57.048694",
-  "name": "Caregiver Assigned",
-  "status_name": "Caregiver Assigned"
+  "name": "07-Caregiver Assigned",
+  "status_name": "07-Caregiver Assigned"
  },
  {
   "docstatus": 0,
   "doctype": "Lead Status",
   "modified": "2024-07-16 15:55:08.483653",
-  "name": "Qualified",
-  "status_name": "Qualified"
+  "name": "04-Qualified",
+  "status_name": "04-Qualified"
  },
  {
   "docstatus": 0,
   "doctype": "Lead Status",
   "modified": "2024-07-16 15:55:18.347775",
-  "name": "Lost",
-  "status_name": "Lost"
+  "name": "10-Lost",
+  "status_name": "10-Lost"
  },
  {
   "docstatus": 0,
   "doctype": "Lead Status",
   "modified": "2024-10-19 09:48:21.149087",
-  "name": "On Hold",
-  "status_name": "On Hold"
+  "name": "09-On Hold",
+  "status_name": "09-On Hold"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Status",
+  "modified": "2024-12-10 17:06:50.189611",
+  "name": "08-Engagement Started",
+  "status_name": "08-Engagement Started"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Status",
+  "modified": "2024-12-10 17:08:04.076184",
+  "name": "11-Information Provided",
+  "status_name": "11-Information Provided"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Status",
+  "modified": "2024-12-10 17:08:17.177274",
+  "name": "12-Junk",
+  "status_name": "12-Junk"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Status",
+  "modified": "2024-07-16 15:53:42.015882",
+  "name": "01-New Request",
+  "status_name": "01-New Request"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Lead Status",
+  "modified": "2024-07-16 15:53:54.442011",
+  "name": "02-Attempting Call",
+  "status_name": "02-Attempting Call"
  }
 ]

@@ -140,7 +140,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "New Request",
+   "default": "01-New Request",
    "fieldname": "status",
    "fieldtype": "Link",
    "label": "Status",
@@ -247,7 +247,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-24 12:49:34.036376",
+ "modified": "2024-12-10 18:28:35.643559",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",
@@ -287,47 +287,43 @@
  "states": [
   {
    "color": "Blue",
-   "title": "New Request"
+   "title": "01-New Request"
   },
   {
    "color": "Purple",
-   "title": "Qualified"
+   "title": "04-Qualified"
   },
   {
    "color": "Orange",
-   "title": "On Hold"
+   "title": "09-On Hold"
   },
   {
    "color": "Green",
-   "title": "Caregiver Assigned"
-  },
-  {
-   "color": "Yellow",
-   "title": "Rate Negotiation In Progress"
+   "title": "07-Caregiver Assigned"
   },
   {
    "color": "Cyan",
-   "title": "Attempting Call"
+   "title": "02-Attempting Call"
   },
   {
    "color": "Red",
-   "title": "Lost"
+   "title": "10-Lost"
   },
   {
    "color": "Yellow",
-   "title": "Request Intake In Progress"
+   "title": "03-Request Intake In Progress"
   },
   {
    "color": "Green",
-   "title": "Engagement Started"
+   "title": "08-Engagement Started"
   },
   {
    "color": "Yellow",
-   "title": "Caregiver Client Interaction In progress"
+   "title": "06-Caregiver Client Interaction In progress"
   },
   {
    "color": "Purple",
-   "title": "Matching Caregiver In Progress"
+   "title": "05-Matching Caregiver In Progress"
   }
  ]
 }
