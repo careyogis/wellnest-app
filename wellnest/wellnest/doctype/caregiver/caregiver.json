@@ -348,7 +348,7 @@
  "image_field": "passport_size_photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-04 16:01:23.270534",
+ "modified": "2024-12-10 14:11:26.770899",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
@@ -387,8 +387,7 @@
    "print": 1,
    "read": 1,
    "role": "Caregiver",
-   "share": 1,
-   "write": 1
+   "share": 1
   },
   {
    "read": 1,

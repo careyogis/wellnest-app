@@ -228,6 +228,7 @@ app_license = "mit"
 # }
 
 fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Service", "Spoken Language", "Medical Condition", "Lead Status", "Item Activity", 
+        {"doctype": "Role", "filters": [["name", "like", "Caregiver%"]]},
             # export only those records that match the filter from Custom Field table
         {"doctype": "Custom Field", "filters": [["module", "like", "WellNest%"]]},
         { "doctype": "Client Script", "filters": [["module", "like", "WellNest%"]] }
