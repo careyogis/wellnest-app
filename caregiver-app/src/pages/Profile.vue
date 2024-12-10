@@ -169,13 +169,13 @@ async function apiCall() {
       totalRatings = ratings.reduce((sum, rater) => sum + (rater.rating / 2) * 10, 0);
       totalRatings = totalRatings / ratings.length;
     } else {
-      console.warn("No ratings data available.");
-      totalRatings = 0; 
+      console.warn('No ratings data available.');
+      totalRatings = 0;
     }
   } catch (error) {
-    console.error("API call failed:", error);
-    caregiver = null; 
-    totalRatings = 0; 
+    console.error('API call failed:', error);
+    caregiver = null;
+    totalRatings = 0;
   }
 }
 
@@ -183,16 +183,15 @@ function findCustomerImage(name) {
   try {
     const customerData = caregiver?.data?.customer_data;
     if (!Array.isArray(customerData)) {
-      console.warn("Customer data is not available or invalid.");
+      console.warn('Customer data is not available or invalid.');
       return null;
     }
 
     const ratingData = customerData.find((obj) => obj.name === name);
-    return ratingData?.image || null; 
+    return ratingData?.image || null;
   } catch (error) {
-    console.error("Error finding customer image:", error);
-    return null; 
+    console.error('Error finding customer image:', error);
+    return null;
   }
 }
-
 </script>

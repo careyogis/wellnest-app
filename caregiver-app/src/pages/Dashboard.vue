@@ -1,5 +1,5 @@
 <template>
-  <div v-if="dashboard.data">
+  <div v-if="dashboard.data && notCaregiver == false">
     <nav class="flex mx-5 my-2 items-center justify-between mb-10">
       <div class="w-15 h-15 flex items-center justify-center">
         <Avatar :shape="'circle'" :image="dashboard.data.caregiver.passport_size_photo" label="EY" size="2xl" />
@@ -202,6 +202,12 @@
       </div>
     </div>
   </div>
+  <div v-else-if="dashboard.data && notCaregiver" class="flex items-center justify-center min-h-screen">
+    <div class="bg-gray-200 p-8 rounded-md text-center">
+      No data to display for you. <br />
+      Contact support
+    </div>
+  </div>
   <div v-else class="flex items-center justify-center min-h-screen">
     <div class="bg-gray-200 p-8 rounded-md">Loading...</div>
   </div>
@@ -232,6 +238,7 @@ let confirmCheckout = ref(false);
 let selectedEngagement;
 let isDisabled = reactive({});
 let checkins = {};
+let notCaregiver = ref(false);
 
 function toggleMobileNav() {
   mobileNav.value = !mobileNav.value;
@@ -246,15 +253,17 @@ async function apiCall() {
     });
     await dashboard.promise;
 
+    if (!dashboard.data.engagements && dashboard.data.message) {
+      notCaregiver.value = true;
+    }
+
     if (!dashboard.data || !Array.isArray(dashboard.data.engagements)) {
-      console.warn("No valid engagements data found.");
+      console.warn('No valid engagements data found.');
       checkins = {};
       return;
     }
 
-    checkins = Object.fromEntries(
-      dashboard.data.engagements.map(({ engagement, todaysCheckin }) => [engagement.name, todaysCheckin])
-    );
+    checkins = Object.fromEntries(dashboard.data.engagements.map(({ engagement, todaysCheckin }) => [engagement.name, todaysCheckin]));
 
     for (let obj of dashboard.data.engagements) {
       if (obj.todaysCheckin) {
@@ -262,8 +271,8 @@ async function apiCall() {
       }
     }
   } catch (error) {
-    console.error("API call failed:", error);
-    dashboard = null; 
+    console.error('API call failed:', error);
+    dashboard = null;
   }
 }
 
@@ -290,16 +299,16 @@ async function checkin(engagementId) {
       });
       await response.promise;
 
-      checkins = checkins || {}; 
+      checkins = checkins || {};
       checkins[engagementId] = response.data;
     } else {
-      alert("Already Checked in today");
+      alert('Already Checked in today');
     }
 
     dashboard?.reload();
     confirmCheckin.value = false;
   } catch (error) {
-    console.error("Check-in failed:", error);
+    console.error('Check-in failed:', error);
   }
 }
 
@@ -307,7 +316,7 @@ async function checkin(engagementId) {
 async function checkout(engagementId) {
   try {
     if (!checkins || !checkins[engagementId]) {
-      alert("You have not checked in");
+      alert('You have not checked in');
       return;
     }
 
@@ -318,16 +327,15 @@ async function checkout(engagementId) {
     });
     await update.promise;
 
-    apiCall(); 
+    apiCall();
     confirmCheckout.value = false;
   } catch (error) {
-    console.error("Check-out failed:", error);
+    console.error('Check-out failed:', error);
   }
 }
 
 // Initial API call to fetch data
 apiCall();
-
 </script>
 
 <style scoped>

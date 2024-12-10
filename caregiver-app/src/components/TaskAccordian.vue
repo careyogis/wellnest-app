@@ -1,7 +1,7 @@
 <template>
   <!-- Component: Outline accordion -->
   <section class="w-full bg-white border divide-y rounded divide-slate-200 border-slate-200">
-    <details class="p-3 group" open>
+    <details class="p-3 group" closed>
       <summary
         class="[&::-webkit-details-marker]:hidden flex justify-between items-center relative font-medium list-none cursor-pointer text-slate-700 focus-visible:outline-none transition-colors duration-300 group-hover:text-slate-900"
       >
@@ -11,7 +11,8 @@
             <FeatherIcon class="w-6 mr-1 stroke-[#78abaf] stroke-2" name="clock" />
           </div>
           <div v-if="prescribedTime" class="text-[#070707] font-semibold">
-            {{ prescribedTime.slice(0, 5) }}
+            <!-- {{ prescribedTime.slice(0, 5) }} -->
+            {{ formattedPrescribedTime.slice(0, 5) }}
           </div>
         </div>
         <FeatherIcon class="transition duration-300 stroke-slate-700 group-open:rotate-90 w-5 stroke-[#070707] stroke-2" name="chevron-right" />
@@ -59,13 +60,15 @@ const props = defineProps(['title', 'id', 'engagementId', 'taskName', 'proof', '
 
 const inputField = defineModel();
 let activityCompletionResponse = null;
+let formattedPrescribedTime = props.prescribedTime[4] === ':' ? '0' + props.prescribedTime : props.prescribedTime;
 let completionTime = props.completionDateTime ? ref(props.completionDateTime.slice(10, 16)) : ref(null);
 let taskProof = ref(props.proof || null);
 
 async function sendRequest() {
   try {
     // Validate required data before making the API call
-    if (!props.taskName || !inputField.value) {
+    // if (!props.taskName || !inputField.value) {
+    if (!props.taskName) {
       console.warn('Missing required `taskName` or input field data.');
       return;
     }

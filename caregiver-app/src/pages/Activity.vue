@@ -54,7 +54,9 @@ const props = defineProps({ dailyRecordId: String });
 
 const state = reactive({
   index: 0,
-  tabs: [{ label: 'Daily Tasks' }, { label: 'Assessment' }],
+  // Currently only showing Daily Tasks Tab
+  tabs: [{ label: 'Daily Tasks' }],
+  // tabs: [{ label: 'Daily Tasks' }, { label: 'Assessment' }],
 });
 
 let taskResource = null;
@@ -65,7 +67,7 @@ apiCall();
 async function apiCall() {
   try {
     if (!props.dailyRecordId) {
-      console.warn("Missing `dailyRecordId` in props.");
+      console.warn('Missing `dailyRecordId` in props.');
       return;
     }
 
@@ -78,12 +80,11 @@ async function apiCall() {
 
     // Validate the fetched data
     if (!taskResource?.data) {
-      console.warn("No data available for the provided `dailyRecordId`.");
+      console.warn('No data available for the provided `dailyRecordId`.');
     }
   } catch (error) {
-    console.error("API call failed:", error);
-    taskResource = null; 
+    console.error('API call failed:', error);
+    taskResource = null;
   }
 }
-
 </script>
