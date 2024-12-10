@@ -2,24 +2,12 @@
   <div v-if="dashboard.data">
     <nav class="flex mx-5 my-2 items-center justify-between mb-10">
       <div class="w-15 h-15 flex items-center justify-center">
-        <Avatar
-          :shape="'circle'"
-          :image="dashboard.data.caregiver.passport_size_photo"
-          label="EY"
-          size="2xl"
-        />
+        <Avatar :shape="'circle'" :image="dashboard.data.caregiver.passport_size_photo" label="EY" size="2xl" />
       </div>
       <img class="w-15" src="/favicon.png" alt="" />
       <div class="w-15 h-15 flex items-center justify-center">
-        <button
-          @click="toggleMobileNav"
-          class="w-[42px] h-[42px] bg-white border divide-y divide-slate-200 border-slate-200 rounded-full drop-shadow-lg"
-          :class="{ 'icon-active': mobileNav }"
-        >
-          <FeatherIcon
-            class="pl-2.5 w-8 h-8 stroke-gray-700"
-            name="align-left"
-          />
+        <button @click="toggleMobileNav" class="w-[42px] h-[42px] bg-white border divide-y divide-slate-200 border-slate-200 rounded-full drop-shadow-lg" :class="{ 'icon-active': mobileNav }">
+          <FeatherIcon class="pl-2.5 w-8 h-8 stroke-gray-700" name="align-left" />
         </button>
       </div>
       <div v-if="mobileNav" class="dropdown-nav">
@@ -38,9 +26,7 @@
     </nav>
     <div class="m-[28px]">
       <div class="flex justify-start gap-3">
-        <button
-          class="w-[42px] h-[42px] rounded-full bg-gradient-to-b from-[#0FD3C2] from-90% to-[#10BAAB] to-10% mb-10"
-        >
+        <button class="w-[42px] h-[42px] rounded-full bg-gradient-to-b from-[#0FD3C2] from-90% to-[#10BAAB] to-10% mb-10">
           <FeatherIcon class="pl-2.5 w-8 h-8 stroke-white" name="calendar" />
         </button>
         <div class="flex flex-col">
@@ -57,13 +43,7 @@
       <div class="m-[10px] p-4 bg-white border rounded border-slate-600">
         <div class="flex justify-between gap-4">
           <div class="flex items-center gap-1">
-            <Avatar
-              v-if="!mobileNav"
-              :shape="'circle'"
-              :image="engagement.customer.image"
-              label="EY"
-              size="2xl"
-            />
+            <Avatar v-if="!mobileNav" :shape="'circle'" :image="engagement.customer.image" label="EY" size="2xl" />
             <div>
               <div class="font-semibold">
                 {{ engagement.customer.customer_name }}
@@ -71,38 +51,19 @@
               <div>
                 {{ engagement.customer.gender }}
               </div>
-              <div v-if="engagement.customer.custom_age">
-                {{ engagement.customer.custom_age }} Years
-              </div>
+              <div v-if="engagement.customer.custom_age">{{ engagement.customer.custom_age }} Years</div>
             </div>
           </div>
           <div class="flex gap-1">
-            <FeatherIcon
-              class="w-6 mt-0.5 stroke-[#10BAAB] stroke-2 self-start"
-              name="calendar"
-            />
+            <FeatherIcon class="w-6 mt-0.5 stroke-[#10BAAB] stroke-2 self-start" name="calendar" />
             <div class="flex flex-col items-center">
               <div class="font-semibold">
-                {{
-                  engagement.engagement.start_date
-                    ? longDateFormatter(engagement.engagement.start_date)
-                    : 'Present'
-                }}
+                {{ engagement.engagement.start_date ? longDateFormatter(engagement.engagement.start_date) : 'Present' }}
                 -
-                {{
-                  engagement.engagement.end_date
-                    ? longDateFormatter(engagement.engagement.end_date)
-                    : 'Present'
-                }}
+                {{ engagement.engagement.end_date ? longDateFormatter(engagement.engagement.end_date) : 'Present' }}
               </div>
-              <div
-                v-show="engagement.engagement.service_hours"
-                class="flex gap-1"
-              >
-                <FeatherIcon
-                  class="w-5 mt-0.5 stroke-[#10BAAB] stroke-2"
-                  name="clock"
-                />
+              <div v-show="engagement.engagement.service_hours" class="flex gap-1">
+                <FeatherIcon class="w-5 mt-0.5 stroke-[#10BAAB] stroke-2" name="clock" />
                 <div>{{ engagement.engagement.service_hours }} Hours</div>
               </div>
             </div>
@@ -145,10 +106,7 @@
         <div class="mySpecialities mb-5">
           <div class="text-[#070707] font-semibold mb-2">Services Needed</div>
           <div class="whitespace-nowrap overflow-x-auto">
-            <span
-              v-for="services in engagement.engagement.required_activity"
-              class="mx-1"
-            >
+            <span v-for="services in engagement.engagement.required_activity" class="mx-1">
               <Badge :variant="'solid'" size="lg" label="Badge" theme="orange">
                 {{ services.activity }}
               </Badge>
@@ -168,28 +126,15 @@
           "
         >
           <div class="flex justify-evenly">
-            <FeatherIcon
-              class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2"
-              name="check-square"
-            />
+            <FeatherIcon class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2" name="check-square" />
             <div class="text-[#10BAAB]">Tasks</div>
-            <FeatherIcon
-              class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2"
-              name="chevron-right"
-            />
+            <FeatherIcon class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2" name="chevron-right" />
           </div>
         </button>
         <div class="flex gap-6">
-          <button
-            v-if="!checkins[engagement.engagement.name]"
-            class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1"
-            @click="openCheckinDialog(engagement.engagement.name)"
-          >
+          <button v-if="!checkins[engagement.engagement.name]" class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1" @click="openCheckinDialog(engagement.engagement.name)">
             <div class="flex justify-center gap-1">
-              <FeatherIcon
-                class="w-4 mt-0.5 stroke-gray-500 stroke-2"
-                name="eye"
-              />
+              <FeatherIcon class="w-4 mt-0.5 stroke-gray-500 stroke-2" name="eye" />
               <div>Check-In</div>
             </div>
           </button>
@@ -200,13 +145,8 @@
             @click="openCheckoutDialog(engagement.engagement.name)"
           >
             <div class="flex justify-center gap-1">
-              <FeatherIcon
-                class="w-4 mt-0.5 stroke-gray-500 stroke-2"
-                name="eye"
-              />
-              <div v-if="isDisabled[checkins[engagement.engagement.name].name]">
-                Checked-Out
-              </div>
+              <FeatherIcon class="w-4 mt-0.5 stroke-gray-500 stroke-2" name="eye" />
+              <div v-if="isDisabled[checkins[engagement.engagement.name].name]">Checked-Out</div>
               <div v-else>Check-Out</div>
             </div>
           </button>
@@ -220,14 +160,14 @@
                   label: 'Confirm',
                   variant: 'solid',
                   onClick: () => {
-                    checkin(selectedEngagement)
+                    checkin(selectedEngagement);
                   },
                 },
                 {
                   label: 'Cancel',
                   variant: 'subtle',
                   onClick: () => {
-                    confirmCheckin = false
+                    confirmCheckin = false;
                   },
                 },
               ],
@@ -244,14 +184,14 @@
                   label: 'Confirm',
                   variant: 'solid',
                   onClick: () => {
-                    checkout(selectedEngagement)
+                    checkout(selectedEngagement);
                   },
                 },
                 {
                   label: 'Cancel',
                   variant: 'subtle',
                   onClick: () => {
-                    confirmCheckout = false
+                    confirmCheckout = false;
                   },
                 },
               ],
@@ -266,111 +206,128 @@
     <div class="bg-gray-200 p-8 rounded-md">Loading...</div>
   </div>
 </template>
-<script setup>
-import { reactive, ref } from 'vue'
-import {
-  FeatherIcon,
-  Badge,
-  Avatar,
-  createResource,
-  Dialog,
-  createDocumentResource,
-  createListResource,
-} from 'frappe-ui'
-import { session } from '../data/session'
-import Agency from '../components/Agency.vue'
-import Customer from '../components/Customer.vue'
-import NursingManager from '../components/NursingManager.vue'
-import {
-  getAge,
-  dayFormatter,
-  longDateFormatter,
-  shortDateFormatter,
-  formatCurrentDateTime,
-} from '../utils'
 
-let dashboard
-let engagementActivity
-let engagementRecord
+<script setup>
+import { reactive, ref } from 'vue';
+import { FeatherIcon, Badge, Avatar, createResource, Dialog, createDocumentResource, createListResource } from 'frappe-ui';
+import { session } from '../data/session';
+import Agency from '../components/Agency.vue';
+import Customer from '../components/Customer.vue';
+import NursingManager from '../components/NursingManager.vue';
+import { getAge, dayFormatter, longDateFormatter, shortDateFormatter, formatCurrentDateTime } from '../utils';
+
+let dashboard;
+let engagementActivity;
+let engagementRecord;
 
 // Hamburger parts
-let scrollPosition
-let mobile
-let mobileNav = ref(false)
-let windowWidth
+let scrollPosition;
+let mobile;
+let mobileNav = ref(false);
+let windowWidth;
+
+let confirmCheckin = ref(false);
+let confirmCheckout = ref(false);
+
+let selectedEngagement;
+let isDisabled = reactive({});
+let checkins = {};
 
 function toggleMobileNav() {
-  mobileNav.value = !mobileNav.value
+  mobileNav.value = !mobileNav.value;
 }
 
-apiCall()
-
-let confirmCheckin = ref(false)
-let confirmCheckout = ref(false)
-let selectedEngagement
-let isDisabled = reactive({})
-
-function openCheckinDialog(engagement) {
-  confirmCheckin.value = true
-  selectedEngagement = engagement
-}
-
-function openCheckoutDialog(engagement) {
-  confirmCheckout.value = true
-  selectedEngagement = engagement
-}
+// API call to fetch dashboard data
 async function apiCall() {
-  dashboard = createResource({
-    url: '/api/method/wellnest.api.dashboard',
-    auto: true,
-  })
-  await dashboard.promise
-  checkins = Object.fromEntries(
-    dashboard.data.engagements.map(({ engagement, todaysCheckin }) => [
-      engagement.name,
-      todaysCheckin,
-    ]),
-  )
-  for (let obj of dashboard.data.engagements) {
-    if (obj.todaysCheckin) {
-      isDisabled[obj.todaysCheckin.name] = obj.todaysCheckin
-        .check_out_date_and_time
-        ? true
-        : false
-    }
-  }
-}
-
-let checkins = {}
-async function checkin(engagementId) {
-  if (!checkins[engagementId]) {
-    const response = createResource({
-      url: `/api/method/wellnest.api.createDailyRecord?engagement=${engagementId}&caregiver=${dashboard.data.caregiver.name}`,
+  try {
+    dashboard = createResource({
+      url: '/api/method/wellnest.api.dashboard',
       auto: true,
-    })
-    await response.promise
-    checkins[engagementId] = response.data
-  } else {
-    alert('Already Checked in today')
+    });
+    await dashboard.promise;
+
+    if (!dashboard.data || !Array.isArray(dashboard.data.engagements)) {
+      console.warn("No valid engagements data found.");
+      checkins = {};
+      return;
+    }
+
+    checkins = Object.fromEntries(
+      dashboard.data.engagements.map(({ engagement, todaysCheckin }) => [engagement.name, todaysCheckin])
+    );
+
+    for (let obj of dashboard.data.engagements) {
+      if (obj.todaysCheckin) {
+        isDisabled[obj.todaysCheckin.name] = !!obj.todaysCheckin.check_out_date_and_time;
+      }
+    }
+  } catch (error) {
+    console.error("API call failed:", error);
+    dashboard = null; 
   }
-  dashboard.reload()
-  confirmCheckin.value = false
 }
 
-async function checkout(engagementId) {
-  const checkin = checkins[engagementId]
-  if (!checkin) {
-    alert('You have not checked in')
-    return
-  }
-  let update = createResource({
-    url: `/api/method/wellnest.api.checkout?record=${checkin.name}`,
-    auto: true,
-  })
-  await update.promise
-  apiCall()
-  confirmCheckout.value = false
+// Open the check-in dialog
+function openCheckinDialog(engagement) {
+  confirmCheckin.value = true;
+  selectedEngagement = engagement;
 }
+
+// Open the check-out dialog
+function openCheckoutDialog(engagement) {
+  confirmCheckout.value = true;
+  selectedEngagement = engagement;
+}
+
+// Check-in function
+async function checkin(engagementId) {
+  try {
+    if (!checkins || !checkins[engagementId]) {
+      const caregiverName = dashboard?.data?.caregiver?.name || '';
+      const response = createResource({
+        url: `/api/method/wellnest.api.createDailyRecord?engagement=${engagementId}&caregiver=${caregiverName}`,
+        auto: true,
+      });
+      await response.promise;
+
+      checkins = checkins || {}; 
+      checkins[engagementId] = response.data;
+    } else {
+      alert("Already Checked in today");
+    }
+
+    dashboard?.reload();
+    confirmCheckin.value = false;
+  } catch (error) {
+    console.error("Check-in failed:", error);
+  }
+}
+
+// Check-out function
+async function checkout(engagementId) {
+  try {
+    if (!checkins || !checkins[engagementId]) {
+      alert("You have not checked in");
+      return;
+    }
+
+    const checkin = checkins[engagementId];
+    const update = createResource({
+      url: `/api/method/wellnest.api.checkout?record=${checkin.name}`,
+      auto: true,
+    });
+    await update.promise;
+
+    apiCall(); 
+    confirmCheckout.value = false;
+  } catch (error) {
+    console.error("Check-out failed:", error);
+  }
+}
+
+// Initial API call to fetch data
+apiCall();
+
 </script>
 
 <style scoped>
