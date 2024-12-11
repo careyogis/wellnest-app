@@ -5,7 +5,7 @@
       <summary
         class="[&::-webkit-details-marker]:hidden flex justify-between items-center relative font-medium list-none cursor-pointer text-slate-700 focus-visible:outline-none transition-colors duration-300 group-hover:text-slate-900"
       >
-        <div class="order-2 text-[#070707] font-semibold">{{ title }}</div>
+        <div class="order-2 text-[#070707] font-semibold text-center">{{ title }}</div>
         <div class="order-3 flex justify-between items-center">
           <div>
             <FeatherIcon class="w-6 mr-1 stroke-[#78abaf] stroke-2" name="clock" />

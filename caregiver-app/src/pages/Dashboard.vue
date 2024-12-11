@@ -211,6 +211,9 @@
   <div v-else class="flex items-center justify-center min-h-screen">
     <div class="bg-gray-200 p-8 rounded-md">Loading...</div>
   </div>
+  <div v-if="noActiveEngagements" class="flex items-center justify-center">
+    <div class="bg-gray-200 p-8 rounded-md text-center">No Active Patients Found</div>
+  </div>
 </template>
 
 <script setup>
@@ -239,6 +242,7 @@ let selectedEngagement;
 let isDisabled = reactive({});
 let checkins = {};
 let notCaregiver = ref(false);
+let noActiveEngagements = ref(true)
 
 function toggleMobileNav() {
   mobileNav.value = !mobileNav.value;

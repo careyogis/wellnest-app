@@ -30,22 +30,26 @@ def dashboard():
     engagements = []
     for engagementId in engagementIds:
         engagement = frappe.get_doc("Engagement", engagementId)
-        checkinsToday = frappe.get_list(
-            "Engagement Daily Record",
-            fields=["*"],
-            filters=[
-                ["engagement", "=", engagement.name],
-                ["creation", "between", [todayDateString, todayDateString]],
-            ],
-        )
 
-        engagements.append(
-            {
-                "engagement": engagement,
-                "customer": frappe.get_doc("Customer", engagement.customer),
-                "todaysCheckin": checkinsToday[0] if len(checkinsToday) > 0 else None,
-            }
-        )
+        # Checking for active engagements by comparing today to the start and end dates
+        if engagement.start_date <= todayDateString:
+            if not engagement.end_date or (engagement.end_date and todayDateString <= engagement.end_date):
+                checkinsToday = frappe.get_list(
+                    "Engagement Daily Record",
+                    fields=["*"],
+                    filters=[
+                        ["engagement", "=", engagement.name],
+                        ["creation", "between", [todayDateString, todayDateString]],
+                    ],
+                )
+
+                engagements.append(
+                    {
+                        "engagement": engagement,
+                        "customer": frappe.get_doc("Customer", engagement.customer),
+                        "todaysCheckin": checkinsToday[0] if len(checkinsToday) > 0 else None,
+                    }
+                )
 
     return {
         "caregiver": caregiver,
