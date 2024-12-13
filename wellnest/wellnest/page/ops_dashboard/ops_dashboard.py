@@ -1,17 +1,23 @@
 import frappe
 
 @frappe.whitelist()
-def get_dashboard_data():
+def get_dashboard_data(filters=None, limit=10, offset=0):
     caregivers_data = []
     customers_data = []
 
+    # Parse filters if provided
+    filters = frappe.parse_json(filters) if filters else {}
+
     # Fetch Caregiver Details
-    caregivers = frappe.db.sql("""
+    caregivers_query = """
         SELECT 
             caregiver.name AS caregiver_name,
             caregiver.caregiver_type AS caregiver_type
         FROM `tabCaregiver` caregiver
-    """, as_dict=True)
+        LIMIT %s OFFSET %s
+    """ % (limit, offset)
+
+    caregivers = frappe.db.sql(caregivers_query, as_dict=True)
 
     for caregiver in caregivers:
         # Get the last engagement for each caregiver
@@ -29,41 +35,48 @@ def get_dashboard_data():
 
         last_engagement_date = last_engagement[0]['last_engagement'] if last_engagement else '-'
 
-        # Fetch payments for this caregiver (from Purchase Invoices)
+        # Determine engagement status
+        engagement_status = 'Engaged' if last_engagement else 'Not Engaged'
+
+        # Fetch payments for this caregiver
         paid_amount = frappe.db.sql("""
-            SELECT SUM(purchase_invoice.paid_amount) AS paid_amount
-            FROM `tabPurchase Invoice` purchase_invoice
-            WHERE purchase_invoice.supplier_name = %s
-            AND purchase_invoice.status = 'Paid'
+            SELECT SUM(IFNULL(paid_amount, 0)) AS paid_amount
+            FROM `tabPurchase Invoice`
+            WHERE supplier_name = %s
+              AND docstatus = 1
         """, (caregiver['caregiver_name']), as_dict=True)
 
-        paid_amount_value = paid_amount[0]['paid_amount'] if paid_amount and paid_amount[0]['paid_amount'] else 0
+        paid_amount_value = paid_amount[0]['paid_amount'] if paid_amount else 0
 
-        # Fetch due amounts (unpaid)
+        # Fetch due amounts
         due_amount = frappe.db.sql("""
-            SELECT SUM(purchase_invoice.grand_total - purchase_invoice.paid_amount) AS due_amount
-            FROM `tabPurchase Invoice` purchase_invoice
-            WHERE purchase_invoice.supplier_name = %s
-            AND purchase_invoice.status = 'Unpaid'
+            SELECT SUM(grand_total - IFNULL(paid_amount, 0)) AS due_amount
+            FROM `tabPurchase Invoice`
+            WHERE supplier_name = %s
+              AND docstatus = 1
+              AND status != 'Paid'
         """, (caregiver['caregiver_name']), as_dict=True)
 
-        due_amount_value = due_amount[0]['due_amount'] if due_amount and due_amount[0]['due_amount'] else 0
+        due_amount_value = due_amount[0]['due_amount'] if due_amount else 0
 
-        # Add caregiver data to the list
         caregivers_data.append({
             'caregiver_name': caregiver['caregiver_name'],
             'caregiver_type': caregiver['caregiver_type'],
             'last_engagement': last_engagement_date,
+            'engagement_status': engagement_status,
             'due_amount': due_amount_value,
             'paid_amount': paid_amount_value,
         })
 
     # Fetch Customer Details
-    customers = frappe.db.sql("""
+    customers_query = """
         SELECT 
             customer.name AS customer_name
         FROM `tabCustomer` customer
-    """, as_dict=True)
+        LIMIT %s OFFSET %s
+    """ % (limit, offset)
+
+    customers = frappe.db.sql(customers_query, as_dict=True)
 
     for customer in customers:
         # Fetch engaged caregivers for each customer
@@ -77,35 +90,40 @@ def get_dashboard_data():
 
         engaged_caregivers_count = engaged_caregivers[0]['engaged_caregivers'] if engaged_caregivers else 0
 
+        # Determine engagement status
+        customer_engagement_status = 'Engaged' if engaged_caregivers_count > 0 else 'Not Engaged'
+
         # Fetch payments made by the customer
         paid_amount = frappe.db.sql("""
-            SELECT SUM(sales_invoice.paid_amount) AS paid_amount
-            FROM `tabSales Invoice` sales_invoice
-            WHERE sales_invoice.customer = %s
-            AND sales_invoice.status = 'Paid'
+            SELECT SUM(IFNULL(paid_amount, 0)) AS paid_amount
+            FROM `tabSales Invoice`
+            WHERE customer = %s
+              AND docstatus = 1
         """, (customer['customer_name']), as_dict=True)
 
-        paid_amount_value = paid_amount[0]['paid_amount'] if paid_amount and paid_amount[0]['paid_amount'] else 0
+        paid_amount_value = paid_amount[0]['paid_amount'] if paid_amount else 0
 
-        # Fetch due amounts (unpaid)
+        # Fetch due amounts
         due_amount = frappe.db.sql("""
-            SELECT SUM(sales_invoice.grand_total - sales_invoice.paid_amount) AS due_amount
-            FROM `tabSales Invoice` sales_invoice
-            WHERE sales_invoice.customer = %s
-            AND sales_invoice.status = 'Unpaid'
+            SELECT SUM(grand_total - IFNULL(paid_amount, 0)) AS due_amount
+            FROM `tabSales Invoice`
+            WHERE customer = %s
+              AND docstatus = 1
+              AND status != 'Paid'
         """, (customer['customer_name']), as_dict=True)
 
-        due_amount_value = due_amount[0]['due_amount'] if due_amount and due_amount[0]['due_amount'] else 0
+        due_amount_value = due_amount[0]['due_amount'] if due_amount else 0
 
-        # Add customer data to the list
         customers_data.append({
             'customer_name': customer['customer_name'],
             'engaged_caregivers': engaged_caregivers_count,
+            'engagement_status': customer_engagement_status,
             'due_amount': due_amount_value,
             'paid_amount': paid_amount_value,
         })
 
     return {
         'caregivers': caregivers_data,
-        'customers': customers_data
+        'customers': customers_data,
+        'total_items': max(len(caregivers_data), len(customers_data))
     }
