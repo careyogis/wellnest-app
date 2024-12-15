@@ -6,7 +6,7 @@
       <div class="text-xl text-[#070707] font-semibold">
         {{ taskResource.data.customerDoc.name }}
       </div>
-      <div>{{ taskResource.data.customerDoc.gender }}, {{ taskResource.data.customerDoc.custom_age }}</div>
+      <div v-if="taskResource.data.customerDoc.gender || taskResource.data.customerDoc.custom_age">{{ taskResource.data.customerDoc.gender }}, {{ taskResource.data.customerDoc.custom_age }}</div>
     </div>
     <Tabs class="bro" v-model="state.index" :tabs="state.tabs">
       <template #default="{ tab }">

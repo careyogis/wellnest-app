@@ -18,9 +18,16 @@
         <FeatherIcon class="transition duration-300 stroke-slate-700 group-open:rotate-90 w-5 stroke-[#070707] stroke-2" name="chevron-right" />
       </summary>
       <div class="mt-4 px-7 text-slate-500">
+        <div class="text-[#070707] font-semibold">Activity Data (Optional)</div>
         <div class="flex">
-          <TextInput :type="'text'" size="lg" variant="outline" placeholder="" v-model="inputField" />
+          <TextInput :type="'text'" size="lg" variant="outline" placeholder="" v-model="activityData" />
         </div>
+        <br />
+        <div class="text-[#070707] font-semibold">Completion Time</div>
+        <div class="flex">
+          <TextInput :type="'time'" size="lg" variant="outline" placeholder="" v-model="taskCompletionTime" />
+        </div>
+        <br />
         <div v-if="taskProof">
           <FeatherIcon class="inline-block w-3 -rotate-45 mr-1 stroke-[blue] stroke-1" name="paperclip" />
           <a class="inline-block my-5 text-blue-500" :href="taskProof.data || taskProof">Uploaded Image</a>
@@ -58,7 +65,8 @@ import { createResource, createListResource, createDocumentResource } from 'frap
 
 const props = defineProps(['title', 'id', 'engagementId', 'taskName', 'proof', 'taskResource', 'prescribedTime', 'notes', 'completionDateTime', 'checkedOut']);
 
-const inputField = defineModel();
+const activityData = ref();
+const taskCompletionTime = ref();
 let activityCompletionResponse = null;
 let formattedPrescribedTime = props.prescribedTime[4] === ':' ? '0' + props.prescribedTime : props.prescribedTime;
 let completionTime = props.completionDateTime ? ref(props.completionDateTime.slice(10, 16)) : ref(null);
@@ -78,7 +86,7 @@ async function sendRequest() {
 
     // Make the API request
     activityCompletionResponse = createResource({
-      url: `/api/method/wellnest.api.setActivityData?taskName=${props.taskName}&data=${inputField.value}`,
+      url: `/api/method/wellnest.api.setActivityData?taskName=${props.taskName}&data=${activityData.value}&time=${taskCompletionTime.value ? taskCompletionTime.value : "default"}`,
       auto: true,
     });
     await activityCompletionResponse.promise;

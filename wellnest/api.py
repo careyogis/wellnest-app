@@ -117,20 +117,23 @@ def activity(dailyRecordId):
 
 
 @frappe.whitelist()
-def setActivityData(taskName, data):
-    # ist_time = datetime.now(pytz.timezone('Asia/Kolkata'))
+def setActivityData(taskName, data, time):
     ist_date = datetime.now(pytz.timezone('Asia/Kolkata')).date()
     ist_time = datetime.now(pytz.timezone('Asia/Kolkata')).time()
-    ist_datetime = str(ist_date) + " " + str(ist_time)
+    if time == "default":
+        inputTime = str(ist_date) + " " + str(ist_time)
+    else:
+        inputTime = str(ist_date) + " " + time 
+
     frappe.db.set_value(
         "Engagement Daily Activity",
         taskName,
         {
             "activity_data": data,
-            "completion_time": ist_datetime,
+            "completion_time": inputTime,
         },
     )
-    return ist_time
+    return time if time != "default" else ist_time
 
 # @frappe.whitelist()
 # def setActivityCompletionTime(taskName, time):
