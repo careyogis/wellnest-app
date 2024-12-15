@@ -32,24 +32,38 @@ def dashboard():
         engagement = frappe.get_doc("Engagement", engagementId)
 
         # Checking for active engagements by comparing today to the start and end dates
-        if engagement.start_date <= todayDateString:
-            if not engagement.end_date or (engagement.end_date and todayDateString <= engagement.end_date):
-                checkinsToday = frappe.get_list(
-                    "Engagement Daily Record",
-                    fields=["*"],
-                    filters=[
-                        ["engagement", "=", engagement.name],
-                        ["creation", "between", [todayDateString, todayDateString]],
-                    ],
-                )
+        if (engagement.start_date > todayDateString) or (engagement.end_date and todayDateString > engagement.end_date):
+            continue
 
-                engagements.append(
-                    {
-                        "engagement": engagement,
-                        "customer": frappe.get_doc("Customer", engagement.customer),
-                        "todaysCheckin": checkinsToday[0] if len(checkinsToday) > 0 else None,
-                    }
-                )
+        for assignedCaregiver in engagement.assigned_caregivers:
+            # Skip caregivers that do not match the given caregiver name
+            if assignedCaregiver.caregiver != caregiver.name:
+                continue
+
+            # Skip caregivers who are not currently active(based on start and end dates)
+            if (not assignedCaregiver.start_date or assignedCaregiver.start_date > todayDateString or (assignedCaregiver.end_date and todayDateString > assignedCaregiver.end_date)):
+                continue
+
+            checkinsToday = frappe.get_list(
+                "Engagement Daily Record",
+                fields=["*"],
+                filters=[
+                    ["engagement", "=", engagement.name],
+                    ["creation", "between", [todayDateString, todayDateString]],
+                ],
+            )
+
+            engagements.append(
+                {
+                    "engagement": engagement,
+                    "customer": frappe.get_doc("Customer", engagement.customer),
+                    "todaysCheckin": (
+                        checkinsToday[0] if len(checkinsToday) > 0 else None
+                    ),
+                    "caregiverStartDate": assignedCaregiver.start_date,
+                    "caregiverEndDate": assignedCaregiver.end_date,
+                }
+            )
 
     return {
         "caregiver": caregiver,
@@ -165,37 +179,7 @@ def createDailyRecord(engagement, caregiver):
             },
         )
     new_doc.insert()
-
-    # existing_docs_of_other_caregivers = frappe.db.get_list('Engagement Daily Record', filters={'creation': ['>=', ist_datetime]})
-
     return new_doc
-
-# @frappe.whitelist()
-# def test(engagement):
-#     todayDateString = date.today()
-#     # NOTE: might not be part of this endpoint, end goal: show something similar in task accordian component
-#     engagement_daily_record_ids_of_today = frappe.db.get_list('Engagement Daily Record', filters={'creation': ['between', [todayDateString, todayDateString]], 'engagement': engagement})
-
-#     current_session_records = []
-#     state_of_tasks_combined = []
-#     for id in engagement_daily_record_ids_of_today:
-#         current_ids_performed_activities = frappe.get_doc("Engagement Daily Record", id).performed_activities
-#         # current_ids_performed_activities = frappe.get_doc("Engagement Daily Record", id)
-#         current_session_records.append(current_ids_performed_activities)
-
-#     return current_session_records
-
-
-# @frappe.whitelist()
-# def test2(engagement):
-#     temp = frappe.db.get_all('Engagement Daily Activity', filters={"parent": engagement})
-#     frappe.db.set_value('Engagement Daily Activity', '1kf1on1f1s', {
-#         'activity':,
-#         'completion_time':,
-#         'activity_data':,
-#         'proof': ,
-#     })
-#     return temp
 
 @frappe.whitelist()
 def checkout(record):

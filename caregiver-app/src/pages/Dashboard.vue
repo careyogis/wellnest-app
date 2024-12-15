@@ -58,9 +58,9 @@
             <FeatherIcon class="w-6 mt-0.5 stroke-[#10BAAB] stroke-2 self-start" name="calendar" />
             <div class="flex flex-col items-center">
               <div class="font-semibold">
-                {{ engagement.engagement.start_date ? longDateFormatter(engagement.engagement.start_date) : 'Present' }}
+                {{ engagement.caregiverStartDate ? longDateFormatter(engagement.caregiverStartDate) : 'Present' }}
                 -
-                {{ engagement.engagement.end_date ? longDateFormatter(engagement.engagement.end_date) : 'Present' }}
+                {{ engagement.caregiverEndDate ? longDateFormatter(engagement.caregiverEndDate) : 'Present' }}
               </div>
               <div v-show="engagement.engagement.service_hours" class="flex gap-1">
                 <FeatherIcon class="w-5 mt-0.5 stroke-[#10BAAB] stroke-2" name="clock" />
@@ -242,7 +242,9 @@ let selectedEngagement;
 let isDisabled = reactive({});
 let checkins = {};
 let notCaregiver = ref(false);
-let noActiveEngagements = ref(true)
+let noActiveEngagements = ref(false);
+let caregiverStartDate;
+let caregiverEndDate;
 
 function toggleMobileNav() {
   mobileNav.value = !mobileNav.value;
@@ -257,10 +259,19 @@ async function apiCall() {
     });
     await dashboard.promise;
 
-    if (!dashboard.data.engagements && dashboard.data.message) {
-      notCaregiver.value = true;
+    // if engagements is a blank array
+    if (Array.isArray(dashboard.data.engagements) && dashboard.data.engagements.length === 0) {
+      noActiveEngagements.value = true;
+      return;
     }
 
+    // Couldn't find caregiver data for logged in user
+    if (!dashboard.data.engagements && dashboard.data.message) {
+      notCaregiver.value = true;
+      return;
+    }
+
+    // For all other edge cases
     if (!dashboard.data || !Array.isArray(dashboard.data.engagements)) {
       console.warn('No valid engagements data found.');
       checkins = {};
