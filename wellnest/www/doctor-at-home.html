@@ -1,0 +1,78 @@
+{% extends "templates/wellnest_web.html" %}
+
+<title>
+    {% block title %}CareYogi - Doctor at Home{% endblock %}
+</title>    
+<body>
+{% block page_content %}
+<section class="service-details" style="padding-top: 35px !important">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="service-details__sidebar">
+          <div class="sidebar__single sidebar__category">
+            <h3 class="sidebar__title">Category</h3>
+            <!-- /.sidebar__title -->
+            <ul class="sidebar__cat-list">
+              <li>
+                <a href="nursing-care">Nursing Care</a>
+              </li>
+              <li>
+                <a href="caregiver-attendant">Caregiver Attendant</a>
+              </li>
+              <li>
+                <a href="physiotherapy">Physiotherapy</a>
+              </li>
+              <li class="active">
+                <a href="doctor-at-home">Doctor at Home</a>
+              </li>
+              <li>
+                <a href="speech-therapy">Speech Therapy</a>
+              </li>
+            </ul>
+            <!-- /.sidebar__cat-list -->
+          </div>
+          <!-- /.sidebar__single -->
+        </div>
+        <!-- /.service-details__sidebar -->
+      </div>
+      <!-- /.col-lg-4 -->
+      <div class="col-lg-8">
+        <div class="service-details__main">
+          <div class="service-details__image">
+            <img src="assets/wellnest/images/newimg/doctor.jpeg" class="img-fluid" alt="" />
+          </div>
+          <!-- /.service-details__image -->
+          <div class="service-details__content">
+            <h3>Doctor at Home</h3>
+            <p>
+              Caring for the elderly can be challenging, especially when mobility issues limit their access to medical care. 
+              CareYogi™ bridges this gap by bringing essential medical procedures directly to their doorstep. 
+              Our team of experienced and qualified doctors provides compassionate, convenient, and high-quality care in the comfort of their own homes.
+            </p>
+            <p>
+              The following services are provided at home by a doctor:
+            </p>            
+            <ul>
+              <li>
+                Tracheostomy Care, Catheterization, Bladder Wash, Catheter Removing
+              </li>
+              <li>
+                Injections - Intravenous, Subcutaneous, Intramuscular, IV infusion
+              </li>
+              <li>
+                Dressing for Ulcer, Bedsore, Surgical, Suture Removing, Stoma Bag etc.
+              </li>
+            </ul>
+          </div><!-- /.service-details__content -->
+        </div><!-- /.service-details__main -->
+      </div><!-- /.col-lg-8 -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+</section>
+<!-- /.service-details -->
+
+{% endblock %}
+</body>
