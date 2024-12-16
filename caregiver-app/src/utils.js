@@ -2,58 +2,65 @@ export function formatCurrency(amount, currency) {
   return new Intl.NumberFormat('en-In', {
     style: 'currency',
     currency: currency,
-  }).format(amount)
+  }).format(amount);
 }
 
 export function longDateFormatter(date) {
-  let temp = new Date(date)
+  let temp = new Date(date);
   return temp.toLocaleDateString('en-In', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
-  })
+  });
 }
 
 export function shortDateFormatter(date) {
-  let temp = new Date(date)
+  let temp = new Date(date);
   return temp.toLocaleDateString('en-In', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
-  })
+  });
 }
 
 export function dayFormatter(date) {
-  let temp = new Date(date)
+  let temp = new Date(date);
   return temp.toLocaleDateString('en-In', {
     weekday: 'long',
-  })
+  });
 }
 
 export function getAge(dateString) {
-  let today = new Date()
-  let birthDate = new Date(dateString)
-  let age = today.getFullYear() - birthDate.getFullYear()
-  let m = today.getMonth() - birthDate.getMonth()
+  let today = new Date();
+  let birthDate = new Date(dateString);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  let m = today.getMonth() - birthDate.getMonth();
   if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--
+    age--;
   }
-  return age
+  return age;
 }
 
 export function formatCurrentDateTime() {
-  const now = new Date()
+  const now = new Date();
 
-  const day = String(now.getDate()).padStart(2, '0')
-  const month = String(now.getMonth() + 1).padStart(2, '0')
-  const year = now.getFullYear()
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const year = now.getFullYear();
 
-  const hours = String(now.getHours()).padStart(2, '0')
-  const minutes = String(now.getMinutes()).padStart(2, '0')
-  const seconds = String(now.getSeconds()).padStart(2, '0')
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
 
   // return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}.000000`
   // return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   // return now.toUTCString()
+}
+
+export function getCurrentFormattedTime() {
+  const now = new Date();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
 }

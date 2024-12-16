@@ -25,7 +25,7 @@
         <br />
         <div class="text-[#070707] font-semibold">Completion Time</div>
         <div class="flex">
-          <TextInput :type="'time'" size="lg" variant="outline" placeholder="" v-model="taskCompletionTime" />
+          <TextInput :type="'time'" size="lg" variant="outline" placeholder="" :value="currentReactiveTime" v-model="taskCompletionTime" />
         </div>
         <br />
         <div v-if="taskProof">
@@ -62,6 +62,7 @@
 import { reactive, ref } from 'vue';
 import { TextInput, FileUploader, Button, FeatherIcon } from 'frappe-ui';
 import { createResource, createListResource, createDocumentResource } from 'frappe-ui';
+import { getCurrentFormattedTime } from '../utils';
 
 const props = defineProps(['title', 'id', 'engagementId', 'taskName', 'proof', 'taskResource', 'prescribedTime', 'notes', 'completionDateTime', 'checkedOut']);
 
@@ -72,6 +73,20 @@ let formattedPrescribedTime = props.prescribedTime[4] === ':' ? '0' + props.pres
 let completionTime = props.completionDateTime ? ref(props.completionDateTime.slice(10, 16)) : ref(null);
 let taskProof = ref(props.proof || null);
 
+const currentReactiveTime = ref(getCurrentFormattedTime);
+const updateClock = () => {
+  currentReactiveTime.value = getCurrentFormattedTime();
+};
+
+setInterval(() => {
+  if (!taskCompletionTime.value) {
+    updateClock();
+  } else {
+    clearInterval(updateClock);
+    currentReactiveTime.value = taskCompletionTime.value;
+  }
+}, 1000);
+
 async function sendRequest() {
   try {
     // Validate required data before making the API call
@@ -81,12 +96,9 @@ async function sendRequest() {
       return;
     }
 
-    let time = new Date();
-    time = time.getTime();
-
     // Make the API request
     activityCompletionResponse = createResource({
-      url: `/api/method/wellnest.api.setActivityData?taskName=${props.taskName}&data=${activityData.value}&time=${taskCompletionTime.value ? taskCompletionTime.value : "default"}`,
+      url: `/api/method/wellnest.api.setActivityData?taskName=${props.taskName}&data=${activityData.value}&time=${taskCompletionTime.value ? taskCompletionTime.value : 'default'}`,
       auto: true,
     });
     await activityCompletionResponse.promise;

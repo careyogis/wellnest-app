@@ -243,8 +243,6 @@ let isDisabled = reactive({});
 let checkins = {};
 let notCaregiver = ref(false);
 let noActiveEngagements = ref(false);
-let caregiverStartDate;
-let caregiverEndDate;
 
 function toggleMobileNav() {
   mobileNav.value = !mobileNav.value;
