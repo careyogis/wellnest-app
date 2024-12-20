@@ -163,10 +163,10 @@ async function apiCall() {
     await caregiver.promise;
 
     // Check if the data structure is valid
-    const ratings = caregiver?.data?.caregiver_data?.rating;
+    const ratings = caregiver?.data?.caregiver_data?.ratings;
     if (Array.isArray(ratings) && ratings.length > 0) {
-      // Calculate average ratings
-      totalRatings = ratings.reduce((sum, rater) => sum + (rater.rating / 2) * 10, 0);
+      // Calculate average rating
+      totalRatings = ratings.reduce((sum, rating) => sum + (rating.rating / 2) * 10, 0);
       totalRatings = totalRatings / ratings.length;
     } else {
       console.warn('No ratings data available.');

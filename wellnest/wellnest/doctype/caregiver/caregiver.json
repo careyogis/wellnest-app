@@ -47,7 +47,7 @@
   "availability",
   "any_other_experience",
   "section_break_iyzd",
-  "rating",
+  "ratings",
   "background_verification_tab",
   "document_required_for_background_verification_section",
   "aadhar_number",
@@ -92,7 +92,7 @@
    "fieldtype": "Table",
    "label": "Language Spoken",
    "options": "Spoken Language Option"
-  },
+  },  
   {
    "fieldname": "passport_size_photo",
    "fieldtype": "Attach Image",
@@ -304,12 +304,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "rating",
-   "fieldtype": "Table",
-   "label": "Rating",
-   "options": "Caregiver Rating"
-  },
-  {
    "fieldname": "proficient_activities",
    "fieldtype": "Table",
    "label": "Proficient Activities",
@@ -343,12 +337,18 @@
    "fieldname": "has_transport",
    "fieldtype": "Check",
    "label": "Has Transport"
+  },
+  {
+   "fieldname": "ratings",
+   "fieldtype": "Table",
+   "label": "Ratings",
+   "options": "Caregiver Rating"
   }
  ],
  "image_field": "passport_size_photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-10 14:11:26.770899",
+ "modified": "2024-12-20 14:43:09.823398",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
