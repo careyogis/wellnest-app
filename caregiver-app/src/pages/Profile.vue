@@ -1,17 +1,17 @@
 <template>
-  <div v-if="!caregiver.loading && caregiver.data">
+  <div v-if="!profileData.loading && profileData.data">
     <CaregiverNavbar title="Profile" />
     <div class="my-3 flex flex-col items-center">
-      <Avatar class="flex-auto w-20 h-20 mb-2.5" :shape="'circle'" :image="caregiver.data.caregiver_name.passport_size_photo" label="EY" size="3xl" />
+      <Avatar class="flex-auto w-20 h-20 mb-2.5" :shape="'circle'" :image="profileData.data.caregiver.passport_size_photo" label="EY" size="3xl" />
       <div class="text-xl text-[#070707] font-semibold">
-        {{ caregiver.data.caregiver_name.full_name }}
+        {{ profileData.data.caregiver.full_name }}
       </div>
       <div>
-        {{ caregiver.data.caregiver_name.caregiver_type }}
+        {{ profileData.data.caregiver.caregiver_type }}
       </div>
       <div>
         Member Since:
-        {{ shortDateFormatter(caregiver.data.caregiver_name.creation) }}
+        {{ shortDateFormatter(profileData.data.caregiver.creation) }}
       </div>
     </div>
 
@@ -25,40 +25,40 @@
                 <div class="mb-3 flex gap-2">
                   <FeatherIcon class="w-4" name="phone" />
                   <div>
-                    {{ caregiver.data.caregiver_name.phone_number }}
+                    {{ profileData.data.caregiver.phone_number }}
                   </div>
                 </div>
                 <div class="flex gap-2">
                   <FeatherIcon class="w-4 mt-0.5" name="mail" />
                   <div>
-                    {{ caregiver.data.caregiver_name.email }}
+                    {{ profileData.data.caregiver.email }}
                   </div>
                 </div>
               </div>
               <!-- AGENCY SECTION -->
-              <div v-if="caregiver.data.agency_data" class="agencyDetails mb-7">
+              <div v-if="profileData.data.agency_data" class="agencyDetails mb-7">
                 <div class="text-xl text-[#070707] font-semibold mb-3">Agency Details</div>
                 <div class="mb-3 flex gap-2">
                   <FeatherIcon class="w-5" name="user" />
                   <div>
-                    {{ caregiver.data.agency_data.supplier_name }}
+                    {{ profileData.data.agency_data.supplier_name }}
                   </div>
                 </div>
                 <div class="mb-3 flex gap-2">
                   <FeatherIcon class="w-4" name="phone" />
                   <div>
-                    {{ caregiver.data.agency_contact.phone }}
+                    {{ profileData.data.agency_contact.phone }}
                   </div>
                 </div>
                 <div class="flex gap-2">
                   <FeatherIcon class="w-4 self-start mt-1" name="map-pin" />
                   <p>
-                    {{ caregiver.data.agency_contact.address_line1 }} <br />
-                    {{ caregiver.data.agency_contact.address_line2 }} <br />
-                    {{ caregiver.data.agency_contact.city }} <br />
-                    {{ caregiver.data.agency_contact.state }} <br />
-                    {{ caregiver.data.agency_contact.country }} <br />
-                    {{ caregiver.data.agency_contact.pincode }}
+                    {{ profileData.data.agency_contact.address_line1 }} <br />
+                    {{ profileData.data.agency_contact.address_line2 }} <br />
+                    {{ profileData.data.agency_contact.city }} <br />
+                    {{ profileData.data.agency_contact.state }} <br />
+                    {{ profileData.data.agency_contact.country }} <br />
+                    {{ profileData.data.agency_contact.pincode }}
                   </p>
                 </div>
               </div>
@@ -66,7 +66,7 @@
               <div class="mySpecialities mb-5">
                 <div class="text-xl text-[#070707] font-semibold mb-2">My Specialities</div>
                 <div class="whitespace-nowrap overflow-x-auto">
-                  <span v-for="specialization in caregiver.data.caregiver_data.proficient_activities" class="mx-1">
+                  <span v-for="specialization in profileData.data.caregiver.proficient_activities" class="mx-1">
                     <Badge :variant="'solid'" size="lg" label="Badge" theme="orange">
                       {{ specialization.activity }}
                     </Badge>
@@ -77,21 +77,21 @@
               <div class="mb-5">
                 <div class="text-xl text-[#070707] font-semibold mb-2">Important Documents</div>
               </div>
-              <div class="mb-3 flex gap-2" v-if="caregiver.data.caregiver_name.aadhar_photo">
+              <div class="mb-3 flex gap-2" v-if="profileData.data.caregiver.aadhar_photo">
                 <FeatherIcon class="w-4" name="paperclip" />
-                <a :href="caregiver.data.caregiver_name.aadhar_photo">Aadhar Card</a>
+                <a :href="profileData.data.caregiver.aadhar_photo">Aadhar Card</a>
               </div>
-              <div class="mb-3 flex gap-2" v-if="caregiver.data.caregiver_name.pan_photo">
+              <div class="mb-3 flex gap-2" v-if="profileData.data.caregiver.pan_photo">
                 <FeatherIcon class="w-4 -rotate-45" name="paperclip" />
-                <a :href="caregiver.data.caregiver_name.pan_photo">Pan Card</a>
+                <a :href="profileData.data.caregiver.pan_photo">Pan Card</a>
               </div>
-              <div class="mb-3 flex gap-2" v-if="caregiver.data.caregiver_name.police_verification_certificate">
+              <div class="mb-3 flex gap-2" v-if="profileData.data.caregiver.police_verification_certificate">
                 <FeatherIcon class="w-4 -rotate-45" name="paperclip" />
-                <a :href="caregiver.data.caregiver_name.police_verification_certificate">Police Verification Certificate</a>
+                <a :href="profileData.data.caregiver.police_verification_certificate">Police Verification Certificate</a>
               </div>
-              <div class="mb-3 flex gap-2" v-if="caregiver.data.caregiver_name.vaccination_certificate">
+              <div class="mb-3 flex gap-2" v-if="profileData.data.caregiver.vaccination_certificate">
                 <FeatherIcon class="w-4 -rotate-45" name="paperclip" />
-                <a :href="caregiver.data.caregiver_name.vaccination_certificate">Vaccination Certificate</a>
+                <a :href="profileData.data.caregiver.vaccination_certificate">Vaccination Certificate</a>
               </div>
             </div>
 
@@ -106,22 +106,22 @@
                   {{ totalRatings.toFixed(1) }}
                 </div> -->
               </div>
-              <div v-for="rater in caregiver.data.caregiver_data.rating">
+              <div v-for="rating in profileData.data.caregiver.ratings">
                 <div class="mt-8 grid grid-cols-8">
-                  <Avatar class="" :shape="'circle'" :image="findCustomerImage(rater.rater)" :label="rater.rater" size="xl" />
+                  <Avatar class="" :shape="'circle'" :image="findCustomerImage(rating.rater)" :label="rating.rater" size="xl" />
                   <div class="col-span-7 flex-col">
                     <div class="flex mb-2 items-end gap-2">
                       <div class="text-sm text-[#78abaf] font-semibold">
-                        {{ rater.rater }}
+                        {{ rating.rater }}
                       </div>
                       <div class="text-sm">
-                        {{ shortDateFormatter(rater.rating_date) }}
+                        {{ shortDateFormatter(rating.rating_date) }}
                       </div>
                     </div>
                     <p class="col-span-2 text-sm mb-2">
-                      {{ rater.comment }}
+                      {{ rating.comment }}
                     </p>
-                    <star-rating :read-only="true" :increment="0.5" :rating="(rater.rating / 2) * 10" :star-size="15" active-color="#DB7706" :show-rating="false"></star-rating>
+                    <star-rating :read-only="true" :increment="0.5" :rating="(rating.rating / 2) * 10" :star-size="15" active-color="#DB7706" :show-rating="false"></star-rating>
                   </div>
                 </div>
               </div>
@@ -147,7 +147,7 @@ const state = reactive({
   tabs: [{ label: 'General' }, { label: 'Ratings' }],
 });
 
-let caregiver;
+let profileData;
 let totalRatings = 0;
 
 // Initial API call
@@ -156,14 +156,14 @@ apiCall();
 async function apiCall() {
   try {
     // Fetch caregiver data
-    caregiver = createResource({
+    profileData = createResource({
       url: '/api/method/wellnest.api.profile',
       auto: true,
     });
-    await caregiver.promise;
+    await profileData.promise;
 
     // Check if the data structure is valid
-    const ratings = caregiver?.data?.caregiver_data?.ratings;
+    const ratings = profileData?.data?.caregiver?.ratings;
     if (Array.isArray(ratings) && ratings.length > 0) {
       // Calculate average rating
       totalRatings = ratings.reduce((sum, rating) => sum + (rating.rating / 2) * 10, 0);
@@ -174,21 +174,21 @@ async function apiCall() {
     }
   } catch (error) {
     console.error('API call failed:', error);
-    caregiver = null;
+    profileData = null;
     totalRatings = 0;
   }
 }
 
 function findCustomerImage(name) {
   try {
-    const customerData = caregiver?.data?.customer_data;
+    const customerData = profileData?.data?.customers;
     if (!Array.isArray(customerData)) {
       console.warn('Customer data is not available or invalid.');
       return null;
     }
 
-    const ratingData = customerData.find((obj) => obj.name === name);
-    return ratingData?.image || null;
+    const customer = customerData.find((obj) => obj.name === name);
+    return customer?.image || null;
   } catch (error) {
     console.error('Error finding customer image:', error);
     return null;
