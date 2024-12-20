@@ -73,11 +73,11 @@ def dashboard():
 
 @frappe.whitelist()
 def profile():
-    caregiver = frappe.db.get_list(
+    caregivers = frappe.db.get_list(
         "Caregiver", filters={"user_id": frappe.session.user}
     )
     
-    caregiver_data = frappe.get_doc("Caregiver", caregiver[0].name)
+    caregiver_data = frappe.get_doc("Caregiver", caregivers[0].name)
     
     # Get customer data for profile pic for Ratings Tab
     customers = []
@@ -85,8 +85,8 @@ def profile():
         customers.append(frappe.get_doc("Customer", rating.rater))
 
     # If Caregiver is Solo and not from an Agency
-    if caregiver_data[0].supplier:
-        agency = frappe.get_doc("Supplier", caregiver_data[0].supplier)
+    if caregiver_data.supplier:
+        agency = frappe.get_doc("Supplier", caregiver_data.supplier)
         agency_contact = frappe.get_doc("Address", agency.supplier_primary_address)
         return {
             "caregiver": caregiver_data,
