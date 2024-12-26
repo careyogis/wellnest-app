@@ -27,7 +27,7 @@ def get_dashboard_data(filters=None, limit=10, offset=0):
 def fetch_caregivers(caregiver_name_filter, limit, offset):
     """
     Fetch caregivers with payments calculated from the Purchase Invoice doctype.
-    Status: 'Engaged' if last engagement exists, else 'Not Engaged'.
+    Status: 'Engaged' if service dates are current, else 'Not Engaged'.
     """
     conditions = "1=1"
     params = {"limit": limit, "offset": offset}
@@ -40,9 +40,9 @@ def fetch_caregivers(caregiver_name_filter, limit, offset):
         SELECT 
             caregiver.full_name AS caregiver_name,
             caregiver.caregiver_type,
-            MAX(engagement.start_date) AS last_engagement,
+            MAX(ec.start_date) AS last_engagement,
             CASE 
-                WHEN MAX(engagement.start_date) IS NOT NULL THEN 'Engaged'
+                WHEN MAX(ec.end_date) >= CURDATE() THEN 'Engaged'
                 ELSE 'Not Engaged'
             END AS status,
             COALESCE(SUM(CASE 
@@ -68,7 +68,7 @@ def fetch_caregivers(caregiver_name_filter, limit, offset):
 def fetch_customers(customer_name_filter, limit, offset):
     """
     Fetch customers with caregiver count, payments, and status.
-    Status: 'Engaged' if there are engaged caregivers, else 'Not Engaged'.
+    Status: 'Engaged' if there are active caregivers, else 'Not Engaged'.
     """
     conditions = "1=1"
     params = {"limit": limit, "offset": offset}
@@ -81,15 +81,19 @@ def fetch_customers(customer_name_filter, limit, offset):
         SELECT 
             customer.name AS customer_name,
             (
-                SELECT COUNT(*)
+                SELECT COUNT(DISTINCT ec.caregiver)
                 FROM `tabEngagement` engagement
+                LEFT JOIN `tabEngagement Caregiver` ec ON ec.parent = engagement.name
                 WHERE engagement.customer = customer.name
+                AND ec.end_date >= CURDATE()
             ) AS engaged_caregivers,
             CASE 
                 WHEN EXISTS (
                     SELECT 1 
                     FROM `tabEngagement` engagement
+                    LEFT JOIN `tabEngagement Caregiver` ec ON ec.parent = engagement.name
                     WHERE engagement.customer = customer.name
+                    AND ec.end_date >= CURDATE()
                 ) THEN 'Engaged'
                 ELSE 'Not Engaged'
             END AS status,

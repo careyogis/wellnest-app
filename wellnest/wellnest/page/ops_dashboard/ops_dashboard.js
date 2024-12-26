@@ -35,6 +35,39 @@ frappe.pages['ops-dashboard'].on_page_load = function(wrapper) {
             margin-right: 10px;
             font-size: 16px;
         }
+
+        /* Status indicators */
+        .status-engaged {
+            color: green;
+            font-size: 16px;
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        .status-not-engaged {
+            color: red;
+            font-size: 16px;
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        .status-dot {
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .status-engaged-dot {
+            background-color: green;
+        }
+
+        .status-not-engaged-dot {
+            background-color: red;
+        }
     `;
     // Add styles to the page
     var style = $('<style>').text(css);
@@ -120,7 +153,15 @@ frappe.pages['ops-dashboard'].on_page_load = function(wrapper) {
         data.forEach(row => {
             var tr = $('<tr>');
             columns.forEach(col => {
-                tr.append(`<td>${row[col] || ''}</td>`);
+                if (col === 'status') {
+                    var status_class = row.status === 'Engaged' ? 'status-engaged' : 'status-not-engaged';
+                    var status_dot_class = row.status === 'Engaged' ? 'status-engaged-dot' : 'status-not-engaged-dot';
+                    tr.append(`<td>${row.status} <span class="status-dot ${status_dot_class}"></span></td>`);
+                } else if (col === 'engaged_caregivers') {
+                    tr.append(`<td>${row.engaged_caregivers || 0}</td>`);
+                } else {
+                    tr.append(`<td>${row[col] || ''}</td>`);
+                }
             });
             tbody.append(tr);
         });
