@@ -65,7 +65,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Caregiver Type",
-   "options": "\nAttendant\nChild Care\nNurse"
+   "options": "\nAttendant\nAttendant and Nurse\nChild Care\nNurse\nPhysiotherapist\nSpeech Therapist"
   },
   {
    "fieldname": "full_name",
@@ -92,7 +92,7 @@
    "fieldtype": "Table",
    "label": "Language Spoken",
    "options": "Spoken Language Option"
-  },  
+  },
   {
    "fieldname": "passport_size_photo",
    "fieldtype": "Attach Image",
@@ -348,7 +348,7 @@
  "image_field": "passport_size_photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-20 14:43:09.823398",
+ "modified": "2025-01-05 19:25:25.265323",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver",
