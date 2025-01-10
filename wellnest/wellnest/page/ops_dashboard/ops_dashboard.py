@@ -14,7 +14,48 @@ def get_dashboard_data(filters=None, limit=10, offset=0):
     caregivers = fetch_caregivers(filters.get('caregiver_name'), limit, offset)
     customers = fetch_customers(filters.get('customer_name'), limit, offset)
 
-    # Determine if more data exists for pagination
+    # Fetch caregiver-specific amounts
+    total_accrued_amounts = fetch_total_accrued_amount()
+    invoice_raised_data = fetch_invoice_raised_amount()
+    due_amount_data = fetch_due_amount()
+    paid_amount_data = fetch_paid_amount()
+
+    # Merge caregiver data
+    for caregiver in caregivers:
+        caregiver_name = caregiver['caregiver_name']
+
+        accrued_amount = next(
+            (item['total_accrued_amount'] for item in total_accrued_amounts if item['caregiver_name'] == caregiver_name), 0
+        )
+        caregiver['total_accrued_amount'] = accrued_amount
+
+        invoice_raised = next(
+            (item['invoice_raised'] for item in invoice_raised_data if item['caregiver_name'] == caregiver_name), 0
+        )
+        caregiver['invoice_raised'] = invoice_raised
+
+        due_amount = next(
+            (item['due_amount'] for item in due_amount_data if item['caregiver_name'] == caregiver_name), 0
+        )
+        caregiver['due_amount'] = due_amount
+
+        paid_amount = next(
+            (item['paid_amount'] for item in paid_amount_data if item['caregiver_name'] == caregiver_name), 0
+        )
+        caregiver['paid_amount'] = paid_amount
+
+    # Fetch customer-specific amounts
+    invoice_totals = {item['customer_name']: item['invoice_raised'] for item in fetch_customer_invoice_raised()}
+    paid_totals = {item['customer_name']: item['paid_amount'] for item in fetch_customer_paid_amount()}
+    outstanding_totals = {item['customer_name']: item['outstanding_total'] for item in fetch_customer_outstanding()}
+
+    # Merge customer data
+    for customer in customers:
+        customer_name = customer['customer_name']
+        customer['invoice_total'] = invoice_totals.get(customer_name, 0)  # Invoice Raised (Unpaid/Overdue)
+        customer['paid_total'] = paid_totals.get(customer_name, 0)        # Paid Amount
+        customer['outstanding_total'] = outstanding_totals.get(customer_name, 0)  # Outstanding Amount
+
     has_more_caregivers = len(caregivers) == limit
     has_more_customers = len(customers) == limit
 
@@ -24,11 +65,8 @@ def get_dashboard_data(filters=None, limit=10, offset=0):
         "has_more": has_more_caregivers or has_more_customers
     }
 
+# Caregiver Functions
 def fetch_caregivers(caregiver_name_filter, limit, offset):
-    """
-    Fetch caregivers with payments calculated from the Purchase Invoice doctype.
-    Status: 'Engaged' if service dates are current, else 'Not Engaged'.
-    """
     conditions = "1=1"
     params = {"limit": limit, "offset": offset}
 
@@ -45,31 +83,73 @@ def fetch_caregivers(caregiver_name_filter, limit, offset):
                 WHEN MAX(ec.end_date) >= CURDATE() THEN 'Engaged'
                 ELSE 'Not Engaged'
             END AS status,
-            COALESCE(SUM(CASE 
-                WHEN pi.outstanding_amount = 0 THEN pi.grand_total
-                ELSE 0
-            END), 0) AS paid_amount,
-            COALESCE(SUM(CASE 
-                WHEN pi.outstanding_amount > 0 THEN pi.outstanding_amount
-                ELSE 0
-            END), 0) AS due_amount
+            (
+                SELECT ec.parent
+                FROM `tabEngagement Caregiver` ec
+                WHERE ec.caregiver = caregiver.name
+                ORDER BY ec.start_date DESC, ec.creation DESC
+                LIMIT 1
+            ) AS engagement_id
         FROM `tabCaregiver` caregiver
         LEFT JOIN `tabEngagement Caregiver` ec ON ec.caregiver = caregiver.name
-        LEFT JOIN `tabEngagement` engagement ON ec.parent = engagement.name
-        LEFT JOIN `tabPurchase Invoice` pi 
-            ON pi.supplier_name = caregiver.full_name 
-            AND pi.status IN ('Paid', 'Overdue', 'Unpaid')
         WHERE {conditions}
         GROUP BY caregiver.full_name, caregiver.caregiver_type
         LIMIT %(limit)s OFFSET %(offset)s
     """
     return frappe.db.sql(query, params, as_dict=True)
 
+
+def fetch_total_accrued_amount():
+    query = """
+        SELECT 
+            caregiver.full_name AS caregiver_name,
+            SUM(
+                (DATEDIFF(ec.end_date, ec.start_date) + 1) * ec.daily_rate
+            ) AS total_accrued_amount
+        FROM `tabEngagement Caregiver` ec
+        LEFT JOIN `tabCaregiver` caregiver ON ec.caregiver = caregiver.name
+        WHERE ec.start_date IS NOT NULL AND ec.end_date IS NOT NULL
+        GROUP BY caregiver.full_name
+    """
+    return frappe.db.sql(query, as_dict=True)
+
+def fetch_invoice_raised_amount():
+    query = """
+        SELECT 
+            supplier_name AS caregiver_name,
+            SUM(grand_total) AS invoice_raised
+        FROM `tabPurchase Invoice`
+        WHERE docstatus = 1
+        AND status IN ('Unpaid', 'Overdue')
+        GROUP BY supplier_name
+    """
+    return frappe.db.sql(query, as_dict=True)
+
+def fetch_due_amount():
+    query = """
+        SELECT 
+            supplier_name AS caregiver_name,
+            SUM(outstanding_amount) AS due_amount
+        FROM `tabPurchase Invoice`
+        WHERE docstatus = 1
+        AND status IN ('Unpaid', 'Overdue')
+        GROUP BY supplier_name
+    """
+    return frappe.db.sql(query, as_dict=True)
+
+def fetch_paid_amount():
+    query = """
+        SELECT 
+            supplier_name AS caregiver_name,
+            SUM(grand_total) - SUM(outstanding_amount) AS paid_amount
+        FROM `tabPurchase Invoice`
+        WHERE docstatus = 1
+        AND status = 'Paid'
+        GROUP BY supplier_name
+    """
+    return frappe.db.sql(query, as_dict=True)
+
 def fetch_customers(customer_name_filter, limit, offset):
-    """
-    Fetch customers with caregiver count, payments, and status.
-    Status: 'Engaged' if there are active caregivers, else 'Not Engaged'.
-    """
     conditions = "1=1"
     params = {"limit": limit, "offset": offset}
 
@@ -97,20 +177,71 @@ def fetch_customers(customer_name_filter, limit, offset):
                 ) THEN 'Engaged'
                 ELSE 'Not Engaged'
             END AS status,
-            COALESCE(SUM(CASE 
-                WHEN si.outstanding_amount = 0 THEN si.grand_total
-                ELSE 0
-            END), 0) AS paid_amount,
-            COALESCE(SUM(CASE 
-                WHEN si.outstanding_amount > 0 THEN si.outstanding_amount
-                ELSE 0
-            END), 0) AS due_amount
+            (
+                SELECT MAX(ec.start_date)
+                FROM `tabEngagement` engagement
+                LEFT JOIN `tabEngagement Caregiver` ec ON ec.parent = engagement.name
+                WHERE engagement.customer = customer.name
+                GROUP BY engagement.customer
+            ) AS last_engagement,
+            (
+                SELECT SUM(invoice.grand_total)
+                FROM `tabSales Invoice` invoice
+                WHERE invoice.customer = customer.name
+                AND invoice.status IN ('Unpaid', 'Overdue') -- Include only Unpaid and Overdue statuses
+            ) AS invoice_raised,
+            (
+                SELECT SUM(invoice.grand_total) - SUM(invoice.outstanding_amount)
+                FROM `tabSales Invoice` invoice
+                WHERE invoice.customer = customer.name
+                AND invoice.status = 'Paid' -- Include only Paid invoices
+            ) AS paid_amount,
+            (
+                SELECT SUM(invoice.outstanding_amount)
+                FROM `tabSales Invoice` invoice
+                WHERE invoice.customer = customer.name
+                AND invoice.status IN ('Unpaid', 'Overdue') -- Include only Unpaid and Overdue statuses
+            ) AS outstanding_total
         FROM `tabCustomer` customer
-        LEFT JOIN `tabSales Invoice` si 
-            ON si.customer = customer.name 
-            AND si.status IN ('Paid', 'Overdue', 'Unpaid')
         WHERE {conditions}
-        GROUP BY customer.name
         LIMIT %(limit)s OFFSET %(offset)s
     """
     return frappe.db.sql(query, params, as_dict=True)
+
+
+def fetch_customer_invoice_raised():
+    query = """
+        SELECT 
+            customer AS customer_name,
+            SUM(grand_total) AS invoice_raised
+        FROM `tabSales Invoice`
+        WHERE docstatus = 1
+        AND status IN ('Unpaid', 'Overdue') -- Include only Unpaid and Overdue statuses
+        GROUP BY customer
+    """
+    return frappe.db.sql(query, as_dict=True)
+
+
+def fetch_customer_paid_amount():
+    query = """
+        SELECT 
+            customer AS customer_name,
+            SUM(grand_total) - SUM(outstanding_amount) AS paid_amount
+        FROM `tabSales Invoice`
+        WHERE docstatus = 1
+        AND status = 'Paid'
+        GROUP BY customer
+    """
+    return frappe.db.sql(query, as_dict=True)
+
+def fetch_customer_outstanding():
+    query = """
+        SELECT 
+            customer AS customer_name,
+            SUM(outstanding_amount) AS outstanding_total
+        FROM `tabSales Invoice`
+        WHERE docstatus = 1
+        AND status IN ('Unpaid', 'Overdue')
+        GROUP BY customer
+    """
+    return frappe.db.sql(query, as_dict=True)

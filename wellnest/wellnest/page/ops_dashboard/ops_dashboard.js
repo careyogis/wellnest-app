@@ -5,25 +5,21 @@ frappe.pages['ops-dashboard'].on_page_load = function(wrapper) {
         single_column: true
     });
 
-    // Embed CSS styles directly in the page
     var css = `
-        /* Make filter search inputs small */
         .filter-input {
             width: auto;
             display: inline-block;
             margin-right: 10px;
-            max-width: 250px;  /* Adjust size as needed */
+            max-width: 250px;
             font-size: 14px;
         }
 
-        /* Adjust filter buttons to fit */
         .apply-button, .remove-filter-button {
             display: inline-block;
             font-size: 14px;
             margin-top: 5px;
         }
 
-        /* Adjust filter section for alignment */
         .filters {
             display: flex;
             flex-wrap: wrap;
@@ -36,7 +32,6 @@ frappe.pages['ops-dashboard'].on_page_load = function(wrapper) {
             font-size: 16px;
         }
 
-        /* Status indicators */
         .status-engaged {
             color: green;
             font-size: 16px;
@@ -69,13 +64,13 @@ frappe.pages['ops-dashboard'].on_page_load = function(wrapper) {
             background-color: red;
         }
     `;
-    // Add styles to the page
+
     var style = $('<style>').text(css);
     $('head').append(style);
 
     let current_page = 1;
     const items_per_page = 10;
-    let current_filters = {}; // Store filters for removing them later
+    let current_filters = {};
 
     function load_dashboard_data(filters = {}, page_number = 1) {
         const offset = (page_number - 1) * items_per_page;
@@ -86,23 +81,24 @@ frappe.pages['ops-dashboard'].on_page_load = function(wrapper) {
             callback: function(response) {
                 var data = response.message;
 
-                // Clear page content
                 page.main.empty();
 
-                // Add filters UI
                 create_filters(page.main, load_dashboard_data, filters);
 
-                // Caregivers Table
                 render_table(page.main, "Caregivers", data.caregivers, [
-                    "caregiver_name", "caregiver_type", "last_engagement", "status", "due_amount", "paid_amount"
+                    "caregiver_name", "caregiver_type", "last_engagement", "status", "total_accrued_amount", "invoice_raised", "due_amount", "paid_amount", "engagement_id" // Added engagement_id
                 ]);
 
-                // Customers Table
                 render_table(page.main, "Customers", data.customers, [
-                    "customer_name", "engaged_caregivers", "status", "due_amount", "paid_amount"
+                    "customer_name", 
+                    "engaged_caregivers", 
+                    "status", 
+                    "last_engagement", 
+                    "invoice_raised", 
+                    "outstanding_total", 
+                    "paid_amount"
                 ]);
 
-                // Pagination Controls
                 create_pagination_controls(page.main, page_number, data.has_more, filters);
             }
         });
@@ -115,7 +111,6 @@ frappe.pages['ops-dashboard'].on_page_load = function(wrapper) {
         var apply_button = $('<button class="btn btn-primary apply-button">Apply Filters</button>');
         var remove_filter_button = $('<button class="btn btn-secondary remove-filter-button">Remove Filter</button>');
 
-        // Set the filter inputs to the current filter values (if any)
         caregiver_filter.val(filters.caregiver_name || "");
         customer_filter.val(filters.customer_name || "");
 
@@ -124,72 +119,79 @@ frappe.pages['ops-dashboard'].on_page_load = function(wrapper) {
                 caregiver_name: caregiver_filter.val(),
                 customer_name: customer_filter.val()
             };
-            current_filters = filters;  // Store filters for later removal
-            on_apply_filters(filters, 1);  // Apply filters and reload data
+            current_filters = filters;
+            on_apply_filters(filters, 1);
         });
 
         remove_filter_button.on('click', function() {
-            caregiver_filter.val("");  // Clear caregiver filter
-            customer_filter.val("");   // Clear customer filter
-            current_filters = {};      // Reset current filters
-            on_apply_filters({}, 1);   // Reload data without filters
+            caregiver_filter.val("");
+            customer_filter.val("");
+            current_filters = {};
+            on_apply_filters({}, 1);
         });
 
-        // Append elements to filter section
-        filter_section.append('<h4>Filters</h4>');
-        filter_section.append(caregiver_filter);
-        filter_section.append(customer_filter);
-        filter_section.append(apply_button);
-        filter_section.append(remove_filter_button);
+        filter_section.append(caregiver_filter, customer_filter, apply_button, remove_filter_button);
         parent.append(filter_section);
     }
 
     function render_table(parent, title, data, columns) {
-        var table = $('<table class="table table-bordered">');
-        var thead = '<thead><tr>' + columns.map(col => `<th>${col.replace('_', ' ').toUpperCase()}</th>`).join('') + '</tr></thead>';
-        table.append(thead);
+        var table_html = `
+            <h3>${title}</h3>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        ${columns.map(col => `<th>${capitalize(col.replace('_', ' '))}</th>`).join('')}
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.map(row => {
+                        return `
+                            <tr>
+                                ${columns.map(col => {
+                                    if (col === "status") {
+                                        return `<td>${row[col]} <span class="status-dot ${row[col] === 'Engaged' ? 'status-engaged-dot' : 'status-not-engaged-dot'}"></span></td>`;
+                                    } else if (col === "last_engagement") {
+                                        return `<td>${row[col] ? new Date(row[col]).toLocaleDateString() : ''}</td>`;
+                                    } else if (col === "engagement_id") {
+                                        // Simply display the engagement ID without making it clickable
+                                        return `<td>${row[col] || ''}</td>`;
+                                    } else {
+                                        return `<td>${row[col] || ''}</td>`;
+                                    }
+                                }).join('')}
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+            </table>
+        `;
+        parent.append(table_html);
+    }
 
-        var tbody = $('<tbody>');
-        data.forEach(row => {
-            var tr = $('<tr>');
-            columns.forEach(col => {
-                if (col === 'status') {
-                    var status_class = row.status === 'Engaged' ? 'status-engaged' : 'status-not-engaged';
-                    var status_dot_class = row.status === 'Engaged' ? 'status-engaged-dot' : 'status-not-engaged-dot';
-                    tr.append(`<td>${row.status} <span class="status-dot ${status_dot_class}"></span></td>`);
-                } else if (col === 'engaged_caregivers') {
-                    tr.append(`<td>${row.engaged_caregivers || 0}</td>`);
-                } else {
-                    tr.append(`<td>${row[col] || ''}</td>`);
-                }
-            });
-            tbody.append(tr);
+    function create_pagination_controls(parent, current_page, has_more_data, filters) {
+        var pagination_controls = $('<div class="pagination-controls">');
+        var previous_button = $('<button class="btn btn-link">Previous</button>');
+        var next_button = $('<button class="btn btn-link">Next</button>');
+
+        previous_button.on('click', function() {
+            if (current_page > 1) {
+                load_dashboard_data(filters, current_page - 1);
+            }
         });
 
-        table.append(tbody);
-        parent.append(`<h3>${title}</h3>`);
-        parent.append(table);
+        next_button.on('click', function() {
+            if (has_more_data) {
+                load_dashboard_data(filters, current_page + 1);
+            }
+        });
+
+        pagination_controls.append(previous_button, next_button);
+        parent.append(pagination_controls);
     }
 
-    function create_pagination_controls(parent, current_page, has_more, filters) {
-        const pagination = $('<div class="pagination-controls" style="margin-top: 20px;">');
-
-        if (current_page > 1) {
-            const prev_button = $('<button class="btn btn-secondary">Previous</button>');
-            prev_button.on('click', () => load_dashboard_data(filters, current_page - 1));
-            pagination.append(prev_button);
-        }
-
-        if (has_more) {
-            const next_button = $('<button class="btn btn-secondary">Next</button>');
-            next_button.on('click', () => load_dashboard_data(filters, current_page + 1));
-            pagination.append(next_button);
-        }
-
-        pagination.append(`<span>Page ${current_page}</span>`);
-        parent.append(pagination);
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-    // Initial data load
-    load_dashboard_data();
+    load_dashboard_data(current_filters, current_page);
 };
