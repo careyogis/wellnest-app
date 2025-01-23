@@ -116,33 +116,46 @@ def activity(dailyRecordId):
 
 
 @frappe.whitelist()
-def setActivityData(taskName, data, time):
-    ist_date = datetime.now(pytz.timezone('Asia/Kolkata')).date()
-    ist_time = datetime.now(pytz.timezone('Asia/Kolkata')).time()
-    if time == "default":
+def addActivityToDailyRecord(dailyRecordId, activity, completion_time):
+    ist_date = datetime.now(pytz.timezone("Asia/Kolkata")).date()
+    ist_time = datetime.now(pytz.timezone("Asia/Kolkata")).time()
+    if completion_time == "default":
         inputTime = str(ist_date) + " " + str(ist_time)
     else:
-        inputTime = str(ist_date) + " " + time 
+        inputTime = str(ist_date) + " " + completion_time
 
-    frappe.db.set_value(
-        "Engagement Daily Activity",
-        taskName,
+    engagementDailyRecord = frappe.get_doc("Engagement Daily Record", dailyRecordId)
+    engagementDailyRecord.append(
+        "performed_activities",
         {
-            "activity_data": data,
+            "activity": activity,
             "completion_time": inputTime,
         },
     )
-    return time if time != "default" else ist_time
+    engagementDailyRecord.save()
+    frappe.db.commit()
+    return completion_time if completion_time != "default" else ist_time
 
-# @frappe.whitelist()
-# def setActivityCompletionTime(taskName, time):
-#     frappe.db.set_value(
-#         "Engagement Daily Activity",
-#         taskName,
-#         {
-#             "completion_time": time,
-#         },
-#     )
+
+@frappe.whitelist()
+def updateActivityToDailyRecord(taskId, activity_data, completion_time):
+    ist_date = datetime.now(pytz.timezone("Asia/Kolkata")).date()
+    ist_time = datetime.now(pytz.timezone("Asia/Kolkata")).time()
+    if completion_time == "default":
+        inputTime = str(ist_date) + " " + str(ist_time)
+    else:
+        inputTime = str(ist_date) + " " + completion_time
+
+    # replace dailyrecordId to the activityId
+    frappe.db.set_value(
+        "Engagement Daily Activity",
+        taskId,
+        {
+            "activity_data": activity_data,
+            "completion_time": inputTime,
+        },
+    )
+    return completion_time if completion_time != "default" else ist_time
 
 
 @frappe.whitelist()
@@ -158,8 +171,26 @@ def setFilePath(taskName, fileURL):
 
 
 @frappe.whitelist()
+def fetchDailyRecordTasks(dailyRecordId):
+    performed_activities = frappe.get_doc(
+        "Engagement Daily Record", dailyRecordId
+    ).required_activity
+    return performed_activities
+
+
+@frappe.whitelist()
+def fetchEngagementTasks(engagementId):
+    required_activities = frappe.get_doc("Engagement", engagementId).required_activity
+    return required_activities
+
+
+@frappe.whitelist()
 def createDailyRecord(engagement, caregiver):
-    ist_datetime = str(datetime.now(pytz.timezone('Asia/Kolkata')).date()) + " " + str(datetime.now(pytz.timezone('Asia/Kolkata')).time())
+    ist_datetime = (
+        str(datetime.now(pytz.timezone("Asia/Kolkata")).date())
+        + " "
+        + str(datetime.now(pytz.timezone("Asia/Kolkata")).time())
+    )
     # fetch activities data from engagement
     required_activities = frappe.get_doc("Engagement", engagement).required_activity
     # create a new document
@@ -171,15 +202,6 @@ def createDailyRecord(engagement, caregiver):
             "check_in_date_and_time": ist_datetime,
         }
     )
-    for activity in required_activities:
-        new_doc.append(
-            "performed_activities",
-            {
-                "activity": activity.activity,
-                "prescribed_time": activity.prescribed_time,
-                "notes": activity.notes,
-            },
-        )
     new_doc.insert()
     return new_doc
 

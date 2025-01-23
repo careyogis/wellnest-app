@@ -1,30 +1,29 @@
 <template>
-  <div v-if="taskResource.data">
+  <div v-if="dailyEngagementRecord.data">
     <CaregiverNavbar title="Daily Tasks" />
     <div class="flex flex-col items-center my-3">
-      <Avatar :shape="'circle'" :image="taskResource.data.customerDoc.image" :label="taskResource.data.customerDoc.name" size="3xl" />
+      <Avatar :shape="'circle'" :image="dailyEngagementRecord.data.customerDoc.image" :label="dailyEngagementRecord.data.customerDoc.name" size="3xl" />
       <div class="text-xl text-[#070707] font-semibold">
-        {{ taskResource.data.customerDoc.name }}
+        {{ dailyEngagementRecord.data.customerDoc.name }}
       </div>
-      <div v-if="taskResource.data.customerDoc.gender || taskResource.data.customerDoc.custom_age">{{ taskResource.data.customerDoc.gender }}, {{ taskResource.data.customerDoc.custom_age }}</div>
+      <div v-if="dailyEngagementRecord.data.customerDoc.gender || dailyEngagementRecord.data.customerDoc.custom_age">
+        {{ dailyEngagementRecord.data.customerDoc.gender }}, {{ dailyEngagementRecord.data.customerDoc.custom_age }}
+      </div>
     </div>
     <Tabs class="bro" v-model="state.index" :tabs="state.tabs">
       <template #default="{ tab }">
-        <div class="p-5">
+        <div class="p-3">
           <div>
             <div v-if="state.index === 0">
-              <TaskAccordian
-                v-for="task in taskResource.data.engagementRecord.performed_activities"
+              <div class="mb-3">PENDING</div>
+              <TodoRow v-for="task in taskResource.data" :key="task.name" :dailyRecordId="props.dailyRecordId" :title="task.activity" :checkbox="true" />
+              <div class="mb-3">COMPLETED</div>
+              <TodoRow
+                v-for="task in dailyEngagementRecord.data.engagementRecord.performed_activities"
+                :dailyRecordId="props.dailyRecordId"
                 :title="task.activity"
-                :id="task.name"
-                :engagementId="task.engagement"
-                :taskName="task.name"
-                :proof="task.proof"
-                :taskResource="taskResource"
-                :prescribedTime="task.prescribed_time"
-                :notes="task.notes"
-                :completionDateTime="task.completion_time"
-                :checkedOut="taskResource.data.engagementRecord.check_out_date_and_time ? true : false"
+                :key="task.name"
+                :checkbox="false"
               />
             </div>
             <div v-else-if="state.index === 1">
@@ -45,10 +44,10 @@
 
 <script setup>
 import { Tabs, FeatherIcon, Badge, Avatar } from 'frappe-ui';
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, provide } from 'vue';
 import { createDocumentResource, createResource } from 'frappe-ui';
 import CaregiverNavbar from '../components/CaregiverNavbar.vue';
-import TaskAccordian from '../components/TaskAccordian.vue';
+import TodoRow from '../components/TodoRow.vue';
 
 const props = defineProps({ dailyRecordId: String });
 
@@ -59,7 +58,17 @@ const state = reactive({
   // tabs: [{ label: 'Daily Tasks' }, { label: 'Assessment' }],
 });
 
-let taskResource = null;
+const taskResource = reactive({
+  data: null,
+  loading: false,
+});
+const dailyEngagementRecord = reactive({
+  data: null,
+  loading: false,
+});
+
+let taskResourceResponse;
+let dailyEngagementRecordResponse;
 
 // Initial API call
 apiCall();
@@ -71,20 +80,38 @@ async function apiCall() {
       return;
     }
 
-    // Fetch task resource data
-    taskResource = createResource({
+    // Fetch daily task data from Engagement Daily Record
+    dailyEngagementRecord.loading = true;
+    dailyEngagementRecordResponse = createResource({
       url: `/api/method/wellnest.api.activity?dailyRecordId=${props.dailyRecordId}`,
       auto: true,
     });
-    await taskResource.promise;
+    dailyEngagementRecord.data = await dailyEngagementRecordResponse.promise;
+    dailyEngagementRecord.loading = false;
 
+    // Fetch daily task data from engagements
+    taskResource.loading = true;
+    taskResourceResponse = createResource({
+      url: `/api/method/wellnest.api.fetchEngagementTasks?engagementId=${dailyEngagementRecord.data.engagementRecord.engagement}`,
+      auto: true,
+    });
+    taskResource.data = await taskResourceResponse.promise;
+    taskResource.loading = false;
+
+    // Compare the engagements from engagements to that of daily record and show only those that aren't in daily record
+    if (dailyEngagementRecord.data.engagementRecord.performed_activities) {
+      taskResource.data = taskResource.data.filter((task) => {
+        return !dailyEngagementRecord.data.engagementRecord.performed_activities.some((activity) => task.activity === activity.activity);
+      });
+    }
     // Validate the fetched data
     if (!taskResource?.data) {
-      console.warn('No data available for the provided `dailyRecordId`.');
+      console.warn('No data available for the provided `EngagementId`.');
     }
   } catch (error) {
     console.error('API call failed:', error);
     taskResource = null;
   }
 }
+provide('tasks', { apiCall });
 </script>
