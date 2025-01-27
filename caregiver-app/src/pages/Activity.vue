@@ -2,7 +2,8 @@
   <div v-if="dailyEngagementRecord.data">
     <CaregiverNavbar title="Daily Tasks" />
     <div class="flex flex-col items-center my-3">
-      <Avatar :shape="'circle'" :image="dailyEngagementRecord.data.customerDoc.image" :label="dailyEngagementRecord.data.customerDoc.name" size="3xl" />
+      <Avatar :shape="'circle'" :image="dailyEngagementRecord.data.customerDoc.image"
+        :label="dailyEngagementRecord.data.customerDoc.name" size="3xl" />
       <div class="text-xl text-[#070707] font-semibold">
         {{ dailyEngagementRecord.data.customerDoc.name }}
       </div>
@@ -16,15 +17,11 @@
           <div>
             <div v-if="state.index === 0">
               <div class="mb-3">PENDING</div>
-              <TodoRow v-for="task in taskResource.data" :key="task.name" :dailyRecordId="props.dailyRecordId" :title="task.activity" :checkbox="true" />
+              <TodoRow v-for="task in taskResource.data" :key="task.name" :dailyRecordId="props.dailyRecordId"
+                :title="task.activity" :checkbox="true" />
               <div class="mb-3">COMPLETED</div>
-              <TodoRow
-                v-for="task in dailyEngagementRecord.data.engagementRecord.performed_activities"
-                :dailyRecordId="props.dailyRecordId"
-                :title="task.activity"
-                :key="task.name"
-                :checkbox="false"
-              />
+              <TodoRow v-for="task in dailyEngagementRecord.data.engagementRecord.performed_activities"
+                :dailyRecordId="props.dailyRecordId" :title="task.activity" :key="task.name" :checkbox="false" />
             </div>
             <div v-else-if="state.index === 1">
               <div class="flex justify-between items-center w-full">
@@ -70,6 +67,14 @@ const dailyEngagementRecord = reactive({
 let taskResourceResponse;
 let dailyEngagementRecordResponse;
 
+function filterCompletedActivities() {
+  if (dailyEngagementRecord.data.engagementRecord.performed_activities) {
+    taskResource.data = taskResource.data.filter((task) => {
+      return !dailyEngagementRecord.data.engagementRecord.performed_activities.some((activity) => task.activity === activity.activity);
+    });
+  }
+}
+
 // Initial API call
 apiCall();
 
@@ -99,11 +104,8 @@ async function apiCall() {
     taskResource.loading = false;
 
     // Compare the engagements from engagements to that of daily record and show only those that aren't in daily record
-    if (dailyEngagementRecord.data.engagementRecord.performed_activities) {
-      taskResource.data = taskResource.data.filter((task) => {
-        return !dailyEngagementRecord.data.engagementRecord.performed_activities.some((activity) => task.activity === activity.activity);
-      });
-    }
+    filterCompletedActivities();
+
     // Validate the fetched data
     if (!taskResource?.data) {
       console.warn('No data available for the provided `EngagementId`.');
@@ -113,5 +115,5 @@ async function apiCall() {
     taskResource = null;
   }
 }
-provide('tasks', { apiCall });
+provide('tasks', { filterCompletedActivities, taskResource, dailyEngagementRecord });
 </script>

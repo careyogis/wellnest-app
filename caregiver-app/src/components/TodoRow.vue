@@ -21,7 +21,7 @@ const props = defineProps(['dailyRecordId', 'title', 'checkbox']);
 const checkbox = ref(false);
 
 // const { apiCall, dailyRecordId, taskResource, dailyEngagementRecord } = inject('tasks');
-const { taskResourceResponse, dailyEngagementRecordResponse, apiCall } = inject('tasks');
+const { apiCall, filterCompletedActivities, taskResource, dailyEngagementRecord } = inject('tasks');
 
 watch(
   () => checkbox.value,
@@ -40,7 +40,9 @@ async function sendRequest() {
       auto: true,
     });
     await response.promise;
-    apiCall();
+    // Manually adding it to the local memory to lessen server calls -
+    dailyEngagementRecord.data.engagementRecord.performed_activities.push({ activity: props.title })
+    filterCompletedActivities();
   } catch (error) {
     console.error('Failed to send activity completion request:', error);
   }
