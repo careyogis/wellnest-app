@@ -1,18 +1,21 @@
 import frappe  # type: ignore
 from datetime import datetime, date
-from .utils.sms_service import send_otp_using_twilio, verify_otp_for_phone 
+from .utils.sms_service import send_otp_using_twilio, verify_otp_for_phone
 
 from datetime import datetime, date, timezone
 import pytz
 
+
 @frappe.whitelist()
 def dashboard():
-    caregivers = frappe.db.get_list( "Caregiver", fields=["*"], filters={"user_id": frappe.session.user} ) 
-    
-    if caregivers: 
-        caregiver = caregivers[0] 
-    else: 
-        caregiver = None # couldn't find caregiver for the logged-in user
+    caregivers = frappe.db.get_list(
+        "Caregiver", fields=["*"], filters={"user_id": frappe.session.user}
+    )
+
+    if caregivers:
+        caregiver = caregivers[0]
+    else:
+        caregiver = None  # couldn't find caregiver for the logged-in user
 
     if caregiver is None:
         return {"message": "No data to display for you"}
@@ -32,7 +35,9 @@ def dashboard():
         engagement = frappe.get_doc("Engagement", engagementId)
 
         # Checking for active engagements by comparing today to the start and end dates
-        if (engagement.start_date > todayDateString) or (engagement.end_date and todayDateString > engagement.end_date):
+        if (engagement.start_date > todayDateString) or (
+            engagement.end_date and todayDateString > engagement.end_date
+        ):
             continue
 
         for assignedCaregiver in engagement.assigned_caregivers:
@@ -41,7 +46,14 @@ def dashboard():
                 continue
 
             # Skip caregivers who are not currently active(based on start and end dates)
-            if (not assignedCaregiver.start_date or assignedCaregiver.start_date > todayDateString or (assignedCaregiver.end_date and todayDateString > assignedCaregiver.end_date)):
+            if (
+                not assignedCaregiver.start_date
+                or assignedCaregiver.start_date > todayDateString
+                or (
+                    assignedCaregiver.end_date
+                    and todayDateString > assignedCaregiver.end_date
+                )
+            ):
                 continue
 
             checkinsToday = frappe.get_list(
@@ -76,9 +88,9 @@ def profile():
     caregivers = frappe.db.get_list(
         "Caregiver", filters={"user_id": frappe.session.user}
     )
-    
+
     caregiver_data = frappe.get_doc("Caregiver", caregivers[0].name)
-    
+
     # Get customer data for profile pic for Ratings Tab
     customers = []
     for rating in caregiver_data.ratings:
@@ -116,13 +128,10 @@ def activity(dailyRecordId):
 
 
 @frappe.whitelist()
-def addActivityToDailyRecord(dailyRecordId, activity, completion_time):
+def addActivityToDailyRecord(dailyRecordId, activity):
     ist_date = datetime.now(pytz.timezone("Asia/Kolkata")).date()
     ist_time = datetime.now(pytz.timezone("Asia/Kolkata")).time()
-    if completion_time == "default":
-        inputTime = str(ist_date) + " " + str(ist_time)
-    else:
-        inputTime = str(ist_date) + " " + completion_time
+    inputTime = str(ist_date) + " " + str(ist_time)
 
     engagementDailyRecord = frappe.get_doc("Engagement Daily Record", dailyRecordId)
     engagementDailyRecord.append(
@@ -134,9 +143,26 @@ def addActivityToDailyRecord(dailyRecordId, activity, completion_time):
     )
     engagementDailyRecord.save()
     frappe.db.commit()
-    return completion_time if completion_time != "default" else ist_time
+
+    updated_performed_activities = frappe.get_doc(
+        "Engagement Daily Record", dailyRecordId
+    ).performed_activities
+
+    return updated_performed_activities
 
 
+@frappe.whitelist()
+def removeActivityFromDailyRecord(taskName, dailyRecordId):
+    frappe.db.delete("Engagement Daily Activity", {"name": taskName})
+    frappe.db.commit()
+    updated_performed_activities = frappe.get_doc(
+        "Engagement Daily Record", dailyRecordId
+    ).performed_activities
+
+    return updated_performed_activities
+
+
+# Not in use anymore
 @frappe.whitelist()
 def updateActivityToDailyRecord(taskId, activity_data, completion_time):
     ist_date = datetime.now(pytz.timezone("Asia/Kolkata")).date()
@@ -158,6 +184,7 @@ def updateActivityToDailyRecord(taskId, activity_data, completion_time):
     return completion_time if completion_time != "default" else ist_time
 
 
+# Not in use anymore
 @frappe.whitelist()
 def setFilePath(taskName, fileURL):
     frappe.db.set_value(
@@ -205,9 +232,14 @@ def createDailyRecord(engagement, caregiver):
     new_doc.insert()
     return new_doc
 
+
 @frappe.whitelist()
 def checkout(record):
-    ist_datetime = str(datetime.now(pytz.timezone('Asia/Kolkata')).date()) + " " + str(datetime.now(pytz.timezone('Asia/Kolkata')).time())
+    ist_datetime = (
+        str(datetime.now(pytz.timezone("Asia/Kolkata")).date())
+        + " "
+        + str(datetime.now(pytz.timezone("Asia/Kolkata")).time())
+    )
     frappe.db.set_value(
         "Engagement Daily Record",
         record,
@@ -216,47 +248,53 @@ def checkout(record):
         },
     )
 
+
 @frappe.whitelist()
 def get_customer_for_user(user):
     # This API returns the Customer which the given User is associated withi.
     # Can be used by external apps (like phone app) to get customer for the logged in user
-    contact = frappe.get_all('Contact', fields=['name'], filters = {'user' : user})
+    contact = frappe.get_all("Contact", fields=["name"], filters={"user": user})
 
     customerDocs = list()
-    if (contact is None or len(contact) == 0):
+    if contact is None or len(contact) == 0:
         return customerDocs
-    
-    customers = frappe.db.get_values("Dynamic Link", {
-        'parent' : contact[0].name,
-        'parenttype' : 'Contact',
-        'link_doctype' : 'Customer',
-    }, "link_name as name", as_dict=True)
+
+    customers = frappe.db.get_values(
+        "Dynamic Link",
+        {
+            "parent": contact[0].name,
+            "parenttype": "Contact",
+            "link_doctype": "Customer",
+        },
+        "link_name as name",
+        as_dict=True,
+    )
 
     # if no customer found associated for the contact, return
-    if (customers is None or len(customers) == 0):
+    if customers is None or len(customers) == 0:
         return customerDocs
-    
-    for customer in customers:        
-        customerDocs.append (frappe.get_doc("Customer", customers[0].name))
-    
+
+    for customer in customers:
+        customerDocs.append(frappe.get_doc("Customer", customers[0].name))
+
     return customerDocs
 
 
 @frappe.whitelist(allow_guest=True)
 def generate_otp(phone):
     payload = {
-                "success": False,
-                "message": "No user found with this number",
-            }
+        "success": False,
+        "message": "No user found with this number",
+    }
 
     # Check if a user exists with this phone number
-    try:        
+    try:
         user = frappe.db.get("User", {"mobile_no": phone})
     except Exception as e:
         payload["message"] = e
 
-    if (user is None):
-        return payload    
+    if user is None:
+        return payload
 
     # if user exists with this phone number, then send an OTP to this number
     send_otp_using_twilio(phone)
@@ -264,12 +302,11 @@ def generate_otp(phone):
     payload["message"] = "OTP has been sent on: " + phone
     payload["success"] = True
 
-
     return payload
 
 
 @frappe.whitelist(allow_guest=True)
 def verify_otp(phone, otp):
     # the following method verifies if the OTP is correct
-    # if yes, logs in the user and returns the user 
+    # if yes, logs in the user and returns the user
     return verify_otp_for_phone(phone, otp)

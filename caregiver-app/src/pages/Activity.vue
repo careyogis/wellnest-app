@@ -16,12 +16,11 @@
         <div class="p-3">
           <div>
             <div v-if="state.index === 0">
-              <div class="mb-3">PENDING</div>
               <TodoRow v-for="task in taskResource.data" :key="task.name" :dailyRecordId="props.dailyRecordId"
-                :title="task.activity" :checkbox="true" />
-              <div class="mb-3">COMPLETED</div>
+                :title="task.activity" :checked="false" :taskId="task.name" />
               <TodoRow v-for="task in dailyEngagementRecord.data.engagementRecord.performed_activities"
-                :dailyRecordId="props.dailyRecordId" :title="task.activity" :key="task.name" :checkbox="false" />
+                :dailyRecordId="props.dailyRecordId" :title="task.activity" :key="task.name" :checked="true"
+                :taskId="task.name" />
             </div>
             <div v-else-if="state.index === 1">
               <div class="flex justify-between items-center w-full">
@@ -68,6 +67,7 @@ let taskResourceResponse;
 let dailyEngagementRecordResponse;
 
 function filterCompletedActivities() {
+  taskResource.data = taskResourceResponse.data;
   if (dailyEngagementRecord.data.engagementRecord.performed_activities) {
     taskResource.data = taskResource.data.filter((task) => {
       return !dailyEngagementRecord.data.engagementRecord.performed_activities.some((activity) => task.activity === activity.activity);
@@ -115,5 +115,5 @@ async function apiCall() {
     taskResource = null;
   }
 }
-provide('tasks', { filterCompletedActivities, taskResource, dailyEngagementRecord });
+provide('tasks', { filterCompletedActivities, dailyEngagementRecord });
 </script>
