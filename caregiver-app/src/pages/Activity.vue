@@ -1,14 +1,13 @@
 <template>
-  <div v-if="dailyEngagementRecord.data">
+  <div v-if="activityResource.data">
     <CaregiverNavbar title="Daily Tasks" />
     <div class="flex flex-col items-center my-3">
-      <Avatar :shape="'circle'" :image="dailyEngagementRecord.data.customerDoc.image"
-        :label="dailyEngagementRecord.data.customerDoc.name" size="3xl" />
+      <Avatar :shape="'circle'" :image="customerRecord.data.image" :label="customerRecord.data.name" size="3xl" />
       <div class="text-xl text-[#070707] font-semibold">
-        {{ dailyEngagementRecord.data.customerDoc.name }}
+        {{ customerRecord.data.name }}
       </div>
-      <div v-if="dailyEngagementRecord.data.customerDoc.gender || dailyEngagementRecord.data.customerDoc.custom_age">
-        {{ dailyEngagementRecord.data.customerDoc.gender }}, {{ dailyEngagementRecord.data.customerDoc.custom_age }}
+      <div v-if="customerRecord.data.gender || customerRecord.data.custom_age">
+        {{ customerRecord.data.gender }}, {{ customerRecord.data.custom_age }}
       </div>
     </div>
     <Tabs class="bro" v-model="state.index" :tabs="state.tabs">
@@ -16,11 +15,14 @@
         <div class="p-3">
           <div>
             <div v-if="state.index === 0">
-              <TodoRow v-for="task in taskResource.data" :key="task.name" :dailyRecordId="props.dailyRecordId"
-                :title="task.activity" :checked="false" :taskId="task.name" />
-              <TodoRow v-for="task in dailyEngagementRecord.data.engagementRecord.performed_activities"
+              <!-- <div class="mb-2 text-xl text-[#070707] font-semibold">Non-Vital Tasks</div> -->
+              <TodoRow v-for="task in engagementRecord.data.required_activity" :key="task.name"
+                :dailyRecordId="props.dailyRecordId" :title="task.activity" :checked="false" :taskId="task.name" />
+              <TodoRow v-for="task in dailyEngagementRecord.data.performed_activities"
                 :dailyRecordId="props.dailyRecordId" :title="task.activity" :key="task.name" :checked="true"
                 :taskId="task.name" />
+              <!-- <div class="mt-8 mb-2 text-xl text-[#070707] font-semibold">Vital Tasks</div> -->
+              <!-- <VitalTask v-for="task in vitalTasks.data" :title="task.activity" :dailyRecordId="props.dailyRecordId" :completionTime="task.completion_time" /> -->
             </div>
             <div v-else-if="state.index === 1">
               <div class="flex justify-between items-center w-full">
@@ -44,6 +46,7 @@ import { computed, reactive, ref, provide } from 'vue';
 import { createDocumentResource, createResource } from 'frappe-ui';
 import CaregiverNavbar from '../components/CaregiverNavbar.vue';
 import TodoRow from '../components/TodoRow.vue';
+// import VitalTask from '../components/VitalTask.vue';
 
 const props = defineProps({ dailyRecordId: String });
 
@@ -54,23 +57,32 @@ const state = reactive({
   // tabs: [{ label: 'Daily Tasks' }, { label: 'Assessment' }],
 });
 
-const taskResource = reactive({
+const activityResource = reactive({
   data: null,
   loading: false,
+})
+
+const customerRecord = reactive({
+  data: null,
+})
+
+const engagementRecord = reactive({
+  data: null,
 });
 const dailyEngagementRecord = reactive({
   data: null,
-  loading: false,
 });
 
-let taskResourceResponse;
-let dailyEngagementRecordResponse;
+// const vitalTasks = reactive({
+//   data: [],
+//   loading: false
+// })
 
 function filterCompletedActivities() {
-  taskResource.data = taskResourceResponse.data;
-  if (dailyEngagementRecord.data.engagementRecord.performed_activities) {
-    taskResource.data = taskResource.data.filter((task) => {
-      return !dailyEngagementRecord.data.engagementRecord.performed_activities.some((activity) => task.activity === activity.activity);
+  engagementRecord.data.required_activity = JSON.parse(JSON.stringify(activityResource.data.engagementRecord.required_activity));
+  if (dailyEngagementRecord.data.performed_activities) {
+    engagementRecord.data.required_activity = engagementRecord.data.required_activity.filter((task) => {
+      return !dailyEngagementRecord.data.performed_activities.some((activity) => task.activity === activity.activity);
     });
   }
 }
@@ -86,33 +98,31 @@ async function apiCall() {
     }
 
     // Fetch daily task data from Engagement Daily Record
-    dailyEngagementRecord.loading = true;
-    dailyEngagementRecordResponse = createResource({
+    activityResource.loading = true;
+    const activityResourceResponse = createResource({
       url: `/api/method/wellnest.api.activity?dailyRecordId=${props.dailyRecordId}`,
       auto: true,
     });
-    dailyEngagementRecord.data = await dailyEngagementRecordResponse.promise;
-    dailyEngagementRecord.loading = false;
+    activityResource.data = await activityResourceResponse.promise
+    activityResource.loading = false;
 
-    // Fetch daily task data from engagements
-    taskResource.loading = true;
-    taskResourceResponse = createResource({
-      url: `/api/method/wellnest.api.fetchEngagementTasks?engagementId=${dailyEngagementRecord.data.engagementRecord.engagement}`,
-      auto: true,
-    });
-    taskResource.data = await taskResourceResponse.promise;
-    taskResource.loading = false;
+    dailyEngagementRecord.data = JSON.parse(JSON.stringify(activityResource.data.dailyEngagementRecord));
+    customerRecord.data = JSON.parse(JSON.stringify(activityResource.data.customerDoc));
+    engagementRecord.data = JSON.parse(JSON.stringify(activityResource.data.engagementRecord));
 
-    // Compare the engagements from engagements to that of daily record and show only those that aren't in daily record
+    // Compare the activities from engagements to that of daily record and show only those that aren't in daily record
     filterCompletedActivities();
 
+    // vitalTasks.data = JSON.parse(JSON.stringify(activityResource.data.vitalTasks));
+
     // Validate the fetched data
-    if (!taskResource?.data) {
+    if (!activityResourceResponse?.data) {
       console.warn('No data available for the provided `EngagementId`.');
     }
+    // console.log(vitalTasks.data);
   } catch (error) {
     console.error('API call failed:', error);
-    taskResource = null;
+    engagementRecord.data = null;
   }
 }
 provide('tasks', { filterCompletedActivities, dailyEngagementRecord });

@@ -115,32 +115,53 @@ def profile():
 
 @frappe.whitelist()
 def activity(dailyRecordId):
-    engagementDailyRecord = frappe.get_doc("Engagement Daily Record", dailyRecordId)
+    daily_engagement_record = frappe.get_doc("Engagement Daily Record", dailyRecordId)
 
-    engagement = frappe.get_doc("Engagement", engagementDailyRecord.engagement)
+    engagement = frappe.get_doc("Engagement", daily_engagement_record.engagement)
 
     customer = frappe.get_doc("Customer", engagement.customer)
 
+    # vital_tasks = []
+
+    # # filter out vital tasks from engagement record and add to vitalTasks array
+    # for task in engagement.required_activity:
+    #     if task.activity_type == "Vital":
+    #         vital_tasks.append(task)
+    #         engagement.required_activity.remove(task)
+
+    # # filter out vital tasks from daily engagement record
+    # for task in daily_engagement_record.performed_activities:
+    #     if task.activity_type == "Vital":
+    #         daily_engagement_record.performed_activities.remove(task)
+
     return {
         "customerDoc": customer,
-        "engagementRecord": engagementDailyRecord,
+        "dailyEngagementRecord": daily_engagement_record,
+        "engagementRecord": engagement,
+        # "vitalTasks": vital_tasks,
     }
 
 
 @frappe.whitelist()
-def addActivityToDailyRecord(dailyRecordId, activity):
+# def addActivityToDailyRecord(dailyRecordId, activityName, activityData=None):
+def addActivityToDailyRecord(dailyRecordId, activityName):
     ist_date = datetime.now(pytz.timezone("Asia/Kolkata")).date()
     ist_time = datetime.now(pytz.timezone("Asia/Kolkata")).time()
     inputTime = str(ist_date) + " " + str(ist_time)
 
     engagementDailyRecord = frappe.get_doc("Engagement Daily Record", dailyRecordId)
-    engagementDailyRecord.append(
-        "performed_activities",
-        {
-            "activity": activity,
-            "completion_time": inputTime,
-        },
-    )
+
+    activity_entry = {
+        "activity": activityName,
+        "completion_time": inputTime,
+    }
+
+    # for vitals we need activity data
+    # if activityData:
+    #     activity_entry["activity_data"] = activityData
+    #     activity_entry["activity_type"] = "Vital"
+
+    engagementDailyRecord.append("performed_activities", activity_entry)
     engagementDailyRecord.save()
     frappe.db.commit()
 
@@ -197,6 +218,7 @@ def setFilePath(taskName, fileURL):
     return fileURL
 
 
+# Not in use anymore
 @frappe.whitelist()
 def fetchDailyRecordTasks(dailyRecordId):
     performed_activities = frappe.get_doc(
@@ -205,6 +227,7 @@ def fetchDailyRecordTasks(dailyRecordId):
     return performed_activities
 
 
+# Not in use anymore
 @frappe.whitelist()
 def fetchEngagementTasks(engagementId):
     required_activities = frappe.get_doc("Engagement", engagementId).required_activity
@@ -218,8 +241,7 @@ def createDailyRecord(engagement, caregiver):
         + " "
         + str(datetime.now(pytz.timezone("Asia/Kolkata")).time())
     )
-    # fetch activities data from engagement
-    required_activities = frappe.get_doc("Engagement", engagement).required_activity
+
     # create a new document
     new_doc = frappe.get_doc(
         {

@@ -2,7 +2,6 @@
   <section class="w-full bg-white border divide-y rounded divide-slate-200 border-slate-200 p-2 mb-2">
     <div class="flex justify-between">
       <div>{{ title }}</div>
-      <!-- <Checkbox size="xl" :value="props.checkbox" v-model="checkbox" label="" /> -->
       <Checkbox size="md" :checked="true" v-model="checkbox" label="" />
     </div>
   </section>
@@ -34,11 +33,11 @@ async function addToDailyEngagement() {
   try {
     // Make the API request
     const response = createResource({
-      url: `/api/method/wellnest.api.addActivityToDailyRecord?dailyRecordId=${props.dailyRecordId}&activity=${props.title}`,
+      url: `/api/method/wellnest.api.addActivityToDailyRecord?dailyRecordId=${props.dailyRecordId}&activityName=${props.title}`,
       auto: true,
     });
     await response.promise;
-    dailyEngagementRecord.data.engagementRecord.performed_activities = response.data;
+    dailyEngagementRecord.data.performed_activities = JSON.parse(JSON.stringify(response.data));
     filterCompletedActivities();
   } catch (error) {
     console.error('Failed to send activity completion request:', error);
@@ -53,7 +52,7 @@ async function removeFromDailyEngagement() {
       auto: true,
     });
     await response.promise;
-    dailyEngagementRecord.data.engagementRecord.performed_activities = response.data;
+    dailyEngagementRecord.data.performed_activities = JSON.parse(JSON.stringify(response.data));
     filterCompletedActivities();
   } catch (error) {
     console.error('Failed to send activity completion request:', error);
