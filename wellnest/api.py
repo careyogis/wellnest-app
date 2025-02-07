@@ -1,9 +1,61 @@
 import frappe  # type: ignore
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from .utils.sms_service import send_otp_using_twilio, verify_otp_for_phone
 
 from datetime import datetime, date, timezone
 import pytz
+
+
+def calculate_time_window(daily_reporting_time_seconds):
+    """
+    Calculate start and end time windows based on a reporting time.
+    Switches to next window immediately when previous window's end time is reached.
+
+    Args:
+        daily_reporting_time_seconds (int): Reporting time in seconds
+
+    Returns:
+        tuple: (start_time, end_time) as datetime objects
+    """
+    current_time = datetime.now()
+
+    # Convert seconds to hours, minutes, seconds
+    hours = daily_reporting_time_seconds // 3600
+    minutes = (daily_reporting_time_seconds % 3600) // 60
+    seconds = daily_reporting_time_seconds % 60
+
+    def get_window_for_date(base_date):
+        start_time = base_date.replace(
+            hour=hours, minute=minutes, second=seconds, microsecond=0
+        )
+
+        # Calculate end time (reporting time + 14 hours)
+        total_hours = hours + 14
+        ending_hours = total_hours % 24
+        crosses_midnight = total_hours >= 24
+
+        end_time = base_date.replace(
+            hour=ending_hours, minute=minutes, second=seconds, microsecond=0
+        )
+
+        if crosses_midnight:
+            end_time += timedelta(days=1)
+
+        return start_time, end_time
+
+    # Get yesterday's and today's windows
+    yesterday_start, yesterday_end = get_window_for_date(
+        current_time - timedelta(days=1)
+    )
+    today_start, today_end = get_window_for_date(current_time)
+
+    # First check if we've passed yesterday's end time
+    if current_time >= yesterday_end:
+        # We've passed yesterday's end time, so return today's window
+        return today_start, today_end
+    else:
+        # We haven't reached yesterday's end time yet, so stay with yesterday's window
+        return yesterday_start, yesterday_end
 
 
 @frappe.whitelist()
@@ -56,14 +108,36 @@ def dashboard():
             ):
                 continue
 
-            checkinsToday = frappe.get_list(
-                "Engagement Daily Record",
-                fields=["*"],
-                filters=[
-                    ["engagement", "=", engagement.name],
-                    ["creation", "between", [todayDateString, todayDateString]],
-                ],
-            )
+            # if service hour is 24 hours:
+            if engagement.service_hours == "24":
+                checkinsToday = frappe.get_list(
+                    "Engagement Daily Record",
+                    fields=["*"],
+                    filters=[
+                        ["engagement", "=", engagement.name],
+                        ["creation", "between", [todayDateString, todayDateString]],
+                    ],
+                )
+            # if service hour is 12 hours:
+            else:
+                reporting_time_in_seconds = int(
+                    engagement.daily_reporting_time.total_seconds()
+                )
+                todays_start_time, todays_end_time = calculate_time_window(
+                    reporting_time_in_seconds
+                )
+
+                checkinsToday = frappe.get_list(
+                    "Engagement Daily Record",
+                    fields=["*"],
+                    filters={
+                        "engagement": engagement.name,
+                        "check_in_date_and_time": [
+                            "between",
+                            [todays_start_time, todays_end_time],
+                        ],
+                    },
+                )
 
             engagements.append(
                 {
@@ -74,6 +148,8 @@ def dashboard():
                     ),
                     "caregiverStartDate": assignedCaregiver.start_date,
                     "caregiverEndDate": assignedCaregiver.end_date,
+                    "reporting_start_time": todays_start_time,
+                    "reporting_end_time": todays_end_time,
                 }
             )
 

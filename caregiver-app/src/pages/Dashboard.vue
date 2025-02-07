@@ -6,7 +6,9 @@
       </div>
       <img class="w-15" src="/favicon.png" alt="" />
       <div class="w-15 h-15 flex items-center justify-center">
-        <button @click="toggleMobileNav" class="w-[42px] h-[42px] bg-white border divide-y divide-slate-200 border-slate-200 rounded-full drop-shadow-lg" :class="{ 'icon-active': mobileNav }">
+        <button @click="toggleMobileNav"
+          class="w-[42px] h-[42px] bg-white border divide-y divide-slate-200 border-slate-200 rounded-full drop-shadow-lg"
+          :class="{ 'icon-active': mobileNav }">
           <FeatherIcon class="pl-2.5 w-8 h-8 stroke-gray-700" name="align-left" />
         </button>
       </div>
@@ -26,7 +28,8 @@
     </nav>
     <div class="m-[28px]">
       <div class="flex justify-start gap-3">
-        <button class="w-[42px] h-[42px] rounded-full bg-gradient-to-b from-[#0FD3C2] from-90% to-[#10BAAB] to-10% mb-10">
+        <button
+          class="w-[42px] h-[42px] rounded-full bg-gradient-to-b from-[#0FD3C2] from-90% to-[#10BAAB] to-10% mb-10">
           <FeatherIcon class="pl-2.5 w-8 h-8 stroke-white" name="calendar" />
         </button>
         <div class="flex flex-col">
@@ -113,18 +116,15 @@
             </span>
           </div>
         </div>
-        <button
-          v-if="checkins[engagement.engagement.name]"
-          class="text-xl font-medium border border-gray-300 rounded w-1/2 py-2 mb-4"
-          @click="
+        <button v-if="checkins[engagement.engagement.name]"
+          class="text-xl font-medium border border-gray-300 rounded w-1/2 py-2 mb-4" @click="
             $router.push({
               name: 'Activity',
               params: {
                 dailyRecordId: checkins[engagement.engagement.name].name,
               },
             })
-          "
-        >
+            ">
           <div class="flex justify-evenly">
             <FeatherIcon class="w-4 mt-0.5 stroke-[#10BAAB] stroke-2" name="check-square" />
             <div class="text-[#10BAAB]">Tasks</div>
@@ -132,72 +132,66 @@
           </div>
         </button>
         <div class="flex gap-6">
-          <button v-if="!checkins[engagement.engagement.name]" class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1" @click="openCheckinDialog(engagement.engagement.name)">
+          <button v-if="!checkins[engagement.engagement.name]"
+            :disabled="!isDateInRange(engagement.reporting_start_time, engagement.reporting_end_time)"
+            class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1 disabled:border-gray-200 disabled:text-zinc-400"
+            @click="openCheckinDialog(engagement.engagement.name)">
             <div class="flex justify-center gap-1">
               <FeatherIcon class="w-4 mt-0.5 stroke-gray-500 stroke-2" name="eye" />
               <div>Check-In</div>
             </div>
           </button>
-          <button
-            v-else
-            :disabled="isDisabled[checkins[engagement.engagement.name].name]"
+          <button v-else :disabled="isDisabled[checkins[engagement.engagement.name].name]"
             class="text-xl font-medium border-2 border-gray-500 rounded w-full py-2 mb-1 disabled:border-gray-200 disabled:text-zinc-400"
-            @click="openCheckoutDialog(engagement.engagement.name)"
-          >
+            @click="openCheckoutDialog(engagement.engagement.name)">
             <div class="flex justify-center gap-1">
               <FeatherIcon class="w-4 mt-0.5 stroke-gray-500 stroke-2" name="eye" />
               <div v-if="isDisabled[checkins[engagement.engagement.name].name]">Checked-Out</div>
               <div v-else>Check-Out</div>
             </div>
           </button>
-          <Dialog
-            :options="{
-              title: 'Confirm',
-              message: 'Are you sure you want to Check-In?',
-              size: 'xl',
-              actions: [
-                {
-                  label: 'Confirm',
-                  variant: 'solid',
-                  onClick: () => {
-                    checkin(selectedEngagement);
-                  },
+          <Dialog :options="{
+            title: 'Confirm',
+            message: 'Are you sure you want to Check-In?',
+            size: 'xl',
+            actions: [
+              {
+                label: 'Confirm',
+                variant: 'solid',
+                onClick: () => {
+                  checkin(selectedEngagement);
                 },
-                {
-                  label: 'Cancel',
-                  variant: 'subtle',
-                  onClick: () => {
-                    confirmCheckin = false;
-                  },
+              },
+              {
+                label: 'Cancel',
+                variant: 'subtle',
+                onClick: () => {
+                  confirmCheckin = false;
                 },
-              ],
-            }"
-            v-model="confirmCheckin"
-          />
-          <Dialog
-            :options="{
-              title: 'Confirm',
-              message: 'Are you sure you want to Check-Out?',
-              size: 'xl',
-              actions: [
-                {
-                  label: 'Confirm',
-                  variant: 'solid',
-                  onClick: () => {
-                    checkout(selectedEngagement);
-                  },
+              },
+            ],
+          }" v-model="confirmCheckin" />
+          <Dialog :options="{
+            title: 'Confirm',
+            message: 'Are you sure you want to Check-Out?',
+            size: 'xl',
+            actions: [
+              {
+                label: 'Confirm',
+                variant: 'solid',
+                onClick: () => {
+                  checkout(selectedEngagement);
                 },
-                {
-                  label: 'Cancel',
-                  variant: 'subtle',
-                  onClick: () => {
-                    confirmCheckout = false;
-                  },
+              },
+              {
+                label: 'Cancel',
+                variant: 'subtle',
+                onClick: () => {
+                  confirmCheckout = false;
                 },
-              ],
-            }"
-            v-model="confirmCheckout"
-          />
+              },
+            ],
+          }" v-model="confirmCheckout" />
         </div>
       </div>
     </div>
@@ -218,16 +212,14 @@
 
 <script setup>
 import { reactive, ref } from 'vue';
-import { FeatherIcon, Badge, Avatar, createResource, Dialog, createDocumentResource, createListResource } from 'frappe-ui';
+import { FeatherIcon, Badge, Avatar, createResource, Dialog } from 'frappe-ui';
 import { session } from '../data/session';
-import Agency from '../components/Agency.vue';
-import Customer from '../components/Customer.vue';
-import NursingManager from '../components/NursingManager.vue';
-import { getAge, dayFormatter, longDateFormatter, shortDateFormatter, formatCurrentDateTime } from '../utils';
+import { dayFormatter, longDateFormatter, isDateInRange } from '../utils';
 
-let dashboard;
-let engagementActivity;
-let engagementRecord;
+
+const dashboard = reactive({
+  data: null,
+});
 
 // Hamburger parts
 let scrollPosition;
@@ -248,14 +240,18 @@ function toggleMobileNav() {
   mobileNav.value = !mobileNav.value;
 }
 
+let dashboardResponse;
+
 // API call to fetch dashboard data
 async function apiCall() {
   try {
-    dashboard = createResource({
+    dashboardResponse = createResource({
       url: '/api/method/wellnest.api.dashboard',
       auto: true,
     });
-    await dashboard.promise;
+    await dashboardResponse.promise;
+    dashboard.data = dashboardResponse.data;
+
 
     // if engagements is a blank array
     if (Array.isArray(dashboard.data.engagements) && dashboard.data.engagements.length === 0) {
@@ -318,7 +314,8 @@ async function checkin(engagementId) {
       alert('Already Checked in today');
     }
 
-    dashboard?.reload();
+    dashboard.data = await dashboardResponse?.reload();
+
     confirmCheckin.value = false;
   } catch (error) {
     console.error('Check-in failed:', error);
@@ -394,6 +391,7 @@ nav {
 
     li {
       margin-left: 0;
+
       .link {
         color: #000;
       }
