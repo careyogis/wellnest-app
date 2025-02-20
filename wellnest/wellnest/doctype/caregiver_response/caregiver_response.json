@@ -1,0 +1,73 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-02-19 00:21:07.503489",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "cy_lead",
+  "status",
+  "response_time",
+  "column_break_mmwn",
+  "caregiver_name",
+  "broadcast_time"
+ ],
+ "fields": [
+  {
+   "fieldname": "cy_lead",
+   "fieldtype": "Link",
+   "label": "CY Lead",
+   "options": "CY Lead"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nAccepted\nDeclined\nNot Responded"
+  },
+  {
+   "fieldname": "column_break_mmwn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "caregiver_name",
+   "fieldtype": "Link",
+   "label": "Caregiver Name",
+   "options": "Caregiver"
+  },
+  {
+   "fieldname": "broadcast_time",
+   "fieldtype": "Datetime",
+   "label": "Broadcast Time"
+  },
+  {
+   "fieldname": "response_time",
+   "fieldtype": "Datetime",
+   "label": "Response Time"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-02-19 00:48:13.001484",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Caregiver Response",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
