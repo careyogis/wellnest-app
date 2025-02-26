@@ -186,6 +186,49 @@ def get_caregiver_responses():
         frappe.log_error(f"Error in get_caregiver_responses: {str(e)}")
         return []
 
+@frappe.whitelist()
+def generate_whatsapp_message(lead_name):
+    """
+    Generate WhatsApp message based on CY Lead details, including a response form link.
+    """
+    try:
+        lead = frappe.get_doc("CY Lead", lead_name)
+
+        # Fetch patient condition
+        medical_conditions = [
+            d.medical_condition for d in lead.get("medical_condition") if d.medical_condition
+        ]
+        patient_condition = ", ".join(medical_conditions) if medical_conditions else "Not specified"
+
+        # Fetch responsibilities
+        responsibilities = [
+            d.activity for d in lead.get("service_details") if d.activity
+        ]
+        responsibilities_str = ", ".join(responsibilities) if responsibilities else "Not specified"
+
+        # Generate unique response form link (assuming a standard format)
+        base_url = frappe.utils.get_url()
+        response_form_link = f"{base_url}/caregiver-response-form?lead={lead.name}"
+
+        # WhatsApp message format
+        whatsapp_message = f"""
+Greetings from CareYogi™  
+🔔 *New Service Alert - Immediate Requirement*  
+
+📌 *Requirement:* {lead.requirement}  
+📍 *Location:* {lead.service_area}  
+🩺 *Patient Condition:* {patient_condition}  
+📝 *Responsibilities:* {responsibilities_str}  
+
+✅ If you're interested, [Click Here]({response_form_link}) to confirm your availability.
+"""
+
+        return whatsapp_message.strip()
+
+    except Exception as e:
+        frappe.log_error(f"Error generating WhatsApp message: {str(e)}")
+        return {"error": str(e)}
+
 
 
 

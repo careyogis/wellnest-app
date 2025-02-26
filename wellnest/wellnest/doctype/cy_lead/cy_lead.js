@@ -116,18 +116,32 @@ frappe.ui.form.on('CY Lead', {
                                     return;
                                 }
 
-                                // Call backend to record the broadcasted caregivers
+                                // Call backend to generate WhatsApp message
                                 frappe.call({
-                                    method: "wellnest.wellnest.doctype.cy_lead.cy_lead.record_caregiver_broadcast",
+                                    method: "wellnest.wellnest.doctype.cy_lead.cy_lead.generate_whatsapp_message",
                                     args: {
-                                        lead_name: frm.doc.name,
-                                        caregivers: JSON.stringify(selected_caregivers)
+                                        lead_name: frm.doc.name
                                     },
                                     callback: function (r) {
-                                        if (r.message && r.message.message === "success") {
-                                            frappe.msgprint("Broadcast Successful!");
-                                        } else {
-                                            frappe.msgprint("Failed to Broadcast: " + JSON.stringify(r.message));
+                                        if (r.message) {
+                                            let whatsapp_message = r.message;
+
+                                            // Call backend to record the broadcasted caregivers
+                                            frappe.call({
+                                                method: "wellnest.wellnest.doctype.cy_lead.cy_lead.record_caregiver_broadcast",
+                                                args: {
+                                                    lead_name: frm.doc.name,
+                                                    caregivers: JSON.stringify(selected_caregivers),
+                                                    whatsapp_message: whatsapp_message
+                                                },
+                                                callback: function (r) {
+                                                    if (r.message && r.message.message === "success") {
+                                                        frappe.msgprint("Broadcast Successful!");
+                                                    } else {
+                                                        frappe.msgprint("Failed to Broadcast: " + JSON.stringify(r.message));
+                                                    }
+                                                }
+                                            });
                                         }
                                     }
                                 });
@@ -193,4 +207,5 @@ frappe.ui.form.on('CY Lead', {
         }
     }
 });
+
 
