@@ -67,7 +67,7 @@ def get_caregivers(lead_name, city, language_preferences):
             # Match caregiver type with required services
             matched_service = False
             for service in service_types:
-                if service == "GDA" and caregiver_type and caregiver_type.startswith('Attendant'):
+                if service == "General Duty Attendant" and caregiver_type and caregiver_type.startswith('Attendant'):
                     matched_service = True
                     break
                 if service == "Nursing" and caregiver_type and 'Nurse' in caregiver_type:

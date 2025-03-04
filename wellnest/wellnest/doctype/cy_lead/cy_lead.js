@@ -149,6 +149,23 @@ frappe.ui.form.on('CY Lead', {
                             }
                         });
                         d.show();
+
+
+                        // Apply styles to center and enlarge the dialog
+                        const $dialog = $(d.$wrapper).find('.modal-dialog');
+
+                        $dialog.css({
+                            "width": "90vw",
+                            "max-width": "1200px",
+                            "margin": "1.75rem auto" // Center it vertically and horizontally
+                        });
+
+                        $dialog.find('.modal-content').css({
+                            "height": "80vh",
+                            "max-height": "80vh",
+                            "overflow-y": "auto"
+                        });
+
                     }
                 });
             });
