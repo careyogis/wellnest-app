@@ -11,99 +11,116 @@ class CYLead(Document):
 
 import frappe
 import json
-from frappe.model.document import Document
 from frappe.utils import now_datetime
 
+
 @frappe.whitelist()
-def get_caregivers(city, service_pincode, language_preferences, service_types):
+def get_caregivers(lead_name, city, language_preferences):
     """
-    Fetch available caregivers based on city, pincode, language, and service type.
-    
-    :param city: City name (string)
-    :param service_pincode: Pincode (string or integer)
-    :param language_preferences: JSON list of preferred languages
-    :param service_types: JSON list of required services
-    :return: List of matching caregivers
+    Fetch available caregivers based on:
+    - City
+    - Language preferences
+    - Service types required (from CY Lead's linked Blanket Order Items)
+
+    Matching Criteria:
+    - Caregiver city matches lead's city.
+    - Caregiver speaks at least one preferred language.
+    - Caregiver type matches the required services.
+    - Caregiver is available (no ongoing engagement).
     """
     try:
-        # Ensure JSON strings are converted to lists
         if isinstance(language_preferences, str):
             language_preferences = json.loads(language_preferences)
-        if isinstance(service_types, str):
-            service_types = json.loads(service_types)
 
-        # Fetch City ID from City doctype
+        # Fetch required service types from Blanket Order Items linked to the lead
+        services_required = frappe.db.sql("""
+            SELECT sri.item_code, i.item_name
+            FROM `tabBlanket Order Item` sri
+            JOIN `tabItem` i ON sri.item_code = i.name
+            WHERE sri.parent = %s
+        """, (lead_name,), as_dict=True)
+
+        service_types = [service['item_name'] for service in services_required]
+
         city_doc = frappe.db.get_value('City', {'city_name': city}, 'name')
         if not city_doc:
             return []
 
-        # Validate pincode as integer
-        try:
-            service_pincode = int(service_pincode)
-        except ValueError:
-            return []
-
-        # Fetch caregivers matching city and pincode
         caregivers = frappe.get_all(
             'Caregiver',
-            filters={'city': city_doc, 'pin_code': service_pincode},
-            fields=['name', 'full_name', 'city', 'pin_code']
+            filters={'city': city_doc},
+            fields=['name', 'full_name', 'city', 'pin_code', 'caregiver_type']
         )
 
         matching_caregivers = []
 
         for caregiver in caregivers:
-            # Fetch caregiver's spoken languages
+            # Fetch caregiver languages
             languages_spoken = frappe.db.sql("""
                 SELECT spoken_language_option FROM `tabSpoken Language Option`
                 WHERE parent = %s
             """, (caregiver['name'],), as_dict=True)
             caregiver_languages = [lang['spoken_language_option'] for lang in languages_spoken]
 
-            # Fetch caregiver's proficient activities
-            service_activities = frappe.db.sql("""
-                SELECT ia.description 
-                FROM `tabCaregiver Proficient Activity` cpa
-                JOIN `tabItem Activity` ia ON cpa.activity = ia.name
-                WHERE cpa.parent = %s
-            """, (caregiver['name'],), as_dict=True)
-            caregiver_services = [service['description'] for service in service_activities]
+            caregiver_type = caregiver.get('caregiver_type')
 
-            # Filter caregivers based on language and service type
+            # Match caregiver type with required services
+            matched_service = False
+            for service in service_types:
+                if service == "GDA" and caregiver_type and caregiver_type.startswith('Attendant'):
+                    matched_service = True
+                    break
+                if service == "Nursing" and caregiver_type and 'Nurse' in caregiver_type:
+                    matched_service = True
+                    break
+                if service == "Child Care" and caregiver_type and 'Child Care' in caregiver_type:
+                    matched_service = True
+                    break
+                if service == "Physiotherapy" and caregiver_type == 'Physiotherapist':
+                    matched_service = True
+                    break
+                if service == "Speech Therapy" and caregiver_type == 'Speech Therapist':
+                    matched_service = True
+                    break
+
+            if not matched_service:
+                continue
+
+            # Match at least one common language
             if not set(language_preferences).intersection(set(caregiver_languages)):
                 continue
-            if not set(service_types).intersection(set(caregiver_services)):
-                continue
 
-            # Check caregiver availability based on latest engagement
-            engagement = frappe.db.sql("""
-                SELECT e.end_date FROM `tabEngagement` e
-                JOIN `tabEngagement Caregiver` ec ON e.name = ec.parent
-                WHERE ec.caregiver = %s
-                ORDER BY e.end_date DESC LIMIT 1
+            # Check caregiver's availability
+            today_date = frappe.utils.getdate(frappe.utils.today())
+            engagements = frappe.db.sql("""
+                SELECT start_date, end_date 
+                FROM `tabEngagement Caregiver`
+                WHERE caregiver = %s
             """, (caregiver['name'],), as_dict=True)
 
-            caregiver['availability'] = 'Available' if (not engagement or engagement[0]['end_date']) else 'Engaged'
+            caregiver['availability'] = 'Available'
+            for engagement in engagements:
+                if engagement.get('start_date') and engagement.get('end_date'):
+                    if frappe.utils.getdate(engagement['start_date']) <= today_date <= frappe.utils.getdate(engagement['end_date']):
+                        caregiver['availability'] = 'Engaged'
+                        break
 
             if caregiver['availability'] == 'Available':
                 caregiver['languages'] = ", ".join(caregiver_languages)
-                caregiver['service_types'] = ", ".join(caregiver_services)
+                caregiver['service_types'] = ", ".join(service_types)
                 matching_caregivers.append(caregiver)
 
         return matching_caregivers
+
     except Exception as e:
-        frappe.log_error(f"Error fetching caregivers: {str(e)}")
+        frappe.log_error("Error fetching caregivers", str(e))
         return []
 
 
 @frappe.whitelist()
 def create_caregiver_responses(lead_name, caregivers):
     """
-    Create caregiver response records for a given lead.
-    
-    :param lead_name: CY Lead name (string)
-    :param caregivers: JSON list of caregiver names
-    :return: Success or error message
+    Create 'Lead Query Response' records for each selected caregiver.
     """
     try:
         caregivers = frappe.parse_json(caregivers)
@@ -125,11 +142,7 @@ def create_caregiver_responses(lead_name, caregivers):
 @frappe.whitelist()
 def record_caregiver_broadcast(lead_name, caregivers):
     """
-    Record caregiver broadcast activity for a given lead.
-    
-    :param lead_name: CY Lead name (string)
-    :param caregivers: JSON list of caregiver full names
-    :return: Success or error message
+    Create 'Caregiver Response' records to track broadcasted caregivers.
     """
     try:
         caregivers_list = json.loads(caregivers) if isinstance(caregivers, str) else caregivers
@@ -141,6 +154,7 @@ def record_caregiver_broadcast(lead_name, caregivers):
             if not caregiver_id:
                 continue
 
+            # Avoid duplicate response records
             existing_entry = frappe.get_all(
                 "Caregiver Response",
                 filters={"cy_lead": lead_name, "caregiver_name": caregiver_id},
@@ -167,9 +181,7 @@ def record_caregiver_broadcast(lead_name, caregivers):
 @frappe.whitelist()
 def get_caregiver_responses():
     """
-    Fetch all caregiver responses with their statuses.
-    
-    :return: List of caregiver responses
+    Fetch all caregiver responses with caregiver full names and response statuses.
     """
     try:
         responses = frappe.get_all(
@@ -186,31 +198,29 @@ def get_caregiver_responses():
         frappe.log_error(f"Error in get_caregiver_responses: {str(e)}")
         return []
 
+
 @frappe.whitelist()
 def generate_whatsapp_message(lead_name):
     """
-    Generate WhatsApp message based on CY Lead details, including a response form link.
+    Generate a WhatsApp message template for a lead, including:
+    - Requirement details
+    - Location
+    - Patient condition
+    - Responsibilities
+    - A link to the response form
     """
     try:
         lead = frappe.get_doc("CY Lead", lead_name)
 
-        # Fetch patient condition
-        medical_conditions = [
-            d.medical_condition for d in lead.get("medical_condition") if d.medical_condition
-        ]
+        medical_conditions = [d.medical_condition for d in lead.get("medical_condition") if d.medical_condition]
         patient_condition = ", ".join(medical_conditions) if medical_conditions else "Not specified"
 
-        # Fetch responsibilities
-        responsibilities = [
-            d.activity for d in lead.get("service_details") if d.activity
-        ]
+        responsibilities = [d.activity for d in lead.get("service_details") if d.activity]
         responsibilities_str = ", ".join(responsibilities) if responsibilities else "Not specified"
 
-        # Generate unique response form link (assuming a standard format)
         base_url = frappe.utils.get_url()
         response_form_link = f"{base_url}/caregiver-response-form?lead={lead.name}"
 
-        # WhatsApp message format
         whatsapp_message = f"""
 Greetings from CareYogi™  
 🔔 *New Service Alert - Immediate Requirement*  
@@ -228,6 +238,7 @@ Greetings from CareYogi™
     except Exception as e:
         frappe.log_error(f"Error generating WhatsApp message: {str(e)}")
         return {"error": str(e)}
+
 
 
 

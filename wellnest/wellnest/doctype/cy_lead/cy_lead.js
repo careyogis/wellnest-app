@@ -54,9 +54,10 @@ frappe.ui.form.on('CY Lead', {
                     method: 'wellnest.wellnest.doctype.cy_lead.cy_lead.get_caregivers',
                     args: {
                         city: frm.doc.city,
-                        service_pincode: frm.doc.service_pincode,
+                        lead_name: frm.doc.name,
+                        // service_pincode: frm.doc.service_pincode,
                         language_preferences: language_preferences,
-                        service_types: service_types
+                        // service_types: service_types
                     },
                     callback: function (response) {
                         if (!response.message || response.message.length === 0) {
