@@ -28,7 +28,7 @@ frappe.ui.form.on('CY Lead', {
              *  - Displays a selection popup for broadcasting
              *  - Sends selected caregivers to the backend for recording the broadcast
              */
-            frm.add_custom_button('Broadcast', function () {
+            frm.add_custom_button('Find Caregivers', function () {
                 
                 // Validate mandatory fields
                 if (!frm.doc.city) {
@@ -45,19 +45,17 @@ frappe.ui.form.on('CY Lead', {
                     .map(row => row.spoken_language_option)
                     .filter(Boolean);
                 
-                let service_types = (frm.doc.service_details || [])
-                    .map(row => row.activity)
+                let service_types = (frm.doc.services_required || [])
+                    .map(row => row.item_code)
                     .filter(Boolean);
 
                 // Call backend to fetch matching caregivers
                 frappe.call({
-                    method: 'wellnest.wellnest.doctype.cy_lead.cy_lead.get_caregivers',
+                    method: 'wellnest.wellnest.doctype.cy_lead.cy_lead.get_matching_caregivers',
                     args: {
                         city: frm.doc.city,
-                        lead_name: frm.doc.name,
-                        // service_pincode: frm.doc.service_pincode,
-                        language_preferences: language_preferences,
-                        // service_types: service_types
+                        service_types: service_types,
+                        language_preferences: language_preferences
                     },
                     callback: function (response) {
                         if (!response.message || response.message.length === 0) {
@@ -77,9 +75,10 @@ frappe.ui.form.on('CY Lead', {
                                             <th>Name</th>
                                             <th>City</th>
                                             <th>Pincode</th>
+                                            <th>Caregiver Type</th>
                                             <th>Languages</th>
-                                            <th>Service Type</th>
                                             <th>Availability</th>
+                                            <th>Phone</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -88,13 +87,14 @@ frappe.ui.form.on('CY Lead', {
                         caregivers.forEach(caregiver => {
                             popup_content += `
                                 <tr>
-                                    <td><input type="checkbox" class="caregiver-checkbox" data-name="${caregiver.full_name}"></td>
+                                    <td><input type="checkbox" class="caregiver-checkbox" data-phone="${caregiver.phone_number}"></td>
                                     <td>${caregiver.full_name}</td>
                                     <td>${caregiver.city}</td>
                                     <td>${caregiver.pin_code || 'N/A'}</td>
+                                    <td>${caregiver.caregiver_type || 'N/A'}</td>
                                     <td>${caregiver.languages || 'N/A'}</td>
-                                    <td>${caregiver.service_types || 'N/A'}</td>
                                     <td>${caregiver.availability}</td>
+                                    <td>${caregiver.phone_number}</td>
                                 </tr>
                             `;
                         });
@@ -102,14 +102,14 @@ frappe.ui.form.on('CY Lead', {
                         popup_content += `</tbody></table></div>`;
 
                         // Display caregiver selection dialog
-                        let d = new frappe.ui.Dialog({
+                        let dialog = new frappe.ui.Dialog({
                             title: 'Select Caregivers to Broadcast',
                             fields: [{ fieldname: 'caregiver_table', fieldtype: 'HTML', options: popup_content }],
                             primary_action_label: 'Broadcast',
                             primary_action: function () {
                                 let selected_caregivers = [];
                                 $('.caregiver-checkbox:checked').each(function () {
-                                    selected_caregivers.push($(this).data('name'));
+                                    selected_caregivers.push($(this).data('phone'));
                                 });
 
                                 if (selected_caregivers.length === 0) {
@@ -119,9 +119,10 @@ frappe.ui.form.on('CY Lead', {
 
                                 // Call backend to generate WhatsApp message
                                 frappe.call({
-                                    method: "wellnest.wellnest.doctype.cy_lead.cy_lead.generate_whatsapp_message",
+                                    method: "wellnest.wellnest.doctype.cy_lead.cy_lead.broadcast_lead",
                                     args: {
-                                        lead_name: frm.doc.name
+                                        lead_name: frm.doc.name,
+                                        phone_numbers: JSON.stringify(selected_caregivers)
                                     },
                                     callback: function (r) {
                                         if (r.message) {
@@ -138,6 +139,7 @@ frappe.ui.form.on('CY Lead', {
                                                 callback: function (r) {
                                                     if (r.message && r.message.message === "success") {
                                                         frappe.msgprint("Broadcast Successful!");
+                                                        dialog.hide();
                                                     } else {
                                                         frappe.msgprint("Failed to Broadcast: " + JSON.stringify(r.message));
                                                     }
@@ -148,11 +150,11 @@ frappe.ui.form.on('CY Lead', {
                                 });
                             }
                         });
-                        d.show();
+                        dialog.show();
 
 
                         // Apply styles to center and enlarge the dialog
-                        const $dialog = $(d.$wrapper).find('.modal-dialog');
+                        const $dialog = $(dialog.$wrapper).find('.modal-dialog');
 
                         $dialog.css({
                             "width": "90vw",

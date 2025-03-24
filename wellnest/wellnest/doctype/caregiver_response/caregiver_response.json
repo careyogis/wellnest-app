@@ -20,10 +20,11 @@
    "options": "CY Lead"
   },
   {
+   "default": "Pending",
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Pending\nAccepted\nDeclined\nNot Responded"
+   "options": "Pending\nAccepted\nDeclined"
   },
   {
    "fieldname": "column_break_mmwn",
@@ -48,7 +49,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-19 00:48:13.001484",
+ "modified": "2025-03-07 20:57:44.019588",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver Response",
