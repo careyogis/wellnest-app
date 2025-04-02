@@ -351,7 +351,13 @@ def checkout(record):
 def get_customer_for_user(user):
     # This API returns the Customer which the given User is associated withi.
     # Can be used by external apps (like phone app) to get customer for the logged in user
-    contact = frappe.get_all("Contact", fields=["name"], filters={"user": user})
+
+    # Check if the supplied user is an email or a mobile number. Accordingly set the filter field
+    filterField = "user"
+    if not "@" in user:
+        filterField = "mobile_no"
+
+    contact = frappe.get_all("Contact", fields=["name"], filters={filterField: user})
 
     customerDocs = list()
     if contact is None or len(contact) == 0:
