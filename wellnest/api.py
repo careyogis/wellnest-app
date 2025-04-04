@@ -107,6 +107,9 @@ def dashboard():
                 )
             ):
                 continue
+            
+            todays_start_time =  datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+            todays_end_time = datetime.now().replace(hour=23, minute=59, second=59, microsecond=0)
 
             # if service hour is 24 hours:
             if engagement.service_hours == "24":
