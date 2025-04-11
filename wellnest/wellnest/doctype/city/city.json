@@ -31,7 +31,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-08 01:03:19.966237",
+ "modified": "2025-04-11 19:48:43.981170",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "City",
@@ -49,6 +49,16 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1
   }
  ],
  "sort_field": "modified",

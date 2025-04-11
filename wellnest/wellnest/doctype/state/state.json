@@ -20,7 +20,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-07 01:55:25.475536",
+ "modified": "2025-04-11 19:49:43.063185",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "State",
@@ -38,6 +38,16 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1
   }
  ],
  "show_title_field_in_link": 1,
