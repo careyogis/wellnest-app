@@ -6,6 +6,7 @@ from datetime import datetime, date, timezone
 import pytz
 
 
+
 def calculate_time_window(daily_reporting_time_seconds):
     """
     Calculate start and end time windows based on a reporting time.
@@ -417,3 +418,51 @@ def verify_otp(phone, otp):
     # the following method verifies if the OTP is correct
     # if yes, logs in the user and returns the user
     return verify_otp_for_phone(phone, otp)
+
+
+from frappe.utils import now
+
+@frappe.whitelist(allow_guest=True)
+def update_caregiver_response(response_id):
+    """
+    This API endpoint updates the Caregiver Response document
+    corresponding to the given response_id. It sets the status to "Accepted"
+    and logs the current time in response_time.
+
+    This function is guest-accessible and used when a caregiver clicks
+    a response link (typically from WhatsApp).
+    """
+
+    # Ensure response_id is provided in the URL
+    if not response_id:
+        frappe.throw("Missing response ID in the URL.", title="Error")
+
+    # Attempt to fetch the Caregiver Response document
+    try:
+        doc = frappe.get_doc("Caregiver Response", response_id)
+    except frappe.DoesNotExistError:
+        frappe.throw(f"No Caregiver Response found with ID {response_id}", title="Error")
+    except Exception:
+        frappe.throw("Something went wrong. Contact support.", title="Error")
+
+    # Allow update as guest by bypassing permission check
+    try:
+        doc.flags.ignore_permissions = True
+        doc.status = "Accepted"
+        doc.response_time = now()
+        doc.save()
+        frappe.db.commit()
+    except Exception:
+        frappe.throw("Failed to update response.", title="Error")
+
+    return "success"
+
+
+
+
+
+
+
+
+
+

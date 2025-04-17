@@ -10,7 +10,8 @@
   "response_time",
   "column_break_mmwn",
   "caregiver_name",
-  "broadcast_time"
+  "broadcast_time",
+  "amended_from"
  ],
  "fields": [
   {
@@ -33,8 +34,10 @@
   {
    "fieldname": "caregiver_name",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Caregiver Name",
-   "options": "Caregiver"
+   "options": "Caregiver",
+   "reqd": 1
   },
   {
    "fieldname": "broadcast_time",
@@ -45,11 +48,21 @@
    "fieldname": "response_time",
    "fieldtype": "Datetime",
    "label": "Response Time"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Caregiver Response",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-07 20:57:44.019588",
+ "modified": "2025-04-14 22:44:41.338281",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver Response",

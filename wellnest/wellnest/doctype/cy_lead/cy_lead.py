@@ -65,6 +65,8 @@ def get_matching_caregivers(city, service_types, language_preferences):
         frappe.log_error("Error fetching caregivers", str(e))
         return []
 
+
+
 @frappe.whitelist()
 def broadcast_lead(lead_name, phone_numbers):
     # Generate WhatsApp message data to be broadcasted
@@ -77,22 +79,45 @@ def broadcast_lead(lead_name, phone_numbers):
         responsibilities = [d.activity for d in lead.get("service_details") if d.activity]
         responsibilities_str = ", ".join(responsibilities) if responsibilities else "Not specified"
         base_url = frappe.utils.get_url()
-        response_form_link = f"{base_url}/caregiver-response-form?cy_lead={lead.name}"
-        
-        data = {
-            "requirement": requirement,
-            "location": lead.city,
-            "condition": patient_condition,
-            "responsibility": responsibilities_str,
-            "phoneNumbers": phone_numbers,
-            "responseUrl": response_form_link
-        }
 
-        result = broadcast_message(data)
+        # Prepare a list of message payloads, one per caregiver
+        messages = []
+
+        for phone in phone_numbers:
+            caregiver = frappe.db.get_value("Caregiver", {"phone_number": phone}, "name")
+            if not caregiver:
+                frappe.log_error(f"No caregiver found for phone: {phone}", "Broadcast Lead")
+                continue
+
+            caregiver_response = frappe.db.get_value(
+                "Caregiver Response",
+                {"caregiver_name": caregiver, "cy_lead": lead.name},
+                "name"
+            )
+
+            if not caregiver_response:
+                frappe.log_error(f"No Caregiver Response found for {caregiver} and lead {lead.name}", "Broadcast Lead")
+                continue
+
+            response_form_link = f"{base_url}/caregiver-interest?response_id={caregiver_response}"
+
+            messages.append({
+                "requirement": requirement,
+                "location": lead.city,
+                "condition": patient_condition,
+                "responsibility": responsibilities_str,
+                "phoneNumber": phone,
+                "responseUrl": response_form_link
+            })
+
+        # Call your broadcast_message function (assuming it supports batch messages)
+        result = broadcast_message(messages)
         return result
+
     except Exception as e:
         frappe.log_error(f"Error generating WhatsApp message: {str(e)}")
         return {"error": str(e)}
+
 
 
 @frappe.whitelist()

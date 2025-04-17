@@ -1,0 +1,40 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<div class="text-center my-10">
+  <h2 id="message" class="text-xl font-bold">Processing your response...</h2>
+</div>
+
+<script>
+  async function updateResponse() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const responseId = urlParams.get("response_id");
+
+    if (!responseId) {
+      document.getElementById("message").innerText = "Missing response ID.";
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/method/wellnest.api.update_caregiver_response?response_id=" + responseId);
+
+      if (!res.ok) {
+        throw new Error("Server returned status " + res.status);
+      }
+
+      const data = await res.json();
+
+      if (data.message === "success") {
+        document.getElementById("message").innerText = "Thank you for confirming your interest. We will get in touch with you soon.";
+      } else {
+        document.getElementById("message").innerText = "Something went wrong. Please try again later.";
+      }
+    } catch (e) {
+      console.error(e);
+      document.getElementById("message").innerText = "An error occurred.";
+    }
+  }
+
+  updateResponse();
+</script>
+{% endblock %}
