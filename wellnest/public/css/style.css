@@ -2416,17 +2416,18 @@ li {
   backface-visibility: visible !important;
 
   width: 100%;
-  max-width: 370px;
+  max-width: 420px;
   position: absolute;
-  bottom: -100px;
+  bottom: -120px;
   left: -130px;
   z-index: 10;
-  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: rgba(255, 255, 255, 0.8); /* 50% transparent white */
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   box-shadow: -14.142px 14.142px 30px 0px rgba(67, 131, 99, 0.08);
-  padding-left: 50px;
-  padding-right: 45px;
+  padding-left: 30px;
+  padding-right: 24px;
   padding-top: 24px;
   padding-bottom: 24px;
 }
@@ -2476,8 +2477,8 @@ li {
   margin: 0;
   color: var(--thm-black);
   font-weight: bold;
-  font-size: 26px;
-  margin-bottom: 20px;
+  font-size: 22px;
+  margin-bottom: 10px;
   line-height: 34px;
 }
 
