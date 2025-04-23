@@ -5,85 +5,81 @@
 </title>    
 <body>
 {% block page_content %}
-<section class="slider-one__wrapper">
-  <div class="slider-one__nav">
-      <a href="#" class="slider-one__nav-left">
-          <i class="far fa-angle-left"></i>
-      </a><!-- /.slider-one__nav-left -->
-      <a href="#" class="slider-one__nav-right">
-          <i class="far fa-angle-right"></i>
-      </a><!-- /.slider-one__nav-left -->
-  </div><!-- /.slider-one__nav -->
-  <div class="slider-one__carousel owl-carousel owl-theme thm__owl-carousel" data-options='{
-      "items": 1, "loop": true, "autoplay": true, "autoplayHoverPause": true, "autoplayTimeout": 5000,
-      "margin": 0, "dots": false, "nav": false, "animateOut": &quot;fadeOut&quot;, "animateIn": &quot;fadeIn&quot;, "active": true, "smartSpeed": 1000}'
-       data-carousel-next-btn=".slider-one__nav-right" data-carousel-prev-btn=".slider-one__nav-left">
-      <div class="item" style="background-image: url(assets/wellnest/images/main-slider/main-slider-1-1.jpg);">
-          <div class="slider-one__item">
-              <div class="container">
-                  <div class="row justify-content-end">
-                      <div class="col-lg-12 d-flex justify-content-end">
-                          <div class="slider-one__content">
-                              <div class="slider-one__content-inner">
-                                <h3>
-                                  {{ top_header3 }}
-                                </h3>
-                                <p>
-                                  {{ offering_description }}
-                                </p>
-                                <a href="contact-us" class="thm-btn slider-one__btn">Contact Us</a>
-                          </div><!-- /.slider-one__content-inner -->
-                          </div><!-- /.slider-one__content -->
-                      </div><!-- /.col-lg-6 -->
-                  </div><!-- /.row justify-content-end -->
-              </div><!-- /.container -->
-          </div><!-- /.slider-one__item -->
-      </div><!-- /.item -->
-      <div class="item" style="background-image: url(assets/wellnest/images/main-slider/main-slider-1-2.jpg);">
-          <div class="slider-one__item">
-              <div class="container">
-                  <div class="row justify-content-end">
-                      <div class="col-lg-12 d-flex justify-content-end">
-                          <div class="slider-one__content">
-                              <div class="slider-one__content-inner">
-                                  <h3>Seva (care) without any biases</h3>
-                                  <p>
-                                    CareYogi, as an organization, and all our caregivers, embody the spirit of care in providing 
-                                    service to the clients
-                                  </p>
-                                  <a href="contact-us" class="thm-btn slider-one__btn">Contact Us</a>
-                              </div><!-- /.slider-one__content-inner -->
-                          </div><!-- /.slider-one__content -->
-                      </div><!-- /.col-lg-6 -->
-                  </div><!-- /.row justify-content-end -->
-              </div><!-- /.container -->
-          </div><!-- /.slider-one__item -->
-      </div><!-- /.item -->
-      <div class="item" style="background-image: url(assets/wellnest/images/main-slider/main-slider-1-3.jpg);">
-          <div class="slider-one__item">
-              <div class="container">
-                  <div class="row justify-content-end">
-                      <div class="col-lg-12 d-flex justify-content-end">
-                          <div class="slider-one__content">
-                              <div class="slider-one__content-inner">
-                                  <h3>Welcome to CareYogi</h3>
-                                  <p>
-                                    At CareYogi, we're here to alleviate the stress of caring
-                                    for elders, so you can focus on living your life. Our
-                                    transitional care excellence, supported by advanced
-                                    technology, is designed for empowering caregivers and
-                                    supporting families.
-                                  </p>
-                                  <a href="contact-us" class="thm-btn slider-one__btn">Contact Us</a>
-                              </div><!-- /.slider-one__content-inner -->
-                          </div><!-- /.slider-one__content -->
-                      </div><!-- /.col-lg-6 -->
-                  </div><!-- /.row justify-content-end -->
-              </div><!-- /.container -->
-          </div><!-- /.slider-one__item -->
-      </div><!-- /.item -->
-  </div><!-- /.slider-one__carousel owl-carousel owl-theme thm__owl-carousel -->
-</section><!-- /.slider-one__wrapper -->
+
+<section class="slider-two__wrapper">
+  <div class="container-fluid">
+      <div class="row no-gutters">
+          <div class="col-lg-5 d-flex">
+              <div class="my-auto">
+                  <div class="slider-two__main">
+                      <h3>
+                        {{ top_header3 }}
+                      </h3>
+                      <p>
+                        {{ offering_description }}
+                      </p>
+                      <a href="contact-us" class="thm-btn slider-two__btn">Contact Us</a>
+                      <!-- /.thm-btn slider-two__btn -->
+                      <ul id="slider-two__carousel-dots" class="list-unstyled owl-dots">
+                          <li class="owl-dot"></li>
+                          <li class="owl-dot"></li>
+                          <li class="owl-dot"></li>
+                      </ul>
+                  </div><!-- /.slider-two__main -->
+              </div><!-- /.my-auto -->
+          </div><!-- /.col-lg-6 -->
+          <div class="col-lg-7 d-flex justify-content-end">
+              <div class="slider-two__carousel owl-carousel thm__owl-carousel owl-theme"
+                  data-carousel-dots-container="#slider-two__carousel-dots" data-options='{
+                  "items": 1, "loop": true, "autoplay": true, "autoplayTimeout": 7000, "autoplayHoverPause": true, "margin": 0, "smartSpeed": 1000, "dotsContainer": &quot;#slider-two__carousel-dots&quot;
+              }'>
+                  <div class="item">
+                      <div class="slider-two__carousel-single">
+                        <img src="assets/wellnest/images/main-slider/main-slider-2-1.jpg" alt="">
+                        <div class="slider-two__carousel-content">
+                          <h3>Your Care Partner</h3>
+                          <p>
+                            At CareYogi, we're here to alleviate the stress of caring
+                            for elders, so you can focus on living your life. Our
+                            transitional care excellence, supported by advanced
+                            technology, is designed for empowering caregivers and
+                            supporting families.
+                          </p>
+                        </div><!-- /.slider-two__carousel-content -->
+                      </div><!-- /.slider-two__carousel-single -->
+                  </div><!-- /.item -->
+                  <div class="item">
+                      <div class="slider-two__carousel-single">
+                          <img src="assets/wellnest/images/main-slider/main-slider-2-2.jpg" alt="">
+                          <div class="slider-two__carousel-content">
+                              <h3>Senior Nursing Care <br> & Elder Care</h3>
+                              <p>
+                                CareYogi, as an organization, and all our caregivers, embody the spirit of care in providing 
+                                service to the clients.
+                              </p>
+                    </div><!-- /.slider-two__carousel-content -->
+
+                      </div><!-- /.slider-two__carousel-single -->
+                  </div><!-- /.item -->
+                  <div class="item">
+                      <div class="slider-two__carousel-single">
+                          <img src="assets/wellnest/images/main-slider/main-slider-2-3.jpg" alt="">
+                          <div class="slider-two__carousel-content">
+                              <h3>Care without any biases</h3>
+                              <p>
+                                CareYogi, as an organization, and all our caregivers, embody the spirit of care in providing 
+                                service to the clients.
+                              </p>
+                          </div><!-- /.slider-two__carousel-content -->
+                      </div><!-- /.slider-two__carousel-single -->
+                  </div><!-- /.item -->
+              </div><!-- /.slider-two__carousel owl-carousel thm__owl-carousel owl-theme -->
+          </div><!-- /.col-lg-6 -->
+      </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section><!-- /.slider-two__wrapper -->
+
+
 
   <section class="slider-one__wrapper display-mobile">
     <div class="slider-one__nav">
@@ -151,17 +147,16 @@
         <div class="col-lg-4 col-md-6">
             <div class="service-one__single">
                 <div class="service-one__image">
-                    <img src="assets/wellnest/images/newimg/care giver.jpg" alt="">
+                    <img src="assets/wellnest/images/newimg/adl.jpg" alt="">
                 </div><!-- /.service-one__image -->
                 <div class="service-one__content">
                     <div class="service-one__icon">
                         <i class="oberlin-icon-disability"></i>
                     </div><!-- /.service-one__icon -->
-                    <h3><a href="caregiver-attendant">Assisted Daily Living</a></h3>
+                    <h3><a href="caregiver-attendant">Assistance with Daily Living</a></h3>
                     <p>
-                      Compassionate help with activities of daily living for independence & dignity. 
-                      Personal grooming like bathing, dressing, laundry, etc.
-                    </p>      
+                      Our Assistance with Daily Living (ADL) services ensure that elders receive the care, dignity, and support they need
+                       to live comfortably at home.                     </p>      
                     <a href="caregiver-attendant" class="service-one__link"><i
                             class="far fa-long-arrow-alt-right"></i></a><!-- /.service-one__link -->
                 </div><!-- /.service-one__content -->
@@ -207,7 +202,7 @@
         <div class="col-lg-4 col-md-6">
             <div class="service-one__single">
                 <div class="service-one__image">
-                    <img src="assets/wellnest/images/newimg/speech-therapy.jpg" alt="">
+                    <img src="assets/wellnest/images/newimg/speech-therapy.jpeg" alt="">
                 </div><!-- /.service-one__image -->
                 <div class="service-one__content">
                     <div class="service-one__icon">
@@ -226,7 +221,7 @@
         <div class="col-lg-4 col-md-6">
             <div class="service-one__single">
                 <div class="service-one__image">
-                    <img src="assets/wellnest/images/newimg/physiotherapy-service.png" alt="">
+                    <img src="assets/wellnest/images/newimg/physiotherapy.jpeg" alt="">
                 </div><!-- /.service-one__image -->
                 <div class="service-one__content">
                     <div class="service-one__icon">
@@ -241,6 +236,24 @@
                 </div><!-- /.service-one__content -->
             </div><!-- /.service-one__single -->
         </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4 col-md-6">
+          <div class="service-one__single">
+              <div class="service-one__image">
+                  <img src="assets/wellnest/images/newimg/hospice care.jpg" alt="">
+              </div><!-- /.service-one__image -->
+              <div class="service-one__content">
+                  <div class="service-one__icon">
+                      <i class="oberlin-icon-disability"></i>
+                  </div><!-- /.service-one__icon -->
+                  <h3><a href="hospice-care">Hospice & Palliative Care</a></h3>
+                  <p>
+                    Compassionate Palliative & Hospice Care at Home.
+                  </p>
+                  <a href="hospice-care" class="service-one__link"><i
+                          class="far fa-long-arrow-alt-right"></i></a><!-- /.service-one__link -->
+              </div><!-- /.service-one__content -->
+          </div><!-- /.service-one__single -->
+      </div><!-- /.col-lg-4 -->
       </div><!-- /.row -->
     </div><!-- /.container -->
   </section><!-- /.service-one -->
@@ -354,7 +367,7 @@
             <img src="assets/wellnest/images/shapes/about-dot-3-1.png" class="about-dot-3-1" alt="" />
 
             <!-- /.about-three__image-text -->
-            <img src="assets/wellnest/images/newimg/assisted living.jpg" alt="" width="470" height="540" />
+            <img src="assets/wellnest/images/newimg/adl.jpg" alt="" width="470" height="540" />
           </div>
           <!-- /.about-three__image -->
         </div>
@@ -374,7 +387,7 @@
         <div class="col-lg-6">
           <div class="faq-three__image wow fadeInLeft" data-wow-duration="1500ms">
             <img src="assets/wellnest/images/shapes/faq-2-dot.png" class="faq-three__image-dots" alt="" />
-            <img src="assets/wellnest/images/newimg/nursing care.jpg" alt="" width="470" height="600" />
+            <img src="assets/wellnest/images/newimg/adl-2.jpg" alt="" width="470" height="600" />
           </div>
           <!-- /.faq-three__image -->
         </div>
@@ -469,74 +482,105 @@
     <!-- /.container -->
   </section><!-- /.faq-three -->
 
-  <section class="testimonials-two"
-  style="background-image: url(assets/wellnest/images/background/testimonials-1-bg-1-1.jpg);">
-  <div class="container">
-      <div class="row">
-          <div class="col-xl-7 col-lg-8">
-              <div class="testimonials-two__content wow fadeInUp" data-wow-duration="1500ms">
-                  <div class="block-title">
-                      <p class="has-line">05. Testimonials</p><!-- /.has-line -->
-                      <h3>What do Our Clients Say <br> About CareYogi?</h3>
-                  </div><!-- /.block-title -->
-                  <div class="testimonials-two__carousel">
-                      <div class="swiper-wrapper">
-                          <div class="swiper-slide">
-                              <div class="testimonials-two__single">
-                                <p>
-                                  <b>Great Care Made a Big Difference</b>
-                                  Since we started using CareYogi for my mom's care, she's been feeling much better.
-                                  Their exceptional Quality Elder Care has greatly improved her well-being. Highly
-                                  recommend!.
-                                </p>
-                                <h3>Nimit Konda</h3>
-                                <span>Amberpet</span>
-                              </div><!-- /.testimonials-two__single -->
-                          </div><!-- /.swiper-slide -->
-                          <div class="swiper-slide">
-                              <div class="testimonials-two__single">
-                                <p>
-                                  <b>Awesome Tech Helps Us Stay Calm</b>
-                                  CareYogi’s technology lets us know how my dad is doing all the time. It’s comforting to
-                                  know that he’s being watched over so carefully.
-                                </p>
-                                <h3>Chaitali Majumdar</h3>
-                                <span>Gurugram</span>
-                              </div><!-- /.testimonials-two__single -->
-                          </div><!-- /.swiper-slide -->
-                          <div class="swiper-slide">
-                              <div class="testimonials-two__single">
-                                <p>
-                                  <b>Kind and Skilled People</b>
-                                  Everyone from CareYogi is really good at their job and truly kind. They care a lot about
-                                  their clients, which makes us feel very reassured.
-                                </p>
-                                <h3>Sariq Baddour</h3>
-                                <span>Secunderabad</span>
-                              </div><!-- /.testimonials-two__single -->
-                          </div><!-- /.swiper-slide -->
-                      </div><!-- /.swiper-wrapper -->
-                  </div><!-- /.testimonials-two__carousel -->
-                  <div class="testimonials-two__thumb-carousel-wrap">
-                      <div class="testimonials-two__thumb-carousel">
-                          <div class="swiper-wrapper">
-                              <div class="swiper-slide">
-                                  <img src="assets/wellnest/images/resources/testi-3-1.jpg" alt="">
-                              </div><!-- /.swiper-slide -->
-                              <div class="swiper-slide">
-                                  <img src="assets/wellnest/images/resources/testi-3-2.jpg" alt="">
-                              </div><!-- /.swiper-slide -->
-                              <div class="swiper-slide">
-                                  <img src="assets/wellnest/images/resources/testi-3-3.jpg" alt="">
-                              </div><!-- /.swiper-slide -->
-                          </div><!-- /.swiper-wrapper -->
-                      </div><!-- /.testimonials-two__thumb-carousel -->
-                  </div><!-- /.testimonials-two__carousel-wrap -->
-                  
-              </div><!-- /.testimonials-two__content -->
-          </div><!-- /.col-lg-7 -->
-      </div><!-- /.row -->
-  </div><!-- /.container -->
-</section><!-- /.testimonials-two -->
+  <section class="testimonials-one">
+    <div class="container">
+        <div class="block-title text-center">
+            <p>Testimonials</p>
+            <h3>What do Our Clients Say <br> About CareYogi?</h3>
+        </div><!-- /.block-title -->
+        <div class="testimonials-one__carousel thm__owl-carousel owl-carousel owl-theme" data-options='{
+            "items": 2, "nav": false, "dots": true, "margin": 40, "loop": true, "smartSpeed": 700, "autoplay": true, "autoplayTimeout": 5000, "autoplayHoverPause": true, "responsive": {
+                "0": {"items": 1, "margin": 0, "dots": false, "nav": true},
+                "767": {"items": 1, "margin": 0, "dots": false, "nav": true},
+                "991": {"items": 2, "margin": 30},
+                "1199": {"items": 2}
+            }
+        }'>
+            <div class="item">
+                <div class="testimonials-one__single">
+                    <div class="testimonials-one__inner">
+                        <div class="testimonials-one__image">
+                            <img src="assets/images/resources/testi-1-1.jpg" alt="">
+                        </div><!-- /.testimonials-one__image -->
+                        <p>
+                          I recently availed the caregiver services from CareYogi for my husband, who required post-stroke care. The entire process, from initial consultation to the daily caregiving routine, was handled with utmost professionalism and compassion.
+                          The caregiver assigned to us was not only skilled and attentive but also genuinely caring. They ensured my husband’s needs were met, whether it was assistance with mobility, personal care, or emotional support. Their punctuality and dedication made a significant difference in his recovery journey and provided me with peace of mind.                          
+                          I also appreciate CareYogi’s seamless coordination and communication throughout. They were responsive to any feedback or adjustments we required, which made the entire experience stress-free.                          
+                          I highly recommend CareYogi to anyone looking for reliable and compassionate caregiving services. Their team truly goes above and beyond to support families in challenging times.                          
+                          Thank you, CareYogi!                       </p>
+                        <h3>Neelima Shrivastava</h3>
+                        <span>Miyapur</span>
+                    </div><!-- /.testimonials-one__inner -->
+                </div><!-- /.testimonials-one__single -->
+            </div><!-- /.item -->
+            <div class="item">
+                <div class="testimonials-one__single">
+                    <div class="testimonials-one__inner">
+                        <div class="testimonials-one__image">
+                            <img src="assets/images/resources/testi-1-2.jpg" alt="">
+                        </div><!-- /.testimonials-one__image -->
+                        <p>
+                          Careyogi undeniably offers the top caretaker services in India. Their standout qualities include their prompt response and their exceptional dedication to meeting customers' needs. When my mother required a caregiver, they arranged one in record time and consistently followed up to ensure the service quality remained high. Their commitment to excellence is truly commendable.
+                          I'm incredibly satisfied with their service and the overall experience, and I wholeheartedly recommend Careyogis to all my friends and family.
+                          A special shoutout to Preity for making this such a wonderful experience for me! undeniably offers the top caretaker services in India. Their standout qualities include their prompt response and their exceptional dedication to meeting customers' needs. When my mother required a caregiver, they arranged one in record time and consistently followed up to ensure the service quality remained high. Their commitment to excellence is truly commendable. I'm incredibly satisfied with their service and the overall experience, and I wholeheartedly recommend Careyogis to all my friends and family. A special shoutout to Preity for making this such a wonderful experience for me!                        </p>
+                        <h3>Debashree Sen</h3>
+                        <span>KPHB</span>
+                    </div><!-- /.testimonials-one__inner -->
+                </div><!-- /.testimonials-one__single -->
+            </div><!-- /.item -->
+            <div class="item">
+              <div class="testimonials-one__single">
+                  <div class="testimonials-one__inner">
+                      <div class="testimonials-one__image">
+                          <img src="assets/images/resources/testi-1-1.jpg" alt="">
+                      </div><!-- /.testimonials-one__image -->
+                      <p>
+                        I would like to give 5/5 to CAREYOGI because I'm disabled and I'm totally dependant on my care taker 
+                        and the CareYogi team really fullfil my need and provide me a good caretaker and for very good service provided by the team.
+                        I took care taker service 24/7 for my self and Mr. Rohit and there team was able arrange a very well caretaker and good service 
+                        within short time of notice.Ovrall I'm happy with the team and very thankful and in future when my needs come I would definitely 
+                        contact them again as well and I recommend to others.                        
+                      </p>
+                      <h3>Biva Jha</h3>
+                      <span>Tellapur</span>
+                    </div><!-- /.testimonials-one__inner -->
+              </div><!-- /.testimonials-one__single -->
+            </div><!-- /.item -->
+            <div class="item">
+              <div class="testimonials-one__single">
+                  <div class="testimonials-one__inner">
+                      <div class="testimonials-one__image">
+                          <img src="assets/images/resources/testi-1-2.jpg" alt="">
+                      </div><!-- /.testimonials-one__image -->
+                      <p>
+                        <b>Awesome Tech Helps Us Stay Calm</b><br>                          
+                        CareYogi's technology lets us know how my dad is doing all the time. It's comforting to
+                        know that he's being watched over so carefully.
+                      </p>
+                      <h3>Chaitali Majumdar</h3>
+                      <span>Gurugram</span>
+                  </div><!-- /.testimonials-one__inner -->
+              </div><!-- /.testimonials-one__single -->
+          </div><!-- /.item -->
+          <div class="item">
+                <div class="testimonials-one__single">
+                    <div class="testimonials-one__inner">
+                        <div class="testimonials-one__image">
+                            <img src="assets/images/resources/testi-1-2.jpg" alt="">
+                        </div><!-- /.testimonials-one__image -->
+                        <p>
+                          <b>Kind and Skilled People</b><br>
+                          Everyone from CareYogi is really good at their job and truly kind. They care a lot about
+                          their clients, which makes us feel very reassured.
+                        </p>
+                        <h3>Sariq Baddour</h3>
+                        <span>Secunderabad</span>
+                    </div><!-- /.testimonials-one__inner -->
+                </div><!-- /.testimonials-one__single -->
+            </div><!-- /.item -->
+        </div><!-- /.row high-gutter -->
+
+    </div><!-- /.container -->
+</section><!-- /.testimonials-one -->
 {% endblock %}
 </body>

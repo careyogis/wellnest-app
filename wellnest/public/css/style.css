@@ -2427,8 +2427,8 @@ li {
   box-shadow: -14.142px 14.142px 30px 0px rgba(67, 131, 99, 0.08);
   padding-left: 50px;
   padding-right: 45px;
-  padding-top: 64px;
-  padding-bottom: 56px;
+  padding-top: 24px;
+  padding-bottom: 24px;
 }
 
 @media (max-width: 1795px) {
