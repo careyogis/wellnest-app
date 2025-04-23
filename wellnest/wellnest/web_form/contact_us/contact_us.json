@@ -25,8 +25,8 @@
  "list_columns": [],
  "login_required": 0,
  "max_attachment_size": 0,
- "modified": "2024-10-18 23:53:55.580858",
- "modified_by": "Administrator",
+ "modified": "2025-04-23 13:47:09.714781",
+ "modified_by": "randhirk@careyogis.com",
  "module": "WellNest",
  "name": "contact-us",
  "owner": "Administrator",
@@ -79,7 +79,7 @@
    "max_value": 0,
    "precision": "",
    "read_only": 0,
-   "reqd": 0,
+   "reqd": 1,
    "show_in_filter": 0
   },
   {
@@ -106,7 +106,7 @@
    "max_value": 0,
    "precision": "",
    "read_only": 0,
-   "reqd": 1,
+   "reqd": 0,
    "show_in_filter": 0
   },
   {
