@@ -6,77 +6,80 @@
 <body>
 {% block page_content %}
 
-<section class="slider-two__wrapper">
-  <div class="container-fluid">
-      <div class="row no-gutters">
-          <div class="col-lg-5 d-flex">
-              <div class="my-auto">
-                  <div class="slider-two__main">
-                      <h3>
-                        {{ top_header3 }}
-                      </h3>
-                      <p>
+<div class="slider-four__wrapper">
+  <div class="slider-four">
+      <div class="slider-four__carousel thm__owl-dot-1 owl-carousel owl-theme thm__owl-carousel"
+          data-carousel-prev-btn=".slider-four__nav-right" data-carousel-next-btn=".slider-four__nav-left"
+          data-options='{"loop": true, "items": 1, "margin": 0, "dots": false, "nav": false, "animateOut": &quot;slideOutDown&quot;, "animateIn": &quot;fadeIn&quot;, "active": true, "smartSpeed": 1000, "autoplay": true, "autoplayTimeout": 7000, "autoplayHoverPause": false}'>
+          <div class="item slider-four__slide-1"
+              style="background-image: url(assets/wellnest/images/main-slider/main-slider-2-1.jpg);">
+              <div class="container">
+                  <div class="slider-four__content text-center">
+                      <h3 class="anim-elm">{{ top_header3 }}</h3>
+                      <p class="anim-elm">
                         {{ offering_description }}
                       </p>
-                      <a href="contact-us" class="thm-btn slider-two__btn">Contact Us</a>
-                      <!-- /.thm-btn slider-two__btn -->
-                      <ul id="slider-two__carousel-dots" class="list-unstyled owl-dots">
-                          <li class="owl-dot"></li>
-                          <li class="owl-dot"></li>
-                          <li class="owl-dot"></li>
-                      </ul>
-                  </div><!-- /.slider-two__main -->
-              </div><!-- /.my-auto -->
-          </div><!-- /.col-lg-6 -->
-          <div class="col-lg-7 d-flex justify-content-end">
-              <div class="slider-two__carousel owl-carousel thm__owl-carousel owl-theme"
-                  data-carousel-dots-container="#slider-two__carousel-dots" data-options='{
-                  "items": 1, "loop": true, "autoplay": true, "autoplayTimeout": 7000, "autoplayHoverPause": true, "margin": 0, "smartSpeed": 1000, "dotsContainer": &quot;#slider-two__carousel-dots&quot;
-              }'>
-                  <div class="item">
-                      <div class="slider-two__carousel-single">
-                        <img src="assets/wellnest/images/main-slider/main-slider-2-1.jpg" alt="">
-                        <div class="slider-two__carousel-content">
-                          <h3>Your Care Partner</h3>
-                          <p>
-                            At CareYogi, we're here to alleviate the stress of caring
-                            for elders, so you can focus on living your life. Our
-                            transitional care excellence, supported by advanced
-                            technology, is designed for empowering caregivers and
-                            supporting families.
-                          </p>
-                        </div><!-- /.slider-two__carousel-content -->
-                      </div><!-- /.slider-two__carousel-single -->
-                  </div><!-- /.item -->
-                  <div class="item">
-                      <div class="slider-two__carousel-single">
-                          <img src="assets/wellnest/images/main-slider/main-slider-2-2.jpg" alt="">
-                          <div class="slider-two__carousel-content">
-                              <h3>Senior Nursing Care</h3>
-                              <p>
-                                Tech-enabled, professionally delivered home care ensures the highest quality medical attention
-                              </p>
-                          </div><!-- /.slider-two__carousel-content -->
-
-                      </div><!-- /.slider-two__carousel-single -->
-                  </div><!-- /.item -->
-                  <div class="item">
-                      <div class="slider-two__carousel-single">
-                          <img src="assets/wellnest/images/main-slider/main-slider-2-3.jpg" alt="">
-                          <div class="slider-two__carousel-content">
-                              <h3>Seva without any biases</h3>
-                              <p>
-                                CareYogi, as an organization, and all our caregivers, embody the spirit of care in providing 
-                                service to the clients.
-                              </p>
-                          </div><!-- /.slider-two__carousel-content -->
-                      </div><!-- /.slider-two__carousel-single -->
-                  </div><!-- /.item -->
-              </div><!-- /.slider-two__carousel owl-carousel thm__owl-carousel owl-theme -->
-          </div><!-- /.col-lg-6 -->
-      </div><!-- /.row -->
-  </div><!-- /.container-fluid -->
-</section><!-- /.slider-two__wrapper -->
+                  </div><!-- /.slider-four__content text-center -->
+              </div><!-- /.container -->
+          </div><!-- /.item -->
+          <div class="item slider-four__slide-2"
+              style="background-image: url(assets/wellnest/images/main-slider/main-slider-2-2.jpg);">
+              <div class="container">
+                  <div class="slider-four__content text-center">
+                      <h3 class="anim-elm">Seamless Healthcare, Delivered with TRUST</h3>
+                      <p class="anim-elm">
+                        Our tech-enabled, professionally delivered home care ensures that you or your loved ones receive the highest quality
+                         medical attention—right at home. With a focus on transparency, efficiency, and accountability, we bring expert doctors,
+                          skilled therapists, and compassionate caregivers to your doorstep. Real-time monitoring, seamless coordination,
+                           and personalized care plans make healing at home safer, easier, and more effective. Because the best care should
+                            come to you.
+                      </p>
+                  </div><!-- /.slider-four__content text-center -->
+              </div><!-- /.container -->
+          </div><!-- /.item -->
+          <div class="item slider-four__slide-3"
+              style="background-image: url(assets/wellnest/images/main-slider/main-slider-2-3.jpg);">
+              <div class="container">
+                  <div class="slider-four__content text-center">
+                      <h3 class="anim-elm">Consider us as your <br> Care Partner.</h3>
+                      <p class="anim-elm">
+                        At CareYogi, we're here to alleviate the stress of caring
+                        for elders, so you can focus on living your life. Our
+                        transitional care excellence, supported by advanced
+                        technology, is designed for empowering caregivers and
+                        supporting families.                    
+                      </p>
+                  </div><!-- /.slider-four__content text-center -->
+              </div><!-- /.container -->
+          </div><!-- /.item -->
+      </div><!-- /.slider-four__carousel -->
+      <div class="slider-four__nav">
+          <a href="#" class="slider-four__nav-left"><i class="far fa-angle-left"></i></a>
+          <!-- /.slider-four__nav-left -->
+          <a href="#" class="slider-four__nav-right"><i class="far fa-angle-right"></i></a>
+          <!-- /.slider-four__nav-right -->
+      </div><!-- /.slider-four__nav -->
+  </div><!-- /.slider-four -->
+</div><!-- /.slider-four__wrapper -->
+<section class="location-finder">
+  <div class="container">
+      <div class="inner-container">
+          <img src="assets/wellnest/images/shapes/subscribe-dot-1-1.png" alt="" class="location-finder__dot-1">
+          <img src="assets/wellnest/images/shapes/subscribe-dot-1-2.png" class="location-finder__dot-2" alt="">
+          <div class="row">
+              <div class="col-xl-4">
+                  <h3>Want Quality Eldercare <br> Solution?</h3>
+              </div><!-- /.col-lg-4 -->
+              <div class="col-xl-8">
+                  <div class="location-finder__content">
+                      <p>We help older and disabled adults and their families <br> navigate the overwhelming choices.</p>                               
+                      <a href="contact-us" class="thm-btn location-finder__btn">Contact Us</a>
+                  </div><!-- /.location-finder__content -->
+              </div><!-- /.col-lg-8 -->
+          </div><!-- /.row -->
+      </div><!-- /.inner-container -->
+  </div><!-- /.container -->
+</section><!-- /.location-finder -->
 
   <section class="service-one service-one__service-page" id="services-section">
     <div class="container">
