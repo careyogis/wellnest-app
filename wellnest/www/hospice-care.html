@@ -5,6 +5,15 @@
 </title>    
 <body>
 {% block page_content %}
+<section class="page-header" style="background-image: url(assets/wellnest/images/background/page-header-hospice-care.jpg);">
+  <div class="container">
+      <h2>Hospice and Palliative Care</h2>
+      <ul class="list-unstyled thm-breadcrumb">
+          <li><a href="index">Home</a></li>
+          <li><span>Service Details</span></li>
+      </ul><!-- /.list-unstyled -->
+  </div><!-- /.container -->
+</section><!-- /.page-header -->
 <section class="service-details" style="padding-top: 35px !important">
   <div class="container">
     <div class="row">
@@ -15,7 +24,7 @@
             <!-- /.sidebar__title -->
             <ul class="sidebar__cat-list">
               <li>
-                <a href="caregiver-attendant">Caregiver Attendant</a>
+                <a href="caregiver-attendant">Assistance with Daily Living </a>
               </li>
               <li>
                 <a href="nursing-care">Nursing Care</a>
@@ -63,6 +72,33 @@
   <!-- /.container -->
 </section>
 <!-- /.service-details -->
+<section class="cta-two">
+  <img src="assets/wellnest/images/shapes/cta-1-1-shape-1.png" class="cta-two__dot-1" alt="">
+  <img src="assets/wellnest/images/shapes/cta-1-1-shape-2.png" class="cta-two__dot-2" alt="">
+  <div class="container">
+      <div class="row no-gutters">
+          <div class="col-lg-6 d-flex justify-content-center align-items-center wow fadeInLeft"
+              data-wow-duration="1500ms">
+              <div class="cta-two__image">
+                  <img src="assets/wellnest/images/resources/cta-1-1.jpg" alt="">
+                  <div class="cta-two__image-inner">
+                      <div class="cta-two__image-content">
+                          <h3><span class="counter">88</span><!-- /.coutner -->%</h3>
+                          <p>Success Rate</p>
+                      </div><!-- /.cta-two__image-content -->
+                  </div><!-- /.cta-two__image-inner -->
+              </div><!-- /.cta-two__image -->
+          </div><!-- /.col-lg-6 -->
+          <div class="col-lg-6">
+              <div class="cta-two__content">
+                  <h3>Book an <br> Appointment Today!</h3>
+                  <p>For compassionate care with a holistic, family-centered approach, <br> please contact us.</p>                               
+                  <a href="contact-us" class="thm-btn cta-two__btn">Contact Us</a><!-- /.thm-btn cta-two__btn -->
+              </div><!-- /.cta-two__content -->
+          </div><!-- /.col-lg-6 -->
+      </div><!-- /.row no-gutters -->
+  </div><!-- /.container -->
+</section><!-- /.cta-two -->
 
 {% endblock %}
 </body>
