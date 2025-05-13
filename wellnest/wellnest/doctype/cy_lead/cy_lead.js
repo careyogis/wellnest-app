@@ -35,10 +35,6 @@ frappe.ui.form.on('CY Lead', {
                     frappe.msgprint(__('Please fill the City field.'));
                     return;
                 }
-                if (!frm.doc.service_pincode) {
-                    frappe.msgprint(__('Please fill the Pincode field.'));
-                    return;
-                }
 
                 // Extract caregiver preferences and required services
                 let language_preferences = (frm.doc.caregiver_language_preference || [])
