@@ -126,25 +126,8 @@ frappe.ui.form.on('CY Lead', {
                                     },
                                     callback: function (r) {
                                         if (r.message) {
-                                            let whatsapp_message = r.message;
-
-                                            // Call backend to record the broadcasted caregivers
-                                            frappe.call({
-                                                method: "wellnest.wellnest.doctype.cy_lead.cy_lead.record_caregiver_broadcast",
-                                                args: {
-                                                    lead_name: frm.doc.name,
-                                                    caregivers: JSON.stringify(selected_phones),
-                                                    whatsapp_message: whatsapp_message
-                                                },
-                                                callback: function (r) {
-                                                    if (r.message && r.message.message === "success") {
-                                                        frappe.msgprint("Broadcast Successful!");
-                                                        dialog.hide();
-                                                    } else {
-                                                        frappe.msgprint("Failed to Broadcast: " + JSON.stringify(r.message));
-                                                    }
-                                                }
-                                            });
+                                            frappe.msgprint(r.message.message);
+                                            dialog.hide();
                                         }
                                     }
                                 });
@@ -187,7 +170,7 @@ frappe.ui.form.on('CY Lead', {
                     },
                     callback: function (response) {
                         if (!response.message || response.message.length === 0) {
-                            frappe.msgprint(__('No responses found.'));
+                            frappe.msgprint(__('This Lead has not been broadcasted to anyone yet.'));
                             return;
                         }
 
@@ -200,7 +183,7 @@ frappe.ui.form.on('CY Lead', {
                                     <thead>
                                         <tr>
                                             <th>Caregiver Name</th>
-                                            <th>Response Time</th>
+                                            <th>Sent On</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -211,7 +194,7 @@ frappe.ui.form.on('CY Lead', {
                             popup_content += `
                                 <tr>
                                     <td>${response.caregiver_name}</td>
-                                    <td>${response.response_time || 'N/A'}</td>
+                                    <td>${response.broadcast_time || 'N/A'}</td>
                                     <td>${response.status}</td>
                                 </tr>
                             `;

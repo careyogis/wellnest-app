@@ -13,8 +13,4 @@ from frappe.model.document import Document
 from datetime import datetime
 
 class CaregiverResponse(Document):
-    def before_insert(self):
-        # Set both timestamps before saving
-        # self.broadcast_time = datetime.now()  # Capture the broadcast time
-        self.response_time = datetime.now()  # Capture the response time
-
+    pass

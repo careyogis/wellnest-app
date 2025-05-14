@@ -61,6 +61,7 @@ def get_matching_caregivers(city, requirement, language_preferences, service_typ
             case "Baby Care":
                 query_string += """ AND c.caregiver_type LIKE '%Child Care%' """
 
+        query_string += """ ORDER BY c.full_name """
         caregivers = frappe.db.sql(query_string.format(language_preferences[0], city), as_dict=True)
  
         return caregivers
@@ -80,6 +81,9 @@ def broadcast_lead(lead_name, phone_numbers, caregiver_ids):
         if isinstance(caregiver_ids, str):
             caregiver_ids = json.loads(caregiver_ids)
         
+        # create a record of broadcast to caregivers in Caregiver Response
+        record_caregiver_broadcast(lead_name, caregiver_ids)
+
         lead = frappe.get_doc("CY Lead", lead_name)
 
         requirement = lead.get("requirement")
@@ -127,8 +131,6 @@ def broadcast_lead(lead_name, phone_numbers, caregiver_ids):
         return {"error": str(e)}
 
 
-
-@frappe.whitelist()
 def record_caregiver_broadcast(lead_name, caregivers):
     """
     Create 'Caregiver Response' records to track broadcasted caregivers.
@@ -138,11 +140,7 @@ def record_caregiver_broadcast(lead_name, caregivers):
         if not isinstance(caregivers_list, list) or not caregivers_list:
             return {"error": "Invalid caregivers list"}
 
-        for caregiver_full_name in caregivers_list:
-            caregiver_id = frappe.get_value("Caregiver", {"full_name": caregiver_full_name}, "name")
-            if not caregiver_id:
-                continue
-
+        for caregiver_id in caregivers_list:
             # Avoid duplicate response records
             existing_entry = frappe.get_all(
                 "Caregiver Response",
@@ -155,50 +153,30 @@ def record_caregiver_broadcast(lead_name, caregivers):
                     "doctype": "Caregiver Response",
                     "cy_lead": lead_name,
                     "caregiver_name": caregiver_id,
+                    "broadcast_time": now_datetime().strftime("%Y-%m-%d %H:%M:%S"),
                     "status": "Pending",
-                    "broadcast_time": now_datetime()
                 })
-                new_entry.insert(ignore_permissions=True)
-                frappe.db.commit()
+                new_entry.insert()
 
         return {"message": "success"}
     except Exception as e:
         frappe.log_error(frappe.get_traceback(), "record_caregiver_broadcast Error")
         return {"error": str(e)}
 
-@frappe.whitelist()
-def create_caregiver_responses(lead_name, caregivers):
-    """
-    Create 'Lead Query Response' records for each selected caregiver.
-    """
-    try:
-        caregivers = frappe.parse_json(caregivers)
-        for caregiver_name in caregivers:
-            doc = frappe.get_doc({
-                "doctype": "Lead Query Response",
-                "lead": lead_name,
-                "caregiver_name": caregiver_name,
-                "status": "Pending"
-            })
-            doc.insert(ignore_permissions=True)
-        frappe.db.commit()
-        return {"status": "success", "message": "Caregiver responses recorded."}
-    except Exception as e:
-        frappe.log_error(f"Error creating caregiver responses: {str(e)}")
-        return {"status": "error", "message": str(e)}
-
 
 @frappe.whitelist()
-def get_caregiver_responses():
+def get_caregiver_responses(lead_name):
     """
     Fetch all caregiver responses with caregiver full names and response statuses.
     """
     try:
         responses = frappe.get_all(
             "Caregiver Response",
-            fields=["caregiver_name", "status", "response_time"]
+            fields=["caregiver_name", "status", "broadcast_time", "response_time"],
+            filters={"cy_lead": lead_name},
         )
 
+        # TODO: Try to remove this multiple db calls to get full names
         for response in responses:
             caregiver_full_name = frappe.db.get_value("Caregiver", response["caregiver_name"], "full_name")
             response["caregiver_name"] = caregiver_full_name or "Unknown"
