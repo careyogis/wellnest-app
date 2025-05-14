@@ -50,8 +50,9 @@ frappe.ui.form.on('CY Lead', {
                     method: 'wellnest.wellnest.doctype.cy_lead.cy_lead.get_matching_caregivers',
                     args: {
                         city: frm.doc.city,
-                        service_types: service_types,
-                        language_preferences: language_preferences
+                        requirement: frm.doc.requirement,
+                        language_preferences: language_preferences,
+                        service_types: service_types, // For future enhancement, will be ignored for now.
                     },
                     callback: function (response) {
                         if (!response.message || response.message.length === 0) {
@@ -83,7 +84,7 @@ frappe.ui.form.on('CY Lead', {
                         caregivers.forEach(caregiver => {
                             popup_content += `
                                 <tr>
-                                    <td><input type="checkbox" class="caregiver-checkbox" data-phone="${caregiver.phone_number}"></td>
+                                    <td><input type="checkbox" class="caregiver-checkbox" data-phone="${caregiver.phone_number}" data-cg="${caregiver.name}"></td>
                                     <td>${caregiver.full_name}</td>
                                     <td>${caregiver.city}</td>
                                     <td>${caregiver.pin_code || 'N/A'}</td>
@@ -103,12 +104,14 @@ frappe.ui.form.on('CY Lead', {
                             fields: [{ fieldname: 'caregiver_table', fieldtype: 'HTML', options: popup_content }],
                             primary_action_label: 'Broadcast',
                             primary_action: function () {
-                                let selected_caregivers = [];
+                                let selected_phones = [];
+                                let selected_caregiver_ids = [];
                                 $('.caregiver-checkbox:checked').each(function () {
-                                    selected_caregivers.push($(this).data('phone'));
+                                    selected_phones.push($(this).data('phone'));
+                                    selected_caregiver_ids.push($(this).data('cg'));
                                 });
 
-                                if (selected_caregivers.length === 0) {
+                                if (selected_phones.length === 0) {
                                     frappe.msgprint(__('Please select at least one caregiver.'));
                                     return;
                                 }
@@ -118,7 +121,8 @@ frappe.ui.form.on('CY Lead', {
                                     method: "wellnest.wellnest.doctype.cy_lead.cy_lead.broadcast_lead",
                                     args: {
                                         lead_name: frm.doc.name,
-                                        phone_numbers: JSON.stringify(selected_caregivers)
+                                        phone_numbers: JSON.stringify(selected_phones),
+                                        caregiver_ids: JSON.stringify(selected_caregiver_ids),
                                     },
                                     callback: function (r) {
                                         if (r.message) {
@@ -129,7 +133,7 @@ frappe.ui.form.on('CY Lead', {
                                                 method: "wellnest.wellnest.doctype.cy_lead.cy_lead.record_caregiver_broadcast",
                                                 args: {
                                                     lead_name: frm.doc.name,
-                                                    caregivers: JSON.stringify(selected_caregivers),
+                                                    caregivers: JSON.stringify(selected_phones),
                                                     whatsapp_message: whatsapp_message
                                                 },
                                                 callback: function (r) {

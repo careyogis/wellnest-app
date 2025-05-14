@@ -236,7 +236,7 @@
    "fieldname": "requirement",
    "fieldtype": "Select",
    "label": "Requirement",
-   "options": "\nAttendant at Home\nAyurveda\nICU at Home\nMedical Equipments\nNursing Care\nPhysiotherapy\nSpeech Therapy\nOther Services"
+   "options": "\nAttendant at Home\nAyurveda\nBaby Care\nICU at Home\nMedical Equipments\nNursing Care\nPhysiotherapy\nSpeech Therapy\nOther Services"
   },
   {
    "fieldname": "city",
@@ -247,7 +247,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-10 18:28:35.643559",
+ "modified": "2025-05-13 16:42:19.278473",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",

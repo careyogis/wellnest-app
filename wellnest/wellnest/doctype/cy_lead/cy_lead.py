@@ -11,7 +11,7 @@ class CYLead(Document):
 	pass
 
 @frappe.whitelist()
-def get_matching_caregivers(city, service_types, language_preferences):
+def get_matching_caregivers(city, requirement, language_preferences, service_types = None):
     # Fetch available caregivers based on:
     # - City
     # - Language preferences
@@ -19,6 +19,7 @@ def get_matching_caregivers(city, service_types, language_preferences):
     # - Caregiver is available (no ongoing engagement).
 
     # NOTE:
+    # - 13-05-25: Changing temp implementation to use requirement field instead of service_types
     # - The first element in service_types should be the primary Service required - e.g Attendant, Nurse, Child Care etc..
 
     try:
@@ -27,6 +28,9 @@ def get_matching_caregivers(city, service_types, language_preferences):
 
         if isinstance(service_types, str):
             service_types = json.loads(service_types)
+
+        if len(language_preferences) == 0:
+            language_preferences = [""]     # no preference
 
         query_string = """
             SELECT 
@@ -45,18 +49,18 @@ def get_matching_caregivers(city, service_types, language_preferences):
             WHERE c.city LIKE '{}%' 
             """
 
-        match service_types[0]:
-            case "General Duty Attendant":
+        match requirement:
+            case "Attendant at Home":
                 query_string += """ AND c.caregiver_type LIKE 'Attendant%' """
-            case "Nursing Care at Home":
+            case "Nursing Care" | "ICU at Home":
                 query_string += """ AND c.caregiver_type LIKE '%Nurse%' """
+            case "Physiotherapy":
+                query_string += """ AND c.caregiver_type = 'Physiotherapist' """
+            case "Speech Therapy":
+                query_string += """ AND c.caregiver_type = 'Speech Therapist' """
             case "Baby Care":
                 query_string += """ AND c.caregiver_type LIKE '%Child Care%' """
-            case "Physiotherapy at Home":
-                query_string += """ AND c.caregiver_type = 'Physiotherapist' """
-            case "SPEECH":
-                query_string += """ AND c.caregiver_type = 'Speech Therapist' """
-        
+
         caregivers = frappe.db.sql(query_string.format(language_preferences[0], city), as_dict=True)
  
         return caregivers
@@ -68,50 +72,54 @@ def get_matching_caregivers(city, service_types, language_preferences):
 
 
 @frappe.whitelist()
-def broadcast_lead(lead_name, phone_numbers):
+def broadcast_lead(lead_name, phone_numbers, caregiver_ids):
     # Generate WhatsApp message data to be broadcasted
     try:
+        if isinstance(phone_numbers, str):
+            phone_numbers = json.loads(phone_numbers)
+        if isinstance(caregiver_ids, str):
+            caregiver_ids = json.loads(caregiver_ids)
+        
         lead = frappe.get_doc("CY Lead", lead_name)
 
-        requirement = lead.get("services_required")[0].item_name
+        requirement = lead.get("requirement")
         medical_conditions = [d.medical_conditon_option for d in lead.get("medical_condition") if d.medical_conditon_option]
         patient_condition = ", ".join(medical_conditions) if medical_conditions else "Not specified"
         responsibilities = [d.activity for d in lead.get("service_details") if d.activity]
         responsibilities_str = ", ".join(responsibilities) if responsibilities else "Not specified"
         base_url = frappe.utils.get_url()
 
-        # Prepare a list of message payloads, one per caregiver
-        messages = []
-
-        for phone in phone_numbers:
-            caregiver = frappe.db.get_value("Caregiver", {"phone_number": phone}, "name")
-            if not caregiver:
-                frappe.log_error(f"No caregiver found for phone: {phone}", "Broadcast Lead")
-                continue
+        response_form_links = []
+        for i in range(len(phone_numbers)):
+            caregiverId = caregiver_ids[i]
 
             caregiver_response = frappe.db.get_value(
                 "Caregiver Response",
-                {"caregiver_name": caregiver, "cy_lead": lead.name},
+                {"caregiver_name": caregiverId, "cy_lead": lead.name},
                 "name"
             )
 
             if not caregiver_response:
-                frappe.log_error(f"No Caregiver Response found for {caregiver} and lead {lead.name}", "Broadcast Lead")
+                frappe.log_error(f"No Caregiver Response found for {caregiverId} and lead {lead.name}", "Broadcast Lead")
                 continue
 
-            response_form_link = f"{base_url}/caregiver-interest?response_id={caregiver_response}"
+            response_url = f"{base_url}/caregiver-interest?response_id={caregiver_response}"
+            response_form_links.append(response_url)
+            
+        if len(response_form_links) == 0:
+            return {"error": "Couldn't broadcast message to any caregivers."}
+        
+        data = {
+            "requirement": requirement,
+            "location": lead.city,
+            "condition": patient_condition,
+            "responsibility": responsibilities_str,
+            "phoneNumbers": phone_numbers,
+            "responseUrls": response_form_links,
+        }
 
-            messages.append({
-                "requirement": requirement,
-                "location": lead.city,
-                "condition": patient_condition,
-                "responsibility": responsibilities_str,
-                "phoneNumber": phone,
-                "responseUrl": response_form_link
-            })
+        result = broadcast_message(data)
 
-        # Call your broadcast_message function (assuming it supports batch messages)
-        result = broadcast_message(messages)
         return result
 
     except Exception as e:

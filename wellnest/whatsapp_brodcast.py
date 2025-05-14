@@ -44,7 +44,7 @@ def broadcast_message(data):
     condition = data.get('condition')
     responsibility = data.get('responsibility')
     phone_numbers = data.get('phoneNumbers')
-    response_url = data.get('responseUrl')
+    response_urls = data.get('responseUrls')
     
     request_data = {
         "requirements": {
@@ -57,10 +57,10 @@ def broadcast_message(data):
     }
 
     try:
-        if isinstance(phone_numbers, str):
-            phone_numbers = json.loads(phone_numbers)
-
-        for phone in phone_numbers:
+        # for phone in phone_numbers:
+        for i in range(len(phone_numbers)):
+            phone = phone_numbers[i]
+            response_url = response_urls[i]
             template_msg = build_template_message(phone, requirement, location, condition, responsibility, response_url)
             if template_msg:
                 send_message(template_msg)
