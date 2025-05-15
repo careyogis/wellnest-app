@@ -8,6 +8,7 @@
   "cy_lead",
   "status",
   "response_time",
+  "caregiver_phone",
   "column_break_mmwn",
   "caregiver_name",
   "broadcast_time",
@@ -17,6 +18,7 @@
   {
    "fieldname": "cy_lead",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "CY Lead",
    "options": "CY Lead"
   },
@@ -24,6 +26,7 @@
    "default": "Pending",
    "fieldname": "status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Status",
    "options": "Pending\nAccepted\nDeclined"
   },
@@ -42,6 +45,7 @@
   {
    "fieldname": "broadcast_time",
    "fieldtype": "Datetime",
+   "in_list_view": 1,
    "label": "Broadcast Time"
   },
   {
@@ -58,11 +62,18 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fetch_from": "caregiver_name.phone_number",
+   "fieldname": "caregiver_phone",
+   "fieldtype": "Read Only",
+   "in_list_view": 1,
+   "label": "Caregiver Phone"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-14 22:44:41.338281",
+ "modified": "2025-05-15 23:55:43.533298",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Caregiver Response",
@@ -81,7 +92,7 @@
    "write": 1
   }
  ],
- "sort_field": "modified",
+ "sort_field": "status",
  "sort_order": "DESC",
  "states": []
 }

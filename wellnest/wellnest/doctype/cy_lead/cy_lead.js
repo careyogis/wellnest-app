@@ -157,55 +157,10 @@ frappe.ui.form.on('CY Lead', {
 
             /**
              *  Show Interests Button
-             *  - Fetches caregiver responses
-             *  - Displays a table with caregivers who responded and their statuses
+             *  - Navigates to the "Caregiver Response" report for the selected lead
              */
             frm.add_custom_button('Show Interests', function () {
-                
-                // Fetch caregiver responses from the backend
-                frappe.call({
-                    method: 'wellnest.wellnest.doctype.cy_lead.cy_lead.get_caregiver_responses',
-                    args: {
-                        lead_name: frm.doc.name
-                    },
-                    callback: function (response) {
-                        if (!response.message || response.message.length === 0) {
-                            frappe.msgprint(__('This Lead has not been broadcasted to anyone yet.'));
-                            return;
-                        }
-
-                        let caregiver_responses = response.message;
-
-                        // Generate table for displaying caregiver responses
-                        let popup_content = `
-                            <div style="max-height: 300px; overflow-y: auto;">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Caregiver Name</th>
-                                            <th>Sent On</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                        `;
-
-                        caregiver_responses.forEach(response => {
-                            popup_content += `
-                                <tr>
-                                    <td>${response.caregiver_name}</td>
-                                    <td>${response.broadcast_time || 'N/A'}</td>
-                                    <td>${response.status}</td>
-                                </tr>
-                            `;
-                        });
-
-                        popup_content += `</tbody></table></div>`;
-
-                        // Display responses in a message box
-                        frappe.msgprint({ title: 'Caregiver Responses', message: popup_content, indicator: 'blue' });
-                    }
-                });
+                frappe.set_route('Report', 'Caregiver Response', {'cy_lead': frm.doc.name});
             });
         }
     }
