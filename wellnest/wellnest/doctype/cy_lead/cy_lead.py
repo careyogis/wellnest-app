@@ -111,7 +111,10 @@ def broadcast_lead(lead_name, phone_numbers, caregiver_ids):
             response_form_links.append(response_url)
             
         if len(response_form_links) == 0:
+            # print(f"No valid response form links could be formed for caregivers: {caregiver_ids}")
             return {"error": "Couldn't broadcast message to any caregivers."}
+        # else:
+        #     print(f"Response form links generated successfully: {response_form_links}")
         
         data = {
             "requirement": requirement,
@@ -122,8 +125,9 @@ def broadcast_lead(lead_name, phone_numbers, caregiver_ids):
             "responseUrls": response_form_links,
         }
 
+        # print(f"Data prepared for broadcast: {data}")
         result = broadcast_message(data)
-
+        # print(f"Broadcast result: {result}")
         return result
 
     except Exception as e:
@@ -135,33 +139,34 @@ def record_caregiver_broadcast(lead_name, caregivers):
     """
     Create 'Caregiver Response' records to track broadcasted caregivers.
     """
-    try:
-        caregivers_list = json.loads(caregivers) if isinstance(caregivers, str) else caregivers
-        if not isinstance(caregivers_list, list) or not caregivers_list:
-            return {"error": "Invalid caregivers list"}
+    caregivers_list = json.loads(caregivers) if isinstance(caregivers, str) else caregivers
+    if not isinstance(caregivers_list, list) or not caregivers_list:
+        # print(f"Invalid caregivers list: {caregivers_list}")
+        return {"error": "Invalid caregivers list"}
 
-        for caregiver_id in caregivers_list:
-            # Avoid duplicate response records
-            existing_entry = frappe.get_all(
-                "Caregiver Response",
-                filters={"cy_lead": lead_name, "caregiver_name": caregiver_id},
-                fields=["name"]
-            )
+    # print(f"Caregivers list is valid. Proceeding with recording caregiver response: {caregivers_list}")
+    for caregiver_id in caregivers_list:
+        # Avoid duplicate response records
+        response_entry = frappe.get_all(
+            "Caregiver Response",
+            filters={"cy_lead": lead_name, "caregiver_name": caregiver_id},
+            fields=["name"]
+        )
 
-            if not existing_entry:
-                new_entry = frappe.get_doc({
-                    "doctype": "Caregiver Response",
-                    "cy_lead": lead_name,
-                    "caregiver_name": caregiver_id,
-                    "broadcast_time": now_datetime().strftime("%Y-%m-%d %H:%M:%S"),
-                    "status": "Pending",
-                })
-                new_entry.insert()
+        if not response_entry:
+            # print(f"No existing entry found. Creating new response entry for caregiver {caregiver_id} and lead {lead_name}")
+            response_entry = frappe.get_doc({
+                "doctype": "Caregiver Response",
+                "cy_lead": lead_name,
+                "caregiver_name": caregiver_id,
+                "broadcast_time": now_datetime().strftime("%Y-%m-%d %H:%M:%S"),
+                "status": "Pending",
+            })
+            response_entry.insert()
+        # else:
+        #     print(f"Existing entry found. Updating broadcast time for caregiver {caregiver_id} and lead {lead_name}")
 
-        return {"message": "success"}
-    except Exception as e:
-        frappe.log_error(frappe.get_traceback(), "record_caregiver_broadcast Error")
-        return {"error": str(e)}
+    return response_entry
 
 
 @frappe.whitelist()
