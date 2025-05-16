@@ -201,7 +201,7 @@ frappe.ui.form.on('CY Lead', {
              *  - Navigates to the "Caregiver Response" report for the selected lead
              */
             frm.add_custom_button('Show Interests', function () {
-                frappe.set_route('Report', 'Caregiver Response', {'cy_lead': frm.doc.name});
+                frappe.set_route('List', 'Caregiver Response', {'cy_lead': frm.doc.name});
             });
         }
     }
