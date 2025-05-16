@@ -68,14 +68,25 @@ frappe.ui.form.on('CY Lead', {
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Select</th>
+                                            <td style="width: 2%;"><input type="checkbox" id="select-all"></td>
                                             <th>Name</th>
                                             <th>City</th>
-                                            <th>Pincode</th>
+                                            <th>Pin Code</th>
                                             <th>Caregiver Type</th>
                                             <th>Languages</th>
                                             <th>Availability</th>
                                             <th>Phone</th>
+                                        </tr>
+                                        <!-- Filter Row. Filters caregivers array to the input -->
+                                        <tr>
+                                            <th></th>
+                                            <td><input type="text" id="name-filter" class="form-control" placeholder="Filter Name"></td>
+                                            <td><input type="text" id="city-filter" class="form-control" placeholder="Filter City"></td>
+                                            <td><input type="text" id="pin-filter" class="form-control" placeholder="Filter Pin code"></td>
+                                            <td><input type="text" id="type-filter" class="form-control" placeholder="Filter Caregiver Type"></td>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -135,6 +146,36 @@ frappe.ui.form.on('CY Lead', {
                         });
                         dialog.show();
 
+                        // Filtering logic for caregivers table
+                        $(dialog.$wrapper).find('#name-filter, #city-filter, #pin-filter, #type-filter').on('input', function () {
+                            let nameVal = $('#name-filter').val().toLowerCase();
+                            let cityVal = $('#city-filter').val().toLowerCase();
+                            let pinVal = $('#pin-filter').val().toLowerCase();
+                            let typeVal = $('#type-filter').val().toLowerCase();
+
+                            $('.caregiver-checkbox').each(function () {
+                                let $row = $(this).closest('tr');
+                                let name = $row.find('td').eq(1).text().toLowerCase();
+                                let city = $row.find('td').eq(2).text().toLowerCase();
+                                let pin = $row.find('td').eq(3).text().toLowerCase();
+                                let type = $row.find('td').eq(4).text().toLowerCase();
+
+                                let show = true;
+                                if (nameVal && !name.includes(nameVal)) show = false;
+                                if (cityVal && !city.includes(cityVal)) show = false;
+                                if (pinVal && !pin.includes(pinVal)) show = false;
+                                if (typeVal && !type.includes(typeVal)) show = false;
+
+                                $row.toggle(show);
+                            });
+                        });
+
+                        // Select All functionality for filtered rows
+                        $(dialog.$wrapper).find('#select-all').on('change', function () {
+                            let checked = $(this).is(':checked');
+                            // Only select checkboxes in visible rows
+                            $(dialog.$wrapper).find('tbody tr:visible .caregiver-checkbox').prop('checked', checked);
+                        });
 
                         // Apply styles to center and enlarge the dialog
                         const $dialog = $(dialog.$wrapper).find('.modal-dialog');
