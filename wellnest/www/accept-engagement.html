@@ -1,0 +1,159 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<h2>Terms & Conditions</h2>
+
+<div id="t-and-c" style="border:1px solid #ccc; padding:20px; margin-bottom:30px;">
+  <ul>
+    <li>CareYogi is committed to delivering excellence in healthcare services, prioritizing patient-centered care, innovative technology-driven processes, and optimal clinical outcomes. Patient and family cooperation is crucial to achieving our mission. Please review this agreement carefully, as it outlines the understanding between you ('Patient') and CareYogi ('Agency') regarding the requested services. Our authorized representative can provide clarifications on the agreement's contents.</li>
+
+    <li><strong>Service Details:</strong>
+      <ul>
+        <li>a. The CareYogi representative has thoroughly explained the services to the Patient's Next of Kin (NOK).</li>
+        <li>b. Clear distinctions between different service categories and their deliverables have been provided.</li>
+        <li>c. Shift timings are confirmed as agreed upon during the onboarding process.</li>
+        <li>d. Each admission at CareYogi involves a standard care assessment, support, and supervisory visits according to protocols.</li>
+        <li>e. Staff assignments are based on care requirements, covering assigned staff's days off and emergency leaves; replacements are allocated based on availability.</li>
+        <li>f. In unavoidable situations, services may be temporarily suspended until alternative arrangements are made.</li>
+        <li>g. Services will be rendered as per advance booking and the service agreement.</li>
+      </ul>
+    </li>
+
+    <li><strong>Payment Terms:</strong>
+      <ul>
+        <li>a. Advance payment of estimated charges and recurring deposits for subsequent service cycles are required.</li>
+        <li>b. Additional charges apply if the same staff continues during their off days, leaves, or public holidays.</li>
+        <li>c. Service costs may vary based on changing care requirements due to the patient's condition.</li>
+        <li>d. Additional charges apply for consumables used during care.</li>
+        <li>e. Transportation charges vary if the patient requires staff accompaniment to different locations.</li>
+        <li>f. The family assumes responsibility for any injuries sustained by staff during service.</li>
+      </ul>
+    </li>
+
+    <li><strong>General Terms and Conditions:</strong>
+      <ul>
+        <li>Effective from the signing date for one year or until services are availed, whichever is earlier.</li>
+        <li>No direct cash payments to staff unless authorized.</li>
+        <li>Professional service fees include applicable taxes but exclude GST.</li>
+        <li>Services are strictly as agreed upon; any changes require written agreement.</li>
+        <li>Basic amenities for staff at the beneficiary's premises are the beneficiary's responsibility.</li>
+        <li>Staff will not perform domestic chores.</li>
+        <li>Respectful treatment of staff is expected from the beneficiary and family members.</li>
+        <li>Staff entitlements under labor laws include leave provisions.</li>
+        <li>Staff replacements may occur with notice; unsuitable replacements will be addressed promptly.</li>
+        <li>Termination with notice or mutual consent; immediate termination for material breach.</li>
+        <li>Financial settlements upon termination; no refunds upon death or relocation.</li>
+        <li>Non-solicitation clause post-termination; breach may incur penalties.</li>
+        <li>Governed by Indian law; disputes resolved in New Delhi courts.</li>
+      </ul>
+    </li>
+
+    <li><strong>Service-Specific Terms:</strong>
+      <ul>
+        <li>a. Acceptance of inherent risks by the beneficiary in receiving services.</li>
+        <li>b. Limitation of liability for infection, injury, or death during service provision.</li>
+        <li>c. Indemnification of CareYogi by the beneficiary for claims arising from service-related incidents.</li>
+      </ul>
+    </li>
+
+    <li><strong>Feedback and Contact:</strong>  
+    For concerns, feedback, suggestions, or complaints regarding care or services, contact our Service Excellence Desk at <strong>info@careyogis.com</strong> or call <strong>9810918237</strong>.</li>
+
+    <li><strong>Consent:</strong>  
+    By continuing to use our website and/or mobile app, you acknowledge understanding and agreement with the above terms and conditions.</li>
+  </ul>
+</div>
+
+<button id="accept-btn" onclick="acceptTerms()">I Accept</button>
+
+<div id="payment-section" style="display:none; margin-top: 30px;">
+  <h3>Make Payment</h3>
+  <p>Scan QR code using UPI app:</p>
+  <img id="upi-qr" src="" width="200" />
+
+  <p>Enter UPI Transaction ID:</p>
+  <input type="text" id="txn-id" placeholder="e.g., UPI123456">
+  <button onclick="submitPayment()">Submit Payment</button>
+</div>
+
+<script>
+  // Get engagement_id from URL parameters
+  const params = new URLSearchParams(window.location.search);
+  const engagement_id = params.get("engagement_id");
+
+  // Show alert if engagement_id is missing in the URL
+  if (!engagement_id) {
+    alert('Invalid link. Engagement ID missing.');
+    throw new Error('Engagement ID missing');
+  }
+
+  // Function to mark terms as accepted and trigger payment section
+  async function acceptTerms() {
+    try {
+      const response = await fetch("/api/method/wellnest.wellnest.doctype.engagement.engagement.accept_terms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ engagement_id: engagement_id })
+      });
+      const data = await response.json();
+
+      if (data.message && data.message.success) {
+        document.getElementById("accept-btn").style.display = "none";
+        showPaymentSection(); // Show QR and transaction entry
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      alert('Server error. Please try again later.');
+    }
+  }
+
+  // Function to display the QR code and show payment form
+  function showPaymentSection() {
+    fetch(`/api/method/wellnest.wellnest.doctype.engagement.engagement.get_engagement_details?engagement_id=${engagement_id}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.message && data.message.success) {
+          const upi_uri = data.message.data.upi_uri;
+          const qr_url = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upi_uri)}&size=200x200`;
+
+          document.getElementById("upi-qr").src = qr_url;
+          document.getElementById("payment-section").style.display = "block";
+        } else {
+          alert(data.message.error || "Could not load payment details.");
+        }
+      })
+      .catch(() => {
+        alert('Server error. Please try again later.');
+      });
+  }
+
+  // Function to submit payment by sending transaction ID to the backend
+  async function submitPayment() {
+    try {
+      const txn = document.getElementById("txn-id").value.trim();
+      if (!txn) {
+        alert('Please enter the Transaction ID.');
+        return;
+      }
+
+      const response = await fetch("/api/method/wellnest.wellnest.doctype.engagement.engagement.submit_payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ engagement_id: engagement_id, transaction_id: txn })
+      });
+      const data = await response.json();
+
+      if (data.message && data.message.success) {
+        alert("Payment successful! Thank you.");
+        window.location.reload();
+      } else {
+        alert("Something went wrong during payment. Please try again.");
+      }
+    } catch (error) {
+      alert('Server error. Please try again later.');
+    }
+  }
+</script>
+
+{% endblock %}

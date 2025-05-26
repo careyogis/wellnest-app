@@ -11,12 +11,16 @@
   "start_date",
   "end_date",
   "service_hours",
+  "acceptance_timestamp",
+  "payment_status",
+  "terms_accepted",
   "column_break_fhbl",
   "agency",
   "daily_reporting_time",
   "notes_to_caregiver",
   "nursing_manager",
   "nursing_manager_contact",
+  "payment_transaction_id",
   "required_services_section",
   "required_activity",
   "section_break_hdyn",
@@ -107,11 +111,33 @@
    "fieldtype": "Data",
    "label": "Nursing Manager",
    "options": "Name"
+  },
+  {
+   "fieldname": "acceptance_timestamp",
+   "fieldtype": "Datetime",
+   "label": "Acceptance Timestamp"
+  },
+  {
+   "fieldname": "payment_status",
+   "fieldtype": "Select",
+   "label": "Payment Status",
+   "options": "\nPending\nPaid\nFailed"
+  },
+  {
+   "default": "0",
+   "fieldname": "terms_accepted",
+   "fieldtype": "Check",
+   "label": "Terms Accepted"
+  },
+  {
+   "fieldname": "payment_transaction_id",
+   "fieldtype": "Data",
+   "label": "Payment Transaction ID"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-08 17:49:16.522672",
+ "modified": "2025-05-06 13:08:51.067427",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Engagement",
@@ -147,23 +173,23 @@
    "write": 1
   },
   {
-    "read": 1,
-    "role": "Caregiver",
-    "share": 1,
-    "write": 1
-   },
-   {
-    "create": 1,
-    "delete": 1,
-    "email": 1,
-    "export": 1,
-    "print": 1,
-    "read": 1,
-    "report": 1,
-    "role": "Customer Success",
-    "share": 1,
-    "write": 1
-   }
+   "read": 1,
+   "role": "Caregiver",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Customer Success",
+   "share": 1,
+   "write": 1
+  }
  ],
  "show_title_field_in_link": 1,
  "sort_field": "modified",
