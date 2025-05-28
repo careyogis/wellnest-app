@@ -118,7 +118,7 @@ def get_engagement_details(engagement_id):
         invoice = invoice[0]
 
         # Fetch UPI ID from Company
-        upi_id = frappe.db.get_value("Company", invoice.company, "upi_id")
+        upi_id = frappe.db.get_value("Company", invoice.company, "custom_upi_id")
         if not upi_id:
             return {
                 "success": False,
