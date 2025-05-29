@@ -88,25 +88,30 @@
   }
 
   // Function to mark terms as accepted and trigger payment section
-  async function acceptTerms() {
-    try {
-      const response = await fetch("/api/method/wellnest.wellnest.doctype.engagement.engagement.accept_terms", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ engagement_id: engagement_id })
-      });
-      const data = await response.json();
+ async function acceptTerms() {
+  try {
+    const csrfToken = frappe.csrf_token; 
+    const response = await fetch("/api/method/wellnest.wellnest.doctype.engagement.engagement.accept_terms", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Frappe-CSRF-Token": csrfToken
+      },
+      body: JSON.stringify({ engagement_id: engagement_id })
+    });
 
-      if (data.message && data.message.success) {
-        document.getElementById("accept-btn").style.display = "none";
-        showPaymentSection(); // Show QR and transaction entry
-      } else {
-        alert("Something went wrong. Please try again.");
-      }
-    } catch (error) {
-      alert('Server error. Please try again later.');
+    const data = await response.json();
+
+    if (data.message && data.message.success) {
+      document.getElementById("accept-btn").style.display = "none";
+      showPaymentSection(); // Show QR and transaction entry
+    } else {
+      alert("Something went wrong. Please try again.");
     }
+  } catch (error) {
+    alert('Server error. Please try again later.');
   }
+}
 
   // Function to display the QR code and show payment form
   function showPaymentSection() {

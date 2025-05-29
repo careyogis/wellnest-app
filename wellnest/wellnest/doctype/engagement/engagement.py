@@ -16,7 +16,7 @@ def generate_upi_qr(upi_uri, file_path="/tmp/upi_qr.png"):
     img.save(file_path)
     return file_path
 
-frappe.local.flags.ignore_csrf = True
+
 @frappe.whitelist(allow_guest=True)
 
 def accept_terms():
