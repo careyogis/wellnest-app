@@ -71,9 +71,9 @@
   <p>Scan QR code using UPI app:</p>
   <img id="upi-qr" src="" width="200" />
 
-  <p>Enter UPI Transaction ID:</p>
+  <!-- <p>Enter UPI Transaction ID:</p>
   <input type="text" id="txn-id" placeholder="e.g., UPI123456">
-  <button onclick="submitPayment()">Submit Payment</button>
+  <button onclick="submitPayment()">Submit Payment</button> -->
 </div>
 
 <script>
@@ -113,7 +113,7 @@
   }
 }
 
-  // Function to display the QR code and show payment form
+  // Function to display the QR code 
   function showPaymentSection() {
     fetch(`/api/method/wellnest.wellnest.doctype.engagement.engagement.get_engagement_details?engagement_id=${engagement_id}`)
       .then(r => r.json())
@@ -131,33 +131,6 @@
       .catch(() => {
         alert('Server error. Please try again later.');
       });
-  }
-
-  // Function to submit payment by sending transaction ID to the backend
-  async function submitPayment() {
-    try {
-      const txn = document.getElementById("txn-id").value.trim();
-      if (!txn) {
-        alert('Please enter the Transaction ID.');
-        return;
-      }
-
-      const response = await fetch("/api/method/wellnest.wellnest.doctype.engagement.engagement.submit_payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ engagement_id: engagement_id, transaction_id: txn })
-      });
-      const data = await response.json();
-
-      if (data.message && data.message.success) {
-        alert("Payment successful! Thank you.");
-        window.location.reload();
-      } else {
-        alert("Something went wrong during payment. Please try again.");
-      }
-    } catch (error) {
-      alert('Server error. Please try again later.');
-    }
   }
 </script>
 

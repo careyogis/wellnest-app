@@ -43,32 +43,6 @@ def accept_terms():
         raise
 
 @frappe.whitelist(allow_guest=True)
-def submit_payment():
-    """
-    Guest-accessible API to submit UPI payment details.
-    Expects JSON body: { "engagement_id": "...", "transaction_id": "..." }
-    Updates engagement with transaction ID and marks payment as 'Paid'.
-    """
-    data = frappe.request.get_json()
-    if not data:
-        frappe.throw("No data received.")
-
-    engagement_id = data.get('engagement_id')
-    transaction_id = data.get('transaction_id')
-
-    if not engagement_id or not transaction_id:
-        frappe.throw("Missing required fields: engagement_id or transaction_id.")
-
-    doc = frappe.get_doc("Engagement", engagement_id)
-
-    if doc.payment_status != "Paid":
-        doc.payment_transaction_id = transaction_id
-        doc.payment_status = "Paid"
-        doc.save(ignore_permissions=True)
-
-    return {"success": True}
-
-@frappe.whitelist(allow_guest=True)
 def get_engagement_details(engagement_id):
     """
     Fetches engagement and latest unpaid invoice details for the customer.
