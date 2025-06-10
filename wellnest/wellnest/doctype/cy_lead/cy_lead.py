@@ -34,7 +34,7 @@ def get_matching_caregivers(city, requirement, language_preferences, service_typ
 
         query_string = """
             SELECT 
-                c.name, c.full_name, c.city, c.pin_code, c.caregiver_type, c.phone_number,
+                c.name, c.full_name, c.city, c.gender, c.caregiver_type, c.phone_number,
                 IF(engmnt.end_date IS NULL, 'Available', 'Engaged') as availability,
                 COALESCE(l.spoken_language_option, 'Not Matching') as languages
             FROM 
@@ -118,7 +118,7 @@ def broadcast_lead(lead_name, phone_numbers, caregiver_ids):
         
         data = {
             "requirement": requirement,
-            "location": lead.city,
+            "location": lead.service_area + ", " + lead.city if lead.service_area else lead.city,
             "condition": patient_condition,
             "responsibility": responsibilities_str,
             "phoneNumbers": phone_numbers,

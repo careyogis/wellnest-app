@@ -23,7 +23,7 @@ frappe.ui.form.on('CY Lead', {
             
             /**
              *  Broadcast Button
-             *  - Checks mandatory fields (City & Pincode)
+             *  - Checks mandatory fields (City)
              *  - Fetches caregivers based on matching criteria
              *  - Displays a selection popup for broadcasting
              *  - Sends selected caregivers to the backend for recording the broadcast
@@ -71,7 +71,7 @@ frappe.ui.form.on('CY Lead', {
                                             <td style="width: 2%;"><input type="checkbox" id="select-all"></td>
                                             <th>Name</th>
                                             <th>City</th>
-                                            <th>Pin Code</th>
+                                            <th>Gender</th>
                                             <th>Caregiver Type</th>
                                             <th>Languages</th>
                                             <th>Availability</th>
@@ -82,7 +82,7 @@ frappe.ui.form.on('CY Lead', {
                                             <th></th>
                                             <td><input type="text" id="name-filter" class="form-control" placeholder="Filter Name"></td>
                                             <td><input type="text" id="city-filter" class="form-control" placeholder="Filter City"></td>
-                                            <td><input type="text" id="pin-filter" class="form-control" placeholder="Filter Pin code"></td>
+                                            <td><input type="text" id="gender-filter" class="form-control" placeholder="Filter Gender"></td>
                                             <td><input type="text" id="type-filter" class="form-control" placeholder="Filter Caregiver Type"></td>
                                             <th></th>
                                             <th></th>
@@ -98,7 +98,7 @@ frappe.ui.form.on('CY Lead', {
                                     <td><input type="checkbox" class="caregiver-checkbox" data-phone="${caregiver.phone_number}" data-cg="${caregiver.name}"></td>
                                     <td>${caregiver.full_name}</td>
                                     <td>${caregiver.city}</td>
-                                    <td>${caregiver.pin_code || 'N/A'}</td>
+                                    <td>${caregiver.gender || 'N/A'}</td>
                                     <td>${caregiver.caregiver_type || 'N/A'}</td>
                                     <td>${caregiver.languages || 'N/A'}</td>
                                     <td>${caregiver.availability}</td>
@@ -147,23 +147,23 @@ frappe.ui.form.on('CY Lead', {
                         dialog.show();
 
                         // Filtering logic for caregivers table
-                        $(dialog.$wrapper).find('#name-filter, #city-filter, #pin-filter, #type-filter').on('input', function () {
+                        $(dialog.$wrapper).find('#name-filter, #city-filter, #gender-filter, #type-filter').on('input', function () {
                             let nameVal = $('#name-filter').val().toLowerCase();
                             let cityVal = $('#city-filter').val().toLowerCase();
-                            let pinVal = $('#pin-filter').val().toLowerCase();
+                            let genderVal = $('#gender-filter').val().toLowerCase();
                             let typeVal = $('#type-filter').val().toLowerCase();
 
                             $('.caregiver-checkbox').each(function () {
                                 let $row = $(this).closest('tr');
                                 let name = $row.find('td').eq(1).text().toLowerCase();
                                 let city = $row.find('td').eq(2).text().toLowerCase();
-                                let pin = $row.find('td').eq(3).text().toLowerCase();
+                                let gender = $row.find('td').eq(3).text().toLowerCase();
                                 let type = $row.find('td').eq(4).text().toLowerCase();
 
                                 let show = true;
                                 if (nameVal && !name.includes(nameVal)) show = false;
                                 if (cityVal && !city.includes(cityVal)) show = false;
-                                if (pinVal && !pin.includes(pinVal)) show = false;
+                                if (genderVal && !gender.includes(genderVal)) show = false;
                                 if (typeVal && !type.includes(typeVal)) show = false;
 
                                 $row.toggle(show);
