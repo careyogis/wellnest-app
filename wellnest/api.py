@@ -4,6 +4,7 @@ from .utils.sms_service import send_otp_using_twilio, verify_otp_for_phone
 
 from datetime import datetime, date, timezone
 import pytz
+import json
 
 
 
@@ -419,7 +420,6 @@ def verify_otp(phone, otp):
     # if yes, logs in the user and returns the user
     return verify_otp_for_phone(phone, otp)
 
-
 from frappe.utils import now
 
 @frappe.whitelist(allow_guest=True)
@@ -459,9 +459,36 @@ def update_caregiver_response(response_id):
 
 
 
+@frappe.whitelist(allow_guest=True)
+def update_fcm_token():
+    try:
+        data = json.loads(frappe.request.data)
+        email_id = data.get("email_id")
+        fcm_token = data.get("fcm_token")
 
+        if not email_id or not fcm_token:
+            frappe.throw("Missing email or token", title="Validation Error")
 
+        contact = frappe.db.sql("""
+            SELECT parent FROM `tabContact Email`
+            WHERE email_id = %s
+            LIMIT 1
+        """, (email_id,), as_dict=True)
 
+        if contact:
+            contact_doc = frappe.get_doc("Contact", contact[0]["parent"])
+            contact_doc.custom_fcm_token = fcm_token
+            contact_doc.save(ignore_permissions=True)
+            frappe.db.commit()
+
+            frappe.logger().info(f"✅ FCM Token updated for: {email_id}")
+            return {"status": "success", "message": "FCM Token updated successfully"}
+        else:
+            frappe.throw(f"Contact not found for {email_id}", title="Not Found")
+
+    except Exception as e:
+        frappe.log_error(f"Exception: {str(e)}", "update_fcm_token")
+        return {"status": "error", "message": str(e)}
 
 
 
