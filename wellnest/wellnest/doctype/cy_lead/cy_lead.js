@@ -163,7 +163,10 @@ frappe.ui.form.on('CY Lead', {
                                 let show = true;
                                 if (nameVal && !name.includes(nameVal)) show = false;
                                 if (cityVal && !city.includes(cityVal)) show = false;
-                                if (genderVal && !gender.includes(genderVal)) show = false;
+
+                                // if gender doesn't start with genderVal, hide the row
+                                if (genderVal && !gender.startsWith(genderVal)) show = false;
+
                                 if (typeVal && !type.includes(typeVal)) show = false;
 
                                 $row.toggle(show);
