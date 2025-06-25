@@ -1,0 +1,84 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-06-24 19:44:30.107240",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "engagement",
+  "vital_type",
+  "recorded_by",
+  "column_break_cpbx",
+  "date",
+  "value",
+  "recorded_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "engagement",
+   "fieldtype": "Link",
+   "label": "Engagement",
+   "options": "Engagement"
+  },
+  {
+   "fieldname": "vital_type",
+   "fieldtype": "Select",
+   "label": "Vital type",
+   "options": "\nBody Temperature\nPulse Rate\nRespiratory Rate\nBlood Pressure\nOxygen Saturation\nHeart Rate"
+  },
+  {
+   "fieldname": "recorded_by",
+   "fieldtype": "Link",
+   "label": "Recorded by",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_cpbx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "value",
+   "fieldtype": "Data",
+   "label": "Value"
+  },
+  {
+   "fieldname": "recorded_on",
+   "fieldtype": "Datetime",
+   "label": "Recorded on"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-06-25 21:24:23.798592",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Vital Reading",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Caregiver",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
