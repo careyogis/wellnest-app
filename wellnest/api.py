@@ -87,11 +87,20 @@ def dashboard():
     for engagementId in engagementIds:
         engagement = frappe.get_doc("Engagement", engagementId)
 
-        # Checking for active engagements by comparing today to the start and end dates
-        if (engagement.start_date > todayDateString) or (
-            engagement.end_date and todayDateString > engagement.end_date
-        ):
+        # # Checking for active engagements by comparing today to the start and end dates
+        # if (engagement.start_date > todayDateString) or (
+        #     engagement.end_date and todayDateString > engagement.end_date
+        # ):
+
+        #     continue
+
+
+            # This will prevent the comparison from being evaluated if the field is None.
+        if (engagement.start_date and engagement.start_date > todayDateString) or (
+             engagement.end_date and engagement.end_date < todayDateString
+            ):
             continue
+
 
         for assignedCaregiver in engagement.assigned_caregivers:
             # Skip caregivers that do not match the given caregiver name
@@ -193,33 +202,149 @@ def profile():
         }
 
 
-@frappe.whitelist()
-def activity(dailyRecordId):
-    daily_engagement_record = frappe.get_doc("Engagement Daily Record", dailyRecordId)
+# @frappe.whitelist()
 
-    engagement = frappe.get_doc("Engagement", daily_engagement_record.engagement)
+# def activity(dailyRecordId):
+#     frappe.log_error(title="Activity API Debug", message=f"Called with dailyRecordId: {daily_record_id}")
 
-    customer = frappe.get_doc("Customer", engagement.customer)
 
-    # vital_tasks = []
+#     daily_engagement_record = frappe.get_doc("Engagement Daily Record", dailyRecordId)
 
-    # # filter out vital tasks from engagement record and add to vitalTasks array
-    # for task in engagement.required_activity:
-    #     if task.activity_type == "Vital":
-    #         vital_tasks.append(task)
-    #         engagement.required_activity.remove(task)
+#     engagement = frappe.get_doc("Engagement", daily_engagement_record.engagement)
 
-    # # filter out vital tasks from daily engagement record
-    # for task in daily_engagement_record.performed_activities:
-    #     if task.activity_type == "Vital":
-    #         daily_engagement_record.performed_activities.remove(task)
+#     customer = frappe.get_doc("Customer", engagement.customer)
 
-    return {
-        "customerDoc": customer,
-        "dailyEngagementRecord": daily_engagement_record,
-        "engagementRecord": engagement,
-        # "vitalTasks": vital_tasks,
-    }
+#     vital_tasks = []
+
+#     # filter out vital tasks from engagement record and add to vitalTasks array
+#     for task in engagement.required_activity:
+#         if task.activity_type == "Vital":
+#             vital_tasks.append(task)
+#             engagement.required_activity.remove(task)
+
+#     # filter out vital tasks from daily engagement record
+#     for task in daily_engagement_record.performed_activities:
+#         if task.activity_type == "Vital":
+#             daily_engagement_record.performed_activities.remove(task)
+
+#     return {
+#         "customerDoc": customer,
+#         "dailyEngagementRecord": daily_engagement_record,
+#         "engagementRecord": engagement,
+#         "vitalTasks": vital_tasks,
+#     }
+
+
+
+@frappe.whitelist(allow_guest=True)
+def activity(dailyRecordId=None):
+    """
+    API to fetch caregiver dashboard data for a specific day's engagement,
+    including customer info, engagement details, and latest vitals performed.
+
+    Parameters:
+    - dailyRecordId: ID of the Engagement Daily Record to fetch context for.
+
+    Returns:
+    - customerDoc: Customer document linked to the engagement.
+    - dailyEngagementRecord: The Engagement Daily Record document.
+    - engagementRecord: The full Engagement document.
+    - vitalTasks: A list of latest completed vital tasks (if available).
+    """
+    try:
+        frappe.log_error("Activity API Called", f"Received dailyRecordId: {dailyRecordId}")
+
+        if not dailyRecordId:
+            return {"error": "dailyRecordId is required"}
+
+        # Fetch documents
+        daily_engagement_record = frappe.get_doc("Engagement Daily Record", dailyRecordId)
+        engagement = frappe.get_doc("Engagement", daily_engagement_record.engagement)
+        customer = frappe.get_doc("Customer", engagement.customer)
+
+        # Define supported vital types
+        vital_names = [
+            "Body temperature", "Pulse rate", "Respiratory rate",
+            "Blood pressure", "Oxygen saturation", "Heart rate"
+        ]
+
+        # Extract the latest reading for each vital type
+        latest_vitals = {}
+        sorted_tasks = sorted(
+            daily_engagement_record.performed_activities,
+            key=lambda x: x.completion_time or "",
+            reverse=True
+        )
+
+        for task in sorted_tasks:
+            if task.activity in vital_names and task.activity not in latest_vitals:
+                latest_vitals[task.activity] = {
+                    "activity": task.activity,
+                    "completion_time": task.completion_time,
+                    "activity_data": task.activity_data
+                }
+
+        # Return as a list of latest unique vital readings
+        vital_tasks = list(latest_vitals.values())
+
+        return {
+            "customerDoc": customer,
+            "dailyEngagementRecord": daily_engagement_record,
+            "engagementRecord": engagement,
+            "vitalTasks": vital_tasks
+        }
+
+    except Exception as e:
+        frappe.log_error("Activity API Error", frappe.get_traceback())
+        return {"error": str(e)}
+
+    
+
+@frappe.whitelist(allow_guest=False)
+def submit_vital_reading(engagement, vital_type, value, recorded_on=None):
+    """
+    API to record a new vital reading against an Engagement.
+
+    Parameters:
+    - engagement: Engagement ID to which this reading is linked.
+    - vital_type: The name/type of the vital being recorded (e.g., Heart Rate).
+    - value: The measured value entered by caregiver.
+    - recorded_on (optional): Timestamp of when it was recorded. Defaults to now().
+
+    Behavior:
+    - Also sets the `date` field (date only) in addition to `recorded_on` (datetime).
+    - Records the current session user as `recorded_by`.
+
+    Returns:
+    - Success message with the Vital Reading document name.
+    """
+    try:
+        # Basic validation
+        if not (engagement and vital_type and value):
+            frappe.throw("Missing required fields: engagement, vital_type, value")
+
+        # Create new Vital Reading document
+        vital_doc = frappe.new_doc("Vital Reading")
+        vital_doc.engagement = engagement
+        vital_doc.vital_type = vital_type
+        vital_doc.value = value
+        vital_doc.recorded_on = recorded_on or frappe.utils.now()
+        vital_doc.date = frappe.utils.today()  # Explicitly set the date field
+        vital_doc.recorded_by = frappe.session.user
+
+        # Save to database
+        vital_doc.insert(ignore_permissions=True)
+        frappe.db.commit()
+
+        return {"message": "Vital reading saved", "vital": vital_doc.name}
+
+    except Exception as e:
+        # Log and return error
+        frappe.log_error(frappe.get_traceback(), "submit_vital_reading error")
+        frappe.throw(f"Failed to save vital reading: {str(e)}")
+
+
+
 
 
 @frappe.whitelist()

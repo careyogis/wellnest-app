@@ -21,8 +21,17 @@
               <TodoRow v-for="task in dailyEngagementRecord.data.performed_activities"
                 :dailyRecordId="props.dailyRecordId" :title="task.activity" :key="task.name" :checked="true"
                 :taskId="task.name" />
-              <!-- <div class="mt-8 mb-2 text-xl text-[#070707] font-semibold">Vital Tasks</div> -->
-              <!-- <VitalTask v-for="task in vitalTasks.data" :title="task.activity" :dailyRecordId="props.dailyRecordId" :completionTime="task.completion_time" /> -->
+              <div class="mt-8 mb-2 text-xl text-[#070707] font-semibold">Vital Tasks</div>
+              <VitalTask
+                  v-for="vital in vitalTaskList"
+                    :key="vital.activity"
+                    :title="vital.activity"
+                    :dailyRecordId="props.dailyRecordId"
+                    :engagementId="engagementRecord.data.name"
+                    :completionTime="vital.completion_time || null"
+                    :value="vital.value || ''"
+              />
+
             </div>
             <div v-else-if="state.index === 1">
               <div class="flex justify-between items-center w-full">
@@ -46,9 +55,10 @@ import { computed, reactive, ref, provide } from 'vue';
 import { createDocumentResource, createResource } from 'frappe-ui';
 import CaregiverNavbar from '../components/CaregiverNavbar.vue';
 import TodoRow from '../components/TodoRow.vue';
-// import VitalTask from '../components/VitalTask.vue';
+import VitalTask from '../components/VitalTask.vue';
 
 const props = defineProps({ dailyRecordId: String });
+console.log("Received dailyRecordId:", props.dailyRecordId);
 
 const state = reactive({
   index: 0,
@@ -73,10 +83,31 @@ const dailyEngagementRecord = reactive({
   data: null,
 });
 
-// const vitalTasks = reactive({
-//   data: [],
-//   loading: false
-// })
+const vitalTasks = reactive({
+  data: [],
+  loading: false
+})
+
+// Static list of all vital types that should be displayed, even if not yet recorded
+const defaultVitals = [
+  "Body temperature",
+  "Pulse rate",
+  "Respiratory rate",
+  "Blood pressure",
+  "Oxygen saturation",
+  "Heart rate"
+];
+
+// Computes the list of vital tasks to display on screen
+// If any vitals have been previously recorded (fetched from API), use those
+// Otherwise, use the default list so the caregiver always sees all vital input options
+const vitalTaskList = computed(() => {
+  if (vitalTasks.data && vitalTasks.data.length > 0) {
+    return vitalTasks.data;
+  }
+  return defaultVitals.map(v => ({ activity: v }));
+});
+
 
 function filterCompletedActivities() {
   engagementRecord.data.required_activity = JSON.parse(JSON.stringify(activityResource.data.engagementRecord.required_activity));
@@ -113,13 +144,15 @@ async function apiCall() {
     // Compare the activities from engagements to that of daily record and show only those that aren't in daily record
     filterCompletedActivities();
 
-    // vitalTasks.data = JSON.parse(JSON.stringify(activityResource.data.vitalTasks));
+    // Fetch previously recorded vitals from backend response
+        vitalTasks.data = JSON.parse(JSON.stringify(activityResource.data.vitalTasks));
+
 
     // Validate the fetched data
     if (!activityResourceResponse?.data) {
       console.warn('No data available for the provided `EngagementId`.');
     }
-    // console.log(vitalTasks.data);
+    console.log(vitalTasks.data);
   } catch (error) {
     console.error('API call failed:', error);
     engagementRecord.data = null;
