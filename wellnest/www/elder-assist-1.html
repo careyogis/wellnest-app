@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const images = [
+            "assets/wellnest/images/resources/elder-assist-1.jpeg",
+            "assets/wellnest/images/resources/elder-assist-2.jpeg",
+            "assets/wellnest/images/resources/elder-assist-3.jpeg",
+            "assets/wellnest/images/resources/elder-assist-4.jpeg",
+            "assets/wellnest/images/resources/elder-assist-5.jpeg"
+        ];
+        let idx = 0;
+        const img = document.querySelector('.full-page-img');
+        setInterval(function() {
+            idx = (idx + 1) % images.length;
+            img.src = images[idx];
+        }, 7000);
+    });
+</script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Elder Assist 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            min-height: 100vh;
+            min-width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+        .full-page-img {
+            width: 100vw;
+            height: 100vh;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+    <img src="assets/wellnest/images/resources/elder-assist-1.jpeg" alt="Elder Assist" class="full-page-img">
+</body>
+</html>
