@@ -459,7 +459,7 @@ def update_caregiver_response(response_id):
 
 
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist()
 def update_fcm_token():
     try:
         data = json.loads(frappe.request.data)

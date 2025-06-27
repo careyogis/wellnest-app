@@ -87,6 +87,10 @@ def broadcast_lead(lead_name, phone_numbers, caregiver_ids):
         lead = frappe.get_doc("CY Lead", lead_name)
 
         requirement = lead.get("requirement")
+
+        if not requirement:
+            return {"error": "Please specify Requirement in the lead."}
+
         medical_conditions = [d.medical_conditon_option for d in lead.get("medical_condition") if d.medical_conditon_option]
         patient_condition = ", ".join(medical_conditions) if medical_conditions else "Not specified"
         responsibilities = [d.activity for d in lead.get("service_details") if d.activity]
