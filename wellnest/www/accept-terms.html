@@ -77,28 +77,61 @@
 </div>
 
 <script>
-  // Get engagement_id from URL parameters
-  const params = new URLSearchParams(window.location.search);
-  const engagement_id = params.get("engagement_id");
+  // // Get engagement_id from URL parameters
+  // const params = new URLSearchParams(window.location.search);
+  // const engagement_id = params.get("engagement_id");
 
-  // Show alert if engagement_id is missing in the URL
-  if (!engagement_id) {
-    alert('Invalid link. Engagement ID missing.');
-    throw new Error('Engagement ID missing');
+  // Get customer_id from URL parameters
+  const params = new URLSearchParams(window.location.search);
+  const customer_id = params.get("customer_id");
+
+
+  // // Show alert if engagement_id is missing in the URL
+  // if (!engagement_id) {
+  //   alert('Invalid link. Engagement ID missing.');
+  //   throw new Error('Engagement ID missing');
+  // }
+
+  // show alert if customer_id is missing in the url
+  if (!customer_id) {
+    alert('Invalid link. Customer ID missing.');
+    throw new Error('Customer ID missing');
   }
+  
+  // On page load, check if customer already accepted T&C
+window.addEventListener("DOMContentLoaded", () => {
+  fetch(`/api/method/wellnest.api.get_terms_status?customer_id=${customer_id}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.message && data.message.success) {
+        if (data.message.accepted) {
+          document.getElementById("accept-btn").style.display = "none";
+          showPaymentSection();  // Already accepted, show QR directly
+        } else {
+          document.getElementById("accept-btn").style.display = "block";
+        }
+      } else {
+        alert(data.message.error || "Unable to check acceptance status.");
+      }
+    })
+    .catch(() => {
+      alert("Server error. Please try again.");
+    });
+});
+
 
   // Function to mark terms as accepted and trigger payment section
  async function acceptTerms() {
-  try {
-    const csrfToken = frappe.csrf_token; 
-    const response = await fetch("/api/method/wellnest.wellnest.doctype.engagement.engagement.accept_terms", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Frappe-CSRF-Token": csrfToken
-      },
-      body: JSON.stringify({ engagement_id: engagement_id })
-    });
+    try {
+      const csrfToken = frappe.csrf_token;
+      const response = await fetch("/api/method/wellnest.api.accept_terms", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Frappe-CSRF-Token": csrfToken
+        },
+        body: JSON.stringify({ customer_id: customer_id })
+      });
 
     const data = await response.json();
 
@@ -114,14 +147,33 @@
 }
 
   // Function to display the QR code 
-  function showPaymentSection() {
-    fetch(`/api/method/wellnest.wellnest.doctype.engagement.engagement.get_engagement_details?engagement_id=${engagement_id}`)
+//   function showPaymentSection() {
+//     fetch(`/api/method/wellnest.wellnest.doctype.engagement.engagement.get_engagement_details?engagement_id=${engagement_id}`)
+//       .then(r => r.json())
+//       .then(data => {
+//         if (data.message && data.message.success) {
+//           const upi_uri = data.message.data.upi_uri;
+//           const qr_url = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upi_uri)}&size=200x200`;
+
+//           document.getElementById("upi-qr").src = qr_url;
+//           document.getElementById("payment-section").style.display = "block";
+//         } else {
+//           alert(data.message.error || "Could not load payment details.");
+//         }
+//       })
+//       .catch(() => {
+//         alert('Server error. Please try again later.');
+//       });
+//   }
+
+// show payment qr code
+function showPaymentSection() {
+    fetch(`/api/method/wellnest.api.get_payment_details?customer_id=${customer_id}`)
       .then(r => r.json())
       .then(data => {
         if (data.message && data.message.success) {
           const upi_uri = data.message.data.upi_uri;
           const qr_url = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upi_uri)}&size=200x200`;
-
           document.getElementById("upi-qr").src = qr_url;
           document.getElementById("payment-section").style.display = "block";
         } else {
@@ -132,6 +184,9 @@
         alert('Server error. Please try again later.');
       });
   }
+
+  
 </script>
+
 
 {% endblock %}

@@ -491,5 +491,167 @@ def update_fcm_token():
         return {"status": "error", "message": str(e)}
 
 
+import frappe
+from frappe import _
+from frappe.utils import now
+import qrcode
+
+# Generate a QR code from a given UPI URI
+def generate_upi_qr(upi_uri, file_path="/tmp/upi_qr.png"):
+    img = qrcode.make(upi_uri)
+    img.save(file_path)
+    return file_path
+
+
+@frappe.whitelist(allow_guest=True)
+def accept_terms():
+    """
+    Called from frontend when customer accepts terms and conditions.
+    Marks the Customer record with acceptance flag and timestamp.
+    """
+    try:
+        data = frappe.request.json or {}
+
+        customer_id = data.get('customer_id')
+        engagement_id = data.get('engagement_id')
+
+        if not customer_id and not engagement_id:
+            frappe.throw(_("Missing Customer ID or Engagement ID."))
+
+        # Fallback to resolve customer from engagement if not directly provided
+        if not customer_id:
+            engagement = frappe.get_doc("Engagement", engagement_id)
+            customer_id = engagement.customer
+
+        customer = frappe.get_doc("Customer", customer_id)
+        customer.custom_terms_accepted = 1
+        customer.custom_acceptance_timestamp = now()
+        customer.save(ignore_permissions=True)
+
+        return {"success": True}
+
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "Customer Accept Terms Error")
+        return {"success": False}
+
+@frappe.whitelist(allow_guest=True)
+def get_terms_status(customer_id):
+    try:
+        if not customer_id:
+            return {"success": False, "error": "Missing customer_id"}
+
+        # Fetch the value from Customer doctype
+        accepted = frappe.db.get_value("Customer", customer_id, "custom_terms_accepted")
+
+        return {
+            "success": True,
+            "accepted": bool(accepted)
+        }
+
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "get_terms_status Error")
+        return {
+            "success": False,
+            "error": "Server error"
+        }
+
+
+@frappe.whitelist(allow_guest=True)
+def get_payment_details(customer_id=None, engagement_id=None):
+    """
+    Fetches latest unpaid invoice for the customer and returns
+    payment info + UPI QR string for frontend rendering.
+    """
+    try:
+        if not customer_id and not engagement_id:
+            return {
+                "success": False,
+                "error": "Missing customer_id or engagement_id."
+            }
+
+        if not customer_id:
+            engagement = frappe.get_doc("Engagement", engagement_id)
+            customer_id = engagement.customer
+
+        customer = frappe.get_doc("Customer", customer_id)
+
+        # Get the latest unpaid Sales Invoices for the customer
+        invoices = frappe.db.get_all(
+            "Sales Invoice",
+            filters={
+                "customer": customer.name,
+                "outstanding_amount": [">", 0],
+                "docstatus": 1
+            },
+            fields=["name", "rounded_total", "company"],
+            order_by="posting_date desc"
+        )
+
+        invoice = None
+
+        for inv in invoices:
+            items = frappe.get_all(
+                "Sales Invoice Item",
+                filters={"parent": inv.name},
+                fields=["item_name", "item_code"]
+            )
+            for item in items:
+                if "registration" in (item.item_name or "").lower():
+                    invoice = inv
+                    break
+                linked_item_name = frappe.db.get_value("Item", item.item_code, "item_name")
+                if linked_item_name and "registration" in linked_item_name.lower():
+                    invoice = inv
+                    break
+            if invoice:
+                break
+
+        if not invoice:
+            return {
+                "success": False,
+                "error": "No unpaid registration invoice found for this customer."
+            }
+
+        # Fetch UPI ID from Company
+        upi_id = frappe.db.get_value("Company", invoice.company, "custom_upi_id")
+        if not upi_id:
+            return {
+                "success": False,
+                "error": "UPI ID not configured in Company settings."
+            }
+
+        # Construct UPI URI for QR Code
+        upi_uri = (
+            f"upi://pay?"
+            f"pa={upi_id}"
+            f"&pn={customer.customer_name}"
+            f"&am={format(invoice.rounded_total, '.2f')}"
+            f"&cu=INR"
+            f"&tn=Invoice {invoice.name}"
+        )
+
+        # Generate QR code image (not returned in backend — frontend uses URI)
+        generate_upi_qr(upi_uri)
+
+        return {
+            "success": True,
+            "data": {
+                "customer_id": customer.name,
+                "invoice_number": invoice.name,
+                "payment_amount": invoice.rounded_total or 0,
+                "upi_id": upi_id,
+                "customer_name": customer.customer_name,
+                "upi_uri": upi_uri
+            }
+        }
+
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "Error in get_payment_details")
+        return {
+            "success": False,
+            "error": "Unexpected error occurred."
+        }
+
+
 
 
