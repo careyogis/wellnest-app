@@ -19,6 +19,7 @@
         });
 
         function navigate() {
+            fbq('trackCustom', 'Contact');
             window.location.href = "contact-us";
         }
         // Redirect to the main page when the Escape key is pressed
@@ -27,7 +28,21 @@
                 window.location.href = "/";
             }
         });
+
+        <!-- Meta Pixel Code --> 
+        !function(f,b,e,v,n,t,s) 
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)}; 
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0'; 
+        n.queue=[];t=b.createElement(e);t.async=!0; 
+        t.src=v;s=b.getElementsByTagName(e)[0]; 
+        s.parentNode.insertBefore(t,s)}(window, document,'script', 'https://connect.facebook.net/en_US/fbevents.js'); 
+        fbq('init', '1260302405659007');
+        fbq('track', 'PageView'); 
+
+        fbq('track', 'ViewContent');
     </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1260302405659007&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->         
 
     <meta charset="UTF-8">
     <title>Elder Assist Program</title>
@@ -56,14 +71,15 @@
             object-position: center;
             display: block;
             background: #fff;
+        }
     </style>
 </head>
 
 <body>
     <div style="position: fixed; top: 24px; right: 32px; z-index: 10;">
         <button id="contact-button" onclick="navigate()"
-            style="padding: 12px 24px; font-size: 1rem; background: #f9b73f; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
-            Contact Us <!-- #007bff -->
+            style="padding: 12px 24px; font-size: 1rem; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
+            Contact Us
         </button>
     </div>
     <div style="width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center;">
