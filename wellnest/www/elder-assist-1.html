@@ -1,42 +1,45 @@
 <!DOCTYPE html>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const images = [
-            "assets/wellnest/images/resources/elder-assist-1.jpeg",
-            "assets/wellnest/images/resources/elder-assist-2.jpeg",
-            "assets/wellnest/images/resources/elder-assist-3.jpeg",
-            "assets/wellnest/images/resources/elder-assist-4.jpeg",
-            "assets/wellnest/images/resources/elder-assist-5.jpeg"
-        ];
-        let idx = 0;
-        const img = document.querySelector('.full-page-img');
-        setInterval(function() {
-            idx = (idx + 1) % images.length;
-            img.src = images[idx];
-        }, 10000);
-    });
-
-    function navigate() {
-        window.location.href = "contact-us";
-    }
-    // Redirect to the main page when the Escape key is pressed
-    window.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            window.location.href = "/";
-        }
-    });
-</script>
 <html lang="en">
 <head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const images = [
+                "assets/wellnest/images/resources/elder-assist-1.jpeg",
+                "assets/wellnest/images/resources/elder-assist-2.jpeg",
+                "assets/wellnest/images/resources/elder-assist-3.jpeg",
+                "assets/wellnest/images/resources/elder-assist-4.jpeg",
+                "assets/wellnest/images/resources/elder-assist-5.jpeg"
+            ];
+            let idx = 0;
+            const img = document.querySelector('.full-page-img');
+            setInterval(function () {
+                idx = (idx + 1) % images.length;
+                img.src = images[idx];
+            }, 10000);
+        });
+
+        function navigate() {
+            window.location.href = "contact-us";
+        }
+        // Redirect to the main page when the Escape key is pressed
+        window.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                window.location.href = "/";
+            }
+        });
+    </script>
+
     <meta charset="UTF-8">
     <title>Elder Assist Program</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        html, body {
+        html,
+        body {
             height: 100%;
             margin: 0;
             padding: 0;
         }
+
         body {
             min-height: 100vh;
             min-width: 100vw;
@@ -45,6 +48,7 @@
             justify-content: center;
             background: #fff;
         }
+
         .full-page-img {
             width: 100vw;
             height: 100vh;
@@ -54,9 +58,11 @@
             background: #fff;
     </style>
 </head>
+
 <body>
     <div style="position: fixed; top: 24px; right: 32px; z-index: 10;">
-        <button id="contact-button" onclick="navigate()" style="padding: 12px 24px; font-size: 1rem; background: #f9b73f; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
+        <button id="contact-button" onclick="navigate()"
+            style="padding: 12px 24px; font-size: 1rem; background: #f9b73f; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
             Contact Us <!-- #007bff -->
         </button>
     </div>
@@ -64,4 +70,5 @@
         <img src="assets/wellnest/images/resources/elder-assist-1.jpeg" alt="Elder Assist" class="full-page-img">
     </div>
 </body>
+
 </html>
