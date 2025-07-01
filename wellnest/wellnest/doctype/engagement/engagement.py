@@ -1,14 +1,14 @@
-# # Copyright (c) 2024, www.thewellnest.in and contributors
-# # For license information, please see license.txt
+# Copyright (c) 2024, www.thewellnest.in and contributors
+# For license information, please see license.txt
 
-# import frappe
-# from frappe.model.document import Document
+import frappe
+from frappe.model.document import Document
 # from frappe import _
 # from frappe.utils import now
 # import qrcode
 
-# class Engagement(Document):
-#     pass
+class Engagement(Document):
+    pass
 
 # # Generate a QR code from a given UPI URI
 # def generate_upi_qr(upi_uri, file_path="/tmp/upi_qr.png"):
