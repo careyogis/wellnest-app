@@ -496,90 +496,20 @@ from frappe import _
 from frappe.utils import now
 import qrcode
 
-# Generate a QR code from a given UPI URI
+# ✅ Generate a QR code image from a UPI URI and save it to a temporary path
 def generate_upi_qr(upi_uri, file_path="/tmp/upi_qr.png"):
     img = qrcode.make(upi_uri)
     img.save(file_path)
     return file_path
 
 
-@frappe.whitelist(allow_guest=True)
-def accept_terms():
-    """
-    Called from frontend when customer accepts terms and conditions.
-    Marks the Customer record with acceptance flag and timestamp.
-    """
+# 🔍 Get the most recent unpaid Sales Invoice for a customer that includes a registration item
+def get_unpaid_registration_invoice(customer_name):
     try:
-        data = frappe.request.json or {}
-
-        customer_id = data.get('customer_id')
-        engagement_id = data.get('engagement_id')
-
-        if not customer_id and not engagement_id:
-            frappe.throw(_("Missing Customer ID or Engagement ID."))
-
-        # Fallback to resolve customer from engagement if not directly provided
-        if not customer_id:
-            engagement = frappe.get_doc("Engagement", engagement_id)
-            customer_id = engagement.customer
-
-        customer = frappe.get_doc("Customer", customer_id)
-        customer.custom_terms_accepted = 1
-        customer.custom_acceptance_timestamp = now()
-        customer.save(ignore_permissions=True)
-
-        return {"success": True}
-
-    except Exception:
-        frappe.log_error(frappe.get_traceback(), "Customer Accept Terms Error")
-        return {"success": False}
-
-@frappe.whitelist(allow_guest=True)
-def get_terms_status(customer_id):
-    try:
-        if not customer_id:
-            return {"success": False, "error": "Missing customer_id"}
-
-        # Fetch the value from Customer doctype
-        accepted = frappe.db.get_value("Customer", customer_id, "custom_terms_accepted")
-
-        return {
-            "success": True,
-            "accepted": bool(accepted)
-        }
-
-    except Exception:
-        frappe.log_error(frappe.get_traceback(), "get_terms_status Error")
-        return {
-            "success": False,
-            "error": "Server error"
-        }
-
-
-@frappe.whitelist(allow_guest=True)
-def get_payment_details(customer_id=None, engagement_id=None):
-    """
-    Fetches latest unpaid invoice for the customer and returns
-    payment info + UPI QR string for frontend rendering.
-    """
-    try:
-        if not customer_id and not engagement_id:
-            return {
-                "success": False,
-                "error": "Missing customer_id or engagement_id."
-            }
-
-        if not customer_id:
-            engagement = frappe.get_doc("Engagement", engagement_id)
-            customer_id = engagement.customer
-
-        customer = frappe.get_doc("Customer", customer_id)
-
-        # Get the latest unpaid Sales Invoices for the customer
-        invoices = frappe.db.get_all(
+        invoices = frappe.get_all(
             "Sales Invoice",
             filters={
-                "customer": customer.name,
+                "customer": customer_name,
                 "outstanding_amount": [">", 0],
                 "docstatus": 1
             },
@@ -587,7 +517,7 @@ def get_payment_details(customer_id=None, engagement_id=None):
             order_by="posting_date desc"
         )
 
-        invoice = None
+        frappe.log_error(f"{len(invoices)} unpaid invoices found", "get_unpaid_registration_invoice")
 
         for inv in invoices:
             items = frappe.get_all(
@@ -596,61 +526,233 @@ def get_payment_details(customer_id=None, engagement_id=None):
                 fields=["item_name", "item_code"]
             )
             for item in items:
-                if "registration" in (item.item_name or "").lower():
-                    invoice = inv
-                    break
-                linked_item_name = frappe.db.get_value("Item", item.item_code, "item_name")
-                if linked_item_name and "registration" in linked_item_name.lower():
-                    invoice = inv
-                    break
-            if invoice:
-                break
+                # Check if item's name contains "registration"
+                item_name = (item.item_name or "").lower()
+                if "registration" in item_name:
+                    frappe.log_error(inv.name, "get_unpaid_registration_invoice: Matched by item_name")
+                    return inv
 
+                # Also check linked Item record’s item_name
+                linked_name = frappe.db.get_value("Item", item.item_code, "item_name")
+                if linked_name and "registration" in linked_name.lower():
+                    frappe.log_error(inv.name, "get_unpaid_registration_invoice: Matched by linked Item.item_name")
+                    return inv
+
+        frappe.log_error("No unpaid registration invoice found", "get_unpaid_registration_invoice")
+        return None
+
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "get_unpaid_registration_invoice: Error")
+        return None
+
+
+# ✅ API to accept Terms & Conditions (Guest allowed)
+@frappe.whitelist(allow_guest=True)
+def accept_terms():
+    try:
+        data = frappe.request.json or {}
+        customer_id = data.get("customer_id")
+        engagement_id = data.get("engagement_id")
+
+        frappe.log_error(str(data), "AcceptTerms: Incoming Data")
+
+        # 🔍 Validate inputs
+        if not customer_id and not engagement_id:
+            frappe.log_error("Missing both customer_id and engagement_id", "AcceptTerms: Missing Input")
+            frappe.throw(_("Missing Customer ID or Engagement ID."))
+
+        # 🔁 Resolve customer ID from engagement if not provided
+        if not customer_id:
+            try:
+                engagement = frappe.get_doc("Engagement", engagement_id)
+                customer_id = engagement.customer
+                frappe.log_error(customer_id, "AcceptTerms: Resolved customer from engagement")
+            except Exception:
+                frappe.log_error(frappe.get_traceback(), f"AcceptTerms: Engagement fetch failed for {engagement_id}")
+                return {"success": False, "error": "Engagement not found or invalid."}
+
+        # 🔍 Fetch Customer doc
+        try:
+            customer = frappe.get_doc("Customer", customer_id)
+        except Exception:
+            frappe.log_error(frappe.get_traceback(), f"AcceptTerms: Failed to fetch Customer {customer_id}")
+            return {"success": False, "error": "Customer not found."}
+
+        # 🔄 Return early if already accepted or paid
+        if customer.custom_registration_term in ["accepted", "paid"]:
+            frappe.log_error(customer.custom_registration_term, f"AcceptTerms: Already Accepted by {customer.name}")
+            return {"success": True, "message": "Already accepted."}
+
+        # ✅ Mark terms as accepted
+        customer.custom_registration_term = "accepted"
+        customer.custom_acceptance_timestamp = now()
+        customer.save(ignore_permissions=True)
+        frappe.log_error(customer.name, "AcceptTerms: Customer marked as accepted")
+
+        # 🔍 Check for existing unpaid registration invoice
+        invoice = get_unpaid_registration_invoice(customer.name)
+        if invoice:
+            frappe.log_error(invoice.name, "AcceptTerms: Found existing unpaid invoice")
+        else:
+            frappe.log_error("No unpaid invoice found — proceeding to create one", "AcceptTerms: Invoice Creation Triggered")
+
+            # 📦 Get registration item code
+            item_code = frappe.db.get_value("Item", {"item_name": ["like", "%registration%"]}, "name")
+            if not item_code:
+                msg = "No item found with 'registration' in item_name"
+                frappe.log_error(msg, "AcceptTerms: Missing Registration Item")
+                return {"success": False, "error": msg}
+
+            # 🛒 Check if item is marked as Sales Item
+            is_sales_item = frappe.db.get_value("Item", item_code, "is_sales_item")
+            if not is_sales_item:
+                msg = f"Item {item_code} is not marked as Sales Item"
+                frappe.log_error(msg, "AcceptTerms: Item Config Error")
+                return {"success": False, "error": msg}
+
+            # 🧾 Create and submit new Sales Invoice
+            try:
+                invoice = frappe.get_doc({
+                    "doctype": "Sales Invoice",
+                    "customer": customer.name,
+                    "items": [{"item_code": item_code, "qty": 1}]
+                })
+                frappe.log_error("AcceptTerms: Invoice Doc Before Insert", frappe.as_json(invoice))
+
+                invoice.insert(ignore_permissions=True)
+                frappe.log_error(invoice.name, "AcceptTerms: Invoice Inserted")
+
+                invoice.submit()
+                frappe.log_error(invoice.name, "AcceptTerms: Invoice Submitted")
+
+                if invoice.docstatus != 1:
+                    frappe.log_error(invoice.name, "AcceptTerms: Invoice not submitted successfully")
+
+            except Exception:
+                frappe.log_error(frappe.get_traceback(), "AcceptTerms: Invoice Creation Failed")
+                return {"success": False, "error": "Invoice creation failed. Check item setup and logs."}
+
+        # 🏦 Generate UPI URI from company config
+        upi_id = frappe.db.get_value("Company", invoice.company, "custom_upi_id")
+        if not upi_id:
+            msg = f"No UPI ID found for company {invoice.company}"
+            frappe.log_error(msg, "AcceptTerms: UPI ID Missing")
+            return {"success": False, "error": msg}
+
+        upi_uri = (
+            f"upi://pay?pa={upi_id}&pn={customer.customer_name}&am={format(invoice.rounded_total, '.2f')}&cu=INR&tn=Invoice {invoice.name}"
+        )
+
+        # 🖨️ Generate QR Code from UPI URI
+        try:
+            generate_upi_qr(upi_uri)
+            frappe.log_error(upi_uri, "AcceptTerms: UPI URI & QR generated")
+        except Exception:
+            frappe.log_error(frappe.get_traceback(), "AcceptTerms: QR Code Generation Failed")
+
+        return {
+            "success": True,
+            "data": {
+                "invoice_number": invoice.name,
+                "payment_amount": invoice.rounded_total,
+                "upi_id": upi_id,
+                "upi_uri": upi_uri,
+                "customer_name": customer.customer_name
+            }
+        }
+
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "AcceptTerms: Top-level Error")
+        return {"success": False, "error": "Unexpected server error. Please check Error Logs."}
+
+
+# ✅ API to fetch T&C acceptance and payment status (Guest allowed)
+@frappe.whitelist(allow_guest=True)
+def get_payment_details(customer_id=None, engagement_id=None):
+    try:
+        # 🔁 Resolve customer ID if engagement is provided
+        if not customer_id and engagement_id:
+            engagement = frappe.get_doc("Engagement", engagement_id)
+            customer_id = engagement.customer
+
+        if not customer_id:
+            return {"success": False, "error": "Missing customer ID."}
+
+        customer = frappe.get_doc("Customer", customer_id)
+
+        # 🔍 Look for registration invoices (paid or unpaid)
+        invoices = frappe.get_all(
+            "Sales Invoice",
+            filters={"customer": customer.name, "docstatus": 1},
+            fields=["name", "outstanding_amount", "company"],
+            order_by="posting_date desc"
+             )
+
+        for inv in invoices:
+            items = frappe.get_all(
+                "Sales Invoice Item",
+                filters={"parent": inv.name},
+                fields=["item_name", "item_code"]
+            )
+            for item in items:
+                item_name = (item.item_name or "").lower()
+                if "registration" in item_name:
+                    if inv.outstanding_amount == 0:
+                        # ✅ If paid, update customer status if needed
+                        if customer.custom_registration_term != "paid":
+                            customer.custom_registration_term = "paid"
+                            customer.save(ignore_permissions=True)
+                            frappe.db.commit()
+
+                        return {
+                            "success": True,
+                            "data": {
+                                "status": "paid",
+                                "accepted": True
+                            }
+                        }
+
+        # 🔍 If not paid, find unpaid registration invoice
+        invoice = get_unpaid_registration_invoice(customer.name)
         if not invoice:
             return {
                 "success": False,
-                "error": "No unpaid registration invoice found for this customer."
+                "error": "No unpaid registration invoice found.",
+                "data": {"status": customer.custom_registration_term or "pending"}
             }
 
-        # Fetch UPI ID from Company
+        # 🏦 Get UPI details for QR
         upi_id = frappe.db.get_value("Company", invoice.company, "custom_upi_id")
         if not upi_id:
-            return {
-                "success": False,
-                "error": "UPI ID not configured in Company settings."
-            }
-
-        # Construct UPI URI for QR Code
+            return {"success": False, "error": "UPI ID not configured in Company."}
+    
         upi_uri = (
-            f"upi://pay?"
-            f"pa={upi_id}"
-            f"&pn={customer.customer_name}"
-            f"&am={format(invoice.rounded_total, '.2f')}"
-            f"&cu=INR"
-            f"&tn=Invoice {invoice.name}"
+            f"upi://pay?pa={upi_id}&pn={customer.customer_name}&am={format(invoice.rounded_total, '.2f')}&cu=INR&tn=Invoice {invoice.name}"
         )
-
-        # Generate QR code image (not returned in backend — frontend uses URI)
         generate_upi_qr(upi_uri)
 
         return {
             "success": True,
             "data": {
+                "status": customer.custom_registration_term or "pending",
+                "accepted": customer.custom_registration_term in ["accepted", "paid"],
                 "customer_id": customer.name,
                 "invoice_number": invoice.name,
-                "payment_amount": invoice.rounded_total or 0,
+                "payment_amount": invoice.rounded_total,
                 "upi_id": upi_id,
-                "customer_name": customer.customer_name,
-                "upi_uri": upi_uri
+                "upi_uri": upi_uri,
+                "customer_name": customer.customer_name
             }
         }
 
     except Exception:
-        frappe.log_error(frappe.get_traceback(), "Error in get_payment_details")
-        return {
-            "success": False,
-            "error": "Unexpected error occurred."
-        }
+        frappe.log_error(frappe.get_traceback(), "get_payment_details Error")
+        return {"success": False, "error": "Unexpected error occurred."}
+
+
+
+
+
 
 
 
