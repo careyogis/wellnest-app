@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-07-14 19:01:11.780111",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "update_time",
+  "column_break_vxcs",
+  "update_message"
+ ],
+ "fields": [
+  {
+   "fieldname": "update_time",
+   "fieldtype": "Datetime",
+   "label": "Update Time"
+  },
+  {
+   "fieldname": "column_break_vxcs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "update_message",
+   "fieldtype": "Small Text",
+   "label": "Update Message"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-07-14 19:06:09.563384",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "SOS Alert Updates",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

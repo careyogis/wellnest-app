@@ -1,0 +1,81 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:CD-{YYYY}{MM]{DD}-{######}",
+ "creation": "2025-07-14 18:09:07.728460",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "customer",
+  "manufacturerpartner",
+  "column_break_syrt",
+  "mac_id",
+  "purchase_date",
+  "section_break_syld",
+  "emergency_contacts"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "manufacturerpartner",
+   "fieldtype": "Data",
+   "label": "Manufacturer/Partner"
+  },
+  {
+   "fieldname": "column_break_syrt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "mac_id",
+   "fieldtype": "Data",
+   "label": "MAC ID"
+  },
+  {
+   "fieldname": "purchase_date",
+   "fieldtype": "Date",
+   "label": "Purchase Date"
+  },
+  {
+   "fieldname": "section_break_syld",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "emergency_contacts",
+   "fieldtype": "Table",
+   "label": "Emergency Contacts",
+   "options": "Emergency Contact"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-07-15 17:21:47.364926",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Customer Device Details",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
