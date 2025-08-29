@@ -546,6 +546,25 @@ def get_unpaid_registration_invoice(customer_name):
         return None
 
 
+@frappe.whitelist(allow_guest=True)
+def get_terms_content():
+    terms = frappe.db.get_value(
+        "Terms and Conditions",
+        {"custom_is_active": 1},
+        ["name", "title", "terms"],
+        order_by="modified desc",
+        as_dict=True
+    )
+    if not terms:
+        return {"success": False, "error": "No active Terms & Conditions found"}
+
+    return {
+        "success": True,
+        "content": terms.terms,
+        "title": terms.title
+    }
+
+
 # ✅ API to accept Terms & Conditions (Guest allowed)
 @frappe.whitelist(allow_guest=True)
 def accept_terms():
@@ -586,6 +605,18 @@ def accept_terms():
         # ✅ Mark terms as accepted
         customer.custom_registration_term = "accepted"
         customer.custom_acceptance_timestamp = now()
+
+        # ⭐ NEW: Capture which Terms & Conditions were accepted
+        latest_terms = frappe.db.get_value(
+            "Terms and Conditions",
+            {"custom_is_active": 1},
+            "name",
+            order_by="modified desc"
+        )
+        if latest_terms:
+            customer.custom_accepted_term = latest_terms
+            frappe.log_error(latest_terms, f"AcceptTerms: Linked Accepted Term for {customer.name}")
+
         customer.save(ignore_permissions=True)
         frappe.log_error(customer.name, "AcceptTerms: Customer marked as accepted")
 
@@ -664,7 +695,6 @@ def accept_terms():
     except Exception:
         frappe.log_error(frappe.get_traceback(), "AcceptTerms: Top-level Error")
         return {"success": False, "error": "Unexpected server error. Please check Error Logs."}
-
 
 # ✅ API to fetch T&C acceptance and payment status (Guest allowed)
 @frappe.whitelist(allow_guest=True)

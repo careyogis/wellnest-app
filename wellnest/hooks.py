@@ -227,7 +227,7 @@ app_license = "mit"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
-fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Service", "Spoken Language", "Medical Condition", "Lead Status", "Item Activity", 
+fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Service", "Spoken Language", "Medical Condition", "Lead Status", "Item Activity", "Terms and Conditions",
         {"doctype": "Role", "filters": [["name", "like", "Caregiver%"]]},
             # export only those records that match the filter from Custom Field table
         {"doctype": "Custom Field", "filters": [["module", "like", "WellNest%"]]},
