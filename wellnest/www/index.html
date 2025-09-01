@@ -1,209 +1,444 @@
 {% extends "templates/wellnest_web.html" %}
 
-<title>
-    {% block title %}CareYogi - Home Care{% endblock %}
-</title>    
+<title>{% block title %}CareYogi - Home Care{% endblock %}</title>
 <body>
-{% block page_content %}
+  {% block page_content %}
 
-<div class="slider-four__wrapper">
-  <div class="slider-four">
-      <div class="slider-four__carousel thm__owl-dot-1 owl-carousel owl-theme thm__owl-carousel"
-          data-carousel-prev-btn=".slider-four__nav-right" data-carousel-next-btn=".slider-four__nav-left"
-          data-options='{"loop": true, "items": 1, "margin": 0, "dots": false, "nav": false, "animateOut": &quot;slideOutDown&quot;, "animateIn": &quot;fadeIn&quot;, "active": true, "smartSpeed": 1000, "autoplay": true, "autoplayTimeout": 7000, "autoplayHoverPause": false}'>
-          <div class="item slider-four__slide-1"
-              style="background-image: url(assets/wellnest/images/main-slider/main-slider-2-1.jpg);">
-              <div class="container">
-                  <div class="slider-four__content text-center">
-                      <h3 class="anim-elm">{{ top_header3 }}</h3>
-                      <p class="anim-elm">
-                        {{ offering_description }}
-                      </p>
-                  </div><!-- /.slider-four__content text-center -->
-              </div><!-- /.container -->
-          </div><!-- /.item -->
-          <div class="item slider-four__slide-2"
-              style="background-image: url(assets/wellnest/images/main-slider/main-slider-2-2.jpg);">
-              <div class="container">
-                  <div class="slider-four__content text-center">
-                      <h3 class="anim-elm">Seamless Healthcare, Delivered with TRUST</h3>
-                      <p class="anim-elm">
-                        Our tech-enabled, professionally delivered home care ensures that you or your loved ones receive the highest quality
-                         medical attention—right at home. With a focus on transparency, efficiency, and accountability, we bring expert doctors,
-                          skilled therapists, and compassionate caregivers to your doorstep. Real-time monitoring, seamless coordination,
-                           and personalized care plans make healing at home safer, easier, and more effective. Because the best care should
-                            come to you.
-                      </p>
-                  </div><!-- /.slider-four__content text-center -->
-              </div><!-- /.container -->
-          </div><!-- /.item -->
-          <div class="item slider-four__slide-3"
-              style="background-image: url(assets/wellnest/images/main-slider/main-slider-2-3.jpg);">
-              <div class="container">
-                  <div class="slider-four__content text-center">
-                      <h3 class="anim-elm">Consider us as your <br> Care Partner.</h3>
-                      <p class="anim-elm">
-                        At CareYogi, we're here to alleviate the stress of caring
-                        for elders, so you can focus on living your life. Our
-                        transitional care excellence, supported by advanced
-                        technology, is designed for empowering caregivers and
-                        supporting families.                    
-                      </p>
-                  </div><!-- /.slider-four__content text-center -->
-              </div><!-- /.container -->
-          </div><!-- /.item -->
-      </div><!-- /.slider-four__carousel -->
-      <div class="slider-four__nav">
-          <a href="#" class="slider-four__nav-left"><i class="far fa-angle-left"></i></a>
-          <!-- /.slider-four__nav-left -->
-          <a href="#" class="slider-four__nav-right"><i class="far fa-angle-right"></i></a>
-          <!-- /.slider-four__nav-right -->
-      </div><!-- /.slider-four__nav -->
-  </div><!-- /.slider-four -->
-</div><!-- /.slider-four__wrapper -->
-<section class="location-finder">
-  <div class="container">
+  <section>
+    <div class="slider-four__wrapper">
+      <div class="slider-four">
+        <div
+          class="slider-four__carousel thm__owl-dot-1 owl-carousel owl-theme thm__owl-carousel"
+          data-carousel-prev-btn=".slider-four__nav-right"
+          data-carousel-next-btn=".slider-four__nav-left"
+          data-options='{"loop": true, "items": 1, "margin": 0, "dots": false, "nav": false, "animateOut": "slideOutDown", "animateIn": "fadeIn", "active": true, "smartSpeed": 1000, "autoplay": true, "autoplayTimeout": 7000, "autoplayHoverPause": false}'
+        >
+          <div
+            class="item slider-four__slide-3"
+            style="
+              background-image: url(assets/wellnest/images/main-slider/main-slider-2-1.jpg);
+            "
+          >
+            <div class="container">
+              <div class="slider-four__content text-center">
+                <h3 class="anim-elm">ICU At Home</h3>
+              </div>
+            </div>
+          </div>
+          <div
+            class="item slider-four__slide-3"
+            style="
+              background-image: url(assets/wellnest/images/main-slider/main-slider-2-2.jpg);
+            "
+          >
+            <div class="container">
+              <div class="slider-four__content text-center">
+                <h3 class="anim-elm">Hospice Care</h3>
+              </div>
+            </div>
+          </div>
+          <div
+            class="item slider-four__slide-3"
+            style="
+              background-image: url(assets/wellnest/images/main-slider/main-slider-2-3.jpg);
+            "
+          >
+            <div class="container">
+              <div class="slider-four__content text-center">
+                <h3 class="anim-elm">Palliative Care</h3>
+              </div>
+            </div>
+          </div>
+          <div
+            class="item slider-four__slide-3"
+            style="
+              background-image: url(assets/wellnest/images/main-slider/main-slider-2-1.jpg);
+            "
+          >
+            <div class="container">
+              <div class="slider-four__content text-center">
+                <h3 class="anim-elm">Rehabilitation</h3>
+              </div>
+            </div>
+          </div>
+          <div
+            class="item slider-four__slide-3"
+            style="
+              background-image: url(assets/wellnest/images/main-slider/main-slider-2-2.jpg);
+            "
+          >
+            <div class="container">
+              <div class="slider-four__content text-center">
+                <h3 class="anim-elm">Skilled Nurses</h3>
+              </div>
+            </div>
+          </div>
+          <div
+            class="item slider-four__slide-3"
+            style="
+              background-image: url(assets/wellnest/images/main-slider/main-slider-2-3.jpg);
+            "
+          >
+            <div class="container">
+              <div class="slider-four__content text-center">
+                <h3 class="anim-elm">Attendant Services</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slider-four__nav">
+          <a href="#" class="slider-four__nav-left"
+            ><i class="far fa-angle-left"></i
+          ></a>
+          <a href="#" class="slider-four__nav-right"
+            ><i class="far fa-angle-right"></i
+          ></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="location-finder">
+    <div class="container">
       <div class="inner-container">
-          <img src="assets/wellnest/images/shapes/subscribe-dot-1-1.png" alt="" class="location-finder__dot-1">
-          <img src="assets/wellnest/images/shapes/subscribe-dot-1-2.png" class="location-finder__dot-2" alt="">
-          <div class="row">
-              <div class="col-xl-4">
-                  <h3>Want Quality Care Solution<br> For Your Loved One?</h3>
-              </div><!-- /.col-lg-4 -->
-              <div class="col-xl-8">
-                  <div class="location-finder__content">
-                      <p>For compassionate care with a holistic, family-centered approach, <br> please contact us.</p>                               
-                      <a href="contact-us" class="thm-btn location-finder__btn">Contact Us</a>
-                  </div><!-- /.location-finder__content -->
-              </div><!-- /.col-lg-8 -->
-          </div><!-- /.row -->
-      </div><!-- /.inner-container -->
-  </div><!-- /.container -->
-</section><!-- /.location-finder -->
+        <img
+          src="assets/wellnest/images/shapes/subscribe-dot-1-1.png"
+          alt=""
+          class="location-finder__dot-1"
+        />
+        <img
+          src="assets/wellnest/images/shapes/subscribe-dot-1-2.png"
+          class="location-finder__dot-2"
+          alt=""
+        />
+        <div class="row">
+          <div class="col-xl-4">
+            <h3>
+              Want Quality Care Solution<br />
+              For Your Loved One?
+            </h3>
+          </div>
+          <div class="col-xl-8">
+            <div class="location-finder__content">
+              <p>
+                For compassionate care with a holistic, family-centered
+                approach, <br />
+                please contact us.
+              </p>
+              <a href="contact-us" class="thm-btn location-finder__btn"
+                >Contact Us</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="service-one service-one__service-page" id="services-section">
     <div class="container">
       <div class="block-title text-center">
-        <p>Services</p>
-        <h3>
-          Our Services
-        </h3>
+        <p style="font-size: 70px; margin-bottom: 50px">Services</p>
+        <h3>Everyday Home Care</h3>
       </div>
-      <!-- /.block-title -->
-      <div class="row high-gutter">
-        <div class="col-lg-4 col-md-6">
-            <div class="service-one__single">
-                <div class="service-one__image">
-                    <img src="assets/wellnest/images/newimg/adl.jpg" alt="">
-                </div><!-- /.service-one__image -->
-                <div class="service-one__content">
-                    <div class="service-one__icon">
-                        <i class="oberlin-icon-disability"></i>
-                    </div><!-- /.service-one__icon -->
-                    <h3><a href="caregiver-attendant">Assistance with Daily Living</a></h3>
-                    <p>
-                      Our Assistance with Daily Living (ADL) services ensure that elders receive the care, dignity, and support they need
-                       to live comfortably at home.                     </p>      
-                    <a href="caregiver-attendant" class="service-one__link"><i
-                            class="far fa-long-arrow-alt-right"></i></a><!-- /.service-one__link -->
-                </div><!-- /.service-one__content -->
-            </div><!-- /.service-one__single -->
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4 col-md-6">
-            <div class="service-one__single">
-                <div class="service-one__image">
-                    <img src="assets/wellnest/images/newimg/nursing care service.jpg" alt="">
-                </div><!-- /.service-one__image -->
-                <div class="service-one__content">
-                    <div class="service-one__icon">
-                        <i class="oberlin-icon-stethoscope"></i>
-                    </div><!-- /.service-one__icon -->
-                    <h3><a href="nursing-care">Nursing Care</a></h3>
-                    <p>
-                      Hospital-level expertise at home: Complex medical needs, wound care, precise meds, vital sign
-                      monitoring - for optimal recovery.
-                    </p>
-                    <a href="nursing-care" class="service-one__link"><i
-                            class="far fa-long-arrow-alt-right"></i></a><!-- /.service-one__link -->
-                </div><!-- /.service-one__content -->
-            </div><!-- /.service-one__single -->
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4 col-md-6">
-            <div class="service-one__single">
-                <div class="service-one__image">
-                    <img src="assets/wellnest/images/newimg/doctor.jpeg" alt="">
-                </div><!-- /.service-one__image -->
-                <div class="service-one__content">
-                    <div class="service-one__icon">
-                        <i class="oberlin-icon-stethoscope"></i>
-                    </div><!-- /.service-one__icon -->
-                    <h3><a href="doctor-at-home">Doctor at Home</a></h3>
-                    <p>
-                      CareYogi™ offers 'Doctor at Home' for specialised services for elderly with mobility challenges to visit hospital.
-                    </p>
-                    <a href="doctor-at-home" class="service-one__link"><i
-                            class="far fa-long-arrow-alt-right"></i></a><!-- /.service-one__link -->
-                </div><!-- /.service-one__content -->
-            </div><!-- /.service-one__single -->
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4 col-md-6">
-            <div class="service-one__single">
-                <div class="service-one__image">
-                    <img src="assets/wellnest/images/newimg/speech-therapy.jpeg" alt="">
-                </div><!-- /.service-one__image -->
-                <div class="service-one__content">
-                    <div class="service-one__icon">
-                        <i class="oberlin-icon-discussion"></i>
-                    </div><!-- /.service-one__icon -->
-                    <h3><a href="speech-therapy">Speech Therapy</a></h3>
-                    <p>
-                      CareYogi™ has partnered with renowned speech therapists in Hyderabad to offer diagnosis and treatment of speech, language, 
-                      swallowing, and communication disorders.
-                    </p>
-                    <a href="speech-therapy" class="service-one__link"><i
-                            class="far fa-long-arrow-alt-right"></i></a><!-- /.service-one__link -->
-                </div><!-- /.service-one__content -->
-            </div><!-- /.service-one__single -->
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4 col-md-6">
-            <div class="service-one__single">
-                <div class="service-one__image">
-                    <img src="assets/wellnest/images/newimg/physiotherapy.jpeg" alt="">
-                </div><!-- /.service-one__image -->
-                <div class="service-one__content">
-                    <div class="service-one__icon">
-                        <i class="oberlin-icon-exercise"></i>
-                    </div><!-- /.service-one__icon -->
-                    <h3><a href="physiotherapy">Physiotherapy</a></h3>
-                    <p>
-                      Expert physiotherapists at home who specialize in older people, especially those with falls, stroke, arthritis and frailty.
-                    </p>
-                    <a href="physiotherapy" class="service-one__link"><i
-                            class="far fa-long-arrow-alt-right"></i></a><!-- /.service-one__link -->
-                </div><!-- /.service-one__content -->
-            </div><!-- /.service-one__single -->
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4 col-md-6">
-          <div class="service-one__single">
-              <div class="service-one__image">
-                  <img src="assets/wellnest/images/newimg/hospice care.jpg" alt="">
-              </div><!-- /.service-one__image -->
-              <div class="service-one__content">
-                  <div class="service-one__icon">
-                      <i class="oberlin-icon-disability"></i>
-                  </div><!-- /.service-one__icon -->
-                  <h3><a href="hospice-care">Hospice & Palliative Care</a></h3>
-                  <p>
-                    Compassionate Palliative & Hospice Care at Home.
-                  </p>
-                  <a href="hospice-care" class="service-one__link"><i
-                          class="far fa-long-arrow-alt-right"></i></a><!-- /.service-one__link -->
-              </div><!-- /.service-one__content -->
-          </div><!-- /.service-one__single -->
-      </div><!-- /.col-lg-4 -->
-      </div><!-- /.row -->
-    </div><!-- /.container -->
-  </section><!-- /.service-one -->
+
+      <div class="services-carousel" style="margin-bottom: 100px">
+        <div class="container">
+          <div class="services-carousel__wrapper" style="position: relative">
+            <div
+              class="thm__owl-carousel owl-carousel owl-theme"
+              data-options='{
+          "items": 3,
+          "nav": false,
+          "dots": true,
+          "margin": 40,
+          "loop": true,
+          "smartSpeed": 700,
+          "autoplay": true,
+          "autoplayTimeout": 5000,
+          "autoplayHoverPause": true,
+          "navText": ["<i class=\"far fa-angle-left\"></i>", "<i class=\"far fa-angle-right\"></i>"],
+          "responsive": {
+            "0": {"items": 1, "margin": 0},
+            "767": {"items": 1, "margin": 0},
+            "991": {"items": 2, "margin": 30},
+            "1199": {"items": 3}
+          }
+        }'
+            >
+              <div class="item service-item" style="text-align: center">
+                <a
+                  href="attendant-care"
+                  style="text-decoration: none; color: inherit"
+                >
+                  <img
+                    src="assets/wellnest/images/new_assets/Attendant Care at Home.png"
+                    alt="Attendant Care"
+                    style="
+                      height: 200px;
+                      width: 200px;
+                      display: block;
+                      margin: 0 auto 15px;
+                    "
+                  />
+                  <h3>Attendant Care at Home</h3>
+                </a>
+              </div>
+
+              <div class="item service-item" style="text-align: center">
+                <a
+                  href="basic-nursing-care"
+                  style="text-decoration: none; color: inherit"
+                >
+                  <img
+                    src="assets/wellnest/images/new_assets/Nursing Care at home.png"
+                    alt="Basic Nursing Care"
+                    style="
+                      height: 200px;
+                      width: 200px;
+                      display: block;
+                      margin: 0 auto 15px;
+                    "
+                  />
+                  <h3>Basic Nursing Care</h3>
+                </a>
+              </div>
+
+              <div class="item service-item" style="text-align: center">
+                <a
+                  href="physiotherapy-at-home"
+                  style="text-decoration: none; color: inherit"
+                >
+                  <img
+                    src="assets/wellnest/images/new_assets/Physiotherapy at home.png"
+                    alt="Physiotherapy at Home"
+                    style="
+                      height: 200px;
+                      width: 200px;
+                      display: block;
+                      margin: 0 auto 15px;
+                    "
+                  />
+                  <h3>Physiotherapy at Home</h3>
+                </a>
+              </div>
+
+              <div class="item service-item" style="text-align: center">
+                <a
+                  href="audio-and-speech-therapy"
+                  style="text-decoration: none; color: inherit"
+                >
+                  <img
+                    src="assets/wellnest/images/new_assets/Doctor at home.png"
+                    alt="Audio & Speech Therapy"
+                    style="
+                      height: 200px;
+                      width: 200px;
+                      display: block;
+                      margin: 0 auto 15px;
+                    "
+                  />
+                  <h3>Audio & Speech Therapy</h3>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inline style for arrows + hover effect -->
+        <style>
+          .services-carousel__wrapper .owl-nav {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            pointer-events: none;
+          }
+          .services-carousel__wrapper .owl-nav button {
+            background: none;
+            border: none;
+            font-size: 40px;
+            color: #2d2929;
+            pointer-events: auto;
+          }
+
+          /* Hover pop effect */
+          .services-carousel__wrapper .item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+          }
+          .services-carousel__wrapper .item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            /* background: #fff; optional, gives a cleaner card feel */
+          }
+        </style>
+      </div>
+
+      <div class="block-title text-center">
+        <h3>Specialized Out-of-Hospital Care</h3>
+      </div>
+
+      <div class="services-carousel" style="margin-bottom: 100px">
+        <!-- <div class="services-carousel"> -->
+        <div class="container">
+          <div class="services-carousel__wrapper" style="position: relative">
+            <div
+              class="thm__owl-carousel owl-carousel owl-theme"
+              data-options='{
+          "items": 3,
+          "nav": false,
+          "dots": true,
+          "margin": 40,
+          "loop": true,
+          "smartSpeed": 700,
+          "autoplay": true,
+          "autoplayTimeout": 5000,
+          "autoplayHoverPause": true,
+          "navText": ["<i class=\"far fa-angle-left\"></i>", "<i class=\"far fa-angle-right\"></i>"],
+          "responsive": {
+            "0": {"items": 1, "margin": 0},
+            "767": {"items": 1, "margin": 0},
+            "991": {"items": 2, "margin": 30},
+            "1199": {"items": 3}
+          }
+        }'
+            >
+              <div class="item service-item" style="text-align: center">
+                <a
+                  href="critical-care-at-home"
+                  style="text-decoration: none; color: inherit"
+                >
+                  <img
+                    src="assets/wellnest/images/new_assets/Critical Care at home.png"
+                    alt="critical-care-at-home"
+                    style="
+                      height: 200px;
+                      width: 200px;
+                      display: block;
+                      margin: 0 auto 15px;
+                    "
+                  />
+                  <h3>Critical Care at Home</h3>
+                </a>
+              </div>
+
+              <div class="item service-item" style="text-align: center">
+                <a
+                  href="palliative-care"
+                  style="text-decoration: none; color: inherit"
+                >
+                  <img
+                    src="assets/wellnest/images/new_assets/Palliative Care at home.png"
+                    alt="palliative care"
+                    style="
+                      height: 200px;
+                      width: 200px;
+                      display: block;
+                      margin: 0 auto 15px;
+                    "
+                  />
+                  <h3>Palliative Care</h3>
+                </a>
+              </div>
+
+              <div class="item service-item" style="text-align: center">
+                <a
+                  href="physiotherapy-at-home"
+                  style="text-decoration: none; color: inherit"
+                >
+                  <img
+                    src="assets/wellnest/images/new_assets/Physiotherapy at home.png"
+                    alt="Physiotherapy at Home"
+                    style="
+                      height: 200px;
+                      width: 200px;
+                      display: block;
+                      margin: 0 auto 15px;
+                    "
+                  />
+                  <h3>Hospice Care</h3>
+                </a>
+              </div>
+
+              <div class="item service-item" style="text-align: center">
+                <a
+                  href="dementia-care"
+                  style="text-decoration: none; color: inherit"
+                >
+                  <img
+                    src="assets/wellnest/images/new_assets/Dementia Care.png"
+                    alt="dementia-care"
+                    style="
+                      height: 200px;
+                      width: 200px;
+                      display: block;
+                      margin: 0 auto 15px;
+                    "
+                  />
+                  <h3>Dementia Care</h3>
+                </a>
+              </div>
+              <div class="item service-item" style="text-align: center">
+                <a
+                  href="emergency-alert-response"
+                  style="text-decoration: none; color: inherit"
+                >
+                  <img
+                    src="assets/wellnest/images/new_assets/Emergency Alert & Response.png"
+                    alt="Emergency Alert and Response"
+                    style="
+                      height: 200px;
+                      width: 200px;
+                      display: block;
+                      margin: 0 auto 15px;
+                    "
+                  />
+                  <h3>Emergency Alert & Response</h3>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inline style for arrows + hover effect -->
+        <style>
+          .services-carousel__wrapper .owl-nav {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            pointer-events: none;
+          }
+          .services-carousel__wrapper .owl-nav button {
+            background: none;
+            border: none;
+            font-size: 40px;
+            color: #2d2929;
+            pointer-events: auto;
+          }
+
+          /* Hover pop effect */
+          .services-carousel__wrapper .item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+          }
+          .services-carousel__wrapper .item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            /* background: #fff; optional, gives a cleaner card feel */
+          }
+        </style>
+      </div>
+    </div>
+  </section>
 
   <section class="about-three">
     <div class="container">
@@ -211,329 +446,742 @@
         <div class="col-lg-6">
           <div class="about-three__content">
             <div class="block-title">
-              <p class="has-line">Our Continuum of care</p>
-              <!-- /.has-line -->
+              <p class="has-line" style="font-size: 70px; margin-bottom: 50px">
+                Our Continuum of care
+              </p>
               <h3>
-                CareYogi exists to take parental or patient care stress off your shoulder, and allow you to focus
-                on your own life
+                CareYogi exists to take parental or patient care stress off your
+                shoulder, and allow you to focus on your own life
               </h3>
             </div>
-            <!-- /.block-title -->
             <p>
-              It is a pleasure to introduce CareYogi. We are an Elder
-              Care & out of hospital transitional care super
-              specialty, disrupting the way care is perceived. Our
-              HTHT (Hi-Tech- Hi Touch) platform enabled by our
-              passionate caregivers and unmatched caregiving
-              practices speeds patient outcomes & recovery.
+              It is a pleasure to introduce CareYogi. We are an Elder Care & out
+              of hospital transitional care super specialty, disrupting the way
+              care is perceived. Our HTHT (Hi-Tech- Hi Touch) platform enabled
+              by our passionate caregivers and unmatched caregiving practices
+              speeds patient outcomes & recovery.
             </p>
             <p>
-              We are strongly recommended by our partners-Hospitals,
-              Clinics and Doctors who lay their trust on us.At The
-              CareYogi, we are passionate about delivering the highest
-              standard of outcome based care. Be it the finest trained
-              care giver bed side attendants or nurses or
-              state-of-the-art technology for transparency and
+              We are strongly recommended by our partners-Hospitals, Clinics and
+              Doctors who lay their trust on us.At The CareYogi, we are
+              passionate about delivering the highest standard of outcome based
+              care. Be it the finest trained care giver bed side attendants or
+              nurses or state-of-the-art technology for transparency and
               efficiency.
             </p>
             <p>
-              When you are passionate about care giving for the lives
-              that have been entrusted to you, nothing is too big or
-              small to ignore.
+              When you are passionate about care giving for the lives that have
+              been entrusted to you, nothing is too big or small to ignore.
             </p>
-            <div class="row">
-              <div class="col-xl-6">
-                <ul class="blog-details__list list-unstyled">
-                  <li>
-                    <i class="fa fa-check-circle"></i>
-                    Stroke Care
-                  </li>
-                  <li>
-                    <i class="fa fa-check-circle"></i>
-                    Feeding Tube Care
-                  </li>
-                  <li>
-                    <i class="fa fa-check-circle"></i>
-                    Oncology Care
-                  </li>
-                  <li>
-                    <i class="fa fa-check-circle"></i>
-                    Orthopedic Care
-                  </li>
-                  <li>
-                    <i class="fa fa-check-circle"></i>
-                    Trachestomy Care
-                  </li>
-                  <li>
-                    <i class="fa fa-check-circle"></i>
-                    Trauma Care
-                  </li>
-                </ul>
-                <!-- /.blog-details__list list-unstyled -->
-              </div>
-              <!-- /.col-md-6 -->
-              <div class="col-xl-6">
-                <ul class="blog-details__list list-unstyled">
-                  <li>
-                    <i class="fa fa-check-circle"></i>
-                    Spine Care
-                  </li>
-                  <li>
-                    <i class="fa fa-check-circle"></i>
-                    Craniotomy Care
-                  </li>
-                  <li>
-                    <i class="fa fa-check-circle"></i>
-                    Cardiac Care
-                  </li>
-                  <li>
-                    <i class="fa fa-check-circle"></i>
-                    Post Covid-19 Care
-                  </li>
-                  <li>
-                    <i class="fa fa-check-circle"></i>
-                    Post-Operative Care
-                  </li>
-                  <li>
-                    <i class="fa fa-check-circle"></i>
-                    Parkinson's Care
-                  </li>
-                </ul>
-                <!-- /.blog-details__list list-unstyled -->
-              </div>
-              <!-- /.col-md-6 -->
-
-            </div>
-            <!-- /.row -->
           </div>
-          <!-- /.about-three__content -->
         </div>
-        <!-- /.col-lg-6 -->
         <div class="col-lg-6 wow fadeInRight" data-wow-duration="1500ms">
           <div class="about-three__image">
-            <img src="assets/wellnest/images/shapes/about-dot-3-1.png" class="about-dot-3-1" alt="" />
+            <img
+              src="assets/wellnest/images/shapes/about-dot-3-1.png"
+              class="about-dot-3-1"
+              alt=""
+            />
 
-            <!-- /.about-three__image-text -->
-            <img src="assets/wellnest/images/newimg/adl.jpg" alt="" width="470" height="540" />
+            <img
+              src="assets/wellnest/images/newimg/adl.jpg"
+              alt=""
+              width="470"
+              height="540"
+            />
           </div>
-          <!-- /.about-three__image -->
         </div>
-        <!-- /.col-lg-6 -->
       </div>
-      <!-- /.row -->
     </div>
-    <!-- /.container -->
   </section>
-  <!-- /.about-three -->
-
-  <!-- /.funfact-one -->
 
   <section class="faq-three">
     <div class="container">
       <div class="row">
         <div class="col-lg-6">
-          <div class="faq-three__image wow fadeInLeft" data-wow-duration="1500ms">
-            <img src="assets/wellnest/images/shapes/faq-2-dot.png" class="faq-three__image-dots" alt="" />
-            <img src="assets/wellnest/images/newimg/adl-2.jpg" alt="" width="470" height="600" />
+          <div
+            class="faq-three__image wow fadeInLeft"
+            data-wow-duration="1500ms"
+          >
+            <img
+              src="assets/wellnest/images/shapes/faq-2-dot.png"
+              class="faq-three__image-dots"
+              alt=""
+            />
+            <img
+              src="assets/wellnest/images/newimg/adl-2.jpg"
+              alt=""
+              width="470"
+              height="600"
+            />
           </div>
-          <!-- /.faq-three__image -->
         </div>
-        <!-- /.col-lg-6 -->
         <div class="col-lg-6">
           <div class="faq-one__block">
             <div class="block-title text-left">
-              <p class="has-line">Why Choose Us</p>
-              <h3>
-                CareYogi: Top Choice for Hassle-Free Home Care
-              </h3>
+              <p class="has-line" style="font-size: 70px; margin-bottom: 50px">
+                Why Choose Us
+              </p>
+              <h3>CareYogi: Top Choice for Hassle-Free Home Care</h3>
             </div>
-            <!-- /.block-title -->
 
             <p>
-              We evolved the concept of World Class services to unburden the patient and their families.
+              We evolved the concept of World Class services to unburden the
+              patient and their families.
             </p>
-            <div class="accrodion-grp" data-grp-name="career-one__accrodion">
-              <div class="accrodion active">
-                <div class="accrodion-title">
-                  <h4>Fast & Easy Booking</h4>
-                </div>
-                <div class="accrodion-content">
-                  <div class="inner">
-                    <p>
-                      Shedule care in minutes, with minimal stress
-                    </p>
-                  </div>
-                  <!-- /.inner -->
-                </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
+                text-align: center;
+                margin-top: 40px;
+              "
+            >
+              <div>
+                <h4 style="color: #2d2929; font-size: 20px; font-weight: 600">
+                  <i
+                    class="far fa-notes-medical"
+                    style="
+                      color: #2d2929;
+                      font-size: 40px;
+                      margin-bottom: 10px;
+                      display: block;
+                    "
+                  ></i>
+                  Personalised Care Plan
+                </h4>
               </div>
-              <div class="accrodion">
-                <div class="accrodion-title">
-                  <h4>Top-Tier Caregivers</h4>
-                </div>
-                <div class="accrodion-content">
-                  <div class="inner">
-                    <p>
-                      Get matched with qualified compassionate caregivers
-                    </p>
-                  </div>
-                  <!-- /.inner -->
-                </div>
+
+              <div>
+                <h4 style="color: #2d2929; font-size: 20px; font-weight: 600">
+                  <i
+                    class="far fa-user-shield"
+                    style="
+                      color: #2d2929;
+                      font-size: 40px;
+                      margin-bottom: 10px;
+                      display: block;
+                    "
+                  ></i>
+                  End to End Solutions
+                </h4>
               </div>
-              <div class="accrodion">
-                <div class="accrodion-title">
-                  <h4>Seamless Transitions</h4>
-                </div>
-                <div class="accrodion-content">
-                  <div class="inner">
-                    <p>
-                      Experience a smooth start to home care with clear communication.
-                    </p>
-                  </div>
-                  <!-- /.inner -->
-                </div>
+
+              <div>
+                <h4 style="color: #2d2929; font-size: 20px; font-weight: 600">
+                  <i
+                    class="far fa-user-md"
+                    style="
+                      color: #2d2929;
+                      font-size: 40px;
+                      margin-bottom: 10px;
+                      display: block;
+                    "
+                  ></i>
+                  Multidisciplinary Team of Doctors
+                </h4>
               </div>
-              <div class="accrodion">
-                <div class="accrodion-title">
-                  <h4>Thorough Background Checks</h4>
-                </div>
-                <div class="accrodion-content">
-                  <div class="inner">
-                    <p>
-                      Ensure peace of mind with rigorous caregiver screening.
-                    </p>
-                  </div>
-                  <!-- /.inner -->
-                </div>
+
+              <div>
+                <h4 style="color: #2d2929; font-size: 20px; font-weight: 600">
+                  <i
+                    class="far fa-heartbeat"
+                    style="
+                      color: #2d2929;
+                      font-size: 40px;
+                      margin-bottom: 10px;
+                      display: block;
+                    "
+                  ></i>
+                  Clinical Monitoring through e-ICU
+                </h4>
               </div>
-              <div class="accrodion">
-                <div class="accrodion-title">
-                  <h4>Flexible Refunds</h4>
-                </div>
-                <div class="accrodion-content">
-                  <div class="inner">
-                    <p>
-                      Benefit from hassle-free adjustments to your care plan.
-                    </p>
-                  </div>
-                  <!-- /.inner -->
-                </div>
+
+              <div>
+                <h4 style="color: #2d2929; font-size: 20px; font-weight: 600">
+                  <i
+                    class="far fa-user-nurse"
+                    style="
+                      color: #2d2929;
+                      font-size: 40px;
+                      margin-bottom: 10px;
+                      display: block;
+                    "
+                  ></i>
+                  Trained & Verified Healthcare Staff
+                </h4>
+              </div>
+
+              <div>
+                <h4 style="color: #2d2929; font-size: 20px; font-weight: 600">
+                  <i
+                    class="far fa-mobile"
+                    style="
+                      color: #2d2929;
+                      font-size: 40px;
+                      margin-bottom: 10px;
+                      display: block;
+                    "
+                  ></i>
+                  App Enabled Care
+                </h4>
               </div>
             </div>
-          </div>
-          <!-- /.faq-one__block -->
-        </div>
-        <!-- /.col-lg-6 -->
-      </div>
-      <!-- /.row -->
-    </div>
-    <!-- /.container -->
-  </section><!-- /.faq-three -->
 
-  <section class="testimonials-one">
+            <!-- Mobile responsiveness -->
+            <style>
+              @media (max-width: 991px) {
+                div[style*="grid-template-columns"] {
+                  grid-template-columns: repeat(2, 1fr) !important;
+                }
+              }
+              @media (max-width: 575px) {
+                div[style*="grid-template-columns"] {
+                  grid-template-columns: 1fr !important;
+                }
+              }
+            </style>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials-one" style="padding-top: 55px">
     <div class="container">
-        <div class="block-title text-center">
-            <p>Testimonials</p>
-            <h3>What do Our Clients Say <br> About CareYogi?</h3>
-        </div><!-- /.block-title -->
-        <div class="testimonials-one__carousel thm__owl-carousel owl-carousel owl-theme" data-options='{
+      <div class="block-title text-center">
+        <p style="font-size: 70px; margin-bottom: 50px">Testimonials</p>
+        <h3>
+          What do Our Clients Say <br />
+          About CareYogi?
+        </h3>
+      </div>
+      <div
+        class="testimonials-one__carousel thm__owl-carousel owl-carousel owl-theme"
+        data-options='{
             "items": 2, "nav": false, "dots": true, "margin": 40, "loop": true, "smartSpeed": 700, "autoplay": true, "autoplayTimeout": 5000, "autoplayHoverPause": true, "responsive": {
                 "0": {"items": 1, "margin": 0, "dots": false, "nav": true},
                 "767": {"items": 1, "margin": 0, "dots": false, "nav": true},
                 "991": {"items": 2, "margin": 30},
                 "1199": {"items": 2}
             }
-        }'>
-            <div class="item">
-                <div class="testimonials-one__single">
-                    <div class="testimonials-one__inner">
-                        <div class="testimonials-one__image">
-                            <img src="assets/wellnest/images/resources/testi-1-1.jpg" alt="">
-                        </div><!-- /.testimonials-one__image -->
-                        <p>
-                          I recently availed the caregiver services from CareYogi for my husband, who required post-stroke care. The entire process, from initial consultation 
-                          to the daily caregiving routine, was handled with utmost professionalism and compassion. The caregiver assigned to us was not only skilled and attentive 
-                          but also genuinely caring. They ensured my husband's needs were met, whether it was assistance with mobility, personal care, or emotional support. Their 
-                          punctuality and dedication made a significant difference in his recovery journey and provided me with peace of mind. I also appreciate CareYogi's seamless 
-                          coordination and communication throughout. They were responsive to any feedback or adjustments we required, which made the entire experience stress-free.                          
-                          I highly recommend CareYogi to anyone looking for reliable and compassionate caregiving services. Their team truly goes above and beyond to support families 
-                          in challenging times. Thank you, CareYogi!
-                        </p>
-                        <h3>Neelima Shrivastava</h3>
-                        <span>Miyapur</span>
-                    </div><!-- /.testimonials-one__inner -->
-                </div><!-- /.testimonials-one__single -->
-            </div><!-- /.item -->
-            <div class="item">
-                <div class="testimonials-one__single">
-                    <div class="testimonials-one__inner">
-                        <div class="testimonials-one__image">
-                            <img src="assets/wellnest/images/resources/testi-1-2.jpg" alt="">
-                        </div><!-- /.testimonials-one__image -->
-                        <p>
-                          Careyogi undeniably offers the top caretaker services in India. Their standout qualities include their prompt response and their exceptional 
-                          dedication to meeting customers' needs. When my mother required a caregiver, they arranged one in record time and consistently followed up to 
-                          ensure the service quality remained high. Their commitment to excellence is truly commendable. I'm incredibly satisfied with their service 
-                          and the overall experience, and I wholeheartedly recommend Careyogis to all my friends and family.
-                          A special shoutout to Preity for making this such a wonderful experience for me! </p>
-                        <h3>Debashree Sen</h3>
-                        <span>KPHB</span>
-                    </div><!-- /.testimonials-one__inner -->
-                </div><!-- /.testimonials-one__single -->
-            </div><!-- /.item -->
-            <div class="item">
-              <div class="testimonials-one__single">
-                  <div class="testimonials-one__inner">
-                      <div class="testimonials-one__image">
-                          <img src="assets/wellnest/images/resources/testi-1-2.jpg" alt="">
-                      </div><!-- /.testimonials-one__image -->
-                      <p>
-                        I would like to give 5/5 to CAREYOGI because I'm disabled and I'm totally dependant on my care taker 
-                        and the CareYogi team really fullfil my need and provide me a good caretaker and for very good service provided by the team.
-                        I took care taker service 24/7 for my self and Mr. Rohit and there team was able arrange a very well caretaker and good service 
-                        within short time of notice.Ovrall I'm happy with the team and very thankful and in future when my needs come I would definitely 
-                        contact them again as well and I recommend to others.                        
-                      </p>
-                      <h3>Biva Jha</h3>
-                      <span>Tellapur</span>
-                    </div><!-- /.testimonials-one__inner -->
-              </div><!-- /.testimonials-one__single -->
-            </div><!-- /.item -->
-            <div class="item">
-              <div class="testimonials-one__single">
-                  <div class="testimonials-one__inner">
-                      <div class="testimonials-one__image">
-                          <img src="assets/wellnest/images/resources/testi-1-2.jpg" alt="">
-                      </div><!-- /.testimonials-one__image -->
-                      <p>
-                        <b>Awesome Tech Helps Us Stay Calm</b><br>                          
-                        CareYogi's technology lets us know how my dad is doing all the time. It's comforting to
-                        know that he's being watched over so carefully.
-                      </p>
-                      <h3>Chaitali Majumdar</h3>
-                      <span>Gurugram</span>
-                  </div><!-- /.testimonials-one__inner -->
-              </div><!-- /.testimonials-one__single -->
-          </div><!-- /.item -->
-          <div class="item">
-                <div class="testimonials-one__single">
-                    <div class="testimonials-one__inner">
-                        <div class="testimonials-one__image">
-                            <img src="assets/wellnest/images/resources/testi-1-2.jpg" alt="">
-                        </div><!-- /.testimonials-one__image -->
-                        <p>
-                          <b>Kind and Skilled People</b><br>
-                          Everyone from CareYogi is really good at their job and truly kind. They care a lot about
-                          their clients, which makes us feel very reassured.
-                        </p>
-                        <h3>Sariq Baddour</h3>
-                        <span>Secunderabad</span>
-                    </div><!-- /.testimonials-one__inner -->
-                </div><!-- /.testimonials-one__single -->
-            </div><!-- /.item -->
-        </div><!-- /.row high-gutter -->
+        }'
+      >
+        <div class="item">
+          <div class="testimonials-one__single">
+            <div class="testimonials-one__inner">
+              <div class="testimonials-one__image">
+                <img
+                  src="assets/wellnest/images/resources/testi-1-1.jpg"
+                  alt=""
+                />
+              </div>
+              <p class="testimonial-text">
+                I recently availed the caregiver services from CareYogi for my
+                husband, who required post-stroke care. The entire process, from
+                initial consultation to the daily caregiving routine, was
+                handled with utmost professionalism and compassion. The
+                caregiver assigned to us was not only skilled and attentive but
+                also genuinely caring. They ensured my husband's needs were met,
+                whether it was assistance with mobility, personal care, or
+                emotional support. Their punctuality and dedication made a
+                significant difference in his recovery journey and provided me
+                with peace of mind. I also appreciate CareYogi's seamless
+                coordination and communication throughout. They were responsive
+                to any feedback or adjustments we required, which made the
+                entire experience stress-free. I highly recommend CareYogi to
+                anyone looking for reliable and compassionate caregiving
+                services. Their team truly goes above and beyond to support
+                families in challenging times. Thank you, CareYogi!
+              </p>
+              <h3>Neelima Shrivastava</h3>
+              <span>Miyapur</span>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="testimonials-one__single">
+            <div class="testimonials-one__inner">
+              <div class="testimonials-one__image">
+                <img
+                  src="assets/wellnest/images/resources/testi-1-2.jpg"
+                  alt=""
+                />
+              </div>
+              <p class="testimonial-text">
+                Careyogi undeniably offers the top caretaker services in India.
+                Their standout qualities include their prompt response and their
+                exceptional dedication to meeting customers' needs. When my
+                mother required a caregiver, they arranged one in record time
+                and consistently followed up to ensure the service quality
+                remained high. Their commitment to excellence is truly
+                commendable. I'm incredibly satisfied with their service and the
+                overall experience, and I wholeheartedly recommend Careyogis to
+                all my friends and family. A special shoutout to Preity for
+                making this such a wonderful experience for me!
+              </p>
+              <h3>Debashree Sen</h3>
+              <span>KPHB</span>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="testimonials-one__single">
+            <div class="testimonials-one__inner">
+              <div class="testimonials-one__image">
+                <img
+                  src="assets/wellnest/images/resources/testi-1-2.jpg"
+                  alt=""
+                />
+              </div>
+              <p class="testimonial-text">
+                I would like to give 5/5 to CAREYOGI because I'm disabled and
+                I'm totally dependant on my care taker and the CareYogi team
+                really fullfil my need and provide me a good caretaker and for
+                very good service provided by the team. I took care taker
+                service 24/7 for my self and Mr. Rohit and there team was able
+                arrange a very well caretaker and good service within short time
+                of notice.Ovrall I'm happy with the team and very thankful and
+                in future when my needs come I would definitely contact them
+                again as well and I recommend to others.
+              </p>
+              <h3>Biva Jha</h3>
+              <span>Tellapur</span>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="testimonials-one__single">
+            <div class="testimonials-one__inner">
+              <div class="testimonials-one__image">
+                <img
+                  src="assets/wellnest/images/resources/testi-1-2.jpg"
+                  alt=""
+                />
+              </div>
+              <p class="testimonial-text">
+                <b>Awesome Tech Helps Us Stay Calm</b><br />
+                CareYogi's technology lets us know how my dad is doing all the
+                time. It's comforting to know that he's being watched over so
+                carefully.
+              </p>
+              <h3>Chaitali Majumdar</h3>
+              <span>Gurugram</span>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="testimonials-one__single">
+            <div class="testimonials-one__inner">
+              <div class="testimonials-one__image">
+                <img
+                  src="assets/wellnest/images/resources/testi-1-2.jpg"
+                  alt=""
+                />
+              </div>
+              <p class="testimonial-text">
+                <b>Kind and Skilled People</b><br />
+                Everyone from CareYogi is really good at their job and truly
+                kind. They care a lot about their clients, which makes us feel
+                very reassured.
+              </p>
+              <h3>Sariq Baddour</h3>
+              <span>Secunderabad</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    function truncateTextWithToggle(p, maxLength = 250) {
+      const fullText = p.textContent.trim();
+      if (fullText.length <= maxLength) return; // no need to truncate
 
-    </div><!-- /.container -->
-</section><!-- /.testimonials-one -->
-<script defer async src='https://cdn.trustindex.io/loader.js?f917759473ff98861096e774e24'></script>
-{% endblock %}
+      const truncated = fullText.slice(0, maxLength) + "...";
+      p.dataset.fulltext = fullText;
+      p.dataset.truncated = truncated;
+      p.dataset.expanded = "false";
+
+      p.innerHTML =
+        truncated +
+        `<span class="see-more" style="color: blue; cursor: pointer; font-weight: bold; text-decoration: underline;"> See more</span>`;
+    }
+
+    function initTruncate() {
+      document.querySelectorAll(".testimonials-one__inner p").forEach((p) => {
+        if (!p.dataset.truncated) truncateTextWithToggle(p);
+      });
+    }
+
+    // Event delegation for see more/less
+    document.addEventListener("click", function (e) {
+      if (e.target.classList.contains("see-more")) {
+        const p = e.target.closest("p");
+        const isExpanded = p.dataset.expanded === "true";
+
+        if (isExpanded) {
+          // Collapse back
+          p.innerHTML =
+            p.dataset.truncated +
+            `<span class="see-more" style="color: blue; cursor: pointer; font-weight: bold; text-decoration: underline;"> See more</span>`;
+          p.dataset.expanded = "false";
+        } else {
+          // Expand full text
+          p.innerHTML =
+            p.dataset.fulltext +
+            `<span class="see-more" style="color: blue; cursor: pointer; font-weight: bold; text-decoration: underline;"> See less</span>`;
+          p.dataset.expanded = "true";
+        }
+      }
+    });
+
+    // Run on page load
+    initTruncate();
+
+    // Re-run when slider injects new testimonials
+    const observer = new MutationObserver(initTruncate);
+    observer.observe(document.body, { childList: true, subtree: true });
+  </script>
+
+  <section class="contact-one">
+    <div class="container">
+      <div class="block-title text-center">
+        <p style="font-size: 70px; margin-bottom: 50px">Contact Us</p>
+        <h3 id="contactUs-subtitle">
+          Please fill in the form below and we'll get back to you shortly.
+        </h3>
+      </div>
+
+      <form
+        id="contactUsForm"
+        class="contact-form"
+        style="
+          max-width: 700px;
+          margin: 0 auto;
+          background: #fafafa;
+          padding: 40px;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        "
+      >
+        <div class="form-group" style="margin-bottom: 20px">
+          <input
+            type="text"
+            class="form-control"
+            name="fullname"
+            placeholder="Full Name"
+            required
+            style="
+              padding: 18px;
+              font-size: 20px;
+              border-radius: 10px;
+              width: 100%;
+              border: 1px solid #ddd;
+            "
+          />
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px">
+          <input
+            type="tel"
+            class="form-control"
+            name="phone"
+            placeholder="Phone Number"
+            required
+            style="
+              padding: 18px;
+              font-size: 20px;
+              border-radius: 10px;
+              width: 100%;
+              border: 1px solid #ddd;
+            "
+          />
+          <small
+            id="phoneFeedback"
+            style="color: red; font-size: 14px; display: block; margin-top: 5px"
+          ></small>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px">
+          <input
+            type="text"
+            class="form-control"
+            name="city"
+            placeholder="City of Service"
+            required
+            style="
+              padding: 18px;
+              font-size: 20px;
+              border-radius: 10px;
+              width: 100%;
+              border: 1px solid #ddd;
+            "
+          />
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px">
+          <select
+            class="form-control"
+            name="requirement"
+            required
+            style="
+              padding: 18px;
+              font-size: 20px;
+              border-radius: 10px;
+              width: 100%;
+              line-height: 1.5;
+              height: 60px;
+              color: #2d2929;
+              background-color: #fff;
+              border: 1px solid #ddd;
+            "
+          >
+            <option value="" disabled selected>Select a Service</option>
+            <option value="Attendant Care">Attendant Care</option>
+            <option value="Basic Nursing Care">Basic Nursing Care</option>
+            <option value="Physiotherapy at Home">Physiotherapy at Home</option>
+            <option value="Audio & Speech Therapy">
+              Audio & Speech Therapy
+            </option>
+            <option value="Critical Care at Home">Critical Care at Home</option>
+            <option value="Palliative Care">Palliative Care</option>
+            <option value="Hospice Care">Hospice Care</option>
+            <option value="Dementia Care">Dementia Care</option>
+            <option value="Emergency Alert & Response">
+              Emergency Alert & Response
+            </option>
+            <option value="Medical Equipment Rental">
+              Medical Equipment Rental
+            </option>
+            <option value="Other Services">Other Services</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px">
+          <textarea
+            class="form-control"
+            name="enquiry"
+            rows="5"
+            placeholder="Enquiry Details"
+            style="
+              padding: 18px;
+              font-size: 20px;
+              border-radius: 10px;
+              width: 100%;
+              border: 1px solid #ddd;
+            "
+          ></textarea>
+        </div>
+
+        <div class="text-center">
+          <button
+            type="submit"
+            class="thm-btn"
+            style="padding: 16px 36px; font-size: 20px; border-radius: 10px"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+
+      <div
+        id="thankYouMessage"
+        class="text-center"
+        style="display: none; margin-top: 20px"
+      >
+        <h3>🎉 Thank You!</h3>
+        <p>We've received your enquiry and will get back to you shortly.</p>
+        <button
+          id="newEntry"
+          class="thm-btn"
+          type="button"
+          style="padding: 16px 36px; font-size: 20px; border-radius: 10px"
+        >
+          Submit Another Response
+        </button>
+      </div>
+
+      <!-- Error Message -->
+      <div
+        id="formResponse"
+        class="text-center"
+        style="margin-top: 15px; color: red"
+      ></div>
+    </div>
+  </section>
+
+  <script>
+    const subtext = document.getElementById("contactUs-subtitle");
+    const form = document.getElementById("contactUsForm");
+    const thankYou = document.getElementById("thankYouMessage");
+    const responseEl = document.getElementById("formResponse");
+    const newEntryBtn = document.getElementById("newEntry");
+    const phoneInput = form.querySelector('input[name="phone"]');
+    const phoneFeedback = document.getElementById("phoneFeedback");
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    // Initially disable submit button
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = "0.6";
+    submitBtn.style.cursor = "not-allowed";
+
+    // Validate all fields
+    function validateForm() {
+      const fullName = form
+        .querySelector('input[name="fullname"]')
+        .value.trim();
+      const phone = phoneInput.value.trim();
+      const city = form.querySelector('input[name="city"]').value.trim();
+      const requirement = form.querySelector(
+        'select[name="requirement"]'
+      ).value;
+
+      const phoneValid = /^\d{10}$/.test(phone);
+
+      // Update phone feedback live
+      if (phone === "") {
+        phoneFeedback.innerText = "";
+      } else if (phoneValid) {
+        phoneFeedback.innerText = "✅ Valid phone number";
+        phoneFeedback.style.color = "green";
+      } else {
+        phoneFeedback.innerText = "❌ Phone number must be 10 digits";
+        phoneFeedback.style.color = "red";
+      }
+
+      const isValid =
+        fullName !== "" && city !== "" && requirement !== "" && phoneValid;
+
+      if (isValid) {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = "1";
+        submitBtn.style.cursor = "pointer";
+        responseEl.innerText = "";
+      } else {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = "0.6";
+        submitBtn.style.cursor = "not-allowed";
+      }
+    }
+
+    // Restrict phone to digits + max 10
+    phoneInput.addEventListener("input", (e) => {
+      e.target.value = e.target.value.replace(/\D/g, ""); // only digits
+      if (e.target.value.length > 10) {
+        e.target.value = e.target.value.slice(0, 10);
+      }
+      validateForm();
+    });
+
+    // Validate on typing for all required fields
+    form.querySelectorAll("input[required], select[required]").forEach((el) => {
+      el.addEventListener("input", validateForm);
+      el.addEventListener("change", validateForm);
+    });
+
+    form.addEventListener("submit", submitForm);
+
+    async function submitForm(e) {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const payload = Object.fromEntries(formData.entries());
+
+      try {
+        const res = await fetch("/api/method/wellnest.api.contactUs", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+
+        if (data.message) {
+          form.style.display = "none";
+          subtext.style.display = "none";
+          responseEl.innerText = "";
+          thankYou.style.display = "block";
+        } else {
+          responseEl.innerText = "Error Submitting Form";
+        }
+      } catch (err) {
+        responseEl.innerText = "Error submitting form: " + err.message;
+      }
+    }
+
+    newEntryBtn.addEventListener("click", () => {
+      form.reset();
+      form.style.display = "block";
+      subtext.style.display = "block";
+      thankYou.style.display = "none";
+      responseEl.innerText = "";
+      phoneFeedback.innerText = "";
+      validateForm();
+    });
+  </script>
+
+  <section
+    class="blog-one"
+    style="background-color: #ffffff; padding-top: 55px"
+  >
+    <div class="container">
+      <div class="block-title text-center">
+        <p style="font-size: 70px; margin-bottom: 50px">Latest Blogs</p>
+      </div>
+
+      <!-- Owl Carousel Wrapper -->
+      <div
+        class="service-one__carousel-two thm__owl-carousel owl-carousel owl-theme"
+        data-options='{
+        "items": 2, "nav": false, "dots": true, "margin": 40, "loop": true, 
+        "smartSpeed": 700, "autoplay": true, "autoplayTimeout": 5000, 
+        "autoplayHoverPause": true, 
+        "responsive": {
+          "0": {"items": 1, "margin": 0, "dots": false, "nav": true },
+          "767": {"items": 1, "margin": 0, "dots": false, "nav": true },
+          "991": {"items": 2, "margin": 30},
+          "1199": {"items": 3}
+        }
+      }'
+      >
+        {% set blogs = frappe.get_all('Blog Post', filters={'published': 1},
+        fields=['title','route','blog_category','published_on','blog_intro','blogger',
+        'meta_image'], order_by='published_on desc', limit=6 ) %} {% for blog in
+        blogs %}
+        <div class="blog-one__single item">
+          <div class="blog-one__image">
+            <img src="{{ blog.meta_image }}" alt="{{ blog.title }}" />
+          </div>
+          <div class="blog-one__content" style="overflow: visible">
+            <a href="{{ blog.route }}" class="blog-one__cat"
+              >{{ blog.blog_category }}</a
+            >
+            <h3><a href="{{ blog.route }}">{{ blog.title }}</a></h3>
+            <ul class="blog-one__meta list-unstyled">
+              <li>
+                <a href="{{ blog.route }}">By {{ blog.blogger or 'Admin' }}</a>
+              </li>
+            </ul>
+            <p>{{ blog.blog_intro or '' }}</p>
+            <a href="{{ blog.route }}" class="blog-one__link">
+              <i class="far fa-long-arrow-alt-right"></i>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- <script
+    defer
+    async
+    src="https://cdn.trustindex.io/loader.js?f917759473ff98861096e774e24"
+  ></script> -->
+  {% endblock %}
 </body>

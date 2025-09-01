@@ -1,6 +1,6 @@
 {% extends "templates/wellnest_web.html" %}
 
-<title>{% block title %}CareYogi - Hospice Care{% endblock %}</title>
+<title>{% block title %}CareYogi - Attendant Care{% endblock %}</title>
 <body>
   {% block page_content %}
   <section
@@ -10,7 +10,7 @@
     "
   >
     <div class="container">
-      <h2>Hospice Care</h2>
+      <h2>Attendant Care (Assistance with Daily Living)</h2>
       <ul class="list-unstyled thm-breadcrumb">
         <li><a href="index">Home</a></li>
         <li><span>Service Details</span></li>
@@ -29,7 +29,7 @@
               <h3 class="sidebar__title">Category</h3>
               <!-- /.sidebar__title -->
               <ul class="sidebar__cat-list">
-                <li>
+                <li class="active">
                   <a href="attendant-care">Attendant Care</a>
                 </li>
                 <li>
@@ -47,7 +47,7 @@
                 <li>
                   <a href="palliative-care">Palliative Care</a>
                 </li>
-                <li class="active">
+                <li>
                   <a href="hospice-care">Hospice Care</a>
                 </li>
                 <li>
@@ -77,12 +77,34 @@
             </div>
             <!-- /.service-details__image -->
             <div class="service-details__content">
-              <h3>Hospice Care</h3>
+              <!-- <h3>Attendant Care Program (Assistance with Daily Living)</h3> -->
+              <h3>Attendant Care Program</h3>
               <p style="font-size: 20px">
-                At the end of life, dignity matters most. CAREYOGI’s hospice
-                care is designed to offer comfort, peace, and emotional closure,
-                ensuring patients are surrounded by love and care.
+                Because dignity is built on daily comfort. <br />For many
+                elders, simple daily tasks become difficult with age. Attendant
+                Care ensures Assistance with Daily Living so seniors can enjoy
+                life without hesitation, without burdening anyone’s routine.
+                <br />
               </p>
+              <p style="font-size: 20px"><strong>Services include:</strong></p>
+              <ul style="font-size: 20px">
+                <li>Help with bathing, grooming, brushing, and shaving</li>
+                <li>
+                  Mobility support– safe assistance while moving indoors or
+                  outdoors
+                </li>
+                <li>
+                  Meals and feeding assistance – ensuring nutrition and dignity
+                </li>
+                <li>
+                  Companionship – someone to listen, walk, or accompany on
+                  visits
+                </li>
+                <li>
+                  Outings and occasions – a trusted companion for park strolls,
+                  family events, or social visits
+                </li>
+              </ul>
             </div>
             <!-- /.service-details__content -->
           </div>
@@ -95,6 +117,8 @@
     <!-- /.container -->
   </section>
   <!-- /.service-details -->
+
+  <!-- /.cta-two -->
 
   {% endblock %}
 </body>

@@ -236,7 +236,7 @@
    "fieldname": "requirement",
    "fieldtype": "Select",
    "label": "Requirement",
-   "options": "\nAttendant at Home\nAyurveda\nBaby Care\nICU at Home\nMedical Equipments\nNursing Care\nPhysiotherapy\nSpeech Therapy\nOther Services"
+   "options": "Attendant Care\nBasic Nursing Care\nPhysiotherapy at Home\nAudio & Speech Therapy\nCritical Care at Home\nPalliative Care\nHospice Care\nDementia Care\nEmergency Alert & Response\nMedical Equipment Rental\nOther Services"
   },
   {
    "fieldname": "city",
@@ -247,7 +247,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-13 16:42:19.278473",
+ "modified": "2025-09-01 12:41:12.988842",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",
@@ -280,6 +280,15 @@
    "report": 1,
    "role": "Nursing Manager",
    "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "Guest",
+   "share": 1
   }
  ],
  "sort_field": "modified",

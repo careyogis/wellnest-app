@@ -1,16 +1,16 @@
 {% extends "templates/wellnest_web.html" %}
 
-<title>{% block title %}CareYogi - Hospice Care{% endblock %}</title>
+<title>{% block title %}CareYogi - Basic Nursing Care{% endblock %}</title>
 <body>
   {% block page_content %}
   <section
     class="page-header"
     style="
-      background-image: url(assets/wellnest/images/background/page-header-doctor-at-home.jpg);
+      background-image: url(assets/wellnest/images/background/page-header-adl.jpg);
     "
   >
     <div class="container">
-      <h2>Hospice Care</h2>
+      <h2>Basic Nursing Care</h2>
       <ul class="list-unstyled thm-breadcrumb">
         <li><a href="index">Home</a></li>
         <li><span>Service Details</span></li>
@@ -32,7 +32,7 @@
                 <li>
                   <a href="attendant-care">Attendant Care</a>
                 </li>
-                <li>
+                <li class="active">
                   <a href="basic-nursing-care">Basic Nursing Care</a>
                 </li>
                 <li>
@@ -47,7 +47,7 @@
                 <li>
                   <a href="palliative-care">Palliative Care</a>
                 </li>
-                <li class="active">
+                <li>
                   <a href="hospice-care">Hospice Care</a>
                 </li>
                 <li>
@@ -70,19 +70,23 @@
           <div class="service-details__main">
             <div class="service-details__image">
               <img
-                src="assets/wellnest/images/newimg/doctor.jpeg"
+                src="assets/wellnest/images/newimg/adl-2.jpg"
                 class="img-fluid"
                 alt=""
               />
             </div>
             <!-- /.service-details__image -->
             <div class="service-details__content">
-              <h3>Hospice Care</h3>
+              <h3>Basic Nursing Care</h3>
               <p style="font-size: 20px">
-                At the end of life, dignity matters most. CAREYOGI’s hospice
-                care is designed to offer comfort, peace, and emotional closure,
-                ensuring patients are surrounded by love and care.
+                <strong>Professional nurses at your doorstep to manage:</strong>
               </p>
+              <ul style="font-size: 20px">
+                <li>Medication administration and vital monitoring</li>
+                <li>Dressing wounds, injections, IV/IM support</li>
+                <li>Managing catheters, feeding tubes, and tracheostomy</li>
+                <li>Regular follow-ups to avoid unnecessary hospital visits</li>
+              </ul>
             </div>
             <!-- /.service-details__content -->
           </div>
@@ -95,6 +99,8 @@
     <!-- /.container -->
   </section>
   <!-- /.service-details -->
+
+  <!-- /.cta-two -->
 
   {% endblock %}
 </body>

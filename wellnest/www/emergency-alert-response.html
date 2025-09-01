@@ -1,6 +1,8 @@
 {% extends "templates/wellnest_web.html" %}
 
-<title>{% block title %}CareYogi - Hospice Care{% endblock %}</title>
+<title>
+  {% block title %}CareYogi - Emergency Alert & Response{% endblock %}
+</title>
 <body>
   {% block page_content %}
   <section
@@ -10,7 +12,10 @@
     "
   >
     <div class="container">
-      <h2>Hospice Care</h2>
+      <h2>
+        Emergency Alert & Response - (Emergency Alert + Nursing + Ambulance +
+        Live Tracking)
+      </h2>
       <ul class="list-unstyled thm-breadcrumb">
         <li><a href="index">Home</a></li>
         <li><span>Service Details</span></li>
@@ -47,13 +52,13 @@
                 <li>
                   <a href="palliative-care">Palliative Care</a>
                 </li>
-                <li class="active">
+                <li>
                   <a href="hospice-care">Hospice Care</a>
                 </li>
                 <li>
                   <a href="dementia-care">Dementia Care</a>
                 </li>
-                <li>
+                <li class="active">
                   <a href="emergency-alert-response"
                     >Emergency Alert & Response</a
                   >
@@ -77,12 +82,32 @@
             </div>
             <!-- /.service-details__image -->
             <div class="service-details__content">
-              <h3>Hospice Care</h3>
+              <h3>Emergency Alert & Response</h3>
               <p style="font-size: 20px">
-                At the end of life, dignity matters most. CAREYOGI’s hospice
-                care is designed to offer comfort, peace, and emotional closure,
-                ensuring patients are surrounded by love and care.
+                Because emergencies don’t come announced.
               </p>
+              <p style="font-size: 20px">
+                Emergency Alert & Response is CAREYOGI’s tech-enabled emergency
+                response ecosystem for seniors living at home.
+              </p>
+              <p style="font-size: 20px"><strong>It provides:</strong></p>
+              <ul style="font-size: 20px">
+                <li>
+                  Emergency Alert Device– One-touch alert to call for help
+                  instantly
+                </li>
+                <li>24/7 Emergency Response – Our team is always on standby</li>
+                <li>
+                  Ambulance Services– Quick coordination for urgent transfers
+                </li>
+                <li>
+                  On-Demand Nursing Visits – Skilled nurses dispatched as needed
+                </li>
+                <li>
+                  Live Tracking via CAREYOGI App– Families can monitor response
+                  in real time
+                </li>
+              </ul>
             </div>
             <!-- /.service-details__content -->
           </div>

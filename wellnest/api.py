@@ -7,7 +7,6 @@ import pytz
 import json
 
 
-
 def calculate_time_window(daily_reporting_time_seconds):
     """
     Calculate start and end time windows based on a reporting time.
@@ -109,9 +108,13 @@ def dashboard():
                 )
             ):
                 continue
-            
-            todays_start_time =  datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-            todays_end_time = datetime.now().replace(hour=23, minute=59, second=59, microsecond=0)
+
+            todays_start_time = datetime.now().replace(
+                hour=0, minute=0, second=0, microsecond=0
+            )
+            todays_end_time = datetime.now().replace(
+                hour=23, minute=59, second=59, microsecond=0
+            )
 
             # if service hour is 24 hours:
             if engagement.service_hours == "24":
@@ -336,6 +339,26 @@ def createDailyRecord(engagement, caregiver):
     return new_doc
 
 
+@frappe.whitelist(allow_guest=True)
+# def contactUs(full_name, phone_number, city, requirement, enquiry_details):
+def contactUs():
+    data = frappe.form_dict
+    new_doc = frappe.get_doc(
+        {
+            "doctype": "CY Lead",
+            "full_name": data.get("fullname"),
+            "phone_number": data.get("phone"),
+            "city": data.get("city"),
+            "requirement": data.get("requirement"),
+            "enquiry_details": data.get("enquiry"),
+            "status": "New Request",
+            "source": "Website",
+        }
+    )
+    new_doc.insert()
+    return frappe.form_dict
+
+
 @frappe.whitelist()
 def checkout(record):
     ist_datetime = (
@@ -420,7 +443,9 @@ def verify_otp(phone, otp):
     # if yes, logs in the user and returns the user
     return verify_otp_for_phone(phone, otp)
 
+
 from frappe.utils import now
+
 
 @frappe.whitelist(allow_guest=True)
 def update_caregiver_response(response_id):
@@ -441,7 +466,9 @@ def update_caregiver_response(response_id):
     try:
         doc = frappe.get_doc("Caregiver Response", response_id)
     except frappe.DoesNotExistError:
-        frappe.throw(f"No Caregiver Response found with ID {response_id}", title="Error")
+        frappe.throw(
+            f"No Caregiver Response found with ID {response_id}", title="Error"
+        )
     except Exception:
         frappe.throw("Something went wrong. Contact support.", title="Error")
 
@@ -458,7 +485,6 @@ def update_caregiver_response(response_id):
     return "success"
 
 
-
 @frappe.whitelist()
 def update_fcm_token():
     try:
@@ -469,11 +495,15 @@ def update_fcm_token():
         if not email_id or not fcm_token:
             frappe.throw("Missing email or token", title="Validation Error")
 
-        contact = frappe.db.sql("""
+        contact = frappe.db.sql(
+            """
             SELECT parent FROM `tabContact Email`
             WHERE email_id = %s
             LIMIT 1
-        """, (email_id,), as_dict=True)
+        """,
+            (email_id,),
+            as_dict=True,
+        )
 
         if contact:
             contact_doc = frappe.get_doc("Contact", contact[0]["parent"])
@@ -496,6 +526,7 @@ from frappe import _
 from frappe.utils import now
 import qrcode
 
+
 # ✅ Generate a QR code image from a UPI URI and save it to a temporary path
 def generate_upi_qr(upi_uri, file_path="/tmp/upi_qr.png"):
     img = qrcode.make(upi_uri)
@@ -511,38 +542,50 @@ def get_unpaid_registration_invoice(customer_name):
             filters={
                 "customer": customer_name,
                 "outstanding_amount": [">", 0],
-                "docstatus": 1
+                "docstatus": 1,
             },
             fields=["name", "rounded_total", "company"],
-            order_by="posting_date desc"
+            order_by="posting_date desc",
         )
 
-        frappe.log_error(f"{len(invoices)} unpaid invoices found", "get_unpaid_registration_invoice")
+        frappe.log_error(
+            f"{len(invoices)} unpaid invoices found", "get_unpaid_registration_invoice"
+        )
 
         for inv in invoices:
             items = frappe.get_all(
                 "Sales Invoice Item",
                 filters={"parent": inv.name},
-                fields=["item_name", "item_code"]
+                fields=["item_name", "item_code"],
             )
             for item in items:
                 # Check if item's name contains "registration"
                 item_name = (item.item_name or "").lower()
                 if "registration" in item_name:
-                    frappe.log_error(inv.name, "get_unpaid_registration_invoice: Matched by item_name")
+                    frappe.log_error(
+                        inv.name,
+                        "get_unpaid_registration_invoice: Matched by item_name",
+                    )
                     return inv
 
                 # Also check linked Item record’s item_name
                 linked_name = frappe.db.get_value("Item", item.item_code, "item_name")
                 if linked_name and "registration" in linked_name.lower():
-                    frappe.log_error(inv.name, "get_unpaid_registration_invoice: Matched by linked Item.item_name")
+                    frappe.log_error(
+                        inv.name,
+                        "get_unpaid_registration_invoice: Matched by linked Item.item_name",
+                    )
                     return inv
 
-        frappe.log_error("No unpaid registration invoice found", "get_unpaid_registration_invoice")
+        frappe.log_error(
+            "No unpaid registration invoice found", "get_unpaid_registration_invoice"
+        )
         return None
 
     except Exception:
-        frappe.log_error(frappe.get_traceback(), "get_unpaid_registration_invoice: Error")
+        frappe.log_error(
+            frappe.get_traceback(), "get_unpaid_registration_invoice: Error"
+        )
         return None
 
 
@@ -577,7 +620,10 @@ def accept_terms():
 
         # 🔍 Validate inputs
         if not customer_id and not engagement_id:
-            frappe.log_error("Missing both customer_id and engagement_id", "AcceptTerms: Missing Input")
+            frappe.log_error(
+                "Missing both customer_id and engagement_id",
+                "AcceptTerms: Missing Input",
+            )
             frappe.throw(_("Missing Customer ID or Engagement ID."))
 
         # 🔁 Resolve customer ID from engagement if not provided
@@ -585,21 +631,32 @@ def accept_terms():
             try:
                 engagement = frappe.get_doc("Engagement", engagement_id)
                 customer_id = engagement.customer
-                frappe.log_error(customer_id, "AcceptTerms: Resolved customer from engagement")
+                frappe.log_error(
+                    customer_id, "AcceptTerms: Resolved customer from engagement"
+                )
             except Exception:
-                frappe.log_error(frappe.get_traceback(), f"AcceptTerms: Engagement fetch failed for {engagement_id}")
+                frappe.log_error(
+                    frappe.get_traceback(),
+                    f"AcceptTerms: Engagement fetch failed for {engagement_id}",
+                )
                 return {"success": False, "error": "Engagement not found or invalid."}
 
         # 🔍 Fetch Customer doc
         try:
             customer = frappe.get_doc("Customer", customer_id)
         except Exception:
-            frappe.log_error(frappe.get_traceback(), f"AcceptTerms: Failed to fetch Customer {customer_id}")
+            frappe.log_error(
+                frappe.get_traceback(),
+                f"AcceptTerms: Failed to fetch Customer {customer_id}",
+            )
             return {"success": False, "error": "Customer not found."}
 
         # 🔄 Return early if already accepted or paid
         if customer.custom_registration_term in ["accepted", "paid"]:
-            frappe.log_error(customer.custom_registration_term, f"AcceptTerms: Already Accepted by {customer.name}")
+            frappe.log_error(
+                customer.custom_registration_term,
+                f"AcceptTerms: Already Accepted by {customer.name}",
+            )
             return {"success": True, "message": "Already accepted."}
 
         # ✅ Mark terms as accepted
@@ -625,10 +682,15 @@ def accept_terms():
         if invoice:
             frappe.log_error(invoice.name, "AcceptTerms: Found existing unpaid invoice")
         else:
-            frappe.log_error("No unpaid invoice found — proceeding to create one", "AcceptTerms: Invoice Creation Triggered")
+            frappe.log_error(
+                "No unpaid invoice found — proceeding to create one",
+                "AcceptTerms: Invoice Creation Triggered",
+            )
 
             # 📦 Get registration item code
-            item_code = frappe.db.get_value("Item", {"item_name": ["like", "%registration%"]}, "name")
+            item_code = frappe.db.get_value(
+                "Item", {"item_name": ["like", "%registration%"]}, "name"
+            )
             if not item_code:
                 msg = "No item found with 'registration' in item_name"
                 frappe.log_error(msg, "AcceptTerms: Missing Registration Item")
@@ -643,12 +705,16 @@ def accept_terms():
 
             # 🧾 Create and submit new Sales Invoice
             try:
-                invoice = frappe.get_doc({
-                    "doctype": "Sales Invoice",
-                    "customer": customer.name,
-                    "items": [{"item_code": item_code, "qty": 1}]
-                })
-                frappe.log_error("AcceptTerms: Invoice Doc Before Insert", frappe.as_json(invoice))
+                invoice = frappe.get_doc(
+                    {
+                        "doctype": "Sales Invoice",
+                        "customer": customer.name,
+                        "items": [{"item_code": item_code, "qty": 1}],
+                    }
+                )
+                frappe.log_error(
+                    "AcceptTerms: Invoice Doc Before Insert", frappe.as_json(invoice)
+                )
 
                 invoice.insert(ignore_permissions=True)
                 frappe.log_error(invoice.name, "AcceptTerms: Invoice Inserted")
@@ -657,11 +723,18 @@ def accept_terms():
                 frappe.log_error(invoice.name, "AcceptTerms: Invoice Submitted")
 
                 if invoice.docstatus != 1:
-                    frappe.log_error(invoice.name, "AcceptTerms: Invoice not submitted successfully")
+                    frappe.log_error(
+                        invoice.name, "AcceptTerms: Invoice not submitted successfully"
+                    )
 
             except Exception:
-                frappe.log_error(frappe.get_traceback(), "AcceptTerms: Invoice Creation Failed")
-                return {"success": False, "error": "Invoice creation failed. Check item setup and logs."}
+                frappe.log_error(
+                    frappe.get_traceback(), "AcceptTerms: Invoice Creation Failed"
+                )
+                return {
+                    "success": False,
+                    "error": "Invoice creation failed. Check item setup and logs.",
+                }
 
         # 🏦 Generate UPI URI from company config
         upi_id = frappe.db.get_value("Company", invoice.company, "custom_upi_id")
@@ -670,16 +743,16 @@ def accept_terms():
             frappe.log_error(msg, "AcceptTerms: UPI ID Missing")
             return {"success": False, "error": msg}
 
-        upi_uri = (
-            f"upi://pay?pa={upi_id}&pn={customer.customer_name}&am={format(invoice.rounded_total, '.2f')}&cu=INR&tn=Invoice {invoice.name}"
-        )
+        upi_uri = f"upi://pay?pa={upi_id}&pn={customer.customer_name}&am={format(invoice.rounded_total, '.2f')}&cu=INR&tn=Invoice {invoice.name}"
 
         # 🖨️ Generate QR Code from UPI URI
         try:
             generate_upi_qr(upi_uri)
             frappe.log_error(upi_uri, "AcceptTerms: UPI URI & QR generated")
         except Exception:
-            frappe.log_error(frappe.get_traceback(), "AcceptTerms: QR Code Generation Failed")
+            frappe.log_error(
+                frappe.get_traceback(), "AcceptTerms: QR Code Generation Failed"
+            )
 
         return {
             "success": True,
@@ -688,13 +761,16 @@ def accept_terms():
                 "payment_amount": invoice.rounded_total,
                 "upi_id": upi_id,
                 "upi_uri": upi_uri,
-                "customer_name": customer.customer_name
-            }
+                "customer_name": customer.customer_name,
+            },
         }
 
     except Exception:
         frappe.log_error(frappe.get_traceback(), "AcceptTerms: Top-level Error")
-        return {"success": False, "error": "Unexpected server error. Please check Error Logs."}
+        return {
+            "success": False,
+            "error": "Unexpected server error. Please check Error Logs.",
+        }
 
 # ✅ API to fetch T&C acceptance and payment status (Guest allowed)
 @frappe.whitelist(allow_guest=True)
@@ -715,14 +791,14 @@ def get_payment_details(customer_id=None, engagement_id=None):
             "Sales Invoice",
             filters={"customer": customer.name, "docstatus": 1},
             fields=["name", "outstanding_amount", "company"],
-            order_by="posting_date desc"
-             )
+            order_by="posting_date desc",
+        )
 
         for inv in invoices:
             items = frappe.get_all(
                 "Sales Invoice Item",
                 filters={"parent": inv.name},
-                fields=["item_name", "item_code"]
+                fields=["item_name", "item_code"],
             )
             for item in items:
                 item_name = (item.item_name or "").lower()
@@ -736,10 +812,7 @@ def get_payment_details(customer_id=None, engagement_id=None):
 
                         return {
                             "success": True,
-                            "data": {
-                                "status": "paid",
-                                "accepted": True
-                            }
+                            "data": {"status": "paid", "accepted": True},
                         }
 
         # 🔍 If not paid, find unpaid registration invoice
@@ -748,17 +821,15 @@ def get_payment_details(customer_id=None, engagement_id=None):
             return {
                 "success": False,
                 "error": "No unpaid registration invoice found.",
-                "data": {"status": customer.custom_registration_term or "pending"}
+                "data": {"status": customer.custom_registration_term or "pending"},
             }
 
         # 🏦 Get UPI details for QR
         upi_id = frappe.db.get_value("Company", invoice.company, "custom_upi_id")
         if not upi_id:
             return {"success": False, "error": "UPI ID not configured in Company."}
-    
-        upi_uri = (
-            f"upi://pay?pa={upi_id}&pn={customer.customer_name}&am={format(invoice.rounded_total, '.2f')}&cu=INR&tn=Invoice {invoice.name}"
-        )
+
+        upi_uri = f"upi://pay?pa={upi_id}&pn={customer.customer_name}&am={format(invoice.rounded_total, '.2f')}&cu=INR&tn=Invoice {invoice.name}"
         generate_upi_qr(upi_uri)
 
         return {
@@ -771,19 +842,10 @@ def get_payment_details(customer_id=None, engagement_id=None):
                 "payment_amount": invoice.rounded_total,
                 "upi_id": upi_id,
                 "upi_uri": upi_uri,
-                "customer_name": customer.customer_name
-            }
+                "customer_name": customer.customer_name,
+            },
         }
 
     except Exception:
         frappe.log_error(frappe.get_traceback(), "get_payment_details Error")
         return {"success": False, "error": "Unexpected error occurred."}
-
-
-
-
-
-
-
-
-
