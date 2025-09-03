@@ -339,8 +339,7 @@ def createDailyRecord(engagement, caregiver):
     return new_doc
 
 
-@frappe.whitelist(allow_guest=True)
-# def contactUs(full_name, phone_number, city, requirement, enquiry_details):
+@frappe.whitelist(allow_guest=True, methods=["POST"])
 def contactUs():
     data = frappe.form_dict
     new_doc = frappe.get_doc(
@@ -351,7 +350,7 @@ def contactUs():
             "city": data.get("city"),
             "requirement": data.get("requirement"),
             "enquiry_details": data.get("enquiry"),
-            "status": "New Request",
+            "status": "01-New Request",
             "source": "Website",
         }
     )
@@ -596,16 +595,12 @@ def get_terms_content():
         {"custom_is_active": 1},
         ["name", "title", "terms"],
         order_by="modified desc",
-        as_dict=True
+        as_dict=True,
     )
     if not terms:
         return {"success": False, "error": "No active Terms & Conditions found"}
 
-    return {
-        "success": True,
-        "content": terms.terms,
-        "title": terms.title
-    }
+    return {"success": True, "content": terms.terms, "title": terms.title}
 
 
 # ✅ API to accept Terms & Conditions (Guest allowed)
@@ -668,11 +663,13 @@ def accept_terms():
             "Terms and Conditions",
             {"custom_is_active": 1},
             "name",
-            order_by="modified desc"
+            order_by="modified desc",
         )
         if latest_terms:
             customer.custom_accepted_term = latest_terms
-            frappe.log_error(latest_terms, f"AcceptTerms: Linked Accepted Term for {customer.name}")
+            frappe.log_error(
+                latest_terms, f"AcceptTerms: Linked Accepted Term for {customer.name}"
+            )
 
         customer.save(ignore_permissions=True)
         frappe.log_error(customer.name, "AcceptTerms: Customer marked as accepted")
@@ -771,6 +768,7 @@ def accept_terms():
             "success": False,
             "error": "Unexpected server error. Please check Error Logs.",
         }
+
 
 # ✅ API to fetch T&C acceptance and payment status (Guest allowed)
 @frappe.whitelist(allow_guest=True)

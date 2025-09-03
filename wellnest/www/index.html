@@ -1212,6 +1212,7 @@
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
+            "X-Frappe-CSRF-Token": frappe.csrf_token, // this fixes the CSRFTokenError
           },
           body: JSON.stringify(payload),
         });
