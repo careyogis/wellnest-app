@@ -1,117 +1,102 @@
 {% extends "templates/wellnest_web.html" %}
 
-<title>
-    {% block title %}CareYogi - Doctor at Home{% endblock %}
-</title>    
+<title>{% block title %}CareYogi - Critical Care at Home{% endblock %}</title>
 <body>
-{% block page_content %}
-<section class="page-header" style="background-image: url(assets/wellnest/images/background/page-header-doctor-at-home.jpg);">
-  <div class="container">
-      <h2>Doctor At Home</h2>
+  {% block page_content %}
+  <section
+    class="page-header"
+    style="
+      background-image: url(assets/wellnest/images/background/page-header-doctor-at-home.jpg);
+    "
+  >
+    <div class="container">
+      <h2>Critical Care at Home</h2>
       <ul class="list-unstyled thm-breadcrumb">
-          <li><a href="index">Home</a></li>
-          <li><span>Service Details</span></li>
-      </ul><!-- /.list-unstyled -->
-  </div><!-- /.container -->
-</section><!-- /.page-header -->
-<section class="service-details" style="padding-top: 35px !important">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="service-details__sidebar">
-          <div class="sidebar__single sidebar__category">
-            <h3 class="sidebar__title">Category</h3>
-            <!-- /.sidebar__title -->
-            <ul class="sidebar__cat-list">
-              <li>
-                <a href="caregiver-attendant">Assistance with Daily Living </a>
-              </li>
-              <li>
-                <a href="nursing-care">Nursing Care</a>
-              </li>
-              <li class="active">
-                <a href="doctor-at-home">Doctor at Home</a>
-              </li>
-              <li>
-                <a href="speech-therapy">Speech Therapy</a>
-              </li>
-              <li>
-                <a href="physiotherapy">Physiotherapy</a>
-              </li>
-              <li>
-                <a href="hospice-care">Hospice & Palliative Care</a>
-              </li>
-            </ul>
-            <!-- /.sidebar__cat-list -->
-          </div>
-          <!-- /.sidebar__single -->
-        </div>
-        <!-- /.service-details__sidebar -->
-      </div>
-      <!-- /.col-lg-4 -->
-      <div class="col-lg-8">
-        <div class="service-details__main">
-          <div class="service-details__image">
-            <img src="assets/wellnest/images/newimg/doctor.jpeg" class="img-fluid" alt="" />
-          </div>
-          <!-- /.service-details__image -->
-          <div class="service-details__content">
-            <h3>Doctor at Home</h3>
-            <p>
-              Caring for the elderly can be challenging, especially when mobility issues limit their access to medical care. 
-              CareYogi™ bridges this gap by bringing essential medical procedures directly to their doorstep. 
-              Our team of experienced and qualified doctors provides compassionate, convenient, and high-quality care in the comfort of their own homes.
-            </p>
-            <p>
-              The following services are provided at home by a doctor:
-            </p>            
-            <ul>
-              <li>
-                Tracheostomy Care, Catheterization, Bladder Wash, Catheter Removing
-              </li>
-              <li>
-                Injections - Intravenous, Subcutaneous, Intramuscular, IV infusion
-              </li>
-              <li>
-                Dressing for Ulcer, Bedsore, Surgical, Suture Removing, Stoma Bag etc.
-              </li>
-            </ul>
-          </div><!-- /.service-details__content -->
-        </div><!-- /.service-details__main -->
-      </div><!-- /.col-lg-8 -->
+        <li><a href="index">Home</a></li>
+        <li><span>Service Details</span></li>
+      </ul>
+      <!-- /.list-unstyled -->
     </div>
-    <!-- /.row -->
-  </div>
-  <!-- /.container -->
-</section>
-<!-- /.service-details -->
-<section class="cta-two">
-  <img src="assets/wellnest/images/shapes/cta-1-1-shape-1.png" class="cta-two__dot-1" alt="">
-  <img src="assets/wellnest/images/shapes/cta-1-1-shape-2.png" class="cta-two__dot-2" alt="">
-  <div class="container">
-      <div class="row no-gutters">
-          <div class="col-lg-6 d-flex justify-content-center align-items-center wow fadeInLeft"
-              data-wow-duration="1500ms">
-              <div class="cta-two__image">
-                  <img src="assets/wellnest/images/resources/cta-1-1.jpg" alt="">
-                  <div class="cta-two__image-inner">
-                      <div class="cta-two__image-content">
-                          <h3><span class="counter">88</span><!-- /.coutner -->%</h3>
-                          <p>Success Rate</p>
-                      </div><!-- /.cta-two__image-content -->
-                  </div><!-- /.cta-two__image-inner -->
-              </div><!-- /.cta-two__image -->
-          </div><!-- /.col-lg-6 -->
-          <div class="col-lg-6">
-              <div class="cta-two__content">
-                  <h3>Book an <br> Appointment Today!</h3>
-                  <p>For compassionate care with a holistic, family-centered approach, <br> please contact us.</p>                               
-                  <a href="contact-us" class="thm-btn cta-two__btn">Contact Us</a><!-- /.thm-btn cta-two__btn -->
-              </div><!-- /.cta-two__content -->
-          </div><!-- /.col-lg-6 -->
-      </div><!-- /.row no-gutters -->
-  </div><!-- /.container -->
-</section><!-- /.cta-two -->
+    <!-- /.container -->
+  </section>
+  <!-- /.page-header -->
+  <section class="service-details" style="padding-top: 35px !important">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="service-details__sidebar">
+            <div class="sidebar__single sidebar__category">
+              <h3 class="sidebar__title">Category</h3>
+              <!-- /.sidebar__title -->
+              <ul class="sidebar__cat-list">
+                <li>
+                  <a href="caregiver-attendant">Attendant Care</a>
+                </li>
+                <li>
+                  <a href="nursing-care">Basic Nursing Care</a>
+                </li>
+                <li class="active">
+                  <a href="doctor-at-home">Critical Care at Home</a>
+                </li>
+                <li>
+                  <a href="speech-therapy">Audio & Speech Therapy</a>
+                </li>
+                <li>
+                  <a href="physiotherapy">Physiotherapy at Home</a>
+                </li>
+                <li>
+                  <a href="hospice-care">Hospice Care</a>
+                </li>
+                <li>
+                  <a href="palliative-care">Palliative Care</a>
+                </li>
+                <li>
+                  <a href="dementia-care">Dementia Care</a>
+                </li>
+                <li>
+                  <a href="emergency-alert-response"
+                    >Emergency Alert & Response</a
+                  >
+                </li>
+              </ul>
+              <!-- /.sidebar__cat-list -->
+            </div>
+            <!-- /.sidebar__single -->
+          </div>
+          <!-- /.service-details__sidebar -->
+        </div>
+        <!-- /.col-lg-4 -->
+        <div class="col-lg-8">
+          <div class="service-details__main">
+            <div class="service-details__image">
+              <img
+                src="assets/wellnest/images/newimg/doctor.jpeg"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+            <!-- /.service-details__image -->
+            <div class="service-details__content">
+              <h3>Critical Care at Home</h3>
+              <p style="font-size: 20px">
+                When health conditions require ICU-level monitoring, CAREYOGI
+                brings hospital-grade care to the home. Equipped with advanced
+                devices and experienced doctors ,skilled ICU-trained nurses,
+                patients receive continuous monitoring, reducing infection risks
+                and hospital stress.
+              </p>
+            </div>
+            <!-- /.service-details__content -->
+          </div>
+          <!-- /.service-details__main -->
+        </div>
+        <!-- /.col-lg-8 -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+  </section>
+  <!-- /.service-details -->
 
-{% endblock %}
+  {% endblock %}
 </body>

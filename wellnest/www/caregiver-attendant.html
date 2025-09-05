@@ -1,147 +1,122 @@
 {% extends "templates/wellnest_web.html" %}
 
-<title>
-    {% block title %}CareYogi - Assistance with Daily Living {% endblock %}
-</title>    
+<title>{% block title %}CareYogi - Attendant Care {% endblock %}</title>
 <body>
-{% block page_content %}
-<section class="page-header" style="background-image: url(assets/wellnest/images/background/page-header-adl.jpg);">
-  <div class="container">
-      <h2>Assistance with Daily Living</h2>
+  {% block page_content %}
+  <section
+    class="page-header"
+    style="
+      background-image: url(assets/wellnest/images/background/page-header-adl.jpg);
+    "
+  >
+    <div class="container">
+      <h2>Attendant Care (Assistance with Daily Living)</h2>
       <ul class="list-unstyled thm-breadcrumb">
-          <li><a href="index">Home</a></li>
-          <li><span>Service Details</span></li>
-      </ul><!-- /.list-unstyled -->
-  </div><!-- /.container -->
-</section><!-- /.page-header -->
-<section class="service-details" style="padding-top: 35px !important">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="service-details__sidebar">
-          <div class="sidebar__single sidebar__category">
-            <h3 class="sidebar__title">Category</h3>
-            <!-- /.sidebar__title -->
-            <ul class="sidebar__cat-list">
-              <li class="active">
-                <a href="caregiver-attendant">Assistance with Daily Living </a>
-              </li>
-              <li>
-                <a href="nursing-care">Nursing Care</a>
-              </li>
-              <li>
-                <a href="doctor-at-home">Doctor at Home</a>
-              </li>
-              <li>
-                <a href="speech-therapy">Speech Therapy</a>
-              </li>
-              <li>
-                <a href="physiotherapy">Physiotherapy</a>
-              </li>
-              <li>
-                <a href="hospice-care">Hospice & Palliative Care</a>
-              </li>
-            </ul>
-            <!-- /.sidebar__cat-list -->
-          </div>
-          <!-- /.sidebar__single -->
-        </div>
-        <!-- /.service-details__sidebar -->
-      </div>
-      <!-- /.col-lg-4 -->
-      <div class="col-lg-8">
-        <div class="service-details__main">
-          <div class="service-details__image" >
-            <img src="assets/wellnest/images/newimg/adl.jpg" class="img-fluid" alt="" />
-          </div>
-          <!-- /.service-details__image -->
-          <div class="service-details__content">
-            <h3>
-              Assistance with Daily Living (ADL) services
-            </h3>
-            <p>
-              At CareYogi, we understand the importance of staying
-              comfortable and independent in familiar surroundings. Our
-              compassionate caregivers provide non-medical assistance to
-              help seniors thrive at home.
-            </p>
-            <br />
-            <h4>Here's how our services can help:</h4>
-            <br />
-            <ul>
-              <li>
-                Daily Living Activities : Our caregivers assists with
-                tasks like bathing, dressing, grooming, preparing meals,
-                medication reminders, walking, transferring, and light
-                exercises. This allows seniors to maintain their routines,
-                a sense of control, and promote mobility and overall
-                well-being.
-              </li>
-              <li>
-                Companionship & Light Housekeeping: Our caregivers are
-                friendly and engaging, offering conversation, social
-                interaction, light entertainment, handling laundry, light
-                housework, and running errands. This combats loneliness,
-                keeps spirits high, and frees up time for relaxation and
-                activities you enjoy.
-              </li>
-            </ul>
-            <br />
-            <h4>Benefits of Choosing CareYogi Caregiver Services:</h4>
-            <br />
-            <ul>
-              <li>
-                Peace of mind & Continued independence: Knowing your loved
-                one is safe, cared for, has companionship, and can
-                maintain their independence for as long as possible brings
-                peace of mind and boosts their confidence and overall
-                well-being.
-              </li>
-              <li>
-                Reduced stress: Caregivers can handle some of the daily
-                responsibilities, alleviating stress for both seniors and
-                their families.
-              </li>
-            </ul>
-          </div>
-          <!-- /.service-details__content -->
-        </div>
-        <!-- /.service-details__main -->
-      </div>
-      <!-- /.col-lg-8 -->
+        <li><a href="index">Home</a></li>
+        <li><span>Service Details</span></li>
+      </ul>
+      <!-- /.list-unstyled -->
     </div>
-    <!-- /.row -->
-  </div>
-  <!-- /.container -->
-</section>
-<!-- /.service-details -->
-<section class="cta-two">
-  <img src="assets/wellnest/images/shapes/cta-1-1-shape-1.png" class="cta-two__dot-1" alt="">
-  <img src="assets/wellnest/images/shapes/cta-1-1-shape-2.png" class="cta-two__dot-2" alt="">
-  <div class="container">
-      <div class="row no-gutters">
-          <div class="col-lg-6 d-flex justify-content-center align-items-center wow fadeInLeft"
-              data-wow-duration="1500ms">
-              <div class="cta-two__image">
-                  <img src="assets/wellnest/images/resources/cta-1-1.jpg" alt="">
-                  <div class="cta-two__image-inner">
-                      <div class="cta-two__image-content">
-                          <h3><span class="counter">88</span><!-- /.coutner -->%</h3>
-                          <p>Success Rate</p>
-                      </div><!-- /.cta-two__image-content -->
-                  </div><!-- /.cta-two__image-inner -->
-              </div><!-- /.cta-two__image -->
-          </div><!-- /.col-lg-6 -->
-          <div class="col-lg-6">
-              <div class="cta-two__content">
-                  <h3>Book an <br> Appointment Today!</h3>
-                  <p>For compassionate care with a holistic, family-centered approach, <br> please contact us.</p>                               
-                  <a href="contact-us" class="thm-btn cta-two__btn">Contact Us</a><!-- /.thm-btn cta-two__btn -->
-              </div><!-- /.cta-two__content -->
-          </div><!-- /.col-lg-6 -->
-      </div><!-- /.row no-gutters -->
-  </div><!-- /.container -->
-</section><!-- /.cta-two -->
+    <!-- /.container -->
+  </section>
+  <!-- /.page-header -->
+  <section class="service-details" style="padding-top: 35px !important">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="service-details__sidebar">
+            <div class="sidebar__single sidebar__category">
+              <h3 class="sidebar__title">Category</h3>
+              <!-- /.sidebar__title -->
+              <ul class="sidebar__cat-list">
+                <li class="active">
+                  <a href="caregiver-attendant">Attendant Care</a>
+                </li>
+                <li>
+                  <a href="nursing-care">Basic Nursing Care</a>
+                </li>
+                <li>
+                  <a href="doctor-at-home">Critical Care at Home</a>
+                </li>
+                <li>
+                  <a href="speech-therapy">Audio & Speech Therapy</a>
+                </li>
+                <li>
+                  <a href="physiotherapy">Physiotherapy at Home</a>
+                </li>
+                <li>
+                  <a href="hospice-care">Hospice Care</a>
+                </li>
+                <li>
+                  <a href="palliative-care">Palliative Care</a>
+                </li>
+                <li>
+                  <a href="dementia-care">Dementia Care</a>
+                </li>
+                <li>
+                  <a href="emergency-alert-response"
+                    >Emergency Alert & Response</a
+                  >
+                </li>
+              </ul>
+              <!-- /.sidebar__cat-list -->
+            </div>
+            <!-- /.sidebar__single -->
+          </div>
+          <!-- /.service-details__sidebar -->
+        </div>
+        <!-- /.col-lg-4 -->
+        <div class="col-lg-8">
+          <div class="service-details__main">
+            <div class="service-details__image">
+              <img
+                src="assets/wellnest/images/newimg/adl.jpg"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+            <!-- /.service-details__image -->
+            <div class="service-details__content">
+              <!-- <h3>Attendant Care Program (Assistance with Daily Living)</h3> -->
+              <h3>Attendant Care Program</h3>
+              <p style="font-size: 20px">
+                Because dignity is built on daily comfort. <br />For many
+                elders, simple daily tasks become difficult with age. Attendant
+                Care ensures Assistance with Daily Living so seniors can enjoy
+                life without hesitation, without burdening anyone’s routine.
+                <br />
+              </p>
+              <p style="font-size: 20px"><strong>Services include:</strong></p>
+              <ul style="font-size: 20px">
+                <li>Help with bathing, grooming, brushing, and shaving</li>
+                <li>
+                  Mobility support– safe assistance while moving indoors or
+                  outdoors
+                </li>
+                <li>
+                  Meals and feeding assistance – ensuring nutrition and dignity
+                </li>
+                <li>
+                  Companionship – someone to listen, walk, or accompany on
+                  visits
+                </li>
+                <li>
+                  Outings and occasions – a trusted companion for park strolls,
+                  family events, or social visits
+                </li>
+              </ul>
+            </div>
+            <!-- /.service-details__content -->
+          </div>
+          <!-- /.service-details__main -->
+        </div>
+        <!-- /.col-lg-8 -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+  </section>
+  <!-- /.service-details -->
 
-{% endblock %}
+  {% endblock %}
 </body>

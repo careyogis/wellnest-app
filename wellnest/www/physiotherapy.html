@@ -1,146 +1,107 @@
 {% extends "templates/wellnest_web.html" %}
 
-<title>
-    {% block title %}CareYogi - Physiotherapy{% endblock %}
-</title>    
+<title>{% block title %}CareYogi - Physiotherapy at Home{% endblock %}</title>
 <body>
-{% block page_content %}
-<section class="page-header" style="background-image: url(assets/wellnest/images/background/page-header-physiotherapy.jpg);">
-  <div class="container">
-      <h2>Physiotherapy</h2>
+  {% block page_content %}
+  <section
+    class="page-header"
+    style="
+      background-image: url(assets/wellnest/images/background/page-header-physiotherapy.jpg);
+    "
+  >
+    <div class="container">
+      <h2>Physiotherapy at Home</h2>
       <ul class="list-unstyled thm-breadcrumb">
-          <li><a href="index">Home</a></li>
-          <li><span>Service Details</span></li>
-      </ul><!-- /.list-unstyled -->
-  </div><!-- /.container -->
-</section><!-- /.page-header -->
-
-<section class="service-details" style="padding-top: 35px !important">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="service-details__sidebar">
-          <div class="sidebar__single sidebar__category">
-            <h3 class="sidebar__title">Category</h3>
-            <!-- /.sidebar__title -->
-            <ul class="sidebar__cat-list">
-              <li>
-                <a href="caregiver-attendant">Assistance with Daily Living </a>
-              </li>
-              <li>
-                <a href="nursing-care">Nursing Care</a>
-              </li>
-              <li>
-                <a href="doctor-at-home">Doctor at Home</a>
-              </li>
-              <li>
-                <a href="speech-therapy">Speech Therapy</a>
-              </li>
-              <li class="active">
-                <a href="physiotherapy">Physiotherapy</a>
-              </li>
-              <li>
-                <a href="hospice-care">Hospice & Palliative Care</a>
-              </li>
-            </ul>
-            <!-- /.sidebar__cat-list -->
-          </div>
-          <!-- /.sidebar__single -->
-        </div>
-        <!-- /.service-details__sidebar -->
-      </div>
-      <!-- /.col-lg-4 -->
-      <div class="col-lg-8">
-        <div class="service-details__main">
-          <div class="service-details__image">
-            <img src="assets/wellnest/images/newimg/physiotherapy.jpeg" class="img-fluid" alt="" />
-          </div>
-          <!-- /.service-details__image -->
-          <div class="service-details__content">
-            <h3>Physiotherapy and Older People</h3>
-            <p>
-                There is reliable evidence for physiotherapy involvement for older people, 
-                especially those with falls, stroke, arthritis and frailty.
-            </p>            
-            <ul>
-              <li>
-                There is strong evidence on the effectiveness of primary care/community-based 
-                falls prevention interventions for older people, eg. Otago Exercise Programme, 
-                with physiotherapy supervision. International evidence exists showing the benefit 
-                of exercise interventions for older people with frailty, which are primarily 
-                physiotherapy-led, or supervised.
-            </li>
-              <li>
-                Physiotherapy is a core component of the comprehensive geriatric assessment 
-                (CGA), known to improve outcomes for older people, particularly those with 
-                frailty. A CGA approach is part of successful orthogeriatric care, and in the 
-                new area of perioperative surgical care for older people.
-              </li>
-              <li>
-                Along with specialist elderly care wards, physiotherapists are core members 
-                of CareYogis, providing therapy for patients on acute stroke units, stroke 
-                rehabilitation units and community stroke teams. Multidisciplinary stroke care 
-                offered byCareYogis team of Physiotherapists has been seen to be very 
-                effective at improving outcome.
-              </li>
-              <li>
-                The Fundamental Principles of Physiotherapy for Older People Disability is generally 
-                regarded as being due to a pathological process, or injury, not prima facie 'old age'
-              </li>
-              <li>
-                The effects of biological ageing reduce the efficiency of the body's systems, 
-                but throughout life, optimum function is maintained in each individual by 
-                continuing to use these systems to their maximum capacity
-              </li>
-              <li>
-                CareYogi physiotherapists have a key role in enabling older people to use a 
-                number of the body's systems fully to enhance mobility and independence
-              </li>
-              <li>
-                When neither improvement nor even maintenance of functional mobility is a 
-                reasonable goal, CareYogi physiotherapists can contribute to helping older 
-                people to remain comfortable and pain-free
-              </li>
-              <li>
-                Prevention of the development of problems in later life through health promotion.              
-              </li>
-            </ul>
-          </div><!-- /.service-details__content -->
-        </div><!-- /.service-details__main -->
-      </div><!-- /.col-lg-8 -->
+        <li><a href="index">Home</a></li>
+        <li><span>Service Details</span></li>
+      </ul>
+      <!-- /.list-unstyled -->
     </div>
-    <!-- /.row -->
-  </div>
-  <!-- /.container -->
-</section>
-<!-- /.service-details -->
-<section class="cta-two">
-  <img src="assets/wellnest/images/shapes/cta-1-1-shape-1.png" class="cta-two__dot-1" alt="">
-  <img src="assets/wellnest/images/shapes/cta-1-1-shape-2.png" class="cta-two__dot-2" alt="">
-  <div class="container">
-      <div class="row no-gutters">
-          <div class="col-lg-6 d-flex justify-content-center align-items-center wow fadeInLeft"
-              data-wow-duration="1500ms">
-              <div class="cta-two__image">
-                  <img src="assets/wellnest/images/resources/cta-1-1.jpg" alt="">
-                  <div class="cta-two__image-inner">
-                      <div class="cta-two__image-content">
-                          <h3><span class="counter">88</span><!-- /.coutner -->%</h3>
-                          <p>Success Rate</p>
-                      </div><!-- /.cta-two__image-content -->
-                  </div><!-- /.cta-two__image-inner -->
-              </div><!-- /.cta-two__image -->
-          </div><!-- /.col-lg-6 -->
-          <div class="col-lg-6">
-              <div class="cta-two__content">
-                  <h3>Book an <br> Appointment Today!</h3>
-                  <p>For compassionate care with a holistic, family-centered approach, <br> please contact us.</p>                               
-                  <a href="contact-us" class="thm-btn cta-two__btn">Contact Us</a><!-- /.thm-btn cta-two__btn -->
-              </div><!-- /.cta-two__content -->
-          </div><!-- /.col-lg-6 -->
-      </div><!-- /.row no-gutters -->
-  </div><!-- /.container -->
-</section><!-- /.cta-two -->
+    <!-- /.container -->
+  </section>
+  <!-- /.page-header -->
 
-{% endblock %}
+  <section class="service-details" style="padding-top: 35px !important">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="service-details__sidebar">
+            <div class="sidebar__single sidebar__category">
+              <h3 class="sidebar__title">Category</h3>
+              <!-- /.sidebar__title -->
+              <ul class="sidebar__cat-list">
+                <li>
+                  <a href="caregiver-attendant">Attendant Care</a>
+                </li>
+                <li>
+                  <a href="nursing-care">Basic Nursing Care</a>
+                </li>
+                <li>
+                  <a href="doctor-at-home">Critical Care at Home</a>
+                </li>
+                <li>
+                  <a href="speech-therapy">Audio & Speech Therapy</a>
+                </li>
+                <li class="active">
+                  <a href="physiotherapy">Physiotherapy at Home</a>
+                </li>
+                <li>
+                  <a href="hospice-care">Hospice Care</a>
+                </li>
+                <li>
+                  <a href="palliative-care">Palliative Care</a>
+                </li>
+                <li>
+                  <a href="dementia-care">Dementia Care</a>
+                </li>
+                <li>
+                  <a href="emergency-alert-response"
+                    >Emergency Alert & Response</a
+                  >
+                </li>
+              </ul>
+              <!-- /.sidebar__cat-list -->
+            </div>
+            <!-- /.sidebar__single -->
+          </div>
+          <!-- /.service-details__sidebar -->
+        </div>
+        <!-- /.col-lg-4 -->
+        <div class="col-lg-8">
+          <div class="service-details__main">
+            <div class="service-details__image">
+              <img
+                src="assets/wellnest/images/newimg/physiotherapy.jpeg"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+            <!-- /.service-details__image -->
+            <div class="service-details__content">
+              <h3>Physiotherapy at Home</h3>
+              <p style="font-size: 20px">
+                Personalized rehabilitation programs designed to restore
+                strength, mobility, and independence.
+              </p>
+              <p style="font-size: 20px"><strong>Beneficial for:</strong></p>
+              <ul style="font-size: 20px">
+                <li>Post-surgery recovery (orthopedic/neurological)</li>
+                <li>Stroke rehabilitation</li>
+                <li>Chronic pain management</li>
+                <li>Geriatric mobility challenges</li>
+              </ul>
+            </div>
+            <!-- /.service-details__content -->
+          </div>
+          <!-- /.service-details__main -->
+        </div>
+        <!-- /.col-lg-8 -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+  </section>
+  <!-- /.service-details -->
+
+  {% endblock %}
 </body>

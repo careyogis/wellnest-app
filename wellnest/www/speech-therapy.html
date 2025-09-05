@@ -1,130 +1,100 @@
 {% extends "templates/wellnest_web.html" %}
 
-<title>
-    {% block title %}CareYogi - Speech Therapy{% endblock %}
-</title>    
+<title>{% block title %}CareYogi - Audio & Speech Therapy{% endblock %}</title>
 <body>
-{% block page_content %}
-<section class="page-header" style="background-image: url(assets/wellnest/images/background/page-header-physiotherapy.jpg);">
-  <div class="container">
-      <h2>Speech Therapy</h2>
+  {% block page_content %}
+  <section
+    class="page-header"
+    style="
+      background-image: url(assets/wellnest/images/background/page-header-physiotherapy.jpg);
+    "
+  >
+    <div class="container">
+      <h2>Audio & Speech Therapy</h2>
       <ul class="list-unstyled thm-breadcrumb">
-          <li><a href="index">Home</a></li>
-          <li><span>Service Details</span></li>
-      </ul><!-- /.list-unstyled -->
-  </div><!-- /.container -->
-</section><!-- /.page-header -->
-<section class="service-details" style="padding-top: 35px !important">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="service-details__sidebar">
-          <div class="sidebar__single sidebar__category">
-            <h3 class="sidebar__title">Category</h3>
-            <!-- /.sidebar__title -->
-            <ul class="sidebar__cat-list">
-              <li>
-                <a href="caregiver-attendant">Assistance with Daily Living </a>
-              </li>
-              <li>
-                <a href="nursing-care">Nursing Care</a>
-              </li>
-              <li>
-                <a href="doctor-at-home">Doctor at Home</a>
-              </li>
-              <li class="active">
-                <a href="speech-therapy">Speech Therapy</a>
-              </li>
-              <li>
-                <a href="physiotherapy">Physiotherapy</a>
-              </li>
-              <li>
-                <a href="hospice-care">Hospice & Palliative Care</a>
-              </li>
-            </ul>
-            <!-- /.sidebar__cat-list -->
-          </div>
-          <!-- /.sidebar__single -->
-        </div>
-        <!-- /.service-details__sidebar -->
-      </div>
-      <!-- /.col-lg-4 -->
-      <div class="col-lg-8">
-        <div class="service-details__main">
-          <div class="service-details__image">
-            <img src="assets/wellnest/images/newimg/speech-therapy.jpeg" class="img-fluid" alt="" />
-          </div>
-          <!-- /.service-details__image -->
-          <div class="service-details__content">
-            <h3>Speech Therapy</h3>
-            <p>
-              CareYogi™ has partnered with renowned speech therapists in Hyderabad to offer diagnosis and treatment of speech, language, 
-              swallowing, and communication disorders.
-            </p>            
-            <ul>
-              <li>
-                Our expert Speech therapists work with individuals of all ages to address a range of issues, from articulation 
-                problems and fluency disorders to voice disorders and receptive/expressive language impairments. 
-                These professionals employ various techniques and exercises to help individuals improve their communication skills, 
-                which can significantly impact their social interactions, academic performance, and overall quality of life.
-              </li>
-              <li>
-                One key area of speech therapy is the treatment of speech sound disorders, which include difficulties 
-                with articulation and phonological. For instance, children with articulation disorders may struggle to pronounce 
-                certain sounds correctly, leading to unclear speech. Through targeted exercises and practice, speech therapists help 
-                individuals develop the correct motor patterns and strengthen the muscles involved in speech production.
-              </li>
-              <li>
-                Another critical component of speech therapy is addressing language disorders. These can be related to difficulty in 
-                understanding language or difficulty in using language to express thoughts. Our Speech Therapists use various strategies to 
-                enhance language skills, such as expanding vocabulary, improving sentence structure, and fostering effective communication strategies. 
-                Early intervention is particularly important in children, as language skills are foundational for learning and social development.
-              </li>
-              <li>
-                Our expertise also extends to individuals with conditions such as autism spectrum disorder (ASD), stuttering, and voice disorders. 
-                For example, people who stutter may benefit from techniques that promote fluent speech, while those with voice disorders might need 
-                exercises to reduce strain and improve vocal quality. Moreover, speech therapy can be crucial for individuals recovering from strokes 
-                or traumatic brain injuries, helping them regain their communication abilities. Overall, the goal of speech therapy is to empower 
-                individuals to communicate more effectively and confidently in their daily lives. We also provide Oro Peripheral Therapy assistance 
-                improving swallowing and feeding experience when needed.
-              </li>
-            </ul>
-          </div><!-- /.service-details__content -->
-        </div><!-- /.service-details__main -->
-      </div><!-- /.col-lg-8 -->
+        <li><a href="index">Home</a></li>
+        <li><span>Service Details</span></li>
+      </ul>
+      <!-- /.list-unstyled -->
     </div>
-    <!-- /.row -->
-  </div>
-  <!-- /.container -->
-</section>
-<!-- /.service-details -->
-<section class="cta-two">
-  <img src="assets/wellnest/images/shapes/cta-1-1-shape-1.png" class="cta-two__dot-1" alt="">
-  <img src="assets/wellnest/images/shapes/cta-1-1-shape-2.png" class="cta-two__dot-2" alt="">
-  <div class="container">
-      <div class="row no-gutters">
-          <div class="col-lg-6 d-flex justify-content-center align-items-center wow fadeInLeft"
-              data-wow-duration="1500ms">
-              <div class="cta-two__image">
-                  <img src="assets/wellnest/images/resources/cta-1-1.jpg" alt="">
-                  <div class="cta-two__image-inner">
-                      <div class="cta-two__image-content">
-                          <h3><span class="counter">88</span><!-- /.coutner -->%</h3>
-                          <p>Success Rate</p>
-                      </div><!-- /.cta-two__image-content -->
-                  </div><!-- /.cta-two__image-inner -->
-              </div><!-- /.cta-two__image -->
-          </div><!-- /.col-lg-6 -->
-          <div class="col-lg-6">
-              <div class="cta-two__content">
-                  <h3>Book an <br> Appointment Today!</h3>
-                  <p>For compassionate care with a holistic, family-centered approach, <br> please contact us.</p>                               
-                  <a href="contact-us" class="thm-btn cta-two__btn">Contact Us</a><!-- /.thm-btn cta-two__btn -->
-              </div><!-- /.cta-two__content -->
-          </div><!-- /.col-lg-6 -->
-      </div><!-- /.row no-gutters -->
-  </div><!-- /.container -->
-</section><!-- /.cta-two -->
+    <!-- /.container -->
+  </section>
+  <!-- /.page-header -->
+  <section class="service-details" style="padding-top: 35px !important">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="service-details__sidebar">
+            <div class="sidebar__single sidebar__category">
+              <h3 class="sidebar__title">Category</h3>
+              <!-- /.sidebar__title -->
+              <ul class="sidebar__cat-list">
+                <li>
+                  <a href="caregiver-attendant">Attendant Care</a>
+                </li>
+                <li>
+                  <a href="nursing-care">Basic Nursing Care</a>
+                </li>
+                <li>
+                  <a href="doctor-at-home">Critical Care at Home</a>
+                </li>
+                <li class="active">
+                  <a href="speech-therapy">Audio & Speech Therapy</a>
+                </li>
+                <li>
+                  <a href="physiotherapy">Physiotherapy at Home</a>
+                </li>
+                <li>
+                  <a href="hospice-care">Hospice Care</a>
+                </li>
+                <li>
+                  <a href="palliative-care">Palliative Care</a>
+                </li>
+                <li>
+                  <a href="dementia-care">Dementia Care</a>
+                </li>
+                <li>
+                  <a href="emergency-alert-response"
+                    >Emergency Alert & Response</a
+                  >
+                </li>
+              </ul>
+              <!-- /.sidebar__cat-list -->
+            </div>
+            <!-- /.sidebar__single -->
+          </div>
+          <!-- /.service-details__sidebar -->
+        </div>
+        <!-- /.col-lg-4 -->
+        <div class="col-lg-8">
+          <div class="service-details__main">
+            <div class="service-details__image">
+              <img
+                src="assets/wellnest/images/newimg/speech-therapy.jpeg"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+            <!-- /.service-details__image -->
+            <div class="service-details__content">
+              <h3>Audio & Speech Therapy</h3>
+              <p style="font-size: 20px">
+                Expert therapists to help patients regain their voice,
+                communication, and swallowing ability — whether post-stroke,
+                after neurological conditions, or due to age-related challenges.
+              </p>
+            </div>
+            <!-- /.service-details__content -->
+          </div>
+          <!-- /.service-details__main -->
+        </div>
+        <!-- /.col-lg-8 -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+  </section>
+  <!-- /.service-details -->
 
-{% endblock %}
+  {% endblock %}
 </body>

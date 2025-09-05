@@ -1,150 +1,104 @@
 {% extends "templates/wellnest_web.html" %}
 
-<title>
-    {% block title %}CareYogi - Nursing Care{% endblock %}
-</title>    
+<title>{% block title %}CareYogi - Basic Nursing Care{% endblock %}</title>
 <body>
-{% block page_content %}
-<section class="page-header" style="background-image: url(assets/wellnest/images/background/page-header-nursing.jpg);">
-  <div class="container">
-      <h2>Nursing Care</h2>
+  {% block page_content %}
+  <section
+    class="page-header"
+    style="
+      background-image: url(assets/wellnest/images/background/page-header-nursing.jpg);
+    "
+  >
+    <div class="container">
+      <h2>Basic Nursing Care</h2>
       <ul class="list-unstyled thm-breadcrumb">
-          <li><a href="index">Home</a></li>
-          <li><span>Service Details</span></li>
-      </ul><!-- /.list-unstyled -->
-  </div><!-- /.container -->
-</section><!-- /.page-header -->
-<section class="service-details" style="padding-top: 35px !important">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="service-details__sidebar">
-          <div class="sidebar__single sidebar__category">
-            <h3 class="sidebar__title">Category</h3>
-            <!-- /.sidebar__title -->
-            <ul class="sidebar__cat-list">
-              <li>
-                <a href="caregiver-attendant">Assistance with Daily Living </a>
-              </li>
-              <li class="active">
-                <a href="nursing-care">Nursing Care</a>
-              </li>
-              <li>
-                <a href="doctor-at-home">Doctor at Home</a>
-              </li>
-              <li>
-                <a href="speech-therapy">Speech Therapy</a>
-              </li>
-              <li>
-                <a href="physiotherapy">Physiotherapy</a>
-              </li>
-              <li>
-                <a href="hospice-care">Hospice & Palliative Care</a>
-              </li>
-            </ul>
-            <!-- /.sidebar__cat-list -->
-          </div>
-          <!-- /.sidebar__single -->
-        </div>
-        <!-- /.service-details__sidebar -->
-      </div>
-      <!-- /.col-lg-4 -->
-      <div class="col-lg-8">
-        <div class="service-details__main">
-          <div class="service-details__image">
-            <img src="assets/wellnest/images/newimg/nursing care service.jpg" class="img-fluid" alt="" />
-          </div>
-          <!-- /.service-details__image -->
-          <div class="service-details__content">
-            <h3>Nursing Care at CareYogi</h3>
-            <p>
-              Our nursing care services are designed to support a wide
-              range of medical needs right at your home:
-            </p>
-            
-            <ul>
-              <li>
-                Respiratory and Tracheostomy Care: Including ventilator
-                monitoring, nebulizer treatments, and oxygen therapy using
-                both concentrators and cylinders.
-              </li>
-              <li>
-                Personal Hygiene and Daily Living Support: We provide
-                sponging, proper bathing, bedpan assistance, and more with
-                elderly empathy.
-              </li>
-              <li>
-                Medical Management: Administering injections (IM, IV,
-                subcutaneous), medication dispensing, and managing
-                dressings and bedsores.
-              </li>
-              <li>
-                Nutritional Support: From Ryles tube feeding to
-                catheterization and bladder wash, we ensure your
-                nutritional and physiological needs meet the needs of
-                caring for elderly.
-              </li>
-            </ul>
-
-            <br />
-            <h4>Support Services</h4>
-            <br />
-            <p>
-              We take care of the little things so you can focus on
-              recovery and comfort:
-            </p>
-          
-            <ul>
-              <li>
-                Home Management: Taking care of patient laundry, trash
-                removal, and maintaining cleanliness and orderliness in
-                the patient's room.
-              </li>
-              <li>
-                Toileting Assistance: Supporting families with changing
-                diapers, assisting with bathroom needs, and managing
-                incontinence care.
-              </li>
-            </ul>
-          </div>
-          <!-- /.service-details__content -->
-        </div>
-        <!-- /.service-details__main -->
-      </div>
-      <!-- /.col-lg-8 -->
+        <li><a href="index">Home</a></li>
+        <li><span>Service Details</span></li>
+      </ul>
+      <!-- /.list-unstyled -->
     </div>
-    <!-- /.row -->
-  </div>
-  <!-- /.container -->
-</section>
-<!-- /.service-details -->
-<section class="cta-two">
-  <img src="assets/wellnest/images/shapes/cta-1-1-shape-1.png" class="cta-two__dot-1" alt="">
-  <img src="assets/wellnest/images/shapes/cta-1-1-shape-2.png" class="cta-two__dot-2" alt="">
-  <div class="container">
-      <div class="row no-gutters">
-          <div class="col-lg-6 d-flex justify-content-center align-items-center wow fadeInLeft"
-              data-wow-duration="1500ms">
-              <div class="cta-two__image">
-                  <img src="assets/wellnest/images/resources/cta-1-1.jpg" alt="">
-                  <div class="cta-two__image-inner">
-                      <div class="cta-two__image-content">
-                          <h3><span class="counter">88</span><!-- /.coutner -->%</h3>
-                          <p>Success Rate</p>
-                      </div><!-- /.cta-two__image-content -->
-                  </div><!-- /.cta-two__image-inner -->
-              </div><!-- /.cta-two__image -->
-          </div><!-- /.col-lg-6 -->
-          <div class="col-lg-6">
-              <div class="cta-two__content">
-                  <h3>Book an <br> Appointment Today!</h3>
-                  <p>For compassionate care with a holistic, family-centered approach, <br> please contact us.</p>                               
-                  <a href="contact-us" class="thm-btn cta-two__btn">Contact Us</a><!-- /.thm-btn cta-two__btn -->
-              </div><!-- /.cta-two__content -->
-          </div><!-- /.col-lg-6 -->
-      </div><!-- /.row no-gutters -->
-  </div><!-- /.container -->
-</section><!-- /.cta-two -->
+    <!-- /.container -->
+  </section>
+  <!-- /.page-header -->
+  <section class="service-details" style="padding-top: 35px !important">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="service-details__sidebar">
+            <div class="sidebar__single sidebar__category">
+              <h3 class="sidebar__title">Category</h3>
+              <!-- /.sidebar__title -->
+              <ul class="sidebar__cat-list">
+                <li>
+                  <a href="caregiver-attendant">Attendant Care</a>
+                </li>
+                <li class="active">
+                  <a href="nursing-care">Basic Nursing Care</a>
+                </li>
+                <li>
+                  <a href="doctor-at-home">Critical Care at Home</a>
+                </li>
+                <li>
+                  <a href="speech-therapy">Audio & Speech Therapy</a>
+                </li>
+                <li>
+                  <a href="physiotherapy">Physiotherapy at Home</a>
+                </li>
+                <li>
+                  <a href="hospice-care">Hospice Care</a>
+                </li>
+                <li>
+                  <a href="palliative-care">Palliative Care</a>
+                </li>
+                <li>
+                  <a href="dementia-care">Dementia Care</a>
+                </li>
+                <li>
+                  <a href="emergency-alert-response"
+                    >Emergency Alert & Response</a
+                  >
+                </li>
+              </ul>
+              <!-- /.sidebar__cat-list -->
+            </div>
+            <!-- /.sidebar__single -->
+          </div>
+          <!-- /.service-details__sidebar -->
+        </div>
+        <!-- /.col-lg-4 -->
+        <div class="col-lg-8">
+          <div class="service-details__main">
+            <div class="service-details__image">
+              <img
+                src="assets/wellnest/images/newimg/nursing care service.jpg"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+            <!-- /.service-details__image -->
+            <div class="service-details__content">
+              <h3>Basic Nursing Care</h3>
+              <p style="font-size: 20px">
+                <strong>Professional nurses at your doorstep to manage:</strong>
+              </p>
+              <ul style="font-size: 20px">
+                <li>Medication administration and vital monitoring</li>
+                <li>Dressing wounds, injections, IV/IM support</li>
+                <li>Managing catheters, feeding tubes, and tracheostomy</li>
+                <li>Regular follow-ups to avoid unnecessary hospital visits</li>
+              </ul>
+            </div>
+            <!-- /.service-details__content -->
+          </div>
+          <!-- /.service-details__main -->
+        </div>
+        <!-- /.col-lg-8 -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+  </section>
+  <!-- /.service-details -->
 
-{% endblock %}
+  {% endblock %}
 </body>
