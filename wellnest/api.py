@@ -603,178 +603,126 @@ def get_terms_content():
     return {"success": True, "content": terms.terms, "title": terms.title}
 
 
-# ✅ API to accept Terms & Conditions (Guest allowed)
 @frappe.whitelist(allow_guest=True)
 def accept_terms():
+    """
+    Guest API to accept T&C and handle registration invoice.
+    Returns current status:
+      - pending → T&C not accepted
+      - accepted → T&C accepted, invoice unpaid (includes QR)
+      - paid → T&C accepted, invoice paid (Thank You)
+    """
     try:
         data = frappe.request.json or {}
         customer_id = data.get("customer_id")
         engagement_id = data.get("engagement_id")
 
-        frappe.log_error(str(data), "AcceptTerms: Incoming Data")
-
-        # 🔍 Validate inputs
         if not customer_id and not engagement_id:
-            frappe.log_error(
-                "Missing both customer_id and engagement_id",
-                "AcceptTerms: Missing Input",
-            )
             frappe.throw(_("Missing Customer ID or Engagement ID."))
 
-        # 🔁 Resolve customer ID from engagement if not provided
         if not customer_id:
-            try:
-                engagement = frappe.get_doc("Engagement", engagement_id)
-                customer_id = engagement.customer
-                frappe.log_error(
-                    customer_id, "AcceptTerms: Resolved customer from engagement"
-                )
-            except Exception:
-                frappe.log_error(
-                    frappe.get_traceback(),
-                    f"AcceptTerms: Engagement fetch failed for {engagement_id}",
-                )
-                return {"success": False, "error": "Engagement not found or invalid."}
+            engagement = frappe.get_doc("Engagement", engagement_id)
+            customer_id = engagement.customer
 
-        # 🔍 Fetch Customer doc
-        try:
-            customer = frappe.get_doc("Customer", customer_id)
-        except Exception:
-            frappe.log_error(
-                frappe.get_traceback(),
-                f"AcceptTerms: Failed to fetch Customer {customer_id}",
+        customer = frappe.get_doc("Customer", customer_id)
+
+        # -----------------------
+        # Step 1: Capture T&C acceptance
+        # -----------------------
+        if customer.custom_registration_term in [None, "pending"]:
+            latest_terms = frappe.db.get_value(
+                "Terms and Conditions",
+                {"custom_is_active": 1},
+                "name",
+                order_by="modified desc"
             )
-            return {"success": False, "error": "Customer not found."}
+            customer.custom_registration_term = "accepted"
+            customer.custom_acceptance_timestamp = now()
+            if latest_terms:
+                customer.custom_accepted_term = latest_terms
+            customer.save(ignore_permissions=True)
+            frappe.db.commit()
 
-        # 🔄 Return early if already accepted or paid
-        if customer.custom_registration_term in ["accepted", "paid"]:
-            frappe.log_error(
-                customer.custom_registration_term,
-                f"AcceptTerms: Already Accepted by {customer.name}",
-            )
-            return {"success": True, "message": "Already accepted."}
-
-        # ✅ Mark terms as accepted
-        customer.custom_registration_term = "accepted"
-        customer.custom_acceptance_timestamp = now()
-
-        # ⭐ NEW: Capture which Terms & Conditions were accepted
-        latest_terms = frappe.db.get_value(
-            "Terms and Conditions",
-            {"custom_is_active": 1},
-            "name",
-            order_by="modified desc",
+        # -----------------------
+        # Step 2: Check for existing registration invoice
+        # -----------------------
+        invoices = frappe.get_all(
+            "Sales Invoice",
+            filters={"customer": customer.name, "docstatus": 1},
+            order_by="creation desc"
         )
-        if latest_terms:
-            customer.custom_accepted_term = latest_terms
-            frappe.log_error(
-                latest_terms, f"AcceptTerms: Linked Accepted Term for {customer.name}"
+
+        registration_item_code = frappe.db.get_value(
+            "Item", {"item_name": ["like", "%registration%"]}, "name"
+        )
+        invoice = None
+
+        for inv in invoices:
+            items = frappe.get_all(
+                "Sales Invoice Item",
+                filters={"parent": inv.name, "item_code": registration_item_code}
             )
+            if items:
+                invoice = frappe.get_doc("Sales Invoice", inv.name)
+                break
 
-        customer.save(ignore_permissions=True)
-        frappe.log_error(customer.name, "AcceptTerms: Customer marked as accepted")
+        # Create invoice if none exists
+        if not invoice:
+            if not registration_item_code:
+                return {"success": False, "error": "No registration item found."}
 
-        # 🔍 Check for existing unpaid registration invoice
-        invoice = get_unpaid_registration_invoice(customer.name)
-        if invoice:
-            frappe.log_error(invoice.name, "AcceptTerms: Found existing unpaid invoice")
-        else:
-            frappe.log_error(
-                "No unpaid invoice found — proceeding to create one",
-                "AcceptTerms: Invoice Creation Triggered",
-            )
+            invoice = frappe.get_doc({
+                "doctype": "Sales Invoice",
+                "customer": customer.name,
+                "items": [{"item_code": registration_item_code, "qty": 1}]
+            })
+            invoice.insert(ignore_permissions=True)
+            invoice.submit()
 
-            # 📦 Get registration item code
-            item_code = frappe.db.get_value(
-                "Item", {"item_name": ["like", "%registration%"]}, "name"
-            )
-            if not item_code:
-                msg = "No item found with 'registration' in item_name"
-                frappe.log_error(msg, "AcceptTerms: Missing Registration Item")
-                return {"success": False, "error": msg}
+        # -----------------------
+        # Step 3: Prepare response
+        # -----------------------
+        upi_uri = None
+        if invoice.outstanding_amount > 0:
+            upi_id = frappe.db.get_value("Company", invoice.company, "custom_upi_id")
+            if not upi_id:
+                return {"success": False, "error": f"UPI ID not configured for {invoice.company}"}
+            upi_uri = f"upi://pay?pa={upi_id}&pn={customer.customer_name}&am={format(invoice.rounded_total, '.2f')}&cu=INR&tn=Invoice {invoice.name}"
 
-            # 🛒 Check if item is marked as Sales Item
-            is_sales_item = frappe.db.get_value("Item", item_code, "is_sales_item")
-            if not is_sales_item:
-                msg = f"Item {item_code} is not marked as Sales Item"
-                frappe.log_error(msg, "AcceptTerms: Item Config Error")
-                return {"success": False, "error": msg}
-
-            # 🧾 Create and submit new Sales Invoice
-            try:
-                invoice = frappe.get_doc(
-                    {
-                        "doctype": "Sales Invoice",
-                        "customer": customer.name,
-                        "items": [{"item_code": item_code, "qty": 1}],
-                    }
-                )
-                frappe.log_error(
-                    "AcceptTerms: Invoice Doc Before Insert", frappe.as_json(invoice)
-                )
-
-                invoice.insert(ignore_permissions=True)
-                frappe.log_error(invoice.name, "AcceptTerms: Invoice Inserted")
-
-                invoice.submit()
-                frappe.log_error(invoice.name, "AcceptTerms: Invoice Submitted")
-
-                if invoice.docstatus != 1:
-                    frappe.log_error(
-                        invoice.name, "AcceptTerms: Invoice not submitted successfully"
-                    )
-
-            except Exception:
-                frappe.log_error(
-                    frappe.get_traceback(), "AcceptTerms: Invoice Creation Failed"
-                )
-                return {
-                    "success": False,
-                    "error": "Invoice creation failed. Check item setup and logs.",
-                }
-
-        # 🏦 Generate UPI URI from company config
-        upi_id = frappe.db.get_value("Company", invoice.company, "custom_upi_id")
-        if not upi_id:
-            msg = f"No UPI ID found for company {invoice.company}"
-            frappe.log_error(msg, "AcceptTerms: UPI ID Missing")
-            return {"success": False, "error": msg}
-
-        upi_uri = f"upi://pay?pa={upi_id}&pn={customer.customer_name}&am={format(invoice.rounded_total, '.2f')}&cu=INR&tn=Invoice {invoice.name}"
-
-        # 🖨️ Generate QR Code from UPI URI
-        try:
-            generate_upi_qr(upi_uri)
-            frappe.log_error(upi_uri, "AcceptTerms: UPI URI & QR generated")
-        except Exception:
-            frappe.log_error(
-                frappe.get_traceback(), "AcceptTerms: QR Code Generation Failed"
-            )
+        status = "paid" if invoice.outstanding_amount == 0 else "accepted"
 
         return {
             "success": True,
             "data": {
+                "status": status,
+                "custom_registration_term": customer.custom_registration_term,
+                "custom_acceptance_timestamp": customer.custom_acceptance_timestamp,
                 "invoice_number": invoice.name,
                 "payment_amount": invoice.rounded_total,
-                "upi_id": upi_id,
                 "upi_uri": upi_uri,
-                "customer_name": customer.customer_name,
-            },
+                "customer_name": customer.customer_name
+            }
         }
 
     except Exception:
-        frappe.log_error(frappe.get_traceback(), "AcceptTerms: Top-level Error")
-        return {
-            "success": False,
-            "error": "Unexpected server error. Please check Error Logs.",
-        }
+        frappe.log_error(frappe.get_traceback(), "accept_terms Error")
+        return {"success": False, "error": "Unexpected server error. Check logs."}
 
 
-# ✅ API to fetch T&C acceptance and payment status (Guest allowed)
 @frappe.whitelist(allow_guest=True)
 def get_payment_details(customer_id=None, engagement_id=None):
+    """
+    ✅ Guest API to fetch T&C + registration invoice details.
+    Flow:
+    1. Check if Terms accepted. If not, return pending.
+    2. If accepted, fetch registration invoice (create only if none exists).
+    3. If invoice paid → show Thank You.
+    4. If invoice unpaid → return UPI QR.
+    """
     try:
-        # 🔁 Resolve customer ID if engagement is provided
+        # --------------------------
+        # Resolve customer from engagement
+        # --------------------------
         if not customer_id and engagement_id:
             engagement = frappe.get_doc("Engagement", engagement_id)
             customer_id = engagement.customer
@@ -783,65 +731,99 @@ def get_payment_details(customer_id=None, engagement_id=None):
             return {"success": False, "error": "Missing customer ID."}
 
         customer = frappe.get_doc("Customer", customer_id)
+        status = customer.custom_registration_term or "pending"
+        accepted = status in ["accepted", "paid"]
+        acceptance_timestamp = customer.custom_acceptance_timestamp
 
-        # 🔍 Look for registration invoices (paid or unpaid)
-        invoices = frappe.get_all(
-            "Sales Invoice",
-            filters={"customer": customer.name, "docstatus": 1},
-            fields=["name", "outstanding_amount", "company"],
-            order_by="posting_date desc",
-        )
-
-        for inv in invoices:
-            items = frappe.get_all(
-                "Sales Invoice Item",
-                filters={"parent": inv.name},
-                fields=["item_name", "item_code"],
-            )
-            for item in items:
-                item_name = (item.item_name or "").lower()
-                if "registration" in item_name:
-                    if inv.outstanding_amount == 0:
-                        # ✅ If paid, update customer status if needed
-                        if customer.custom_registration_term != "paid":
-                            customer.custom_registration_term = "paid"
-                            customer.save(ignore_permissions=True)
-                            frappe.db.commit()
-
-                        return {
-                            "success": True,
-                            "data": {"status": "paid", "accepted": True},
-                        }
-
-        # 🔍 If not paid, find unpaid registration invoice
-        invoice = get_unpaid_registration_invoice(customer.name)
-        if not invoice:
+        # --------------------------
+        # Terms not accepted → return pending
+        # --------------------------
+        if not accepted:
             return {
-                "success": False,
-                "error": "No unpaid registration invoice found.",
-                "data": {"status": customer.custom_registration_term or "pending"},
+                "success": True,
+                "data": {
+                    "status": "pending",
+                    "accepted": False,
+                    "custom_registration_term": status,
+                    "custom_acceptance_timestamp": acceptance_timestamp,
+                    "message": "T&C not accepted yet."
+                }
             }
 
-        # 🏦 Get UPI details for QR
+        # --------------------------
+        # Terms accepted → fetch registration invoice from child table
+        # --------------------------
+        item_code = frappe.db.get_value("Item", {"item_name": ["like", "%registration%"]}, "name")
+        invoice = None
+
+        if item_code:
+            invoice_item = frappe.get_all(
+                "Sales Invoice Item",
+                filters={"item_code": item_code, "parenttype": "Sales Invoice"},
+                fields=["parent"],
+                order_by="creation desc",
+                limit_page_length=1
+            )
+            if invoice_item:
+                invoice = frappe.get_doc("Sales Invoice", invoice_item[0].parent)
+
+        # --------------------------
+        # Create invoice only if none exists
+        # --------------------------
+        if not invoice:
+            if not item_code:
+                return {"success": False, "error": "No registration item found."}
+
+            new_invoice = frappe.get_doc({
+                "doctype": "Sales Invoice",
+                "customer": customer.name,
+                "items": [{"item_code": item_code, "qty": 1}]
+            })
+            new_invoice.insert(ignore_permissions=True)
+            new_invoice.submit()
+            invoice = new_invoice
+
+        # --------------------------
+        # Paid → hide QR, show Thank You
+        # --------------------------
+        if invoice.outstanding_amount == 0:
+            return {
+                "success": True,
+                "data": {
+                    "status": "paid",
+                    "accepted": True,
+                    "custom_registration_term": customer.custom_registration_term,
+                    "custom_acceptance_timestamp": customer.custom_acceptance_timestamp,
+                    "message": "✅ Thank You! Payment already completed.",
+                    "invoice_number": invoice.name,
+                    "payment_amount": invoice.rounded_total,
+                    "customer_name": customer.customer_name
+                }
+            }
+
+        # --------------------------
+        # Unpaid → generate QR
+        # --------------------------
         upi_id = frappe.db.get_value("Company", invoice.company, "custom_upi_id")
         if not upi_id:
-            return {"success": False, "error": "UPI ID not configured in Company."}
+            return {"success": False, "error": f"UPI ID not configured for {invoice.company}"}
 
         upi_uri = f"upi://pay?pa={upi_id}&pn={customer.customer_name}&am={format(invoice.rounded_total, '.2f')}&cu=INR&tn=Invoice {invoice.name}"
-        generate_upi_qr(upi_uri)
 
         return {
             "success": True,
             "data": {
-                "status": customer.custom_registration_term or "pending",
-                "accepted": customer.custom_registration_term in ["accepted", "paid"],
+                "status": "accepted",
+                "accepted": True,
+                "custom_registration_term": customer.custom_registration_term,
+                "custom_acceptance_timestamp": acceptance_timestamp,
                 "customer_id": customer.name,
                 "invoice_number": invoice.name,
                 "payment_amount": invoice.rounded_total,
                 "upi_id": upi_id,
                 "upi_uri": upi_uri,
-                "customer_name": customer.customer_name,
-            },
+                "customer_name": customer.customer_name
+            }
         }
 
     except Exception:
