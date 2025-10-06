@@ -236,7 +236,7 @@
    "fieldname": "requirement",
    "fieldtype": "Select",
    "label": "Requirement",
-   "options": "Attendant Care\nBasic Nursing Care\nPhysiotherapy at Home\nAudio & Speech Therapy\nCritical Care at Home\nPalliative Care\nHospice Care\nDementia Care\nEmergency Alert & Response\nMedical Equipment Rental\nOther Services"
+   "options": "Attendant at Home\nBaby Care\nCritical Care at Home\nDementia Care\nHospice Care\nMedical Equipments\nNursing Care\nPalliative Care\nPhysiotherapy\nSpeech Therapy\nEmergency Alert & Response\nOther Services"
   },
   {
    "fieldname": "city",
