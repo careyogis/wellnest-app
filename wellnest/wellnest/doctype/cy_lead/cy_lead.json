@@ -9,12 +9,13 @@
   "section_break_hhtr",
   "full_name",
   "phone_number",
+  "email",
   "city",
   "service_pincode",
-  "service_area",
   "column_break_rhmr",
   "enquiry_details",
   "requirement",
+  "service_area",
   "referrer",
   "section_break_kwow",
   "status",
@@ -199,13 +200,15 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Full Name",
-   "options": "Name"
+   "options": "Name",
+   "reqd": 1
   },
   {
    "fieldname": "phone_number",
    "fieldtype": "Data",
    "label": "Phone Number",
-   "options": "Phone"
+   "options": "Phone",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_rhmr",
@@ -236,18 +239,26 @@
    "fieldname": "requirement",
    "fieldtype": "Select",
    "label": "Requirement",
-   "options": "Attendant at Home\nBaby Care\nCritical Care at Home\nDementia Care\nHospice Care\nMedical Equipments\nNursing Care\nPalliative Care\nPhysiotherapy\nSpeech Therapy\nEmergency Alert & Response\nOther Services"
+   "options": "\nElder Assist\nFreedom Care\nAttendant at Home\nAyurveda\nBaby Care\nCritical Care at Home\nMedical Equipments\nNursing Care\nPhysiotherapy\nSpeech Therapy\nOther Services"
   },
   {
    "fieldname": "city",
-   "fieldtype": "Data",
+   "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "City"
+   "label": "City",
+   "options": "\nHyderabad\nDelhi\nVijaywada\nNoida\nGurgaon",
+   "reqd": 1
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-01 12:41:12.988842",
+ "modified": "2025-12-18 23:34:01.408635",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",
@@ -280,15 +291,6 @@
    "report": 1,
    "role": "Nursing Manager",
    "write": 1
-  },
-  {
-   "create": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "report": 1,
-   "role": "Guest",
-   "share": 1
   }
  ],
  "sort_field": "modified",
