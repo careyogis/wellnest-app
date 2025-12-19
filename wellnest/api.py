@@ -342,20 +342,29 @@ def createDailyRecord(engagement, caregiver):
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 def contactUs():
     data = frappe.form_dict
+    email = data.get("email")
+
+    # Check if a CY lead with this email already exists to prevent duplicates
+    if email and frappe.db.exists("CY Lead", {"email": email}):
+        return {"status": "exists", "message": "You are already on the list!"}    
+
     new_doc = frappe.get_doc(
         {
             "doctype": "CY Lead",
-            "full_name": data.get("fullname"),
+            "full_name": data.get("full_name"),
             "phone_number": data.get("phone"),
+            "email": data.get("email"),
             "city": data.get("city"),
             "requirement": data.get("requirement"),
             "enquiry_details": data.get("enquiry"),
-            "status": "01-New Request",
-            "source": "Website",
+            "source": data.get("source") or "Website",
         }
     )
-    new_doc.insert()
-    return frappe.form_dict
+
+    # We use ignore_permissions=True so as to avoid giving the 'Guest' user 
+    # 'Create' rights on the doctype or in the Role Permissions Manager.    
+    new_doc.insert(ignore_permissions=True)
+    return {"status": "success"}
 
 
 @frappe.whitelist()

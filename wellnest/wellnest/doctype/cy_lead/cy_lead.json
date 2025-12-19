@@ -207,6 +207,7 @@
    "fieldname": "phone_number",
    "fieldtype": "Data",
    "label": "Phone Number",
+   "length": 16,
    "options": "Phone",
    "reqd": 1
   },
@@ -239,7 +240,7 @@
    "fieldname": "requirement",
    "fieldtype": "Select",
    "label": "Requirement",
-   "options": "\nElder Assist\nFreedom Care\nAttendant at Home\nAyurveda\nBaby Care\nCritical Care at Home\nMedical Equipments\nNursing Care\nPhysiotherapy\nSpeech Therapy\nOther Services"
+   "options": "\nElder Assist\nAttendant at Home\nAyurveda\nBaby Care\nCritical Care at Home\nMedical Equipments\nNursing Care\nPhysiotherapy\nSpeech Therapy\nOther Services"
   },
   {
    "fieldname": "city",
@@ -258,7 +259,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-18 23:34:01.408635",
+ "modified": "2025-12-19 16:01:09.046293",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",
