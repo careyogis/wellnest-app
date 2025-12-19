@@ -207,7 +207,7 @@
    "fieldname": "phone_number",
    "fieldtype": "Data",
    "label": "Phone Number",
-   "length": 16,
+   "length": 20,
    "options": "Phone",
    "reqd": 1
   },
@@ -247,7 +247,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "City",
-   "options": "\nHyderabad\nDelhi\nVijaywada\nNoida\nGurgaon",
+   "options": "\nDelhi\nGurgaon\nHyderabad\nNoida\nVijaywada\nOther",
    "reqd": 1
   },
   {
@@ -259,7 +259,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-19 17:15:06.912783",
+ "modified": "2025-12-19 18:39:24.685398",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "CY Lead",
