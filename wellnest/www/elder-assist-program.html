@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="language" content="English">
+    <meta name="title" content="CareYogi - Care Comes Home">
+    <meta name="description"
+        content="We are an Elder Care & out of hospital transitional care super specialty, disrupting the way care is perceived. Our HTHT (Hi-Tech- Hi Touch) platform enabled by our passionate caregivers and unmatched caregiving practices speeds patient outcomes & recovery.">
+    <meta name="keywords"
+        content="elderly parent and families, 24/7 care, monitoring, home healthcare, nurse, caregiver, general duty attendants, speech therapy, physiotherapy, ayurveda, assisted daily living, telemedicine, health, digital health, elder care, Stroke Care, Feeding Tube Care, Oncology Care, Orthopedic Care, Trachestomy Care, Trauma Care, Spine Care, Craniotomy Care, Cardiac Care, Post Covid-19 Care, Post-Operative Care, Parkinson's Care">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="revisit-after" content="30 days">
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.careyogis.com" />
+    <meta property="og:title" content="CareYogi - Care Comes Home">
+    <meta property="og:image" content="https://www.careyogis.com/assets/wellnest/images/footer-logo.png">
+    <meta property="og:description"
+        content="We are an Elder Care & out of hospital transitional care super specialty, disrupting the way care is perceived. Our HTHT (Hi-Tech- Hi Touch) platform enabled by our passionate caregivers and unmatched caregiving practices speeds patient outcomes & recovery.">
+
+    <title>ElderAssist - Care Comes Home</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BE539PYJ7B"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BE539PYJ7B');
+    </script>
+
+    <!-- favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/wellnest/images/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/wellnest/images/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/wellnest/images/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="assets/wellnest/images/favicon/site.webmanifest" />
+
+    <!-- plugins styles -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Baloo+2:400,500,600,700,800%7CLato:100,300,400,700,900%7COpen+Sans:300,400,600,700,800%7CRoboto:300,400,500,700,900%7CRubik:300,400,500,700,900&display=swap" />
+    <link rel="stylesheet" href="assets/wellnest/css/animate.css" />
+    <link rel="stylesheet" href="assets/wellnest/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/wellnest/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="assets/wellnest/css/bootstrap-select.min.css" />
+    <link rel="stylesheet" href="assets/wellnest/css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="assets/wellnest/css/hover-min.css" />
+    <link rel="stylesheet" href="assets/wellnest/css/swiper.min.css" />
+    <link rel="stylesheet" href="assets/wellnest/css/jquery.mCustomScrollbar.min.css" />
+    <link rel="stylesheet" href="assets/wellnest/css/magnific-popup.css" />
+    <link rel="stylesheet" href="assets/wellnest/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="assets/wellnest/css/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="assets/wellnest/css/oberlin-icons.css" />
+
+    <!-- template styles -->
+    <link rel="stylesheet" href="assets/wellnest/css/style.css" />
+    <link rel="stylesheet" href="assets/wellnest/css/responsive.css" />
+
+    <style>
+        /* Logo Sizing for Hero Section */
+        .hero-logo-brand {
+            max-width: 120px;
+            /* Adjusts the CareYogi company logo size */
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .hero-logo-program {
+            max-width: 280px;
+            /* Adjusts the Elder Assist program logo size */
+            height: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Mobile Responsiveness: Make logos smaller on phones */
+        @media (max-width: 768px) {
+            .hero-logo-brand {
+                max-width: 100px;
+            }
+
+            .hero-logo-program {
+                max-width: 220px;
+            }
+        }
+
+        /* =========================================
+        SPACING & FLOW UTILITIES
+        ========================================= */
+
+        /* Adds consistent vertical space (80px) between sections */
+        .section-padding {
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+
+        /* Optional: Adds a subtle separator line between sections if you want more distinction */
+        .section-separator {
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Alternate background colors to separate sections visually */
+        .bg-light-gray {
+            background-color: #f9f9f9;
+        }
+
+        /* =========================================
+        ELDER ASSIST BRAND THEME (Orange & Green)
+        ========================================= */
+
+        :root {
+            /* BRAND COLORS */
+            /* Deep Teal Green - Taken from the 'Care Comes Home' and Contact background */
+            --brand-green: #006b6b;
+            /* Warm Safety Orange - Taken from the shield border and 'Preventive' highlights */
+            --brand-orange: #f38a2e;
+            /* Light Green Background - For alternating sections */
+            --brand-light-green: #eaf6f6;
+        }
+
+        /* --- 1. OVERRIDE TEXT COLORS --- */
+
+        /* Primary Headings & Icons get the Trusted Green */
+        .text-primary,
+        .section-title h2,
+        h1,
+        h2,
+        h3 {
+            color: var(--brand-green) !important;
+        }
+
+        /* Subtitles or Highlights get the Warm Orange */
+        .sub-title,
+        .text-secondary {
+            color: var(--brand-orange) !important;
+        }
+
+        /* Icons in feature boxes (mix of both) */
+        .icon-box i.text-primary,
+        .service-item .icon i {
+            color: var(--brand-green) !important;
+        }
+
+        /* Special case: Make the "Emergency" icon Orange/Red for attention */
+        .icon-box i.text-danger,
+        .service-item .icon.text-danger i {
+            color: #e74c3c !important;
+            /* Keep emergency red or swap to --brand-orange */
+        }
+
+        /* --- 2. BUTTONS --- */
+
+        /* Primary Button (View Plans) - Orange for High Visibility/Action */
+        .btn-primary {
+            background-color: var(--brand-orange) !important;
+            border-color: var(--brand-orange) !important;
+            color: #fff !important;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: #d3731f !important;
+            /* Slightly darker orange on hover */
+            border-color: #d3731f !important;
+        }
+
+        /* Secondary Button (Contact Us) - Green for Trust */
+        .btn-secondary,
+        .btn-outline-primary {
+            background-color: var(--brand-green) !important;
+            border-color: var(--brand-green) !important;
+            color: #fff !important;
+        }
+
+        .btn-secondary:hover,
+        .btn-outline-primary:hover {
+            background-color: #004d4d !important;
+            /* Darker green on hover */
+            color: #fff !important;
+        }
+
+        /* --- 3. BACKGROUNDS --- */
+
+        /* Light sections (like Testimonials) */
+        .bg-light-gray,
+        .bg-light {
+            background-color: var(--brand-light-green) !important;
+        }
+
+        /* Footer / Contact Section (Deep Green) */
+        .cta-section {
+            background-color: var(--brand-green) !important;
+        }
+
+        /* Pricing Card Borders - Add the Green border to the popular plan */
+        .pricing-card.border-primary {
+            border-color: var(--brand-orange) !important;
+        }
+
+        .pricing-card .badge-primary {
+            background-color: var(--brand-orange) !important;
+        }
+
+        /* --- 4. IMAGE STYLING --- */
+
+        /* Give images a soft Green shadow to blend them in */
+        .img-fluid.shadow,
+        .img-fluid.shadow-lg {
+            box-shadow: 0 1rem 3rem rgba(0, 107, 107, 0.15) !important;
+        }
+
+        /* =========================================
+        CIRCULAR FEATURE ICONS
+        ========================================= */
+
+        /* The Circle Container */
+        .feature-icon-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            /* Centers the icon vertically & horizontally */
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            font-size: 36px;
+            /* Icon size */
+            transition: all 0.3s ease;
+        }
+
+        /* STYLE A: Green Theme (Preventive, Monitoring, Records) */
+        .theme-green .feature-icon-circle {
+            background-color: #eaf6f6;
+            /* Very light green (var(--brand-light-green)) */
+            color: #006b6b;
+            /* Brand Green */
+        }
+
+        /* Hover Effect for Green */
+        .service-item:hover .theme-green .feature-icon-circle {
+            background-color: #006b6b;
+            color: #ffffff;
+            box-shadow: 0 10px 20px rgba(0, 107, 107, 0.2);
+        }
+
+        /* STYLE B: Orange Theme (Emergency Alerts) */
+        .theme-orange .feature-icon-circle {
+            background-color: #fff0e6;
+            /* Very light orange */
+            color: #f38a2e;
+            /* Brand Orange */
+        }
+
+        /* Hover Effect for Orange */
+        .service-item:hover .theme-orange .feature-icon-circle {
+            background-color: #f38a2e;
+            color: #ffffff;
+            box-shadow: 0 10px 20px rgba(243, 138, 46, 0.3);
+        }
+
+        /* Card Styling Cleanup */
+        .service-item {
+            transition: transform 0.3s ease;
+            border: 1px solid #f0f0f0;
+            /* Subtle border */
+        }
+
+        .service-item:hover {
+            transform: translateY(-5px);
+            /* Lifts up slightly on hover */
+        }
+
+        /* =========================================
+        APP DOWNLOAD SECTION
+        ========================================= */
+
+        .app-download-section {
+            /* Gradient using your Brand Green variables */
+            background: linear-gradient(135deg, #006b6b 0%, #004d4d 100%);
+            color: #ffffff;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+
+        /* Store Badges (Play Store / App Store) */
+        .store-badge {
+            height: 55px;
+            /* Standard size for legibility */
+            width: auto;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .store-badge:hover {
+            transform: translateY(-5px);
+            /* Lifts up on hover */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Phone Mockup Styling */
+        .app-phone-mockup {
+            max-height: 500px;
+            /* Prevents it from being too huge */
+            filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.4));
+            /* Soft shadow behind phone */
+            animation: float-phone 6s ease-in-out infinite;
+            /* Floating effect */
+        }
+
+        /* Floating Animation Keyframes */
+        @keyframes float-phone {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Optional: Decorative Background Circles */
+        .bg-circle-1,
+        .bg-circle-2 {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            /* Transparent white */
+            z-index: 1;
+        }
+
+        .bg-circle-1 {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            right: -100px;
+        }
+
+        .bg-circle-2 {
+            width: 600px;
+            height: 600px;
+            bottom: -200px;
+            left: -200px;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="hero-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <div class="mb-3">
+                            <img src="assets/wellnest/images/logo-01.png" alt="CareYogi: Care Comes Home"
+                                class="img-fluid" style="max-width: 120px;">
+                        </div>
+
+                        <div class="mb-4">
+                            <img src="assets/wellnest/images/elder-assist-logo.png" alt="Elder Assist Program"
+                                class="img-fluid" style="max-width: 280px;">
+                        </div>
+
+                        <p class="lead">Reliable support for your loved ones. Pro-active planning for care at home and
+                            quick response in emergencies.</p>
+
+                        <h4 class="mt-3 mb-4" style="color: #2c3e50;">"Stay Bold as You Grow Old"</h4>
+
+                        <a href="#pricing" class="btn btn-primary btn-lg">View Plans</a>
+                        <a href="#contact" class="btn btn-secondary btn-lg ml-2">Contact Us</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="assets/wellnest/images/hero-couple.jpg" alt="Happy Senior Couple"
+                        class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="program-details section-padding">
+        <div class="container">
+
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="image-box">
+                        <img src="assets/wellnest/images/main-slider/main-slider-2-2.jpg"
+                            alt="Nurse Visits and Doctor Consultations" class="img-fluid rounded shadow-lg">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="content-box pl-lg-4">
+                        <div class="icon-text mb-3">
+                            <i class="fas fa-user-md fa-2x text-primary mb-3"></i>
+                            <h3 class="font-weight-bold">Preventive Care</h3>
+                        </div>
+                        <h5 class="text-secondary mb-3">"Prevent crises before they arise"</h5>
+                        <p class="lead">
+                            We prioritize pro-active planning. This includes scheduled <strong>Nurse Visits and Doctor
+                                Consultations</strong> at the time of on-boarding to reduce the need for frequent
+                            hospital visits.
+                        </p>
+                        <ul class="list-unstyled mt-3">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i> Initial Health
+                                Assessment</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success mr-2"></i> Regular Vitals
+                                Monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-5"></div>
+
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-2 mb-4 mb-lg-0">
+                    <div class="image-box">
+                        <img src="assets/wellnest/images/emergency-fall.jpeg" alt="Emergency Alert System"
+                            class="img-fluid rounded shadow-lg">
+                    </div>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <div class="content-box pr-lg-4">
+                        <div class="icon-text mb-3">
+                            <i class="fas fa-ambulance fa-2x text-danger mb-3"></i>
+                            <h3 class="font-weight-bold">Emergency Response</h3>
+                        </div>
+                        <h5 class="text-secondary mb-3">"Stay safe when urgent moments happen"</h5>
+                        <p class="lead">
+                            Time is critical in an emergency. Our device notifies your family <strong>right
+                                away</strong> so they can respond quickly.
+                        </p>
+                        <p>
+                            The emergency ALERT assures that an ambulance reaches your doorstep within the golden hour,
+                            keeping your loved ones connected to help when they need it most.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <section class="services-section section-padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="section-title mb-5">
+                        <h2>Key Features of ElderAssist</h2>
+                        <p class="lead">Technology meets compassion to keep your parents safe.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="service-item theme-green bg-white p-5 rounded h-100 text-center">
+                        <div class="feature-icon-circle mx-auto">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h4>Preventive Care</h4>
+                        <p>The Care Yogi app enables users to track health metrics and receive reminders for essential
+                            preventive care activities. Includes nurse visits on-boarding.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="service-item theme-orange bg-white p-5 rounded h-100 text-center">
+                        <div class="feature-icon-circle mx-auto">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h4>Emergency Alerts</h4>
+                        <p>Our 24/7 emergency alert system ensures immediate notifications to family members and
+                            caregivers in critical situations.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="service-item theme-green bg-white p-5 rounded h-100 text-center">
+                        <div class="feature-icon-circle mx-auto">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Health Monitoring</h4>
+                        <p>Our health monitoring system allows caregivers to record health metrics, ensuring families
+                            stay informed about their loved one's well-being.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="service-item theme-green bg-white p-5 rounded h-100 text-center">
+                        <div class="feature-icon-circle mx-auto">
+                            <i class="fas fa-file-medical-alt"></i>
+                        </div>
+                        <h4>Digitised Records</h4>
+                        <p>The digitised medical records enable seamless access for doctors, facilitating efficient
+                            consultations and enhancing overall care quality.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section class="testimonial-section section-padding">
+        <div class="container">
+            <div class="section-title text-center mb-5">
+                <h2>Real Experiences from Satisfied Users</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="testimonial-item p-4 border rounded">
+                        <p class="font-italic">"We avoided a hospital visit thanks to their nurse. Highly
+                            valuable assistance provided during a crucial health situation."</p>
+                        <h5 class="mt-3 text-primary">- Sreeja & Shankaran, New Delhi</h5>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="testimonial-item p-4 border rounded">
+                        <p class="font-italic">"The alert device literally saved my mother's life. Timely
+                            notifications helped our family respond quickly."</p>
+                        <h5 class="mt-3 text-primary">- Pallavi Sai, California</h5>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="testimonial-item p-4 border rounded">
+                        <p class="font-italic">"Doctor teleconsult helped avoid a hospital visit hassle.
+                            Easy and efficient access to medical advice." </p>
+                        <h5 class="mt-3 text-primary">- Anita Aswal, Sydney</h5>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="testimonial-item p-4 border rounded">
+                        <p class="font-italic">"Now I know what's happening to my dad every day. It provides
+                            peace of mind through constant health monitoring."</p>
+                        <h5 class="mt-3 text-primary">- Neelima Bhan Singh</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing-section section-padding bg-light">
+        <div class="container">
+            <div class="section-title text-center mb-5">
+                <h2>Pricing Plans</h2>
+                <p>Choose the Best Fit for Care</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card bg-white p-4 text-center rounded shadow h-100">
+                        <h4>Monthly Plan</h4>
+                        <h2 class="text-primary display-4">₹5,999<span class="small">/mo</span></h2>
+                        <p class="mt-3">Perfect for short-term care solutions. Experience ElderAssist
+                            without a long-term commitment.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card bg-white p-4 text-center rounded shadow h-100 border-primary"
+                        style="border: 2px solid;">
+                        <span class="badge badge-primary mb-2">Most Popular</span>
+                        <h4>Quarterly Plan</h4>
+                        <h2 class="text-primary display-4">₹15,999<span class="small">/qtr</span></h2>
+                        <p class="mt-3">Comprehensive solution for ongoing care. Combines convenience and
+                            affordability for families.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card bg-white p-4 text-center rounded shadow h-100">
+                        <h4>Annual Plan</h4>
+                        <h2 class="text-primary display-4">₹61,999<span class="small">/yr</span></h2>
+                        <p class="mt-3">Best value. Guarantees peace of mind for long-term care, ensuring
+                            continuous support. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="app-download-section section-padding position-relative overflow-hidden">
+        <div class="bg-circle-1"></div>
+        <!-- <div class="bg-circle-2"></div> -->
+        <div class="container position-relative">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h5 class="text-warning font-weight-bold mb-3">CARE AT YOUR FINGERTIPS</h5>
+                    <h2 class="display-4 font-weight-bold text-white mb-4">Download the Care Yogi App</h2>
+                    <p class="lead text-light mb-5">
+                        Track health metrics, receive medication reminders, and stay connected with your loved ones
+                        24/7. Peace of mind is just a tap away.
+                    </p>
+                    <div class="d-flex flex-wrap">
+                        <a href="https://play.google.com/store/apps/details?id=com.careyogis.careyogi_customer_app" class="mr-3 mb-3">
+                            <img src="assets/wellnest/images/resources/google-play-badge.png"
+                                alt="Get it on Google Play" class="store-badge">
+                        </a>
+
+                        <a href="https://apps.apple.com/in/app/careyogi-customer-app/id6743654792" class="mb-3">
+                            <img src="assets/wellnest/images/resources/app-store-badge.png"
+                                alt="Download on the App Store" class="store-badge">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 text-center">
+                    <div class="app-image-wrapper">
+                        <img src="assets/wellnest/images/resources/careyogi-app.png" alt="Care Yogi App Interface"
+                            class="img-fluid app-phone-mockup">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="cta-section section-padding text-white" style="background-color: #0c4c4c;">
+        <div class="container text-center">
+            <h2 class="mb-4">Give Your Parents Safety</h2>
+            <p class="lead mb-5">Reach out to us for more information about Care Yogis ElderAssist.</p>
+
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <a href="contact-us/new/?requirement=Elder Assist" class="btn btn-primary mt-3">Fill Form</a>
+                    <p></p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-phone fa-2x mb-2"></i>
+                    <p>+91 98109 18237</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-envelope fa-2x mb-2"></i>
+                    <p>info@careyogis.com</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-globe fa-2x mb-2"></i>
+                    <p>www.careyogis.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

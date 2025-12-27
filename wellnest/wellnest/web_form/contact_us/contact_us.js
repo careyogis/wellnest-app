@@ -9,4 +9,13 @@ frappe.ready(function() {
 	s.parentNode.insertBefore(t,s)}(window, document,'script', 'https://connect.facebook.net/en_US/fbevents.js'); 
 	fbq('init', '1260302405659007');
 	fbq('track', 'PageView'); 
+
+	let source = getQueryParam('requirement');
+	frappe.web_form.set_value('requirement', source);
+	frappe.web_form.refresh_fields(['requirement']);
 })
+
+function getQueryParam(param) {
+	let urlParams = new URLSearchParams(window.location.search);
+	return urlParams.get(param);
+}
