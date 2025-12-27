@@ -10,12 +10,7 @@ frappe.ready(function() {
 	fbq('init', '1260302405659007');
 	fbq('track', 'PageView'); 
 
-	let source = getQueryParam('requirement');
-	frappe.web_form.set_value('requirement', source);
-	frappe.web_form.refresh_fields(['requirement']);
+	$('form').on('load', function() {
+		fbq('track', 'ViewContent');	
+	});
 })
-
-function getQueryParam(param) {
-	let urlParams = new URLSearchParams(window.location.search);
-	return urlParams.get(param);
-}
