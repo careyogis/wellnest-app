@@ -853,6 +853,27 @@ li {
   color: #414141;
 }
 
+/* Helper: fixed topbar that stays on top of the viewport */
+.topbar-one.fixed-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* push the main nav down so it isn't hidden under the fixed topbar */
+.topbar-one.fixed-top + .main-nav-one {
+  margin-top: 60px;
+}
+
+@media (max-width: 767px) {
+  .topbar-one.fixed-top + .main-nav-one {
+    margin-top: 80px;
+  }
+}
+
 /*--------------------------------------------------------------
 ## Topbar Two
 --------------------------------------------------------------*/
