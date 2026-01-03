@@ -9,8 +9,6 @@ frappe.ready(function() {
 	s.parentNode.insertBefore(t,s)}(window, document,'script', 'https://connect.facebook.net/en_US/fbevents.js'); 
 	fbq('init', '1260302405659007');
 	fbq('track', 'PageView'); 
-
-	$('form').on('load', function() {
-		fbq('track', 'ViewContent');	
-	});
+	fbq('track', 'ViewContent');	
+	// End Meta Pixel Code
 })
