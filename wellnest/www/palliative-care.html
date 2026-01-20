@@ -99,5 +99,25 @@
   </section>
   <!-- /.service-details -->
 
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Palliative Care Services",
+  "serviceType": "Palliative Care",
+  "description": "CareYogi palliative care services focus on pain management, comfort, and quality of life for patients with serious and chronic illnesses.",
+  "provider": {
+    "@type": "Organization",
+    "name": "CareYogi",
+    "url": "{{ frappe.utils.get_url() }}"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "url": "{{ frappe.utils.get_url() }}{{ frappe.request.path }}"
+}
+</script>
+
   {% endblock %}
 </body>

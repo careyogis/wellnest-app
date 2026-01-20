@@ -100,5 +100,25 @@
   </section>
   <!-- /.service-details -->
 
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Critical Care at Home Services",
+  "serviceType": "Critical Care at Home",
+  "description": "CareYogi offers advanced critical care at home, including doctor visits, intensive monitoring, and medical support for high-risk patients.",
+  "provider": {
+    "@type": "Organization",
+    "name": "CareYogi",
+    "url": "{{ frappe.utils.get_url() }}"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "url": "{{ frappe.utils.get_url() }}{{ frappe.request.path }}"
+}
+</script>
+
   {% endblock %}
 </body>

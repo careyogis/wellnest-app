@@ -105,5 +105,25 @@
   </section>
   <!-- /.service-details -->
 
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Physiotherapy at Home Services",
+  "serviceType": "Physiotherapy at Home",
+  "description": "CareYogi provides professional physiotherapy at home to help patients recover mobility, manage pain, and improve physical function after injury, surgery, or illness.",
+  "provider": {
+    "@type": "Organization",
+    "name": "CareYogi",
+    "url": "{{ frappe.utils.get_url() }}"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "url": "{{ frappe.utils.get_url() }}{{ frappe.request.path }}"
+}
+</script>
+
   {% endblock %}
 </body>

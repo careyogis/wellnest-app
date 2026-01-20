@@ -120,5 +120,25 @@
   </section>
   <!-- /.service-details -->
 
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Attendant Care at Home Services",
+  "serviceType": "Attendant Care",
+  "description": "CareYogi provides trained attendant care services at home to assist elderly patients with daily activities, mobility, hygiene, and personal care needs.",
+  "provider": {
+    "@type": "Organization",
+    "name": "CareYogi",
+    "url": "{{ frappe.utils.get_url() }}"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "url": "{{ frappe.utils.get_url() }}{{ frappe.request.path }}"
+}
+</script>
+
   {% endblock %}
 </body>

@@ -123,5 +123,25 @@
   </section>
   <!-- /.service-details -->
 
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Emergency Alert and Response Services",
+  "serviceType": "Emergency Alert and Response",
+  "description": "CareYogi emergency alert and response services provide rapid assistance, ambulance coordination, and immediate medical support during emergencies.",
+  "provider": {
+    "@type": "Organization",
+    "name": "CareYogi",
+    "url": "{{ frappe.utils.get_url() }}"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "url": "{{ frappe.utils.get_url() }}{{ frappe.request.path }}"
+}
+</script>
+
   {% endblock %}
 </body>
