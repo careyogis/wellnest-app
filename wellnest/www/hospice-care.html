@@ -1,6 +1,8 @@
 {% extends "templates/wellnest_web.html" %}
 
 <title>{% block title %}CareYogi - Hospice Care{% endblock %}</title>
+<meta name="description" content="Compassionate hospice care at home focused on comfort, dignity, emotional support, and end-of-life care for patients and families." />
+
 <body>
   {% block page_content %}
   <section
@@ -10,7 +12,7 @@
     "
   >
     <div class="container">
-      <h2>Hospice Care</h2>
+      <h1>Hospice Care</h1>
       <ul class="list-unstyled thm-breadcrumb">
         <li><a href="index">Home</a></li>
         <li><span>Service Details</span></li>
@@ -72,12 +74,12 @@
               <img
                 src="assets/wellnest/images/newimg/hospice care.jpg"
                 class="img-fluid"
-                alt=""
+                alt="Hospice care services providing comfort and end-of-life support at home"
               />
             </div>
             <!-- /.service-details__image -->
             <div class="service-details__content">
-              <h3>Hospice Care</h3>
+              <h2>About our Hospice Care Services</h2>
               <p style="font-size: 20px">
                 At the end of life, dignity matters most. CAREYOGI’s hospice
                 care is designed to offer comfort, peace, and emotional closure,
@@ -95,6 +97,26 @@
     <!-- /.container -->
   </section>
   <!-- /.service-details -->
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Hospice Care Services",
+  "serviceType": "Hospice Care",
+  "description": "CareYogi provides compassionate hospice care services at home, focusing on comfort, dignity, and emotional support for patients with life-limiting illnesses.",
+  "provider": {
+    "@type": "Organization",
+    "name": "CareYogi",
+    "url": "https://www.careyogis.com/"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "url": "https://www.careyogis.com/{{ frappe.request.path }}"
+}
+</script>
 
   {% endblock %}
 </body>

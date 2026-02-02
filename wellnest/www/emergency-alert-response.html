@@ -3,6 +3,8 @@
 <title>
   {% block title %}CareYogi - Emergency Alert & Response{% endblock %}
 </title>
+<meta name="description" content="Emergency alert and response service ensuring quick medical assistance and immediate support during emergencies." />
+
 <body>
   {% block page_content %}
   <section
@@ -12,10 +14,10 @@
     "
   >
     <div class="container">
-      <h2>
+      <h1>
         Emergency Alert & Response - (Emergency Alert + Nursing + Ambulance +
         Live Tracking)
-      </h2>
+      </h1>
       <ul class="list-unstyled thm-breadcrumb">
         <li><a href="index">Home</a></li>
         <li><span>Service Details</span></li>
@@ -77,12 +79,12 @@
               <img
                 src="assets/wellnest/images/newimg/doctor.jpeg"
                 class="img-fluid"
-                alt=""
+                alt="Emergency alert and response service ensuring quick help for elderly patients at home"
               />
             </div>
             <!-- /.service-details__image -->
             <div class="service-details__content">
-              <h3>Emergency Alert & Response</h3>
+              <h2>About Our Emergency Alert & Response Services</h2>
               <p style="font-size: 20px">
                 Because emergencies don’t come announced.
               </p>
@@ -120,6 +122,26 @@
     <!-- /.container -->
   </section>
   <!-- /.service-details -->
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Emergency Alert and Response Services",
+  "serviceType": "Emergency Alert and Response",
+  "description": "CareYogi emergency alert and response services provide rapid assistance, ambulance coordination, and immediate medical support during emergencies.",
+  "provider": {
+    "@type": "Organization",
+    "name": "CareYogi",
+    "url": "https://www.careyogis.com/"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "url": "https://www.careyogis.com/{{ frappe.request.path }}"
+}
+</script>
 
   {% endblock %}
 </body>

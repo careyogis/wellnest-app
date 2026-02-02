@@ -7248,6 +7248,19 @@ li {
   margin-bottom: 45px;
   transition: all 500ms ease;
 }
+/* ----------------------------------
+   Service page heading fixes (SEO-safe)
+---------------------------------- */
+
+.page-header h1 {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.service-details__content h2 {
+  font-weight: 600;
+  color: #0a0a0a;
+}
 
 /* 
 .service-one__carousel-two .service-one__single:hover .service-one__icon {

@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /api/
+Disallow: /private/
+Disallow: /app/
+Disallow: /desk/
+Disallow: /login
+Disallow: /logout
+
+Allow: /
+
+Sitemap: https://www.careyogis.com/sitemap.xml

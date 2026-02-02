@@ -1,6 +1,8 @@
 {% extends "templates/wellnest_web.html" %}
 
 <title>{% block title %}CareYogi - Physiotherapy at Home{% endblock %}</title>
+<meta name="description" content="Physiotherapy at home offering rehabilitation, mobility improvement, and personalized exercise programs by expert therapists." />
+
 <body>
   {% block page_content %}
   <section
@@ -10,7 +12,7 @@
     "
   >
     <div class="container">
-      <h2>Physiotherapy at Home</h2>
+      <h1>Physiotherapy at Home</h1>
       <ul class="list-unstyled thm-breadcrumb">
         <li><a href="index">Home</a></li>
         <li><span>Service Details</span></li>
@@ -73,12 +75,12 @@
               <img
                 src="assets/wellnest/images/newimg/physiotherapy.jpeg"
                 class="img-fluid"
-                alt=""
+                alt="Home physiotherapy session helping patient regain mobility"
               />
             </div>
             <!-- /.service-details__image -->
             <div class="service-details__content">
-              <h3>Physiotherapy at Home</h3>
+              <h2>About Our Physiotherapy at Home Services</h2>
               <p style="font-size: 20px">
                 Personalized rehabilitation programs designed to restore
                 strength, mobility, and independence.
@@ -102,6 +104,26 @@
     <!-- /.container -->
   </section>
   <!-- /.service-details -->
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Physiotherapy at Home Services",
+  "serviceType": "Physiotherapy at Home",
+  "description": "CareYogi provides professional physiotherapy at home to help patients recover mobility, manage pain, and improve physical function after injury, surgery, or illness.",
+  "provider": {
+    "@type": "Organization",
+    "name": "CareYogi",
+    "url": "https://www.careyogis.com/"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "url": "https://www.careyogis.com/{{ frappe.request.path }}"
+}
+</script>
 
   {% endblock %}
 </body>

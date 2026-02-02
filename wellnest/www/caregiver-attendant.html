@@ -1,6 +1,8 @@
 {% extends "templates/wellnest_web.html" %}
 
 <title>{% block title %}CareYogi - Attendant Care {% endblock %}</title>
+<meta name="description" content="Attendant care at home assisting patients with daily living activities, personal care, and continuous support." />
+
 <body>
   {% block page_content %}
   <section
@@ -10,7 +12,7 @@
     "
   >
     <div class="container">
-      <h2>Attendant Care (Assistance with Daily Living)</h2>
+      <h1>Attendant Care (Assistance with Daily Living)</h1>
       <ul class="list-unstyled thm-breadcrumb">
         <li><a href="index">Home</a></li>
         <li><span>Service Details</span></li>
@@ -72,13 +74,13 @@
               <img
                 src="assets/wellnest/images/newimg/adl.jpg"
                 class="img-fluid"
-                alt=""
+                alt="Home care attendant helping senior with assisted daily living activities"
               />
             </div>
             <!-- /.service-details__image -->
             <div class="service-details__content">
               <!-- <h3>Attendant Care Program (Assistance with Daily Living)</h3> -->
-              <h3>Attendant Care Program</h3>
+              <h2>About Our Attendant Care Program</h2>
               <p style="font-size: 20px">
                 Because dignity is built on daily comfort. <br />For many
                 elders, simple daily tasks become difficult with age. Attendant
@@ -117,6 +119,26 @@
     <!-- /.container -->
   </section>
   <!-- /.service-details -->
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Attendant Care at Home Services",
+  "serviceType": "Attendant Care",
+  "description": "CareYogi provides trained attendant care services at home to assist elderly patients with daily activities, mobility, hygiene, and personal care needs.",
+  "provider": {
+    "@type": "Organization",
+    "name": "CareYogi",
+    "url": "https://www.careyogis.com/"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "url": "https://www.careyogis.com/{{ frappe.request.path }}"
+}
+</script>
 
   {% endblock %}
 </body>
