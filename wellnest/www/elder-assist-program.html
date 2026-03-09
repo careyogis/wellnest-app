@@ -375,10 +375,55 @@
             bottom: -200px;
             left: -200px;
         }
+
+    /* Modal overlay */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.6);
+    }
+
+    /* Modal content */
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        margin: 5% auto;
+        padding: 0;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 800px;
+        height: 80%;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        overflow: hidden;
+    }
+
+    /* Close button */
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+    }        
     </style>
 </head>
 
 <body>
+    <!-- Modal structure -->
+    <div id="popupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <iframe id="popupFrame" style="border: none; width: 90%; height: 90%; border: none;" src=""></iframe>
+        </div>
+    </div>
+
     <section class="hero-area">
         <div class="container">
             <div class="row align-items-center">
@@ -401,7 +446,7 @@
                         <h4 class="mt-3 mb-4" style="color: #2c3e50;">"Stay Bold as You Grow Old"</h4>
 
                         <a href="#pricing" class="btn btn-primary btn-lg">View Plans</a>
-                        <a href="#contact" class="btn btn-secondary btn-lg ml-2" id="contact-btn">Contact Us</a>
+                        <button class="btn btn-secondary btn-lg ml-2" id="contact-btn">Contact Us</button>
                         <p></p>
                     </div>
                 </div>
@@ -676,10 +721,31 @@
     // attach events after the DOM is loaded
     document.getElementById('contact-btn').addEventListener('click', function () {
         fbq('trackCustom', 'EAContact');
+
+        const modal = document.getElementById('popupModal');
+        const iframe = document.getElementById('popupFrame');
+        iframe.src = "contact-us"; // Set the iframe source
+        modal.style.display = 'block';
     });
     document.getElementById('enquiry-btn').addEventListener('click', function () {
         fbq('trackCustom', 'EAContact');
     }); 
+
+    // Function to close modal
+    function closeModal() {
+        const modal = document.getElementById('popupModal');
+        const iframe = document.getElementById('popupFrame');
+        iframe.src = ''; // Clear iframe to stop loading
+        modal.style.display = 'none';
+    }
+
+    // Close modal when clicking outside content
+    window.onclick = function(event) {
+        const modal = document.getElementById('popupModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
 </script>
 
 </body>
