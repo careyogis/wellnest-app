@@ -1,0 +1,348 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:GA-{YYYY}{MM}{DD}-{######}",
+ "creation": "2026-04-17 14:45:01.406782",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "elder",
+  "column_break_dkkx",
+  "assessment_date",
+  "medication_behaviour_section",
+  "taking_medication",
+  "side_effects",
+  "column_break_mevr",
+  "self_medication",
+  "alternative_medicine",
+  "nutrition_section",
+  "appetite_decline",
+  "mobility",
+  "column_break_oboi",
+  "weight_loss",
+  "tab_break_pijl",
+  "personallifestyle_section",
+  "exercise",
+  "alcohol",
+  "living_condition",
+  "column_break_ivbp",
+  "smoke",
+  "family_support",
+  "vitals_section",
+  "heightcm",
+  "blood_pressure",
+  "temperature",
+  "column_break_mooq",
+  "weightkg",
+  "pulse",
+  "cognitivescreening_section",
+  "memory_issues",
+  "fall_risk",
+  "column_break_ssay",
+  "depression_signs",
+  "urinary_issues",
+  "tab_3_tab",
+  "abuse_section",
+  "abuse_suspected",
+  "column_break_sbfa",
+  "caregiver_stress",
+  "section_break_hgke",
+  "complaints",
+  "adl_assessment",
+  "column_break_pblc",
+  "past_conditions",
+  "final_notes_section",
+  "summary",
+  "doctor_notes",
+  "column_break_vguh",
+  "care_plan"
+ ],
+ "fields": [
+  {
+   "fieldname": "elder",
+   "fieldtype": "Link",
+   "label": "Elder",
+   "options": "Elder"
+  },
+  {
+   "fieldname": "column_break_dkkx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assessment_date",
+   "fieldtype": "Date",
+   "label": "Assessment Date"
+  },
+  {
+   "fieldname": "medication_behaviour_section",
+   "fieldtype": "Section Break",
+   "label": "Medication Behaviour"
+  },
+  {
+   "default": "0",
+   "fieldname": "taking_medication",
+   "fieldtype": "Check",
+   "label": "Taking Medication"
+  },
+  {
+   "default": "0",
+   "fieldname": "side_effects",
+   "fieldtype": "Check",
+   "label": "Side Effects"
+  },
+  {
+   "fieldname": "column_break_mevr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "self_medication",
+   "fieldtype": "Check",
+   "label": "Self Medication"
+  },
+  {
+   "fieldname": "alternative_medicine",
+   "fieldtype": "Select",
+   "label": "Alternative Medicine",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "nutrition_section",
+   "fieldtype": "Section Break",
+   "label": "Nutrition"
+  },
+  {
+   "default": "0",
+   "fieldname": "appetite_decline",
+   "fieldtype": "Check",
+   "label": "Appetite Decline"
+  },
+  {
+   "fieldname": "mobility",
+   "fieldtype": "Select",
+   "label": "Mobility",
+   "options": "\nNormal\nRestricted\nBedridden"
+  },
+  {
+   "fieldname": "column_break_oboi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "weight_loss",
+   "fieldtype": "Check",
+   "label": "Weight Loss"
+  },
+  {
+   "fieldname": "tab_break_pijl",
+   "fieldtype": "Tab Break",
+   "label": "Tab 2"
+  },
+  {
+   "fieldname": "personallifestyle_section",
+   "fieldtype": "Section Break",
+   "label": "Personal/Lifestyle"
+  },
+  {
+   "default": "0",
+   "fieldname": "exercise",
+   "fieldtype": "Check",
+   "label": "Exercise"
+  },
+  {
+   "default": "0",
+   "fieldname": "alcohol",
+   "fieldtype": "Check",
+   "label": "Alcohol"
+  },
+  {
+   "fieldname": "living_condition",
+   "fieldtype": "Data",
+   "label": "Living Condition"
+  },
+  {
+   "fieldname": "column_break_ivbp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "smoke",
+   "fieldtype": "Check",
+   "label": "Smoke"
+  },
+  {
+   "default": "0",
+   "fieldname": "family_support",
+   "fieldtype": "Check",
+   "label": "Family Support"
+  },
+  {
+   "fieldname": "vitals_section",
+   "fieldtype": "Section Break",
+   "label": "Vitals"
+  },
+  {
+   "fieldname": "heightcm",
+   "fieldtype": "Float",
+   "label": "Height(cm)"
+  },
+  {
+   "fieldname": "blood_pressure",
+   "fieldtype": "Data",
+   "label": "Blood Pressure"
+  },
+  {
+   "fieldname": "temperature",
+   "fieldtype": "Data",
+   "label": "Temperature"
+  },
+  {
+   "fieldname": "column_break_mooq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "weightkg",
+   "fieldtype": "Float",
+   "label": "Weight(kg)"
+  },
+  {
+   "fieldname": "pulse",
+   "fieldtype": "Data",
+   "label": "Pulse"
+  },
+  {
+   "fieldname": "cognitivescreening_section",
+   "fieldtype": "Section Break",
+   "label": "Cognitive/Screening"
+  },
+  {
+   "default": "0",
+   "fieldname": "memory_issues",
+   "fieldtype": "Check",
+   "label": "Memory Issues"
+  },
+  {
+   "default": "0",
+   "fieldname": "fall_risk",
+   "fieldtype": "Check",
+   "label": "Fall Risk"
+  },
+  {
+   "fieldname": "column_break_ssay",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "depression_signs",
+   "fieldtype": "Check",
+   "label": "Depression Signs"
+  },
+  {
+   "default": "0",
+   "fieldname": "urinary_issues",
+   "fieldtype": "Check",
+   "label": "Urinary Issues"
+  },
+  {
+   "fieldname": "tab_3_tab",
+   "fieldtype": "Tab Break",
+   "label": "Tab 3"
+  },
+  {
+   "fieldname": "abuse_section",
+   "fieldtype": "Section Break",
+   "label": "Abuse"
+  },
+  {
+   "default": "0",
+   "fieldname": "abuse_suspected",
+   "fieldtype": "Check",
+   "label": "Abuse Suspected"
+  },
+  {
+   "fieldname": "column_break_sbfa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "caregiver_stress",
+   "fieldtype": "Check",
+   "label": "Caregiver Stress"
+  },
+  {
+   "fieldname": "final_notes_section",
+   "fieldtype": "Section Break",
+   "label": "Final Notes"
+  },
+  {
+   "fieldname": "summary",
+   "fieldtype": "Small Text",
+   "label": "Summary"
+  },
+  {
+   "fieldname": "doctor_notes",
+   "fieldtype": "Small Text",
+   "label": "Doctor Notes"
+  },
+  {
+   "fieldname": "column_break_vguh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "care_plan",
+   "fieldtype": "Small Text",
+   "label": "Care Plan"
+  },
+  {
+   "fieldname": "section_break_hgke",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "complaints",
+   "fieldtype": "Table",
+   "label": "Complaints",
+   "options": "Assessment Complaint"
+  },
+  {
+   "fieldname": "adl_assessment",
+   "fieldtype": "Table",
+   "label": "ADL Assessment",
+   "options": "ADL Assessment"
+  },
+  {
+   "fieldname": "column_break_pblc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "past_conditions",
+   "fieldtype": "Table",
+   "label": "Past Conditions",
+   "options": "Past Medical Condition"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-05 18:41:34.720978",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Geriatric Assessment",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

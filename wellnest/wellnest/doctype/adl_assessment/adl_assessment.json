@@ -1,0 +1,43 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-04-17 15:08:58.356368",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "activity",
+  "column_break_uygm",
+  "independent"
+ ],
+ "fields": [
+  {
+   "fieldname": "activity",
+   "fieldtype": "Select",
+   "label": "Activity",
+   "options": "\nBathing\nDressing\nToileting\nTransferring\nFeeding\nContinence"
+  },
+  {
+   "fieldname": "column_break_uygm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "independent",
+   "fieldtype": "Check",
+   "label": "Independent"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-04-17 15:10:32.203516",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "ADL Assessment",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

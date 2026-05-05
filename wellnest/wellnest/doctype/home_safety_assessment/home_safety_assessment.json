@@ -1,0 +1,453 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:HSA-{YYYY}{MM}{DD}-{######}",
+ "creation": "2026-04-17 13:51:45.604637",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "basic_info_section",
+  "elder",
+  "column_break_vxwu",
+  "assessment_date",
+  "stairs_and_steps_section",
+  "stair_clear",
+  "handrails_present",
+  "stairs_manageable",
+  "outdoor_steps_safe",
+  "column_break_yaod",
+  "stair_lighting",
+  "steps_condition",
+  "ramp_needed",
+  "floorsgeneral_movement_section",
+  "floor_clutter",
+  "wires_safe",
+  "tripping_hazards_present",
+  "carpet_fixed",
+  "smoke_alarm_installed",
+  "column_break_ifwm",
+  "rugs_secured",
+  "path_clear",
+  "nonslip_mat_present",
+  "walking_area_cleared",
+  "kitchen_and_bedroom_section",
+  "frequently_used_items_accessible",
+  "food_spoilage_checked",
+  "night_light",
+  "column_break_bauk",
+  "bed_light_accessible",
+  "stove_safety_knobs",
+  "drain_traps_installed",
+  "tab_break_ifjt",
+  "general_home_safety_section",
+  "repairs_needed",
+  "light_bulbs_working",
+  "clutter_present",
+  "medicines_labelled_properly",
+  "column_break_dovi",
+  "house_well_lit",
+  "emergency_number_available",
+  "trash_managed",
+  "firearms_safe",
+  "bathroom_section",
+  "non_slip_mat",
+  "toilet_support_available",
+  "shower_stool_available",
+  "column_break_gymm",
+  "grab_bars_present",
+  "handheld_shower_available",
+  "water_temperature_safe",
+  "night_light_present",
+  "outdoor_safety_section",
+  "doors_secure",
+  "entry_support_table",
+  "pathways_clear",
+  "walkway_hazards",
+  "column_break_tmfl",
+  "wheelchair_access",
+  "outdoor_lighting_adequate",
+  "pool_safety",
+  "notes_section",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "elder",
+   "fieldtype": "Link",
+   "label": "Elder",
+   "options": "Elder"
+  },
+  {
+   "fieldname": "steps_condition",
+   "fieldtype": "Select",
+   "label": "Steps Condition",
+   "options": "\nGood\nBroken\nUneven"
+  },
+  {
+   "default": "0",
+   "fieldname": "handrails_present",
+   "fieldtype": "Check",
+   "label": "Handrails Present"
+  },
+  {
+   "fieldname": "column_break_vxwu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assessment_date",
+   "fieldtype": "Date",
+   "label": "Assessment Date"
+  },
+  {
+   "default": "0",
+   "fieldname": "stair_lighting",
+   "fieldtype": "Check",
+   "label": "Stair Lighting"
+  },
+  {
+   "default": "0",
+   "fieldname": "stair_clear",
+   "fieldtype": "Check",
+   "label": "Stair Clear"
+  },
+  {
+   "fieldname": "basic_info_section",
+   "fieldtype": "Section Break",
+   "label": "Basic Info"
+  },
+  {
+   "fieldname": "stairs_and_steps_section",
+   "fieldtype": "Section Break",
+   "label": "Stairs/Steps"
+  },
+  {
+   "fieldname": "column_break_yaod",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "floorsgeneral_movement_section",
+   "fieldtype": "Section Break",
+   "label": "Floors/General Movement"
+  },
+  {
+   "default": "0",
+   "fieldname": "floor_clutter",
+   "fieldtype": "Check",
+   "label": "Floor Clutter"
+  },
+  {
+   "default": "0",
+   "fieldname": "wires_safe",
+   "fieldtype": "Check",
+   "label": "Wires Safe"
+  },
+  {
+   "fieldname": "column_break_ifwm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "rugs_secured",
+   "fieldtype": "Check",
+   "label": "Rugs Secured"
+  },
+  {
+   "default": "0",
+   "fieldname": "path_clear",
+   "fieldtype": "Check",
+   "label": "Path Clear"
+  },
+  {
+   "fieldname": "kitchen_and_bedroom_section",
+   "fieldtype": "Section Break",
+   "label": "Kitchen/Bedroom"
+  },
+  {
+   "default": "0",
+   "fieldname": "frequently_used_items_accessible",
+   "fieldtype": "Check",
+   "label": "Frequently Used Items Accessible"
+  },
+  {
+   "default": "0",
+   "fieldname": "night_light_present",
+   "fieldtype": "Check",
+   "label": "Night Light Present"
+  },
+  {
+   "fieldname": "column_break_bauk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "bed_light_accessible",
+   "fieldtype": "Check",
+   "label": "Bed Light Accessible"
+  },
+  {
+   "fieldname": "tab_break_ifjt",
+   "fieldtype": "Tab Break",
+   "label": "Tab 2"
+  },
+  {
+   "fieldname": "bathroom_section",
+   "fieldtype": "Section Break",
+   "label": "Bathroom"
+  },
+  {
+   "default": "0",
+   "fieldname": "non_slip_mat",
+   "fieldtype": "Check",
+   "label": "Non Slip Mat"
+  },
+  {
+   "default": "0",
+   "fieldname": "toilet_support_available",
+   "fieldtype": "Check",
+   "label": "Toilet Support Available"
+  },
+  {
+   "fieldname": "column_break_gymm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "grab_bars_present",
+   "fieldtype": "Check",
+   "label": "Grab Bars Present"
+  },
+  {
+   "fieldname": "notes_section",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "general_home_safety_section",
+   "fieldtype": "Section Break",
+   "label": "General Home Safety"
+  },
+  {
+   "default": "0",
+   "fieldname": "repairs_needed",
+   "fieldtype": "Check",
+   "label": "Repairs Needed"
+  },
+  {
+   "default": "0",
+   "fieldname": "light_bulbs_working",
+   "fieldtype": "Check",
+   "label": "Light Bulbs Working"
+  },
+  {
+   "default": "0",
+   "fieldname": "clutter_present",
+   "fieldtype": "Check",
+   "label": "Clutter Present"
+  },
+  {
+   "default": "0",
+   "fieldname": "medicines_labelled_properly",
+   "fieldtype": "Check",
+   "label": "Medicines Labelled Properly"
+  },
+  {
+   "fieldname": "column_break_dovi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "house_well_lit",
+   "fieldtype": "Check",
+   "label": "House Well Lit"
+  },
+  {
+   "default": "0",
+   "fieldname": "emergency_number_available",
+   "fieldtype": "Check",
+   "label": "Emergency Number Available"
+  },
+  {
+   "default": "0",
+   "fieldname": "trash_managed",
+   "fieldtype": "Check",
+   "label": "Trash Managed"
+  },
+  {
+   "default": "0",
+   "fieldname": "firearms_safe",
+   "fieldtype": "Check",
+   "label": "Firearms Safe"
+  },
+  {
+   "default": "0",
+   "fieldname": "stairs_manageable",
+   "fieldtype": "Check",
+   "label": "Stairs Manageable"
+  },
+  {
+   "default": "0",
+   "fieldname": "outdoor_steps_safe",
+   "fieldtype": "Check",
+   "label": "Outdoor Steps Safe"
+  },
+  {
+   "default": "0",
+   "fieldname": "ramp_needed",
+   "fieldtype": "Check",
+   "label": "Ramp Needed"
+  },
+  {
+   "default": "0",
+   "fieldname": "tripping_hazards_present",
+   "fieldtype": "Check",
+   "label": "Tripping Hazards Present"
+  },
+  {
+   "default": "0",
+   "fieldname": "carpet_fixed",
+   "fieldtype": "Check",
+   "label": "Carpet Fixed"
+  },
+  {
+   "default": "0",
+   "fieldname": "smoke_alarm_installed",
+   "fieldtype": "Check",
+   "label": "Smoke Alarm Installed"
+  },
+  {
+   "default": "0",
+   "fieldname": "nonslip_mat_present",
+   "fieldtype": "Check",
+   "label": "Nonslip Mat Present"
+  },
+  {
+   "default": "0",
+   "fieldname": "walking_area_cleared",
+   "fieldtype": "Check",
+   "label": "Walking Area Cleared"
+  },
+  {
+   "default": "0",
+   "fieldname": "food_spoilage_checked",
+   "fieldtype": "Check",
+   "label": "Food Spoilage Checked"
+  },
+  {
+   "default": "0",
+   "fieldname": "stove_safety_knobs",
+   "fieldtype": "Check",
+   "label": "Stove Safety Knobs"
+  },
+  {
+   "default": "0",
+   "fieldname": "drain_traps_installed",
+   "fieldtype": "Check",
+   "label": "Drain Traps Installed"
+  },
+  {
+   "default": "0",
+   "fieldname": "shower_stool_available",
+   "fieldtype": "Check",
+   "label": "Shower Stool Available"
+  },
+  {
+   "default": "0",
+   "fieldname": "handheld_shower_available",
+   "fieldtype": "Check",
+   "label": "Handheld Shower Available"
+  },
+  {
+   "default": "0",
+   "fieldname": "water_temperature_safe",
+   "fieldtype": "Check",
+   "label": "Water Temperature Safe"
+  },
+  {
+   "default": "0",
+   "fieldname": "night_light",
+   "fieldtype": "Check",
+   "label": "Night Light"
+  },
+  {
+   "fieldname": "outdoor_safety_section",
+   "fieldtype": "Section Break",
+   "label": "Outdoor Safety"
+  },
+  {
+   "default": "0",
+   "fieldname": "doors_secure",
+   "fieldtype": "Check",
+   "label": "Doors Secure"
+  },
+  {
+   "default": "0",
+   "fieldname": "entry_support_table",
+   "fieldtype": "Check",
+   "label": "Entry Support Table"
+  },
+  {
+   "default": "0",
+   "fieldname": "pathways_clear",
+   "fieldtype": "Check",
+   "label": "Pathways Clear"
+  },
+  {
+   "default": "0",
+   "fieldname": "walkway_hazards",
+   "fieldtype": "Check",
+   "label": "Walkway Hazards"
+  },
+  {
+   "fieldname": "column_break_tmfl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "wheelchair_access",
+   "fieldtype": "Check",
+   "label": "Wheelchair Access"
+  },
+  {
+   "default": "0",
+   "fieldname": "outdoor_lighting_adequate",
+   "fieldtype": "Check",
+   "label": "Outdoor Lighting Adequate"
+  },
+  {
+   "default": "0",
+   "fieldname": "pool_safety",
+   "fieldtype": "Check",
+   "label": "Pool Safety"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-05 18:31:09.978413",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Home Safety Assessment",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

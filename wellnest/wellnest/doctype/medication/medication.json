@@ -1,0 +1,92 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:MED-{YYYY}{MM}{DD}-{######}",
+ "creation": "2026-04-17 11:33:15.479521",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "elder",
+  "dosage",
+  "start_date",
+  "prescribed_by",
+  "column_break_oocn",
+  "medicine_name",
+  "frequency",
+  "end_date",
+  "adherence_status"
+ ],
+ "fields": [
+  {
+   "fieldname": "dosage",
+   "fieldtype": "Data",
+   "label": "Dosage"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "prescribed_by",
+   "fieldtype": "Data",
+   "label": "Prescribed By"
+  },
+  {
+   "fieldname": "column_break_oocn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "medicine_name",
+   "fieldtype": "Data",
+   "label": "Medicine Name"
+  },
+  {
+   "fieldname": "frequency",
+   "fieldtype": "Data",
+   "label": "Frequency"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "adherence_status",
+   "fieldtype": "Select",
+   "label": "Adherence Status",
+   "options": "Active\nCompleted\nMissed\nStopped"
+  },
+  {
+   "fieldname": "elder",
+   "fieldtype": "Link",
+   "label": "Elder",
+   "options": "Elder"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-05 18:39:21.163459",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Medication",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

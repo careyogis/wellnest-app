@@ -1,0 +1,73 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:GR-{YYYY}{MM}{DD}-{######}",
+ "creation": "2026-04-17 11:46:12.559647",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "elder",
+  "summary",
+  "risk_flags",
+  "column_break_zkqh",
+  "review_date",
+  "recommendations"
+ ],
+ "fields": [
+  {
+   "fieldname": "summary",
+   "fieldtype": "Small Text",
+   "label": "Summary"
+  },
+  {
+   "fieldname": "risk_flags",
+   "fieldtype": "Small Text",
+   "label": "Risk Flags"
+  },
+  {
+   "fieldname": "column_break_zkqh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "review_date",
+   "fieldtype": "Date",
+   "label": "Review Date"
+  },
+  {
+   "fieldname": "recommendations",
+   "fieldtype": "Small Text",
+   "label": "Recommendations"
+  },
+  {
+   "fieldname": "elder",
+   "fieldtype": "Link",
+   "label": "Elder",
+   "options": "Elder"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-05 18:37:58.279984",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Geriatric Review",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

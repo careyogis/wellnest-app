@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-04-17 15:03:28.167136",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "category",
+  "present",
+  "duration",
+  "column_break_diec",
+  "symptom"
+ ],
+ "fields": [
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "label": "Category",
+   "options": "\nEye\nENT\nDental\nCardio\nGI\nNeuro\nSkin\nMusculoskeletal\nOther"
+  },
+  {
+   "fieldname": "present",
+   "fieldtype": "Select",
+   "label": "Present",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Data",
+   "label": "Duration"
+  },
+  {
+   "fieldname": "column_break_diec",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "symptom",
+   "fieldtype": "Small Text",
+   "label": "Symptom"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-04-17 15:06:42.570220",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Assessment Complaint",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

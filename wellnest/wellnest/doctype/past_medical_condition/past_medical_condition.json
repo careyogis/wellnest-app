@@ -1,0 +1,54 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-04-17 15:07:13.128654",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "condition",
+  "medical_details",
+  "column_break_gzre",
+  "on_treatment",
+  "duration"
+ ],
+ "fields": [
+  {
+   "fieldname": "condition",
+   "fieldtype": "Data",
+   "label": "Condition"
+  },
+  {
+   "fieldname": "medical_details",
+   "fieldtype": "Small Text",
+   "label": "Medical Details"
+  },
+  {
+   "fieldname": "column_break_gzre",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "on_treatment",
+   "fieldtype": "Check",
+   "label": "On Treatment"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Data",
+   "label": "Duration"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-04-17 15:08:33.323561",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Past Medical Condition",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

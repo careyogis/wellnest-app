@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:VIT-{YYYY}{MM}{DD}-{######}",
+ "creation": "2026-04-17 11:37:41.718440",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "elder",
+  "value",
+  "column_break_uxds",
+  "type",
+  "unit"
+ ],
+ "fields": [
+  {
+   "fieldname": "column_break_uxds",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "label": "Type",
+   "options": "\nBP\nHeart Rate\nSpO2\nTemperature\nSugar\nWeight"
+  },
+  {
+   "fieldname": "value",
+   "fieldtype": "Data",
+   "label": "Value"
+  },
+  {
+   "fieldname": "unit",
+   "fieldtype": "Data",
+   "label": "Unit"
+  },
+  {
+   "fieldname": "elder",
+   "fieldtype": "Link",
+   "label": "Elder",
+   "options": "Elder"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-05 18:38:57.925347",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Vitals",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

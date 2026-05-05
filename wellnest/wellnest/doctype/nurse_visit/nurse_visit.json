@@ -1,0 +1,92 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:NV-{YYYY}{MM}{DD}-{######}",
+ "creation": "2026-04-17 11:41:23.731128",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "elder",
+  "visit_date",
+  "medication_check",
+  "concerns",
+  "column_break_imlj",
+  "nurse_id",
+  "vitals_summary",
+  "mobility_observation",
+  "next_actions"
+ ],
+ "fields": [
+  {
+   "fieldname": "visit_date",
+   "fieldtype": "Date",
+   "label": "Visit Date"
+  },
+  {
+   "fieldname": "medication_check",
+   "fieldtype": "Small Text",
+   "label": "Medication Check"
+  },
+  {
+   "fieldname": "concerns",
+   "fieldtype": "Small Text",
+   "label": "Concerns"
+  },
+  {
+   "fieldname": "column_break_imlj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "nurse_id",
+   "fieldtype": "Link",
+   "label": "Nurse ID",
+   "options": "Caregiver"
+  },
+  {
+   "fieldname": "vitals_summary",
+   "fieldtype": "Small Text",
+   "label": "Vitals Summary"
+  },
+  {
+   "fieldname": "mobility_observation",
+   "fieldtype": "Small Text",
+   "label": "Mobility Observation"
+  },
+  {
+   "fieldname": "next_actions",
+   "fieldtype": "Small Text",
+   "label": "Next Actions"
+  },
+  {
+   "fieldname": "elder",
+   "fieldtype": "Link",
+   "label": "Elder",
+   "options": "Elder"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-05 18:38:26.895983",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Nurse Visit",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

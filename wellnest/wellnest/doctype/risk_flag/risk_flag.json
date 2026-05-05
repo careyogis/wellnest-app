@@ -1,0 +1,81 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:RF-{YYYY}{MM}{DD}-{######}",
+ "creation": "2026-04-17 11:49:38.261834",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "elder",
+  "severity",
+  "created_at",
+  "resolved_at",
+  "column_break_tibr",
+  "flag_type",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "severity",
+   "fieldtype": "Select",
+   "label": "Severity",
+   "options": "\nLow\nMedium\nHigh"
+  },
+  {
+   "fieldname": "created_at",
+   "fieldtype": "Datetime",
+   "label": "Created At"
+  },
+  {
+   "fieldname": "resolved_at",
+   "fieldtype": "Datetime",
+   "label": "Resolved At"
+  },
+  {
+   "fieldname": "column_break_tibr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "flag_type",
+   "fieldtype": "Select",
+   "label": "Flag Type",
+   "options": "\nMedication\nVitals\nMobility\nGeneral"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "elder",
+   "fieldtype": "Link",
+   "label": "Elder",
+   "options": "Elder"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-05-05 18:35:18.386315",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Risk Flag",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
