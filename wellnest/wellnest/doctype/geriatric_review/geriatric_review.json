@@ -11,6 +11,7 @@
   "risk_flags",
   "column_break_zkqh",
   "review_date",
+  "reviewer_hpr",
   "recommendations"
  ],
  "fields": [
@@ -43,11 +44,16 @@
    "fieldtype": "Link",
    "label": "Elder",
    "options": "Elder"
+  },
+  {
+   "fieldname": "reviewer_hpr",
+   "fieldtype": "Data",
+   "label": "Reviewer HPR"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-05 18:37:58.279984",
+ "modified": "2026-05-06 19:12:30.076484",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Geriatric Review",

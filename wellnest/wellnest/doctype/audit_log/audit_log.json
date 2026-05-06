@@ -10,6 +10,7 @@
   "timestamp",
   "performed_by",
   "column_break_orpi",
+  "actor",
   "action",
   "details"
  ],
@@ -43,11 +44,16 @@
    "fieldname": "performed_by",
    "fieldtype": "Data",
    "label": "Performed By"
+  },
+  {
+   "fieldname": "actor",
+   "fieldtype": "Data",
+   "label": "Actor"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-05 18:31:48.012185",
+ "modified": "2026-05-06 19:20:53.388567",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Audit Log",

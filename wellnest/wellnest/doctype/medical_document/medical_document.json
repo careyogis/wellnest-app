@@ -7,9 +7,11 @@
  "engine": "InnoDB",
  "field_order": [
   "customer",
+  "loinc_code",
   "file",
   "column_break_zbfh",
-  "document_type"
+  "document_type",
+  "uploader"
  ],
  "fields": [
   {
@@ -31,12 +33,22 @@
    "fieldname": "document_type",
    "fieldtype": "Select",
    "label": "Document Type",
-   "options": "\nLab Report\nPrescription\nDischarge Summary\nRadiology\nCare Plan"
+   "options": "\nLab Report\nPrescription\nDischarge Summary\nRadiology\nCare Plan\nScan\nOther"
+  },
+  {
+   "fieldname": "loinc_code",
+   "fieldtype": "Data",
+   "label": "LOINC Code"
+  },
+  {
+   "fieldname": "uploader",
+   "fieldtype": "Data",
+   "label": "Uploader"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-05 18:33:07.231831",
+ "modified": "2026-05-06 19:18:38.827843",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Medical Document",

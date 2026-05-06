@@ -12,6 +12,7 @@
   "resolved_at",
   "column_break_tibr",
   "flag_type",
+  "status",
   "description"
  ],
  "fields": [
@@ -51,11 +52,17 @@
    "fieldtype": "Link",
    "label": "Elder",
    "options": "Elder"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nActive\nResolved\nMonitoring"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-05 18:35:18.386315",
+ "modified": "2026-05-06 19:13:32.564936",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Risk Flag",

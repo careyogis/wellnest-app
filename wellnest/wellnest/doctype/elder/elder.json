@@ -13,6 +13,7 @@
   "column_break_afjh",
   "full_name",
   "gender",
+  "mobile_no",
   "address"
  ],
  "fields": [
@@ -58,11 +59,16 @@
    "fieldtype": "Table",
    "label": "Emergency Contact",
    "options": "Emergency Contact"
+  },
+  {
+   "fieldname": "mobile_no",
+   "fieldtype": "Data",
+   "label": "Mobile No"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-04-22 16:18:02.084798",
+ "modified": "2026-05-06 18:57:48.026301",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Elder",

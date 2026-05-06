@@ -8,6 +8,7 @@
  "field_order": [
   "elder",
   "value",
+  "loinc_code",
   "column_break_uxds",
   "type",
   "unit"
@@ -38,11 +39,16 @@
    "fieldtype": "Link",
    "label": "Elder",
    "options": "Elder"
+  },
+  {
+   "fieldname": "loinc_code",
+   "fieldtype": "Data",
+   "label": "LOINC Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-05 18:38:57.925347",
+ "modified": "2026-05-06 19:07:58.180185",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Vitals",

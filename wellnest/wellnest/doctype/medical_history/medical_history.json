@@ -8,9 +8,12 @@
  "field_order": [
   "elder",
   "chronic",
+  "status",
   "notes",
   "column_break_hkol",
   "condition_name",
+  "icd_10_code",
+  "onset_date",
   "allergies"
  ],
  "fields": [
@@ -44,11 +47,27 @@
    "fieldtype": "Link",
    "label": "Elder",
    "options": "Elder"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nActive\nResolved\nChronic"
+  },
+  {
+   "fieldname": "icd_10_code",
+   "fieldtype": "Data",
+   "label": "ICD 10 Code"
+  },
+  {
+   "fieldname": "onset_date",
+   "fieldtype": "Date",
+   "label": "Onset Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-05 18:40:39.176531",
+ "modified": "2026-05-06 19:04:18.375861",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Medical History",

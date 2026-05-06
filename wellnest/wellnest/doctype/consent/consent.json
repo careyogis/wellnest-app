@@ -9,9 +9,13 @@
   "customer",
   "valid_from",
   "status",
+  "grantor",
+  "purpose",
   "column_break_bkzd",
   "role",
   "valid_to",
+  "grantee_type",
+  "grantee_name",
   "data_scope"
  ],
  "fields": [
@@ -30,7 +34,7 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "\nActive\nRevoked"
+   "options": "\nActive\nRevoked\nExpired"
   },
   {
    "fieldname": "column_break_bkzd",
@@ -52,11 +56,32 @@
    "fieldtype": "Table",
    "label": "Data Scope",
    "options": "Consent Data Scope"
+  },
+  {
+   "fieldname": "grantor",
+   "fieldtype": "Data",
+   "label": "Grantor"
+  },
+  {
+   "fieldname": "purpose",
+   "fieldtype": "Small Text",
+   "label": "Purpose"
+  },
+  {
+   "fieldname": "grantee_type",
+   "fieldtype": "Select",
+   "label": "Grantee Type",
+   "options": "\nDoctor\nHospital\nCaregiver\nFamily Member\nInsurance\nOther"
+  },
+  {
+   "fieldname": "grantee_name",
+   "fieldtype": "Data",
+   "label": "Grantee Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-05 18:32:43.984263",
+ "modified": "2026-05-06 18:58:29.882044",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Consent",
