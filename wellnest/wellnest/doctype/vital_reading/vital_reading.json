@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-05-08 12:25:18.148796",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "vital_type",
+  "unit",
+  "column_break_qnhs",
+  "value",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "vital_type",
+   "fieldtype": "Select",
+   "label": "Vital Type",
+   "options": "\nBP\nSPO2\nHeart Rate\nTemperature\nSugar\nWeight\nRespiratory Rate"
+  },
+  {
+   "fieldname": "unit",
+   "fieldtype": "Select",
+   "label": "Unit",
+   "options": "\nmmHg\n%\nbpm\n\u00b0C\nmg/dL\nkg\nbreaths/min"
+  },
+  {
+   "fieldname": "column_break_qnhs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "value",
+   "fieldtype": "Data",
+   "label": "Value"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-08 12:34:28.839534",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Vital Reading",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

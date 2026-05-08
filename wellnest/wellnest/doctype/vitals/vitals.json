@@ -7,32 +7,16 @@
  "engine": "InnoDB",
  "field_order": [
   "elder",
-  "value",
   "loinc_code",
+  "recorded_on",
+  "recorded_by",
   "column_break_uxds",
-  "type",
-  "unit"
+  "vital_reading"
  ],
  "fields": [
   {
    "fieldname": "column_break_uxds",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "type",
-   "fieldtype": "Select",
-   "label": "Type",
-   "options": "\nBP\nHeart Rate\nSpO2\nTemperature\nSugar\nWeight"
-  },
-  {
-   "fieldname": "value",
-   "fieldtype": "Data",
-   "label": "Value"
-  },
-  {
-   "fieldname": "unit",
-   "fieldtype": "Data",
-   "label": "Unit"
   },
   {
    "fieldname": "elder",
@@ -44,11 +28,28 @@
    "fieldname": "loinc_code",
    "fieldtype": "Data",
    "label": "LOINC Code"
+  },
+  {
+   "fieldname": "recorded_on",
+   "fieldtype": "Datetime",
+   "label": "Recorded On"
+  },
+  {
+   "fieldname": "vital_reading",
+   "fieldtype": "Table",
+   "label": "Vital Reading",
+   "options": "Vital Reading"
+  },
+  {
+   "fieldname": "recorded_by",
+   "fieldtype": "Link",
+   "label": "Recorded By",
+   "options": "Caregiver"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-06 19:07:58.180185",
+ "modified": "2026-05-08 12:42:18.355058",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Vitals",
