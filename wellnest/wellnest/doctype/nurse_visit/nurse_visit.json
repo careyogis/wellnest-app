@@ -6,7 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "elder",
+  "patient",
   "visit_date",
   "medication_check",
   "concerns",
@@ -58,15 +58,15 @@
    "label": "Next Actions"
   },
   {
-   "fieldname": "elder",
+   "fieldname": "patient",
    "fieldtype": "Link",
-   "label": "Elder",
-   "options": "Elder"
+   "label": "Patient",
+   "options": "Patient"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-05 18:38:26.895983",
+ "modified": "2026-05-14 14:59:26.157499",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Nurse Visit",

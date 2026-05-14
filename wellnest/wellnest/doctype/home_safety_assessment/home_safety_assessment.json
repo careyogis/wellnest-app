@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "basic_info_section",
-  "elder",
+  "patient",
   "column_break_vxwu",
   "assessment_date",
   "stairs_and_steps_section",
@@ -71,12 +71,6 @@
   "notes"
  ],
  "fields": [
-  {
-   "fieldname": "elder",
-   "fieldtype": "Link",
-   "label": "Elder",
-   "options": "Elder"
-  },
   {
    "fieldname": "steps_condition",
    "fieldtype": "Select",
@@ -423,11 +417,17 @@
    "fieldname": "pool_safety",
    "fieldtype": "Check",
    "label": "Pool Safety"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient",
+   "options": "Patient"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-05 18:31:09.978413",
+ "modified": "2026-05-14 14:46:24.544401",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Home Safety Assessment",

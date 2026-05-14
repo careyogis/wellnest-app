@@ -6,7 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "elder",
+  "patient",
   "column_break_dkkx",
   "assessment_date",
   "medication_behaviour_section",
@@ -58,12 +58,6 @@
   "care_plan"
  ],
  "fields": [
-  {
-   "fieldname": "elder",
-   "fieldtype": "Link",
-   "label": "Elder",
-   "options": "Elder"
-  },
   {
    "fieldname": "column_break_dkkx",
    "fieldtype": "Column Break"
@@ -318,11 +312,17 @@
    "fieldtype": "Table",
    "label": "Past Conditions",
    "options": "Past Medical Condition"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient",
+   "options": "Patient"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-05 18:41:34.720978",
+ "modified": "2026-05-14 14:44:56.924776",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Geriatric Assessment",

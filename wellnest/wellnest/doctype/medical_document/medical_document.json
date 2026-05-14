@@ -6,7 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "customer",
+  "patient",
   "loinc_code",
   "file",
   "column_break_zbfh",
@@ -14,12 +14,6 @@
   "uploader"
  ],
  "fields": [
-  {
-   "fieldname": "customer",
-   "fieldtype": "Link",
-   "label": "Elder",
-   "options": "Elder"
-  },
   {
    "fieldname": "file",
    "fieldtype": "Attach",
@@ -44,11 +38,17 @@
    "fieldname": "uploader",
    "fieldtype": "Data",
    "label": "Uploader"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient",
+   "options": "Patient"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-06 19:18:38.827843",
+ "modified": "2026-05-14 14:47:04.144237",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Medical Document",

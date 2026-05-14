@@ -6,7 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "elder",
+  "patient",
   "dosage",
   "start_date",
   "prescribed_by",
@@ -58,15 +58,15 @@
    "options": "Active\nCompleted\nMissed\nStopped"
   },
   {
-   "fieldname": "elder",
+   "fieldname": "patient",
    "fieldtype": "Link",
-   "label": "Elder",
-   "options": "Elder"
+   "label": "Patient",
+   "options": "Patient"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-05 18:39:21.163459",
+ "modified": "2026-05-14 14:43:49.716184",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Medication",

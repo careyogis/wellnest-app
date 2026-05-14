@@ -6,7 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "customer",
+  "patient",
   "timestamp",
   "performed_by",
   "column_break_orpi",
@@ -15,12 +15,6 @@
   "details"
  ],
  "fields": [
-  {
-   "fieldname": "customer",
-   "fieldtype": "Link",
-   "label": "Elder",
-   "options": "Elder"
-  },
   {
    "fieldname": "timestamp",
    "fieldtype": "Datetime",
@@ -49,11 +43,17 @@
    "fieldname": "actor",
    "fieldtype": "Data",
    "label": "Actor"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient",
+   "options": "Patient"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-06 19:20:53.388567",
+ "modified": "2026-05-14 14:48:18.357091",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Audit Log",

@@ -2,18 +2,18 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "field:full_name",
- "creation": "2026-04-17 13:13:28.191792",
+ "creation": "2026-05-14 14:35:15.561546",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "customer",
-  "date_of_birth",
   "abha_id",
-  "emergency_contact",
-  "column_break_afjh",
-  "full_name",
   "gender",
-  "mobile_no",
+  "emergency_contact",
+  "column_break_cpfu",
+  "full_name",
+  "date_of_birth",
+  "mobile",
   "address"
  ],
  "fields": [
@@ -24,12 +24,24 @@
    "options": "Customer"
   },
   {
-   "fieldname": "date_of_birth",
-   "fieldtype": "Date",
-   "label": "Date of Birth"
+   "fieldname": "abha_id",
+   "fieldtype": "Data",
+   "label": "ABHA ID"
   },
   {
-   "fieldname": "column_break_afjh",
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "Gender",
+   "options": "\nMale\nFemale\nOther"
+  },
+  {
+   "fieldname": "emergency_contact",
+   "fieldtype": "Table",
+   "label": "Emergency Contact",
+   "options": "Emergency Contact"
+  },
+  {
+   "fieldname": "column_break_cpfu",
    "fieldtype": "Column Break"
   },
   {
@@ -39,39 +51,27 @@
    "unique": 1
   },
   {
-   "fieldname": "gender",
-   "fieldtype": "Select",
-   "label": "Gender",
-   "options": "\nMale\nFemale\nOther"
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "label": "Date of Birth"
   },
   {
-   "fieldname": "abha_id",
+   "fieldname": "mobile",
    "fieldtype": "Data",
-   "label": "ABHA ID"
+   "label": "Mobile"
   },
   {
    "fieldname": "address",
    "fieldtype": "Small Text",
    "label": "Address"
-  },
-  {
-   "fieldname": "emergency_contact",
-   "fieldtype": "Table",
-   "label": "Emergency Contact",
-   "options": "Emergency Contact"
-  },
-  {
-   "fieldname": "mobile_no",
-   "fieldtype": "Data",
-   "label": "Mobile No"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-06 18:57:48.026301",
+ "modified": "2026-05-14 14:39:36.884101",
  "modified_by": "Administrator",
  "module": "WellNest",
- "name": "Elder",
+ "name": "Patient",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
@@ -90,6 +90,5 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
- "track_changes": 1
+ "states": []
 }

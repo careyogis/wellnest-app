@@ -6,7 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "elder",
+  "patient",
   "summary",
   "risk_flags",
   "column_break_zkqh",
@@ -40,20 +40,20 @@
    "label": "Recommendations"
   },
   {
-   "fieldname": "elder",
-   "fieldtype": "Link",
-   "label": "Elder",
-   "options": "Elder"
-  },
-  {
    "fieldname": "reviewer_hpr",
    "fieldtype": "Data",
    "label": "Reviewer HPR"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient",
+   "options": "Patient"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-06 19:12:30.076484",
+ "modified": "2026-05-14 14:45:44.311718",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Geriatric Review",

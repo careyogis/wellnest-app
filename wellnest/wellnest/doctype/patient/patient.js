@@ -1,20 +1,21 @@
 // Copyright (c) 2026, www.careyogis.com and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("Elder", {
+// frappe.ui.form.on("Patient", {
 // 	refresh(frm) {
 
 // 	},
 // });
-frappe.ui.form.on('Elder', {
+
+frappe.ui.form.on('Patient', {
     refresh(frm) {
 
         frm.add_custom_button('View Timeline', () => {
 
             frappe.call({
-                method: 'wellnest.wellnest.doctype.elder.elder.get_elder_timeline',
+                method: 'wellnest.wellnest.doctype.patient.patient.get_patient_timeline',
                 args: {
-                    elder: frm.doc.name
+                    patient: frm.doc.name
                 },
 
                 callback: function(r) {
@@ -244,12 +245,12 @@ frappe.ui.form.on('Elder', {
                     let html = `
                         <div style="padding: 10px;">
 
-                            <h2>Health Summary</h2>
+                            <h2>Patient Health Timeline</h2>
 
                             <p>
-                                Longitudinal elder care timeline view displaying
-                                recent vitals, visits, reviews, medical history,
-                                and risk indicators.
+                                Longitudinal patient care timeline displaying
+                                vitals, medical history, reviews,
+                                nurse observations, and risk indicators.
                             </p>
 
                             <hr>
@@ -281,7 +282,7 @@ frappe.ui.form.on('Elder', {
                     `;
 
                     let d = new frappe.ui.Dialog({
-                        title: 'Elder Timeline Summary',
+                        title: 'Patient Timeline Summary',
                         size: 'large',
                         fields: [
                             {

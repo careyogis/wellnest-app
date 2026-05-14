@@ -5,19 +5,20 @@ import frappe
 from frappe.model.document import Document
 
 
-class Elder(Document):
-	pass
+class Patient(Document):
+    pass
+
 
 @frappe.whitelist()
-def get_elder_timeline(elder):
+def get_patient_timeline(patient):
 
-    # -----------------------------
-    # Vitals Timeline
-    # -----------------------------
+    # -----------------------------------
+    # Vitals
+    # -----------------------------------
 
     vitals_docs = frappe.get_all(
         "Vitals",
-        filters={"elder": elder},
+        filters={"patient": patient},
         fields=[
             "name",
             "recorded_on",
@@ -39,13 +40,13 @@ def get_elder_timeline(elder):
             "vital_reading": vital_doc.vital_reading
         })
 
-    # -----------------------------
+    # -----------------------------------
     # Medical History
-    # -----------------------------
+    # -----------------------------------
 
     medical_history = frappe.get_all(
         "Medical History",
-        filters={"elder": elder},
+        filters={"patient": patient},
         fields=[
             "condition_name",
             "icd_10_code",
@@ -57,13 +58,13 @@ def get_elder_timeline(elder):
         ]
     )
 
-    # -----------------------------
+    # -----------------------------------
     # Risk Flags
-    # -----------------------------
+    # -----------------------------------
 
     risk_flags = frappe.get_all(
         "Risk Flag",
-        filters={"elder": elder},
+        filters={"patient": patient},
         fields=[
             "flag_type",
             "severity",
@@ -71,13 +72,13 @@ def get_elder_timeline(elder):
         ]
     )
 
-    # -----------------------------
+    # -----------------------------------
     # Nurse Visits
-    # -----------------------------
+    # -----------------------------------
 
     nurse_visits = frappe.get_all(
         "Nurse Visit",
-        filters={"elder": elder},
+        filters={"patient": patient},
         fields=[
             "visit_date",
             "nurse_id",
@@ -90,13 +91,13 @@ def get_elder_timeline(elder):
         limit_page_length=5
     )
 
-    # -----------------------------
+    # -----------------------------------
     # Geriatric Reviews
-    # -----------------------------
+    # -----------------------------------
 
     reviews = frappe.get_all(
         "Geriatric Review",
-        filters={"elder": elder},
+        filters={"patient": patient},
         fields=[
             "review_date",
             "summary"
@@ -104,10 +105,6 @@ def get_elder_timeline(elder):
         order_by="review_date desc",
         limit_page_length=5
     )
-
-    # -----------------------------
-    # Final Response
-    # -----------------------------
 
     return {
         "vitals": vitals,

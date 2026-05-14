@@ -6,7 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "customer",
+  "patient",
   "valid_from",
   "status",
   "grantor",
@@ -19,12 +19,6 @@
   "data_scope"
  ],
  "fields": [
-  {
-   "fieldname": "customer",
-   "fieldtype": "Link",
-   "label": "Elder",
-   "options": "Elder"
-  },
   {
    "fieldname": "valid_from",
    "fieldtype": "Date",
@@ -77,11 +71,17 @@
    "fieldname": "grantee_name",
    "fieldtype": "Data",
    "label": "Grantee Name"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient",
+   "options": "Patient"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-06 18:58:29.882044",
+ "modified": "2026-05-14 14:43:16.999146",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Consent",

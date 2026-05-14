@@ -6,7 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "elder",
+  "patient",
   "severity",
   "created_at",
   "resolved_at",
@@ -48,21 +48,21 @@
    "label": "Description"
   },
   {
-   "fieldname": "elder",
-   "fieldtype": "Link",
-   "label": "Elder",
-   "options": "Elder"
-  },
-  {
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
    "options": "\nActive\nResolved\nMonitoring"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient",
+   "options": "Patient"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-06 19:13:32.564936",
+ "modified": "2026-05-14 14:47:48.764682",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Risk Flag",

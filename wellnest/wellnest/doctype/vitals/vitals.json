@@ -6,7 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "elder",
+  "patient",
   "loinc_code",
   "recorded_on",
   "recorded_by",
@@ -17,12 +17,6 @@
   {
    "fieldname": "column_break_uxds",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "elder",
-   "fieldtype": "Link",
-   "label": "Elder",
-   "options": "Elder"
   },
   {
    "fieldname": "loinc_code",
@@ -45,11 +39,17 @@
    "fieldtype": "Link",
    "label": "Recorded By",
    "options": "Caregiver"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient",
+   "options": "Patient"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-08 12:42:18.355058",
+ "modified": "2026-05-14 14:40:39.614935",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Vitals",
