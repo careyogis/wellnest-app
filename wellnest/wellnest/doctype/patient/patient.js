@@ -7,6 +7,7 @@
 // 	},
 // });
 
+
 frappe.ui.form.on('Patient', {
     refresh(frm) {
 
@@ -22,7 +23,7 @@ frappe.ui.form.on('Patient', {
 
                     let data = r.message;
 
-                    // -----------------------------------
+                                        // -----------------------------------
                     // Vitals
                     // -----------------------------------
 
@@ -33,9 +34,10 @@ frappe.ui.form.on('Patient', {
                         vitals_html += `
                             <div style="
                                 border: 1px solid #ddd;
-                                padding: 10px;
-                                margin-bottom: 10px;
-                                border-radius: 6px;
+                                padding: 14px;
+                                margin-bottom: 14px;
+                                border-radius: 8px;
+                                background: #fafafa;
                             ">
 
                                 <p>
@@ -55,7 +57,21 @@ frappe.ui.form.on('Patient', {
 
                             vitals_html += `
                                 <p>
-                                    • <b>${reading.vital_type}</b> :
+                                    • 
+                                    <span
+                                        class="view-vital-trend"
+                                        data-vital="${reading.vital_type}"
+                                        style="
+                                            color: #3366cc;
+                                            cursor: pointer;
+                                            font-weight: bold;
+                                            text-decoration: underline;
+                                        "
+                                    >
+                                        ${reading.vital_type}
+                                    </span>
+
+                                    :
                                     ${reading.value || '-'}
                                     ${reading.unit || ''}
                                 </p>
@@ -67,7 +83,7 @@ frappe.ui.form.on('Patient', {
                             </div>
                         `;
                     });
-
+                    
                     // -----------------------------------
                     // Medical History
                     // -----------------------------------
@@ -79,9 +95,10 @@ frappe.ui.form.on('Patient', {
                         history_html += `
                             <div style="
                                 border: 1px solid #ddd;
-                                padding: 10px;
-                                margin-bottom: 10px;
-                                border-radius: 6px;
+                                padding: 14px;
+                                margin-bottom: 14px;
+                                border-radius: 8px;
+                                background: #fafafa;
                             ">
 
                                 <p>
@@ -134,9 +151,10 @@ frappe.ui.form.on('Patient', {
                         risk_html += `
                             <div style="
                                 border: 1px solid #ddd;
-                                padding: 10px;
-                                margin-bottom: 10px;
-                                border-radius: 6px;
+                                padding: 14px;
+                                margin-bottom: 14px;
+                                border-radius: 8px;
+                                background: #fafafa;
                             ">
 
                                 <p>
@@ -154,6 +172,21 @@ frappe.ui.form.on('Patient', {
                                     ${risk.status || '-'}
                                 </p>
 
+                                <p>
+                                    <b>Description:</b>
+                                    ${risk.description || '-'}
+                                </p>
+
+                                <p>
+                                    <b>Created At:</b>
+                                    ${risk.created_at || '-'}
+                                </p>
+
+                                <p>
+                                    <b>Resolved At:</b>
+                                    ${risk.resolved_at || '-'}
+                                </p>
+
                             </div>
                         `;
                     });
@@ -169,9 +202,10 @@ frappe.ui.form.on('Patient', {
                         visit_html += `
                             <div style="
                                 border: 1px solid #ddd;
-                                padding: 10px;
-                                margin-bottom: 10px;
-                                border-radius: 6px;
+                                padding: 14px;
+                                margin-bottom: 14px;
+                                border-radius: 8px;
+                                background: #fafafa;
                             ">
 
                                 <p>
@@ -219,9 +253,10 @@ frappe.ui.form.on('Patient', {
                         review_html += `
                             <div style="
                                 border: 1px solid #ddd;
-                                padding: 10px;
-                                margin-bottom: 10px;
-                                border-radius: 6px;
+                                padding: 14px;
+                                margin-bottom: 14px;
+                                border-radius: 8px;
+                                background: #fafafa;
                             ">
 
                                 <p>
@@ -230,8 +265,149 @@ frappe.ui.form.on('Patient', {
                                 </p>
 
                                 <p>
+                                    <b>Reviewer HPR:</b>
+                                    ${r.reviewer_hpr || '-'}
+                                </p>
+
+                                <p>
                                     <b>Summary:</b>
                                     ${r.summary || '-'}
+                                </p>
+
+                                <p>
+                                    <b>Recommendations:</b>
+                                    ${r.recommendations || '-'}
+                                </p>
+
+                                <p>
+                                    <b>Risk Flags:</b>
+                                    ${r.risk_flags || '-'}
+                                </p>
+
+                            </div>
+                        `;
+                    });
+
+                    // -----------------------------------
+                    // Medications
+                    // -----------------------------------
+
+                    let medication_html = '';
+
+                    data.medications.forEach(med => {
+
+                        medication_html += `
+                            <div style="
+                                border: 1px solid #ddd;
+                                padding: 14px;
+                                margin-bottom: 14px;
+                                border-radius: 8px;
+                                background: #fafafa;
+                            ">
+
+                                <p>
+                                    <b>Prescribed By:</b>
+                                    ${med.prescribed_by || '-'}
+                                </p>
+
+                                <p>
+                                    <b>Adherence Status:</b>
+                                    ${med.adherence_status || '-'}
+                                </p>
+
+                                <p>
+                                    <b>Notes:</b>
+                                    ${med.notes || '-'}
+                                </p>
+
+                                <p>
+                                    <b>Created On:</b>
+                                    ${med.creation || '-'}
+                                </p>
+
+                                <hr>
+
+                                <h4>Medicines</h4>
+                        `;
+
+                        (med.medication_items || []).forEach(item => {
+
+                            medication_html += `
+                                <div style="
+                                    margin-bottom: 10px;
+                                    padding-left: 10px;
+                                ">
+
+                                    <p>
+                                        • <b>${item.medicine_name || '-'}</b>
+                                    </p>
+
+                                    <p>
+                                        Dosage:
+                                        ${item.dosage || '-'}
+                                    </p>
+
+                                    <p>
+                                        Frequency:
+                                        ${item.frequency || '-'}
+                                    </p>
+
+                                    <p>
+                                        Start Date:
+                                        ${item.start_date || '-'}
+                                    </p>
+
+                                    <p>
+                                        End Date:
+                                        ${item.end_date || '-'}
+                                    </p>
+
+                                </div>
+                            `;
+                        });
+
+                        medication_html += `
+                            </div>
+                        `;
+                    });
+
+                    // -----------------------------------
+                    // Medical Documents
+                    // -----------------------------------
+
+                    let document_html = '';
+
+                    data.medical_documents.forEach(doc => {
+
+                        document_html += `
+                            <div style="
+                                border: 1px solid #ddd;
+                                padding: 14px;
+                                margin-bottom: 14px;
+                                border-radius: 8px;
+                                background: #fafafa;
+                            ">
+
+                                <p>
+                                    <b>Document Type:</b>
+                                    ${doc.document_type || '-'}
+                                </p>
+
+                                <p>
+                                    <b>LOINC Code:</b>
+                                    ${doc.loinc_code || '-'}
+                                </p>
+
+                                <p>
+                                    <b>Uploader:</b>
+                                    ${doc.uploader || '-'}
+                                </p>
+
+                                <p>
+                                    <b>File:</b>
+                                    <a href="${doc.file}" target="_blank">
+                                        View Document
+                                    </a>
                                 </p>
 
                             </div>
@@ -243,14 +419,19 @@ frappe.ui.form.on('Patient', {
                     // -----------------------------------
 
                     let html = `
-                        <div style="padding: 10px;">
+                        <div style="
+                            padding: 15px;
+                            max-height: 80vh;
+                            overflow-y: auto;
+                        ">
 
                             <h2>Patient Health Timeline</h2>
 
                             <p>
                                 Longitudinal patient care timeline displaying
-                                vitals, medical history, reviews,
-                                nurse observations, and risk indicators.
+                                vitals, medical history, medications,
+                                nurse observations, reviews,
+                                documents, and risk indicators.
                             </p>
 
                             <hr>
@@ -262,6 +443,11 @@ frappe.ui.form.on('Patient', {
 
                             <h3>Medical History</h3>
                             ${history_html || '<p>No medical history found.</p>'}
+
+                            <hr>
+
+                            <h3>Medications</h3>
+                            ${medication_html || '<p>No medications found.</p>'}
 
                             <hr>
 
@@ -278,12 +464,18 @@ frappe.ui.form.on('Patient', {
                             <h3>Geriatric Reviews</h3>
                             ${review_html || '<p>No reviews found.</p>'}
 
+                            <hr>
+
+                            <h3>Medical Documents</h3>
+                            ${document_html || '<p>No documents found.</p>'}
+
                         </div>
                     `;
 
                     let d = new frappe.ui.Dialog({
                         title: 'Patient Timeline Summary',
-                        size: 'large',
+                        size: 'extra-large',
+                        minimizable: true,
                         fields: [
                             {
                                 fieldtype: 'HTML',
@@ -295,6 +487,82 @@ frappe.ui.form.on('Patient', {
                     d.fields_dict.timeline_html.$wrapper.html(html);
 
                     d.show();
+
+                    d.$wrapper.on('click', '.view-vital-trend', function() {
+
+                        let vital_type = $(this).data('vital');
+
+                        frappe.call({
+                            method: 'wellnest.wellnest.doctype.patient.patient.get_vital_trend',
+
+                            args: {
+                                patient: frm.doc.name,
+                                vital_type: vital_type
+                            },
+
+                            callback: function(r) {
+
+                                let trend_html = '';
+
+                                (r.message || []).forEach(t => {
+
+                                    trend_html += `
+                                        <div style="
+                                            border: 1px solid #ddd;
+                                            padding: 12px;
+                                            margin-bottom: 10px;
+                                            border-radius: 6px;
+                                            background: #fafafa;
+                                        ">
+                                            <p>
+                                                <b>Date:</b>
+                                                ${t.date || '-'}
+                                            </p>
+
+                                            <p>
+                                                <b>Value:</b>
+                                                    ${t.value || '-'}
+                                                    ${t.unit || ''}
+                                            </p>
+
+                                            <p>
+                                                <b>Change:</b>
+                                                    ${t.change || '-'}
+                                            </p>
+                                            </div>
+                                    `;
+                                });
+
+                                let trend_dialog = new frappe.ui.Dialog({
+                                    title: `${vital_type} Trend`,
+                                    size: 'large',
+                                    fields: [
+                                        {
+                                            fieldtype: 'HTML',
+                                            fieldname: 'trend_html'
+                                        }
+                                    ]
+                                });
+
+                                trend_dialog.fields_dict.trend_html.$wrapper.html(`
+                                    <div style="
+                                        padding: 15px;
+                                        max-height: 70vh;
+                                        overflow-y: auto;
+                                    ">
+                                        <h3>${vital_type} Changes Over Time</h3>
+
+                                        <hr>
+
+                                        ${trend_html || '<p>No trend data found.</p>'}
+                                    </div>
+                                `);
+
+                                trend_dialog.show();
+                            }
+                        });
+
+                    });
                 }
             });
 

@@ -14,7 +14,8 @@
   "full_name",
   "date_of_birth",
   "mobile",
-  "address"
+  "address",
+  "ice"
  ],
  "fields": [
   {
@@ -64,11 +65,16 @@
    "fieldname": "address",
    "fieldtype": "Small Text",
    "label": "Address"
+  },
+  {
+   "fieldname": "ice",
+   "fieldtype": "Small Text",
+   "label": "ICE (In case of Emergency)"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-14 14:39:36.884101",
+ "modified": "2026-05-19 15:13:40.170967",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Patient",

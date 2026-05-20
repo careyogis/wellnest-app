@@ -7,26 +7,13 @@
  "engine": "InnoDB",
  "field_order": [
   "patient",
-  "dosage",
-  "start_date",
   "prescribed_by",
+  "notes",
   "column_break_oocn",
-  "medicine_name",
-  "frequency",
-  "end_date",
-  "adherence_status"
+  "adherence_status",
+  "medication_items"
  ],
  "fields": [
-  {
-   "fieldname": "dosage",
-   "fieldtype": "Data",
-   "label": "Dosage"
-  },
-  {
-   "fieldname": "start_date",
-   "fieldtype": "Date",
-   "label": "Start Date"
-  },
   {
    "fieldname": "prescribed_by",
    "fieldtype": "Data",
@@ -35,21 +22,6 @@
   {
    "fieldname": "column_break_oocn",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "medicine_name",
-   "fieldtype": "Data",
-   "label": "Medicine Name"
-  },
-  {
-   "fieldname": "frequency",
-   "fieldtype": "Data",
-   "label": "Frequency"
-  },
-  {
-   "fieldname": "end_date",
-   "fieldtype": "Date",
-   "label": "End Date"
   },
   {
    "fieldname": "adherence_status",
@@ -62,11 +34,22 @@
    "fieldtype": "Link",
    "label": "Patient",
    "options": "Patient"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "medication_items",
+   "fieldtype": "Table",
+   "label": "Medication Items",
+   "options": "Medication Item"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-14 14:43:49.716184",
+ "modified": "2026-05-20 11:40:10.629211",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Medication",
