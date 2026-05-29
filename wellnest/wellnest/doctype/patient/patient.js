@@ -487,7 +487,6 @@ frappe.ui.form.on('Patient', {
                     d.fields_dict.timeline_html.$wrapper.html(html);
 
                     d.show();
-
                     d.$wrapper.on('click', '.view-vital-trend', function() {
 
                         let vital_type = $(this).data('vital');
@@ -502,9 +501,15 @@ frappe.ui.form.on('Patient', {
 
                             callback: function(r) {
 
+                                let trend_data = r.message.trend_data || [];
+
+                                let normal_range = r.message.normal_range || '-';
+
+                                let observation = r.message.observation || '-';
+
                                 let trend_html = '';
 
-                                (r.message || []).forEach(t => {
+                                trend_data.forEach(t => {
 
                                     trend_html += `
                                         <div style="
@@ -514,6 +519,7 @@ frappe.ui.form.on('Patient', {
                                             border-radius: 6px;
                                             background: #fafafa;
                                         ">
+
                                             <p>
                                                 <b>Date:</b>
                                                 ${t.date || '-'}
@@ -521,15 +527,16 @@ frappe.ui.form.on('Patient', {
 
                                             <p>
                                                 <b>Value:</b>
-                                                    ${t.value || '-'}
-                                                    ${t.unit || ''}
+                                                ${t.value || '-'}
+                                                ${t.unit || ''}
                                             </p>
 
                                             <p>
                                                 <b>Change:</b>
-                                                    ${t.change || '-'}
+                                                ${t.change || '-'}
                                             </p>
-                                            </div>
+
+                                        </div>
                                     `;
                                 });
 
@@ -550,23 +557,82 @@ frappe.ui.form.on('Patient', {
                                         max-height: 70vh;
                                         overflow-y: auto;
                                     ">
+
                                         <h3>${vital_type} Changes Over Time</h3>
 
                                         <hr>
 
+                                        <div
+                                            id="vital-chart"
+                                            style="
+                                                height: 300px;
+                                                margin-bottom: 25px;
+                                            "
+                                        ></div>
+
                                         ${trend_html || '<p>No trend data found.</p>'}
+
+                                        <hr>
+
+                                        <p>
+                                            <b>Normal Range:</b>
+                                            ${normal_range}
+                                        </p>
+
+                                        <p>
+                                            <b>Observation:</b>
+                                            ${observation}
+                                        </p>
+
                                     </div>
                                 `);
 
                                 trend_dialog.show();
+
+                                // =====================================
+                                // Render Chart
+                                // =====================================
+
+                                let labels = trend_data.map(d => d.date);
+
+                                            let values = trend_data.map(d => d.chart_value);
+
+                                            // Get chart container 
+                                            let chart_container = trend_dialog.fields_dict.trend_html.$wrapper.find('#vital-chart')[0];
+
+                                            new frappe.Chart(chart_container, {
+                                    title: `${vital_type} Trend`,
+
+                                    data: {
+                                        labels: labels,
+
+                                        datasets: [
+                                            {
+                                                name: vital_type,
+                                                values: values
+                                            }
+                                        ]
+                                    },
+
+                                    type: 'line',
+
+                                    height: 280,
+
+                                    lineOptions: {
+                                        regionFill: 1
+                                    }
+                                });
+
                             }
                         });
 
                     });
+
                 }
             });
 
         });
 
     }
+
 });
