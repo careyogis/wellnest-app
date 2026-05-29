@@ -610,6 +610,28 @@ frappe.ui.form.on('Patient', {
                                             {
                                                 name: vital_type,
                                                 values: values
+                                            },
+
+                                            {
+                                                name: 'Normal Range',
+                                                values: labels.map(() => {
+
+                                                    if (vital_type === 'BP') return 120;
+
+                                                    if (vital_type === 'SPO2') return 95;
+
+                                                    if (vital_type === 'Heart Rate') return 60;
+
+                                                    if (vital_type === 'Temperature') return 98;
+
+                                                    if (vital_type === 'Sugar') return 140;
+
+                                                    if (vital_type === 'Weight') return 75;
+
+                                                    if (vital_type === 'Respiratory Rate') return 16;
+
+                                                    return 0;
+                                                })
                                             }
                                         ]
                                     },
