@@ -1,6 +1,6 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "autoname": "autoincrement",
  "creation": "2026-07-09 19:15:09.136261",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -44,12 +44,13 @@
   "super_specialty",
   "registration_valid_upto",
   "council_name",
-  "emergency_charge",
-  "normal_charge",
   "account_status",
   "doctor_type",
   "abdm_council_code",
   "abdm_specialty_code",
+  "currency",
+  "normal_charge",
+  "emergency_charge",
   "is_active"
  ],
  "fields": [
@@ -195,12 +196,14 @@
   {
    "fieldname": "emergency_charge",
    "fieldtype": "Currency",
-   "label": "Emergency Charge"
+   "label": "Emergency Charge",
+   "options": "currency"
   },
   {
    "fieldname": "normal_charge",
    "fieldtype": "Currency",
-   "label": "Normal Charge"
+   "label": "Normal Charge",
+   "options": "currency"
   },
   {
    "fieldname": "languages_known",
@@ -288,16 +291,24 @@
   {
    "fieldname": "column_break_rqub",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "INR",
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
   }
  ],
  "grid_page_length": 50,
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-09 22:52:25.340217",
+ "modified": "2026-07-10 00:32:48.159126",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
+ "naming_rule": "Autoincrement",
  "owner": "Administrator",
  "permissions": [
   {

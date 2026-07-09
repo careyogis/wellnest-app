@@ -1,6 +1,6 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "autoname": "autoincrement",
  "creation": "2026-07-09 19:52:34.849109",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -101,10 +101,11 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-09 19:59:52.360423",
+ "modified": "2026-07-10 00:36:57.688024",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner Hospital Map",
+ "naming_rule": "Autoincrement",
  "owner": "Administrator",
  "permissions": [
   {

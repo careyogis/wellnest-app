@@ -1,6 +1,6 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "autoname": "autoincrement",
  "creation": "2026-07-09 20:00:34.507363",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -82,10 +82,11 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-09 20:20:37.243666",
+ "modified": "2026-07-10 00:35:41.439932",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Hospital Service",
+ "naming_rule": "Autoincrement",
  "owner": "Administrator",
  "permissions": [
   {

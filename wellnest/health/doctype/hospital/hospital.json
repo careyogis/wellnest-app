@@ -1,6 +1,6 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "autoname": "autoincrement",
  "creation": "2026-07-09 17:21:41.629735",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -235,10 +235,11 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-09 20:17:17.458153",
+ "modified": "2026-07-10 00:33:53.073959",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Hospital",
+ "naming_rule": "Autoincrement",
  "owner": "randhirk@careyogis.com",
  "permissions": [
   {
