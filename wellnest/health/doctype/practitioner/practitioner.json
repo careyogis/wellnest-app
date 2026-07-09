@@ -1,0 +1,321 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-09 19:15:09.136261",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "identifiers_section",
+  "hpr_id",
+  "column_break_dxqn",
+  "abha_id",
+  "personal_info_section",
+  "title",
+  "first_name",
+  "middle_name",
+  "last_name",
+  "gender",
+  "column_break_oipd",
+  "dob",
+  "nationality",
+  "email",
+  "mobile1",
+  "photo",
+  "languages_known",
+  "address_section",
+  "address_line1",
+  "city",
+  "column_break_rqub",
+  "state",
+  "pincode",
+  "section_break_bzxs",
+  "qualification",
+  "designation",
+  "registration_no",
+  "appointment_letter_ref",
+  "experience_years",
+  "digital_signature_url",
+  "professional_summary",
+  "primary_facility",
+  "telemedicine_certified",
+  "hpr_verified",
+  "column_break_awmb",
+  "additional_qualification",
+  "super_specialty",
+  "registration_valid_upto",
+  "council_name",
+  "emergency_charge",
+  "normal_charge",
+  "account_status",
+  "doctor_type",
+  "abdm_council_code",
+  "abdm_specialty_code",
+  "is_active"
+ ],
+ "fields": [
+  {
+   "fieldname": "hpr_id",
+   "fieldtype": "Data",
+   "label": "HPR Id"
+  },
+  {
+   "fieldname": "abha_id",
+   "fieldtype": "Data",
+   "label": "ABHA Id"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "fieldname": "first_name",
+   "fieldtype": "Data",
+   "label": "First Name"
+  },
+  {
+   "fieldname": "middle_name",
+   "fieldtype": "Data",
+   "label": "Middle Name"
+  },
+  {
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "label": "Last Name"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "Gender",
+   "options": "Female\nMale"
+  },
+  {
+   "fieldname": "dob",
+   "fieldtype": "Date",
+   "label": "DOB"
+  },
+  {
+   "fieldname": "nationality",
+   "fieldtype": "Data",
+   "label": "Nationality"
+  },
+  {
+   "fieldname": "qualification",
+   "fieldtype": "Data",
+   "label": "Qualification"
+  },
+  {
+   "fieldname": "additional_qualification",
+   "fieldtype": "Data",
+   "label": "Additional Qualification"
+  },
+  {
+   "fieldname": "super_specialty",
+   "fieldtype": "Data",
+   "label": "Super Specialty"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Data",
+   "label": "Designation"
+  },
+  {
+   "fieldname": "council_name",
+   "fieldtype": "Data",
+   "label": "Council Name"
+  },
+  {
+   "fieldname": "registration_no",
+   "fieldtype": "Data",
+   "label": "Registration No"
+  },
+  {
+   "fieldname": "registration_valid_upto",
+   "fieldtype": "Date",
+   "label": "Registration Valid Upto"
+  },
+  {
+   "fieldname": "appointment_letter_ref",
+   "fieldtype": "Data",
+   "label": "Appointment Letter Ref"
+  },
+  {
+   "fieldname": "mobile1",
+   "fieldtype": "Data",
+   "label": "Mobile1"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "address_line1",
+   "fieldtype": "Data",
+   "label": "Address Line1"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Link",
+   "label": "City",
+   "options": "City"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Link",
+   "label": "State",
+   "options": "State"
+  },
+  {
+   "fieldname": "pincode",
+   "fieldtype": "Data",
+   "label": "Pincode"
+  },
+  {
+   "fieldname": "digital_signature_url",
+   "fieldtype": "Data",
+   "label": "Digital Signature Url"
+  },
+  {
+   "fieldname": "experience_years",
+   "fieldtype": "Int",
+   "label": "Experience Years"
+  },
+  {
+   "fieldname": "professional_summary",
+   "fieldtype": "Small Text",
+   "label": "Professional Summary"
+  },
+  {
+   "default": "0",
+   "fieldname": "telemedicine_certified",
+   "fieldtype": "Check",
+   "label": "Telemedicine Certified?"
+  },
+  {
+   "fieldname": "emergency_charge",
+   "fieldtype": "Currency",
+   "label": "Emergency Charge"
+  },
+  {
+   "fieldname": "normal_charge",
+   "fieldtype": "Currency",
+   "label": "Normal Charge"
+  },
+  {
+   "fieldname": "languages_known",
+   "fieldtype": "Table",
+   "label": "Languages Known",
+   "options": "Spoken Language Option"
+  },
+  {
+   "fieldname": "account_status",
+   "fieldtype": "Select",
+   "label": "Account Status",
+   "options": "active\ninactive\nsuspended\ncancel\npending_verification"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active?"
+  },
+  {
+   "fieldname": "doctor_type",
+   "fieldtype": "Select",
+   "label": "Doctor Type",
+   "options": "Doctor"
+  },
+  {
+   "default": "0",
+   "fieldname": "hpr_verified",
+   "fieldtype": "Check",
+   "label": "HPR Verified?"
+  },
+  {
+   "fieldname": "abdm_council_code",
+   "fieldtype": "Data",
+   "label": "ABDM Council Code"
+  },
+  {
+   "fieldname": "abdm_specialty_code",
+   "fieldtype": "Data",
+   "label": "ABDM Specialty Code"
+  },
+  {
+   "fieldname": "column_break_dxqn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_bzxs",
+   "fieldtype": "Section Break",
+   "label": "Professional Info"
+  },
+  {
+   "fieldname": "column_break_awmb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "identifiers_section",
+   "fieldtype": "Section Break",
+   "label": "Identifiers"
+  },
+  {
+   "fieldname": "primary_facility",
+   "fieldtype": "Link",
+   "label": "Primary Facility",
+   "options": "Hospital"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "label": "Photo"
+  },
+  {
+   "fieldname": "personal_info_section",
+   "fieldtype": "Section Break",
+   "label": "Personal Info"
+  },
+  {
+   "fieldname": "column_break_oipd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "address_section",
+   "fieldtype": "Section Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "column_break_rqub",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "image_field": "photo",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-09 22:52:25.340217",
+ "modified_by": "Administrator",
+ "module": "Health",
+ "name": "Practitioner",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

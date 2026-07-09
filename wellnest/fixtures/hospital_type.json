@@ -1,0 +1,121 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:29:25.613387",
+  "name": "HospitalorClinic",
+  "type_name": "HospitalorClinic"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:29:33.658455",
+  "name": "DistrictHospital",
+  "type_name": "DistrictHospital"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:29:46.606960",
+  "name": "SubDistrictHospital",
+  "type_name": "SubDistrictHospital"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:29:53.859547",
+  "name": "CommunityHealthCentre",
+  "type_name": "CommunityHealthCentre"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:30:06.171100",
+  "name": "PrimaryHealthCentre",
+  "type_name": "PrimaryHealthCentre"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:30:16.254157",
+  "name": "WellnessCenter",
+  "type_name": "WellnessCenter"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:30:24.543041",
+  "name": "CancerCentre",
+  "type_name": "CancerCentre"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:30:35.597060",
+  "name": "HeartCentre",
+  "type_name": "HeartCentre"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:30:49.447432",
+  "name": "TraumaCentre",
+  "type_name": "TraumaCentre"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:30:58.762320",
+  "name": "MedicalCollege",
+  "type_name": "MedicalCollege"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:31:11.213141",
+  "name": "NursingHome",
+  "type_name": "NursingHome"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:31:19.538636",
+  "name": "PolyclinicClinic",
+  "type_name": "PolyclinicClinic"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:31:26.551566",
+  "name": "AyushHospital",
+  "type_name": "AyushHospital"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:31:33.118046",
+  "name": "MaternityHome",
+  "type_name": "MaternityHome"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:31:41.205703",
+  "name": "DiagnosticCentre",
+  "type_name": "DiagnosticCentre"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:31:55.003508",
+  "name": "BloodBank",
+  "type_name": "BloodBank"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Hospital Type",
+  "modified": "2026-07-09 20:32:06.005877",
+  "name": "MaritimeMedicalUnit",
+  "type_name": "MaritimeMedicalUnit"
+ }
+]

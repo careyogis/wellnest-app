@@ -1,0 +1,51 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Association Type",
+  "modified": "2026-07-09 20:26:22.871993",
+  "name": "Fulltime",
+  "type_name": "Fulltime"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Association Type",
+  "modified": "2026-07-09 20:26:42.571556",
+  "name": "Parttime",
+  "type_name": "Parttime"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Association Type",
+  "modified": "2026-07-09 20:26:57.738327",
+  "name": "Visiting",
+  "type_name": "Visiting"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Association Type",
+  "modified": "2026-07-09 20:27:11.953432",
+  "name": "Honorary",
+  "type_name": "Honorary"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Association Type",
+  "modified": "2026-07-09 20:27:23.521003",
+  "name": "Contractual",
+  "type_name": "Contractual"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Association Type",
+  "modified": "2026-07-09 20:27:39.254008",
+  "name": "Locum",
+  "type_name": "Locum"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Association Type",
+  "modified": "2026-07-09 20:27:47.701551",
+  "name": "Telemedicine-only",
+  "type_name": "Telemedicine-only"
+ }
+]

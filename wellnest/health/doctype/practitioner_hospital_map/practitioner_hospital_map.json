@@ -1,0 +1,128 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-09 19:52:34.849109",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "practitioner",
+  "hospital",
+  "association_type",
+  "department",
+  "designation_at_facility",
+  "valid_from",
+  "valid_to",
+  "is_primary",
+  "appointment_letter_url",
+  "consulting_days",
+  "consulting_hours",
+  "telemedicine_available",
+  "notes",
+  "is_active"
+ ],
+ "fields": [
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Practitioner",
+   "options": "Practitioner"
+  },
+  {
+   "fieldname": "hospital",
+   "fieldtype": "Link",
+   "label": "Hospital",
+   "options": "Hospital"
+  },
+  {
+   "fieldname": "association_type",
+   "fieldtype": "Select",
+   "label": "Association Type",
+   "options": "Full time\nVisiting"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department"
+  },
+  {
+   "fieldname": "designation_at_facility",
+   "fieldtype": "Data",
+   "label": "Designation at Facility"
+  },
+  {
+   "fieldname": "valid_from",
+   "fieldtype": "Date",
+   "label": "Valid From"
+  },
+  {
+   "fieldname": "valid_to",
+   "fieldtype": "Date",
+   "label": "Valid To"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_primary",
+   "fieldtype": "Check",
+   "label": "Is Primary?"
+  },
+  {
+   "fieldname": "appointment_letter_url",
+   "fieldtype": "Data",
+   "label": "Appointment Letter Url"
+  },
+  {
+   "fieldname": "consulting_days",
+   "fieldtype": "Data",
+   "label": "Consulting Days"
+  },
+  {
+   "fieldname": "consulting_hours",
+   "fieldtype": "Data",
+   "label": "Consulting Hours"
+  },
+  {
+   "default": "0",
+   "fieldname": "telemedicine_available",
+   "fieldtype": "Check",
+   "label": "Telemedicine Available?"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Data",
+   "label": "Notes"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active?"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-09 19:59:52.360423",
+ "modified_by": "Administrator",
+ "module": "Health",
+ "name": "Practitioner Hospital Map",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
