@@ -281,7 +281,7 @@ async function apiCall() {
     }
   } catch (error) {
     console.error('API call failed:', error);
-    dashboard = null;
+    dashboard.data = null;
   }
 }
 

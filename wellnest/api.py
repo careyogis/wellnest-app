@@ -383,7 +383,7 @@ def checkout(record):
     )
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_customer_for_user(user):
     # This API returns the Customer which the given User is associated withi.
     # Can be used by external apps (like phone app) to get customer for the logged in user
@@ -418,6 +418,56 @@ def get_customer_for_user(user):
         customerDocs.append(frappe.get_doc("Customer", customers[0].name))
 
     return customerDocs
+
+
+@frappe.whitelist(allow_guest=True)
+def lookup_caregiver(phone):
+    """
+    Checks if a caregiver user exists for the given mobile number.
+    Returns success/failure without sending OTP.
+    """
+
+    payload = {
+        "success": False,
+        "message": "No user found with this number",
+    }
+
+    user = frappe.db.get("User", {"mobile_no": phone})
+
+    if user:
+        payload["success"] = True
+        payload["message"] = "User found"
+
+    return payload
+
+@frappe.whitelist(allow_guest=True)
+def login_with_phone(phone):
+    """
+    Logs a user into Frappe after Firebase OTP has already been verified.
+    """
+
+    user = frappe.db.get_value(
+        "User",
+        {"mobile_no": phone},
+        "name"
+    )
+
+    if not user:
+        frappe.throw("User not found")
+
+    frappe.set_user(user)
+
+    from frappe.auth import LoginManager
+
+    login_manager = LoginManager()
+
+    login_manager.user = user
+    login_manager.post_login()
+
+    return {
+        "success": True,
+        "user": user
+    }
 
 
 @frappe.whitelist(allow_guest=True)
