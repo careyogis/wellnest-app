@@ -1,6 +1,6 @@
 {
  "actions": [],
- "autoname": "autoincrement",
+ "autoname": "Dr-.######",
  "creation": "2026-07-09 19:15:09.136261",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -19,7 +19,7 @@
   "dob",
   "nationality",
   "email",
-  "mobile1",
+  "mobile",
   "photo",
   "languages_known",
   "address_section",
@@ -39,6 +39,7 @@
   "primary_facility",
   "telemedicine_certified",
   "hpr_verified",
+  "full_name",
   "column_break_awmb",
   "additional_qualification",
   "super_specialty",
@@ -67,12 +68,15 @@
   {
    "fieldname": "title",
    "fieldtype": "Data",
-   "label": "Title"
+   "label": "Title",
+   "reqd": 1
   },
   {
    "fieldname": "first_name",
    "fieldtype": "Data",
-   "label": "First Name"
+   "in_list_view": 1,
+   "label": "First Name",
+   "reqd": 1
   },
   {
    "fieldname": "middle_name",
@@ -82,13 +86,17 @@
   {
    "fieldname": "last_name",
    "fieldtype": "Data",
-   "label": "Last Name"
+   "in_list_view": 1,
+   "label": "Last Name",
+   "reqd": 1
   },
   {
    "fieldname": "gender",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Gender",
-   "options": "Female\nMale"
+   "options": "\nFemale\nMale",
+   "reqd": 1
   },
   {
    "fieldname": "dob",
@@ -141,14 +149,10 @@
    "label": "Appointment Letter Ref"
   },
   {
-   "fieldname": "mobile1",
-   "fieldtype": "Data",
-   "label": "Mobile1"
-  },
-  {
    "fieldname": "email",
    "fieldtype": "Data",
-   "label": "Email"
+   "label": "Email",
+   "options": "Email"
   },
   {
    "fieldname": "address_line1",
@@ -162,6 +166,8 @@
    "options": "City"
   },
   {
+   "fetch_from": "city.state",
+   "fetch_if_empty": 1,
    "fieldname": "state",
    "fieldtype": "Link",
    "label": "State",
@@ -298,17 +304,31 @@
    "fieldtype": "Link",
    "label": "Currency",
    "options": "Currency"
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Mobile",
+   "options": "Phone",
+   "reqd": 1
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Full Name"
   }
  ],
  "grid_page_length": 50,
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-10 00:32:48.159126",
+ "modified": "2026-07-13 19:48:19.875290",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
- "naming_rule": "Autoincrement",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -326,7 +346,9 @@
  ],
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "full_name"
 }

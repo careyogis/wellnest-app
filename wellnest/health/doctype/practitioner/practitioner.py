@@ -6,4 +6,5 @@ from frappe.model.document import Document
 
 
 class Practitioner(Document):
-	pass
+	def before_save(self):		
+		self.full_name = f"{self.title} {self.first_name} {self.last_name}";
