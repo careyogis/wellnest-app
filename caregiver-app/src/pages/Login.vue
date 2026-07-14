@@ -113,6 +113,9 @@ async function sendOtp() {
 
     const appVerifier = recaptchaVerifier.value;
 
+    console.log("Phone:", "+91" + phone.value);
+    console.log("Verifier:", recaptchaVerifier.value);
+
     const result = await signInWithPhoneNumber(auth, '+91' + phone.value, appVerifier);
 
     confirmationResult.value = result;
@@ -127,14 +130,19 @@ async function sendOtp() {
   }
 }
 
-function initializeRecaptcha() {
-  if (recaptchaVerifier.value) return;
+async function initializeRecaptcha() {
+  if (recaptchaVerifier.value) {
+    recaptchaVerifier.value.clear();
+    recaptchaVerifier.value = null;
+  }
 
-  recaptchaVerifier.value = new RecaptchaVerifier(auth, 'recaptcha-container', {
-    size: 'invisible',
+  recaptchaVerifier.value = new RecaptchaVerifier(auth, "recaptcha-container", {
+    size: "invisible",
   });
 
-  recaptchaVerifier.value.render();
+  const widgetId = await recaptchaVerifier.value.render();
+
+  console.log("Widget ID:", widgetId);
 }
 
 async function verifyOtp() {
