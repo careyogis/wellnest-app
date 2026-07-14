@@ -1,6 +1,6 @@
 {
  "actions": [],
- "autoname": "Dr-.######",
+ "autoname": "DR-.######",
  "creation": "2026-07-09 19:15:09.136261",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -324,7 +324,7 @@
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-13 19:48:19.875290",
+ "modified": "2026-07-14 16:48:57.968392",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
