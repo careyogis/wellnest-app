@@ -9,17 +9,19 @@
   "hpr_id",
   "column_break_dxqn",
   "abha_id",
+  "user_details_section",
+  "user_id",
   "personal_info_section",
   "title",
   "first_name",
   "middle_name",
   "last_name",
   "gender",
-  "column_break_oipd",
   "dob",
-  "nationality",
   "email",
+  "column_break_oipd",
   "mobile",
+  "nationality",
   "photo",
   "languages_known",
   "address_section",
@@ -52,7 +54,14 @@
   "currency",
   "normal_charge",
   "emergency_charge",
-  "is_active"
+  "priority_charge",
+  "is_active",
+  "availability_slots_section",
+  "available_from",
+  "available_till",
+  "column_break_rfdq",
+  "available_in_emergency_from",
+  "available_in_emergency_till"
  ],
  "fields": [
   {
@@ -318,13 +327,65 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Full Name"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "user_details_section",
+   "fieldtype": "Section Break",
+   "label": "User Details"
+  },
+  {
+   "description": "System User (login) ID. The Practioner uses this to login to Doctors web/mobile app .",
+   "fieldname": "user_id",
+   "fieldtype": "Link",
+   "label": "User ID",
+   "options": "User"
+  },
+  {
+   "fieldname": "available_from",
+   "fieldtype": "Time",
+   "label": "Available From",
+   "placeholder": "Time in HH:MM:SS"
+  },
+  {
+   "fieldname": "available_till",
+   "fieldtype": "Time",
+   "label": "Available Till",
+   "placeholder": "Time in HH:MM:SS"
+  },
+  {
+   "fieldname": "priority_charge",
+   "fieldtype": "Currency",
+   "label": "Priority Charge",
+   "options": "currency"
+  },
+  {
+   "fieldname": "availability_slots_section",
+   "fieldtype": "Section Break",
+   "label": "Availability Slots"
+  },
+  {
+   "fieldname": "column_break_rfdq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "available_in_emergency_from",
+   "fieldtype": "Time",
+   "label": "Available In Emergency From",
+   "placeholder": "Time in HH:MM:SS"
+  },
+  {
+   "fieldname": "available_in_emergency_till",
+   "fieldtype": "Time",
+   "label": "Available In Emergency Till",
+   "placeholder": "Time in HH:MM:SS"
   }
  ],
  "grid_page_length": 50,
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-14 16:48:57.968392",
+ "modified": "2026-07-15 17:39:33.688112",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
