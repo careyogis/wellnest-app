@@ -3779,7 +3779,8 @@ li {
   position: relative;
   padding-top: 156px;
   padding-bottom: 100px;
-  background-color: var(--thm-base);
+  /* background-color: var(--thm-base); */
+  background-color: #f0f7f7;
 }
 
 [class*="cta-two__dot-"] {
@@ -3802,7 +3803,8 @@ li {
 
 .cta-two__content h3 {
   margin: 0;
-  color: #fff;
+  /* color: #fff; */
+  color: var(--thm-black);
   font-size: 50px;
   line-height: 1em;
   font-weight: bold;
@@ -3812,13 +3814,15 @@ li {
   margin: 0;
   font-size: 16px;
   line-height: 30px;
-  color: #fff;
+  /* color: #fff; */
+  color: var(--thm-black);
   margin-top: 31px;
   margin-bottom: 41px;
 }
 
 .cta-two__btn {
-  background-color: var(--thm-primary);
+  /* background-color: var(--thm-primary); */
+  background-color: var(--thm-base);
   font-size: 17px;
   letter-spacing: 0.035em;
   color: #fff;
@@ -5083,8 +5087,8 @@ li {
 
 .history-one {
   background-color: #f0f7f7;
-  padding-top: 150px;
-  padding-bottom: 150px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .history-one__single {

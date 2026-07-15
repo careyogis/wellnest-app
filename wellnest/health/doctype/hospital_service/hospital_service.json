@@ -1,0 +1,110 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2026-07-09 20:00:34.507363",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "hospital",
+  "service_name",
+  "service_category",
+  "service_mode",
+  "service_code",
+  "description",
+  "duration_min",
+  "base_charge",
+  "cghs_rate",
+  "pmjay_covered",
+  "is_active"
+ ],
+ "fields": [
+  {
+   "fieldname": "hospital",
+   "fieldtype": "Link",
+   "label": "Hospital",
+   "options": "Hospital"
+  },
+  {
+   "fieldname": "service_name",
+   "fieldtype": "Data",
+   "label": "Service Name"
+  },
+  {
+   "fieldname": "service_category",
+   "fieldtype": "Link",
+   "label": "Service Category",
+   "options": "Service Category"
+  },
+  {
+   "fieldname": "service_mode",
+   "fieldtype": "Link",
+   "label": "Service Mode",
+   "options": "Service Mode"
+  },
+  {
+   "fieldname": "service_code",
+   "fieldtype": "Data",
+   "label": "Service Code"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description"
+  },
+  {
+   "fieldname": "duration_min",
+   "fieldtype": "Int",
+   "label": "Duration (Min)"
+  },
+  {
+   "fieldname": "base_charge",
+   "fieldtype": "Int",
+   "label": "Base Charge"
+  },
+  {
+   "fieldname": "cghs_rate",
+   "fieldtype": "Int",
+   "label": "CGHS Rate"
+  },
+  {
+   "default": "0",
+   "fieldname": "pmjay_covered",
+   "fieldtype": "Check",
+   "label": "PMJAY Covered?"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active?"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-10 00:35:41.439932",
+ "modified_by": "Administrator",
+ "module": "Health",
+ "name": "Hospital Service",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

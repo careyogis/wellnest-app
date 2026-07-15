@@ -1,0 +1,44 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Ownership Type",
+  "modified": "2026-07-09 20:33:18.181983",
+  "name": "Government",
+  "type_name": "Government"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ownership Type",
+  "modified": "2026-07-09 20:33:26.180482",
+  "name": "Private",
+  "type_name": "Private"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ownership Type",
+  "modified": "2026-07-09 20:33:33.346755",
+  "name": "Trust",
+  "type_name": "Trust"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ownership Type",
+  "modified": "2026-07-09 20:33:41.368397",
+  "name": "Charitable",
+  "type_name": "Charitable"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ownership Type",
+  "modified": "2026-07-09 20:33:50.789287",
+  "name": "CantMilitary",
+  "type_name": "CantMilitary"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Ownership Type",
+  "modified": "2026-07-09 20:34:01.645255",
+  "name": "Autonomous",
+  "type_name": "Autonomous"
+ }
+]

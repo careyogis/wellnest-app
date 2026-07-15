@@ -1,0 +1,72 @@
+[
+ {
+  "category_name": "OPD",
+  "docstatus": 0,
+  "doctype": "Service Category",
+  "modified": "2026-07-09 20:36:42.127431",
+  "name": "OPD"
+ },
+ {
+  "category_name": "IPD",
+  "docstatus": 0,
+  "doctype": "Service Category",
+  "modified": "2026-07-09 20:36:55.110884",
+  "name": "IPD"
+ },
+ {
+  "category_name": "Telemedicine",
+  "docstatus": 0,
+  "doctype": "Service Category",
+  "modified": "2026-07-09 20:37:02.802015",
+  "name": "Telemedicine"
+ },
+ {
+  "category_name": "Lab",
+  "docstatus": 0,
+  "doctype": "Service Category",
+  "modified": "2026-07-09 20:37:10.090613",
+  "name": "Lab"
+ },
+ {
+  "category_name": "Radiology",
+  "docstatus": 0,
+  "doctype": "Service Category",
+  "modified": "2026-07-09 20:37:18.027732",
+  "name": "Radiology"
+ },
+ {
+  "category_name": "Pharmacy",
+  "docstatus": 0,
+  "doctype": "Service Category",
+  "modified": "2026-07-09 20:37:29.671978",
+  "name": "Pharmacy"
+ },
+ {
+  "category_name": "Homecare",
+  "docstatus": 0,
+  "doctype": "Service Category",
+  "modified": "2026-07-09 20:37:37.263376",
+  "name": "Homecare"
+ },
+ {
+  "category_name": "Preventive",
+  "docstatus": 0,
+  "doctype": "Service Category",
+  "modified": "2026-07-09 20:37:44.879952",
+  "name": "Preventive"
+ },
+ {
+  "category_name": "Emergency",
+  "docstatus": 0,
+  "doctype": "Service Category",
+  "modified": "2026-07-09 20:37:51.283684",
+  "name": "Emergency"
+ },
+ {
+  "category_name": "Palliative",
+  "docstatus": 0,
+  "doctype": "Service Category",
+  "modified": "2026-07-09 20:37:58.456613",
+  "name": "Palliative"
+ }
+]

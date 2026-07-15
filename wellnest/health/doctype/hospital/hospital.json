@@ -1,0 +1,263 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2026-07-09 17:21:41.629735",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "hfr_id",
+  "abdm_facility_id",
+  "hospital_code",
+  "hospital_name",
+  "hospital_type",
+  "facility_sub_type",
+  "ownership_type",
+  "cghs_empanelled",
+  "pmjay_empanelled",
+  "ayushman_arogya",
+  "registration_no",
+  "registration_authority",
+  "registration_valid_upto",
+  "address_line1",
+  "address_line2",
+  "locality",
+  "city",
+  "state",
+  "pincode",
+  "country",
+  "latitude",
+  "longitude",
+  "contact_phone1",
+  "mobile",
+  "email",
+  "website",
+  "telemedicine_enabled",
+  "ipd_enabled",
+  "opd_enabled",
+  "lab_enabled",
+  "radiology_enabled",
+  "bed_count",
+  "icu_beds",
+  "upi_id",
+  "is_active"
+ ],
+ "fields": [
+  {
+   "fieldname": "hfr_id",
+   "fieldtype": "Data",
+   "label": "HFR Id"
+  },
+  {
+   "fieldname": "abdm_facility_id",
+   "fieldtype": "Data",
+   "label": "ABDM Facility Id"
+  },
+  {
+   "fieldname": "hospital_code",
+   "fieldtype": "Data",
+   "label": "Hospital Code"
+  },
+  {
+   "fieldname": "hospital_name",
+   "fieldtype": "Data",
+   "label": "Hospital Name"
+  },
+  {
+   "fieldname": "hospital_type",
+   "fieldtype": "Link",
+   "label": "Hospital Type",
+   "options": "Hospital Type"
+  },
+  {
+   "fieldname": "facility_sub_type",
+   "fieldtype": "Data",
+   "label": "Facility Sub Type"
+  },
+  {
+   "fieldname": "ownership_type",
+   "fieldtype": "Link",
+   "label": "Ownership Type",
+   "options": "Ownership Type"
+  },
+  {
+   "default": "0",
+   "fieldname": "cghs_empanelled",
+   "fieldtype": "Check",
+   "label": "CGHS Empanelled?"
+  },
+  {
+   "default": "0",
+   "fieldname": "pmjay_empanelled",
+   "fieldtype": "Check",
+   "label": "PMJAY Empanelled?"
+  },
+  {
+   "default": "0",
+   "fieldname": "ayushman_arogya",
+   "fieldtype": "Check",
+   "label": "Ayushman Arogya?"
+  },
+  {
+   "fieldname": "registration_no",
+   "fieldtype": "Data",
+   "label": "Registration No"
+  },
+  {
+   "fieldname": "registration_authority",
+   "fieldtype": "Data",
+   "label": "Registration Authority"
+  },
+  {
+   "fieldname": "registration_valid_upto",
+   "fieldtype": "Date",
+   "label": "Registration Valid Upto"
+  },
+  {
+   "fieldname": "address_line1",
+   "fieldtype": "Data",
+   "label": "Address Line1"
+  },
+  {
+   "fieldname": "address_line2",
+   "fieldtype": "Data",
+   "label": "Address Line2"
+  },
+  {
+   "fieldname": "locality",
+   "fieldtype": "Data",
+   "label": "Locality"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Link",
+   "label": "City",
+   "options": "City"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Link",
+   "label": "State",
+   "options": "State"
+  },
+  {
+   "fieldname": "pincode",
+   "fieldtype": "Data",
+   "label": "Pincode"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "latitude",
+   "fieldtype": "Data",
+   "label": "Latitude"
+  },
+  {
+   "fieldname": "longitude",
+   "fieldtype": "Data",
+   "label": "Longitude"
+  },
+  {
+   "fieldname": "contact_phone1",
+   "fieldtype": "Data",
+   "label": "Contact Phone1"
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "label": "Mobile"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "website",
+   "fieldtype": "Data",
+   "label": "Website"
+  },
+  {
+   "default": "0",
+   "fieldname": "telemedicine_enabled",
+   "fieldtype": "Check",
+   "label": "Telemedicine Enabled?"
+  },
+  {
+   "default": "0",
+   "fieldname": "ipd_enabled",
+   "fieldtype": "Check",
+   "label": "IPD Enabled?"
+  },
+  {
+   "default": "0",
+   "fieldname": "opd_enabled",
+   "fieldtype": "Check",
+   "label": "OPD Enabled?"
+  },
+  {
+   "default": "0",
+   "fieldname": "lab_enabled",
+   "fieldtype": "Check",
+   "label": "Lab Enabled?"
+  },
+  {
+   "default": "0",
+   "fieldname": "radiology_enabled",
+   "fieldtype": "Check",
+   "label": "Radiology Enabled?"
+  },
+  {
+   "fieldname": "bed_count",
+   "fieldtype": "Int",
+   "label": "Bed Count"
+  },
+  {
+   "fieldname": "icu_beds",
+   "fieldtype": "Int",
+   "label": "ICU Beds"
+  },
+  {
+   "fieldname": "upi_id",
+   "fieldtype": "Data",
+   "label": "UPI Id"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active?"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-10 00:33:53.073959",
+ "modified_by": "Administrator",
+ "module": "Health",
+ "name": "Hospital",
+ "naming_rule": "Autoincrement",
+ "owner": "randhirk@careyogis.com",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

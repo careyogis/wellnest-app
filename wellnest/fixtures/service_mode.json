@@ -1,0 +1,23 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Service Mode",
+  "mode_name": "Offline",
+  "modified": "2026-07-09 20:35:13.244141",
+  "name": "Offline"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Service Mode",
+  "mode_name": "Online",
+  "modified": "2026-07-09 20:35:21.694767",
+  "name": "Online"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Service Mode",
+  "mode_name": "Both",
+  "modified": "2026-07-09 20:35:29.615364",
+  "name": "Both"
+ }
+]
