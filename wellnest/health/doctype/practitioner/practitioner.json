@@ -352,6 +352,7 @@
    "fieldname": "available_till",
    "fieldtype": "Time",
    "label": "Available Till",
+   "mandatory_depends_on": "eval: doc.available_from",
    "placeholder": "Time in HH:MM:SS"
   },
   {
@@ -385,6 +386,7 @@
    "fieldname": "availability_days",
    "fieldtype": "Table",
    "label": "Availability Days",
+   "mandatory_depends_on": "eval: doc.available_from",
    "options": "Assignment Rule Day"
   }
  ],
@@ -392,7 +394,7 @@
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-16 17:52:47.068934",
+ "modified": "2026-07-16 19:17:23.448748",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
