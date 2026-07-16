@@ -3,11 +3,41 @@
 
 import frappe
 from frappe.model.document import Document
+from collections.abc import Iterable
+from frappe.utils.data import comma_and
 
 
 class Practitioner(Document):
 	def before_save(self):		
 		self.full_name = f"{self.title} {self.first_name} {self.last_name}";
+
+	def validate(self):
+		self.validate_availability_days();
+
+	def validate_availability_days(self):
+		availability_days = self.get_availability_days()
+		if len(set(availability_days)) != len(availability_days):
+			frappe.throw(
+				("The following Availability Days have been repeated: {0}. Remove duplicates.").format(
+					comma_and([(day) for day in get_repeated(availability_days)], add_quotes=False)
+				)
+			)
+
+	def get_availability_days(self):
+		return [d.day for d in self.get("availability_days", [])]
+
+def get_repeated(values: Iterable) -> list:
+	unique = set()
+	repeated = set()
+
+	for value in values:
+		if value in unique:
+			repeated.add(value)
+		else:
+			unique.add(value)
+
+	return [str(x) for x in repeated]
+	
 
 @frappe.whitelist()
 def invite_user(practitioner: str):
