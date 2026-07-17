@@ -26,7 +26,7 @@ export const session = reactive({
       userResource.reload()
       session.user = sessionUser()
       session.login.reset()
-      router.replace(data.default_route || '/')
+      router.replace({ name: 'Profile' })
     },
   }),
   logout: createResource({
