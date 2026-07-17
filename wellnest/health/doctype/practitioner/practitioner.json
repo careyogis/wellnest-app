@@ -213,13 +213,15 @@
    "fieldname": "emergency_charge",
    "fieldtype": "Currency",
    "label": "Emergency Charge",
-   "options": "currency"
+   "options": "currency",
+   "permlevel": 1
   },
   {
    "fieldname": "normal_charge",
    "fieldtype": "Currency",
    "label": "Normal Charge",
-   "options": "currency"
+   "options": "currency",
+   "permlevel": 1
   },
   {
    "fieldname": "languages_known",
@@ -359,7 +361,8 @@
    "fieldname": "priority_charge",
    "fieldtype": "Currency",
    "label": "Priority Charge",
-   "options": "currency"
+   "options": "currency",
+   "permlevel": 1
   },
   {
    "fieldname": "availability_slots_section",
@@ -394,8 +397,8 @@
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-16 19:17:23.448748",
- "modified_by": "Administrator",
+ "modified": "2026-07-17 16:13:17.643746",
+ "modified_by": "randhirk@careyogis.com",
  "module": "Health",
  "name": "Practitioner",
  "naming_rule": "Expression",
@@ -414,12 +417,36 @@
    "write": 1
   },
   {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Doctor",
+   "role": "Purchase Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
    "select": 1,
    "share": 1
   }
