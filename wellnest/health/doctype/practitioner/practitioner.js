@@ -22,5 +22,33 @@ frappe.ui.form.on("Practitioner", {
 				});
 			});
 		}
+		
+		// Setup availability days buttons
+		frm.trigger("setup_availability_days_buttons");
 	},
+
+	setup_availability_days_buttons: function (frm) {
+		const labels = ["Weekends", "Weekdays", "All Days"];
+		let get_days = (label) => {
+			const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+			const weekends = ["Saturday", "Sunday"];
+			return {
+				"All Days": weekdays.concat(weekends),
+				Weekdays: weekdays,
+				Weekends: weekends,
+			}[label];
+		};
+
+		let set_days = (e) => {
+			frm.clear_table("availability_days");
+			const label = $(e.currentTarget).text();
+			get_days(label).forEach((day) => frm.add_child("availability_days", { day: day }));
+			frm.refresh_field("availability_days");
+		};
+
+		labels.forEach((label) =>
+			frm.fields_dict["availability_days"].grid.add_custom_button(label, set_days, "top")
+		);
+	},
+	
 });
