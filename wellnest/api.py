@@ -195,6 +195,25 @@ def profile():
             "caregiver": caregiver_data,
             "customers": customers,
         }
+    
+@frappe.whitelist()
+def doctor_profile():
+    practitioners = frappe.db.get_list(
+        "Practitioner",
+        filters={"user_id": frappe.session.user},
+    )
+
+    if not practitioners:
+        frappe.throw("Practitioner not found")
+
+    practitioner = frappe.get_doc(
+        "Practitioner",
+        practitioners[0].name,
+    )
+
+    return {
+        "doctor": practitioner,
+    }
 
 
 @frappe.whitelist()
