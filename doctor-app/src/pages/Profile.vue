@@ -16,20 +16,10 @@
               </div>
 
               <div class="d-flex gap-2">
+                <Button variant="outline"> Edit Profile </Button>
 
-  <Button variant="outline">
-    Edit Profile
-  </Button>
-
-  <Button
-    variant="solid"
-    theme="red"
-    @click="logout"
-  >
-    Logout
-  </Button>
-
-</div>
+                <Button variant="solid" theme="red" @click="logout"> Logout </Button>
+              </div>
             </div>
 
             <hr class="mb-5" />
@@ -37,9 +27,13 @@
             <!-- ================= HEADER ================= -->
 
             <div class="text-center">
-              <div class="rounded-circle bg-warning text-dark fw-bold d-inline-flex align-items-center justify-content-center" style="width: 110px; height: 110px; font-size: 38px">YB</div>
+              <div class="rounded-circle bg-warning text-dark fw-bold d-inline-flex align-items-center justify-content-center" style="width: 110px; height: 110px; font-size: 38px">
+                {{ profileData?.data?.doctor?.first_name?.charAt(0) }}{{ profileData?.data?.doctor?.last_name?.charAt(0) }}
+              </div>
 
-              <h2 class="fw-bold mt-4 mb-2">Brig. (Retd.) Dr. Y. S. Bisht</h2>
+              <h2 class="fw-bold mt-4 mb-2">
+                {{ profileData?.data?.doctor?.full_name }}
+              </h2>
 
               <div class="text-muted fs-5">Orthopaedic Surgeon</div>
 
@@ -72,12 +66,16 @@
             <div class="row">
               <div class="col-md-6 mb-4">
                 <div class="text-muted small">Phone</div>
-                <div class="fw-semibold fs-5">+91 98100 44221</div>
+                <div class="fw-semibold fs-5">
+                  {{ profileData?.data?.doctor?.mobile }}
+                </div>
               </div>
 
               <div class="col-md-6 mb-4">
                 <div class="text-muted small">Email</div>
-                <div class="fw-semibold fs-5">dr.bisht@careyogi.in</div>
+                <div class="fw-semibold fs-5">
+                  {{ profileData?.data?.doctor?.email }}
+                </div>
               </div>
 
               <div class="col-md-6 mb-4">
@@ -99,8 +97,15 @@
 
             <div class="row">
               <div class="col-md-6 mb-4">
+                <div class="text-muted small">Account Status</div>
+                <div class="fw-semibold fs-5">
+                  {{ profileData?.data?.doctor?.account_status }}
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-4">
                 <div class="text-muted small">Experience</div>
-                <div class="fw-semibold fs-5">20+ Years</div>
+                <div class="fw-semibold fs-5">{{ profileData?.data?.doctor?.experience_years }} Years</div>
               </div>
 
               <div class="col-md-6 mb-4">
@@ -115,7 +120,9 @@
 
               <div class="col-md-6 mb-4">
                 <div class="text-muted small">Languages</div>
-                <div class="fw-semibold fs-5">English, Hindi</div>
+                <div class="fw-semibold fs-5">
+                  {{ profileData?.data?.doctor?.languages_known?.length ? profileData.data.doctor.languages_known.join(', ') : 'Not Available' }}
+                </div>
               </div>
             </div>
 
@@ -131,7 +138,9 @@
                   <div class="p-4">
                     <div class="text-muted small">Consultation Days</div>
 
-                    <div class="fw-bold fs-5 mt-2">Monday – Friday</div>
+                    <div class="fw-bold fs-5 mt-2">
+                      {{ profileData?.data?.doctor?.availability_days?.length ? profileData.data.doctor.availability_days.join(', ') : 'Not Available' }}
+                    </div>
                   </div>
                 </Card>
               </div>
@@ -161,7 +170,7 @@ import CaregiverNavbar from '../components/CaregiverNavbar.vue';
 import Earnings from '../components/Earnings.vue';
 import { formatCurrency, shortDateFormatter } from '../utils';
 import StarRating from '../components/star-rating.vue';
-import router from "@/router";
+import router from '@/router';
 
 const state = reactive({
   index: 0,
@@ -173,7 +182,6 @@ let totalRatings = 0;
 
 // Initial API call
 apiCall();
-
 
 function logout() {
   session.logout.submit();
