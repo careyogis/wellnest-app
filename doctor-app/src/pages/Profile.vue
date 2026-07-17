@@ -175,22 +175,22 @@ let totalRatings = 0;
 apiCall();
 
 
-
 function logout() {
-  router.push("/account/login");
+  session.logout.submit();
 }
 
 async function apiCall() {
   try {
     // Fetch caregiver data
     profileData = createResource({
-      url: '/api/method/wellnest.api.profile',
+      url: '/api/method/wellnest.api.doctor_profile',
       auto: true,
     });
     await profileData.promise;
+    console.log(profileData.data);
 
     // Check if the data structure is valid
-    const ratings = profileData?.data?.caregiver?.ratings;
+    const ratings = profileData?.data?.doctor?.ratings;
     if (Array.isArray(ratings) && ratings.length > 0) {
       // Calculate average rating
       totalRatings = ratings.reduce((sum, rating) => sum + (rating.rating / 2) * 10, 0);
