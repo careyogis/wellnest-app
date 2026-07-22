@@ -1,162 +1,162 @@
 <template>
-  <div class="container-fluid min-vh-100 py-5" style="background: #f5f7fb">
+  <div class="container-fluid min-vh-100 py-4 py-md-5" style="background: #f5f7fb">
     <div class="row justify-content-center">
-      <div class="col-lg-9">
-        <Card class="shadow-lg border-0" style="border-radius: 20px">
-          <div class="p-5">
-            <div class="d-flex justify-content-between align-items-center mb-5">
-              <div class="d-flex align-items-center">
-                <img src="@/assets/images/logo-01.png" style="height: 55px" class="me-3" />
+      <div class="col-12 col-xl-11">
+        <!-- ================= PAGE HEADER ================= -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
+          <div>
+            <h2 class="fw-bold mb-1">Doctor Profile</h2>
+            <div class="text-muted">Comprehensive doctor profile, documents, fees, digital signature, and editable practice details.</div>
+          </div>
 
-                <div>
-                  <div class="fw-bold fs-5">CareYogi Doctor</div>
+          <div class="d-flex gap-2">
+            <Button variant="solid" class="edit-profile-btn" @click="editProfile"> Edit Profile </Button>
 
-                  <div class="text-muted small">Doctor Portal</div>
+            <Button variant="solid" theme="red" @click="logout"> Logout </Button>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- ================= LEFT COLUMN ================= -->
+          <div class="col-12 col-lg-5">
+            <!-- Profile card -->
+            <Card class="shadow-sm border-0 mb-4">
+              <div class="p-4 text-center">
+                <div class="mb-3 d-flex justify-content-center">
+                  <img
+                    v-if="profileData?.data?.doctor?.profile_image_url"
+                    :src="profileData.data.doctor.profile_image_url"
+                    class="rounded-circle"
+                    style="width: 96px; height: 96px; object-fit: cover"
+                    alt="Doctor photo"
+                    @error="imageLoadError = true"
+                    v-show="!imageLoadError"
+                  />
+                  <div
+                    v-if="!profileData?.data?.doctor?.profile_image_url || imageLoadError"
+                    class="rounded-circle bg-warning text-dark fw-bold d-flex align-items-center justify-content-center"
+                    style="width: 96px; height: 96px; font-size: 28px"
+                  >
+                    {{ profileData?.data?.doctor?.first_name?.charAt(0) }}{{ profileData?.data?.doctor?.last_name?.charAt(0) }}
+                  </div>
+                </div>
+
+                <h4 class="fw-bold mb-1">
+                  {{ profileData?.data?.doctor?.full_name }}
+                </h4>
+
+                <div class="text-primary fw-semibold">
+                  {{ profileData?.data?.doctor?.doctor_type }}
+                </div>
+
+                <div class="text-muted small mb-3">
+                  {{ profileData?.data?.doctor?.city }}
+                </div>
+
+                <div class="progress mb-2" style="height: 6px">
+                  <div class="progress-bar bg-success" role="progressbar" :style="{ width: (profileData?.data?.doctor?.profile_completion_percent || 0) + '%' }"></div>
+                </div>
+
+                <div class="text-muted small">Profile completion {{ profileData?.data?.doctor?.profile_completion_percent || 92 }}%</div>
+              </div>
+            </Card>
+
+            <!-- Consultation fees -->
+            <Card class="shadow-sm border-0">
+              <div class="p-4">
+                <h5 class="fw-bold mb-3">Consultation fees</h5>
+
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                  <span class="text-muted">Normal Consultation</span>
+                  <span class="fw-semibold">₹{{ profileData?.data?.doctor?.normal_charge }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                  <span class="text-muted">Emergency Consultation</span>
+                  <span class="fw-semibold">₹{{ profileData?.data?.doctor?.emergency_charge }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2">
+                  <span class="text-muted">Priority Consultation</span>
+                  <span class="fw-semibold">₹{{ profileData?.data?.doctor?.priority_charge }}</span>
                 </div>
               </div>
+            </Card>
+          </div>
 
-              <div class="d-flex gap-2">
-                <Button variant="outline"> Edit Profile </Button>
+          <!-- ================= RIGHT COLUMN ================= -->
+          <div class="col-12 col-lg-7">
+            <!-- Biography -->
+            <Card class="shadow-sm border-0 mb-4">
+              <div class="p-4">
+                <h5 class="fw-bold mb-3">Biography</h5>
 
-                <Button variant="solid" theme="red" @click="logout"> Logout </Button>
-              </div>
-            </div>
+                <p class="text-muted mb-4">
+                  {{ profileData?.data?.doctor?.biography || 'No biography available.' }}
+                </p>
 
-            <hr class="mb-5" />
-
-            <!-- ================= HEADER ================= -->
-
-            <div class="text-center">
-              <div class="rounded-circle bg-warning text-dark fw-bold d-inline-flex align-items-center justify-content-center" style="width: 110px; height: 110px; font-size: 38px">
-                {{ profileData?.data?.doctor?.first_name?.charAt(0) }}{{ profileData?.data?.doctor?.last_name?.charAt(0) }}
-              </div>
-
-              <h2 class="fw-bold mt-4 mb-2">
-                {{ profileData?.data?.doctor?.full_name }}
-              </h2>
-
-              <div class="text-muted fs-5">Orthopaedic Surgeon</div>
-
-              <div class="mt-3 text-warning fs-5">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-              </div>
-            </div>
-
-            <hr class="my-5" />
-
-            <!-- ================= ABOUT ================= -->
-
-            <h3 class="mb-3">About</h3>
-
-            <p class="text-muted">
-              Experienced Orthopaedic Surgeon with more than 20 years of clinical practice in trauma care, joint replacement and rehabilitation. Dedicated to providing compassionate post-discharge
-              patient care.
-            </p>
-
-            <hr class="my-5" />
-
-            <!-- ================= CONTACT ================= -->
-
-            <h3 class="mb-4">Contact Information</h3>
-
-            <div class="row">
-              <div class="col-md-6 mb-4">
-                <div class="text-muted small">Phone</div>
-                <div class="fw-semibold fs-5">
-                  {{ profileData?.data?.doctor?.mobile }}
+                <div class="row g-3">
+                  <div class="col-12 col-sm-6">
+                    <div class="bg-light rounded p-3">
+                      {{ profileData?.data?.doctor?.qualification || 'Not Available' }}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="bg-light rounded p-3">{{ profileData?.data?.doctor?.experience_years }} years experience</div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="bg-light rounded p-3">{{ profileData?.data?.doctor?.council_name }}: {{ profileData?.data?.doctor?.registration_number }}</div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="bg-light rounded p-3">
+                      {{ profileData?.data?.doctor?.languages_known?.length ? profileData.data.doctor.languages_known.join(', ') : 'Not Available' }}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="bg-light rounded p-3">
+                      {{ profileData?.data?.doctor?.specializations?.length ? profileData.data.doctor.specializations.join(', ') : 'Not Available' }}
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="bg-light rounded p-3">
+                      {{ profileData?.data?.doctor?.hospitals_worked?.length ? profileData.data.doctor.hospitals_worked.join(', ') : 'Not Available' }}
+                    </div>
+                  </div>
                 </div>
               </div>
+            </Card>
 
-              <div class="col-md-6 mb-4">
-                <div class="text-muted small">Email</div>
-                <div class="fw-semibold fs-5">
-                  {{ profileData?.data?.doctor?.email }}
-                </div>
-              </div>
-
-              <div class="col-md-6 mb-4">
-                <div class="text-muted small">Hospital</div>
-                <div class="fw-semibold fs-5">CareYogi Medical Centre</div>
-              </div>
-
-              <div class="col-md-6 mb-4">
-                <div class="text-muted small">Location</div>
-                <div class="fw-semibold fs-5">New Delhi, India</div>
-              </div>
-            </div>
-
-            <hr class="my-5" />
-
-            <!-- ================= PROFESSIONAL DETAILS ================= -->
-
-            <h3 class="mb-4">Professional Details</h3>
-
-            <div class="row">
-              <div class="col-md-6 mb-4">
-                <div class="text-muted small">Account Status</div>
-                <div class="fw-semibold fs-5">
-                  {{ profileData?.data?.doctor?.account_status }}
-                </div>
-              </div>
-
-              <div class="col-md-6 mb-4">
-                <div class="text-muted small">Experience</div>
-                <div class="fw-semibold fs-5">{{ profileData?.data?.doctor?.experience_years }} Years</div>
-              </div>
-
-              <div class="col-md-6 mb-4">
-                <div class="text-muted small">Qualification</div>
-                <div class="fw-semibold fs-5">MBBS, MS (Orthopaedics)</div>
-              </div>
-
-              <div class="col-md-6 mb-4">
-                <div class="text-muted small">Specialization</div>
-                <div class="fw-semibold fs-5">Orthopaedics & Trauma</div>
-              </div>
-
-              <div class="col-md-6 mb-4">
-                <div class="text-muted small">Languages</div>
-                <div class="fw-semibold fs-5">
-                  {{ profileData?.data?.doctor?.languages_known?.length ? profileData.data.doctor.languages_known.join(', ') : 'Not Available' }}
-                </div>
-              </div>
-            </div>
-
-            <hr class="my-5" />
-
-            <!-- ================= AVAILABILITY ================= -->
-
-            <h3 class="mb-4">Availability</h3>
-
-            <div class="row">
-              <div class="col-md-6 mb-3">
+            <div class="row g-4">
+              <!-- Awards and education -->
+              <div class="col-12 col-md-6">
                 <Card class="shadow-sm border-0 h-100">
                   <div class="p-4">
-                    <div class="text-muted small">Consultation Days</div>
-
-                    <div class="fw-bold fs-5 mt-2">
-                      {{ profileData?.data?.doctor?.availability_days?.length ? profileData.data.doctor.availability_days.join(', ') : 'Not Available' }}
-                    </div>
+                    <h5 class="fw-bold mb-3">Awards and education</h5>
+                    <ul class="mb-0 ps-3">
+                      <li v-for="(item, idx) in profileData?.data?.doctor?.awards_and_education" :key="idx">
+                        {{ item }}
+                      </li>
+                    </ul>
                   </div>
                 </Card>
               </div>
 
-              <div class="col-md-6 mb-3">
+              <!-- Documents -->
+              <div class="col-12 col-md-6">
                 <Card class="shadow-sm border-0 h-100">
                   <div class="p-4">
-                    <div class="text-muted small">Timings</div>
-
-                    <div class="fw-bold fs-5 mt-2">9:00 AM – 5:00 PM</div>
+                    <h5 class="fw-bold mb-3">Documents</h5>
+                    <div class="d-flex flex-column gap-2">
+                      <Button v-for="doc in profileData?.data?.doctor?.documents" :key="doc.name" variant="outline" theme="orange" class="w-100" @click="openDocument(doc)">
+                        {{ doc.label }}
+                      </Button>
+                    </div>
                   </div>
                 </Card>
               </div>
             </div>
           </div>
-        </Card>
+        </div>
+
+        <div class="text-center text-muted small mt-5">CareYogi Doctor App v1.0 prototype. Designed for doctor feedback, not clinical production use.</div>
       </div>
     </div>
   </div>

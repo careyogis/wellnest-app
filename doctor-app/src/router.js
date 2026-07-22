@@ -3,11 +3,10 @@ import { session } from './data/session'
 import { userResource } from '@/data/user'
 
 const routes = [
-  //  {
-  //   path: '/',
-  //   name: 'Dashboard',
-  //   component: () => import('@/pages/Dashboard.vue'),
-  // },
+{
+  path: '/',
+  redirect: { name: 'Login' },
+},
   // {
   //   path: '/city',
   //   name: 'City',
