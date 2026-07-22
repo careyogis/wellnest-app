@@ -105,10 +105,8 @@ import { session } from '../data/session';
 import { userResource } from '../data/user';
 import { sessionUser } from '../data/session';
 import { createResource } from 'frappe-ui';
-import { auth } from '../firebase';
 import router from '@/router'
 
-import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 
 const lookupDoctor = createResource({
   url: 'wellnest.api.lookup_doctor',
@@ -124,9 +122,6 @@ const loginMethod = ref('password');
 const phone = ref('');
 const otp = ref('');
 
-const otpSent = ref(false);
-const confirmationResult = ref<any>(null);
-const recaptchaVerifier = ref<any>(null);
 
 const loginWithPhone = createResource({
   url: 'wellnest.api.login_with_phone',
@@ -146,70 +141,5 @@ function submit(e: Event) {
   });
 }
 
-async function sendOtp() {
-  if (!phone.value) {
-    alert('Please enter your mobile number');
-    return;
-  }
 
-  try {
-    const response = await lookupDoctor.submit();
-
-    console.log(response);
-
-    if (!response.success) {
-      alert(response.message);
-      return;
-    }
-
-    alert('Doctor found!');
-
-    // Next step: call Firebase to send OTP
-    initializeRecaptcha();
-
-    const appVerifier = recaptchaVerifier.value;
-
-    const result = await signInWithPhoneNumber(auth, '+91' + phone.value, appVerifier);
-
-    confirmationResult.value = result;
-
-    otpSent.value = true;
-
-    alert('OTP Sent!');
-  } catch (err) {
-    console.error(err);
-    alert('Lookup failed');
-  }
-}
-
-function initializeRecaptcha() {
-  if (recaptchaVerifier.value) return;
-
-  recaptchaVerifier.value = new RecaptchaVerifier(auth, 'recaptcha-container', {
-    size: 'invisible',
-  });
-
-  recaptchaVerifier.value.render();
-}
-
-async function verifyOtp() {
-  try {
-    await confirmationResult.value.confirm(otp.value);
-
-    const response = await loginWithPhone.submit();
-
-    console.log(response);
-
-    await userResource.reload();
-
-    session.user = sessionUser();
-
-    alert('OTP Verified Successfully!');
-
-    router.replace({ name: "Profile" });
-  } catch (err) {
-    console.error(err);
-    alert('Invalid OTP');
-  }
-}
 </script>
