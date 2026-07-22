@@ -23,17 +23,7 @@ const routes = [
     path: '/profile',
     component: () => import('@/pages/Profile.vue'),
   },
-  // {
-  //   name: 'Activity',
-  //   path: '/activity/:dailyRecordId',
-  //   component: () => import('@/pages/Activity.vue'),
-  //   props: true
-  // },
-  // {
-  //   name: 'Test',
-  //   path: '/test',
-  //   component: () => import('@/pages/Test.vue'),
-  // },
+
   // {
   //   name: 'staticLogin',
   //   path: '/staticLogin',
