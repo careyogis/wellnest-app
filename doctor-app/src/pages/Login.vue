@@ -106,12 +106,12 @@ import { userResource } from '../data/user';
 import { sessionUser } from '../data/session';
 import { createResource } from 'frappe-ui';
 import { auth } from '../firebase';
-import router from '@/router';
+import router from '@/router'
 
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 
-const lookupCaregiver = createResource({
-  url: 'wellnest.api.lookup_caregiver',
+const lookupDoctor = createResource({
+  url: 'wellnest.api.lookup_doctor',
   makeParams() {
     return {
       phone: phone.value,
@@ -153,7 +153,7 @@ async function sendOtp() {
   }
 
   try {
-    const response = await lookupCaregiver.submit();
+    const response = await lookupDoctor.submit();
 
     console.log(response);
 
@@ -162,7 +162,7 @@ async function sendOtp() {
       return;
     }
 
-    alert('User found!');
+    alert('Doctor found!');
 
     // Next step: call Firebase to send OTP
     initializeRecaptcha();
@@ -206,7 +206,7 @@ async function verifyOtp() {
 
     alert('OTP Verified Successfully!');
 
-    router.replace('/');
+    router.replace({ name: "Profile" });
   } catch (err) {
     console.error(err);
     alert('Invalid OTP');
