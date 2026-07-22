@@ -440,6 +440,60 @@ def get_customer_for_user(user):
 
 
 @frappe.whitelist(allow_guest=True)
+def lookup_doctor(phone):
+    """
+    Checks if a doctor exists for the given mobile number.
+    Returns success/failure without sending OTP.
+    """
+
+    payload = {
+        "success": False,
+        "message": "No doctor found with this number",
+    }
+
+    practitioner = frappe.db.get_value(
+        "Practitioner",
+        {"mobile": phone},
+        "name",
+    )
+
+    if practitioner:
+        payload["success"] = True
+        payload["message"] = "Doctor found"
+
+    return payload
+
+@frappe.whitelist(allow_guest=True)
+def login_with_phone(phone):
+    """
+    Logs a user into Frappe after Firebase OTP has already been verified.
+    """
+
+    user = frappe.db.get_value(
+        "User",
+        {"mobile_no": phone},
+        "name"
+    )
+
+    if not user:
+        frappe.throw("User not found")
+
+    frappe.set_user(user)
+
+    from frappe.auth import LoginManager
+
+    login_manager = LoginManager()
+
+    login_manager.user = user
+    login_manager.post_login()
+
+    return {
+        "success": True,
+        "user": user
+    }
+
+
+@frappe.whitelist(allow_guest=True)
 def generate_otp(phone):
     payload = {
         "success": False,
