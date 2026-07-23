@@ -15,8 +15,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
+server: {
+  allowedHosts: ['.ngrok-free.dev', '.ngrok-free.app', '.loca.lt'],
+},
   build: {
-    outDir: `../${path.basename(path.resolve('..'))}/public/caregiver-app`,
+    outDir: `../${path.basename(path.resolve('..'))}/public/doctor-app`,
     emptyOutDir: true,
     target: 'es2015',
   },

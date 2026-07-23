@@ -75,18 +75,19 @@
             <!-- OTP -->
 
             <div v-else>
-              <Input  class="doctor-input" v-model="phone" label="Mobile Number" placeholder="Enter Mobile Number" />
+              <Input class="doctor-input" v-model="phone" label="Mobile Number" placeholder="Enter Mobile Number" />
 
               <Button class="w-100 mt-3 doctor-btn" variant="solid" @click="sendOtp"> Send OTP </Button>
+              <div v-if="message" :class="['alert', messageType === 'success' ? 'alert-success' : 'alert-danger', 'mt-3']">
+                {{ message }}
+              </div>
 
               <div v-if="otpSent">
-                <Input class="mt-3" v-model="otp" label="OTP" placeholder="Enter OTP" />
+                <Input class="mt-3 doctor-input" v-model="otp" label="OTP" placeholder="Enter OTP" />
 
-                <Button class="w-100 mt-3 doctor-input" variant="solid" @click="verifyOtp"> Verify OTP </Button>
+                <Button class="w-100 mt-3 doctor-btn" variant="solid" @click="verifyOtp"> Verify OTP </Button>
               </div>
             </div>
-
-            <div id="recaptcha-container"></div>
             <div class="alert alert-info mt-4 mb-0">
               <i class="bi bi-shield-check me-2"></i>
 
@@ -97,16 +98,21 @@
       </div>
     </div>
   </div>
+  <div id="recaptcha-container"></div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { session } from '../data/session';
 import { userResource } from '../data/user';
 import { sessionUser } from '../data/session';
 import { createResource } from 'frappe-ui';
-import router from '@/router'
+import router from '../router';
 
+declare const grecaptcha: any;
+
+//Public site key from https://www.google.com/recaptcha/admin - safe to expose in frontend
+const RECAPTCHA_SITE_KEY = '6LcMZR0UAAAAALgPMcgHwga7gY5p8QMg1Hj-bmUv';
 
 const lookupDoctor = createResource({
   url: 'wellnest.api.lookup_doctor',
@@ -121,7 +127,11 @@ const loginMethod = ref('password');
 
 const phone = ref('');
 const otp = ref('');
-
+const otpSent = ref(false);
+const sessionInfo = ref('');
+const message = ref('');
+const messageType = ref<'success' | 'error' | ''>('');
+let recaptchaWidgetId: number | null = null;
 
 const loginWithPhone = createResource({
   url: 'wellnest.api.login_with_phone',
@@ -132,6 +142,9 @@ const loginWithPhone = createResource({
   },
 });
 
+const sendOtpResource = createResource({ url: 'wellnest.api.send_otp' });
+const verifyOtpResource = createResource({ url: 'wellnest.api.verify_otp' });
+
 function submit(e: Event) {
   const formData = new FormData(e.target as HTMLFormElement);
 
@@ -141,5 +154,126 @@ function submit(e: Event) {
   });
 }
 
+function getErrorMessage(err: any) {
+  if (err?._server_messages) {
+    try {
+      const messages = JSON.parse(err._server_messages);
+      return JSON.parse(messages[0]).message;
+    } catch (e) {}
+  }
 
+  return err?.message || 'Something went wrong.';
+}
+
+onMounted(() => {
+  if (!document.getElementById('recaptcha-script')) {
+    const script = document.createElement('script');
+    script.id = 'recaptcha-script';
+    script.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
+    script.async = true;
+    document.head.appendChild(script);
+  }
+});
+
+function renderRecaptcha(): Promise<number> {
+  return new Promise((resolve) => {
+    const check = setInterval(() => {
+      if (typeof grecaptcha !== 'undefined' && grecaptcha.render) {
+        clearInterval(check);
+        const id = grecaptcha.render('recaptcha-container', {
+          sitekey: RECAPTCHA_SITE_KEY,
+          size: 'invisible',
+        });
+        resolve(id);
+      }
+    }, 100);
+  });
+}
+
+async function getRecaptchaToken(): Promise<string> {
+  if (recaptchaWidgetId === null) {
+    recaptchaWidgetId = await renderRecaptcha();
+  } else {
+    grecaptcha.reset(recaptchaWidgetId);
+  }
+  return new Promise((resolve, reject) => {
+    grecaptcha
+      .execute(recaptchaWidgetId!)
+      .then(() => {
+        const token = grecaptcha.getResponse(recaptchaWidgetId!);
+        if (token) resolve(token);
+        else reject(new Error('No reCAPTCHA token received'));
+      })
+      .catch(reject);
+  });
+}
+
+async function sendOtp() {
+  message.value = '';
+  messageType.value = '';
+
+  if (!phone.value) {
+    alert('Please enter your mobile number');
+    return;
+  }
+
+  try {
+    const recaptchaToken = await getRecaptchaToken();
+
+    const response = await sendOtpResource.submit({
+      phone: '+91' + phone.value,
+      recaptcha_token: recaptchaToken,
+    });
+
+    sessionInfo.value = response.session_info;
+    otpSent.value = true;
+
+    message.value = 'OTP sent successfully.';
+    messageType.value = 'success';
+  } catch (err: any) {
+    console.error(err);
+
+    messageType.value = 'error';
+
+    if (err.messages && err.messages.length > 0) {
+      message.value = err.messages[0];
+    } else {
+      message.value = 'Failed to send OTP.';
+    }
+  }
+}
+
+async function verifyOtp() {
+  message.value = '';
+  messageType.value = '';
+
+  try {
+    const response = await verifyOtpResource.submit({
+      session_info: sessionInfo.value,
+      code: otp.value,
+    });
+
+    // OTP verified by our backend (Identity Toolkit). Now establish the
+    // actual Frappe session using the verified phone number.
+    await loginWithPhone.submit();
+
+    await userResource.reload();
+    session.user = sessionUser();
+
+    message.value = 'OTP verified successfully.';
+    messageType.value = 'success';
+
+    router.replace({ name: 'Profile' });
+  } catch (err: any) {
+    console.error(err);
+
+    messageType.value = 'error';
+
+    if (err.messages && err.messages.length > 0) {
+      message.value = err.messages[0];
+    } else {
+      message.value = 'Invalid OTP.';
+    }
+  }
+}
 </script>
