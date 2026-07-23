@@ -111,7 +111,7 @@ import router from '../router';
 
 declare const grecaptcha: any;
 
-//Public site key from https://www.google.com/recaptcha/admin - safe to expose in frontend
+//Public site key from https://www.google.com/recaptcha/admin - safe to expose in frontend acc. to documentation
 const RECAPTCHA_SITE_KEY = '6LcMZR0UAAAAALgPMcgHwga7gY5p8QMg1Hj-bmUv';
 
 const lookupDoctor = createResource({
@@ -253,8 +253,6 @@ async function verifyOtp() {
       code: otp.value,
     });
 
-    // OTP verified by our backend (Identity Toolkit). Now establish the
-    // actual Frappe session using the verified phone number.
     await loginWithPhone.submit();
 
     await userResource.reload();

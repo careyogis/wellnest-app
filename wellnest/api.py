@@ -963,7 +963,7 @@ def send_otp(phone: str, recaptcha_token: str):
     url = f"{IDENTITY_TOOLKIT_BASE}/accounts:sendVerificationCode?key={api_key}"
 
     payload = {
-        "phoneNumber": phone,          # Keep +91 for Firebase
+        "phoneNumber": phone,    
         "recaptchaToken": recaptcha_token,
     }
 
