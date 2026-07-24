@@ -1,0 +1,37 @@
+{# ------------------------------------------------------------------
+   It is NOT rendered on its own - it has no {% extends %} and no page
+   chrome. It's a snippet meant to be {% include %}'d once per record
+   inside a listing page, with `doc` set to that record. See the
+   example listing page + CSS at the bottom of this message for how
+   to wire it up.
+   ------------------------------------------------------------------ #}
+<a class="prac-card"
+   href="/{{ doc.route or doc.name | lower }}"
+   data-search="{{ ((doc.full_name or '') ~ ' ' ~ (doc.designation or '') ~ ' ' ~ (doc.super_specialty or '') ~ ' ' ~ (doc.qualification or '')) | lower }}"
+   data-tele="{{ 1 if doc.telemedicine_certified else 0 }}">
+
+  <div class="prac-card-head">
+    {% if doc.photo %}
+      <img class="prac-photo" src="{{ doc.photo }}" alt="{{ doc.full_name }}">
+    {% else %}
+      <div class="prac-photo-fallback">{{ (doc.first_name or "?")[0] }}</div>
+    {% endif %}
+    <div>
+      <p class="prac-name">{{ doc.title ~ " " if doc.title }}{{ doc.full_name or ((doc.first_name or "") ~ " " ~ (doc.last_name or "")) }}</p>
+      <p class="prac-role">{{ doc.qualification or doc.designation or "" }}</p>
+    </div>
+  </div>
+
+  <div class="prac-vitals"></div>
+
+  <div class="prac-meta">
+    {% if doc.super_specialty %}<span class="prac-tag">Super Speciality: {{ doc.super_specialty }},<br></span>{% endif %}
+    {% if doc.hpr_verified %}<span class="prac-tag is-verified">HPR Verified,&nbsp;</span>{% endif %}
+    {% if doc.telemedicine_certified %}<span class="prac-tag is-tele">Telemedicine Certified</span>{% endif %}
+  </div>
+
+  <div class="prac-facts">
+    <span>{% if doc.experience_years %}<strong>{{ doc.experience_years }}</strong> yrs experience<br/>{% else %}&nbsp;{% endif %}</span>
+    <span>{{ doc.city or "" }}</span>
+  </div>
+</a>

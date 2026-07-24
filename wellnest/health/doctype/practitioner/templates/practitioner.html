@@ -1,0 +1,234 @@
+ {# ------------------------------------------------------------------
+   File:  health/doctype/practitioner/templates/practitioner.html
+   This is the file Frappe auto-generates (as a one-line stub) when you
+   tick "Has Web View" + "Allow Guest to View" on the DocType.
+   Route:  /<doc.route>   e.g. /practitioners/dr-000123
+   `doc` is provided automatically by WebsiteGenerator - no get_context()
+   override needed unless you want to customize it (see notes at bottom).
+   ------------------------------------------------------------------ #}
+{% extends "templates/web.html" %}
+
+{% block title %}{{ doc.full_name }}{% endblock %}
+
+{% block page_content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  .prac-record{
+    --ink:#16302B; --paper:#F7F5EF; --teal:#2F6F62; --teal-deep:#1F4E44;
+    --amber:#C98A2E; --slate:#6B7280; --line:#DAD5C6; --card:#FFFFFF;
+    font-family:'Inter',sans-serif; color:var(--ink); background:var(--paper);
+    padding:48px 24px 96px; margin:-24px -24px 0;
+  }
+  .prac-record *{ box-sizing:border-box; }
+  .prac-sheet{ max-width:880px; margin:0 auto; background:var(--card);
+    border:1px solid var(--line); border-radius:3px; overflow:hidden; }
+
+  .prac-record-back{ max-width:880px; margin:0 auto 18px; }
+  .prac-record-back a{ font-family:'IBM Plex Mono',monospace; font-size:12px;
+    color:var(--slate); text-decoration:none; letter-spacing:.04em; }
+  .prac-record-back a:hover{ color:var(--teal-deep); }
+
+  /* header */
+  .prac-header{ display:flex; gap:22px; padding:34px 36px 26px; border-bottom:1px solid var(--line);
+    position:relative; align-items:flex-start; flex-wrap:wrap; }
+  .prac-header::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--teal); }
+  .prac-photo-lg{ width:96px; height:96px; border-radius:50%; object-fit:cover; border:1px solid var(--line); flex-shrink:0; }
+  .prac-photo-lg-fallback{ width:96px; height:96px; border-radius:50%; background:var(--teal-deep); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-size:32px; flex-shrink:0; }
+
+  .prac-id{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--slate); letter-spacing:.08em;
+    text-transform:uppercase; margin:0 0 8px; }
+  .prac-header h1{ font-family:'Fraunces',serif; font-weight:600; font-size:32px; margin:0 0 6px; line-height:1.1; }
+  .prac-header .role{ font-size:15px; color:var(--slate); margin:0 0 12px; }
+
+  .prac-badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .prac-badge{ font-family:'IBM Plex Mono',monospace; font-size:11px; padding:4px 9px; border-radius:2px;
+    border:1px solid var(--line); color:var(--slate); }
+  .prac-badge.is-verified{ border-color:var(--teal); color:var(--teal-deep); background:#EEF4F1; }
+  .prac-badge.is-tele{ border-color:var(--amber); color:#8A5D1D; background:#FBF2E3; }
+
+  /* vitals strip - signature element, echoes the list card */
+  .prac-vitals-strip{ height:24px; margin:0 36px; background-repeat:no-repeat; background-size:auto 100%;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='24' viewBox='0 0 500 24'%3E%3Cpath d='M0 12 H180 L192 3 L202 21 L212 12 H500' fill='none' stroke='%23DAD5C6' stroke-width='1.4'/%3E%3C/svg%3E"); }
+
+  /* quick stats row */
+  .prac-stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:0;
+    border-bottom:1px solid var(--line); }
+  .prac-stat{ padding:18px 24px; border-left:1px solid var(--line); }
+  .prac-stat:first-child{ border-left:none; }
+  .prac-stat .label{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--slate); margin:0 0 5px; }
+  .prac-stat .value{ font-family:'Fraunces',serif; font-size:20px; font-weight:500; margin:0; }
+
+  /* body sections */
+  .prac-section{ padding:28px 36px; border-bottom:1px solid var(--line); }
+  .prac-section:last-child{ border-bottom:none; }
+  .prac-section h2{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--teal-deep); margin:0 0 16px; }
+  .prac-section p.summary{ font-size:14.5px; line-height:1.65; color:var(--ink); margin:0; }
+
+  .prac-field-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:18px 24px; }
+  .prac-field .label{ font-size:11.5px; color:var(--slate); margin:0 0 3px; }
+  .prac-field .value{ font-size:14px; color:var(--ink); margin:0; font-weight:500; }
+  .prac-field .value.mono{ font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:400; }
+
+  .prac-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .prac-chip{ font-size:12.5px; padding:5px 12px; border:1px solid var(--line); border-radius:20px; color:var(--ink); }
+
+  .prac-avail-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; }
+  .prac-avail-card{ border:1px solid var(--line); border-radius:3px; padding:14px 16px; }
+  .prac-avail-card .label{ font-size:11px; color:var(--slate); margin:0 0 4px; text-transform:uppercase; letter-spacing:.06em; }
+  .prac-avail-card .value{ font-family:'IBM Plex Mono',monospace; font-size:14px; margin:0; }
+
+  .prac-charges{ display:flex; gap:28px; flex-wrap:wrap; }
+  .prac-charge .amount{ font-family:'Fraunces',serif; font-size:22px; margin:0; }
+  .prac-charge .label{ font-size:11.5px; color:var(--slate); margin:2px 0 0; }
+
+  @media (max-width:640px){
+    .prac-record{ padding:28px 14px 64px; }
+    .prac-header{ padding:26px 22px 20px; }
+    .prac-vitals-strip{ margin:0 22px; }
+    .prac-section{ padding:22px 22px; }
+    .prac-header h1{ font-size:26px; }
+  }
+</style>
+
+<div class="prac-record">
+  <div class="prac-record-back"><a href="/practitioners">&larr; Back to directory</a></div>
+
+  <div class="prac-sheet">
+    <div class="prac-header">
+      {% if doc.photo %}
+        <img class="prac-photo-lg" src="{{ doc.photo }}" alt="{{ doc.full_name }}">
+      {% else %}
+        <div class="prac-photo-lg-fallback">{{ (doc.first_name or "?")[0] }}</div>
+      {% endif %}
+      <div>
+        {% if doc.registration_no %}<p class="prac-id">Reg. No. {{ doc.registration_no }}</p>{% endif %}
+        <h1>{{ doc.title ~ " " if doc.title }}{{ doc.full_name or ((doc.first_name or "") ~ " " ~ (doc.last_name or "")) }}</h1>
+        <p class="role">{{ doc.designation or "" }}{{ " · " ~ doc.super_specialty if doc.super_specialty }}</p>
+        <div class="prac-badges">
+          {% if doc.hpr_verified %}<span class="prac-badge is-verified">HPR Verified</span>{% endif %}
+          {% if doc.telemedicine_certified %}<span class="prac-badge is-tele">Telemedicine Certified</span>{% endif %}
+          {% if doc.account_status %}<span class="prac-badge">{{ doc.account_status | replace("_"," ") | title }}</span>{% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="prac-vitals-strip"></div>
+
+    <div class="prac-stats">
+      <div class="prac-stat">
+        <p class="label">Experience</p>
+        <p class="value">{{ doc.experience_years or "—" }}{{ " yrs" if doc.experience_years }}</p>
+      </div>
+      <div class="prac-stat">
+        <p class="label">Qualification</p>
+        <p class="value">{{ doc.qualification or "—" }}</p>
+      </div>
+      <div class="prac-stat">
+        <p class="label">Council</p>
+        <p class="value">{{ doc.council_name or "—" }}</p>
+      </div>
+      <div class="prac-stat">
+        <p class="label">Primary Facility</p>
+        <p class="value">{{ doc.primary_facility or "—" }}</p>
+      </div>
+    </div>
+
+    {% if doc.professional_summary %}
+    <div class="prac-section">
+      <h2>About</h2>
+      <p class="summary">{{ doc.professional_summary }}</p>
+    </div>
+    {% endif %}
+
+    <div class="prac-section">
+      <h2>Professional Details</h2>
+      <div class="prac-field-grid">
+        {% if doc.additional_qualification %}
+        <div class="prac-field"><p class="label">Additional Qualification</p><p class="value">{{ doc.additional_qualification }}</p></div>
+        {% endif %}
+        {% if doc.registration_valid_upto %}
+        <div class="prac-field"><p class="label">Registration Valid Upto</p><p class="value mono">{{ doc.registration_valid_upto }}</p></div>
+        {% endif %}
+        {% if doc.abdm_specialty_code %}
+        <div class="prac-field"><p class="label">ABDM Specialty Code</p><p class="value mono">{{ doc.abdm_specialty_code }}</p></div>
+        {% endif %}
+        {% if doc.abdm_council_code %}
+        <div class="prac-field"><p class="label">ABDM Council Code</p><p class="value mono">{{ doc.abdm_council_code }}</p></div>
+        {% endif %}
+        {% if doc.hpr_id %}
+        <div class="prac-field"><p class="label">HPR ID</p><p class="value mono">{{ doc.hpr_id }}</p></div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if doc.languages_known %}
+    <div class="prac-section">
+      <h2>Languages Spoken</h2>
+      <div class="prac-chips">
+        {% for lang in doc.languages_known %}
+        <span class="prac-chip">{{ lang.language or lang.spoken_language_option or lang.get("language") }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if doc.available_from or doc.available_in_emergency_from %}
+    <div class="prac-section">
+      <h2>Availability</h2>
+      <div class="prac-avail-grid">
+        {% if doc.available_from %}
+        <div class="prac-avail-card">
+          <p class="label">Regular Hours</p>
+          <p class="value">{{ doc.available_from }} – {{ doc.available_till }}</p>
+        </div>
+        {% endif %}
+        {% if doc.available_in_emergency_from %}
+        <div class="prac-avail-card">
+          <p class="label">Emergency Hours</p>
+          <p class="value">{{ doc.available_in_emergency_from }} – {{ doc.available_in_emergency_till }}</p>
+        </div>
+        {% endif %}
+        {% if doc.availability_days %}
+        <div class="prac-avail-card">
+          <p class="label">Days</p>
+          <p class="value">{% for d in doc.availability_days %}{{ d.day }}{{ ", " if not loop.last }}{% endfor %}</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if doc.normal_charge or doc.emergency_charge or doc.priority_charge %}
+    <div class="prac-section">
+      <h2>Consultation Charges</h2>
+      <div class="prac-charges">
+        {% if doc.normal_charge %}
+        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.normal_charge) }}</p><p class="label">Normal</p></div>
+        {% endif %}
+        {% if doc.priority_charge %}
+        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.priority_charge) }}</p><p class="label">Priority</p></div>
+        {% endif %}
+        {% if doc.emergency_charge %}
+        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.emergency_charge) }}</p><p class="label">Emergency</p></div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="prac-section">
+      <h2>Contact</h2>
+      <div class="prac-field-grid">
+        {% if doc.email %}<div class="prac-field"><p class="label">Email</p><p class="value">{{ doc.email }}</p></div>{% endif %}
+        {% if doc.mobile %}<div class="prac-field"><p class="label">Mobile</p><p class="value mono">{{ doc.mobile }}</p></div>{% endif %}
+        {% if doc.city %}<div class="prac-field"><p class="label">Location</p><p class="value">{{ doc.city }}{{ ", " ~ doc.state if doc.state }}</p></div>{% endif %}
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
