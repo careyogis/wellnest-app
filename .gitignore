@@ -7,4 +7,6 @@ node_modules
 __pycache__
 wellnest/www/caregiver-app.html
 wellnest/public/caregiver-app/
+wellnest/www/doctor-app.html
+wellnest/public/doctor-app/
 .vscode
