@@ -61,6 +61,40 @@
               </div>
             </Card>
 
+            <!-- Personal & account details -->
+            <Card class="shadow-sm border-0 mb-4">
+              <div class="p-4">
+                <h5 class="fw-bold mb-3">Personal &amp; account details</h5>
+
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                  <span class="text-muted">Gender</span>
+                  <span class="fw-semibold">{{ profileData?.data?.doctor?.gender || 'Not Available' }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                  <span class="text-muted">Email</span>
+                  <span class="fw-semibold">{{ profileData?.data?.doctor?.email || 'Not Available' }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                  <span class="text-muted">Mobile</span>
+                  <span class="fw-semibold">{{ profileData?.data?.doctor?.mobile || 'Not Available' }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                  <span class="text-muted">Account status</span>
+                  <span class="fw-semibold text-capitalize" :class="profileData?.data?.doctor?.account_status === 'active' ? 'text-success' : 'text-muted'">
+                    {{ profileData?.data?.doctor?.account_status || 'Not Available' }}
+                  </span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                  <span class="text-muted">Telemedicine certified</span>
+                  <span class="fw-semibold">{{ profileData?.data?.doctor?.telemedicine_certified ? 'Yes' : 'No' }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2">
+                  <span class="text-muted">HPR verified</span>
+                  <span class="fw-semibold">{{ profileData?.data?.doctor?.hpr_verified ? 'Yes' : 'No' }}</span>
+                </div>
+              </div>
+            </Card>
+
             <!-- Consultation fees -->
             <Card class="shadow-sm border-0">
               <div class="p-4">
@@ -82,7 +116,7 @@
             </Card>
           </div>
 
-          <!-- ================= RIGHT COLUMN ================= -->
+          <!-- ====RIGHT COLUMN === -->
           <div class="col-12 col-lg-7">
             <!-- Biography -->
             <Card class="shadow-sm border-0 mb-4">
@@ -120,6 +154,11 @@
                       {{ profileData?.data?.doctor?.hospitals_worked?.length ? profileData.data.doctor.hospitals_worked.join(', ') : 'Not Available' }}
                     </div>
                   </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="bg-light rounded p-3">
+                      {{ profileData?.data?.doctor?.availability_days?.length ? profileData.data.doctor.availability_days.join(', ') : 'Not Available' }}
+                    </div>
+                  </div>
                 </div>
               </div>
             </Card>
@@ -153,6 +192,7 @@
                 </Card>
               </div>
             </div>
+
           </div>
         </div>
 
@@ -171,6 +211,11 @@ import Earnings from '../components/Earnings.vue';
 import { formatCurrency, shortDateFormatter } from '../utils';
 import StarRating from '../components/star-rating.vue';
 import router from '@/router';
+
+function formatDateOnly(dateString) {
+  if (!dateString) return 'Not Available';
+  return dateString.split(' ')[0];
+}
 
 const state = reactive({
   index: 0,
