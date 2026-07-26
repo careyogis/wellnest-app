@@ -1,7 +1,4 @@
  {# ------------------------------------------------------------------
-   File:  health/doctype/practitioner/templates/practitioner.html
-   This is the file Frappe auto-generates (as a one-line stub) when you
-   tick "Has Web View" + "Allow Guest to View" on the DocType.
    Route:  /<doc.route>   e.g. /practitioners/dr-000123
    `doc` is provided automatically by WebsiteGenerator - no get_context()
    override needed unless you want to customize it (see notes at bottom).
@@ -184,13 +181,13 @@
         {% if doc.available_from %}
         <div class="prac-avail-card">
           <p class="label">Regular Hours</p>
-          <p class="value">{{ doc.available_from }} – {{ doc.available_till }}</p>
+          <p class="value">{{ doc.available_from }} - {{ doc.available_till }}</p>
         </div>
         {% endif %}
         {% if doc.available_in_emergency_from %}
         <div class="prac-avail-card">
           <p class="label">Emergency Hours</p>
-          <p class="value">{{ doc.available_in_emergency_from }} – {{ doc.available_in_emergency_till }}</p>
+          <p class="value">{{ doc.available_in_emergency_from }} - {{ doc.available_in_emergency_till }}</p>
         </div>
         {% endif %}
         {% if doc.availability_days %}
@@ -203,7 +200,8 @@
     </div>
     {% endif %}
 
-    {% if doc.normal_charge or doc.emergency_charge or doc.priority_charge %}
+    {# {% if doc.normal_charge or doc.emergency_charge or doc.priority_charge %} #}
+    {% if 0 == 1 %}
     <div class="prac-section">
       <h2>Consultation Charges</h2>
       <div class="prac-charges">

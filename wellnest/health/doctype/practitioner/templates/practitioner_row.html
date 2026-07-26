@@ -5,6 +5,17 @@
    example listing page + CSS at the bottom of this message for how
    to wire it up.
    ------------------------------------------------------------------ #}
+<style>
+  .prac-photo{
+    width:112px; height:112px; border-radius:50%; object-fit:cover; flex-shrink:0;
+    border:1px solid var(--line); background:var(--paper);
+  }
+  .prac-photo-fallback{
+    width:56px; height:56px; border-radius:50%; flex-shrink:0;
+    background:var(--teal-deep); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-size:19px;
+  }
+</style>   
 <a class="prac-card"
    href="/{{ doc.route or doc.name | lower }}"
    data-search="{{ ((doc.full_name or '') ~ ' ' ~ (doc.designation or '') ~ ' ' ~ (doc.super_specialty or '') ~ ' ' ~ (doc.qualification or '')) | lower }}"

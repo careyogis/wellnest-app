@@ -12,6 +12,7 @@ class Practitioner(WebsiteGenerator):
 		self.full_name = f"{self.title} {self.first_name} {self.last_name}";
 
 	def validate(self):
+		super().validate()
 		self.validate_availability_days();
 
 	def validate_availability_days(self):
