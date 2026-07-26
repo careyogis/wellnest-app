@@ -35,7 +35,7 @@
   "qualification",
   "designation",
   "registration_no",
-  "appointment_letter_ref",
+  "registration_letter",
   "experience_years",
   "digital_signature_url",
   "professional_summary",
@@ -155,11 +155,6 @@
    "fieldname": "registration_valid_upto",
    "fieldtype": "Date",
    "label": "Registration Valid Upto"
-  },
-  {
-   "fieldname": "appointment_letter_ref",
-   "fieldtype": "Data",
-   "label": "Appointment Letter Ref"
   },
   {
    "fieldname": "email",
@@ -326,7 +321,8 @@
    "in_list_view": 1,
    "label": "Mobile",
    "options": "Phone",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "full_name",
@@ -408,6 +404,11 @@
    "fieldname": "is_published",
    "fieldtype": "Check",
    "label": "Is Published?"
+  },
+  {
+   "fieldname": "registration_letter",
+   "fieldtype": "Attach",
+   "label": "Registration Letter"
   }
  ],
  "grid_page_length": 50,
@@ -416,7 +417,7 @@
  "index_web_pages_for_search": 1,
  "is_published_field": "is_published",
  "links": [],
- "modified": "2026-07-26 19:46:27.258499",
+ "modified": "2026-07-26 23:22:02.528513",
  "modified_by": "randhirk@careyogis.com",
  "module": "Health",
  "name": "Practitioner",
