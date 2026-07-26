@@ -12,6 +12,9 @@
   "abha_id",
   "user_details_section",
   "user_id",
+  "column_break_egfa",
+  "supplier",
+  "sales_partner",
   "personal_info_section",
   "title",
   "first_name",
@@ -409,6 +412,22 @@
    "fieldname": "registration_letter",
    "fieldtype": "Attach",
    "label": "Registration Letter"
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "column_break_egfa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sales_partner",
+   "fieldtype": "Link",
+   "label": "Sales Partner",
+   "options": "Sales Partner"
   }
  ],
  "grid_page_length": 50,
@@ -417,7 +436,7 @@
  "index_web_pages_for_search": 1,
  "is_published_field": "is_published",
  "links": [],
- "modified": "2026-07-26 23:22:02.528513",
+ "modified": "2026-07-27 00:18:54.831262",
  "modified_by": "randhirk@careyogis.com",
  "module": "Health",
  "name": "Practitioner",
