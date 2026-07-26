@@ -24,8 +24,8 @@
               <div class="p-4 text-center">
                 <div class="mb-3 d-flex justify-content-center">
                   <img
-                    v-if="profileData?.data?.doctor?.profile_image_url"
-                    :src="profileData.data.doctor.profile_image_url"
+                    v-if="profileData?.data?.doctor?.photo"
+                    :src="profileData.data.doctor.photo"
                     class="rounded-circle"
                     style="width: 96px; height: 96px; object-fit: cover"
                     alt="Doctor photo"
@@ -33,7 +33,7 @@
                     v-show="!imageLoadError"
                   />
                   <div
-                    v-if="!profileData?.data?.doctor?.profile_image_url || imageLoadError"
+                    v-if="!profileData?.data?.doctor?.photo || imageLoadError"
                     class="rounded-circle bg-warning text-dark fw-bold d-flex align-items-center justify-content-center"
                     style="width: 96px; height: 96px; font-size: 28px"
                   >
@@ -124,7 +124,7 @@
                 <h5 class="fw-bold mb-3">Biography</h5>
 
                 <p class="text-muted mb-4">
-                  {{ profileData?.data?.doctor?.biography || 'No biography available.' }}
+                  {{ profileData?.data?.doctor?.professional_summary || 'No biography available.' }}
                 </p>
 
                 <div class="row g-3">
@@ -137,11 +137,11 @@
                     <div class="bg-light rounded p-3">{{ profileData?.data?.doctor?.experience_years }} years experience</div>
                   </div>
                   <div class="col-12 col-sm-6">
-                    <div class="bg-light rounded p-3">{{ profileData?.data?.doctor?.council_name }}: {{ profileData?.data?.doctor?.registration_number }}</div>
+                    <div class="bg-light rounded p-3">{{ profileData?.data?.doctor?.council_name }}: {{ profileData?.data?.doctor?.registration_no }}</div>
                   </div>
                   <div class="col-12 col-sm-6">
                     <div class="bg-light rounded p-3">
-                      {{ profileData?.data?.doctor?.languages_known?.length ? profileData.data.doctor.languages_known.join(', ') : 'Not Available' }}
+                      {{ profileData?.data?.doctor?.languages_known?.length ? profileData.data.doctor.languages_known.map(lang => lang.spoken_language_option).join(', ') : 'Not Available' }}
                     </div>
                   </div>
                   <div class="col-12 col-sm-6">

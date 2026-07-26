@@ -2,16 +2,17 @@
 # For license information, please see license.txt
 
 import frappe
-from frappe.model.document import Document
+from frappe.website.website_generator import WebsiteGenerator
 from collections.abc import Iterable
 from frappe.utils.data import comma_and
 
 
-class Practitioner(Document):
+class Practitioner(WebsiteGenerator):
 	def before_save(self):		
 		self.full_name = f"{self.title} {self.first_name} {self.last_name}";
 
 	def validate(self):
+		super().validate()
 		self.validate_availability_days();
 
 	def validate_availability_days(self):
