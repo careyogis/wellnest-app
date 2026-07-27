@@ -22,6 +22,27 @@ frappe.ui.form.on("Practitioner", {
 				});
 			});
 		}
+
+		// Setup Supplier record for the Practitioner if not already linked
+		if (
+			!frm.doc.supplier &&
+			!frm.is_new() &&
+			frm.perm[0].write &&
+			frappe.boot.user.can_create.includes("Supplier")
+		) {
+			frm.add_custom_button(__("Add as a Supplier"), function () {
+				return frappe.call({
+					method: "wellnest.health.doctype.practitioner.practitioner.add_as_supplier",
+					args: {
+						practitioner: frm.doc.name,
+					},
+					callback: function (r) {
+						frm.set_value("supplier", r.message);
+						frm.save();
+					},
+				});
+			});
+		}
 		
 		// Setup availability days buttons
 		frm.trigger("setup_availability_days_buttons");

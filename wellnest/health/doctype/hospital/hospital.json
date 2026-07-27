@@ -55,18 +55,23 @@
   {
    "fieldname": "hospital_code",
    "fieldtype": "Data",
-   "label": "Hospital Code"
+   "in_list_view": 1,
+   "label": "Hospital Code",
+   "reqd": 1
   },
   {
    "fieldname": "hospital_name",
    "fieldtype": "Data",
-   "label": "Hospital Name"
+   "in_list_view": 1,
+   "label": "Hospital Name",
+   "reqd": 1
   },
   {
    "fieldname": "hospital_type",
    "fieldtype": "Link",
    "label": "Hospital Type",
-   "options": "Hospital Type"
+   "options": "Hospital Type",
+   "reqd": 1
   },
   {
    "fieldname": "facility_sub_type",
@@ -134,6 +139,8 @@
    "options": "City"
   },
   {
+   "fetch_from": "city.state",
+   "fetch_if_empty": 1,
    "fieldname": "state",
    "fieldtype": "Link",
    "label": "State",
@@ -235,8 +242,8 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-10 00:33:53.073959",
- "modified_by": "Administrator",
+ "modified": "2026-07-26 23:32:41.383166",
+ "modified_by": "randhirk@careyogis.com",
  "module": "Health",
  "name": "Hospital",
  "naming_rule": "Autoincrement",
@@ -257,7 +264,9 @@
  ],
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "hospital_name"
 }

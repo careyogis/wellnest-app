@@ -61,3 +61,18 @@ def invite_user(practitioner: str):
 	).insert()
 
 	return user.name
+
+@frappe.whitelist()
+def add_as_supplier(practitioner: str):
+	practitioner = frappe.get_doc("Practitioner", practitioner)
+	practitioner.check_permission()
+
+	supplier = frappe.get_doc(
+		{
+			"doctype": "Supplier",
+			"supplier_name": practitioner.full_name,
+			"supplier_type": "Individual",
+		}
+	).insert()
+
+	return supplier.name
