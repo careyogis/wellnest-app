@@ -61,6 +61,40 @@
               </div>
             </Card>
 
+            <!-- Personal & account details -->
+            <Card class="shadow-sm border-0 mb-4">
+              <div class="p-4">
+                <h5 class="fw-bold mb-3">Personal &amp; account details</h5>
+
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                  <span class="text-muted">Gender</span>
+                  <span class="fw-semibold">{{ profileData?.data?.doctor?.gender || 'Not Available' }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                  <span class="text-muted">Email</span>
+                  <span class="fw-semibold">{{ profileData?.data?.doctor?.email || 'Not Available' }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                  <span class="text-muted">Mobile</span>
+                  <span class="fw-semibold">{{ profileData?.data?.doctor?.mobile || 'Not Available' }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                  <span class="text-muted">Account status</span>
+                  <span class="fw-semibold text-capitalize" :class="profileData?.data?.doctor?.account_status === 'active' ? 'text-success' : 'text-muted'">
+                    {{ profileData?.data?.doctor?.account_status || 'Not Available' }}
+                  </span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                  <span class="text-muted">Telemedicine certified</span>
+                  <span class="fw-semibold">{{ profileData?.data?.doctor?.telemedicine_certified ? 'Yes' : 'No' }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2">
+                  <span class="text-muted">HPR verified</span>
+                  <span class="fw-semibold">{{ profileData?.data?.doctor?.hpr_verified ? 'Yes' : 'No' }}</span>
+                </div>
+              </div>
+            </Card>
+
             <!-- Consultation fees -->
             <Card class="shadow-sm border-0">
               <div class="p-4">
@@ -82,7 +116,7 @@
             </Card>
           </div>
 
-          <!-- ================= RIGHT COLUMN ================= -->
+          <!-- === RIGHT COLUMN === -->
           <div class="col-12 col-lg-7">
             <!-- Biography -->
             <Card class="shadow-sm border-0 mb-4">
@@ -107,17 +141,12 @@
                   </div>
                   <div class="col-12 col-sm-6">
                     <div class="bg-light rounded p-3">
-                      {{ profileData?.data?.doctor?.languages_known?.length ? profileData.data.doctor.languages_known.map(lang => lang.spoken_language_option).join(', ') : 'Not Available' }}
+                      {{ profileData?.data?.doctor?.languages_known?.length ? profileData.data.doctor.languages_known.map((lang) => lang.spoken_language_option).join(', ') : 'Not Available' }}
                     </div>
                   </div>
                   <div class="col-12 col-sm-6">
                     <div class="bg-light rounded p-3">
-                      {{ profileData?.data?.doctor?.specializations?.length ? profileData.data.doctor.specializations.join(', ') : 'Not Available' }}
-                    </div>
-                  </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="bg-light rounded p-3">
-                      {{ profileData?.data?.doctor?.hospitals_worked?.length ? profileData.data.doctor.hospitals_worked.join(', ') : 'Not Available' }}
+                      {{ profileData?.data?.doctor?.availability_days?.length ? profileData.data.doctor.availability_days.map((d) => d.day).join(', ') : 'Not Available' }}
                     </div>
                   </div>
                 </div>
@@ -140,15 +169,33 @@
               </div>
 
               <!-- Documents -->
-              <div class="col-12 col-md-6">
+              <div class="col-12 ">
                 <Card class="shadow-sm border-0 h-100">
                   <div class="p-4">
                     <h5 class="fw-bold mb-3">Documents</h5>
-                    <div class="d-flex flex-column gap-2">
-                      <Button v-for="doc in profileData?.data?.doctor?.documents" :key="doc.name" variant="outline" theme="orange" class="w-100" @click="openDocument(doc)">
-                        {{ doc.label }}
-                      </Button>
+
+                    <div v-if="profileData?.data?.doctor?.registration_letter">
+                      <div class="document-card">
+                        <div class="document-icon">
+                          <i class="bi bi-file-earmark-pdf-fill"></i>
+                        </div>
+
+                        <div class="document-info">
+                          <div class="document-title">Registration Letter</div>
+
+                          <div class="document-name">
+                            {{ profileData.data.doctor.registration_letter.split('/').pop() }}
+                          </div>
+                        </div>
+
+                        <Button class="view-btn" @click="openDocument(profileData.data.doctor.registration_letter)">
+                          <i class="bi bi-eye-fill me-1"></i>
+                          <span>View</span>
+                        </Button>
+                      </div>
                     </div>
+
+                    <div v-else class="text-muted small">No documents uploaded yet.</div>
                   </div>
                 </Card>
               </div>
@@ -172,10 +219,18 @@ import { formatCurrency, shortDateFormatter } from '../utils';
 import StarRating from '../components/star-rating.vue';
 import router from '@/router';
 
+function formatDateOnly(dateString) {
+  if (!dateString) return 'Not Available';
+  return dateString.split(' ')[0];
+}
+
 const state = reactive({
   index: 0,
   tabs: [{ label: 'General' }, { label: 'Ratings' }],
 });
+
+// Was missing - fixes the "imageLoadError accessed but not defined" warning
+const imageLoadError = ref(false);
 
 let profileData;
 let totalRatings = 0;
@@ -185,6 +240,19 @@ apiCall();
 
 function logout() {
   session.logout.submit();
+}
+
+// Opens a document (relative file path from the backend) in a new tab.
+function openDocument(filePath) {
+  if (!filePath) return;
+
+  window.open(filePath, '_blank');
+}
+
+// Was missing - fixes the "editProfile accessed but not defined" warning.
+// Placeholder navigation - point this at whatever your actual edit route is.
+function editProfile() {
+  router.push({ name: 'EditProfile' });
 }
 
 async function apiCall() {
