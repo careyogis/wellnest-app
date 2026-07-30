@@ -50,18 +50,8 @@
       <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-4 p-lg-5">
         <Card class="shadow-lg border-0" style="max-width: 460px; width: 100%; border-radius: 20px">
           <div class="p-4">
-            <div class="d-flex align-items-center mb-4">
-              <div
-                class="rounded-circle text-white fw-bold d-flex align-items-center justify-content-center"
-                style="width: 60px; height: 60px; font-size: 20px; background: linear-gradient(135deg, #4c8c6b, #f0a93a)"
-              >
-                YB
-              </div>
-
-              <div class="ms-3">
-                <div class="text-muted small">Welcome back</div>
-                <h4 class="mb-0 fw-semibold">Brig. (Retd.) Dr. Y. S. Bisht</h4>
-              </div>
+            <div class="d-flex align-items-center justify-content-center mb-4">
+              <img src="@/assets/images/logo-01.png" style="width: 160px" />
             </div>
 
             <div class="d-flex p-1 rounded-pill mb-4" style="background: #eef1f7">
@@ -97,7 +87,14 @@
             <div v-else>
               <Input class="doctor-input" v-model="phone" label="Mobile Number" placeholder="Enter Mobile Number" />
 
-              <Button class="w-100 mt-3 doctor-btn" variant="solid" @click="sendOtp"> Send OTP </Button>
+              <Button
+                class="w-100 mt-3 doctor-btn"
+                variant="solid"
+                :disabled="otpSending"
+                @click="sendOtp"
+              >
+                {{ otpSending ? `Resend OTP in ${otpCooldown}s` : 'Send OTP' }}
+              </Button>
               <div v-if="message" :class="['alert', messageType === 'success' ? 'alert-success' : 'alert-danger', 'mt-3']">
                 {{ message }}
               </div>
@@ -108,11 +105,6 @@
                 <Button class="w-100 mt-3 doctor-btn" variant="solid" @click="verifyOtp"> Verify OTP </Button>
               </div>
             </div>
-
-            <div class="alert alert-info mt-4 mb-0">
-              <i class="bi bi-shield-check me-2"></i>
-              Prototype only. No backend or clinical data storage.
-            </div>
           </div>
         </Card>
       </div>
@@ -122,7 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import { session } from '../data/session';
 import { userResource } from '../data/user';
 import { sessionUser } from '../data/session';
@@ -152,6 +144,15 @@ const sessionInfo = ref('');
 const message = ref('');
 const messageType = ref<'success' | 'error' | ''>('');
 let recaptchaWidgetId: number | null = null;
+
+// OTP resend cooldown state
+const otpSending = ref(false);
+const otpCooldown = ref(0);
+const OTP_COOLDOWN_SECONDS = 30;
+let cooldownTimer: ReturnType<typeof setInterval> | null = null;
+
+// OTP length expected from backend
+const OTP_LENGTH = 6;
 
 const loginWithPhone = createResource({
   url: 'wellnest.api.login_with_phone',
@@ -195,6 +196,10 @@ onMounted(() => {
   }
 });
 
+onBeforeUnmount(() => {
+  if (cooldownTimer) clearInterval(cooldownTimer);
+});
+
 function renderRecaptcha(): Promise<number> {
   return new Promise((resolve) => {
     const check = setInterval(() => {
@@ -228,6 +233,19 @@ async function getRecaptchaToken(): Promise<string> {
   });
 }
 
+function startOtpCooldown() {
+  otpSending.value = true;
+  otpCooldown.value = OTP_COOLDOWN_SECONDS;
+
+  cooldownTimer = setInterval(() => {
+    otpCooldown.value--;
+    if (otpCooldown.value <= 0) {
+      if (cooldownTimer) clearInterval(cooldownTimer);
+      otpSending.value = false;
+    }
+  }, 1000);
+}
+
 async function sendOtp() {
   message.value = '';
   messageType.value = '';
@@ -236,6 +254,13 @@ async function sendOtp() {
     alert('Please enter your mobile number');
     return;
   }
+
+  // Guard against double clicks while a send is already in flight/cooling down
+  if (otpSending.value) return;
+
+   // Disable immediately on click
+  otpSending.value = true;
+  otpCooldown.value = OTP_COOLDOWN_SECONDS;
 
   try {
     const recaptchaToken = await getRecaptchaToken();
@@ -250,6 +275,8 @@ async function sendOtp() {
 
     message.value = 'OTP sent successfully.';
     messageType.value = 'success';
+
+    startOtpCooldown();
   } catch (err: any) {
     console.error(err);
 
@@ -260,7 +287,20 @@ async function sendOtp() {
     } else {
       message.value = 'Failed to send OTP.';
     }
+
+     // Send failed — don't need to wait for cooldown
+    otpSending.value = false;
   }
+}
+
+function startCooldownTimer() {
+  cooldownTimer = setInterval(() => {
+    otpCooldown.value--;
+    if (otpCooldown.value <= 0) {
+      if (cooldownTimer) clearInterval(cooldownTimer);
+      otpSending.value = false;
+    }
+  }, 1000);
 }
 
 async function verifyOtp() {
@@ -294,4 +334,12 @@ async function verifyOtp() {
     }
   }
 }
+
+// Auto-verify once the user has entered a full 6-digit OTP
+watch(otp, (newVal) => {
+  console.log('otp is now:', newVal, 'length:', newVal.length);
+  if (newVal.length === OTP_LENGTH) {
+    verifyOtp();
+  }
+});
 </script>
