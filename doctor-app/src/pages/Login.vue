@@ -2,22 +2,15 @@
   <div class="container-fluid min-vh-100 p-0" style="background: #f5f7fb">
     <div class="row min-vh-100 g-0">
       <!-- Left Side -->
-      <div
-        class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-4 p-lg-5"
-        style="background: linear-gradient(135deg, #fff8f0 0%, #fdeee0 60%, #fbe6d3 100%)"
-      >
+      <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-4 p-lg-5" style="background: linear-gradient(135deg, #fff8f0 0%, #fdeee0 60%, #fbe6d3 100%)">
         <div class="text-dark py-4" style="max-width: 520px">
           <img src="@/assets/images/logo-01.png" style="width: 220px" class="mb-4" />
 
-          <span class="badge rounded-pill bg-white text-dark px-3 py-2 mb-3 shadow-sm">
-            Continuity of Care Platform
-          </span>
+          <span class="badge rounded-pill bg-white text-dark px-3 py-2 mb-3 shadow-sm"> Continuity of Care Platform </span>
 
           <h1 class="fw-bold">CareYogi Doctor App</h1>
 
-          <p class="mt-3 text-muted">
-            Stay connected with patients after discharge, review reports, manage follow-ups, and run consultations from one calm workspace.
-          </p>
+          <p class="mt-3 text-muted">Stay connected with patients after discharge, review reports, manage follow-ups, and run consultations from one calm workspace.</p>
 
           <div class="bg-white rounded-4 shadow-sm mt-4 p-4">
             <div class="d-flex align-items-start py-2 border-bottom">
@@ -80,19 +73,18 @@
 
               <Input class="doctor-input mt-2" type="password" name="password" label="Password" placeholder="Password" />
 
-              <Button class="w-100 mt-4 doctor-btn" variant="solid"  type="submit"> Sign In </Button>
+                <div v-if="message && loginMethod == 'password'" :class="['alert', messageType === 'success' ? 'alert-success' : 'alert-danger', 'mt-3']">
+                  {{ message }}
+                </div>
+                
+              <Button class="w-100 mt-4 doctor-btn" variant="solid" type="submit"> Sign In </Button>
             </form>
 
             <!-- OTP -->
             <div v-else>
               <Input class="doctor-input" v-model="phone" label="Mobile Number" placeholder="Enter Mobile Number" />
 
-              <Button
-                class="w-100 mt-3 doctor-btn"
-                variant="solid"
-                :disabled="otpSending"
-                @click="sendOtp"
-              >
+              <Button class="w-100 mt-3 doctor-btn" variant="solid" :disabled="otpSending" @click="sendOtp">
                 {{ otpSending ? `Resend OTP in ${otpCooldown}s` : 'Send OTP' }}
               </Button>
               <div v-if="message" :class="['alert', messageType === 'success' ? 'alert-success' : 'alert-danger', 'mt-3']">
@@ -166,13 +158,36 @@ const loginWithPhone = createResource({
 const sendOtpResource = createResource({ url: 'wellnest.api.send_otp' });
 const verifyOtpResource = createResource({ url: 'wellnest.api.verify_otp' });
 
-function submit(e: Event) {
-  const formData = new FormData(e.target as HTMLFormElement);
+async function submit(e: Event) {
+  message.value = '';
+  messageType.value = '';
 
-  session.login.submit({
-    email: formData.get('email'),
-    password: formData.get('password'),
-  });
+  const formData = new FormData(e.target as HTMLFormElement);
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+
+  if (!email || !password) {
+    message.value = 'Please enter both username and password.';
+    messageType.value = 'error';
+    return;
+  }
+
+  try {
+    await session.login.submit({
+      email,
+      password,
+    });
+  } catch (err: any) {
+    console.error(err);
+
+    messageType.value = 'error';
+
+    if (err?.messages && err.messages.length > 0) {
+      message.value = err.messages[0];
+    } else {
+      message.value = 'Invalid username or password.';
+    }
+  }
 }
 
 function getErrorMessage(err: any) {
@@ -258,7 +273,7 @@ async function sendOtp() {
   // Guard against double clicks while a send is already in flight/cooling down
   if (otpSending.value) return;
 
-   // Disable immediately on click
+  // Disable immediately on click
   otpSending.value = true;
   otpCooldown.value = OTP_COOLDOWN_SECONDS;
 
@@ -288,7 +303,7 @@ async function sendOtp() {
       message.value = 'Failed to send OTP.';
     }
 
-     // Send failed — don't need to wait for cooldown
+    // Send failed — don't need to wait for cooldown
     otpSending.value = false;
   }
 }
