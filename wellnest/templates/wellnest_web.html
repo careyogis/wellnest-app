@@ -123,28 +123,6 @@
 	<script src="assets/wellnest/js/swiper.min.js"></script>
 	<script src="assets/wellnest/js/theme.js"></script>
 	<script src="assets/wellnest/js/custom.js"></script>
-
-	<!-- frappe related scripts -->
-	<!-- js should be loaded in body! -->
-	<script>
-		frappe.boot = {{ boot }}
-		// for backward compatibility of some libs
-		frappe.sys_defaults = frappe.boot.sysdefaults;
-	</script>
-	{{ include_script('frappe-web.bundle.js') }}
-
 	{% endblock %}
-
-	{%- for link in web_include_js %}
-	{{ include_script(link) }}
-	{%- endfor -%}
-
-	{%- block script %}
-		{% if colocated_js -%}
-			<script>{{ colocated_js }}</script>
-		{%- endif %}
-	{%- endblock %}
-	<!-- csrf_token -->
-	{%- block body_include %}{{ body_include or "" }}{% endblock -%}
 </body>
 </html>

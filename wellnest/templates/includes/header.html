@@ -42,13 +42,3 @@
 	<link rel="stylesheet" href="assets/wellnest/css/style.css" />
 	<link rel="stylesheet" href="assets/wellnest/css/responsive.css" />
 	  
-	<script>
-		window.frappe = {};
-		frappe.ready_events = [];
-		frappe.ready = function(fn) {
-			frappe.ready_events.push(fn);
-		}
-		window.dev_server = {{ dev_server }};
-		window.socketio_port = {{ (frappe.socketio_port or 9000) }};
-		window.show_language_picker = {{ show_language_picker or 'false' }};
-	</script>
