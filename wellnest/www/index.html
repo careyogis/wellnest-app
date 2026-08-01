@@ -609,21 +609,31 @@
           <label class="required" for="city" style="font-size: 20px"
             >City of Service</label
           >
-          <input
-            type="text"
+          <select
             id="city"
             class="form-control"
             name="city"
-            placeholder="City of Service"
             required
             style="
               padding: 18px;
               font-size: 20px;
               border-radius: 10px;
               width: 100%;
+              line-height: 1.5;
+              height: 40px;
+              color: #2d2929;
+              background-color: #fff;
               border: 1px solid #ddd;
             "
-          />
+          >
+            <option value="" disabled selected>Select a City</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Gurgaon">Gurgaon</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Noida">Noida</option>
+            <option value="Vijayawada">Vijayawada</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
 
         <div class="form-group" style="margin-bottom: 20px">
@@ -641,7 +651,7 @@
               border-radius: 10px;
               width: 100%;
               line-height: 1.5;
-              height: 60px;
+              height: 40px;
               color: #2d2929;
               background-color: #fff;
               border: 1px solid #ddd;
