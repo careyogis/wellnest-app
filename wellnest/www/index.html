@@ -620,7 +620,7 @@
               border-radius: 10px;
               width: 100%;
               line-height: 1.5;
-              height: 40px;
+              height: 60px;
               color: #2d2929;
               background-color: #fff;
               border: 1px solid #ddd;
@@ -651,7 +651,7 @@
               border-radius: 10px;
               width: 100%;
               line-height: 1.5;
-              height: 40px;
+              height: 60px;
               color: #2d2929;
               background-color: #fff;
               border: 1px solid #ddd;
@@ -754,7 +754,7 @@
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            // "X-Frappe-CSRF-Token": frappe.csrf_token, // this fixes the CSRFTokenError
+            "X-Frappe-CSRF-Token": window.csrf_token,
           },
           body: JSON.stringify(payload),
         });
