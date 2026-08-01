@@ -4,20 +4,20 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="language" content="English">
-	<meta name="title" content="CareYogi - Care Comes Home">
-	<meta name="description" content="We are an Elder Care & out of hospital transitional care super specialty, disrupting the way care is perceived. Our HTHT (Hi-Tech- Hi Touch) platform enabled by our passionate caregivers and unmatched caregiving practices speeds patient outcomes & recovery.">
-	<meta name="keywords" content="elderly parent and families, 24/7 care, monitoring, home healthcare, nurse, caregiver, general duty attendants, speech therapy, physiotherapy, ayurveda, assisted daily living, telemedicine, health, digital health, elder care, Stroke Care, Feeding Tube Care, Oncology Care, Orthopedic Care, Trachestomy Care, Trauma Care, Spine Care, Craniotomy Care, Cardiac Care, Post Covid-19 Care, Post-Operative Care, Parkinson's Care">
+	<meta name="title" content="{{ title or 'CareYogi - Care Comes Home' }}">
+	<meta name="description" content="{{ description or 'We are an Elder Care & out of hospital transitional care super specialty, disrupting the way care is perceived. Our HTHT (Hi-Tech- Hi Touch) platform enabled by our passionate caregivers and unmatched caregiving practices speeds patient outcomes & recovery.' }}">
+	<meta name="keywords" content="{{ keywords or 'elderly parent and families, 24/7 care, monitoring, home healthcare, nurse, caregiver, general duty attendants, speech therapy, physiotherapy, ayurveda, assisted daily living, telemedicine, health, digital health, elder care, Stroke Care, Feeding Tube Care, Oncology Care, Orthopedic Care, Trachestomy Care, Trauma Care, Spine Care, Craniotomy Care, Cardiac Care, Post Covid-19 Care, Post-Operative Care, Parkinson\'s Care' }}">
 	<meta name="robots" content="index, follow">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="revisit-after" content="30 days">
 
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://www.careyogis.com" />
-	<meta property="og:title" content="CareYogi - Care Comes Home">
-	<meta property="og:image" content="https://www.careyogis.com/assets/wellnest/images/footer-logo.png">
-	<meta property="og:description" content="We are an Elder Care & out of hospital transitional care super specialty, disrupting the way care is perceived. Our HTHT (Hi-Tech- Hi Touch) platform enabled by our passionate caregivers and unmatched caregiving practices speeds patient outcomes & recovery.">
+	<meta property="og:url" content="https://www.careyogis.com{{ frappe.request.path if frappe and frappe.request and frappe.request.path else '' }}" />
+	<meta property="og:title" content="{{ title or 'CareYogi - Care Comes Home' }}">
+	<meta property="og:image" content="{{ og_image or 'https://www.careyogis.com/assets/wellnest/images/footer-logo.png' }}">
+	<meta property="og:description" content="{{ description or 'We are an Elder Care & out of hospital transitional care super specialty, disrupting the way care is perceived. Our HTHT (Hi-Tech- Hi Touch) platform enabled by our passionate caregivers and unmatched caregiving practices speeds patient outcomes & recovery.' }}">
 
-	<title>{% block title %}{{ title }}{% endblock %}</title>
+	<title>{% block title %}{{ title or 'CareYogi - Care Comes Home' }}{% endblock %}</title>
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-BE539PYJ7B"></script>
 	<script>
@@ -59,10 +59,10 @@
 
 	{% block favicon %}
 		<!-- favicons -->
-		<link rel="apple-touch-icon" sizes="180x180" href="assets/wellnest/images/favicon/apple-touch-icon.png" />
-		<link rel="icon" type="image/png" sizes="32x32" href="assets/wellnest/images/favicon/favicon-32x32.png" />
-		<link rel="icon" type="image/png" sizes="16x16" href="assets/wellnest/images/favicon/favicon-16x16.png" />
-		<link rel="manifest" href="assets/wellnest/images/favicon/site.webmanifest" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/assets/wellnest/images/favicon/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/wellnest/images/favicon/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/assets/wellnest/images/favicon/favicon-16x16.png" />
+		<link rel="manifest" href="/assets/wellnest/images/favicon/site.webmanifest" />
 	{% endblock %}
 
 	{%- block head_include -%}
@@ -104,21 +104,21 @@
 
 	{% block base_scripts %}
 	<!-- template scripts -->
-	<script src="assets/wellnest/js/jquery.min.js"></script>
-	<script src="assets/wellnest/js/bootstrap.bundle.min.js"></script>
-	<script src="assets/wellnest/js/bootstrap-datepicker.min.js"></script>
-	<script src="assets/wellnest/js/bootstrap-select.min.js"></script>
-	<script src="assets/wellnest/js/isotope.js"></script>
-	<script src="assets/wellnest/js/waypoints.min.js"></script>
-	<script src="assets/wellnest/js/jquery.counterup.min.js"></script>
-	<script src="assets/wellnest/js/jquery.magnific-popup.min.js"></script>
-	<script src="assets/wellnest/js/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script src="assets/wellnest/js/jquery.validate.min.js"></script>
-	<script src="assets/wellnest/js/owl.carousel.min.js"></script>
-	<script src="assets/wellnest/js/wow.min.js"></script>
-	<script src="assets/wellnest/js/swiper.min.js"></script>
-	<script src="assets/wellnest/js/theme.js"></script>
-	<script src="assets/wellnest/js/custom.js"></script>
+	<script src="/assets/wellnest/js/jquery.min.js"></script>
+	<script src="/assets/wellnest/js/bootstrap.bundle.min.js"></script>
+	<script src="/assets/wellnest/js/bootstrap-datepicker.min.js"></script>
+	<script src="/assets/wellnest/js/bootstrap-select.min.js"></script>
+	<script src="/assets/wellnest/js/isotope.js"></script>
+	<script src="/assets/wellnest/js/waypoints.min.js"></script>
+	<script src="/assets/wellnest/js/jquery.counterup.min.js"></script>
+	<script src="/assets/wellnest/js/jquery.magnific-popup.min.js"></script>
+	<script src="/assets/wellnest/js/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="/assets/wellnest/js/jquery.validate.min.js"></script>
+	<script src="/assets/wellnest/js/owl.carousel.min.js"></script>
+	<script src="/assets/wellnest/js/wow.min.js"></script>
+	<script src="/assets/wellnest/js/swiper.min.js"></script>
+	<script src="/assets/wellnest/js/theme.js"></script>
+	<script src="/assets/wellnest/js/custom.js"></script>
 	{% endblock %}
 </body>
 </html>

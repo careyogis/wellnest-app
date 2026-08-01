@@ -1,5 +1,38 @@
 {% extends "templates/wellnest_web.html" %}
 
+{% block head_include %}
+  {{ super() }}
+  <link rel="preload" as="image" href="/assets/wellnest/images/main-slider/hospital-anywhere-anytime.jpg" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    "name": "CareYogi",
+    "url": "https://www.careyogis.com/",
+    "logo": "https://www.careyogis.com/assets/wellnest/images/logo-01.png",
+    "image": "https://www.careyogis.com/assets/wellnest/images/main-slider/hospital-anywhere-anytime.jpg",
+    "description": "Elder care & out of hospital transitional care super specialty platform.",
+    "telephone": "+91-9810918237",
+    "email": "info@careyogis.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "5th Floor, Adilakshmi Square, Plot No.137, Old Mumbai Highway, Gachibowli",
+      "addressLocality": "Hyderabad",
+      "addressRegion": "Telangana",
+      "postalCode": "500032",
+      "addressCountry": "IN"
+    },
+    "medicalSpecialty": [
+      "Geriatric",
+      "NursingCare",
+      "Physiotherapy",
+      "PalliativeCare"
+    ],
+    "priceRange": "$$"
+  }
+  </script>
+{% endblock %}
+
 <title>{% block title %}CareYogi - Home Care{% endblock %}</title>
 <body>
   {% block page_content %}
@@ -16,7 +49,7 @@
           <div
             class="item slider-four__slide-1"
             style="
-              background-image: url(assets/wellnest/images/main-slider/hospital-anywhere-anytime.jpg);
+              background-image: url(/assets/wellnest/images/main-slider/hospital-anywhere-anytime.jpg);
             "
           >
             <div class="container">
@@ -33,7 +66,7 @@
           <div
             class="item slider-four__slide-2"
             style="
-              background-image: url('assets/wellnest/images/main-slider/clinical-oversight-beyond-hospital.jpg');
+              background-image: url('/assets/wellnest/images/main-slider/clinical-oversight-beyond-hospital.jpg');
             "
           >
             <div class="container">
@@ -50,7 +83,7 @@
           <div
             class="item slider-four__slide-3"
             style="
-              background-image: url(assets/wellnest/images/main-slider/one-care-partner.jpg);
+              background-image: url(/assets/wellnest/images/main-slider/one-care-partner.jpg);
             "
           >
             <div class="container">
@@ -81,12 +114,12 @@
     <div class="container">
       <div class="inner-container">
         <img
-          src="assets/wellnest/images/shapes/subscribe-dot-1-1.png"
+          src="/assets/wellnest/images/shapes/subscribe-dot-1-1.png"
           alt=""
           class="location-finder__dot-1"
         />
         <img
-          src="assets/wellnest/images/shapes/subscribe-dot-1-2.png"
+          src="/assets/wellnest/images/shapes/subscribe-dot-1-2.png"
           class="location-finder__dot-2"
           alt=""
         />
@@ -150,13 +183,13 @@
         <div class="col-lg-6 wow fadeInRight" data-wow-duration="1500ms">
           <div class="about-three__image">
             <img
-              src="assets/wellnest/images/shapes/about-dot-3-1.png"
+              src="/assets/wellnest/images/shapes/about-dot-3-1.png"
               class="about-dot-3-1"
               alt=""
             />
 
             <img
-              src="assets/wellnest/images/newimg/hospital-care-at-home.jpg"
+              src="/assets/wellnest/images/newimg/hospital-care-at-home.jpg"
               alt=""
               width="470"
               height="540"
@@ -262,12 +295,12 @@
             data-wow-duration="1500ms"
           >
             <img
-              src="assets/wellnest/images/shapes/faq-2-dot.png"
+              src="/assets/wellnest/images/shapes/faq-2-dot.png"
               class="faq-three__image-dots"
               alt=""
             />
             <img
-              src="assets/wellnest/images/newimg/our-approach-1.jpg"
+              src="/assets/wellnest/images/newimg/our-approach-1.jpg"
               alt=""
               width="470"
               height="600"
@@ -365,7 +398,7 @@
             <div class="testimonials-one__inner">
               <div class="testimonials-one__image">
                 <img
-                  src="assets/wellnest/images/resources/testi-1-1.jpg"
+                  src="/assets/wellnest/images/resources/testi-1-1.jpg"
                   alt=""
                 />
               </div>
@@ -398,7 +431,7 @@
             <div class="testimonials-one__inner">
               <div class="testimonials-one__image">
                 <img
-                  src="assets/wellnest/images/resources/testi-1-2.jpg"
+                  src="/assets/wellnest/images/resources/testi-1-2.jpg"
                   alt=""
                 />
               </div>
@@ -425,7 +458,7 @@
             <div class="testimonials-one__inner">
               <div class="testimonials-one__image">
                 <img
-                  src="assets/wellnest/images/resources/testi-1-2.jpg"
+                  src="/assets/wellnest/images/resources/testi-1-2.jpg"
                   alt=""
                 />
               </div>
@@ -451,7 +484,7 @@
             <div class="testimonials-one__inner">
               <div class="testimonials-one__image">
                 <img
-                  src="assets/wellnest/images/resources/testi-1-2.jpg"
+                  src="/assets/wellnest/images/resources/testi-1-2.jpg"
                   alt=""
                 />
               </div>
@@ -471,7 +504,7 @@
             <div class="testimonials-one__inner">
               <div class="testimonials-one__image">
                 <img
-                  src="assets/wellnest/images/resources/testi-1-2.jpg"
+                  src="/assets/wellnest/images/resources/testi-1-2.jpg"
                   alt=""
                 />
               </div>
