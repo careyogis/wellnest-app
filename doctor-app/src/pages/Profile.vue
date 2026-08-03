@@ -273,12 +273,8 @@
 
 <script setup>
 import { computed, reactive, ref } from 'vue';
-import { Tabs, FeatherIcon, Badge, Avatar, createResource } from 'frappe-ui';
+import { FeatherIcon, Badge, Avatar, createResource } from 'frappe-ui';
 import { session } from '../data/session';
-import CaregiverNavbar from '../components/CaregiverNavbar.vue';
-import Earnings from '../components/Earnings.vue';
-import { formatCurrency, shortDateFormatter } from '../utils';
-import StarRating from '../components/star-rating.vue';
 import router from '@/router';
 
 function formatDateOnly(dateString) {
@@ -410,19 +406,5 @@ async function apiCall() {
   }
 }
 
-function findCustomerImage(name) {
-  try {
-    const customerData = profileData?.data?.customers;
-    if (!Array.isArray(customerData)) {
-      console.warn('Customer data is not available or invalid.');
-      return null;
-    }
 
-    const customer = customerData.find((obj) => obj.name === name);
-    return customer?.image || null;
-  } catch (error) {
-    console.error('Error finding customer image:', error);
-    return null;
-  }
-}
 </script>

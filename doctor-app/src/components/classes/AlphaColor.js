@@ -22,16 +22,18 @@ class AlphaColor {
     }
 
     parseRgba() {
+        const alphaMatch = this.color.match(/\.\d+|[01](?=\))/);
         return {
             color: this.color.replace(/,(?!.*,).*(?=\))|a/g, ''),
-            opacity: this.color.match(/\.\d+|[01](?=\))/)[0]
+            opacity: alphaMatch ? alphaMatch[0] : '1'
         }
     }
 
     parseHsla() {
+        const alphaMatch = this.color.match(/\.\d+|[01](?=\))/);
         return {
             color: this.color.replace(/,(?!.*,).*(?=\))|a/g, ''),
-            opacity: this.color.match(/\.\d+|[01](?=\))/)[0]
+            opacity: alphaMatch ? alphaMatch[0] : '1'
         }
     }
 

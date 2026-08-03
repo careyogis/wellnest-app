@@ -1,14 +1,16 @@
 import frappe  # type: ignore
+from frappe import _
+from frappe.utils import now
 from frappe.rate_limiter import rate_limit
-from datetime import datetime, date, timedelta
-from .utils.sms_service import send_otp_using_twilio, verify_otp_for_phone
-
-from datetime import datetime, date, timezone
+from datetime import datetime, date, timedelta, timezone
 import pytz
 import json
 import requests
 import firebase_admin
 from firebase_admin import credentials, auth as firebase_auth
+import qrcode
+import string
+import random
 
 def calculate_time_window(daily_reporting_time_seconds):
     """
@@ -176,6 +178,9 @@ def profile():
         "Caregiver", filters={"user_id": frappe.session.user}
     )
 
+    if not caregivers:
+        frappe.throw('Caregiver not found')
+
     caregiver_data = frappe.get_doc("Caregiver", caregivers[0].name)
 
     # Get customer data for profile pic for Ratings Tab
@@ -330,56 +335,6 @@ def removeActivityFromDailyRecord(taskName, dailyRecordId):
     return updated_performed_activities
 
 
-# Not in use anymore
-@frappe.whitelist()
-def updateActivityToDailyRecord(taskId, activity_data, completion_time):
-    ist_date = datetime.now(pytz.timezone("Asia/Kolkata")).date()
-    ist_time = datetime.now(pytz.timezone("Asia/Kolkata")).time()
-    if completion_time == "default":
-        inputTime = str(ist_date) + " " + str(ist_time)
-    else:
-        inputTime = str(ist_date) + " " + completion_time
-
-    # replace dailyrecordId to the activityId
-    frappe.db.set_value(
-        "Engagement Daily Activity",
-        taskId,
-        {
-            "activity_data": activity_data,
-            "completion_time": inputTime,
-        },
-    )
-    return completion_time if completion_time != "default" else ist_time
-
-
-# Not in use anymore
-@frappe.whitelist()
-def setFilePath(taskName, fileURL):
-    frappe.db.set_value(
-        "Engagement Daily Activity",
-        taskName,
-        {
-            "proof": fileURL,
-        },
-    )
-    return fileURL
-
-
-# Not in use anymore
-@frappe.whitelist()
-def fetchDailyRecordTasks(dailyRecordId):
-    performed_activities = frappe.get_doc(
-        "Engagement Daily Record", dailyRecordId
-    ).required_activity
-    return performed_activities
-
-
-# Not in use anymore
-@frappe.whitelist()
-def fetchEngagementTasks(engagementId):
-    required_activities = frappe.get_doc("Engagement", engagementId).required_activity
-    return required_activities
-
 
 @frappe.whitelist()
 def createDailyRecord(engagement, caregiver):
@@ -509,10 +464,13 @@ def lookup_doctor(phone):
     return payload
 
 @frappe.whitelist(allow_guest=True)
-def login_with_phone(phone):
+def login_with_phone(phone, otp_token):
     """
     Logs a user into Frappe after Firebase OTP has already been verified.
     """
+    cached_token = frappe.cache().get_value(f'otp_verified_{phone}')
+    if not cached_token or cached_token != otp_token:
+        frappe.throw('Invalid or expired OTP verification')
 
     user = frappe.db.get_value(
         "User",
@@ -531,46 +489,14 @@ def login_with_phone(phone):
 
     login_manager.user = user
     login_manager.post_login()
+    
+    frappe.cache().delete_value(f'otp_verified_{phone}')
 
     return {
         "success": True,
         "user": user
     }
 
-
-@frappe.whitelist(allow_guest=True)
-def generate_otp(phone):
-    payload = {
-        "success": False,
-        "message": "No user found with this number",
-    }
-
-    # Check if a user exists with this phone number
-    try:
-        user = frappe.db.get("User", {"mobile_no": phone})
-    except Exception as e:
-        payload["message"] = e
-
-    if user is None:
-        return payload
-
-    # if user exists with this phone number, then send an OTP to this number
-    send_otp_using_twilio(phone)
-
-    payload["message"] = "OTP has been sent on: " + phone
-    payload["success"] = True
-
-    return payload
-
-
-@frappe.whitelist(allow_guest=True)
-def verify_otp(phone, otp):
-    # the following method verifies if the OTP is correct
-    # if yes, logs in the user and returns the user
-    return verify_otp_for_phone(phone, otp)
-
-
-from frappe.utils import now
 
 
 @frappe.whitelist(allow_guest=True)
@@ -646,73 +572,6 @@ def update_fcm_token():
         frappe.log_error(f"Exception: {str(e)}", "update_fcm_token")
         return {"status": "error", "message": str(e)}
 
-
-import frappe
-from frappe import _
-from frappe.utils import now
-import qrcode
-
-
-# ✅ Generate a QR code image from a UPI URI and save it to a temporary path
-def generate_upi_qr(upi_uri, file_path="/tmp/upi_qr.png"):
-    img = qrcode.make(upi_uri)
-    img.save(file_path)
-    return file_path
-
-
-# 🔍 Get the most recent unpaid Sales Invoice for a customer that includes a registration item
-def get_unpaid_registration_invoice(customer_name):
-    try:
-        invoices = frappe.get_all(
-            "Sales Invoice",
-            filters={
-                "customer": customer_name,
-                "outstanding_amount": [">", 0],
-                "docstatus": 1,
-            },
-            fields=["name", "rounded_total", "company"],
-            order_by="posting_date desc",
-        )
-
-        frappe.log_error(
-            f"{len(invoices)} unpaid invoices found", "get_unpaid_registration_invoice"
-        )
-
-        for inv in invoices:
-            items = frappe.get_all(
-                "Sales Invoice Item",
-                filters={"parent": inv.name},
-                fields=["item_name", "item_code"],
-            )
-            for item in items:
-                # Check if item's name contains "registration"
-                item_name = (item.item_name or "").lower()
-                if "registration" in item_name:
-                    frappe.log_error(
-                        inv.name,
-                        "get_unpaid_registration_invoice: Matched by item_name",
-                    )
-                    return inv
-
-                # Also check linked Item record’s item_name
-                linked_name = frappe.db.get_value("Item", item.item_code, "item_name")
-                if linked_name and "registration" in linked_name.lower():
-                    frappe.log_error(
-                        inv.name,
-                        "get_unpaid_registration_invoice: Matched by linked Item.item_name",
-                    )
-                    return inv
-
-        frappe.log_error(
-            "No unpaid registration invoice found", "get_unpaid_registration_invoice"
-        )
-        return None
-
-    except Exception:
-        frappe.log_error(
-            frappe.get_traceback(), "get_unpaid_registration_invoice: Error"
-        )
-        return None
 
 
 @frappe.whitelist(allow_guest=True)
@@ -884,15 +743,19 @@ def get_payment_details(customer_id=None, engagement_id=None):
         invoice = None
 
         if item_code:
-            invoice_item = frappe.get_all(
-                "Sales Invoice Item",
-                filters={"item_code": item_code, "parenttype": "Sales Invoice"},
-                fields=["parent"],
-                order_by="creation desc",
-                limit_page_length=1
+            invoices = frappe.get_all(
+                "Sales Invoice",
+                filters={"customer": customer.name, "docstatus": 1},
+                order_by="creation desc"
             )
-            if invoice_item:
-                invoice = frappe.get_doc("Sales Invoice", invoice_item[0].parent)
+            for inv in invoices:
+                items = frappe.get_all(
+                    "Sales Invoice Item",
+                    filters={"parent": inv.name, "item_code": item_code}
+                )
+                if items:
+                    invoice = frappe.get_doc("Sales Invoice", inv.name)
+                    break
 
         # --------------------------
         # Create invoice only if none exists
@@ -1050,10 +913,18 @@ def verify_otp(session_info: str, code: str):
     _get_firebase_app()
     custom_token = firebase_auth.create_custom_token(uid)
 
+    otp_token = ''.join(random.choices(string.ascii_letters + string.digits, k=32))
+    lookup_phone = phone_number
+    if lookup_phone and lookup_phone.startswith("+91"):
+        lookup_phone = lookup_phone[3:]
+    frappe.cache().set_value(f'otp_verified_{lookup_phone}', otp_token, expires_in_sec=300)
+
     return {
         "success": True,
         "custom_token": custom_token.decode("utf-8"),
         "uid": uid,
         "phone_number": phone_number,
         "is_new_user": is_new_user,
+        "otp_token": otp_token,
     }
+
