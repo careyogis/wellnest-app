@@ -2,208 +2,225 @@
   <div class="container-fluid min-vh-100 py-4 py-md-5" style="background: #f5f7fb">
     <div class="row justify-content-center">
       <div class="col-12 col-xl-11">
-        <!-- ================= PAGE HEADER ================= -->
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
-          <div>
-            <h2 class="fw-bold mb-1">Doctor Profile</h2>
-            <div class="text-muted">Comprehensive doctor profile, documents, fees, digital signature, and editable practice details.</div>
-          </div>
-
-          <div class="d-flex gap-2">
-            <Button variant="solid" class="edit-profile-btn" @click="editProfile"> Edit Profile </Button>
-
-            <Button variant="solid" theme="red" @click="logout"> Logout </Button>
-          </div>
+        <!-- === ACCESS DENIED STATE === -->
+        <div v-if="loadError" class="d-flex justify-content-center align-items-center" style="min-height: 70vh">
+          <Card class="shadow-sm border-0 text-center" style="max-width: 480px; width: 100%">
+            <div class="p-5">
+              <div class="mb-3">
+                <i class="bi bi-shield-exclamation" style="font-size: 48px; color: #dc3545"></i>
+              </div>
+              <h4 class="fw-bold mb-2">Access Denied</h4>
+              <p class="text-muted mb-4">{{ loadError }}</p>
+              <Button variant="solid" theme="red" @click="logout"> Logout </Button>
+            </div>
+          </Card>
         </div>
 
-        <div class="row g-4">
-          <!-- ================= LEFT COLUMN ================= -->
-          <div class="col-12 col-lg-5">
-            <!-- Profile card -->
-            <Card class="shadow-sm border-0 mb-4">
-              <div class="p-4 text-center">
-                <div class="mb-3 d-flex justify-content-center">
-                  <img
-                    v-if="profileData?.data?.doctor?.photo"
-                    :src="profileData.data.doctor.photo"
-                    class="rounded-circle"
-                    style="width: 96px; height: 96px; object-fit: cover"
-                    alt="Doctor photo"
-                    @error="imageLoadError = true"
-                    v-show="!imageLoadError"
-                  />
-                  <div
-                    v-if="!profileData?.data?.doctor?.photo || imageLoadError"
-                    class="rounded-circle bg-warning text-dark fw-bold d-flex align-items-center justify-content-center"
-                    style="width: 96px; height: 96px; font-size: 28px"
-                  >
-                    {{ profileData?.data?.doctor?.first_name?.charAt(0) }}{{ profileData?.data?.doctor?.last_name?.charAt(0) }}
-                  </div>
-                </div>
+        <!-- =====PROFILE CONTENT ====-->
+        <div v-else>
+          <!-- ================= PAGE HEADER ================= -->
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
+            <div>
+              <h2 class="fw-bold mb-1">Doctor Profile</h2>
+              <div class="text-muted">Comprehensive doctor profile, documents, fees, digital signature, and editable practice details.</div>
+            </div>
 
-                <h4 class="fw-bold mb-1">
-                  {{ profileData?.data?.doctor?.full_name }}
-                </h4>
+            <div class="d-flex gap-2">
+              <Button variant="solid" class="edit-profile-btn" @click="editProfile"> Edit Profile </Button>
 
-                <div class="text-primary fw-semibold">
-                  {{ profileData?.data?.doctor?.doctor_type }}
-                </div>
-
-                <div class="text-muted small mb-3">
-                  {{ profileData?.data?.doctor?.city }}
-                </div>
-
-                <div class="progress mb-2" style="height: 6px">
-                  <div class="progress-bar bg-success" role="progressbar" :style="{ width: (profileData?.data?.doctor?.profile_completion_percent || 0) + '%' }"></div>
-                </div>
-
-                <div class="text-muted small">Profile completion {{ profileData?.data?.doctor?.profile_completion_percent || 92 }}%</div>
-              </div>
-            </Card>
-
-            <!-- Personal & account details -->
-            <Card class="shadow-sm border-0 mb-4">
-              <div class="p-4">
-                <h5 class="fw-bold mb-3">Personal &amp; account details</h5>
-
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Gender</span>
-                  <span class="fw-semibold">{{ profileData?.data?.doctor?.gender || 'Not Available' }}</span>
-                </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Email</span>
-                  <span class="fw-semibold">{{ profileData?.data?.doctor?.email || 'Not Available' }}</span>
-                </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Mobile</span>
-                  <span class="fw-semibold">{{ profileData?.data?.doctor?.mobile || 'Not Available' }}</span>
-                </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Account status</span>
-                  <span class="fw-semibold text-capitalize" :class="profileData?.data?.doctor?.account_status === 'active' ? 'text-success' : 'text-muted'">
-                    {{ profileData?.data?.doctor?.account_status || 'Not Available' }}
-                  </span>
-                </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Telemedicine certified</span>
-                  <span class="fw-semibold">{{ profileData?.data?.doctor?.telemedicine_certified ? 'Yes' : 'No' }}</span>
-                </div>
-                <div class="d-flex justify-content-between py-2">
-                  <span class="text-muted">HPR verified</span>
-                  <span class="fw-semibold">{{ profileData?.data?.doctor?.hpr_verified ? 'Yes' : 'No' }}</span>
-                </div>
-              </div>
-            </Card>
-
-            <!-- Consultation fees -->
-            <Card class="shadow-sm border-0">
-              <div class="p-4">
-                <h5 class="fw-bold mb-3">Consultation fees</h5>
-
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Normal Consultation</span>
-                  <span class="fw-semibold">₹{{ profileData?.data?.doctor?.normal_charge }}</span>
-                </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Emergency Consultation</span>
-                  <span class="fw-semibold">₹{{ profileData?.data?.doctor?.emergency_charge }}</span>
-                </div>
-                <div class="d-flex justify-content-between py-2">
-                  <span class="text-muted">Priority Consultation</span>
-                  <span class="fw-semibold">₹{{ profileData?.data?.doctor?.priority_charge }}</span>
-                </div>
-              </div>
-            </Card>
+              <Button variant="solid" theme="red" @click="logout"> Logout </Button>
+            </div>
           </div>
 
-          <!-- === RIGHT COLUMN === -->
-          <div class="col-12 col-lg-7">
-            <!-- Biography -->
-            <Card class="shadow-sm border-0 mb-4">
-              <div class="p-4">
-                <h5 class="fw-bold mb-3">Biography</h5>
-
-                <p class="text-muted mb-4">
-                  {{ profileData?.data?.doctor?.professional_summary || 'No biography available.' }}
-                </p>
-
-                <div class="row g-3">
-                  <div class="col-12 col-sm-6">
-                    <div class="bg-light rounded p-3">
-                      {{ profileData?.data?.doctor?.qualification || 'Not Available' }}
+          <div class="row g-4">
+            <!-- ================= LEFT COLUMN ================= -->
+            <div class="col-12 col-lg-5">
+              <!-- Profile card -->
+              <Card class="shadow-sm border-0 mb-4">
+                <div class="p-4 text-center">
+                  <div class="mb-3 d-flex justify-content-center">
+                    <img
+                      v-if="profileData?.data?.doctor?.photo"
+                      :src="profileData.data.doctor.photo"
+                      class="rounded-circle"
+                      style="width: 96px; height: 96px; object-fit: cover"
+                      alt="Doctor photo"
+                      @error="imageLoadError = true"
+                      v-show="!imageLoadError"
+                    />
+                    <div
+                      v-if="!profileData?.data?.doctor?.photo || imageLoadError"
+                      class="rounded-circle bg-warning text-dark fw-bold d-flex align-items-center justify-content-center"
+                      style="width: 96px; height: 96px; font-size: 28px"
+                    >
+                      {{ profileData?.data?.doctor?.first_name?.charAt(0) }}{{ profileData?.data?.doctor?.last_name?.charAt(0) }}
                     </div>
                   </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="bg-light rounded p-3">{{ profileData?.data?.doctor?.experience_years }} years experience</div>
+
+                  <h4 class="fw-bold mb-1">
+                    {{ profileData?.data?.doctor?.full_name }}
+                  </h4>
+
+                  <div class="text-primary fw-semibold">
+                    {{ profileData?.data?.doctor?.doctor_type }}
                   </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="bg-light rounded p-3">{{ profileData?.data?.doctor?.council_name }}: {{ profileData?.data?.doctor?.registration_no }}</div>
+
+                  <div class="text-muted small mb-3">
+                    {{ profileData?.data?.doctor?.city }}
                   </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="bg-light rounded p-3">
-                      {{ profileData?.data?.doctor?.languages_known?.length ? profileData.data.doctor.languages_known.map((lang) => lang.spoken_language_option).join(', ') : 'Not Available' }}
+
+                  <div class="progress mb-2" style="height: 6px">
+                    <div class="progress-bar bg-success" role="progressbar" :style="{ width: (profileData?.data?.doctor?.profile_completion_percent || 0) + '%' }"></div>
+                  </div>
+
+                  <div class="text-muted small">Profile completion {{ profileData?.data?.doctor?.profile_completion_percent || 92 }}%</div>
+                </div>
+              </Card>
+
+              <!-- Personal & account details -->
+              <Card class="shadow-sm border-0 mb-4">
+                <div class="p-4">
+                  <h5 class="fw-bold mb-3">Personal &amp; account details</h5>
+
+                  <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Gender</span>
+                    <span class="fw-semibold">{{ profileData?.data?.doctor?.gender || 'Not Available' }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Email</span>
+                    <span class="fw-semibold">{{ profileData?.data?.doctor?.email || 'Not Available' }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Mobile</span>
+                    <span class="fw-semibold">{{ profileData?.data?.doctor?.mobile || 'Not Available' }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Account status</span>
+                    <span class="fw-semibold text-capitalize" :class="profileData?.data?.doctor?.account_status === 'active' ? 'text-success' : 'text-muted'">
+                      {{ profileData?.data?.doctor?.account_status || 'Not Available' }}
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Telemedicine certified</span>
+                    <span class="fw-semibold">{{ profileData?.data?.doctor?.telemedicine_certified ? 'Yes' : 'No' }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between py-2">
+                    <span class="text-muted">HPR verified</span>
+                    <span class="fw-semibold">{{ profileData?.data?.doctor?.hpr_verified ? 'Yes' : 'No' }}</span>
+                  </div>
+                </div>
+              </Card>
+
+              <!-- Consultation fees -->
+              <Card class="shadow-sm border-0">
+                <div class="p-4">
+                  <h5 class="fw-bold mb-3">Consultation fees</h5>
+
+                  <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Normal Consultation</span>
+                    <span class="fw-semibold">₹{{ profileData?.data?.doctor?.normal_charge }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Emergency Consultation</span>
+                    <span class="fw-semibold">₹{{ profileData?.data?.doctor?.emergency_charge }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between py-2">
+                    <span class="text-muted">Priority Consultation</span>
+                    <span class="fw-semibold">₹{{ profileData?.data?.doctor?.priority_charge }}</span>
+                  </div>
+                </div>
+              </Card>
+            </div>
+
+            <!-- === RIGHT COLUMN === -->
+            <div class="col-12 col-lg-7">
+              <!-- Biography -->
+              <Card class="shadow-sm border-0 mb-4">
+                <div class="p-4">
+                  <h5 class="fw-bold mb-3">Biography</h5>
+
+                  <p class="text-muted mb-4">
+                    {{ profileData?.data?.doctor?.professional_summary || 'No biography available.' }}
+                  </p>
+
+                  <div class="row g-3">
+                    <div class="col-12 col-sm-6">
+                      <div class="bg-light rounded p-3">
+                        {{ profileData?.data?.doctor?.qualification || 'Not Available' }}
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="bg-light rounded p-3">
-                      {{ profileData?.data?.doctor?.availability_days?.length ? profileData.data.doctor.availability_days.map((d) => d.day).join(', ') : 'Not Available' }}
+                    <div class="col-12 col-sm-6">
+                      <div class="bg-light rounded p-3">{{ profileData?.data?.doctor?.experience_years }} years experience</div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <div class="bg-light rounded p-3">{{ profileData?.data?.doctor?.council_name }}: {{ profileData?.data?.doctor?.registration_no }}</div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <div class="bg-light rounded p-3">
+                        {{ profileData?.data?.doctor?.languages_known?.length ? profileData.data.doctor.languages_known.map((lang) => lang.spoken_language_option).join(', ') : 'Not Available' }}
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <div class="bg-light rounded p-3">
+                        {{ profileData?.data?.doctor?.availability_days?.length ? profileData.data.doctor.availability_days.map((d) => d.day).join(', ') : 'Not Available' }}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
 
-            <div class="row g-4">
-              <!-- Awards and education -->
-              <div class="col-12 col-md-6">
-                <Card class="shadow-sm border-0 h-100">
-                  <div class="p-4">
-                    <h5 class="fw-bold mb-3">Awards and education</h5>
-                    <ul class="mb-0 ps-3">
-                      <li v-for="(item, idx) in profileData?.data?.doctor?.awards_and_education" :key="idx">
-                        {{ item }}
-                      </li>
-                    </ul>
-                  </div>
-                </Card>
-              </div>
-
-              <!-- Documents -->
-              <div class="col-12">
-                <Card class="shadow-sm border-0 h-100">
-                  <div class="p-4">
-                    <h5 class="fw-bold mb-3">Documents</h5>
-
-                    <div v-if="profileData?.data?.doctor?.registration_letter">
-                      <div class="document-card">
-                        <div class="document-icon">
-                          <i class="bi bi-file-earmark-pdf-fill"></i>
-                        </div>
-
-                        <div class="document-info">
-                          <div class="document-title">Registration Letter</div>
-
-                          <div class="document-name">
-                            {{ profileData.data.doctor.registration_letter.split('/').pop() }}
-                          </div>
-                        </div>
-
-                        <Button class="view-btn" @click="openDocument(profileData.data.doctor.registration_letter)">
-                          <i class="bi bi-eye-fill me-1"></i>
-                          <span>View</span>
-                        </Button>
-                      </div>
+              <div class="row g-4">
+                <!-- Awards and education -->
+                <div class="col-12 col-md-6">
+                  <Card class="shadow-sm border-0 h-100">
+                    <div class="p-4">
+                      <h5 class="fw-bold mb-3">Awards and education</h5>
+                      <ul class="mb-0 ps-3">
+                        <li v-for="(item, idx) in profileData?.data?.doctor?.awards_and_education" :key="idx">
+                          {{ item }}
+                        </li>
+                      </ul>
                     </div>
+                  </Card>
+                </div>
 
-                    <div v-else class="text-muted small">No documents uploaded yet.</div>
-                  </div>
-                </Card>
+                <!-- Documents -->
+                <div class="col-12">
+                  <Card class="shadow-sm border-0 h-100">
+                    <div class="p-4">
+                      <h5 class="fw-bold mb-3">Documents</h5>
+
+                      <div v-if="profileData?.data?.doctor?.registration_letter">
+                        <div class="document-card">
+                          <div class="document-icon">
+                            <i class="bi bi-file-earmark-pdf-fill"></i>
+                          </div>
+
+                          <div class="document-info">
+                            <div class="document-title">Registration Letter</div>
+
+                            <div class="document-name">
+                              {{ profileData.data.doctor.registration_letter.split('/').pop() }}
+                            </div>
+                          </div>
+
+                          <Button class="view-btn" @click="openDocument(profileData.data.doctor.registration_letter)">
+                            <i class="bi bi-eye-fill me-1"></i>
+                            <span>View</span>
+                          </Button>
+                        </div>
+                      </div>
+
+                      <div v-else class="text-muted small">No documents uploaded yet.</div>
+                    </div>
+                  </Card>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="text-center text-muted small mt-5">CareYogi Doctor App v1.0 prototype. Designed for doctor feedback, not clinical production use.</div>
+          <div class="text-center text-muted small mt-5">CareYogi Doctor App v1.0 prototype. Designed for doctor feedback, not clinical production use.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -282,6 +299,10 @@ const state = reactive({
 
 const imageLoadError = ref(false);
 
+// Tracks whether the profile failed to load (e.g. non-practitioner user).
+// When set, the template shows an Access Denied card instead of blank/broken content.
+const loadError = ref(null);
+
 let profileData;
 let totalRatings = 0;
 
@@ -297,7 +318,7 @@ function openDocument(filePath) {
   window.open(filePath, '_blank');
 }
 
-// Edit profile modal 
+// Edit profile modal
 
 const showEditProfile = ref(false);
 
@@ -307,7 +328,7 @@ const editForm = reactive({
   experience_years: '',
   registration_no: '',
   council_name: '',
-  languages_known: '', 
+  languages_known: '',
 });
 
 const updateProfileResource = createResource({
@@ -359,10 +380,31 @@ async function saveProfile() {
       profileData.data.doctor.languages_known = languagesArray.map((lang) => ({ spoken_language_option: lang }));
     }
 
-    showEditProfile.value = false;   // modal closes here, only after a successful save
+    showEditProfile.value = false; // modal closes here, only after a successful save
   } catch (err) {
     console.error('Failed to save profile:', err);
   }
+}
+
+// Extracts a readable message out of a Frappe error object, falling back
+// gracefully if the shape isn't what we expect.
+function getFriendlyErrorMessage(error) {
+  try {
+    if (error?.messages?.length) {
+      return error.messages[0];
+    }
+    if (error?._server_messages) {
+      const messages = JSON.parse(error._server_messages);
+      return JSON.parse(messages[0]).message;
+    }
+    if (error?.message) {
+      return error.message;
+    }
+  } catch (e) {
+    // fall through to default below
+  }
+
+  return 'Unable to load your profile. Please try again later.';
 }
 
 async function apiCall() {
@@ -386,6 +428,16 @@ async function apiCall() {
     console.error('API call failed:', error);
     profileData = null;
     totalRatings = 0;
+
+    let friendlyMessage = getFriendlyErrorMessage(error);
+
+    // Give a clearer, user-facing explanation for the specific
+    // "Practitioner not found" case (non-practitioner accounts).
+    if (friendlyMessage.toLowerCase().includes('practitioner')) {
+      friendlyMessage = 'This page is only available to registered practitioners. Your account does not have practitioner access.';
+    }
+
+    loadError.value = friendlyMessage;
   }
 }
 
