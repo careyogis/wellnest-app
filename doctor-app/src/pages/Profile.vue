@@ -1,5 +1,16 @@
 <template>
-  <div class="container-fluid min-vh-100 py-4 py-md-5" style="background: #f5f7fb">
+  <!-- Error state: non-Practitioner user -->
+  <div v-if="loadError" class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: #f5f7fb">
+    <div class="text-center p-5" style="max-width: 480px">
+      <div class="mb-4" style="font-size: 56px">🚫</div>
+      <h3 class="fw-bold mb-3">Access Denied</h3>
+      <p class="text-muted mb-4">{{ loadError }}</p>
+      <Button variant="solid" theme="red" @click="logout">Logout</Button>
+    </div>
+  </div>
+
+  <!-- Normal profile view -->
+  <div v-else class="container-fluid min-vh-100 py-4 py-md-5" style="background: #f5f7fb">
     <div class="row justify-content-center">
       <div class="col-12 col-xl-11">
         <!-- ================= PAGE HEADER ================= -->
@@ -281,6 +292,7 @@ const state = reactive({
 });
 
 const imageLoadError = ref(false);
+const loadError = ref(null);
 
 let profileData;
 let totalRatings = 0;
@@ -384,6 +396,15 @@ async function apiCall() {
     }
   } catch (error) {
     console.error('API call failed:', error);
+
+    // Extract server error message
+    const serverMessage = error?.messages?.[0] || error?.message || '';
+    if (serverMessage.toLowerCase().includes('practitioner not found')) {
+      loadError.value = 'Your account is not linked to a Practitioner record. Please contact the administrator to set up your doctor profile.';
+    } else {
+      loadError.value = 'Failed to load profile. Please try again or contact support.';
+    }
+
     profileData = null;
     totalRatings = 0;
   }
