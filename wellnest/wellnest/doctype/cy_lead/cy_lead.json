@@ -247,7 +247,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "City",
-   "options": "\nDelhi\nGurgaon\nHyderabad\nNoida\nVijaywada\nOther",
+   "options": "\nDelhi\nGurgaon\nHyderabad\nNoida\nVijayawada\nOther",
    "reqd": 1
   },
   {
@@ -259,8 +259,8 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-12-19 18:39:24.685398",
- "modified_by": "Administrator",
+ "modified": "2026-08-01 09:49:35.344108",
+ "modified_by": "randhirk@careyogis.com",
  "module": "WellNest",
  "name": "CY Lead",
  "naming_rule": "Expression",

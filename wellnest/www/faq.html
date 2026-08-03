@@ -1,5 +1,57 @@
 {% extends "templates/wellnest_web.html" %}
 
+{% block head_include %}
+  {{ super() }}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I start services with CareYogi?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To begin services, contact us through our website or phone number (+91-9810918237). We will set up an initial assessment to understand your needs and match you with a suitable caregiver."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What hours are caregivers available?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our caregivers are available for both part-time and full-time schedules, including 24-hour care if needed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can CareYogi provide care for someone with specific medical conditions like Alzheimer's or Parkinson's?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, we have passionate caregivers who are trained to care for patients with Alzheimer’s, Parkinson’s, and other specific medical conditions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if a caregiver is sick or on leave?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We ensure that there is always a backup plan in place. If your regular caregiver cannot make it due to illness or leave, we will arrange for an equally qualified substitute caregiver."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a minimum commitment period for using your services?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "There is no minimum commitment period. You can use our home care solutions for as long as you need, whether for a few days or on an ongoing basis."
+        }
+      }
+    ]
+  }
+  </script>
+{% endblock %}
+
 <title>
     {% block title %}CareYogi - FAQs{% endblock %}
 </title>    

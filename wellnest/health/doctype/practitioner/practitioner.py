@@ -27,6 +27,15 @@ class Practitioner(WebsiteGenerator):
 	def get_availability_days(self):
 		return [d.day for d in self.get("availability_days", [])]
 
+
+def get_list_context(context):
+    # 1. Change the "List" heading
+    context.title = "Our Doctors" 
+    
+    # 2. Hide the Breadcrumbs (My Account > List). navbar and footer can't be hidden from here.
+    context.no_breadcrumbs = 1
+    
+
 def get_repeated(values: Iterable) -> list:
 	unique = set()
 	repeated = set()
