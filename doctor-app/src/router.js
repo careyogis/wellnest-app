@@ -17,6 +17,11 @@ const routes = [
     path: '/profile',
     component: () => import('@/pages/Profile.vue'),
   },
+  {
+    name: 'NotFound',
+    path: '/:pathMatch(.*)*',
+    component: () => import('@/pages/NotFound.vue'),
+  },
 ]
 
 let router = createRouter({

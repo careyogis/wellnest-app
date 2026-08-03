@@ -139,20 +139,8 @@ let cooldownTimer: ReturnType<typeof setInterval> | null = null;
 // OTP length expected from backend
 const OTP_LENGTH = 6;
 
-const otpToken = ref('');
-
-const loginWithPhone = createResource({
-  url: 'wellnest.api.login_with_phone',
-  makeParams() {
-    return {
-      phone: phone.value,
-      otp_token: otpToken.value,
-    };
-  },
-});
-
-const sendOtpResource = createResource({ url: 'wellnest.api.send_otp' });
-const verifyOtpResource = createResource({ url: 'wellnest.api.verify_otp' });
+const sendOtpResource = createResource({ url: 'wellnest.api.auth.send_otp' });
+const verifyOtpResource = createResource({ url: 'wellnest.api.auth.verify_otp_and_login' });
 
 async function submit(e: Event) {
   message.value = '';
@@ -252,8 +240,10 @@ async function sendOtp() {
   message.value = '';
   messageType.value = '';
 
-  if (!phone.value) {
-    alert('Please enter your mobile number');
+  const cleanPhone = phone.value ? phone.value.trim() : '';
+  if (!cleanPhone || !/^\d{10}$/.test(cleanPhone)) {
+    message.value = 'Please enter a valid 10-digit mobile number.';
+    messageType.value = 'error';
     return;
   }
 
@@ -302,13 +292,10 @@ async function verifyOtp() {
   messageType.value = '';
 
   try {
-    const response = await verifyOtpResource.submit({
+    await verifyOtpResource.submit({
       session_info: sessionInfo.value,
       code: otp.value,
     });
-
-    otpToken.value = response.otp_token;
-    await loginWithPhone.submit();
 
     await userResource.reload();
     session.user = sessionUser();

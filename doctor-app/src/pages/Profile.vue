@@ -1,6 +1,16 @@
 <template>
+  <!-- Loading state -->
+  <div v-if="profileData?.loading" class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: #f5f7fb">
+    <div class="text-center p-5">
+      <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <div class="text-muted fw-semibold">Loading doctor profile...</div>
+    </div>
+  </div>
+
   <!-- Error state: non-Practitioner user -->
-  <div v-if="loadError" class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: #f5f7fb">
+  <div v-else-if="loadError" class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: #f5f7fb">
     <div class="text-center p-5" style="max-width: 480px">
       <div class="mb-4" style="font-size: 56px">🚫</div>
       <h3 class="fw-bold mb-3">Access Denied</h3>
@@ -289,12 +299,31 @@ const state = reactive({
 
 const imageLoadError = ref(false);
 const loadError = ref(null);
+const totalRatings = ref(0);
 
-let profileData;
-let totalRatings = 0;
-
-// Initial API call
-apiCall();
+const profileData = createResource({
+  url: 'wellnest.health.doctype.practitioner.practitioner.doctor_profile',
+  auto: true,
+  onSuccess(data) {
+    const ratings = data?.doctor?.ratings;
+    if (Array.isArray(ratings) && ratings.length > 0) {
+      const sum = ratings.reduce((acc, rating) => acc + (rating.rating / 2) * 10, 0);
+      totalRatings.value = sum / ratings.length;
+    } else {
+      totalRatings.value = 0;
+    }
+  },
+  onError(error) {
+    console.error('API call failed:', error);
+    const serverMessage = error?.messages?.[0] || error?.message || '';
+    if (serverMessage.toLowerCase().includes('practitioner not found')) {
+      loadError.value = 'Your account is not linked to a Practitioner record. Please contact the administrator to set up your doctor profile.';
+    } else {
+      loadError.value = 'Failed to load profile. Please try again or contact support.';
+    }
+    totalRatings.value = 0;
+  },
+});
 
 function logout() {
   session.logout.submit();
@@ -319,7 +348,7 @@ const editForm = reactive({
 });
 
 const updateProfileResource = createResource({
-  url: 'wellnest.api.update_doctor_profile',
+  url: 'wellnest.health.doctype.practitioner.practitioner.update_doctor_profile',
 });
 
 function editProfile() {
@@ -357,7 +386,6 @@ async function saveProfile() {
       languages_known: languagesArray,
     });
 
-    // Reflect the change immediately without waiting for a full refetch
     if (profileData?.data?.doctor) {
       profileData.data.doctor.professional_summary = editForm.professional_summary;
       profileData.data.doctor.qualification = editForm.qualification;
@@ -367,44 +395,13 @@ async function saveProfile() {
       profileData.data.doctor.languages_known = languagesArray.map((lang) => ({ spoken_language_option: lang }));
     }
 
-    showEditProfile.value = false;   // modal closes here, only after a successful save
+    showEditProfile.value = false;
   } catch (err) {
     console.error('Failed to save profile:', err);
   }
 }
 
-async function apiCall() {
-  try {
-    profileData = createResource({
-      url: '/api/method/wellnest.api.doctor_profile',
-      auto: true,
-    });
-    await profileData.promise;
-    console.log(profileData.data);
 
-    const ratings = profileData?.data?.doctor?.ratings;
-    if (Array.isArray(ratings) && ratings.length > 0) {
-      totalRatings = ratings.reduce((sum, rating) => sum + (rating.rating / 2) * 10, 0);
-      totalRatings = totalRatings / ratings.length;
-    } else {
-      console.warn('No ratings data available.');
-      totalRatings = 0;
-    }
-  } catch (error) {
-    console.error('API call failed:', error);
-
-    // Extract server error message
-    const serverMessage = error?.messages?.[0] || error?.message || '';
-    if (serverMessage.toLowerCase().includes('practitioner not found')) {
-      loadError.value = 'Your account is not linked to a Practitioner record. Please contact the administrator to set up your doctor profile.';
-    } else {
-      loadError.value = 'Failed to load profile. Please try again or contact support.';
-    }
-
-    profileData = null;
-    totalRatings = 0;
-  }
-}
 
 
 </script>
