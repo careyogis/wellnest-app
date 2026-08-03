@@ -27,9 +27,8 @@ from wellnest.wellnest.doctype.caregiver.caregiver import (
 from wellnest.api.auth import (
 	_get_firebase_app,
 	_get_firebase_web_api_key,
-	login_with_phone,
 	send_otp,
-	verify_otp,
+	verify_otp_and_login,
 )
 
 from wellnest.api.payment import (
@@ -57,9 +56,8 @@ __all__ = [
 	"createDailyRecord",
 	"checkout",
 	"update_caregiver_response",
-	"login_with_phone",
 	"send_otp",
-	"verify_otp",
+	"verify_otp_and_login",
 	"get_terms_content",
 	"accept_terms",
 	"get_payment_details",
