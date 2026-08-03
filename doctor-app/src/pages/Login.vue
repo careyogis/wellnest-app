@@ -118,14 +118,7 @@ declare const grecaptcha: any;
 //Public site key from https://www.google.com/recaptcha/admin - safe to expose in frontend acc. to documentation
 const RECAPTCHA_SITE_KEY = '6LcMZR0UAAAAALgPMcgHwga7gY5p8QMg1Hj-bmUv';
 
-const lookupDoctor = createResource({
-  url: 'wellnest.api.lookup_doctor',
-  makeParams() {
-    return {
-      phone: phone.value,
-    };
-  },
-});
+
 
 const loginMethod = ref('password');
 
@@ -146,11 +139,14 @@ let cooldownTimer: ReturnType<typeof setInterval> | null = null;
 // OTP length expected from backend
 const OTP_LENGTH = 6;
 
+const otpToken = ref('');
+
 const loginWithPhone = createResource({
   url: 'wellnest.api.login_with_phone',
   makeParams() {
     return {
       phone: phone.value,
+      otp_token: otpToken.value,
     };
   },
 });
@@ -190,16 +186,7 @@ async function submit(e: Event) {
   }
 }
 
-function getErrorMessage(err: any) {
-  if (err?._server_messages) {
-    try {
-      const messages = JSON.parse(err._server_messages);
-      return JSON.parse(messages[0]).message;
-    } catch (e) {}
-  }
 
-  return err?.message || 'Something went wrong.';
-}
 
 onMounted(() => {
   if (!document.getElementById('recaptcha-script')) {
@@ -308,15 +295,7 @@ async function sendOtp() {
   }
 }
 
-function startCooldownTimer() {
-  cooldownTimer = setInterval(() => {
-    otpCooldown.value--;
-    if (otpCooldown.value <= 0) {
-      if (cooldownTimer) clearInterval(cooldownTimer);
-      otpSending.value = false;
-    }
-  }, 1000);
-}
+
 
 async function verifyOtp() {
   message.value = '';
@@ -328,6 +307,7 @@ async function verifyOtp() {
       code: otp.value,
     });
 
+    otpToken.value = response.otp_token;
     await loginWithPhone.submit();
 
     await userResource.reload();
@@ -352,7 +332,6 @@ async function verifyOtp() {
 
 // Auto-verify once the user has entered a full 6-digit OTP
 watch(otp, (newVal) => {
-  console.log('otp is now:', newVal, 'length:', newVal.length);
   if (newVal.length === OTP_LENGTH) {
     verifyOtp();
   }
