@@ -5,6 +5,10 @@
    ------------------------------------------------------------------ #}
 {% extends "templates/web.html" %}
 
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+
 {% block title %}{{ doc.full_name }}{% endblock %}
 
 {% block page_content %}
@@ -104,8 +108,8 @@
       {% endif %}
       <div>
         {% if doc.registration_no %}<p class="prac-id">Reg. No. {{ doc.registration_no }}</p>{% endif %}
-        <h1>{{ doc.title ~ " " if doc.title }}{{ doc.full_name or ((doc.first_name or "") ~ " " ~ (doc.last_name or "")) }}</h1>
-        <p class="role">{{ doc.designation or "" }}{{ " · " ~ doc.super_specialty if doc.super_specialty }}</p>
+        <h1>{{ doc.title ~ " " if doc.title }}{{ (doc.first_name or "") ~ " " ~ (doc.last_name or "") }}</h1>
+        <p class="role">{{ doc.qualification ~ ", " ~ doc.additional_qualification or "" }}</p>
         <div class="prac-badges">
           {% if doc.hpr_verified %}<span class="prac-badge is-verified">HPR Verified</span>{% endif %}
           {% if doc.telemedicine_certified %}<span class="prac-badge is-tele">Telemedicine Certified</span>{% endif %}

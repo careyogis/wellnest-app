@@ -1,4 +1,5 @@
 import frappe  # type: ignore
+from frappe.rate_limiter import rate_limit
 from datetime import datetime, date, timedelta
 from .utils.sms_service import send_otp_using_twilio, verify_otp_for_phone
 
@@ -402,6 +403,7 @@ def createDailyRecord(engagement, caregiver):
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(limit=5, seconds=300)
 def contactUs():
     data = frappe.form_dict
     email = data.get("email")

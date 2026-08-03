@@ -1,5 +1,38 @@
 {% extends "templates/wellnest_web.html" %}
 
+{% block head_include %}
+  {{ super() }}
+  <link rel="preload" as="image" href="/assets/wellnest/images/main-slider/hospital-anywhere-anytime.jpg" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    "name": "CareYogi",
+    "url": "https://www.careyogis.com/",
+    "logo": "https://www.careyogis.com/assets/wellnest/images/logo-01.png",
+    "image": "https://www.careyogis.com/assets/wellnest/images/main-slider/hospital-anywhere-anytime.jpg",
+    "description": "Elder care & out of hospital transitional care super specialty platform.",
+    "telephone": "+91-9810918237",
+    "email": "info@careyogis.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "5th Floor, Adilakshmi Square, Plot No.137, Old Mumbai Highway, Gachibowli",
+      "addressLocality": "Hyderabad",
+      "addressRegion": "Telangana",
+      "postalCode": "500032",
+      "addressCountry": "IN"
+    },
+    "medicalSpecialty": [
+      "Geriatric",
+      "NursingCare",
+      "Physiotherapy",
+      "PalliativeCare"
+    ],
+    "priceRange": "$$"
+  }
+  </script>
+{% endblock %}
+
 <title>{% block title %}CareYogi - Home Care{% endblock %}</title>
 <body>
   {% block page_content %}
@@ -16,7 +49,7 @@
           <div
             class="item slider-four__slide-1"
             style="
-              background-image: url(assets/wellnest/images/main-slider/hospital-anywhere-anytime.jpg);
+              background-image: url(/assets/wellnest/images/main-slider/hospital-anywhere-anytime.jpg);
             "
           >
             <div class="container">
@@ -33,7 +66,7 @@
           <div
             class="item slider-four__slide-2"
             style="
-              background-image: url('assets/wellnest/images/main-slider/clinical-oversight-beyond-hospital.jpg');
+              background-image: url('/assets/wellnest/images/main-slider/clinical-oversight-beyond-hospital.jpg');
             "
           >
             <div class="container">
@@ -50,7 +83,7 @@
           <div
             class="item slider-four__slide-3"
             style="
-              background-image: url(assets/wellnest/images/main-slider/one-care-partner.jpg);
+              background-image: url(/assets/wellnest/images/main-slider/one-care-partner.jpg);
             "
           >
             <div class="container">
@@ -81,12 +114,12 @@
     <div class="container">
       <div class="inner-container">
         <img
-          src="assets/wellnest/images/shapes/subscribe-dot-1-1.png"
+          src="/assets/wellnest/images/shapes/subscribe-dot-1-1.png"
           alt=""
           class="location-finder__dot-1"
         />
         <img
-          src="assets/wellnest/images/shapes/subscribe-dot-1-2.png"
+          src="/assets/wellnest/images/shapes/subscribe-dot-1-2.png"
           class="location-finder__dot-2"
           alt=""
         />
@@ -150,13 +183,13 @@
         <div class="col-lg-6 wow fadeInRight" data-wow-duration="1500ms">
           <div class="about-three__image">
             <img
-              src="assets/wellnest/images/shapes/about-dot-3-1.png"
+              src="/assets/wellnest/images/shapes/about-dot-3-1.png"
               class="about-dot-3-1"
               alt=""
             />
 
             <img
-              src="assets/wellnest/images/newimg/hospital-care-at-home.jpg"
+              src="/assets/wellnest/images/newimg/hospital-care-at-home.jpg"
               alt=""
               width="470"
               height="540"
@@ -249,7 +282,7 @@
     .cy-steps p { margin: 0; }    
     .cy-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 30px; }
     .cy-steps div { padding: 24px; border-radius: 8px; }
-    .cy-steps span { display: inline-block; color: #f7a900; font-weight: 800; margin-bottom: 8px; }
+    .cy-steps span { display: inline-block; color: #f7a900; font-weight: 700; margin-bottom: 8px; }
     .cy-steps h4, .cy-advantage h4 { color: #2d2929; font-weight: 700; margin-bottom: 10px; }
     .cy-steps { grid-template-columns: 1fr; }
   </style>
@@ -262,12 +295,12 @@
             data-wow-duration="1500ms"
           >
             <img
-              src="assets/wellnest/images/shapes/faq-2-dot.png"
+              src="/assets/wellnest/images/shapes/faq-2-dot.png"
               class="faq-three__image-dots"
               alt=""
             />
             <img
-              src="assets/wellnest/images/newimg/our-approach-1.jpg"
+              src="/assets/wellnest/images/newimg/our-approach-1.jpg"
               alt=""
               width="470"
               height="600"
@@ -365,7 +398,7 @@
             <div class="testimonials-one__inner">
               <div class="testimonials-one__image">
                 <img
-                  src="assets/wellnest/images/resources/testi-1-1.jpg"
+                  src="/assets/wellnest/images/resources/testi-1-1.jpg"
                   alt=""
                 />
               </div>
@@ -398,7 +431,7 @@
             <div class="testimonials-one__inner">
               <div class="testimonials-one__image">
                 <img
-                  src="assets/wellnest/images/resources/testi-1-2.jpg"
+                  src="/assets/wellnest/images/resources/testi-1-2.jpg"
                   alt=""
                 />
               </div>
@@ -425,7 +458,7 @@
             <div class="testimonials-one__inner">
               <div class="testimonials-one__image">
                 <img
-                  src="assets/wellnest/images/resources/testi-1-2.jpg"
+                  src="/assets/wellnest/images/resources/testi-1-2.jpg"
                   alt=""
                 />
               </div>
@@ -451,7 +484,7 @@
             <div class="testimonials-one__inner">
               <div class="testimonials-one__image">
                 <img
-                  src="assets/wellnest/images/resources/testi-1-2.jpg"
+                  src="/assets/wellnest/images/resources/testi-1-2.jpg"
                   alt=""
                 />
               </div>
@@ -471,7 +504,7 @@
             <div class="testimonials-one__inner">
               <div class="testimonials-one__image">
                 <img
-                  src="assets/wellnest/images/resources/testi-1-2.jpg"
+                  src="/assets/wellnest/images/resources/testi-1-2.jpg"
                   alt=""
                 />
               </div>
@@ -609,21 +642,31 @@
           <label class="required" for="city" style="font-size: 20px"
             >City of Service</label
           >
-          <input
-            type="text"
+          <select
             id="city"
             class="form-control"
             name="city"
-            placeholder="City of Service"
             required
             style="
               padding: 18px;
               font-size: 20px;
               border-radius: 10px;
               width: 100%;
+              line-height: 1.5;
+              height: 60px;
+              color: #2d2929;
+              background-color: #fff;
               border: 1px solid #ddd;
             "
-          />
+          >
+            <option value="" disabled selected>Select a City</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Gurgaon">Gurgaon</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Noida">Noida</option>
+            <option value="Vijayawada">Vijayawada</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
 
         <div class="form-group" style="margin-bottom: 20px">
@@ -744,7 +787,7 @@
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            // "X-Frappe-CSRF-Token": frappe.csrf_token, // this fixes the CSRFTokenError
+            "X-Frappe-CSRF-Token": window.csrf_token,
           },
           body: JSON.stringify(payload),
         });

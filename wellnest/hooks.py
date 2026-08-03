@@ -6,6 +6,10 @@ app_email = "info@careyogis.com"
 app_license = "mit"
 # required_apps = []
 
+website_context = {
+	"favicon": "/assets/wellnest/images/favicon/favicon.ico"
+}
+
 # Includes in <head>
 # ------------------
 

@@ -1,109 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "templates/wellnest_web.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="language" content="English">
-    <meta name="title" content="CareYogi - Care Comes Home">
-    <meta name="description"
-        content="We are an Elder Care & out of hospital transitional care super specialty, disrupting the way care is perceived. Our HTHT (Hi-Tech- Hi Touch) platform enabled by our passionate caregivers and unmatched caregiving practices speeds patient outcomes & recovery.">
-    <meta name="keywords"
-        content="elderly parent and families, 24/7 care, monitoring, home healthcare, nurse, caregiver, general duty attendants, speech therapy, physiotherapy, ayurveda, assisted daily living, telemedicine, health, digital health, elder care, Stroke Care, Feeding Tube Care, Oncology Care, Orthopedic Care, Trachestomy Care, Trauma Care, Spine Care, Craniotomy Care, Cardiac Care, Post Covid-19 Care, Post-Operative Care, Parkinson's Care">
-    <meta name="robots" content="index, follow">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="revisit-after" content="30 days">
+<title>{% block title %}ElderAssist - Care Comes Home{% endblock %}</title>
 
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.careyogis.com" />
-    <meta property="og:title" content="CareYogi - Care Comes Home">
-    <meta property="og:image" content="https://www.careyogis.com/assets/wellnest/images/footer-logo.png">
-    <meta property="og:description"
-        content="We are an Elder Care & out of hospital transitional care super specialty, disrupting the way care is perceived. Our HTHT (Hi-Tech- Hi Touch) platform enabled by our passionate caregivers and unmatched caregiving practices speeds patient outcomes & recovery.">
-
-    <title>ElderAssist - Care Comes Home</title>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17893175808"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'AW-17893175808');
-    </script>
-
-<!-- Meta Pixel Code -->
-<script>
-    !function (f, b, e, v, n, t, s) {
-        if (f.fbq) return; n = f.fbq = function () {
-            n.callMethod ?
-                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-        };
-
-        if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
-
-        n.queue = []; t = b.createElement(e); t.async = !0;
-
-        t.src = v; s = b.getElementsByTagName(e)[0];
-
-        s.parentNode.insertBefore(t, s)
-    }(window, document, 'script',
-
-        'https://connect.facebook.net/en_US/fbevents.js');
-
-    fbq('init', '1260302405659007');
-
-    fbq('track', 'PageView');
-    fbq('track', 'EALandingPageView'); 
-</script>
-
-<noscript><img height="1" width="1" style="display:none"
-		src="https://www.facebook.com/tr?id=1260302405659007&ev=PageView&noscript=1" /></noscript>
-
-<!-- End Meta Pixel Code -->
-
-    <!-- favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/wellnest/images/favicon/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/wellnest/images/favicon/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/wellnest/images/favicon/favicon-16x16.png" />
-    <link rel="manifest" href="assets/wellnest/images/favicon/site.webmanifest" />
-
-    <!-- plugins styles -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Baloo+2:400,500,600,700,800%7CLato:100,300,400,700,900%7COpen+Sans:300,400,600,700,800%7CRoboto:300,400,500,700,900%7CRubik:300,400,500,700,900&display=swap" />
-    <link rel="stylesheet" href="assets/wellnest/css/animate.css" />
-    <link rel="stylesheet" href="assets/wellnest/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/wellnest/css/bootstrap-datepicker.min.css" />
-    <link rel="stylesheet" href="assets/wellnest/css/bootstrap-select.min.css" />
-    <link rel="stylesheet" href="assets/wellnest/css/fontawesome-all.min.css" />
-    <link rel="stylesheet" href="assets/wellnest/css/hover-min.css" />
-    <link rel="stylesheet" href="assets/wellnest/css/swiper.min.css" />
-    <link rel="stylesheet" href="assets/wellnest/css/jquery.mCustomScrollbar.min.css" />
-    <link rel="stylesheet" href="assets/wellnest/css/magnific-popup.css" />
-    <link rel="stylesheet" href="assets/wellnest/css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="assets/wellnest/css/owl.theme.default.min.css" />
-    <link rel="stylesheet" href="assets/wellnest/css/oberlin-icons.css" />
-
-    <!-- template styles -->
-    <link rel="stylesheet" href="assets/wellnest/css/style.css" />
-    <link rel="stylesheet" href="assets/wellnest/css/responsive.css" />
-
-    <style>
+{% block head_include %}
+	{{ super() }}
+	<style>
         /* Logo Sizing for Hero Section */
         .hero-logo-brand {
             max-width: 120px;
-            /* Adjusts the CareYogi company logo size */
             height: auto;
             margin-bottom: 1rem;
         }
 
         .hero-logo-program {
             max-width: 280px;
-            /* Adjusts the Elder Assist program logo size */
             height: auto;
             margin-bottom: 1.5rem;
         }
 
-        /* Mobile Responsiveness: Make logos smaller on phones */
         @media (max-width: 768px) {
             .hero-logo-brand {
                 max-width: 100px;
@@ -114,73 +28,25 @@
             }
         }
 
-        /* =========================================
-        SPACING & FLOW UTILITIES
-        ========================================= */
-
-        /* Adds consistent vertical space (80px) between sections */
         .section-padding {
             padding-top: 80px;
             padding-bottom: 80px;
         }
 
-        /* Optional: Adds a subtle separator line between sections if you want more distinction */
         .section-separator {
             border-bottom: 1px solid #eee;
         }
 
-        /* Alternate background colors to separate sections visually */
         .bg-light-gray {
             background-color: #f9f9f9;
         }
 
-        /* =========================================
-        ELDER ASSIST BRAND THEME (Orange & Green)
-        ========================================= */
-
         :root {
-            /* BRAND COLORS */
-            /* Deep Teal Green - Taken from the 'Care Comes Home' and Contact background */
             --brand-green: #006b6b;
-            /* Warm Safety Orange - Taken from the shield border and 'Preventive' highlights */
             --brand-orange: #f38a2e;
-            /* Light Green Background - For alternating sections */
             --brand-light-green: #eaf6f6;
         }
 
-        /* --- 1. OVERRIDE TEXT COLORS --- */
-
-        /* Primary Headings & Icons get the Trusted Green */
-        .text-primary,
-        .section-title h2,
-        h1,
-        h2,
-        h3 {
-            color: var(--brand-green) !important;
-        }
-
-        /* Subtitles or Highlights get the Warm Orange */
-        .sub-title,
-        .text-secondary {
-            color: var(--brand-orange) !important;
-        }
-
-        /* Icons in feature boxes (mix of both) */
-        .icon-box i.text-primary,
-        .service-item .icon i {
-            color: var(--brand-green) !important;
-        }
-
-        /* Special case: Make the "Emergency" icon Orange/Red for attention */
-        .icon-box i.text-danger,
-        .service-item .icon.text-danger i {
-            color: #e74c3c !important;
-            /* Keep emergency red or swap to --brand-orange */
-        }
-
-        /* --- 2. BUTTONS --- */
-
-        /* Primary Button (View Plans) - Orange for High Visibility/Action */
         .btn-primary {
             background-color: var(--brand-orange) !important;
             border-color: var(--brand-orange) !important;
@@ -190,11 +56,9 @@
 
         .btn-primary:hover {
             background-color: #d3731f !important;
-            /* Slightly darker orange on hover */
             border-color: #d3731f !important;
         }
 
-        /* Secondary Button (Contact Us) - Green for Trust */
         .btn-secondary,
         .btn-outline-primary {
             background-color: var(--brand-green) !important;
@@ -205,24 +69,18 @@
         .btn-secondary:hover,
         .btn-outline-primary:hover {
             background-color: #004d4d !important;
-            /* Darker green on hover */
             color: #fff !important;
         }
 
-        /* --- 3. BACKGROUNDS --- */
-
-        /* Light sections (like Testimonials) */
         .bg-light-gray,
         .bg-light {
             background-color: var(--brand-light-green) !important;
         }
 
-        /* Footer / Contact Section (Deep Green) */
         .cta-section {
             background-color: var(--brand-green) !important;
         }
 
-        /* Pricing Card Borders - Add the Green border to the popular plan */
         .pricing-card.border-primary {
             border-color: var(--brand-orange) !important;
         }
@@ -231,91 +89,63 @@
             background-color: var(--brand-orange) !important;
         }
 
-        /* --- 4. IMAGE STYLING --- */
-
-        /* Give images a soft Green shadow to blend them in */
         .img-fluid.shadow,
         .img-fluid.shadow-lg {
             box-shadow: 0 1rem 3rem rgba(0, 107, 107, 0.15) !important;
         }
 
-        /* =========================================
-        CIRCULAR FEATURE ICONS
-        ========================================= */
-
-        /* The Circle Container */
         .feature-icon-circle {
             width: 90px;
             height: 90px;
             border-radius: 50%;
             display: flex;
-            /* Centers the icon vertically & horizontally */
             align-items: center;
             justify-content: center;
             margin-bottom: 25px;
             font-size: 36px;
-            /* Icon size */
             transition: all 0.3s ease;
         }
 
-        /* STYLE A: Green Theme (Preventive, Monitoring, Records) */
         .theme-green .feature-icon-circle {
             background-color: #eaf6f6;
-            /* Very light green (var(--brand-light-green)) */
             color: #006b6b;
-            /* Brand Green */
         }
 
-        /* Hover Effect for Green */
         .service-item:hover .theme-green .feature-icon-circle {
             background-color: #006b6b;
             color: #ffffff;
             box-shadow: 0 10px 20px rgba(0, 107, 107, 0.2);
         }
 
-        /* STYLE B: Orange Theme (Emergency Alerts) */
         .theme-orange .feature-icon-circle {
             background-color: #fff0e6;
-            /* Very light orange */
             color: #f38a2e;
-            /* Brand Orange */
         }
 
-        /* Hover Effect for Orange */
         .service-item:hover .theme-orange .feature-icon-circle {
             background-color: #f38a2e;
             color: #ffffff;
             box-shadow: 0 10px 20px rgba(243, 138, 46, 0.3);
         }
 
-        /* Card Styling Cleanup */
         .service-item {
             transition: transform 0.3s ease;
             border: 1px solid #f0f0f0;
-            /* Subtle border */
         }
 
         .service-item:hover {
             transform: translateY(-5px);
-            /* Lifts up slightly on hover */
         }
 
-        /* =========================================
-        APP DOWNLOAD SECTION
-        ========================================= */
-
         .app-download-section {
-            /* Gradient using your Brand Green variables */
             background: linear-gradient(135deg, #006b6b 0%, #004d4d 100%);
             color: #ffffff;
             padding-top: 50px;
             padding-bottom: 50px;
         }
 
-        /* Store Badges (Play Store / App Store) */
         .store-badge {
             height: 55px;
-            /* Standard size for legibility */
             width: auto;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border-radius: 8px;
@@ -323,42 +153,26 @@
 
         .store-badge:hover {
             transform: translateY(-5px);
-            /* Lifts up on hover */
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* Phone Mockup Styling */
         .app-phone-mockup {
             max-height: 500px;
-            /* Prevents it from being too huge */
             filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.4));
-            /* Soft shadow behind phone */
             animation: float-phone 6s ease-in-out infinite;
-            /* Floating effect */
         }
 
-        /* Floating Animation Keyframes */
         @keyframes float-phone {
-            0% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-20px);
-            }
-
-            100% {
-                transform: translateY(0px);
-            }
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
         }
 
-        /* Optional: Decorative Background Circles */
         .bg-circle-1,
         .bg-circle-2 {
             position: absolute;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.05);
-            /* Transparent white */
             z-index: 0;
         }
 
@@ -376,51 +190,48 @@
             left: -200px;
         }
 
-    /* Modal overlay */
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.6);
-    }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+        }
 
-    /* Modal content */
-    .modal-content {
-        position: relative;
-        background-color: #fff;
-        margin: 5% auto;
-        padding: 0;
-        border-radius: 8px;
-        width: 80%;
-        max-width: 800px;
-        height: 80%;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        overflow: hidden;
-    }
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 800px;
+            height: 80%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
 
-    /* Close button */
-    .close {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-        cursor: pointer;
-    }        
-    </style>
-</head>
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+	</style>
+{% endblock %}
 
-<body>
+{% block page_content %}
     <!-- Modal structure -->
     <div id="popupModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <iframe id="popupFrame" style="border: none; width: 90%; height: 90%; border: none;" src=""></iframe>
+            <iframe id="popupFrame" style="border: none; width: 90%; height: 90%;" src=""></iframe>
         </div>
     </div>
 
@@ -430,13 +241,7 @@
                 <div class="col-lg-6">
                     <div class="hero-content">
                         <div class="mb-4">
-                            <a href="index">
-                                <img src="assets/wellnest/images/logo-01.png" alt="CareYogi: Care Comes Home"
-                                    class="img-fluid" style="max-width: 250px;">
-                            </a>
-                        </div>
-                        <div class="mb-4">
-                            <img src="assets/wellnest/images/elder-assist-logo.png" alt="Elder Assist Program"
+                            <img src="/assets/wellnest/images/elder-assist-logo.png" alt="Elder Assist Program"
                                 class="img-fluid" style="max-width: 250px;">
                         </div>
 
@@ -445,13 +250,12 @@
 
                         <h4 class="mt-3 mb-4" style="color: #2c3e50;">"Stay Bold as You Grow Old"</h4>
 
-                        <!-- <a href="#pricing" class="btn btn-primary btn-lg">View Plans</a> -->
                         <button class="btn btn-secondary btn-lg ml-2" id="contact-btn">Contact Us</button>
                         <p></p>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <img src="assets/wellnest/images/hero-couple.jpg" alt="Happy Senior Couple"
+                    <img src="/assets/wellnest/images/hero-couple.jpg" alt="Happy Senior Couple"
                         class="img-fluid rounded shadow">
                 </div>
             </div>
@@ -464,8 +268,8 @@
             <div class="row align-items-center mb-5">
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <div class="image-box">
-                        <img src="assets/wellnest/images/main-slider/main-slider-2-2.jpg"
-                            alt="Nurse Visits and Doctor Consultations" class="img-fluid rounded shadow-lg">
+                        <img src="/assets/wellnest/images/main-slider/main-slider-2-2.jpg"
+                            alt="Nurse Visits and Doctor Consultations" class="img-fluid rounded shadow-lg" loading="lazy">
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -495,8 +299,8 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 order-lg-2 mb-4 mb-lg-0">
                     <div class="image-box">
-                        <img src="assets/wellnest/images/emergency-fall.jpeg" alt="Emergency Alert System"
-                            class="img-fluid rounded shadow-lg">
+                        <img src="/assets/wellnest/images/emergency-fall.jpeg" alt="Emergency Alert System"
+                            class="img-fluid rounded shadow-lg" loading="lazy">
                     </div>
                 </div>
                 <div class="col-lg-6 order-lg-1">
@@ -633,21 +437,21 @@
                     <div class="d-flex flex-wrap">
                         <a href="https://play.google.com/store/apps/details?id=com.careyogis.careyogi_customer_app"
                             class="mr-3 mb-3">
-                            <img src="assets/wellnest/images/resources/google-play-badge.png"
-                                alt="Get it on Google Play" class="store-badge">
+                            <img src="/assets/wellnest/images/resources/google-play-badge.png"
+                                alt="Get it on Google Play" class="store-badge" loading="lazy">
                         </a>
 
                         <a href="https://apps.apple.com/in/app/careyogi-customer-app/id6743654792" class="mb-3">
-                            <img src="assets/wellnest/images/resources/app-store-badge.png"
-                                alt="Download on the App Store" class="store-badge">
+                            <img src="/assets/wellnest/images/resources/app-store-badge.png"
+                                alt="Download on the App Store" class="store-badge" loading="lazy">
                         </a>
                     </div>
                 </div>
 
                 <div class="col-lg-4 text-center">
                     <div class="app-image-wrapper">
-                        <img src="assets/wellnest/images/resources/careyogi-app.png" alt="Care Yogi App Interface"
-                            class="img-fluid app-phone-mockup">
+                        <img src="/assets/wellnest/images/resources/careyogi-app.png" alt="Care Yogi App Interface"
+                            class="img-fluid app-phone-mockup" loading="lazy">
                     </div>
                 </div>
 
@@ -679,30 +483,29 @@
             </div>
         </div>
     </section>
+{% endblock %}
 
+{% block script %}
 <script>
-    // attach events after the DOM is loaded
     document.getElementById('contact-btn').addEventListener('click', function () {
-        fbq('trackCustom', 'EAContact');
+        if (typeof fbq === 'function') fbq('trackCustom', 'EAContact');
 
         const modal = document.getElementById('popupModal');
         const iframe = document.getElementById('popupFrame');
-        iframe.src = "contact-us"; // Set the iframe source
+        iframe.src = "contact-us";
         modal.style.display = 'block';
     });
     document.getElementById('enquiry-btn').addEventListener('click', function () {
-        fbq('trackCustom', 'EAContact');
+        if (typeof fbq === 'function') fbq('trackCustom', 'EAContact');
     }); 
 
-    // Function to close modal
     function closeModal() {
         const modal = document.getElementById('popupModal');
         const iframe = document.getElementById('popupFrame');
-        iframe.src = ''; // Clear iframe to stop loading
+        iframe.src = '';
         modal.style.display = 'none';
     }
 
-    // Close modal when clicking outside content
     window.onclick = function(event) {
         const modal = document.getElementById('popupModal');
         if (event.target === modal) {
@@ -710,7 +513,4 @@
         }
     }
 </script>
-
-</body>
-
-</html>
+{% endblock %}
