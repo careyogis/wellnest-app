@@ -126,6 +126,9 @@ def update_doctor_profile(
 
 	practitioner = frappe.get_doc("Practitioner", practitioners[0].name)
 
+	if practitioner.user_id != frappe.session.user:
+		frappe.throw("Not authorized to update this profile", frappe.PermissionError)
+
 	if professional_summary is not None:
 		practitioner.professional_summary = professional_summary
 	if qualification is not None:

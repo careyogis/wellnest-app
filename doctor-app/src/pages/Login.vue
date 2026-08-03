@@ -252,8 +252,10 @@ async function sendOtp() {
   message.value = '';
   messageType.value = '';
 
-  if (!phone.value) {
-    alert('Please enter your mobile number');
+  const cleanPhone = phone.value ? phone.value.trim() : '';
+  if (!cleanPhone || !/^\d{10}$/.test(cleanPhone)) {
+    message.value = 'Please enter a valid 10-digit mobile number.';
+    messageType.value = 'error';
     return;
   }
 
