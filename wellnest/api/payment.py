@@ -3,6 +3,92 @@ from frappe import _
 from frappe.utils import now
 
 
+def _get_or_create_registration_invoice(customer):
+	"""
+	Finds existing submitted registration invoice for customer, or creates a new one.
+	"""
+	registration_item_code = frappe.db.get_value(
+		"Item", {"item_name": ["like", "%registration%"]}, "name"
+	)
+
+	if not registration_item_code:
+		return None, "No registration item found."
+
+	invoices = frappe.get_all(
+		"Sales Invoice",
+		filters={"customer": customer.name, "docstatus": 1},
+		order_by="creation desc",
+	)
+
+	invoice = None
+	for inv in invoices:
+		items = frappe.get_all(
+			"Sales Invoice Item",
+			filters={"parent": inv.name, "item_code": registration_item_code},
+		)
+		if items:
+			invoice = frappe.get_doc("Sales Invoice", inv.name)
+			break
+
+	if not invoice:
+		invoice = frappe.get_doc(
+			{
+				"doctype": "Sales Invoice",
+				"customer": customer.name,
+				"items": [{"item_code": registration_item_code, "qty": 1}],
+			}
+		)
+		invoice.insert(ignore_permissions=True)
+		invoice.submit()
+
+	return invoice, None
+
+
+def _build_payment_response(customer, invoice):
+	"""
+	Builds standard payment status & UPI QR response dict.
+	"""
+	if invoice.outstanding_amount == 0:
+		return {
+			"success": True,
+			"data": {
+				"status": "paid",
+				"accepted": True,
+				"custom_registration_term": customer.custom_registration_term,
+				"custom_acceptance_timestamp": customer.custom_acceptance_timestamp,
+				"message": "✅ Thank You! Payment already completed.",
+				"invoice_number": invoice.name,
+				"payment_amount": invoice.rounded_total,
+				"customer_name": customer.customer_name,
+			},
+		}
+
+	upi_id = frappe.db.get_value("Company", invoice.company, "custom_upi_id")
+	if not upi_id:
+		return {
+			"success": False,
+			"error": f"UPI ID not configured for {invoice.company}",
+		}
+
+	upi_uri = f"upi://pay?pa={upi_id}&pn={customer.customer_name}&am={format(invoice.rounded_total, '.2f')}&cu=INR&tn=Invoice {invoice.name}"
+
+	return {
+		"success": True,
+		"data": {
+			"status": "accepted",
+			"accepted": True,
+			"custom_registration_term": customer.custom_registration_term,
+			"custom_acceptance_timestamp": customer.custom_acceptance_timestamp,
+			"customer_id": customer.name,
+			"invoice_number": invoice.name,
+			"payment_amount": invoice.rounded_total,
+			"upi_id": upi_id,
+			"upi_uri": upi_uri,
+			"customer_name": customer.customer_name,
+		},
+	}
+
+
 @frappe.whitelist(allow_guest=True)
 def get_terms_content():
 	terms = frappe.db.get_value(
@@ -55,64 +141,11 @@ def accept_terms():
 			customer.save(ignore_permissions=True)
 			frappe.db.commit()
 
-		invoices = frappe.get_all(
-			"Sales Invoice",
-			filters={"customer": customer.name, "docstatus": 1},
-			order_by="creation desc",
-		)
+		invoice, error = _get_or_create_registration_invoice(customer)
+		if error:
+			return {"success": False, "error": error}
 
-		registration_item_code = frappe.db.get_value(
-			"Item", {"item_name": ["like", "%registration%"]}, "name"
-		)
-		invoice = None
-
-		for inv in invoices:
-			items = frappe.get_all(
-				"Sales Invoice Item",
-				filters={"parent": inv.name, "item_code": registration_item_code},
-			)
-			if items:
-				invoice = frappe.get_doc("Sales Invoice", inv.name)
-				break
-
-		if not invoice:
-			if not registration_item_code:
-				return {"success": False, "error": "No registration item found."}
-
-			invoice = frappe.get_doc(
-				{
-					"doctype": "Sales Invoice",
-					"customer": customer.name,
-					"items": [{"item_code": registration_item_code, "qty": 1}],
-				}
-			)
-			invoice.insert(ignore_permissions=True)
-			invoice.submit()
-
-		upi_uri = None
-		if invoice.outstanding_amount > 0:
-			upi_id = frappe.db.get_value("Company", invoice.company, "custom_upi_id")
-			if not upi_id:
-				return {
-					"success": False,
-					"error": f"UPI ID not configured for {invoice.company}",
-				}
-			upi_uri = f"upi://pay?pa={upi_id}&pn={customer.customer_name}&am={format(invoice.rounded_total, '.2f')}&cu=INR&tn=Invoice {invoice.name}"
-
-		status = "paid" if invoice.outstanding_amount == 0 else "accepted"
-
-		return {
-			"success": True,
-			"data": {
-				"status": status,
-				"custom_registration_term": customer.custom_registration_term,
-				"custom_acceptance_timestamp": customer.custom_acceptance_timestamp,
-				"invoice_number": invoice.name,
-				"payment_amount": invoice.rounded_total,
-				"upi_uri": upi_uri,
-				"customer_name": customer.customer_name,
-			},
-		}
+		return _build_payment_response(customer, invoice)
 
 	except Exception:
 		frappe.log_error(frappe.get_traceback(), "accept_terms Error")
@@ -154,80 +187,11 @@ def get_payment_details(customer_id=None, engagement_id=None):
 				},
 			}
 
-		item_code = frappe.db.get_value(
-			"Item", {"item_name": ["like", "%registration%"]}, "name"
-		)
-		invoice = None
+		invoice, error = _get_or_create_registration_invoice(customer)
+		if error:
+			return {"success": False, "error": error}
 
-		if item_code:
-			invoices = frappe.get_all(
-				"Sales Invoice",
-				filters={"customer": customer.name, "docstatus": 1},
-				order_by="creation desc",
-			)
-			for inv in invoices:
-				items = frappe.get_all(
-					"Sales Invoice Item",
-					filters={"parent": inv.name, "item_code": item_code},
-				)
-				if items:
-					invoice = frappe.get_doc("Sales Invoice", inv.name)
-					break
-
-		if not invoice:
-			if not item_code:
-				return {"success": False, "error": "No registration item found."}
-
-			new_invoice = frappe.get_doc(
-				{
-					"doctype": "Sales Invoice",
-					"customer": customer.name,
-					"items": [{"item_code": item_code, "qty": 1}],
-				}
-			)
-			new_invoice.insert(ignore_permissions=True)
-			new_invoice.submit()
-			invoice = new_invoice
-
-		if invoice.outstanding_amount == 0:
-			return {
-				"success": True,
-				"data": {
-					"status": "paid",
-					"accepted": True,
-					"custom_registration_term": customer.custom_registration_term,
-					"custom_acceptance_timestamp": customer.custom_acceptance_timestamp,
-					"message": "✅ Thank You! Payment already completed.",
-					"invoice_number": invoice.name,
-					"payment_amount": invoice.rounded_total,
-					"customer_name": customer.customer_name,
-				},
-			}
-
-		upi_id = frappe.db.get_value("Company", invoice.company, "custom_upi_id")
-		if not upi_id:
-			return {
-				"success": False,
-				"error": f"UPI ID not configured for {invoice.company}",
-			}
-
-		upi_uri = f"upi://pay?pa={upi_id}&pn={customer.customer_name}&am={format(invoice.rounded_total, '.2f')}&cu=INR&tn=Invoice {invoice.name}"
-
-		return {
-			"success": True,
-			"data": {
-				"status": "accepted",
-				"accepted": True,
-				"custom_registration_term": customer.custom_registration_term,
-				"custom_acceptance_timestamp": acceptance_timestamp,
-				"customer_id": customer.name,
-				"invoice_number": invoice.name,
-				"payment_amount": invoice.rounded_total,
-				"upi_id": upi_id,
-				"upi_uri": upi_uri,
-				"customer_name": customer.customer_name,
-			},
-		}
+		return _build_payment_response(customer, invoice)
 
 	except Exception:
 		frappe.log_error(frappe.get_traceback(), "get_payment_details Error")
