@@ -2,22 +2,15 @@
   <div class="container-fluid min-vh-100 p-0" style="background: #f5f7fb">
     <div class="row min-vh-100 g-0">
       <!-- Left Side -->
-      <div
-        class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-4 p-lg-5"
-        style="background: linear-gradient(135deg, #fff8f0 0%, #fdeee0 60%, #fbe6d3 100%)"
-      >
+      <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-4 p-lg-5" style="background: linear-gradient(135deg, #fff8f0 0%, #fdeee0 60%, #fbe6d3 100%)">
         <div class="text-dark py-4" style="max-width: 520px">
           <img src="@/assets/images/logo-01.png" style="width: 220px" class="mb-4" />
 
-          <span class="badge rounded-pill bg-white text-dark px-3 py-2 mb-3 shadow-sm">
-            Continuity of Care Platform
-          </span>
+          <span class="badge rounded-pill bg-white text-dark px-3 py-2 mb-3 shadow-sm"> Continuity of Care Platform </span>
 
           <h1 class="fw-bold">CareYogi Doctor App</h1>
 
-          <p class="mt-3 text-muted">
-            Stay connected with patients after discharge, review reports, manage follow-ups, and run consultations from one calm workspace.
-          </p>
+          <p class="mt-3 text-muted">Stay connected with patients after discharge, review reports, manage follow-ups, and run consultations from one calm workspace.</p>
 
           <div class="bg-white rounded-4 shadow-sm mt-4 p-4">
             <div class="d-flex align-items-start py-2 border-bottom">
@@ -50,18 +43,8 @@
       <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-4 p-lg-5">
         <Card class="shadow-lg border-0" style="max-width: 460px; width: 100%; border-radius: 20px">
           <div class="p-4">
-            <div class="d-flex align-items-center mb-4">
-              <div
-                class="rounded-circle text-white fw-bold d-flex align-items-center justify-content-center"
-                style="width: 60px; height: 60px; font-size: 20px; background: linear-gradient(135deg, #4c8c6b, #f0a93a)"
-              >
-                YB
-              </div>
-
-              <div class="ms-3">
-                <div class="text-muted small">Welcome back</div>
-                <h4 class="mb-0 fw-semibold">Brig. (Retd.) Dr. Y. S. Bisht</h4>
-              </div>
+            <div class="d-flex align-items-center justify-content-center mb-4">
+              <img src="@/assets/images/logo-01.png" style="width: 160px" />
             </div>
 
             <div class="d-flex p-1 rounded-pill mb-4" style="background: #eef1f7">
@@ -90,14 +73,20 @@
 
               <Input class="doctor-input mt-2" type="password" name="password" label="Password" placeholder="Password" />
 
-              <Button class="w-100 mt-4 doctor-btn" variant="solid"  type="submit"> Sign In </Button>
+                <div v-if="message && loginMethod == 'password'" :class="['alert', messageType === 'success' ? 'alert-success' : 'alert-danger', 'mt-3']">
+                  {{ message }}
+                </div>
+                
+              <Button class="w-100 mt-4 doctor-btn" variant="solid" type="submit"> Sign In </Button>
             </form>
 
             <!-- OTP -->
             <div v-else>
               <Input class="doctor-input" v-model="phone" label="Mobile Number" placeholder="Enter Mobile Number" />
 
-              <Button class="w-100 mt-3 doctor-btn" variant="solid" @click="sendOtp"> Send OTP </Button>
+              <Button class="w-100 mt-3 doctor-btn" variant="solid" :disabled="otpSending" @click="sendOtp">
+                {{ otpSending ? `Resend OTP in ${otpCooldown}s` : 'Send OTP' }}
+              </Button>
               <div v-if="message" :class="['alert', messageType === 'success' ? 'alert-success' : 'alert-danger', 'mt-3']">
                 {{ message }}
               </div>
@@ -108,11 +97,6 @@
                 <Button class="w-100 mt-3 doctor-btn" variant="solid" @click="verifyOtp"> Verify OTP </Button>
               </div>
             </div>
-
-            <div class="alert alert-info mt-4 mb-0">
-              <i class="bi bi-shield-check me-2"></i>
-              Prototype only. No backend or clinical data storage.
-            </div>
           </div>
         </Card>
       </div>
@@ -122,7 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import { session } from '../data/session';
 import { userResource } from '../data/user';
 import { sessionUser } from '../data/session';
@@ -153,6 +137,15 @@ const message = ref('');
 const messageType = ref<'success' | 'error' | ''>('');
 let recaptchaWidgetId: number | null = null;
 
+// OTP resend cooldown state
+const otpSending = ref(false);
+const otpCooldown = ref(0);
+const OTP_COOLDOWN_SECONDS = 30;
+let cooldownTimer: ReturnType<typeof setInterval> | null = null;
+
+// OTP length expected from backend
+const OTP_LENGTH = 6;
+
 const loginWithPhone = createResource({
   url: 'wellnest.api.login_with_phone',
   makeParams() {
@@ -165,13 +158,36 @@ const loginWithPhone = createResource({
 const sendOtpResource = createResource({ url: 'wellnest.api.send_otp' });
 const verifyOtpResource = createResource({ url: 'wellnest.api.verify_otp' });
 
-function submit(e: Event) {
-  const formData = new FormData(e.target as HTMLFormElement);
+async function submit(e: Event) {
+  message.value = '';
+  messageType.value = '';
 
-  session.login.submit({
-    email: formData.get('email'),
-    password: formData.get('password'),
-  });
+  const formData = new FormData(e.target as HTMLFormElement);
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+
+  if (!email || !password) {
+    message.value = 'Please enter both username and password.';
+    messageType.value = 'error';
+    return;
+  }
+
+  try {
+    await session.login.submit({
+      email,
+      password,
+    });
+  } catch (err: any) {
+    console.error(err);
+
+    messageType.value = 'error';
+
+    if (err?.messages && err.messages.length > 0) {
+      message.value = err.messages[0];
+    } else {
+      message.value = 'Invalid username or password.';
+    }
+  }
 }
 
 function getErrorMessage(err: any) {
@@ -193,6 +209,10 @@ onMounted(() => {
     script.async = true;
     document.head.appendChild(script);
   }
+});
+
+onBeforeUnmount(() => {
+  if (cooldownTimer) clearInterval(cooldownTimer);
 });
 
 function renderRecaptcha(): Promise<number> {
@@ -228,6 +248,19 @@ async function getRecaptchaToken(): Promise<string> {
   });
 }
 
+function startOtpCooldown() {
+  otpSending.value = true;
+  otpCooldown.value = OTP_COOLDOWN_SECONDS;
+
+  cooldownTimer = setInterval(() => {
+    otpCooldown.value--;
+    if (otpCooldown.value <= 0) {
+      if (cooldownTimer) clearInterval(cooldownTimer);
+      otpSending.value = false;
+    }
+  }, 1000);
+}
+
 async function sendOtp() {
   message.value = '';
   messageType.value = '';
@@ -236,6 +269,13 @@ async function sendOtp() {
     alert('Please enter your mobile number');
     return;
   }
+
+  // Guard against double clicks while a send is already in flight/cooling down
+  if (otpSending.value) return;
+
+  // Disable immediately on click
+  otpSending.value = true;
+  otpCooldown.value = OTP_COOLDOWN_SECONDS;
 
   try {
     const recaptchaToken = await getRecaptchaToken();
@@ -250,6 +290,8 @@ async function sendOtp() {
 
     message.value = 'OTP sent successfully.';
     messageType.value = 'success';
+
+    startOtpCooldown();
   } catch (err: any) {
     console.error(err);
 
@@ -260,7 +302,20 @@ async function sendOtp() {
     } else {
       message.value = 'Failed to send OTP.';
     }
+
+    // Send failed — don't need to wait for cooldown
+    otpSending.value = false;
   }
+}
+
+function startCooldownTimer() {
+  cooldownTimer = setInterval(() => {
+    otpCooldown.value--;
+    if (otpCooldown.value <= 0) {
+      if (cooldownTimer) clearInterval(cooldownTimer);
+      otpSending.value = false;
+    }
+  }, 1000);
 }
 
 async function verifyOtp() {
@@ -294,4 +349,12 @@ async function verifyOtp() {
     }
   }
 }
+
+// Auto-verify once the user has entered a full 6-digit OTP
+watch(otp, (newVal) => {
+  console.log('otp is now:', newVal, 'length:', newVal.length);
+  if (newVal.length === OTP_LENGTH) {
+    verifyOtp();
+  }
+});
 </script>

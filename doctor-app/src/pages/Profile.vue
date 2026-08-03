@@ -169,7 +169,7 @@
               </div>
 
               <!-- Documents -->
-              <div class="col-12 ">
+              <div class="col-12">
                 <Card class="shadow-sm border-0 h-100">
                   <div class="p-4">
                     <h5 class="fw-bold mb-3">Documents</h5>
@@ -207,6 +207,57 @@
       </div>
     </div>
   </div>
+
+  <!-- Edit profile modal -->
+  <div v-if="showEditProfile" class="edit-profile-overlay" @click.self="closeEditProfile">
+    <div class="edit-profile-modal">
+      <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
+        <h4 class="fw-bold mb-0">Edit profile</h4>
+        <button class="btn-close-custom" @click="closeEditProfile" aria-label="Close">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="p-4">
+        <div class="row g-3">
+          <div class="col-12 col-sm-6">
+            <label class="form-label text-muted">Qualification</label>
+            <input v-model="editForm.qualification" type="text" class="form-control" placeholder="e.g. MBBS, MD" />
+          </div>
+
+          <div class="col-12 col-sm-6">
+            <label class="form-label text-muted">Experience (years)</label>
+            <input v-model="editForm.experience_years" type="number" min="0" class="form-control" placeholder="e.g. 12" />
+          </div>
+
+          <div class="col-12 col-sm-6">
+            <label class="form-label text-muted">Council name</label>
+            <input v-model="editForm.council_name" type="text" class="form-control" placeholder="e.g. Delhi Medical Council" />
+          </div>
+
+          <div class="col-12 col-sm-6">
+            <label class="form-label text-muted">Registration number</label>
+            <input v-model="editForm.registration_no" type="text" class="form-control" placeholder="e.g. DMC/R/04821" />
+          </div>
+
+          <div class="col-12">
+            <label class="form-label text-muted">Languages known</label>
+            <input v-model="editForm.languages_known" type="text" class="form-control" placeholder="e.g. English, Hindi, Kumaoni" />
+            <div class="form-text">Separate multiple languages with commas.</div>
+          </div>
+
+          <div class="col-12">
+            <label class="form-label text-muted">Biography</label>
+            <textarea v-model="editForm.professional_summary" class="form-control" rows="4" placeholder="Short professional summary"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end p-4 border-top">
+        <Button variant="solid" class="save-profile-btn" @click="saveProfile"> Save profile </Button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -229,7 +280,6 @@ const state = reactive({
   tabs: [{ label: 'General' }, { label: 'Ratings' }],
 });
 
-// Was missing - fixes the "imageLoadError accessed but not defined" warning
 const imageLoadError = ref(false);
 
 let profileData;
@@ -242,22 +292,81 @@ function logout() {
   session.logout.submit();
 }
 
-// Opens a document (relative file path from the backend) in a new tab.
 function openDocument(filePath) {
   if (!filePath) return;
-
   window.open(filePath, '_blank');
 }
 
-// Was missing - fixes the "editProfile accessed but not defined" warning.
-// Placeholder navigation - point this at whatever your actual edit route is.
+// Edit profile modal 
+
+const showEditProfile = ref(false);
+
+const editForm = reactive({
+  professional_summary: '',
+  qualification: '',
+  experience_years: '',
+  registration_no: '',
+  council_name: '',
+  languages_known: '', 
+});
+
+const updateProfileResource = createResource({
+  url: 'wellnest.api.update_doctor_profile',
+});
+
 function editProfile() {
-  router.push({ name: 'EditProfile' });
+  const doctor = profileData?.data?.doctor;
+
+  editForm.professional_summary = doctor?.professional_summary || '';
+  editForm.qualification = doctor?.qualification || '';
+  editForm.experience_years = doctor?.experience_years || '';
+  editForm.registration_no = doctor?.registration_no || '';
+  editForm.council_name = doctor?.council_name || '';
+  editForm.languages_known = doctor?.languages_known?.length
+    ? doctor.languages_known.map((l) => l.spoken_language_option).join(', ')
+    : '';
+
+  showEditProfile.value = true;
+}
+
+function closeEditProfile() {
+  showEditProfile.value = false;
+}
+
+async function saveProfile() {
+  const languagesArray = editForm.languages_known
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  try {
+    await updateProfileResource.submit({
+      professional_summary: editForm.professional_summary,
+      qualification: editForm.qualification,
+      experience_years: editForm.experience_years,
+      registration_no: editForm.registration_no,
+      council_name: editForm.council_name,
+      languages_known: languagesArray,
+    });
+
+    // Reflect the change immediately without waiting for a full refetch
+    if (profileData?.data?.doctor) {
+      profileData.data.doctor.professional_summary = editForm.professional_summary;
+      profileData.data.doctor.qualification = editForm.qualification;
+      profileData.data.doctor.experience_years = editForm.experience_years;
+      profileData.data.doctor.registration_no = editForm.registration_no;
+      profileData.data.doctor.council_name = editForm.council_name;
+      profileData.data.doctor.languages_known = languagesArray.map((lang) => ({ spoken_language_option: lang }));
+    }
+
+    showEditProfile.value = false;   // modal closes here, only after a successful save
+  } catch (err) {
+    console.error('Failed to save profile:', err);
+  }
 }
 
 async function apiCall() {
   try {
-    // Fetch caregiver data
     profileData = createResource({
       url: '/api/method/wellnest.api.doctor_profile',
       auto: true,
@@ -265,10 +374,8 @@ async function apiCall() {
     await profileData.promise;
     console.log(profileData.data);
 
-    // Check if the data structure is valid
     const ratings = profileData?.data?.doctor?.ratings;
     if (Array.isArray(ratings) && ratings.length > 0) {
-      // Calculate average rating
       totalRatings = ratings.reduce((sum, rating) => sum + (rating.rating / 2) * 10, 0);
       totalRatings = totalRatings / ratings.length;
     } else {
