@@ -7,7 +7,7 @@ import frappeui from 'frappe-ui/vite'
 export default defineConfig({
   define: {
     // Set to 'true' for detailed mismatch info in production
-    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'true'
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
   },
   plugins: [frappeui(), vue()],
   resolve: {
