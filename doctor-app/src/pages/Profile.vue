@@ -302,7 +302,7 @@ const loadError = ref(null);
 const totalRatings = ref(0);
 
 const profileData = createResource({
-  url: 'wellnest.api.doctor_profile',
+  url: 'wellnest.health.doctype.practitioner.practitioner.doctor_profile',
   auto: true,
   onSuccess(data) {
     const ratings = data?.doctor?.ratings;
@@ -348,7 +348,7 @@ const editForm = reactive({
 });
 
 const updateProfileResource = createResource({
-  url: 'wellnest.api.update_doctor_profile',
+  url: 'wellnest.health.doctype.practitioner.practitioner.update_doctor_profile',
 });
 
 function editProfile() {

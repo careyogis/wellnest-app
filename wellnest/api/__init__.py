@@ -6,12 +6,6 @@
 #   - Payment: wellnest.api.payment
 #   - Contact: wellnest.api.contact
 
-from wellnest.health.doctype.practitioner.practitioner import (
-	doctor_profile,
-	update_doctor_profile,
-	lookup_doctor,
-)
-
 from wellnest.wellnest.doctype.caregiver.caregiver import (
 	calculate_time_window,
 	dashboard,
@@ -22,13 +16,6 @@ from wellnest.wellnest.doctype.caregiver.caregiver import (
 	createDailyRecord,
 	checkout,
 	update_caregiver_response,
-)
-
-from wellnest.api.auth import (
-	_get_firebase_app,
-	_get_firebase_web_api_key,
-	send_otp,
-	verify_otp_and_login,
 )
 
 from wellnest.api.payment import (
@@ -44,9 +31,6 @@ from wellnest.api.contact import (
 )
 
 __all__ = [
-	"doctor_profile",
-	"update_doctor_profile",
-	"lookup_doctor",
 	"calculate_time_window",
 	"dashboard",
 	"profile",
@@ -56,8 +40,6 @@ __all__ = [
 	"createDailyRecord",
 	"checkout",
 	"update_caregiver_response",
-	"send_otp",
-	"verify_otp_and_login",
 	"get_terms_content",
 	"accept_terms",
 	"get_payment_details",

@@ -149,29 +149,3 @@ def update_doctor_profile(
 	frappe.db.commit()
 
 	return {"doctor": practitioner}
-
-
-@frappe.whitelist(allow_guest=True)
-def lookup_doctor(phone):
-	"""
-	Checks if a doctor exists for the given mobile number.
-	Returns success/failure without sending OTP.
-	"""
-
-	payload = {
-		"success": False,
-		"message": "No doctor found with this number",
-	}
-
-	practitioner = frappe.db.get_value(
-		"Practitioner",
-		{"mobile": phone},
-		"name",
-	)
-
-	if practitioner:
-		payload["success"] = True
-		payload["message"] = "Doctor found"
-
-	return payload
-
