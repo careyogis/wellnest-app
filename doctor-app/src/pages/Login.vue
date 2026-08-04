@@ -73,10 +73,10 @@
 
               <Input class="doctor-input mt-2" type="password" name="password" label="Password" placeholder="Password" />
 
-                <div v-if="message && loginMethod == 'password'" :class="['alert', messageType === 'success' ? 'alert-success' : 'alert-danger', 'mt-3']">
-                  {{ message }}
-                </div>
-                
+              <div v-if="message && loginMethod == 'password'" :class="['alert', messageType === 'success' ? 'alert-success' : 'alert-danger', 'mt-3']">
+                {{ message }}
+              </div>
+
               <Button class="w-100 mt-4 doctor-btn" variant="solid" type="submit"> Sign In </Button>
             </form>
 
@@ -118,15 +118,6 @@ declare const grecaptcha: any;
 //Public site key from https://www.google.com/recaptcha/admin - safe to expose in frontend acc. to documentation
 const RECAPTCHA_SITE_KEY = '6LcMZR0UAAAAALgPMcgHwga7gY5p8QMg1Hj-bmUv';
 
-const lookupDoctor = createResource({
-  url: 'wellnest.api.lookup_doctor',
-  makeParams() {
-    return {
-      phone: phone.value,
-    };
-  },
-});
-
 const loginMethod = ref('password');
 
 const phone = ref('');
@@ -146,17 +137,8 @@ let cooldownTimer: ReturnType<typeof setInterval> | null = null;
 // OTP length expected from backend
 const OTP_LENGTH = 6;
 
-const loginWithPhone = createResource({
-  url: 'wellnest.api.login_with_phone',
-  makeParams() {
-    return {
-      phone: phone.value,
-    };
-  },
-});
-
-const sendOtpResource = createResource({ url: 'wellnest.api.send_otp' });
-const verifyOtpResource = createResource({ url: 'wellnest.api.verify_otp' });
+const sendOtpResource = createResource({ url: 'wellnest.api.auth.send_otp' });
+const verifyOtpResource = createResource({ url: 'wellnest.api.auth.verify_otp_and_login' });
 
 async function submit(e: Event) {
   message.value = '';
@@ -188,17 +170,6 @@ async function submit(e: Event) {
       message.value = 'Invalid username or password.';
     }
   }
-}
-
-function getErrorMessage(err: any) {
-  if (err?._server_messages) {
-    try {
-      const messages = JSON.parse(err._server_messages);
-      return JSON.parse(messages[0]).message;
-    } catch (e) {}
-  }
-
-  return err?.message || 'Something went wrong.';
 }
 
 onMounted(() => {
@@ -265,8 +236,10 @@ async function sendOtp() {
   message.value = '';
   messageType.value = '';
 
-  if (!phone.value) {
-    alert('Please enter your mobile number');
+  const cleanPhone = phone.value ? phone.value.trim() : '';
+  if (!cleanPhone || !/^\d{10}$/.test(cleanPhone)) {
+    message.value = 'Please enter a valid 10-digit mobile number.';
+    messageType.value = 'error';
     return;
   }
 
@@ -308,27 +281,15 @@ async function sendOtp() {
   }
 }
 
-function startCooldownTimer() {
-  cooldownTimer = setInterval(() => {
-    otpCooldown.value--;
-    if (otpCooldown.value <= 0) {
-      if (cooldownTimer) clearInterval(cooldownTimer);
-      otpSending.value = false;
-    }
-  }, 1000);
-}
-
 async function verifyOtp() {
   message.value = '';
   messageType.value = '';
 
   try {
-    const response = await verifyOtpResource.submit({
+    await verifyOtpResource.submit({
       session_info: sessionInfo.value,
       code: otp.value,
     });
-
-    await loginWithPhone.submit();
 
     await userResource.reload();
     session.user = sessionUser();
@@ -352,7 +313,6 @@ async function verifyOtp() {
 
 // Auto-verify once the user has entered a full 6-digit OTP
 watch(otp, (newVal) => {
-  console.log('otp is now:', newVal, 'length:', newVal.length);
   if (newVal.length === OTP_LENGTH) {
     verifyOtp();
   }

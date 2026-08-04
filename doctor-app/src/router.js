@@ -3,15 +3,10 @@ import { session } from './data/session'
 import { userResource } from '@/data/user'
 
 const routes = [
-{
-  path: '/',
-  redirect: { name: 'Login' },
-},
-  // {
-  //   path: '/city',
-  //   name: 'City',
-  //   component: () => import('@/pages/City.vue'),
-  // },
+  {
+    path: '/',
+    redirect: { name: 'Login' },
+  },
   {
     name: 'Login',
     path: '/account/login',
@@ -22,12 +17,11 @@ const routes = [
     path: '/profile',
     component: () => import('@/pages/Profile.vue'),
   },
-
-  // {
-  //   name: 'staticLogin',
-  //   path: '/staticLogin',
-  //   component: () => import('@/pages/static_login.vue')
-  // },
+  {
+    name: 'NotFound',
+    path: '/:pathMatch(.*)*',
+    component: () => import('@/pages/NotFound.vue'),
+  },
 ]
 
 let router = createRouter({
