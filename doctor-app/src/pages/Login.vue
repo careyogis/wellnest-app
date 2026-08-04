@@ -1,66 +1,66 @@
 <template>
-  <div class="container-fluid min-vh-100 p-0" style="background: #f5f7fb">
-    <div class="row min-vh-100 g-0">
+  <div class="w-full min-h-screen p-0 bg-[#f5f7fb]">
+    <div class="flex flex-col lg:flex-row min-h-screen">
       <!-- Left Side -->
-      <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-4 p-lg-5" style="background: linear-gradient(135deg, #fff8f0 0%, #fdeee0 60%, #fbe6d3 100%)">
-        <div class="text-dark py-4" style="max-width: 520px">
-          <img src="@/assets/images/logo-01.png" style="width: 220px" class="mb-4" />
+      <div class="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 bg-gradient-to-br from-[#fff8f0] via-[#fdeee0] to-[#fbe6d3]">
+        <div class="text-gray-900 py-4 max-w-[520px] w-full">
+          <img src="@/assets/images/logo-01.png" class="w-[220px] mb-4" />
 
-          <span class="badge rounded-pill bg-white text-dark px-3 py-2 mb-3 shadow-sm"> Continuity of Care Platform </span>
+          <span class="inline-flex items-center rounded-full bg-white text-gray-900 px-3 py-1.5 mb-3 text-sm font-medium shadow-sm border border-orange-100">
+            Continuity of Care Platform
+          </span>
 
-          <h1 class="fw-bold">CareYogi Doctor App</h1>
+          <h1 class="text-3xl lg:text-4xl font-bold text-gray-900">CareYogi Doctor App</h1>
 
-          <p class="mt-3 text-muted">Stay connected with patients after discharge, review reports, manage follow-ups, and run consultations from one calm workspace.</p>
+          <p class="mt-3 text-gray-500 leading-relaxed">Stay connected with patients after discharge, review reports, manage follow-ups, and run consultations from one calm workspace.</p>
 
-          <div class="bg-white rounded-4 shadow-sm mt-4 p-4">
-            <div class="d-flex align-items-start py-2 border-bottom">
-              <i class="bi bi-shield-check fs-4 me-3" style="color: #f5a623"></i>
+          <div class="bg-white rounded-2xl shadow-sm mt-4 p-4 space-y-1">
+            <div class="flex items-start py-2 border-b border-gray-200">
+              <FeatherIcon name="shield" class="w-6 h-6 mr-3 shrink-0 text-[#f5a623]" />
               <div>
-                <strong>Private doctor workspace</strong>
-                <div class="small text-muted">Secure access for verified CareYogi clinicians.</div>
+                <strong class="text-gray-900 font-semibold">Private doctor workspace</strong>
+                <div class="text-sm text-gray-500">Secure access for verified CareYogi clinicians.</div>
               </div>
             </div>
 
-            <div class="d-flex align-items-center py-2 border-bottom">
-              <i class="bi bi-calendar-check fs-5 me-3" style="color: #f5a623"></i>
-              <span>Receive bookings from patients based on your published availability.</span>
+            <div class="flex items-center py-2 border-b border-gray-200">
+              <FeatherIcon name="calendar" class="w-5 h-5 mr-3 shrink-0 text-[#f5a623]" />
+              <span class="text-gray-700">Receive bookings from patients based on your published availability.</span>
             </div>
 
-            <div class="d-flex align-items-center py-2 border-bottom">
-              <i class="bi bi-file-earmark-medical fs-5 me-3" style="color: #f5a623"></i>
-              <span>Review patient uploads and post-discharge follow-ups.</span>
+            <div class="flex items-center py-2 border-b border-gray-200">
+              <FeatherIcon name="file-text" class="w-5 h-5 mr-3 shrink-0 text-[#f5a623]" />
+              <span class="text-gray-700">Review patient uploads and post-discharge follow-ups.</span>
             </div>
 
-            <div class="d-flex align-items-center pt-2">
-              <i class="bi bi-chat-dots fs-5 me-3" style="color: #f5a623"></i>
-              <span>Continue care through asynchronous patient messaging.</span>
+            <div class="flex items-center pt-2">
+              <FeatherIcon name="message-square" class="w-5 h-5 mr-3 shrink-0 text-[#f5a623]" />
+              <span class="text-gray-700">Continue care through asynchronous patient messaging.</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Right Side -->
-      <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-4 p-lg-5">
-        <Card class="shadow-lg border-0" style="max-width: 460px; width: 100%; border-radius: 20px">
-          <div class="p-4">
-            <div class="d-flex align-items-center justify-content-center mb-4">
-              <img src="@/assets/images/logo-01.png" style="width: 160px" />
+      <div class="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12">
+        <Card class="shadow-lg border-0 max-w-[460px] w-full rounded-2xl">
+          <div class="p-6">
+            <div class="flex items-center justify-center mb-6">
+              <img src="@/assets/images/logo-01.png" class="w-[160px]" />
             </div>
 
-            <div class="d-flex p-1 rounded-pill mb-4" style="background: #eef1f7">
+            <div class="flex p-1 rounded-full mb-6 bg-[#eef1f7]">
               <button
-                class="btn flex-fill border-0 rounded-pill"
-                :class="loginMethod == 'password' ? 'bg-white shadow-sm fw-semibold' : 'bg-transparent text-muted'"
-                :style="loginMethod == 'password' ? 'color: #f5a623' : ''"
+                class="flex-1 py-2 px-4 border-0 rounded-full transition-colors duration-150 font-semibold text-sm"
+                :class="loginMethod == 'password' ? 'bg-white shadow-sm text-[#f5a623]' : 'bg-transparent text-gray-500 hover:text-gray-700'"
                 @click="loginMethod = 'password'"
               >
                 Password
               </button>
 
               <button
-                class="btn flex-fill border-0 rounded-pill"
-                :class="loginMethod == 'otp' ? 'bg-white shadow-sm fw-semibold' : 'bg-transparent text-muted'"
-                :style="loginMethod == 'otp' ? 'color: #f5a623' : ''"
+                class="flex-1 py-2 px-4 border-0 rounded-full transition-colors duration-150 font-semibold text-sm"
+                :class="loginMethod == 'otp' ? 'bg-white shadow-sm text-[#f5a623]' : 'bg-transparent text-gray-500 hover:text-gray-700'"
                 @click="loginMethod = 'otp'"
               >
                 OTP
@@ -71,30 +71,37 @@
             <form v-if="loginMethod == 'password'" @submit.prevent="submit">
               <Input class="doctor-input" name="email" label="Username" placeholder="Enter username" />
 
-              <Input class="doctor-input mt-2" type="password" name="password" label="Password" placeholder="Password" />
+              <Input class="doctor-input mt-3" type="password" name="password" label="Password" placeholder="Password" />
 
-                <div v-if="message && loginMethod == 'password'" :class="['alert', messageType === 'success' ? 'alert-success' : 'alert-danger', 'mt-3']">
-                  {{ message }}
-                </div>
+              <div
+                v-if="message && loginMethod == 'password'"
+                :class="['p-3 rounded-lg mt-3 text-sm border', messageType === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200']"
+              >
+                {{ message }}
+              </div>
                 
-              <Button class="w-100 mt-4 doctor-btn" variant="solid" type="submit"> Sign In </Button>
+              <Button class="w-full mt-6 doctor-btn" variant="solid" type="submit"> Sign In </Button>
             </form>
 
             <!-- OTP -->
             <div v-else>
               <Input class="doctor-input" v-model="phone" label="Mobile Number" placeholder="Enter Mobile Number" />
 
-              <Button class="w-100 mt-3 doctor-btn" variant="solid" :disabled="otpSending" @click="sendOtp">
+              <Button class="w-full mt-4 doctor-btn" variant="solid" :disabled="otpSending" @click="sendOtp">
                 {{ otpSending ? `Resend OTP in ${otpCooldown}s` : 'Send OTP' }}
               </Button>
-              <div v-if="message" :class="['alert', messageType === 'success' ? 'alert-success' : 'alert-danger', 'mt-3']">
+
+              <div
+                v-if="message"
+                :class="['p-3 rounded-lg mt-3 text-sm border', messageType === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200']"
+              >
                 {{ message }}
               </div>
 
               <div v-if="otpSent">
-                <Input class="mt-3 doctor-input" v-model="otp" label="OTP" placeholder="Enter OTP" />
+                <Input class="mt-4 doctor-input" v-model="otp" label="OTP" placeholder="Enter OTP" />
 
-                <Button class="w-100 mt-3 doctor-btn" variant="solid" @click="verifyOtp"> Verify OTP </Button>
+                <Button class="w-full mt-4 doctor-btn" variant="solid" @click="verifyOtp"> Verify OTP </Button>
               </div>
             </div>
           </div>
@@ -110,7 +117,7 @@ import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import { session } from '../data/session';
 import { userResource } from '../data/user';
 import { sessionUser } from '../data/session';
-import { createResource } from 'frappe-ui';
+import { createResource, FeatherIcon } from 'frappe-ui';
 import router from '../router';
 
 declare const grecaptcha: any;
