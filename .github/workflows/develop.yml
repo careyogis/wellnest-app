@@ -79,15 +79,18 @@ jobs:
           bench init --frappe-branch version-15 --skip-redis-config-generation --skip-assets --python "$(which python)" ~/frappe-bench
           mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
           mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
-
+          cd /home/runner/frappe-bench
+          bench get-app --branch version-15 erpnext
+          bench get-app --branch version-15 payments
+          bench get-app --branch version-15 india_compliance          
       - name: Install
         working-directory: /home/runner/frappe-bench
         run: |
           bench get-app wellnest $GITHUB_WORKSPACE
           bench setup requirements --dev
           bench new-site --db-root-password root --admin-password admin test_site
-          bench --site test_site install-app wellnest
-          bench build
+          bench --site test_site install-app erpnext payments india_compliance wellnest
+          bench build --app wellnest
         env:
           CI: 'Yes'
 
