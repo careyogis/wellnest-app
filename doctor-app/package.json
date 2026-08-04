@@ -9,18 +9,16 @@
     "copy-html-entry": "cp ../wellnest/public/doctor-app/index.html ../wellnest/www/doctor-app.html"
   },
   "dependencies": {
-    "bootstrap": "^5.3.8",
-    "bootstrap-icons": "^1.13.1",
     "feather-icons": "^4.28.0",
-    "frappe-ui": "^0.1.65",
+    "frappe-ui": "^0.1.95",
     "vue": "^3.4.36",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.0.0",
+    "@vitejs/plugin-vue": "^5.1.0",
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.5",
     "tailwindcss": "^3.0.15",
-    "vite": "^2.7.2"
+    "vite": "^5.4.0"
   }
 }

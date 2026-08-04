@@ -1,280 +1,277 @@
 <template>
   <!-- Loading state -->
-  <div v-if="profileData?.loading" class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: #f5f7fb">
-    <div class="text-center p-5">
-      <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem">
-        <span class="visually-hidden">Loading...</span>
+  <div v-if="profileData?.loading" class="w-full min-h-screen flex items-center justify-center bg-[#f5f7fb]">
+    <div class="text-center p-8">
+      <div class="animate-spin rounded-full h-12 w-12 border-4 border-teal-500 border-t-transparent mx-auto mb-4" role="status">
+        <span class="sr-only">Loading...</span>
       </div>
-      <div class="text-muted fw-semibold">Loading doctor profile...</div>
+      <div class="text-gray-500 font-semibold">Loading doctor profile...</div>
     </div>
   </div>
 
   <!-- Error state: non-Practitioner user -->
-  <div v-else-if="loadError" class="container-fluid min-vh-100 d-flex align-items-center justify-content-center" style="background: #f5f7fb">
-    <div class="text-center p-5" style="max-width: 480px">
-      <div class="mb-4" style="font-size: 56px">🚫</div>
-      <h3 class="fw-bold mb-3">Access Denied</h3>
-      <p class="text-muted mb-4">{{ loadError }}</p>
+  <div v-else-if="loadError" class="w-full min-h-screen flex items-center justify-center bg-[#f5f7fb]">
+    <div class="text-center p-8 max-w-[480px]">
+      <div class="mb-4 text-6xl">🚫</div>
+      <h3 class="text-2xl font-bold text-gray-900 mb-3">Access Denied</h3>
+      <p class="text-gray-500 mb-6">{{ loadError }}</p>
       <Button variant="solid" theme="red" @click="logout">Logout</Button>
     </div>
   </div>
 
   <!-- Normal profile view -->
-  <div v-else class="container-fluid min-vh-100 py-4 py-md-5" style="background: #f5f7fb">
-    <div class="row justify-content-center">
-      <div class="col-12 col-xl-11">
-        <!-- ================= PAGE HEADER ================= -->
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
-          <div>
-            <h2 class="fw-bold mb-1">Doctor Profile</h2>
-            <div class="text-muted">Comprehensive doctor profile, documents, fees, digital signature, and editable practice details.</div>
-          </div>
-
-          <div class="d-flex gap-2">
-            <Button variant="solid" class="edit-profile-btn" @click="editProfile"> Edit Profile </Button>
-
-            <Button variant="solid" theme="red" @click="logout"> Logout </Button>
-          </div>
+  <div v-else class="w-full min-h-screen py-6 md:py-10 px-4 md:px-8 bg-[#f5f7fb]">
+    <div class="max-w-7xl mx-auto">
+      <!-- ================= PAGE HEADER ================= -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-1">Doctor Profile</h2>
+          <div class="text-gray-500 text-sm md:text-base">Comprehensive doctor profile, documents, fees, digital signature, and editable practice details.</div>
         </div>
 
-        <div class="row g-4">
-          <!-- ================= LEFT COLUMN ================= -->
-          <div class="col-12 col-lg-5">
-            <!-- Profile card -->
-            <Card class="shadow-sm border-0 mb-4">
-              <div class="p-4 text-center">
-                <div class="mb-3 d-flex justify-content-center">
-                  <img
-                    v-if="profileData?.data?.doctor?.photo"
-                    :src="profileData.data.doctor.photo"
-                    class="rounded-circle"
-                    style="width: 96px; height: 96px; object-fit: cover"
-                    alt="Doctor photo"
-                    @error="imageLoadError = true"
-                    v-show="!imageLoadError"
-                  />
-                  <div
-                    v-if="!profileData?.data?.doctor?.photo || imageLoadError"
-                    class="rounded-circle bg-warning text-dark fw-bold d-flex align-items-center justify-content-center"
-                    style="width: 96px; height: 96px; font-size: 28px"
-                  >
-                    {{ profileData?.data?.doctor?.first_name?.charAt(0) }}{{ profileData?.data?.doctor?.last_name?.charAt(0) }}
-                  </div>
+        <div class="flex items-center gap-3">
+          <Button variant="solid" class="edit-profile-btn" @click="editProfile"> Edit Profile </Button>
+
+          <Button variant="solid" theme="red" @click="logout"> Logout </Button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- ================= LEFT COLUMN ================= -->
+        <div class="lg:col-span-5 space-y-6">
+          <!-- Profile card -->
+          <Card class="shadow-sm border border-gray-200 rounded-2xl bg-white">
+            <div class="p-6 text-center">
+              <div class="mb-4 flex justify-center">
+                <img
+                  v-if="profileData?.data?.doctor?.photo"
+                  :src="profileData.data.doctor.photo"
+                  class="rounded-full w-24 h-24 object-cover border-2 border-gray-100 shadow-sm"
+                  alt="Doctor photo"
+                  @error="imageLoadError = true"
+                  v-show="!imageLoadError"
+                />
+                <div
+                  v-if="!profileData?.data?.doctor?.photo || imageLoadError"
+                  class="rounded-full bg-amber-400 text-gray-900 font-bold flex items-center justify-center w-24 h-24 text-2xl shadow-sm"
+                >
+                  {{ profileData?.data?.doctor?.first_name?.charAt(0) }}{{ profileData?.data?.doctor?.last_name?.charAt(0) }}
                 </div>
-
-                <h4 class="fw-bold mb-1">
-                  {{ profileData?.data?.doctor?.full_name }}
-                </h4>
-
-                <div class="text-primary fw-semibold">
-                  {{ profileData?.data?.doctor?.doctor_type }}
-                </div>
-
-                <div class="text-muted small mb-3">
-                  {{ profileData?.data?.doctor?.city }}
-                </div>
-
-                <div class="progress mb-2" style="height: 6px">
-                  <div class="progress-bar bg-success" role="progressbar" :style="{ width: (profileData?.data?.doctor?.profile_completion_percent || 0) + '%' }"></div>
-                </div>
-
-                <div class="text-muted small">Profile completion {{ profileData?.data?.doctor?.profile_completion_percent || 92 }}%</div>
               </div>
-            </Card>
 
-            <!-- Personal & account details -->
-            <Card class="shadow-sm border-0 mb-4">
-              <div class="p-4">
-                <h5 class="fw-bold mb-3">Personal &amp; account details</h5>
+              <h4 class="text-xl font-bold text-gray-900 mb-1">
+                {{ profileData?.data?.doctor?.full_name }}
+              </h4>
 
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Gender</span>
-                  <span class="fw-semibold">{{ profileData?.data?.doctor?.gender || 'Not Available' }}</span>
+              <div class="text-teal-600 font-semibold text-sm">
+                {{ profileData?.data?.doctor?.doctor_type }}
+              </div>
+
+              <div class="text-gray-500 text-sm mb-4">
+                {{ profileData?.data?.doctor?.city }}
+              </div>
+
+              <div class="w-full bg-gray-200 rounded-full h-2 mb-2 overflow-hidden">
+                <div class="bg-emerald-500 h-full transition-all duration-300 rounded-full" :style="{ width: (profileData?.data?.doctor?.profile_completion_percent || 0) + '%' }"></div>
+              </div>
+
+              <div class="text-gray-500 text-xs">Profile completion {{ profileData?.data?.doctor?.profile_completion_percent || 92 }}%</div>
+            </div>
+          </Card>
+
+          <!-- Personal & account details -->
+          <Card class="shadow-sm border border-gray-200 rounded-2xl bg-white">
+            <div class="p-6">
+              <h5 class="text-lg font-bold text-gray-900 mb-4">Personal &amp; account details</h5>
+
+              <div class="divide-y divide-gray-100">
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">Gender</span>
+                  <span class="font-semibold text-gray-900 text-sm">{{ profileData?.data?.doctor?.gender || 'Not Available' }}</span>
                 </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Email</span>
-                  <span class="fw-semibold">{{ profileData?.data?.doctor?.email || 'Not Available' }}</span>
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">Email</span>
+                  <span class="font-semibold text-gray-900 text-sm">{{ profileData?.data?.doctor?.email || 'Not Available' }}</span>
                 </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Mobile</span>
-                  <span class="fw-semibold">{{ profileData?.data?.doctor?.mobile || 'Not Available' }}</span>
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">Mobile</span>
+                  <span class="font-semibold text-gray-900 text-sm">{{ profileData?.data?.doctor?.mobile || 'Not Available' }}</span>
                 </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Account status</span>
-                  <span class="fw-semibold text-capitalize" :class="profileData?.data?.doctor?.account_status === 'active' ? 'text-success' : 'text-muted'">
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">Account status</span>
+                  <span class="font-semibold text-sm capitalize" :class="profileData?.data?.doctor?.account_status === 'active' ? 'text-emerald-600' : 'text-gray-500'">
                     {{ profileData?.data?.doctor?.account_status || 'Not Available' }}
                   </span>
                 </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Telemedicine certified</span>
-                  <span class="fw-semibold">{{ profileData?.data?.doctor?.telemedicine_certified ? 'Yes' : 'No' }}</span>
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">Telemedicine certified</span>
+                  <span class="font-semibold text-gray-900 text-sm">{{ profileData?.data?.doctor?.telemedicine_certified ? 'Yes' : 'No' }}</span>
                 </div>
-                <div class="d-flex justify-content-between py-2">
-                  <span class="text-muted">HPR verified</span>
-                  <span class="fw-semibold">{{ profileData?.data?.doctor?.hpr_verified ? 'Yes' : 'No' }}</span>
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">HPR verified</span>
+                  <span class="font-semibold text-gray-900 text-sm">{{ profileData?.data?.doctor?.hpr_verified ? 'Yes' : 'No' }}</span>
                 </div>
+              </div>
+            </div>
+          </Card>
+
+          <!-- Consultation fees -->
+          <Card class="shadow-sm border border-gray-200 rounded-2xl bg-white">
+            <div class="p-6">
+              <h5 class="text-lg font-bold text-gray-900 mb-4">Consultation fees</h5>
+
+              <div class="divide-y divide-gray-100">
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">Normal Consultation</span>
+                  <span class="font-semibold text-gray-900 text-sm">₹{{ profileData?.data?.doctor?.normal_charge }}</span>
+                </div>
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">Emergency Consultation</span>
+                  <span class="font-semibold text-gray-900 text-sm">₹{{ profileData?.data?.doctor?.emergency_charge }}</span>
+                </div>
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">Priority Consultation</span>
+                  <span class="font-semibold text-gray-900 text-sm">₹{{ profileData?.data?.doctor?.priority_charge }}</span>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        <!-- === RIGHT COLUMN === -->
+        <div class="lg:col-span-7 space-y-6">
+          <!-- Biography -->
+          <Card class="shadow-sm border border-gray-200 rounded-2xl bg-white">
+            <div class="p-6">
+              <h5 class="text-lg font-bold text-gray-900 mb-3">Biography</h5>
+
+              <p class="text-gray-500 text-sm leading-relaxed mb-6">
+                {{ profileData?.data?.doctor?.professional_summary || 'No biography available.' }}
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
+                  <span class="font-medium text-gray-500 block text-xs mb-1">Qualification</span>
+                  {{ profileData?.data?.doctor?.qualification || 'Not Available' }}
+                </div>
+                <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
+                  <span class="font-medium text-gray-500 block text-xs mb-1">Experience</span>
+                  {{ profileData?.data?.doctor?.experience_years }} years experience
+                </div>
+                <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
+                  <span class="font-medium text-gray-500 block text-xs mb-1">Council Registration</span>
+                  {{ profileData?.data?.doctor?.council_name }}: {{ profileData?.data?.doctor?.registration_no }}
+                </div>
+                <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
+                  <span class="font-medium text-gray-500 block text-xs mb-1">Languages</span>
+                  {{ profileData?.data?.doctor?.languages_known?.length ? profileData.data.doctor.languages_known.map((lang) => lang.spoken_language_option).join(', ') : 'Not Available' }}
+                </div>
+                <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100 sm:col-span-2">
+                  <span class="font-medium text-gray-500 block text-xs mb-1">Availability</span>
+                  {{ profileData?.data?.doctor?.availability_days?.length ? profileData.data.doctor.availability_days.map((d) => d.day).join(', ') : 'Not Available' }}
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          <div class="grid grid-cols-1 gap-6">
+            <!-- Awards and education -->
+            <Card class="shadow-sm border border-gray-200 rounded-2xl bg-white">
+              <div class="p-6">
+                <h5 class="text-lg font-bold text-gray-900 mb-3">Awards and education</h5>
+                <ul class="list-disc list-inside space-y-2 text-sm text-gray-700">
+                  <li v-for="(item, idx) in profileData?.data?.doctor?.awards_and_education" :key="item || idx">
+                    {{ item }}
+                  </li>
+                </ul>
               </div>
             </Card>
 
-            <!-- Consultation fees -->
-            <Card class="shadow-sm border-0">
-              <div class="p-4">
-                <h5 class="fw-bold mb-3">Consultation fees</h5>
+            <!-- Documents -->
+            <Card class="shadow-sm border border-gray-200 rounded-2xl bg-white">
+              <div class="p-6">
+                <h5 class="text-lg font-bold text-gray-900 mb-4">Documents</h5>
 
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Normal Consultation</span>
-                  <span class="fw-semibold">₹{{ profileData?.data?.doctor?.normal_charge }}</span>
-                </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                  <span class="text-muted">Emergency Consultation</span>
-                  <span class="fw-semibold">₹{{ profileData?.data?.doctor?.emergency_charge }}</span>
-                </div>
-                <div class="d-flex justify-content-between py-2">
-                  <span class="text-muted">Priority Consultation</span>
-                  <span class="fw-semibold">₹{{ profileData?.data?.doctor?.priority_charge }}</span>
-                </div>
-              </div>
-            </Card>
-          </div>
+                <div v-if="profileData?.data?.doctor?.registration_letter">
+                  <div class="document-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border border-gray-200 rounded-xl bg-white hover:shadow-md transition-shadow duration-200">
+                    <div class="flex items-center gap-4 min-w-0">
+                      <div class="document-icon w-12 h-12 flex items-center justify-center bg-blue-50 text-blue-600 rounded-xl shrink-0">
+                        <FeatherIcon name="file-text" class="w-6 h-6 text-blue-600" />
+                      </div>
 
-          <!-- === RIGHT COLUMN === -->
-          <div class="col-12 col-lg-7">
-            <!-- Biography -->
-            <Card class="shadow-sm border-0 mb-4">
-              <div class="p-4">
-                <h5 class="fw-bold mb-3">Biography</h5>
+                      <div class="document-info min-w-0">
+                        <div class="document-title text-base font-bold text-gray-900 mb-0.5">Registration Letter</div>
 
-                <p class="text-muted mb-4">
-                  {{ profileData?.data?.doctor?.professional_summary || 'No biography available.' }}
-                </p>
-
-                <div class="row g-3">
-                  <div class="col-12 col-sm-6">
-                    <div class="bg-light rounded p-3">
-                      {{ profileData?.data?.doctor?.qualification || 'Not Available' }}
-                    </div>
-                  </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="bg-light rounded p-3">{{ profileData?.data?.doctor?.experience_years }} years experience</div>
-                  </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="bg-light rounded p-3">{{ profileData?.data?.doctor?.council_name }}: {{ profileData?.data?.doctor?.registration_no }}</div>
-                  </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="bg-light rounded p-3">
-                      {{ profileData?.data?.doctor?.languages_known?.length ? profileData.data.doctor.languages_known.map((lang) => lang.spoken_language_option).join(', ') : 'Not Available' }}
-                    </div>
-                  </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="bg-light rounded p-3">
-                      {{ profileData?.data?.doctor?.availability_days?.length ? profileData.data.doctor.availability_days.map((d) => d.day).join(', ') : 'Not Available' }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            <div class="row g-4">
-              <!-- Awards and education -->
-              <div class="col-12 col-md-6">
-                <Card class="shadow-sm border-0 h-100">
-                  <div class="p-4">
-                    <h5 class="fw-bold mb-3">Awards and education</h5>
-                    <ul class="mb-0 ps-3">
-                      <li v-for="(item, idx) in profileData?.data?.doctor?.awards_and_education" :key="idx">
-                        {{ item }}
-                      </li>
-                    </ul>
-                  </div>
-                </Card>
-              </div>
-
-              <!-- Documents -->
-              <div class="col-12">
-                <Card class="shadow-sm border-0 h-100">
-                  <div class="p-4">
-                    <h5 class="fw-bold mb-3">Documents</h5>
-
-                    <div v-if="profileData?.data?.doctor?.registration_letter">
-                      <div class="document-card">
-                        <div class="document-icon">
-                          <i class="bi bi-file-earmark-pdf-fill"></i>
+                        <div class="document-name text-sm text-gray-500 truncate">
+                          {{ profileData.data.doctor.registration_letter.split('/').pop() }}
                         </div>
-
-                        <div class="document-info">
-                          <div class="document-title">Registration Letter</div>
-
-                          <div class="document-name">
-                            {{ profileData.data.doctor.registration_letter.split('/').pop() }}
-                          </div>
-                        </div>
-
-                        <Button class="view-btn" @click="openDocument(profileData.data.doctor.registration_letter)">
-                          <i class="bi bi-eye-fill me-1"></i>
-                          <span>View</span>
-                        </Button>
                       </div>
                     </div>
 
-                    <div v-else class="text-muted small">No documents uploaded yet.</div>
+                    <Button class="view-btn shrink-0" @click="openDocument(profileData.data.doctor.registration_letter)">
+                      <FeatherIcon name="eye" class="w-4 h-4 mr-1" />
+                      <span>View</span>
+                    </Button>
                   </div>
-                </Card>
+                </div>
+
+                <div v-else class="text-gray-500 text-sm">No documents uploaded yet.</div>
               </div>
-            </div>
+            </Card>
           </div>
         </div>
-
-        <div class="text-center text-muted small mt-5">CareYogi Doctor App v1.0 prototype. Designed for doctor feedback, not clinical production use.</div>
       </div>
+
+      <div class="text-center text-gray-400 text-xs mt-10 pb-6">CareYogi Doctor App v1.0 prototype. Designed for doctor feedback, not clinical production use.</div>
     </div>
   </div>
 
   <!-- Edit profile modal -->
-  <div v-if="showEditProfile" class="edit-profile-overlay" @click.self="closeEditProfile">
-    <div class="edit-profile-modal">
-      <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
-        <h4 class="fw-bold mb-0">Edit profile</h4>
-        <button class="btn-close-custom" @click="closeEditProfile" aria-label="Close">
-          <i class="bi bi-x-lg"></i>
+  <div v-if="showEditProfile" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4" @click.self="closeEditProfile">
+    <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="flex justify-between items-center p-6 border-b border-gray-200">
+        <h4 class="text-xl font-bold text-gray-900">Edit profile</h4>
+        <button class="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors" @click="closeEditProfile" aria-label="Close">
+          <FeatherIcon name="x" class="w-5 h-5 text-gray-500" />
         </button>
       </div>
 
-      <div class="p-4">
-        <div class="row g-3">
-          <div class="col-12 col-sm-6">
-            <label class="form-label text-muted">Qualification</label>
-            <input v-model="editForm.qualification" type="text" class="form-control" placeholder="e.g. MBBS, MD" />
+      <div class="p-6 overflow-y-auto space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Qualification</label>
+            <input v-model="editForm.qualification" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="e.g. MBBS, MD" />
           </div>
 
-          <div class="col-12 col-sm-6">
-            <label class="form-label text-muted">Experience (years)</label>
-            <input v-model="editForm.experience_years" type="number" min="0" class="form-control" placeholder="e.g. 12" />
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Experience (years)</label>
+            <input v-model="editForm.experience_years" type="number" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="e.g. 12" />
           </div>
 
-          <div class="col-12 col-sm-6">
-            <label class="form-label text-muted">Council name</label>
-            <input v-model="editForm.council_name" type="text" class="form-control" placeholder="e.g. Delhi Medical Council" />
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Council name</label>
+            <input v-model="editForm.council_name" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="e.g. Delhi Medical Council" />
           </div>
 
-          <div class="col-12 col-sm-6">
-            <label class="form-label text-muted">Registration number</label>
-            <input v-model="editForm.registration_no" type="text" class="form-control" placeholder="e.g. DMC/R/04821" />
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Registration number</label>
+            <input v-model="editForm.registration_no" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="e.g. DMC/R/04821" />
           </div>
 
-          <div class="col-12">
-            <label class="form-label text-muted">Languages known</label>
-            <input v-model="editForm.languages_known" type="text" class="form-control" placeholder="e.g. English, Hindi, Kumaoni" />
-            <div class="form-text">Separate multiple languages with commas.</div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Languages known</label>
+            <input v-model="editForm.languages_known" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="e.g. English, Hindi, Kumaoni" />
+            <div class="text-xs text-gray-500 mt-1">Separate multiple languages with commas.</div>
           </div>
 
-          <div class="col-12">
-            <label class="form-label text-muted">Biography</label>
-            <textarea v-model="editForm.professional_summary" class="form-control" rows="4" placeholder="Short professional summary"></textarea>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Biography</label>
+            <textarea v-model="editForm.professional_summary" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" rows="4" placeholder="Short professional summary"></textarea>
           </div>
         </div>
       </div>
 
-      <div class="d-flex justify-content-end p-4 border-top">
+      <div class="flex justify-end p-6 border-t border-gray-200 bg-gray-50">
         <Button variant="solid" class="save-profile-btn" @click="saveProfile"> Save profile </Button>
       </div>
     </div>
@@ -334,7 +331,7 @@ function logout() {
 
 function openDocument(filePath) {
   if (!filePath) return;
-  window.open(filePath, '_blank');
+  window.open(encodeURI(filePath), '_blank');
 }
 
 // Edit profile modal
