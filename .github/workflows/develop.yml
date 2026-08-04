@@ -82,7 +82,7 @@ jobs:
           cd /home/runner/frappe-bench
           bench get-app --branch version-15 erpnext
           bench get-app --branch version-15 payments
-          bench get-app --branch version-15 india_compliance          
+          bench get-app --branch version-15 https://github.com/resilient-tech/india-compliance.git          
       - name: Install
         working-directory: /home/runner/frappe-bench
         run: |
