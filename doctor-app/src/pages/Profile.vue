@@ -51,10 +51,7 @@
                   @error="imageLoadError = true"
                   v-show="!imageLoadError"
                 />
-                <div
-                  v-if="!profileData?.data?.doctor?.photo || imageLoadError"
-                  class="rounded-full bg-amber-400 text-gray-900 font-bold flex items-center justify-center w-24 h-24 text-2xl shadow-sm"
-                >
+                <div v-if="!profileData?.data?.doctor?.photo || imageLoadError" class="rounded-full bg-amber-400 text-gray-900 font-bold flex items-center justify-center w-24 h-24 text-2xl shadow-sm">
                   {{ profileData?.data?.doctor?.first_name?.charAt(0) }}{{ profileData?.data?.doctor?.last_name?.charAt(0) }}
                 </div>
               </div>
@@ -193,7 +190,9 @@
                 <h5 class="text-lg font-bold text-gray-900 mb-4">Documents</h5>
 
                 <div v-if="profileData?.data?.doctor?.registration_letter">
-                  <div class="document-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border border-gray-200 rounded-xl bg-white hover:shadow-md transition-shadow duration-200">
+                  <div
+                    class="document-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border border-gray-200 rounded-xl bg-white hover:shadow-md transition-shadow duration-200"
+                  >
                     <div class="flex items-center gap-4 min-w-0">
                       <div class="document-icon w-12 h-12 flex items-center justify-center bg-blue-50 text-blue-600 rounded-xl shrink-0">
                         <FeatherIcon name="file-text" class="w-6 h-6 text-blue-600" />
@@ -240,33 +239,104 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Qualification</label>
-            <input v-model="editForm.qualification" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="e.g. MBBS, MD" />
+            <input
+              v-model="editForm.qualification"
+              type="text"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="e.g. MBBS, MD"
+            />
           </div>
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Experience (years)</label>
-            <input v-model="editForm.experience_years" type="number" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="e.g. 12" />
+            <input
+              v-model="editForm.experience_years"
+              type="number"
+              min="0"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="e.g. 12"
+            />
           </div>
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Council name</label>
-            <input v-model="editForm.council_name" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="e.g. Delhi Medical Council" />
+            <input
+              v-model="editForm.council_name"
+              type="text"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="e.g. Delhi Medical Council"
+            />
           </div>
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Registration number</label>
-            <input v-model="editForm.registration_no" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="e.g. DMC/R/04821" />
+            <input
+              v-model="editForm.registration_no"
+              type="text"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="e.g. DMC/R/04821"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+            <select v-model="editForm.gender" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
+              <option value="">Select gender</option>
+              <option value="Female">Female</option>
+              <option value="Male">Male</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+              v-model="editForm.email"
+              type="email"
+              placeholder="e.g. doctor@example.com"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Mobile</label>
+            <input
+              v-model="editForm.mobile"
+              type="tel"
+              placeholder="e.g. 9876543210"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Account status</label>
+            <input
+              :value="profileData?.data?.doctor?.account_status || 'Not Available'"
+              type="text"
+              disabled
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-100 text-gray-500 cursor-not-allowed"
+            />
+            <div class="text-xs text-gray-500 mt-1">Account status can only be changed by an administrator.</div>
           </div>
 
           <div class="sm:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Languages known</label>
-            <input v-model="editForm.languages_known" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="e.g. English, Hindi, Kumaoni" />
+            <label class="block text-sm font-medium text-gray-700 mb-1"> Languages known </label>
+            <input
+              v-model="editForm.languages_known"
+              type="text"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="e.g. English, Hindi, Kumaoni"
+            />
             <div class="text-xs text-gray-500 mt-1">Separate multiple languages with commas.</div>
           </div>
 
           <div class="sm:col-span-2">
             <label class="block text-sm font-medium text-gray-700 mb-1">Biography</label>
-            <textarea v-model="editForm.professional_summary" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" rows="4" placeholder="Short professional summary"></textarea>
+            <textarea
+              v-model="editForm.professional_summary"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              rows="4"
+              placeholder="Short professional summary"
+            ></textarea>
           </div>
         </div>
       </div>
@@ -345,6 +415,9 @@ const editForm = reactive({
   registration_no: '',
   council_name: '',
   languages_known: '',
+  gender: '',
+  email: '',
+  mobile: '',
 });
 
 const updateProfileResource = createResource({
@@ -359,9 +432,10 @@ function editProfile() {
   editForm.experience_years = doctor?.experience_years || '';
   editForm.registration_no = doctor?.registration_no || '';
   editForm.council_name = doctor?.council_name || '';
-  editForm.languages_known = doctor?.languages_known?.length
-    ? doctor.languages_known.map((l) => l.spoken_language_option).join(', ')
-    : '';
+  editForm.languages_known = doctor?.languages_known?.length ? doctor.languages_known.map((l) => l.spoken_language_option).join(', ') : '';
+  editForm.gender = doctor?.gender || '';
+  editForm.email = doctor?.email || '';
+  editForm.mobile = doctor?.mobile || '';
 
   showEditProfile.value = true;
 }
@@ -384,9 +458,12 @@ async function saveProfile() {
       registration_no: editForm.registration_no,
       council_name: editForm.council_name,
       languages_known: languagesArray,
+      gender: editForm.gender,
+      email: editForm.email,
+      mobile: editForm.mobile,
     });
 
-    // Reflect the change immediately without waiting for a full refetch
+    // Reflect the change immediately
     if (profileData?.data?.doctor) {
       profileData.data.doctor.professional_summary = editForm.professional_summary;
       profileData.data.doctor.qualification = editForm.qualification;
@@ -394,9 +471,12 @@ async function saveProfile() {
       profileData.data.doctor.registration_no = editForm.registration_no;
       profileData.data.doctor.council_name = editForm.council_name;
       profileData.data.doctor.languages_known = languagesArray.map((lang) => ({ spoken_language_option: lang }));
+      profileData.data.doctor.gender = editForm.gender;
+      profileData.data.doctor.email = editForm.email;
+      profileData.data.doctor.mobile = editForm.mobile;
     }
 
-    showEditProfile.value = false; // modal closes here, only after a successful save
+    showEditProfile.value = false;
   } catch (err) {
     console.error('Failed to save profile:', err);
   }
