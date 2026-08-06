@@ -1,0 +1,59 @@
+name: Build and Deploy ERPNext Custom
+
+on:
+  push:
+    branches:
+      - main
+      - develop   # build images for both branches
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Prepare apps.json
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            cp apps-main.json apps.json
+          else
+            cp apps-develop.json apps.json
+          fi
+          echo "APPS_JSON_BASE64=$(base64 -w 0 apps.json)" >> $GITHUB_ENV
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: images/custom/Containerfile
+          push: true
+          tags: |
+            myorg/erpnext-custom:${{ github.ref_name }}-v15
+          build-args: |
+            APPS_JSON_BASE64=${{ env.APPS_JSON_BASE64 }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: SSH into server and redeploy
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /opt/erpnext-docker
+            docker compose pull erpnext-${{ github.ref_name }}
+            docker compose up -d erpnext-${{ github.ref_name }}
