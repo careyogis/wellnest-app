@@ -109,43 +109,52 @@ def doctor_profile():
 
 @frappe.whitelist()
 def update_doctor_profile(
-	professional_summary=None,
-	qualification=None,
-	experience_years=None,
-	council_name=None,
-	registration_no=None,
-	languages_known=None,
+        professional_summary=None,
+        qualification=None,
+        experience_years=None,
+        council_name=None,
+        registration_no=None,
+        languages_known=None,
+        gender=None,
+        email=None,
+        mobile=None,
 ):
-	practitioners = frappe.db.get_list(
-		"Practitioner",
-		filters={"user_id": frappe.session.user},
-	)
+        practitioners = frappe.db.get_list(
+                "Practitioner",
+                filters={"user_id": frappe.session.user},
+        )
 
-	if not practitioners:
-		frappe.throw("Practitioner not found")
+        if not practitioners:
+                frappe.throw("Practitioner not found")
 
-	practitioner = frappe.get_doc("Practitioner", practitioners[0].name)
+        practitioner = frappe.get_doc("Practitioner", practitioners[0].name)
 
-	if practitioner.user_id != frappe.session.user:
-		frappe.throw("Not authorized to update this profile", frappe.PermissionError)
+        if practitioner.user_id != frappe.session.user:
+                frappe.throw("Not authorized to update this profile", frappe.PermissionError)
 
-	if professional_summary is not None:
-		practitioner.professional_summary = professional_summary
-	if qualification is not None:
-		practitioner.qualification = qualification
-	if experience_years is not None:
-		practitioner.experience_years = experience_years
-	if council_name is not None:
-		practitioner.council_name = council_name
-	if registration_no is not None:
-		practitioner.registration_no = registration_no
+        if professional_summary is not None:
+                practitioner.professional_summary = professional_summary
+        if qualification is not None:
+                practitioner.qualification = qualification
+        if experience_years is not None:
+                practitioner.experience_years = experience_years
+        if council_name is not None:
+                practitioner.council_name = council_name
+        if registration_no is not None:
+                practitioner.registration_no = registration_no
+        if gender is not None:
+                practitioner.gender = gender
+        if email is not None:
+                practitioner.email = email
+        if mobile is not None:
+                practitioner.mobile = mobile
 
-	if languages_known is not None:
-		practitioner.set("languages_known", [])
-		for lang in languages_known:
-			practitioner.append("languages_known", {"spoken_language_option": lang})
+        if languages_known is not None:
+                practitioner.set("languages_known", [])
+                for lang in languages_known:
+                        practitioner.append("languages_known", {"spoken_language_option": lang})
 
-	practitioner.save(ignore_permissions=True)
-	frappe.db.commit()
+        practitioner.save(ignore_permissions=True)
+        frappe.db.commit()
 
-	return {"doctor": practitioner}
+        return {"doctor": practitioner}

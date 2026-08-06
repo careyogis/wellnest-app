@@ -6,9 +6,7 @@
         <div class="text-gray-900 py-4 max-w-[520px] w-full">
           <img src="@/assets/images/logo-01.png" class="w-[220px] mb-4" />
 
-          <span class="inline-flex items-center rounded-full bg-white text-gray-900 px-3 py-1.5 mb-3 text-sm font-medium shadow-sm border border-orange-100">
-            Continuity of Care Platform
-          </span>
+          <span class="inline-flex items-center rounded-full bg-white text-gray-900 px-3 py-1.5 mb-3 text-sm font-medium shadow-sm border border-orange-100"> Continuity of Care Platform </span>
 
           <h1 class="text-3xl lg:text-4xl font-bold text-gray-900">CareYogi Doctor App</h1>
 
@@ -79,7 +77,7 @@
               >
                 {{ message }}
               </div>
-                
+
               <Button class="w-full mt-6 doctor-btn" variant="solid" type="submit"> Sign In </Button>
             </form>
 
@@ -91,10 +89,7 @@
                 {{ otpSending ? `Resend OTP in ${otpCooldown}s` : 'Send OTP' }}
               </Button>
 
-              <div
-                v-if="message"
-                :class="['p-3 rounded-lg mt-3 text-sm border', messageType === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200']"
-              >
+              <div v-if="message" :class="['p-3 rounded-lg mt-3 text-sm border', messageType === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200']">
                 {{ message }}
               </div>
 
@@ -124,8 +119,6 @@ declare const grecaptcha: any;
 
 //Public site key from https://www.google.com/recaptcha/admin - safe to expose in frontend acc. to documentation
 const RECAPTCHA_SITE_KEY = '6LcMZR0UAAAAALgPMcgHwga7gY5p8QMg1Hj-bmUv';
-
-
 
 const loginMethod = ref('password');
 
@@ -180,8 +173,6 @@ async function submit(e: Event) {
     }
   }
 }
-
-
 
 onMounted(() => {
   if (!document.getElementById('recaptcha-script')) {
@@ -291,8 +282,6 @@ async function sendOtp() {
     otpSending.value = false;
   }
 }
-
-
 
 async function verifyOtp() {
   message.value = '';
