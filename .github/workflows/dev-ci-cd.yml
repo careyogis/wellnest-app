@@ -39,7 +39,7 @@ jobs:
           file: docker/images/Containerfile
           push: true
           tags: |
-            careyogi/wellnest-app:${{ github.ref_name }}-v15
+            randhirk/careyogi-erp-app:${{ github.ref_name }}-v15
           build-args: |
             APPS_JSON_BASE64=${{ env.APPS_JSON_BASE64 }}
 
