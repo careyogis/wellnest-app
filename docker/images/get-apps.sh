@@ -18,8 +18,8 @@ if ! jq -e . "${APPS_JSON_PATH}" >/dev/null 2>&1 ; then
   exit 1
 fi
 
-echo "navigating into bench folder : ${BENCH_PATH})"
-cd -p "${BENCH_PATH}"
+echo "navigating into bench folder : ${BENCH_PATH}"
+cd "${BENCH_PATH}"
 
 # For each app entry { "url": "...", "branch": "..." }
 jq -c '.[]' "${APPS_JSON_PATH}" | while read -r entry; do
