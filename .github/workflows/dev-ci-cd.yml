@@ -55,5 +55,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /tmp/careyogi
-            docker compose pull randhirk/careyogi-erp-app:${{ github.ref_name }}-v15
-            docker compose up -d randhirk/careyogi-erp-app:${{ github.ref_name }}-v15
+            export IMG_NAME=randhirk/careyogi-erp-app:${{ github.ref_name }}-v15
+            # docker compose pull randhirk/careyogi-erp-app:${{ github.ref_name }}-v15
+            docker compose up -d
