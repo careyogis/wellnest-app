@@ -50,6 +50,4 @@ jq -c '.[]' "${APPS_JSON_PATH}" | while read -r entry; do
   # fi
 done
 
-# ensure correct permissions
-chown -R frappe:frappe "${APPS_DIR}"
 echo "Done cloning apps."
