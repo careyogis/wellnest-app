@@ -36,10 +36,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: images/custom/Containerfile
+          file: docker/images/Containerfile
           push: true
           tags: |
-            myorg/erpnext-custom:${{ github.ref_name }}-v15
+            careyogi/wellnest-app:${{ github.ref_name }}-v15
           build-args: |
             APPS_JSON_BASE64=${{ env.APPS_JSON_BASE64 }}
 
@@ -54,6 +54,6 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /opt/erpnext-docker
-            docker compose pull erpnext-${{ github.ref_name }}
-            docker compose up -d erpnext-${{ github.ref_name }}
+            cd /tmp/careyogi
+            docker compose pull careyogi/wellnest-app:${{ github.ref_name }}-v15
+            docker compose up -d careyogi/wellnest-app:${{ github.ref_name }}-v15

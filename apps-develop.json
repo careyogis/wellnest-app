@@ -1,7 +1,6 @@
 [
-  { "url": "https://github.com/frappe/erpnext", "branch": "version-15" },
-  { "url": "https://github.com/frappe/hrms", "branch": "version-15" },
-  { "url": "https://github.com/frappe/payments", "branch": "version-15" },
-  { "url": "https://github.com/frappe/india_compliance", "branch": "version-15" },
+  { "url": "https://github.com/frappe/hrms.git", "branch": "version-15" },
+  { "url": "https://github.com/frappe/payments.git", "branch": "version-15" },
+  { "url": "https://github.com/resilient-tech/india-compliance.git", "branch": "version-15" },
   { "url": "https://github.com/The-WellNest-in/wellnest-app.git", "branch": "develop" }
 ]
