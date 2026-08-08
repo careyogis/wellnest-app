@@ -30,7 +30,7 @@ jobs:
           echo "github.actor=$(github.actor)"
 
       - name: Clone frappe_docker Template
-        run: git clone --depth 1 https://github.com
+        run: git clone --depth 1 https://github.com/frappe/frappe_docker
 
       - name: Prepare Apps JSON
         id: apps-json
