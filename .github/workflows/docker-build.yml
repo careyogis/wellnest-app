@@ -27,7 +27,7 @@ jobs:
 
       - name: Prepare apps.json
         run: |
-          echo "github.actor=$(github.actor)"
+          echo "github.actor=${{ github.actor }}"
 
       - name: Clone frappe_docker Template
         run: git clone --depth 1 https://github.com/frappe/frappe_docker
@@ -51,7 +51,7 @@ jobs:
           context: ./frappe_docker
           file: ./frappe_docker/images/layered/Containerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/careyogi-erpnext:latest,docker.io/${{ secrets.DOCKERHUB_USERNAME }}/careyogi-erpnext:latest
+          tags: ghcr.io/careyogi/careyogi-erpnext:latest,docker.io/${{ secrets.DOCKERHUB_USERNAME }}/careyogi-erpnext:latest
           build-args: |
             FRAPPE_BRANCH=version-15
             PYTHON_VERSION=3.11
