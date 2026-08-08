@@ -33,17 +33,17 @@ jobs:
         run: git clone --depth 1 https://github.com/frappe/frappe_docker
 
       - name: Prepare Apps JSON
-        id: apps-json
         run: |
           # Construct your array containing core apps + prerequisites + your app
-          JSON_CONTENT='[
+          cat > apps.json << 'EOF'
+          [
             {"url": "https://github.com/frappe/erpnext", "branch": "version-15"},
             {"url": "https://github.com/frappe/payments", "branch": "version-15"},
             {"url": "https://github.com/resilient-tech/india_compliance", "branch": "version-15"},
             {"url": "https://github.com/frappe/hrms", "branch": "version-15"},
             {"url": "https://github.com/careyogis/wellnest-app", "branch": "develop"}
-          ]'
-          echo "b64=$(echo -n "$JSON_CONTENT" | base64 -w 0)" >> $GITHUB_OUTPUT
+          ]
+          EOF
 
       - name: Build and Push Monolithic Image
         uses: docker/build-push-action@v5
@@ -56,9 +56,8 @@ jobs:
             FRAPPE_BRANCH=version-15
             PYTHON_VERSION=3.11
             NODE_VERSION=18.18.2
-            APPS_JSON_BASE64=${{ steps.apps-json.outputs.b64 }}
-          secrets: |
-            id=apps_json,src=${{ steps.apps-json.outputs.b64 }}
+          secret-files: |
+            apps_json=apps.json
 
       - name: Trigger CD Deployment on Host VM
         run: |
