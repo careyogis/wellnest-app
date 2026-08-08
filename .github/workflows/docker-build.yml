@@ -41,7 +41,7 @@ jobs:
             {"url": "https://github.com/frappe/payments", "branch": "version-15"},
             {"url": "https://github.com/resilient-tech/india_compliance", "branch": "version-15"},
             {"url": "https://github.com/frappe/hrms", "branch": "version-15"},
-            {"url": "https://github.com/TheWellNest-in/wellnest-app", "branch": "develop"}
+            {"url": "https://github.com/careyogis/wellnest-app", "branch": "develop"}
           ]'
           echo "b64=$(echo -n "$JSON_CONTENT" | base64 -w 0)" >> $GITHUB_OUTPUT
 
@@ -51,7 +51,7 @@ jobs:
           context: ./frappe_docker
           file: ./frappe_docker/images/layered/Containerfile
           push: true
-          tags: ghcr.io/careyogi/careyogi-erpnext:latest,docker.io/${{ secrets.DOCKERHUB_USERNAME }}/careyogi-erpnext:latest
+          tags: ghcr.io/${{ github.repository_owner }}/careyogi-erpnext:latest,docker.io/${{ secrets.DOCKERHUB_USERNAME }}/careyogi-erpnext:latest
           build-args: |
             FRAPPE_BRANCH=version-15
             PYTHON_VERSION=3.11
