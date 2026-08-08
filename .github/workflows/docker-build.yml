@@ -57,6 +57,8 @@ jobs:
             PYTHON_VERSION=3.11
             NODE_VERSION=18.18.2
             APPS_JSON_BASE64=${{ steps.apps-json.outputs.b64 }}
+          secrets: |
+            id=apps_json,src=${{ steps.apps-json.outputs.b64 }}
 
       - name: Trigger CD Deployment on Host VM
         run: |
