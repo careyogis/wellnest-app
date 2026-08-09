@@ -63,4 +63,4 @@ jobs:
         run: |
           curl -X POST \
             -H "X-CD-Token: ${{ secrets.DEPLOYMENT_SECRET_TOKEN }}" \
-            https://playground2.thewellnest.in/webhook/
+            https://playground2.thewellnest.in/webhook/hooks/deploy-wellnest-app
