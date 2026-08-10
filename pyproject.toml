@@ -9,6 +9,9 @@ readme = "README.md"
 dynamic = ["version"]
 dependencies = [
     # "frappe~=15.0.0" # Installed and managed by bench.
+    "erpnext>=15.0.0,<16.0.0",
+    "payments",
+    "india_compliance"
 ]
 
 [build-system]
@@ -18,3 +21,41 @@ build-backend = "flit_core.buildapi"
 # These dependencies are only installed when developer mode is enabled
 [tool.bench.dev-dependencies]
 # package_name = "~=1.1.0"
+
+[tool.ruff]
+# Target Python version matching your ERPNext v15 container
+target-version = "py311"
+line-length = 110
+
+# Core rules to enforce
+select = [
+    "F",    # Pyflakes (errors, unused imports/variables)
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "I",    # isort (clean, structured import ordering)
+    "B",    # flake8-bugbear (common design flaws/bugs)
+    "RUF",  # Ruff-specific rules
+]
+
+# Rules to ignore (adjust based on your preferred coding style)
+ignore = [
+    "E501", # Ignore line-length violations (handled by formatter)
+    "B008", # Do not perform function calls in argument defaults (common in Frappe)
+]
+
+# Exclude generated or external code
+exclude = [
+    ".git",
+    "node_modules",
+    "*.pyc",
+]
+
+[tool.ruff.isort]
+# Groups third-party imports cleanly and keeps frappe/erpnext imports distinct
+known-first-party = ["frappe", "erpnext", "wellnest"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"

@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd caregiver-app && yarn install",
-    "dev": "cd caregiver-app && yarn dev",
-    "build": "cd caregiver-app && yarn build",
+    "postinstall": "cd caregiver-app && yarn install && cd ../doctor-app && yarn install",
+    "dev": "cd caregiver-app && yarn dev && cd ../doctor-app && yarn dev",
+    "build": "cd caregiver-app && yarn build && cd ../doctor-app && yarn build",
     "build:web": "python3 wellnest/build_web.py"
   },
   "keywords": [],

@@ -1,0 +1,24 @@
+# name=docker/images/Containerfile
+ARG BASE_IMAGE=frappe/erpnext:v15
+FROM ${BASE_IMAGE}
+
+ARG APPS_JSON_BASE64=""
+ENV APPS_JSON_BASE64=${APPS_JSON_BASE64}
+ENV BENCH_PATH=/home/frappe/frappe-bench
+WORKDIR ${BENCH_PATH}
+
+# Ensure git and jq available for cloning/parsing apps.json. Adjust packages if BASE_IMAGE already has them.
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    jq \
+  && rm -rf /var/lib/apt/lists/*
+
+# Copy helper script (below) and make it executable
+COPY docker/images/get-apps.sh /usr/local/bin/get-apps.sh
+RUN chmod +x /usr/local/bin/get-apps.sh
+
+USER frappe
+
+# Decode APPS_JSON_BASE64 and bench get apps
+RUN /usr/local/bin/get-apps.sh
