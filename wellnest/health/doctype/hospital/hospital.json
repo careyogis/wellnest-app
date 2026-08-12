@@ -1,6 +1,6 @@
 {
  "actions": [],
- "autoname": "HS-######",
+ "autoname": "HS-.######",
  "creation": "2026-07-09 17:21:41.629735",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -241,7 +241,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-12 11:22:42.377777",
+ "modified": "2026-08-12 12:24:46.331121",
  "modified_by": "randhirk@careyogis.com",
  "module": "Health",
  "name": "Hospital",
