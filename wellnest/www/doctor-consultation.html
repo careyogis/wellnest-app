@@ -1,0 +1,172 @@
+{% extends "templates/wellnest_web.html" %}
+
+<title>{% block title %}CareYogi - Doctor Consultation | Online, In-Clinic & At Home{% endblock %}</title>
+<meta name="description" content="Find the right doctor and consult online, in-clinic, or at home. CareYogi connects general physicians, specialists, and patients through a single connected healthcare network." />
+
+<body>
+  {% block page_content %}
+  <!-- Page Banner -->
+  <section
+    class="page-header"
+    style="
+      background-image: url(/assets/wellnest/images/background/page-header-doctor-consultation.jpg);
+    "
+  >
+    <!-- REPLACE_IMAGE: Banner image (1920x400) for Doctor Consultation -->
+    <div class="container">
+      <h1>Doctor Consultation</h1>
+      <ul class="list-unstyled thm-breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#services-section">Services</a></li>
+        <li><span>Doctor Consultation</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Service Details Section -->
+  <section class="service-details" style="padding-top: 50px; padding-bottom: 70px;">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+          <div class="service-details__sidebar">
+            <div class="sidebar__single sidebar__category">
+              <h3 class="sidebar__title">Our Services</h3>
+              <ul class="sidebar__cat-list">
+                <li class="active">
+                  <a href="/doctor-consultation"><i class="fa fa-angle-right"></i> Doctor Consultation</a>
+                </li>
+                <li>
+                  <a href="/home-healthcare"><i class="fa fa-angle-right"></i> Home Healthcare</a>
+                </li>
+                <li>
+                  <a href="/diagnostics-at-home"><i class="fa fa-angle-right"></i> Diagnostics at Home</a>
+                </li>
+                <li>
+                  <a href="/medicine-at-home"><i class="fa fa-angle-right"></i> Medicine at Home</a>
+                </li>
+                <li>
+                  <a href="/emergency-assistance"><i class="fa fa-angle-right"></i> Emergency Assistance</a>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="sidebar__single sidebar__cta" style="background-color: #f7a900; padding: 30px; border-radius: 8px; color: #fff; margin-top: 30px;">
+              <h3 style="color: #fff; font-size: 22px; font-weight: 700; margin-bottom: 15px;">Need Medical Advice?</h3>
+              <p style="color: #fff; margin-bottom: 20px;">Connect with verified doctors across specialties for online or home consultations.</p>
+              <a href="/#contact-section" class="thm-btn" style="background: #2d2929; color: #fff; border: none;">Book Consultation</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-8">
+          <div class="service-details__main">
+            <div class="service-details__image mb-4" style="overflow: hidden; border-radius: 12px; max-height: 320px; box-shadow: 0 8px 24px rgba(0,0,0,0.06);">
+              <!-- REPLACE_IMAGE: Main service detail image (800x450, cropped to 320px height) showing doctor consultation -->
+              <img
+                src="/assets/wellnest/images/newimg/doctor.jpeg"
+                class="img-fluid"
+                alt="Placeholder: Doctor providing medical consultation to patient"
+                style="width: 100%; height: 320px; object-fit: cover; display: block;"
+              />
+            </div>
+
+            <div class="service-details__content">
+              <h2>Find the Right Doctor. Consult the Way That Works for You.</h2>
+              <p class="lead" style="font-size: 18px; color: #555; line-height: 1.7; margin-top: 15px;">
+                Expert medical care—online, in-clinic, or at home. Good healthcare begins with the right doctor and the right care at the right time. Our Digital Hospital brings doctors, specialists, and patients together through a single connected healthcare network.
+              </p>
+
+              <div class="row mt-4 mb-4">
+                <div class="col-md-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 20px; border-radius: 8px; text-align: center;">
+                    <i class="oberlin-icon-doctor" style="font-size: 36px; color: #f7a900;"></i>
+                    <h4 style="margin-top: 10px; font-size: 16px; font-weight: 700;">Online Consult</h4>
+                    <p style="font-size: 14px; margin-bottom: 0;">Connect via video from anywhere for quick medical guidance.</p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 20px; border-radius: 8px; text-align: center;">
+                    <i class="oberlin-icon-stethoscope" style="font-size: 36px; color: #f7a900;"></i>
+                    <h4 style="margin-top: 10px; font-size: 16px; font-weight: 700;">In-Clinic Visit</h4>
+                    <p style="font-size: 14px; margin-bottom: 0;">Schedule appointments with leading partner doctors near you.</p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 20px; border-radius: 8px; text-align: center;">
+                    <i class="oberlin-icon-disability" style="font-size: 36px; color: #f7a900;"></i>
+                    <h4 style="margin-top: 10px; font-size: 16px; font-weight: 700;">Home Visits</h4>
+                    <p style="font-size: 14px; margin-bottom: 0;">Physicians visit your home for personalized bedside evaluation.</p>
+                  </div>
+                </div>
+              </div>
+
+              <h3 style="margin-top: 30px; margin-bottom: 15px;">Why Choose CareYogi Doctor Services?</h3>
+              <ul class="list-unstyled" style="line-height: 2;">
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> <strong>Comprehensive Doctor Network:</strong> From General Physicians to Specialists, Super Specialists, AYUSH, and Naturopathy doctors.</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> <strong>Rigorous Credential Verification:</strong> Verified credentials from concerned state Medical Councils and Ayushman Bharat database before activation.</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> <strong>Continuity of Care:</strong> Consult the same doctor across video and in-clinic modes based on availability.</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> <strong>Seamless Digital Vault:</strong> Share medical history, diagnostic reports, and prescriptions securely before or during consultation.</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> <strong>Second Opinion Support:</strong> Access independent clinical opinions from qualified specialists when needed.</li>
+              </ul>
+
+              <h3 style="margin-top: 35px; margin-bottom: 15px;">How It Works</h3>
+              <div class="row text-center mt-3 mb-4">
+                <div class="col-md-3">
+                  <div style="padding: 15px; border-right: 1px dashed #ddd;">
+                    <span style="display: inline-block; width: 36px; height: 36px; line-height: 36px; background: #f7a900; color: #fff; border-radius: 50%; font-weight: 700;">1</span>
+                    <h5 style="margin-top: 10px; font-size: 15px;">Discover</h5>
+                    <p style="font-size: 13px;">Filter doctors by specialty and preferences.</p>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div style="padding: 15px; border-right: 1px dashed #ddd;">
+                    <span style="display: inline-block; width: 36px; height: 36px; line-height: 36px; background: #f7a900; color: #fff; border-radius: 50%; font-weight: 700;">2</span>
+                    <h5 style="margin-top: 10px; font-size: 15px;">Book</h5>
+                    <p style="font-size: 13px;">Select online, in-clinic, or home visit slot.</p>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div style="padding: 15px; border-right: 1px dashed #ddd;">
+                    <span style="display: inline-block; width: 36px; height: 36px; line-height: 36px; background: #f7a900; color: #fff; border-radius: 50%; font-weight: 700;">3</span>
+                    <h5 style="margin-top: 10px; font-size: 15px;">Consult</h5>
+                    <p style="font-size: 13px;">Share records and consult with the doctor.</p>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div style="padding: 15px;">
+                    <span style="display: inline-block; width: 36px; height: 36px; line-height: 36px; background: #f7a900; color: #fff; border-radius: 50%; font-weight: 700;">4</span>
+                    <h5 style="margin-top: 10px; font-size: 15px;">Follow-up</h5>
+                    <p style="font-size: 13px;">Receive digital Rx and coordinated care plan.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Doctor Consultation Services",
+    "serviceType": "Doctor Consultation",
+    "description": "Expert medical care online, in-clinic, or at home with verified specialists and doctors via CareYogi Digital Hospital.",
+    "provider": {
+      "@type": "Organization",
+      "name": "CareYogi",
+      "url": "https://www.careyogis.com/"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "India"
+    }
+  }
+  </script>
+  {% endblock %}
+</body>
