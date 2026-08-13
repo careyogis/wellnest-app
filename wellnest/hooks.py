@@ -243,5 +243,15 @@ fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Ser
 
 website_route_rules = [{'from_route': '/caregiver-app/<path:app_path>', 'to_route': 'caregiver-app'},]
 
-
-
+website_redirects = [
+    {"source": "/caregiver-attendant", "target": "/home-healthcare"},
+    {"source": "/nursing-care", "target": "/home-healthcare"},
+    {"source": "/doctor-at-home", "target": "/doctor-consultation"},
+    {"source": "/emergency-alert-response", "target": "/emergency-assistance"},
+    {"source": "/physiotherapy", "target": "/home-healthcare"},
+    {"source": "/speech-therapy", "target": "/home-healthcare"},
+    {"source": "/dementia-care", "target": "/home-healthcare"},
+    {"source": "/hospice-care", "target": "/home-healthcare"},
+    {"source": "/palliative-care", "target": "/home-healthcare"},
+    {"source": "/ayurveda", "target": "/home-healthcare"},
+]

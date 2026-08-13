@@ -2,9 +2,11 @@
 
 <title>{% block title %}CareYogi - Emergency Assistance | Always Connected, Always Protected{% endblock %}</title>
 <meta name="description" content="Comprehensive emergency support combining DrRing wearable device, SOS alert app, emergency doctor support, and rapid responder network." />
+<meta property="og:image" content="https://www.careyogis.com/assets/wellnest/images/newimg/our-approach-1.jpg" />
 
 <body>
   {% block page_content %}
+  {% set active_service = 'emergency-assistance' %}
   <!-- Page Banner -->
   <section
     class="page-header"
@@ -29,34 +31,7 @@
       <div class="row">
         <!-- Sidebar -->
         <div class="col-lg-4">
-          <div class="service-details__sidebar">
-            <div class="sidebar__single sidebar__category">
-              <h3 class="sidebar__title">Our Services</h3>
-              <ul class="sidebar__cat-list">
-                <li>
-                  <a href="/doctor-consultation"><i class="fa fa-angle-right"></i> Doctor Consultation</a>
-                </li>
-                <li>
-                  <a href="/home-healthcare"><i class="fa fa-angle-right"></i> Home Healthcare</a>
-                </li>
-                <li>
-                  <a href="/diagnostics-at-home"><i class="fa fa-angle-right"></i> Diagnostics at Home</a>
-                </li>
-                <li>
-                  <a href="/medicine-at-home"><i class="fa fa-angle-right"></i> Medicine at Home</a>
-                </li>
-                <li class="active">
-                  <a href="/emergency-assistance"><i class="fa fa-angle-right"></i> Emergency Assistance</a>
-                </li>
-              </ul>
-            </div>
-
-            <div class="sidebar__single sidebar__cta" style="background-color: #e53935; padding: 30px; border-radius: 8px; color: #fff; margin-top: 30px;">
-              <h3 style="color: #fff; font-size: 22px; font-weight: 700; margin-bottom: 15px;">Get Emergency Assist</h3>
-              <p style="color: #fff; margin-bottom: 20px;">One press emergency response package for complete family peace of mind.</p>
-              <a href="/#contact-section" class="thm-btn" style="background: #ffffff; color: #e53935; border: none; font-weight: 700;">Get Emergency Assist</a>
-            </div>
-          </div>
+          {% include "templates/includes/service_sidebar.html" %}
         </div>
 
         <!-- Main Content -->

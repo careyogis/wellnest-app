@@ -1,0 +1,34 @@
+<div class="service-details__sidebar">
+  <div class="sidebar__single sidebar__category">
+    <h3 class="sidebar__title">Our Services</h3>
+    <ul class="sidebar__cat-list">
+      <li class="{% if active_service == 'doctor-consultation' %}active{% endif %}">
+        <a href="/doctor-consultation"><i class="fa fa-angle-right"></i> Doctor Consultation</a>
+      </li>
+      <li class="{% if active_service == 'home-healthcare' %}active{% endif %}">
+        <a href="/home-healthcare"><i class="fa fa-angle-right"></i> Home Healthcare</a>
+      </li>
+      <li class="{% if active_service == 'diagnostics-at-home' %}active{% endif %}">
+        <a href="/diagnostics-at-home"><i class="fa fa-angle-right"></i> Diagnostics at Home</a>
+      </li>
+      <li class="{% if active_service == 'medicine-at-home' %}active{% endif %}">
+        <a href="/medicine-at-home"><i class="fa fa-angle-right"></i> Medicine at Home</a>
+      </li>
+      <li class="{% if active_service == 'emergency-assistance' %}active{% endif %}">
+        <a href="/emergency-assistance"><i class="fa fa-angle-right"></i> Emergency Assistance</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar__single sidebar__cta" style="background-color: {% if active_service == 'emergency-assistance' %}#e53935{% else %}#f7a900{% endif %}; padding: 30px; border-radius: 8px; color: #fff; margin-top: 30px;">
+    <h3 style="color: #fff; font-size: 22px; font-weight: 700; margin-bottom: 15px;">
+      {% if active_service == 'emergency-assistance' %}Get Emergency Assist{% else %}Need Assistance?{% endif %}
+    </h3>
+    <p style="color: #fff; margin-bottom: 20px;">
+      {% if active_service == 'emergency-assistance' %}One press emergency response package for complete family peace of mind.{% else %}Connect with our care team for personalized healthcare solutions.{% endif %}
+    </p>
+    <a href="/#contact-section" class="thm-btn" style="background: {% if active_service == 'emergency-assistance' %}#ffffff{% else %}#2d2929{% endif %}; color: {% if active_service == 'emergency-assistance' %}#e53935{% else %}#ffffff{% endif %}; border: none; font-weight: 700;">
+      {% if active_service == 'emergency-assistance' %}Get Emergency Assist{% else %}Contact Us{% endif %}
+    </a>
+  </div>
+</div>

@@ -2,9 +2,11 @@
 
 <title>{% block title %}CareYogi - Diagnostics & Lab Tests at Home{% endblock %}</title>
 <meta name="description" content="Doorstep diagnostic tests, home sample collection, and digital report management connected to your CareYogi Health Vault." />
+<meta property="og:image" content="https://www.careyogis.com/assets/wellnest/images/newimg/our-approach-1.jpg" />
 
 <body>
   {% block page_content %}
+  {% set active_service = 'diagnostics-at-home' %}
   <!-- Page Banner -->
   <section
     class="page-header"
@@ -29,34 +31,7 @@
       <div class="row">
         <!-- Sidebar -->
         <div class="col-lg-4">
-          <div class="service-details__sidebar">
-            <div class="sidebar__single sidebar__category">
-              <h3 class="sidebar__title">Our Services</h3>
-              <ul class="sidebar__cat-list">
-                <li>
-                  <a href="/doctor-consultation"><i class="fa fa-angle-right"></i> Doctor Consultation</a>
-                </li>
-                <li>
-                  <a href="/home-healthcare"><i class="fa fa-angle-right"></i> Home Healthcare</a>
-                </li>
-                <li class="active">
-                  <a href="/diagnostics-at-home"><i class="fa fa-angle-right"></i> Diagnostics at Home</a>
-                </li>
-                <li>
-                  <a href="/medicine-at-home"><i class="fa fa-angle-right"></i> Medicine at Home</a>
-                </li>
-                <li>
-                  <a href="/emergency-assistance"><i class="fa fa-angle-right"></i> Emergency Assistance</a>
-                </li>
-              </ul>
-            </div>
-
-            <div class="sidebar__single sidebar__cta" style="background-color: #f7a900; padding: 30px; border-radius: 8px; color: #fff; margin-top: 30px;">
-              <h3 style="color: #fff; font-size: 22px; font-weight: 700; margin-bottom: 15px;">Book Home Sample Collection</h3>
-              <p style="color: #fff; margin-bottom: 20px;">Share doctor recommendations or select test packages for doorstep sample collection.</p>
-              <a href="/#contact-section" class="thm-btn" style="background: #2d2929; color: #fff; border: none;">Book Test Now</a>
-            </div>
-          </div>
+          {% include "templates/includes/service_sidebar.html" %}
         </div>
 
         <!-- Main Content -->
