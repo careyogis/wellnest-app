@@ -2033,6 +2033,7 @@ li {
 --------------------------------------------------------------*/
 
 .page-header {
+  background-image: url(../images/background/page-header-doctor-at-home.jpg);
   background-color: var(--thm-black);
   padding-top: 120px;
   padding-bottom: 160px;
@@ -7256,9 +7257,12 @@ li {
    Service page heading fixes (SEO-safe)
 ---------------------------------- */
 
-.page-header h1 {
+.page-header h1,
+.page-header h2 {
   font-weight: 700;
-  color: #ffffff;
+  color: #ffffff !important;
+  position: relative;
+  z-index: 2;
 }
 
 .service-details__content h2 {
