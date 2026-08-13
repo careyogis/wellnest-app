@@ -1087,45 +1087,46 @@ const photoInput = ref(null);
 const documentInput = ref(null);
 const documentUploading = ref(false);
 
-const loadError = ref(null);
-const totalRatings = ref(0);
+
 const selectedLanguageOptions = ref([]);
 
-watch(
-  () => profileData.data,
-  (data) => {
-    const ratings = data?.doctor?.ratings;
-    if (Array.isArray(ratings) && ratings.length > 0) {
-      const sum = ratings.reduce((acc, rating) => acc + (rating.rating / 2) * 10, 0);
-      totalRatings.value = sum / ratings.length;
-    } else {
-      totalRatings.value = 0;
-    }
-  }
-);
 
-watch(
-  () => profileData.error,
-  (error) => {
-    if (!error) {
-      loadError.value = null;
-      return;
-    }
-    console.error('API call failed:', error);
-    const serverMessage = error?.messages?.[0] || error?.message || '';
-    if (serverMessage.toLowerCase().includes('practitioner not found')) {
-      loadError.value = 'Your account is not linked to a Practitioner record. Please contact the administrator to set up your doctor profile.';
-    } else {
-      loadError.value = 'Failed to load profile. Please try again or contact support.';
-    }
-    totalRatings.value = 0;
+const totalRatings = computed(() => {
+  const ratings = profileData.data?.doctor?.ratings;
+  if (Array.isArray(ratings) && ratings.length > 0) {
+    const sum = ratings.reduce((acc, rating) => acc + (rating.rating / 2) * 10, 0);
+    return sum / ratings.length;
   }
-);
+  return 0;
+});
+
+const loadError = computed(() => {
+  const error = profileData.error;
+  if (!error) return null;
+  console.error('API call failed:', error);
+  const serverMessage = error?.messages?.[0] || error?.message || '';
+  if (serverMessage.toLowerCase().includes('practitioner not found')) {
+    return 'Your account is not linked to a Practitioner record. Please contact the administrator to set up your doctor profile.';
+  }
+  return 'Failed to load profile. Please try again or contact support.';
+});
 
 const documentsResource = createResource({
   url: 'wellnest.health.doctype.practitioner.practitioner.doctor_documents',
-  auto: true,
+  makeParams() {
+    return { docname: profileData.data?.doctor?.name };
+  },
 });
+
+watch(
+  () => profileData.data?.doctor?.name,
+  (docname) => {
+    if (docname) {
+      documentsResource.fetch();
+    }
+  },
+  { immediate: true }
+);
 
 const documents = computed(() => {
   return documentsResource.data?.documents || [];
@@ -1200,6 +1201,7 @@ async function deleteDocument(document) {
       },
       credentials: 'include',
       body: JSON.stringify({
+        docname: profileData.data.doctor.name,
         file_name: document.name,
       }),
     });
@@ -1509,6 +1511,9 @@ async function saveProfile() {
 
   try {
     await updateProfileResource.submit({
+
+       docname: profileData.data.doctor.name,
+      updates: {
       // Personal information
       title: editForm.title,
       first_name: editForm.first_name,
@@ -1567,6 +1572,7 @@ async function saveProfile() {
 
       // Existing attachment values
       photo: editForm.photo,
+      },
     });
 
     // Reflect the changes immediately
@@ -1618,7 +1624,7 @@ async function saveProfile() {
       doctor.teleconsultation_charge = editForm.teleconsultation_charge;
       doctor.is_active = editForm.is_active;
 
-      
+
       doctor.is_published = editForm.is_published;
 
       doctor.languages_known = languagesArray.map((lang) => ({
