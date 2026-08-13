@@ -69,25 +69,6 @@
 	{%- block head_include -%}
 	{% include "templates/includes/header.html" %}
 	{%- endblock -%}
-
-	<style>
-		.wellnest-page-container {
-			max-width: 1200px;
-			margin-left: auto !important;
-			margin-right: auto !important;
-			padding-left: 24px;
-			padding-right: 24px;
-			width: 100%;
-		}
-		.hero, .hero-content, .blog-header {
-			padding-left: 0 !important;
-			margin-left: 0 !important;
-		}
-		.hero h1, .hero-content h1, .blog-header h1 {
-			margin-left: 0 !important;
-			padding-left: 0 !important;
-		}
-	</style>
 </head>
 
 <body frappe-session-status="{{ 'logged-in' if frappe.session.user != 'Guest' else 'logged-out'}}" data-path="{{ path | e }}" {%- if template and template.endswith('.md') %} frappe-content-type="markdown" {%- endif %} class="{{ body_class or ''}}">
