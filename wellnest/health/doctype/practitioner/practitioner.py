@@ -146,6 +146,9 @@ def update_doctor_profile(
     normal_charge=None,
     emergency_charge=None,
     priority_charge=None,
+    home_visit_charge=None,
+    in_clinic_charge=None,
+    teleconsultation_charge=None,
     is_active=None,
     available_from=None,
     available_till=None,
@@ -210,6 +213,9 @@ def update_doctor_profile(
         "normal_charge",
         "emergency_charge",
         "priority_charge",
+        "home_visit_charge",
+        "in_clinic_charge",
+        "teleconsultation_charge",
         "is_active",
         "available_from",
         "available_till",
@@ -251,7 +257,13 @@ def update_doctor_profile(
             elif isinstance(availability_day, dict):
                 practitioner.append(
                     "availability_days",
-                    availability_day,
+                    {
+                        "day": availability_day.get("day"),
+                        "custom_from_time": availability_day.get("from_time"),
+                        "custom_to_time": availability_day.get("to_time"),
+                        "custom_emergency_from": availability_day.get("emergency_from"),
+                        "custom_emergency_to": availability_day.get("emergency_to"),
+                    },
                 )
 
     practitioner.save(ignore_permissions=True)

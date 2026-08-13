@@ -13,9 +13,68 @@ const routes = [
     component: () => import('@/pages/Login.vue'),
   },
   {
-    name: 'Profile',
-    path: '/profile',
-    component: () => import('@/pages/Profile.vue'),
+    path: '/',
+    component: () => import('@/layouts/AppLayout.vue'),
+    children: [
+      {
+        name: 'Dashboard',
+        path: 'dashboard',
+        component: () => import('@/pages/Dashboard.vue'),
+      },
+      {
+        name: 'Profile',
+        path: 'profile',
+        component: () => import('@/pages/Profile.vue'),
+      },
+      {
+        name: 'Patients',
+        path: 'patients',
+        component: () => import('@/pages/ComingSoon.vue'),
+        props: { title: 'Patients' },
+      },
+      {
+        name: 'Schedule',
+        path: 'schedule',
+        component: () => import('@/pages/ComingSoon.vue'),
+        props: { title: 'Schedule' },
+      },
+      {
+        name: 'Consultations',
+        path: 'consultations',
+        component: () => import('@/pages/ComingSoon.vue'),
+        props: { title: 'Consultations' },
+      },
+      {
+        name: 'Messages',
+        path: 'messages',
+        component: () => import('@/pages/ComingSoon.vue'),
+        props: { title: 'Messages' },
+      },
+      {
+        name: 'Referrals',
+        path: 'referrals',
+        component: () => import('@/pages/ComingSoon.vue'),
+        props: { title: 'Referrals' },
+      },
+      {
+        name: 'Earnings',
+        path: 'earnings',
+        component: () => import('@/pages/ComingSoon.vue'),
+        props: { title: 'Earnings' },
+      },
+      {
+        name: 'Notifications',
+        path: 'notifications',
+        component: () => import('@/pages/ComingSoon.vue'),
+        props: { title: 'Notifications' },
+      },
+      {
+        name: 'Settings',
+        path: 'settings',
+        component: () => import('@/pages/ComingSoon.vue'),
+        props: { title: 'Settings' },
+      },
+    ],
   },
   {
     name: 'NotFound',
@@ -38,7 +97,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (to.name === 'Login' && isLoggedIn) {
-    next({ name: 'Profile' })
+    next({ name: 'Dashboard' })
   } else if (to.name !== 'Login' && !isLoggedIn) {
     next({ name: 'Login' })
   } else {
