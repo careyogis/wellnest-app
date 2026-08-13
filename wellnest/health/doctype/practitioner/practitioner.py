@@ -87,92 +87,66 @@ def add_as_supplier(practitioner: str):
 	return supplier.name
 
 
+def get_current_practitioner(docname=None):
+    if docname:
+        practitioner = frappe.get_doc("Practitioner", docname)
+    else:
+        practitioners = frappe.db.get_list(
+            "Practitioner",
+            filters={"user_id": frappe.session.user},
+        )
+
+        if not practitioners:
+            frappe.throw("Practitioner not found")
+
+        practitioner = frappe.get_doc(
+            "Practitioner",
+            practitioners[0].name,
+        )
+
+    if practitioner.user_id != frappe.session.user:
+        frappe.throw(
+            "Not authorized to access this profile",
+            frappe.PermissionError,
+        )
+
+    return practitioner
+
+
 @frappe.whitelist()
 def doctor_profile():
-	practitioners = frappe.db.get_list(
-		"Practitioner",
-		filters={"user_id": frappe.session.user},
-	)
+    practitioner = get_current_practitioner()
 
-	if not practitioners:
-		frappe.throw("Practitioner not found")
-
-	practitioner = frappe.get_doc(
-		"Practitioner",
-		practitioners[0].name,
-	)
-
-	return {
-		"doctor": practitioner,
-	}
+    return {
+        "doctor": practitioner,
+    }
 
 
 @frappe.whitelist()
 def update_doctor_profile(docname=None, updates=None):
-    if not docname:
-        frappe.throw("docname is required")
+    practitioner = get_current_practitioner(docname)
 
     if not updates:
         updates = {}
 
-    practitioner = frappe.get_doc("Practitioner", docname)
-
-    if practitioner.user_id != frappe.session.user:
-        frappe.throw(
-            "Not authorized to update this profile",
-            frappe.PermissionError,
-        )
-
-    editable_fields = [
-        "professional_summary",
-        "qualification",
-        "experience_years",
-        "council_name",
-        "registration_no",
-        "gender",
-        "email",
-        "mobile",
-        "title",
-        "first_name",
-        "middle_name",
-        "last_name",
-        "dob",
-        "nationality",
-        "photo",
-        "address_line1",
-        "city",
-        "state",
-        "pincode",
-        "additional_qualification",
-        "designation",
-        "super_specialty",
-        "registration_valid_upto",
-        "registration_letter",
-        "digital_signature_url",
-        "primary_facility",
-        "telemedicine_certified",
-        "hpr_verified",
-        "doctor_type",
-        "abdm_council_code",
-        "abdm_specialty_code",
-        "currency",
-        "normal_charge",
-        "emergency_charge",
-        "priority_charge",
-        "home_visit_charge",
-        "in_clinic_charge",
-        "teleconsultation_charge",
-        "is_active",
-        "available_from",
-        "available_till",
-        "available_in_emergency_from",
-        "available_in_emergency_till",
-        "is_published",
-    ]
+    excluded_fields = {
+        "hpr_id",
+        "abha_id",
+        "user_id",
+        "supplier",
+        "sales_partner",
+        "full_name",
+        "account_status",
+        "route",
+        "languages_known",
+        "availability_days",
+    }
 
     for fieldname, value in updates.items():
-        if fieldname in editable_fields:
-            practitioner.set(fieldname, value)
+        if fieldname in excluded_fields:
+            continue
+
+        practitioner.set(fieldname, value)
 
     if "languages_known" in updates:
         languages_known = updates.get("languages_known") or []
@@ -220,16 +194,7 @@ def update_doctor_profile(docname=None, updates=None):
 
 @frappe.whitelist()
 def doctor_documents(docname=None):
-    if not docname:
-        frappe.throw("docname is required")
-
-    practitioner = frappe.get_doc("Practitioner", docname)
-
-    if practitioner.user_id != frappe.session.user:
-        frappe.throw(
-            "Not authorized to view these documents",
-            frappe.PermissionError,
-        )
+    practitioner = get_current_practitioner(docname)
 
     files = frappe.get_all(
         "File",
@@ -267,19 +232,10 @@ def doctor_documents(docname=None):
 
 @frappe.whitelist()
 def delete_doctor_document(docname=None, file_name=None):
-    if not docname:
-        frappe.throw("docname is required")
-
     if not file_name:
-        frappe.throw("File name is required")
+       frappe.throw("File name is required")
 
-    practitioner = frappe.get_doc("Practitioner", docname)
-
-    if practitioner.user_id != frappe.session.user:
-        frappe.throw(
-            "Not authorized to delete this document",
-            frappe.PermissionError,
-        )
+    practitioner = get_current_practitioner(docname)
 
     file_doc = frappe.get_doc("File", file_name)
 
