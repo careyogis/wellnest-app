@@ -3,11 +3,7 @@
    `doc` is provided automatically by WebsiteGenerator - no get_context()
    override needed unless you want to customize it (see notes at bottom).
    ------------------------------------------------------------------ #}
-{% extends "templates/web.html" %}
-
-{% block navbar %}{% endblock %}
-{% block footer %}{% endblock %}
-{% block breadcrumbs %}{% endblock %}
+{% extends "templates/wellnest_web.html" %}
 
 {% block title %}{{ doc.full_name }}{% endblock %}
 
