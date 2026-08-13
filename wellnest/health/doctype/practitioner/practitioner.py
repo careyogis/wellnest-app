@@ -239,7 +239,7 @@ def doctor_documents(docname=None):
 @frappe.whitelist()
 def delete_doctor_document(docname=None, file_name=None):
     if not file_name:
-        frappe.throw("File name is required")
+       frappe.throw("File name is required")
 
     practitioner = get_current_practitioner(docname)
 
