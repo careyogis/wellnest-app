@@ -274,4 +274,4 @@ def delete_doctor_document(docname=None, file_name=None):
     return {
         "success": True,
         "file_name": file_doc.name,
-    }
+    }    
