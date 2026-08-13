@@ -10,6 +10,8 @@ website_context = {
 	"favicon": "/assets/wellnest/images/favicon/favicon.ico"
 }
 
+base_template = "templates/wellnest_web.html"
+
 # Includes in <head>
 # ------------------
 
