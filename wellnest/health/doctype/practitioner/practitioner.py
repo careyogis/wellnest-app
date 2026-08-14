@@ -130,8 +130,6 @@ def update_doctor_profile(docname=None, updates=None):
         updates = {}
 
     excluded_fields = {
-        "hpr_id",
-        "abha_id",
         "user_id",
         "supplier",
         "sales_partner",
