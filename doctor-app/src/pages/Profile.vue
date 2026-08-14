@@ -22,7 +22,7 @@
   <!-- Normal profile view -->
   <div v-else class="w-full min-h-screen py-6 md:py-10 px-4 md:px-8 bg-[#f5f7fb]">
     <div class="max-w-7xl mx-auto">
-      <!-- ================= PAGE HEADER ================= -->
+      <!-- === PAGE HEADER ===-->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
           <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-1">Doctor Profile</h2>
@@ -37,7 +37,7 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- ================= LEFT COLUMN ================= -->
+        <!-- ==== LEFT COLUMN ====-->
         <div class="lg:col-span-5 space-y-6">
           <!-- Profile card -->
           <Card class="shadow-sm border border-gray-200 rounded-2xl bg-white">
@@ -190,6 +190,20 @@
                   <span class="text-gray-500 text-sm">Priority Consultation</span>
                   <span class="font-semibold text-gray-900 text-sm">₹{{ profileData?.data?.doctor?.priority_charge }}</span>
                 </div>
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">Home Visit Consultation</span>
+                  <span class="font-semibold text-gray-900 text-sm"> ₹{{ profileData?.data?.doctor?.home_visit_charge }} </span>
+                </div>
+
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">In-Clinic Consultation</span>
+                  <span class="font-semibold text-gray-900 text-sm"> ₹{{ profileData?.data?.doctor?.in_clinic_charge }} </span>
+                </div>
+
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">Teleconsultation</span>
+                  <span class="font-semibold text-gray-900 text-sm"> ₹{{ profileData?.data?.doctor?.teleconsultation_charge }} </span>
+                </div>
               </div>
             </div>
           </Card>
@@ -240,11 +254,6 @@
                 </div>
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
-                  <span class="font-medium text-gray-500 block text-xs mb-1"> Registration Valid Upto </span>
-                  {{ profileData?.data?.doctor?.registration_valid_upto || 'Not Available' }}
-                </div>
-
-                <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
                   <span class="font-medium text-gray-500 block text-xs mb-1"> Primary Facility </span>
                   {{ profileData?.data?.doctor?.primary_facility || 'Not Available' }}
                 </div>
@@ -263,41 +272,39 @@
               <h5 class="text-lg font-bold text-gray-900 mb-4">Availability</h5>
 
               <div class="mb-5">
-                <span class="text-gray-500 text-xs font-medium uppercase tracking-wide block mb-2">Available Days</span>
+                <span class="text-gray-500 text-xs font-medium uppercase tracking-wide block mb-2">Available Days &amp; Hours</span>
 
-                <div v-if="profileData?.data?.doctor?.availability_days?.length" class="flex flex-wrap gap-2">
-                  <span
-                    v-for="item in profileData.data.doctor.availability_days"
-                    :key="item.day"
-                    class="px-2.5 py-1 bg-teal-50 text-teal-700 text-xs font-semibold rounded-full border border-teal-200"
-                  >
-                    {{ item.day }}
-                  </span>
+                <div v-if="profileData?.data?.doctor?.availability_days?.length" class="space-y-3">
+                  <div v-for="item in profileData.data.doctor.availability_days" :key="item.day" class="p-3 bg-gray-50 rounded-xl border border-gray-100">
+                    <div class="text-sm font-semibold text-gray-900 mb-2">{{ item.day }}</div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div class="text-xs text-gray-600">
+                        <span class="text-gray-400 block mb-0.5">Consultation</span>
+                        <span class="font-medium">
+                          <template v-if="formatTimeDisplay(item.custom_from_time) || formatTimeDisplay(item.custom_to_time)">
+                            {{ formatTimeDisplay(item.custom_from_time) || '—' }} – {{ formatTimeDisplay(item.custom_to_time) || '—' }}
+                          </template>
+                          <template v-else>Not Available</template>
+                        </span>
+                      </div>
+
+                      <div class="text-xs text-gray-600">
+                        <span class="text-gray-400 block mb-0.5">Emergency</span>
+                        <span class="font-medium">
+                          <template v-if="formatTimeDisplay(item.custom_emergency_from) || formatTimeDisplay(item.custom_emergency_to)">
+                            {{ formatTimeDisplay(item.custom_emergency_from) || '—' }} – {{ formatTimeDisplay(item.custom_emergency_to) || '—' }}
+                          </template>
+                          <template v-else>Not Available</template>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div v-else class="text-gray-500 text-sm">Not Available</div>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                  <span class="font-medium text-gray-500 block text-xs mb-1">Consultation Hours</span>
-                  <span class="text-sm font-semibold text-gray-900">
-                    <template v-if="formatTimeDisplay(profileData?.data?.doctor?.available_from) || formatTimeDisplay(profileData?.data?.doctor?.available_till)">
-                      {{ formatTimeDisplay(profileData?.data?.doctor?.available_from) || '—' }} – {{ formatTimeDisplay(profileData?.data?.doctor?.available_till) || '—' }}
-                    </template>
-                    <template v-else>Not Available</template>
-                  </span>
-                </div>
-
-                <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                  <span class="font-medium text-gray-500 block text-xs mb-1">Emergency Hours</span>
-                  <span class="text-sm font-semibold text-gray-900">
-                    <template v-if="formatTimeDisplay(profileData?.data?.doctor?.available_in_emergency_from) || formatTimeDisplay(profileData?.data?.doctor?.available_in_emergency_till)">
-                      {{ formatTimeDisplay(profileData?.data?.doctor?.available_in_emergency_from) || '—' }} – {{ formatTimeDisplay(profileData?.data?.doctor?.available_in_emergency_till) || '—' }}
-                    </template>
-                    <template v-else>Not Available</template>
-                  </span>
-                </div>
-
                 <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
                   <span class="font-medium text-gray-500 block text-xs mb-1">Registration Valid Upto</span>
                   <span class="text-sm font-semibold text-gray-900">
@@ -767,6 +774,39 @@
             </div>
 
             <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Home Visit Consultation </label>
+              <input
+                v-model="editForm.home_visit_charge"
+                type="number"
+                min="0"
+                step="0.01"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> In-Clinic Consultation </label>
+              <input
+                v-model="editForm.in_clinic_charge"
+                type="number"
+                min="0"
+                step="0.01"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Teleconsultation </label>
+              <input
+                v-model="editForm.teleconsultation_charge"
+                type="number"
+                min="0"
+                step="0.01"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              />
+            </div>
+
+            <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Account Status</label>
               <input
                 :value="editForm.account_status || 'Not Available'"
@@ -804,124 +844,127 @@
           <h5 class="text-base font-bold text-gray-900 mb-3">Availability</h5>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Available From</label>
-              <div class="flex gap-2">
-                <select
-                  v-model="availableFromTime.hour.value"
-                  class="w-1/3 px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option v-for="h in 12" :key="h" :value="String(h).padStart(2, '0')">{{ String(h).padStart(2, '0') }}</option>
-                </select>
-                <select
-                  v-model="availableFromTime.minute.value"
-                  class="w-1/3 px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">{{ m }}</option>
-                </select>
-                <select
-                  v-model="availableFromTime.period.value"
-                  class="w-1/3 px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option value="AM">AM</option>
-                  <option value="PM">PM</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Available Till</label>
-              <div class="flex gap-2">
-                <select
-                  v-model="availableTillTime.hour.value"
-                  class="w-1/3 px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option v-for="h in 12" :key="h" :value="String(h).padStart(2, '0')">{{ String(h).padStart(2, '0') }}</option>
-                </select>
-                <select
-                  v-model="availableTillTime.minute.value"
-                  class="w-1/3 px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">{{ m }}</option>
-                </select>
-                <select
-                  v-model="availableTillTime.period.value"
-                  class="w-1/3 px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option value="AM">AM</option>
-                  <option value="PM">PM</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Emergency Available From</label>
-              <div class="flex gap-2">
-                <select
-                  v-model="emergencyFromTime.hour.value"
-                  class="w-1/3 px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option v-for="h in 12" :key="h" :value="String(h).padStart(2, '0')">{{ String(h).padStart(2, '0') }}</option>
-                </select>
-                <select
-                  v-model="emergencyFromTime.minute.value"
-                  class="w-1/3 px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">{{ m }}</option>
-                </select>
-                <select
-                  v-model="emergencyFromTime.period.value"
-                  class="w-1/3 px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option value="AM">AM</option>
-                  <option value="PM">PM</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Emergency Available Till</label>
-              <div class="flex gap-2">
-                <select
-                  v-model="emergencyTillTime.hour.value"
-                  class="w-1/3 px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option v-for="h in 12" :key="h" :value="String(h).padStart(2, '0')">{{ String(h).padStart(2, '0') }}</option>
-                </select>
-                <select
-                  v-model="emergencyTillTime.minute.value"
-                  class="w-1/3 px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">{{ m }}</option>
-                </select>
-                <select
-                  v-model="emergencyTillTime.period.value"
-                  class="w-1/3 px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                >
-                  <option value="AM">AM</option>
-                  <option value="PM">PM</option>
-                </select>
-              </div>
-            </div>
-
             <div class="sm:col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-2">Availability Days</label>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Availability Days &amp; Hours</label>
+              <p class="text-xs text-gray-500 mb-3">Select the days you're available, then set hours for each day individually.</p>
 
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <label
-                  v-for="day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']"
-                  :key="day"
-                  class="flex items-center gap-2 p-2 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50"
-                >
-                  <input
-                    type="checkbox"
-                    :value="day"
-                    :checked="editForm.availability_days.some((item) => item.day === day)"
-                    @change="$event.target.checked ? editForm.availability_days.push({ day }) : (editForm.availability_days = editForm.availability_days.filter((item) => item.day !== day))"
-                    class="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
-                  />
-                  <span class="text-sm text-gray-700">{{ day }}</span>
-                </label>
+              <div class="space-y-3">
+                <div v-for="day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']" :key="day" class="border border-gray-200 rounded-lg overflow-hidden">
+                  <label class="flex items-center gap-2 p-3 cursor-pointer hover:bg-gray-50">
+                    <input type="checkbox" :checked="!!getDayItem(day)" @change="toggleDay(day, $event.target.checked)" class="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500" />
+                    <span class="text-sm font-medium text-gray-700">{{ day }}</span>
+                  </label>
+
+                  <div v-if="getDayItem(day)" class="px-3 pb-3 pt-1 border-t border-gray-100 bg-gray-50">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                      <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1">Consultation Hours</label>
+                        <div class="flex gap-1.5">
+                          <select
+                            :value="getHour12(getDayItem(day).from_time)"
+                            @change="setDayTime(getDayItem(day), 'from_time', 'hour', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                          >
+                            <option v-for="h in 12" :key="h" :value="String(h).padStart(2, '0')">{{ String(h).padStart(2, '0') }}</option>
+                          </select>
+                          <select
+                            :value="getMinute(getDayItem(day).from_time)"
+                            @change="setDayTime(getDayItem(day), 'from_time', 'minute', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                          >
+                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">{{ m }}</option>
+                          </select>
+                          <select
+                            :value="getPeriod(getDayItem(day).from_time)"
+                            @change="setDayTime(getDayItem(day), 'from_time', 'period', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                          >
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                          </select>
+                        </div>
+                        <div class="text-center text-xs text-gray-400 my-1">to</div>
+                        <div class="flex gap-1.5">
+                          <select
+                            :value="getHour12(getDayItem(day).to_time)"
+                            @change="setDayTime(getDayItem(day), 'to_time', 'hour', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                          >
+                            <option v-for="h in 12" :key="h" :value="String(h).padStart(2, '0')">{{ String(h).padStart(2, '0') }}</option>
+                          </select>
+                          <select
+                            :value="getMinute(getDayItem(day).to_time)"
+                            @change="setDayTime(getDayItem(day), 'to_time', 'minute', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                          >
+                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">{{ m }}</option>
+                          </select>
+                          <select
+                            :value="getPeriod(getDayItem(day).to_time)"
+                            @change="setDayTime(getDayItem(day), 'to_time', 'period', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                          >
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1">Emergency Hours</label>
+                        <div class="flex gap-1.5">
+                          <select
+                            :value="getHour12(getDayItem(day).emergency_from)"
+                            @change="setDayTime(getDayItem(day), 'emergency_from', 'hour', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                          >
+                            <option v-for="h in 12" :key="h" :value="String(h).padStart(2, '0')">{{ String(h).padStart(2, '0') }}</option>
+                          </select>
+                          <select
+                            :value="getMinute(getDayItem(day).emergency_from)"
+                            @change="setDayTime(getDayItem(day), 'emergency_from', 'minute', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                          >
+                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">{{ m }}</option>
+                          </select>
+                          <select
+                            :value="getPeriod(getDayItem(day).emergency_from)"
+                            @change="setDayTime(getDayItem(day), 'emergency_from', 'period', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                          >
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                          </select>
+                        </div>
+                        <div class="text-center text-xs text-gray-400 my-1">to</div>
+                        <div class="flex gap-1.5">
+                          <select
+                            :value="getHour12(getDayItem(day).emergency_to)"
+                            @change="setDayTime(getDayItem(day), 'emergency_to', 'hour', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                          >
+                            <option v-for="h in 12" :key="h" :value="String(h).padStart(2, '0')">{{ String(h).padStart(2, '0') }}</option>
+                          </select>
+                          <select
+                            :value="getMinute(getDayItem(day).emergency_to)"
+                            @change="setDayTime(getDayItem(day), 'emergency_to', 'minute', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                          >
+                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">{{ m }}</option>
+                          </select>
+                          <select
+                            :value="getPeriod(getDayItem(day).emergency_to)"
+                            @change="setDayTime(getDayItem(day), 'emergency_to', 'period', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                          >
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -936,10 +979,11 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { FeatherIcon, Badge, Avatar, Autocomplete, FileUploader, createResource } from 'frappe-ui';
 import { session } from '../data/session';
 import router from '@/router';
+import { profileData } from '@/data/doctorProfile';
 
 function formatDateOnly(dateString) {
   if (!dateString) return 'Not Available';
@@ -977,60 +1021,50 @@ function combineTime(hour12Str, minuteStr, period) {
   return `${String(hour24).padStart(2, '0')}:${minuteStr}:00`;
 }
 
-function useTimeField(fieldName) {
-  const hour = computed({
-    get() {
-      const val = editForm[fieldName];
-      if (!val) return '';
-      let h = parseInt(val.split(':')[0], 10);
-      if (Number.isNaN(h)) return '';
-      let h12 = h % 12;
-      if (h12 === 0) h12 = 12;
-      return String(h12).padStart(2, '0');
-    },
-    set(newHour12) {
-      const current = editForm[fieldName] || '00:00';
-      const currentMinute = (current.split(':')[1] || '00').padStart(2, '0');
-      const currentHour = parseInt(current.split(':')[0], 10) || 0;
-      const currentPeriod = currentHour >= 12 ? 'PM' : 'AM';
-      editForm[fieldName] = combineTime(newHour12, currentMinute, currentPeriod);
-    },
-  });
+function getHour12(timeString) {
+  if (!timeString) return '';
+  let h = parseInt(timeString.split(':')[0], 10);
+  if (Number.isNaN(h)) return '';
+  let h12 = h % 12;
+  if (h12 === 0) h12 = 12;
+  return String(h12).padStart(2, '0');
+}
 
-  const minute = computed({
-    get() {
-      const val = editForm[fieldName];
-      if (!val) return '';
-      return (val.split(':')[1] || '00').padStart(2, '0');
-    },
-    set(newMinute) {
-      const current = editForm[fieldName] || '00:00';
-      const currentHour = parseInt(current.split(':')[0], 10) || 0;
-      let h12 = currentHour % 12;
-      if (h12 === 0) h12 = 12;
-      const currentPeriod = currentHour >= 12 ? 'PM' : 'AM';
-      editForm[fieldName] = combineTime(String(h12).padStart(2, '0'), newMinute, currentPeriod);
-    },
-  });
+function getMinute(timeString) {
+  if (!timeString) return '';
+  return (timeString.split(':')[1] || '00').padStart(2, '0');
+}
 
-  const period = computed({
-    get() {
-      const val = editForm[fieldName];
-      if (!val) return 'AM';
-      const h = parseInt(val.split(':')[0], 10);
-      return h >= 12 ? 'PM' : 'AM';
-    },
-    set(newPeriod) {
-      const current = editForm[fieldName] || '12:00';
-      const currentMinute = (current.split(':')[1] || '00').padStart(2, '0');
-      const currentHour = parseInt(current.split(':')[0], 10) || 0;
-      let h12 = currentHour % 12;
-      if (h12 === 0) h12 = 12;
-      editForm[fieldName] = combineTime(String(h12).padStart(2, '0'), currentMinute, newPeriod);
-    },
-  });
+function getPeriod(timeString) {
+  if (!timeString) return 'AM';
+  const h = parseInt(timeString.split(':')[0], 10);
+  return h >= 12 ? 'PM' : 'AM';
+}
 
-  return { hour, minute, period };
+function setDayTime(dayItem, fieldName, part, value) {
+  const current = dayItem[fieldName] || '';
+  const hour12 = part === 'hour' ? value : getHour12(current) || '12';
+  const minute = part === 'minute' ? value : getMinute(current) || '00';
+  const period = part === 'period' ? value : getPeriod(current);
+  dayItem[fieldName] = combineTime(hour12, minute, period);
+}
+
+function getDayItem(dayName) {
+  return editForm.availability_days.find((item) => item.day === dayName);
+}
+
+function toggleDay(dayName, checked) {
+  if (checked) {
+    editForm.availability_days.push({
+      day: dayName,
+      from_time: '',
+      to_time: '',
+      emergency_from: '',
+      emergency_to: '',
+    });
+  } else {
+    editForm.availability_days = editForm.availability_days.filter((item) => item.day !== dayName);
+  }
 }
 
 function updateLanguages(options) {
@@ -1046,49 +1080,49 @@ function removeLanguage(option) {
   editForm.languages_known = selectedLanguageOptions.value.map((item) => item.value);
 }
 
-const state = reactive({
-  index: 0,
-  tabs: [{ label: 'General' }, { label: 'Ratings' }],
-});
-
 const imageLoadError = ref(false);
 const photoInput = ref(null);
-const photoUploading = ref(false);
 const documentInput = ref(null);
 const documentUploading = ref(false);
 
-const loadError = ref(null);
-const totalRatings = ref(0);
 const selectedLanguageOptions = ref([]);
 
-const profileData = createResource({
-  url: 'wellnest.health.doctype.practitioner.practitioner.doctor_profile',
-  auto: true,
-  onSuccess(data) {
-    const ratings = data?.doctor?.ratings;
-    if (Array.isArray(ratings) && ratings.length > 0) {
-      const sum = ratings.reduce((acc, rating) => acc + (rating.rating / 2) * 10, 0);
-      totalRatings.value = sum / ratings.length;
-    } else {
-      totalRatings.value = 0;
-    }
-  },
-  onError(error) {
-    console.error('API call failed:', error);
-    const serverMessage = error?.messages?.[0] || error?.message || '';
-    if (serverMessage.toLowerCase().includes('practitioner not found')) {
-      loadError.value = 'Your account is not linked to a Practitioner record. Please contact the administrator to set up your doctor profile.';
-    } else {
-      loadError.value = 'Failed to load profile. Please try again or contact support.';
-    }
-    totalRatings.value = 0;
-  },
+const totalRatings = computed(() => {
+  const ratings = profileData.data?.doctor?.ratings;
+  if (Array.isArray(ratings) && ratings.length > 0) {
+    const sum = ratings.reduce((acc, rating) => acc + (rating.rating / 2) * 10, 0);
+    return sum / ratings.length;
+  }
+  return 0;
+});
+
+const loadError = computed(() => {
+  const error = profileData.error;
+  if (!error) return null;
+  console.error('API call failed:', error);
+  const serverMessage = error?.messages?.[0] || error?.message || '';
+  if (serverMessage.toLowerCase().includes('practitioner not found')) {
+    return 'Your account is not linked to a Practitioner record. Please contact the administrator to set up your doctor profile.';
+  }
+  return 'Failed to load profile. Please try again or contact support.';
 });
 
 const documentsResource = createResource({
   url: 'wellnest.health.doctype.practitioner.practitioner.doctor_documents',
-  auto: true,
+  makeParams() {
+    return { docname: profileData.data?.doctor?.name };
+  },
 });
+
+watch(
+  () => profileData.data?.doctor?.name,
+  (docname) => {
+    if (docname) {
+      documentsResource.fetch();
+    }
+  },
+  { immediate: true }
+);
 
 const documents = computed(() => {
   return documentsResource.data?.documents || [];
@@ -1163,6 +1197,7 @@ async function deleteDocument(document) {
       },
       credentials: 'include',
       body: JSON.stringify({
+        docname: profileData.data.doctor.name,
         file_name: document.name,
       }),
     });
@@ -1196,7 +1231,7 @@ async function handlePhotoSelected(event) {
     const formData = new FormData();
 
     formData.append('file', file);
-    formData.append('is_private', '1');
+    formData.append('is_private', '0');
     formData.append('doctype', 'Practitioner');
     formData.append('docname', profileData.data.doctor.name);
     formData.append('fieldname', 'photo');
@@ -1288,21 +1323,15 @@ const editForm = reactive({
   normal_charge: '',
   emergency_charge: '',
   priority_charge: '',
+  home_visit_charge: '',
+  in_clinic_charge: '',
+  teleconsultation_charge: '',
   is_active: false,
 
   // Availability
-  available_from: '',
-  available_till: '',
   availability_days: [],
-  available_in_emergency_from: '',
-  available_in_emergency_till: '',
   is_published: false,
 });
-
-const availableFromTime = useTimeField('available_from');
-const availableTillTime = useTimeField('available_till');
-const emergencyFromTime = useTimeField('available_in_emergency_from');
-const emergencyTillTime = useTimeField('available_in_emergency_till');
 
 const cityOptions = ref([]);
 const stateOptions = ref([]);
@@ -1451,15 +1480,19 @@ function editProfile() {
   editForm.normal_charge = doctor?.normal_charge ?? '';
   editForm.emergency_charge = doctor?.emergency_charge ?? '';
   editForm.priority_charge = doctor?.priority_charge ?? '';
+  editForm.home_visit_charge = doctor?.home_visit_charge ?? '';
+  editForm.in_clinic_charge = doctor?.in_clinic_charge ?? '';
+  editForm.teleconsultation_charge = doctor?.teleconsultation_charge ?? '';
   editForm.is_active = Boolean(doctor?.is_active);
 
   // Availability
-  // Availability
-  editForm.available_from = formatTimeOnly(doctor?.available_from);
-  editForm.available_till = formatTimeOnly(doctor?.available_till);
-  editForm.availability_days = doctor?.availability_days || [];
-  editForm.available_in_emergency_from = formatTimeOnly(doctor?.available_in_emergency_from);
-  editForm.available_in_emergency_till = formatTimeOnly(doctor?.available_in_emergency_till);
+  editForm.availability_days = (doctor?.availability_days || []).map((item) => ({
+    day: item.day,
+    from_time: formatTimeOnly(item.custom_from_time),
+    to_time: formatTimeOnly(item.custom_to_time),
+    emergency_from: formatTimeOnly(item.custom_emergency_from),
+    emergency_to: formatTimeOnly(item.custom_emergency_to),
+  }));
   editForm.is_published = Boolean(doctor?.is_published);
 
   showEditProfile.value = true;
@@ -1474,66 +1507,66 @@ async function saveProfile() {
 
   try {
     await updateProfileResource.submit({
-      // Personal information
-      title: editForm.title,
-      first_name: editForm.first_name,
-      middle_name: editForm.middle_name,
-      last_name: editForm.last_name,
-      gender: editForm.gender,
-      dob: editForm.dob,
-      email: editForm.email,
-      mobile: editForm.mobile,
-      nationality: editForm.nationality,
+      docname: profileData.data.doctor.name,
+      updates: {
+        // Personal information
+        title: editForm.title,
+        first_name: editForm.first_name,
+        middle_name: editForm.middle_name,
+        last_name: editForm.last_name,
+        gender: editForm.gender,
+        dob: editForm.dob,
+        email: editForm.email,
+        mobile: editForm.mobile,
+        nationality: editForm.nationality,
 
-      // Address
-      address_line1: editForm.address_line1,
-      city: editForm.city,
-      state: editForm.state,
-      pincode: editForm.pincode,
+        // Address
+        address_line1: editForm.address_line1,
+        city: editForm.city,
+        state: editForm.state,
+        pincode: editForm.pincode,
 
-      // Professional information
-      qualification: editForm.qualification,
-      additional_qualification: editForm.additional_qualification,
-      designation: editForm.designation,
-      super_specialty: editForm.super_specialty,
-      registration_no: editForm.registration_no,
-      registration_valid_upto: editForm.registration_valid_upto,
-      registration_letter: editForm.registration_letter,
-      council_name: editForm.council_name,
-      experience_years: editForm.experience_years,
-      digital_signature_url: editForm.digital_signature_url,
-      professional_summary: editForm.professional_summary,
-      primary_facility: editForm.primary_facility,
-      telemedicine_certified: editForm.telemedicine_certified,
-      hpr_verified: editForm.hpr_verified,
-      doctor_type: editForm.doctor_type,
-      abdm_council_code: editForm.abdm_council_code,
-      abdm_specialty_code: editForm.abdm_specialty_code,
+        // Professional information
+        qualification: editForm.qualification,
+        additional_qualification: editForm.additional_qualification,
+        designation: editForm.designation,
+        super_specialty: editForm.super_specialty,
+        registration_no: editForm.registration_no,
+        registration_valid_upto: editForm.registration_valid_upto,
+        registration_letter: editForm.registration_letter,
+        council_name: editForm.council_name,
+        experience_years: editForm.experience_years,
+        digital_signature_url: editForm.digital_signature_url,
+        professional_summary: editForm.professional_summary,
+        primary_facility: editForm.primary_facility,
+        telemedicine_certified: editForm.telemedicine_certified,
+        hpr_verified: editForm.hpr_verified,
+        doctor_type: editForm.doctor_type,
+        abdm_council_code: editForm.abdm_council_code,
+        abdm_specialty_code: editForm.abdm_specialty_code,
 
-      // Account / charges
-      account_status: editForm.account_status,
-      currency: editForm.currency,
-      normal_charge: editForm.normal_charge,
-      emergency_charge: editForm.emergency_charge,
-      priority_charge: editForm.priority_charge,
-      is_active: editForm.is_active,
+        // Account / charges
+        currency: editForm.currency,
+        normal_charge: editForm.normal_charge,
+        emergency_charge: editForm.emergency_charge,
+        priority_charge: editForm.priority_charge,
+        home_visit_charge: editForm.home_visit_charge,
+        in_clinic_charge: editForm.in_clinic_charge,
+        teleconsultation_charge: editForm.teleconsultation_charge,
+        is_active: editForm.is_active,
 
-      // Availability
-      available_from: editForm.available_from,
-      available_till: editForm.available_till,
-      available_in_emergency_from: editForm.available_in_emergency_from,
-      available_in_emergency_till: editForm.available_in_emergency_till,
-      is_published: editForm.is_published,
+        // Availability
+        is_published: editForm.is_published,
 
-      // Existing child table
-      languages_known: languagesArray,
+        // Existing child table
+        languages_known: languagesArray,
 
-      // Availability child table
-      availability_days: editForm.availability_days,
+        // Availability child table
+        availability_days: editForm.availability_days,
 
-      // Existing attachment values
-      photo: editForm.photo,
-      registration_letter: editForm.registration_letter,
+        // Existing attachment values
+        photo: editForm.photo,
+      },
     });
 
     // Reflect the changes immediately
@@ -1575,24 +1608,28 @@ async function saveProfile() {
       doctor.abdm_council_code = editForm.abdm_council_code;
       doctor.abdm_specialty_code = editForm.abdm_specialty_code;
 
-      doctor.account_status = editForm.account_status;
       doctor.currency = editForm.currency;
       doctor.normal_charge = editForm.normal_charge;
       doctor.emergency_charge = editForm.emergency_charge;
       doctor.priority_charge = editForm.priority_charge;
+      doctor.home_visit_charge = editForm.home_visit_charge;
+      doctor.in_clinic_charge = editForm.in_clinic_charge;
+      doctor.teleconsultation_charge = editForm.teleconsultation_charge;
       doctor.is_active = editForm.is_active;
 
-      doctor.available_from = editForm.available_from;
-      doctor.available_till = editForm.available_till;
-      doctor.available_in_emergency_from = editForm.available_in_emergency_from;
-      doctor.available_in_emergency_till = editForm.available_in_emergency_till;
       doctor.is_published = editForm.is_published;
 
       doctor.languages_known = languagesArray.map((lang) => ({
         spoken_language_option: lang,
       }));
 
-      doctor.availability_days = editForm.availability_days;
+      doctor.availability_days = editForm.availability_days.map((item) => ({
+        day: item.day,
+        custom_from_time: item.from_time,
+        custom_to_time: item.to_time,
+        custom_emergency_from: item.emergency_from,
+        custom_emergency_to: item.emergency_to,
+      }));
     }
 
     showEditProfile.value = false;

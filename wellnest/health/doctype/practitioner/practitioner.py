@@ -88,144 +88,74 @@ def add_as_supplier(practitioner: str):
 	return supplier.name
 
 
-@frappe.whitelist()
-def doctor_profile():
-	practitioners = frappe.db.get_list(
-		"Practitioner",
-		filters={"user_id": frappe.session.user},
-	)
+def get_current_practitioner(docname=None):
+    if docname:
+        practitioner = frappe.get_doc("Practitioner", docname)
+    else:
+        practitioners = frappe.db.get_list(
+            "Practitioner",
+            filters={"user_id": frappe.session.user},
+        )
 
-	if not practitioners:
-		frappe.throw("Practitioner not found")
+        if not practitioners:
+            frappe.throw("Practitioner not found")
 
-	practitioner = frappe.get_doc(
-		"Practitioner",
-		practitioners[0].name,
-	)
-
-	return {
-		"doctor": practitioner,
-	}
-
-
-@frappe.whitelist()
-def update_doctor_profile(
-    professional_summary=None,
-    qualification=None,
-    experience_years=None,
-    council_name=None,
-    registration_no=None,
-    languages_known=None,
-    gender=None,
-    email=None,
-    mobile=None,
-    title=None,
-    first_name=None,
-    middle_name=None,
-    last_name=None,
-    dob=None,
-    nationality=None,
-    photo=None,
-    address_line1=None,
-    city=None,
-    state=None,
-    pincode=None,
-    additional_qualification=None,
-    designation=None,
-    super_specialty=None,
-    registration_valid_upto=None,
-    registration_letter=None,
-    digital_signature_url=None,
-    primary_facility=None,
-    telemedicine_certified=None,
-    hpr_verified=None,
-    doctor_type=None,
-    abdm_council_code=None,
-    abdm_specialty_code=None,
-    account_status=None,
-    currency=None,
-    normal_charge=None,
-    emergency_charge=None,
-    priority_charge=None,
-    is_active=None,
-    available_from=None,
-    available_till=None,
-    availability_days=None,
-    available_in_emergency_from=None,
-    available_in_emergency_till=None,
-    is_published=None,
-):
-    practitioners = frappe.db.get_list(
-        "Practitioner",
-        filters={"user_id": frappe.session.user},
-    )
-
-    if not practitioners:
-        frappe.throw("Practitioner not found")
-
-    practitioner = frappe.get_doc(
-        "Practitioner",
-        practitioners[0].name,
-    )
+        practitioner = frappe.get_doc(
+            "Practitioner",
+            practitioners[0].name,
+        )
 
     if practitioner.user_id != frappe.session.user:
         frappe.throw(
-            "Not authorized to update this profile",
+            "Not authorized to access this profile",
             frappe.PermissionError,
         )
 
-    editable_fields = [
-        "professional_summary",
-        "qualification",
-        "experience_years",
-        "council_name",
-        "registration_no",
-        "gender",
-        "email",
-        "mobile",
-        "title",
-        "first_name",
-        "middle_name",
-        "last_name",
-        "dob",
-        "nationality",
-        "photo",
-        "address_line1",
-        "city",
-        "state",
-        "pincode",
-        "additional_qualification",
-        "designation",
-        "super_specialty",
-        "registration_valid_upto",
-        "registration_letter",
-        "digital_signature_url",
-        "primary_facility",
-        "telemedicine_certified",
-        "hpr_verified",
-        "doctor_type",
-        "abdm_council_code",
-        "abdm_specialty_code",
+    return practitioner
+
+
+@frappe.whitelist()
+def doctor_profile():
+    practitioner = get_current_practitioner()
+
+    return {
+        "doctor": practitioner,
+    }
+
+
+@frappe.whitelist()
+def update_doctor_profile(docname=None, updates=None):
+    practitioner = get_current_practitioner(docname)
+
+    if not updates:
+        updates = {}
+
+    excluded_fields = {
+        "name",
+        "owner",
+        "creation",
+        "modified",
+        "modified_by",
+        "docstatus",
+        "doctype",
+        "user_id",
+        "supplier",
+        "sales_partner",
+        "full_name",
         "account_status",
-        "currency",
-        "normal_charge",
-        "emergency_charge",
-        "priority_charge",
-        "is_active",
-        "available_from",
-        "available_till",
-        "available_in_emergency_from",
-        "available_in_emergency_till",
-        "is_published",
-    ]
+        "route",
+        "languages_known",
+        "availability_days",
+    }
 
-    for fieldname in editable_fields:
-        value = locals().get(fieldname)
+    for fieldname, value in updates.items():
+        if fieldname in excluded_fields:
+            continue
 
-        if value is not None:
-            practitioner.set(fieldname, value)
+        practitioner.set(fieldname, value)
 
-    if languages_known is not None:
+    if "languages_known" in updates:
+        languages_known = updates.get("languages_known") or []
         practitioner.set("languages_known", [])
 
         for lang in languages_known:
@@ -240,7 +170,8 @@ def update_doctor_profile(
                     lang,
                 )
 
-    if availability_days is not None:
+    if "availability_days" in updates:
+        availability_days = updates.get("availability_days") or []
         practitioner.set("availability_days", [])
 
         for availability_day in availability_days:
@@ -252,7 +183,13 @@ def update_doctor_profile(
             elif isinstance(availability_day, dict):
                 practitioner.append(
                     "availability_days",
-                    availability_day,
+                    {
+                        "day": availability_day.get("day"),
+                        "custom_from_time": availability_day.get("from_time"),
+                        "custom_to_time": availability_day.get("to_time"),
+                        "custom_emergency_from": availability_day.get("emergency_from"),
+                        "custom_emergency_to": availability_day.get("emergency_to"),
+                    },
                 )
 
     practitioner.save(ignore_permissions=True)
@@ -262,27 +199,16 @@ def update_doctor_profile(
 
 
 @frappe.whitelist()
-def doctor_documents():
-    practitioners = frappe.db.get_list(
-        "Practitioner",
-        filters={"user_id": frappe.session.user},
-    )
-
-    if not practitioners:
-        frappe.throw("Practitioner not found")
-
-    practitioner = frappe.get_doc(
-        "Practitioner",
-        practitioners[0].name,
-    )
+def doctor_documents(docname=None):
+    practitioner = get_current_practitioner(docname)
 
     files = frappe.get_all(
         "File",
         filters=[
-    ["attached_to_doctype", "=", "Practitioner"],
-    ["attached_to_name", "=", practitioner.name],
-    ["attached_to_field", "!=", "photo"],
-],
+            ["attached_to_doctype", "=", "Practitioner"],
+            ["attached_to_name", "=", practitioner.name],
+            ["attached_to_field", "!=", "photo"],
+        ],
         fields=[
             "name",
             "file_name",
@@ -294,7 +220,7 @@ def doctor_documents():
         order_by="creation desc",
     )
 
-    # Avoiding duplicate File records 
+    # Avoiding duplicate File records
     unique_files = []
     seen_urls = set()
 
@@ -311,22 +237,11 @@ def doctor_documents():
 
 
 @frappe.whitelist()
-def delete_doctor_document(file_name=None):
+def delete_doctor_document(docname=None, file_name=None):
     if not file_name:
         frappe.throw("File name is required")
 
-    practitioners = frappe.db.get_list(
-        "Practitioner",
-        filters={"user_id": frappe.session.user},
-    )
-
-    if not practitioners:
-        frappe.throw("Practitioner not found")
-
-    practitioner = frappe.get_doc(
-        "Practitioner",
-        practitioners[0].name,
-    )
+    practitioner = get_current_practitioner(docname)
 
     file_doc = frappe.get_doc("File", file_name)
 
@@ -341,7 +256,6 @@ def delete_doctor_document(file_name=None):
 
     file_url = file_doc.file_url
 
-  
     if (
         file_doc.attached_to_field == "registration_letter"
         and practitioner.registration_letter == file_url
