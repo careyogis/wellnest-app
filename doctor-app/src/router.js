@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { session } from './data/session'
-import { userResource } from '@/data/user'
+import { createRouter, createWebHistory } from 'vue-router';
+import { session } from './data/session';
+import { userResource } from '@/data/user';
 
 const routes = [
   {
@@ -11,6 +11,11 @@ const routes = [
     name: 'Login',
     path: '/account/login',
     component: () => import('@/pages/Login.vue'),
+  },
+  {
+    name: 'Register',
+    path: '/account/register',
+    component: () => import('@/pages/Register.vue'),
   },
   {
     path: '/',
@@ -81,28 +86,29 @@ const routes = [
     path: '/:pathMatch(.*)*',
     component: () => import('@/pages/NotFound.vue'),
   },
-]
+];
 
 let router = createRouter({
   history: createWebHistory('/doctor-app'),
   routes,
-})
+});
 
 router.beforeEach(async (to, from, next) => {
-  let isLoggedIn = session.isLoggedIn
+  let isLoggedIn = session.isLoggedIn;
+
   try {
-    await userResource.promise
+    await userResource.promise;
   } catch (error) {
-    isLoggedIn = false
+    isLoggedIn = false;
   }
 
   if (to.name === 'Login' && isLoggedIn) {
-    next({ name: 'Dashboard' })
-  } else if (to.name !== 'Login' && !isLoggedIn) {
-    next({ name: 'Login' })
+    next({ name: 'Dashboard' });
+  } else if (to.name !== 'Login' && to.name !== 'Register' && !isLoggedIn) {
+    next({ name: 'Login' });
   } else {
-    next()
+    next();
   }
-})
+});
 
-export default router
+export default router;

@@ -79,6 +79,12 @@
               </div>
 
               <Button class="w-full mt-6 doctor-btn" variant="solid" type="submit"> Sign In </Button>
+
+              <div class="text-center mt-6">
+                <span class="text-sm text-gray-500"> New here? </span>
+
+                <button type="button" class="ml-1 text-sm font-medium text-blue-600 hover:underline" @click="goToRegister">Register</button>
+              </div>
             </form>
 
             <!-- OTP -->
@@ -311,6 +317,10 @@ async function verifyOtp() {
       message.value = 'Invalid OTP.';
     }
   }
+}
+
+function goToRegister() {
+  router.push({ name: 'Register' });
 }
 
 // Auto-verify once the user has entered a full 6-digit OTP

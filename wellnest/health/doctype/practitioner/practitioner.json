@@ -112,7 +112,7 @@
    "in_list_view": 1,
    "label": "Gender",
    "options": "\nFemale\nMale",
-   "reqd": 1
+   "reqd": 0
   },
   {
    "fieldname": "dob",
