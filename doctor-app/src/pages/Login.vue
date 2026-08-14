@@ -299,7 +299,7 @@ async function verifyOtp() {
     message.value = 'OTP verified successfully.';
     messageType.value = 'success';
 
-    router.replace({ name: 'Profile' });
+    router.replace({ name: 'Dashboard' });
   } catch (err: any) {
     console.error(err);
 
