@@ -22,7 +22,7 @@
   <!-- Normal profile view -->
   <div v-else class="w-full min-h-screen py-6 md:py-10 px-4 md:px-8 bg-[#f5f7fb]">
     <div class="max-w-7xl mx-auto">
-      <!-- ================= PAGE HEADER ================= -->
+      <!-- === PAGE HEADER ===-->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
           <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-1">Doctor Profile</h2>
@@ -37,7 +37,7 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- ================= LEFT COLUMN ================= -->
+        <!-- ==== LEFT COLUMN ====-->
         <div class="lg:col-span-5 space-y-6">
           <!-- Profile card -->
           <Card class="shadow-sm border border-gray-200 rounded-2xl bg-white">
@@ -1021,7 +1021,6 @@ function combineTime(hour12Str, minuteStr, period) {
   return `${String(hour24).padStart(2, '0')}:${minuteStr}:00`;
 }
 
-
 function getHour12(timeString) {
   if (!timeString) return '';
   let h = parseInt(timeString.split(':')[0], 10);
@@ -1081,15 +1080,12 @@ function removeLanguage(option) {
   editForm.languages_known = selectedLanguageOptions.value.map((item) => item.value);
 }
 
-
 const imageLoadError = ref(false);
 const photoInput = ref(null);
 const documentInput = ref(null);
 const documentUploading = ref(false);
 
-
 const selectedLanguageOptions = ref([]);
-
 
 const totalRatings = computed(() => {
   const ratings = profileData.data?.doctor?.ratings;
@@ -1511,67 +1507,65 @@ async function saveProfile() {
 
   try {
     await updateProfileResource.submit({
-
-       docname: profileData.data.doctor.name,
+      docname: profileData.data.doctor.name,
       updates: {
-      // Personal information
-      title: editForm.title,
-      first_name: editForm.first_name,
-      middle_name: editForm.middle_name,
-      last_name: editForm.last_name,
-      gender: editForm.gender,
-      dob: editForm.dob,
-      email: editForm.email,
-      mobile: editForm.mobile,
-      nationality: editForm.nationality,
+        // Personal information
+        title: editForm.title,
+        first_name: editForm.first_name,
+        middle_name: editForm.middle_name,
+        last_name: editForm.last_name,
+        gender: editForm.gender,
+        dob: editForm.dob,
+        email: editForm.email,
+        mobile: editForm.mobile,
+        nationality: editForm.nationality,
 
-      // Address
-      address_line1: editForm.address_line1,
-      city: editForm.city,
-      state: editForm.state,
-      pincode: editForm.pincode,
+        // Address
+        address_line1: editForm.address_line1,
+        city: editForm.city,
+        state: editForm.state,
+        pincode: editForm.pincode,
 
-      // Professional information
-      qualification: editForm.qualification,
-      additional_qualification: editForm.additional_qualification,
-      designation: editForm.designation,
-      super_specialty: editForm.super_specialty,
-      registration_no: editForm.registration_no,
-      registration_valid_upto: editForm.registration_valid_upto,
-      registration_letter: editForm.registration_letter,
-      council_name: editForm.council_name,
-      experience_years: editForm.experience_years,
-      digital_signature_url: editForm.digital_signature_url,
-      professional_summary: editForm.professional_summary,
-      primary_facility: editForm.primary_facility,
-      telemedicine_certified: editForm.telemedicine_certified,
-      hpr_verified: editForm.hpr_verified,
-      doctor_type: editForm.doctor_type,
-      abdm_council_code: editForm.abdm_council_code,
-      abdm_specialty_code: editForm.abdm_specialty_code,
+        // Professional information
+        qualification: editForm.qualification,
+        additional_qualification: editForm.additional_qualification,
+        designation: editForm.designation,
+        super_specialty: editForm.super_specialty,
+        registration_no: editForm.registration_no,
+        registration_valid_upto: editForm.registration_valid_upto,
+        registration_letter: editForm.registration_letter,
+        council_name: editForm.council_name,
+        experience_years: editForm.experience_years,
+        digital_signature_url: editForm.digital_signature_url,
+        professional_summary: editForm.professional_summary,
+        primary_facility: editForm.primary_facility,
+        telemedicine_certified: editForm.telemedicine_certified,
+        hpr_verified: editForm.hpr_verified,
+        doctor_type: editForm.doctor_type,
+        abdm_council_code: editForm.abdm_council_code,
+        abdm_specialty_code: editForm.abdm_specialty_code,
 
-      // Account / charges
-      account_status: editForm.account_status,
-      currency: editForm.currency,
-      normal_charge: editForm.normal_charge,
-      emergency_charge: editForm.emergency_charge,
-      priority_charge: editForm.priority_charge,
-      home_visit_charge: editForm.home_visit_charge,
-      in_clinic_charge: editForm.in_clinic_charge,
-      teleconsultation_charge: editForm.teleconsultation_charge,
-      is_active: editForm.is_active,
+        // Account / charges
+        currency: editForm.currency,
+        normal_charge: editForm.normal_charge,
+        emergency_charge: editForm.emergency_charge,
+        priority_charge: editForm.priority_charge,
+        home_visit_charge: editForm.home_visit_charge,
+        in_clinic_charge: editForm.in_clinic_charge,
+        teleconsultation_charge: editForm.teleconsultation_charge,
+        is_active: editForm.is_active,
 
-      // Availability
-      is_published: editForm.is_published,
+        // Availability
+        is_published: editForm.is_published,
 
-      // Existing child table
-      languages_known: languagesArray,
+        // Existing child table
+        languages_known: languagesArray,
 
-      // Availability child table
-      availability_days: editForm.availability_days,
+        // Availability child table
+        availability_days: editForm.availability_days,
 
-      // Existing attachment values
-      photo: editForm.photo,
+        // Existing attachment values
+        photo: editForm.photo,
       },
     });
 
@@ -1614,7 +1608,6 @@ async function saveProfile() {
       doctor.abdm_council_code = editForm.abdm_council_code;
       doctor.abdm_specialty_code = editForm.abdm_specialty_code;
 
-      doctor.account_status = editForm.account_status;
       doctor.currency = editForm.currency;
       doctor.normal_charge = editForm.normal_charge;
       doctor.emergency_charge = editForm.emergency_charge;
@@ -1623,7 +1616,6 @@ async function saveProfile() {
       doctor.in_clinic_charge = editForm.in_clinic_charge;
       doctor.teleconsultation_charge = editForm.teleconsultation_charge;
       doctor.is_active = editForm.is_active;
-
 
       doctor.is_published = editForm.is_published;
 

@@ -10,6 +10,8 @@ website_context = {
 	"favicon": "/assets/wellnest/images/favicon/favicon.ico"
 }
 
+update_website_context = "wellnest.utils.website.update_website_context"
+
 # Includes in <head>
 # ------------------
 
@@ -239,7 +241,20 @@ fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Ser
         { "doctype": "Client Script", "filters": [["module", "like", "WellNest%"]] }
         ]
 
-website_route_rules = [{'from_route': '/caregiver-app/<path:app_path>', 'to_route': 'caregiver-app'},]
+website_route_rules = [
+    {'from_route': '/caregiver-app/<path:app_path>', 'to_route': 'caregiver-app'},
+    {'from_route': '/doctor-app/<path:app_path>', 'to_route': 'doctor-app'},
+]
 
-
-
+website_redirects = [
+    {"source": "/caregiver-attendant", "target": "/home-healthcare"},
+    {"source": "/nursing-care", "target": "/home-healthcare"},
+    {"source": "/doctor-at-home", "target": "/doctor-consultation"},
+    {"source": "/emergency-alert-response", "target": "/emergency-assistance"},
+    {"source": "/physiotherapy", "target": "/home-healthcare"},
+    {"source": "/speech-therapy", "target": "/home-healthcare"},
+    {"source": "/dementia-care", "target": "/home-healthcare"},
+    {"source": "/hospice-care", "target": "/home-healthcare"},
+    {"source": "/palliative-care", "target": "/home-healthcare"},
+    {"source": "/ayurveda", "target": "/home-healthcare"},
+]

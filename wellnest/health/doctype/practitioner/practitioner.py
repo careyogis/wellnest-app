@@ -32,8 +32,9 @@ def get_list_context(context):
     # 1. Change the "List" heading
     context.title = "Our Doctors" 
     
-    # 2. Hide the Breadcrumbs (My Account > List). navbar and footer can't be hidden from here.
+    # 2. Hide the Breadcrumbs (My Account > List).
     context.no_breadcrumbs = 1
+    context.base_template_path = "templates/wellnest_web.html"
     
 
 def get_repeated(values: Iterable) -> list:
@@ -130,6 +131,13 @@ def update_doctor_profile(docname=None, updates=None):
         updates = {}
 
     excluded_fields = {
+        "name",
+        "owner",
+        "creation",
+        "modified",
+        "modified_by",
+        "docstatus",
+        "doctype",
         "user_id",
         "supplier",
         "sales_partner",
@@ -231,7 +239,7 @@ def doctor_documents(docname=None):
 @frappe.whitelist()
 def delete_doctor_document(docname=None, file_name=None):
     if not file_name:
-       frappe.throw("File name is required")
+        frappe.throw("File name is required")
 
     practitioner = get_current_practitioner(docname)
 
@@ -266,4 +274,4 @@ def delete_doctor_document(docname=None, file_name=None):
     return {
         "success": True,
         "file_name": file_doc.name,
-    }    
+    }

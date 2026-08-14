@@ -12,39 +12,39 @@
         "name": "How do I start services with CareYogi?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "To begin services, contact us through our website or phone number (+91-9810918237). We will set up an initial assessment to understand your needs and match you with a suitable caregiver."
+          "text": "Using CareYogi customer application, you may explore our offerings. Some services can be purchased directly from the application. For others, contact us via app, web form, email, or phone. We set up an initial assessment, create a practical care pathway with doctors, nurses, and coordinators, deliver care, and constantly monitor."
         }
       },
       {
         "@type": "Question",
-        "name": "What hours are caregivers available?",
+        "name": "What type of doctors does CareYogi have in their network?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Our caregivers are available for both part-time and full-time schedules, including 24-hour care if needed."
+          "text": "Starting from General Physicians to Specialists and Super Specialists, our network covers every discipline including allopathy, AYUSH, and Naturopathy."
         }
       },
       {
         "@type": "Question",
-        "name": "Can CareYogi provide care for someone with specific medical conditions like Alzheimer's or Parkinson's?",
+        "name": "Do you validate the credentials of the doctors in your network?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, we have passionate caregivers who are trained to care for patients with Alzheimer’s, Parkinson’s, and other specific medical conditions."
+          "text": "Yes, before activating a doctor in our system, we verify their credentials with concerned state Medical Councils and the Ayushman Bharat database."
         }
       },
       {
         "@type": "Question",
-        "name": "What happens if a caregiver is sick or on leave?",
+        "name": "Can I request a doctor home visit?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "We ensure that there is always a backup plan in place. If your regular caregiver cannot make it due to illness or leave, we will arrange for an equally qualified substitute caregiver."
+          "text": "Home consultations are available in selected locations and are subject to doctor availability and clinical suitability."
         }
       },
       {
         "@type": "Question",
-        "name": "Is there a minimum commitment period for using your services?",
+        "name": "Is home healthcare as effective as hospital care?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "There is no minimum commitment period. You can use our home care solutions for as long as you need, whether for a few days or on an ongoing basis."
+          "text": "For many medical conditions, home healthcare provides safe, effective, and personalized care while reducing the stress of repeated hospital visits."
         }
       }
     ]
@@ -52,94 +52,161 @@
   </script>
 {% endblock %}
 
-<title>
-    {% block title %}CareYogi - FAQs{% endblock %}
-</title>    
+<title>{% block title %}CareYogi - Frequently Asked Questions (FAQ){% endblock %}</title>
+<meta name="description" content="Frequently asked questions about CareYogi doctor consultations, home healthcare, emergency assistance, caregiver matching, and payments." />
+
 <body>
 {% block page_content %}
-<section class="blog-grid">
+<!-- Page Header Banner -->
+<section
+  class="page-header"
+  style="
+    background-image: url(/assets/wellnest/images/background/page-header-faq.jpg);
+  "
+>
+  <!-- REPLACE_IMAGE: Banner image (1920x400) for FAQ page -->
   <div class="container">
-    <h2>Frequently asked questions</h2>
-    <br>
-    <p>
-      <strong> 1. How do I start services with CareYogi™️?</strong><br>
-      To begin services, contact us through our website or phone number. We will set up an initial assessment to
-      understand your needs and then match you with a suitable caregiver.
-    </p>
-    <p>
-      <strong> 2. What hours are caregivers available?</strong>
-      <br>
-      Our caregivers are available for both part-time and full-time schedules, including 24-hour care if needed.
-      You can choose from various shift options that best suit your requirements.
-    </p>
-    <p>
-      <strong>
-        3. Can CareYogi™️ provide care for someone with specific medical conditions like Alzheimer's or Parkinson's?
-      </strong>
-      <br> Yes, we have passionate caregivers who are trained to care for patients with Alzheimer’s, Parkinson’s,
-      and
-      other specific medical conditions. They are equipped to handle the unique challenges associated with these
-      diseases and family first care.
-    </p>
-    <p>
-      <strong>4. What happens if a caregiver is sick or on leave?</strong>
-      <br>
-      We ensure that there is always a backup plan in place for transitional care excellence and supporting
-      families. If your regular caregiver cannot make it due to illness or leave, we will arrange for a substitute
-      caregiver who is equally qualified.
-    </p>
-    <p>
-      <strong>
-        5. How are caregivers matched with clients?
-      </strong>
-      <br>
-      Caregivers for innovative healthcare are matched based on the specific needs, personality, and preferences
-      of
-      the client. We also consider the caregiver’s skills and past experience to ensure a good fit.
-    </p>
-    <p>
-      <strong> 6. Is there a minimum commitment period for using your services?</strong>
-      <br>
-      There is no minimum commitment period. You can use our innovative healthcare solutions in Delhi NCR,
-      Hyderabad, and other cities in India, for as long as you need, whether it's for a few days or on an ongoing
-      basis.
-    </p>
-    <p>
-      <strong> 7. Can CareYogi™️ help with household tasks as well as medical care? </strong>
-      <br>
-      Yes, our caregivers can assist with household tasks such as light cleaning, laundry, and meal preparation,
-      in
-      addition to providing medical and personal care.
-    </p>
-    <p>
-      <strong>
-        8. How does CareYogi™️ ensure privacy and confidentiality in its services?
-      </strong>
-      <br>
-      We adhere strictly to privacy laws and guidelines to protect our clients’ information. Confidentiality is a
-      key part of our training process for all caregivers.
-    </p>
-    <p>
-      <strong>
-        9. What types of training do your caregivers receive?
-      </strong>
-      <br>
-      We take measures for empowering caregivers with comprehensive training that includes clinical skills,
-      emergency response, and soft skills like communication and elderly empathy.
-    </p>
-    <p>
-      <strong>
-        10. How do I pay for services, and what forms of payment do you accept?
-      </strong>
-      <br>
-      Payments for personalized wellness can be made via several methods, including online payments, bank
-      transfers,
-      or credit/debit cards.
-    </p>
+    <h1>Frequently Asked Questions</h1>
+    <ul class="list-unstyled thm-breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li><span>FAQ</span></li>
+    </ul>
   </div>
-  <!-- /.container -->
 </section>
-<!-- /.blog-grid -->
+
+<!-- FAQ Section -->
+<section class="faq-one" style="padding-top: 60px; padding-bottom: 80px;">
+  <div class="container">
+    <div class="block-title text-center">
+      <p class="has-line">Got Questions?</p>
+      <h3>We Have Answers</h3>
+      <p style="max-width: 650px; margin: 15px auto 40px auto; color: #666;">
+        Find clear answers about CareYogi services, doctor discovery, home healthcare, caregiver qualifications, and payment processes.
+      </p>
+    </div>
+
+    <div class="row">
+      <!-- General & Onboarding Category -->
+      <div class="col-lg-12 mb-4">
+        <h3 style="color: #2d2929; border-bottom: 2px solid #f7a900; padding-bottom: 10px; margin-bottom: 25px;">
+          <i class="fa fa-info-circle" style="color: #f7a900; margin-right: 10px;"></i> Getting Started & Care Process
+        </h3>
+        
+        <div style="background: #ffffff; border: 1px solid #eef0f4; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 18px; color: #2d2929; font-weight: 700; margin-bottom: 12px;">How do I start services with CareYogi™️?</h4>
+          <p style="color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 0;">
+            Using the CareYogi™️ customer application, you may explore our offerings. Some services can be purchased directly from the application. For others, you can contact us through our app, web form, email, or phone number. We will set up an initial assessment to understand your requirement, create a practical care pathway with doctors, nurses, and coordinators, deliver what is needed, and constantly monitor progress.
+          </p>
+        </div>
+      </div>
+
+      <!-- Doctor Discovery Category -->
+      <div class="col-lg-12 mb-4">
+        <h3 style="color: #2d2929; border-bottom: 2px solid #f7a900; padding-bottom: 10px; margin-bottom: 25px;">
+          <i class="fa fa-user-md" style="color: #f7a900; margin-right: 10px;"></i> Doctor Discovery & Consultations
+        </h3>
+
+        <div style="background: #ffffff; border: 1px solid #eef0f4; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 18px; color: #2d2929; font-weight: 700; margin-bottom: 12px;">What type of doctors does CareYogi™️ have in their network?</h4>
+          <p style="color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 0;">
+            Starting from General Physicians to Specialists and Super Specialists, our network covers every medical discipline. Apart from allopathy, we also have AYUSH and Naturopathy doctors in our network.
+          </p>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #eef0f4; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 18px; color: #2d2929; font-weight: 700; margin-bottom: 12px;">Do you validate the credentials of the doctors in your network?</h4>
+          <p style="color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 0;">
+            Yes, before activating a doctor in our system, we verify the validity of their credentials from the concerned state Medical Councils and the Ayushman Bharat database.
+          </p>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #eef0f4; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 18px; color: #2d2929; font-weight: 700; margin-bottom: 12px;">Can I choose my doctor and consult the same doctor online & in-person?</h4>
+          <p style="color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 0;">
+            Yes. You can discover doctors based on specialty and preferences. Where the doctor offers both consultation modes and appointments are available, you can continue with the same doctor across video and in-clinic consultations.
+          </p>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #eef0f4; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 18px; color: #2d2929; font-weight: 700; margin-bottom: 12px;">Can I request a doctor home visit?</h4>
+          <p style="color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 0;">
+            Home consultations are available in selected locations and are subject to doctor availability and clinical suitability.
+          </p>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #eef0f4; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 18px; color: #2d2929; font-weight: 700; margin-bottom: 12px;">Can I share previous reports and get a second opinion?</h4>
+          <p style="color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 0;">
+            Yes, you can share relevant medical records, prescriptions, and diagnostic reports before or during your consultation. You can also consult another qualified doctor for an independent second opinion.
+          </p>
+        </div>
+      </div>
+
+      <!-- Home Healthcare Category -->
+      <div class="col-lg-12 mb-4">
+        <h3 style="color: #2d2929; border-bottom: 2px solid #f7a900; padding-bottom: 10px; margin-bottom: 25px;">
+          <i class="fa fa-home" style="color: #f7a900; margin-right: 10px;"></i> Home Healthcare & Caregivers
+        </h3>
+
+        <div style="background: #ffffff; border: 1px solid #eef0f4; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 18px; color: #2d2929; font-weight: 700; margin-bottom: 12px;">Is home healthcare as effective as hospital care?</h4>
+          <p style="color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 0;">
+            For many medical conditions, home healthcare provides safe, effective, and personalized care while reducing the stress of repeated hospital visits and exposure to hospital infections.
+          </p>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #eef0f4; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 18px; color: #2d2929; font-weight: 700; margin-bottom: 12px;">What hours are caregivers available and are nurses qualified?</h4>
+          <p style="color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 0;">
+            Our nursing professionals and caregivers are trained, experienced, and available for part-time, full-time, or 24-hour care schedules. Caregivers receive clinical, emergency response, and empathy training.
+          </p>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #eef0f4; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 18px; color: #2d2929; font-weight: 700; margin-bottom: 12px;">Can CareYogi provide care for Alzheimer's or Parkinson's patients?</h4>
+          <p style="color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 0;">
+            Yes, we have passionate caregivers specifically trained in memory care, Alzheimer's, Parkinson's, and specific geriatric conditions to support patients and family needs.
+          </p>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #eef0f4; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 18px; color: #2d2929; font-weight: 700; margin-bottom: 12px;">What happens if a caregiver is sick or on leave?</h4>
+          <p style="color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 0;">
+            We ensure a reliable backup plan is always in place. If your regular caregiver is absent, we arrange an equally qualified substitute caregiver to maintain continuity of care.
+          </p>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #eef0f4; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 18px; color: #2d2929; font-weight: 700; margin-bottom: 12px;">Is there a minimum commitment period?</h4>
+          <p style="color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 0;">
+            There is no minimum commitment period. Services can be utilized in Delhi NCR, Hyderabad, and other cities for a few days or on an ongoing basis as required.
+          </p>
+        </div>
+      </div>
+
+      <!-- Payment & Security Category -->
+      <div class="col-lg-12 mb-4">
+        <h3 style="color: #2d2929; border-bottom: 2px solid #f7a900; padding-bottom: 10px; margin-bottom: 25px;">
+          <i class="fa fa-lock" style="color: #f7a900; margin-right: 10px;"></i> Payments & Privacy
+        </h3>
+
+        <div style="background: #ffffff; border: 1px solid #eef0f4; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+          <h4 style="font-size: 18px; color: #2d2929; font-weight: 700; margin-bottom: 12px;">How do I pay for services, and how is privacy protected?</h4>
+          <p style="color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 0;">
+            Payments can be made via several convenient options including online UPI/netbanking payments, bank transfers, or credit/debit cards. We strictly adhere to privacy laws and guidelines to protect all health records and client data.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Box -->
+    <div style="background: #fdfbf7; border: 1px dashed #f7a900; border-radius: 8px; padding: 35px; text-align: center; margin-top: 30px;">
+      <h3 style="color: #2d2929; font-weight: 700; margin-bottom: 10px;">Have more questions?</h3>
+      <p style="color: #666; margin-bottom: 20px;">Our care team is available to guide you to the right care solution for your family.</p>
+      <a href="/#contact-section" class="thm-btn">Talk to CareYogi</a>
+    </div>
+  </div>
+</section>
 
 {% endblock %}
 </body>

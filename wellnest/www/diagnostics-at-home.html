@@ -1,0 +1,160 @@
+{% extends "templates/wellnest_web.html" %}
+
+<title>{% block title %}CareYogi - Diagnostics & Lab Tests at Home{% endblock %}</title>
+<meta name="description" content="Doorstep diagnostic tests, home sample collection, and digital report management connected to your CareYogi Health Vault." />
+<meta property="og:image" content="https://www.careyogis.com/assets/wellnest/images/newimg/our-approach-1.jpg" />
+
+<body>
+  {% block page_content %}
+  {% set active_service = 'diagnostics-at-home' %}
+  <!-- Page Banner -->
+  <section
+    class="page-header"
+    style="
+      background-image: url(/assets/wellnest/images/background/page-header-diagnostics-at-home.jpg);
+    "
+  >
+    <!-- REPLACE_IMAGE: Banner image (1920x400) for Diagnostics at Home -->
+    <div class="container">
+      <h1>Diagnostics at Home</h1>
+      <ul class="list-unstyled thm-breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#services-section">Services</a></li>
+        <li><span>Diagnostics at Home</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Service Details Section -->
+  <section class="service-details" style="padding-top: 50px; padding-bottom: 70px;">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+          {% include "templates/includes/service_sidebar.html" %}
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-8">
+          <div class="service-details__main">
+            <div class="service-details__image mb-4" style="overflow: hidden; border-radius: 12px; max-height: 320px; box-shadow: 0 8px 24px rgba(0,0,0,0.06);">
+              <!-- REPLACE_IMAGE: Main image (800x450, cropped to 320px height) showing home sample collection / phlebotomist -->
+              <img
+                src="/assets/wellnest/images/newimg/diagnostics-at-home.jpg"
+                class="img-fluid"
+                alt="Placeholder: Healthcare worker performing home diagnostic sample collection"
+                style="width: 100%; height: 320px; object-fit: cover; display: block;"
+              />
+            </div>
+
+            <div class="service-details__content">
+              <h2>Diagnostics & Lab Tests at Home</h2>
+              <p class="lead" style="font-size: 18px; color: #555; line-height: 1.7; margin-top: 15px;">
+                Essential diagnostic tests, coordinated at your doorstep. When your doctor recommends a test, CareYogi helps coordinate the entire diagnostic journey—from booking the required investigation to arranging sample collection at home and keeping your reports connected to your digital health record.
+              </p>
+
+              <h3 style="margin-top: 30px; margin-bottom: 20px;">Diagnostics Services</h3>
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 20px; border-radius: 8px;">
+                    <h4 style="color: #f7a900; font-size: 17px; font-weight: 700;">Lab Tests at Home</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Prescribed blood and diagnostic tests coordinated for home sample collection at your convenience.</p>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 20px; border-radius: 8px;">
+                    <h4 style="color: #f7a900; font-size: 17px; font-weight: 700;">Doctor-Recommended Investigations</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Tests recommended during consultations are seamlessly carried forward into your CareYogi care journey.</p>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 20px; border-radius: 8px;">
+                    <h4 style="color: #f7a900; font-size: 17px; font-weight: 700;">Health Packages & Preventive Tests</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Access relevant diagnostic packages and preventive wellness screenings through verified partner labs.</p>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 20px; border-radius: 8px;">
+                    <h4 style="color: #f7a900; font-size: 17px; font-weight: 700;">Health Vault Report Management</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Diagnostic reports automatically sync with your Health Vault alongside prescriptions and doctor notes.</p>
+                  </div>
+                </div>
+              </div>
+
+              <h3 style="margin-top: 25px; margin-bottom: 15px;">How It Works</h3>
+              <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 25px; border-radius: 8px;">
+                <p style="font-weight: 600; color: #2d2929; margin-bottom: 15px;">Simple 6-Step Coordinated Diagnostic Journey:</p>
+                <div class="row text-center">
+                  <div class="col-md-4 mb-3">
+                    <div style="padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #eee;">
+                      <span style="color: #f7a900; font-weight: 700;">Step 1</span>
+                      <p style="font-size: 13px; margin: 5px 0 0 0;">Doctor recommends a test</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <div style="padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #eee;">
+                      <span style="color: #f7a900; font-weight: 700;">Step 2</span>
+                      <p style="font-size: 13px; margin: 5px 0 0 0;">Select tests in CareYogi app</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <div style="padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #eee;">
+                      <span style="color: #f7a900; font-weight: 700;">Step 3</span>
+                      <p style="font-size: 13px; margin: 5px 0 0 0;">Coordination with lab partner</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <div style="padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #eee;">
+                      <span style="color: #f7a900; font-weight: 700;">Step 4</span>
+                      <p style="font-size: 13px; margin: 5px 0 0 0;">Sample collected at home</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <div style="padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #eee;">
+                      <span style="color: #f7a900; font-weight: 700;">Step 5</span>
+                      <p style="font-size: 13px; margin: 5px 0 0 0;">Report uploaded digitally</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <div style="padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #eee;">
+                      <span style="color: #f7a900; font-weight: 700;">Step 6</span>
+                      <p style="font-size: 13px; margin: 5px 0 0 0;">Added to Health Vault for doctor</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h3 style="margin-top: 30px; margin-bottom: 15px;">Why Families Choose CareYogi Diagnostics</h3>
+              <ul class="list-unstyled" style="line-height: 2;">
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Avoid unnecessary travel & waiting at diagnostic centers</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Ideal for seniors, post-surgical, and limited mobility patients</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Verified network of NABL-accredited diagnostic partner labs</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Complete digital access for remote family members and treating physicians</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Diagnostics at Home",
+    "serviceType": "Diagnostics at Home",
+    "description": "Doorstep diagnostic tests and home sample collection with digital Health Vault report tracking.",
+    "provider": {
+      "@type": "Organization",
+      "name": "CareYogi",
+      "url": "https://www.careyogis.com/"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "India"
+    }
+  }
+  </script>
+  {% endblock %}
+</body>

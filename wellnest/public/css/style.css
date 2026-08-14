@@ -2033,6 +2033,7 @@ li {
 --------------------------------------------------------------*/
 
 .page-header {
+  background-image: url(../images/background/page-header-doctor-at-home.jpg);
   background-color: var(--thm-black);
   padding-top: 120px;
   padding-bottom: 160px;
@@ -7256,9 +7257,12 @@ li {
    Service page heading fixes (SEO-safe)
 ---------------------------------- */
 
-.page-header h1 {
+.page-header h1,
+.page-header h2 {
   font-weight: 700;
-  color: #ffffff;
+  color: #ffffff !important;
+  position: relative;
+  z-index: 2;
 }
 
 .service-details__content h2 {
@@ -8392,4 +8396,105 @@ li {
   .display-mobile {
     display: none;
   }
+}
+
+/* Page Layout & Frappe Blog Card Integration Styles */
+.wellnest-page-container {
+  max-width: 1200px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 24px;
+  padding-right: 24px;
+  width: 100%;
+}
+.hero, .hero-content, .blog-header {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+.hero h1, .hero-content h1, .blog-header h1 {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+.blog-list .blog-card {
+  margin-bottom: 30px;
+}
+.blog-card .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+.blog-card .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
+.blog-card .card-img-top {
+  height: 200px;
+  overflow: hidden;
+  background-color: #f1f5f9;
+}
+.blog-card .card-img-top img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.blog-card .default-cover {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0d9488;
+  color: #fff;
+  font-weight: 600;
+  padding: 20px;
+  text-align: center;
+}
+.blog-card .card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+.blog-card .post-description {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.blog-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+.blog-card-footer .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.blog-card-footer .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.stretched-link::after {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 1;
+  content: "";
 }

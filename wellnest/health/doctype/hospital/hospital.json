@@ -1,6 +1,6 @@
 {
  "actions": [],
- "autoname": "autoincrement",
+ "autoname": "HS-.######",
  "creation": "2026-07-09 17:21:41.629735",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -239,14 +239,13 @@
    "label": "Is Active?"
   }
  ],
- "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-26 23:32:41.383166",
+ "modified": "2026-08-12 12:24:46.331121",
  "modified_by": "randhirk@careyogis.com",
  "module": "Health",
  "name": "Hospital",
- "naming_rule": "Autoincrement",
+ "naming_rule": "Expression",
  "owner": "randhirk@careyogis.com",
  "permissions": [
   {
@@ -263,7 +262,6 @@
   }
  ],
  "row_format": "Dynamic",
- "rows_threshold_for_grid_search": 20,
  "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",

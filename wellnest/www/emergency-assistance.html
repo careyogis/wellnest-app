@@ -1,0 +1,138 @@
+{% extends "templates/wellnest_web.html" %}
+
+<title>{% block title %}CareYogi - Emergency Assistance | Always Connected, Always Protected{% endblock %}</title>
+<meta name="description" content="Comprehensive emergency support combining DrRing wearable device, SOS alert app, emergency doctor support, and rapid responder network." />
+<meta property="og:image" content="https://www.careyogis.com/assets/wellnest/images/newimg/our-approach-1.jpg" />
+
+<body>
+  {% block page_content %}
+  {% set active_service = 'emergency-assistance' %}
+  <!-- Page Banner -->
+  <section
+    class="page-header"
+    style="
+      background-image: url(/assets/wellnest/images/newimg/emergency-assist.jpg);
+    "
+  >
+    <!-- REPLACE_IMAGE: Banner image (1920x400) for Emergency Assistance -->
+    <div class="container">
+      <h1>Emergency Assistance</h1>
+      <ul class="list-unstyled thm-breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#services-section">Services</a></li>
+        <li><span>Emergency Assistance</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Service Details Section -->
+  <section class="service-details" style="padding-top: 50px; padding-bottom: 70px;">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+          {% include "templates/includes/service_sidebar.html" %}
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-8">
+          <div class="service-details__main">
+            <div class="service-details__image mb-4" style="overflow: hidden; border-radius: 12px; max-height: 320px; box-shadow: 0 8px 24px rgba(0,0,0,0.06);">
+              <!-- REPLACE_IMAGE: Main image (800x450, cropped to 320px height) showing DrRing wearable device and SOS app interface -->
+              <img
+                src="/assets/wellnest/images/newimg/emergency-assist.jpg"
+                class="img-fluid"
+                alt="Placeholder: DrRing emergency device and SOS alert response workflow"
+                style="width: 100%; height: 320px; object-fit: cover; display: block;"
+              />
+            </div>
+
+            <div class="service-details__content">
+              <h2 style="color: #2d2929;">Always Connected. Always Protected.</h2>
+              <p class="lead" style="font-size: 18px; color: #555; line-height: 1.7; margin-top: 15px;">
+                A comprehensive emergency support package combining smart emergency technology, personalized preparedness, and access to medical assistance—so you and your family are better prepared when an emergency happens.
+              </p>
+              <p style="font-weight: 700; color: #e53935; font-size: 16px;">
+                One Press. Immediate Help. Complete Peace of Mind.
+              </p>
+
+              <h3 style="margin-top: 30px; margin-bottom: 20px;">What You Get</h3>
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 17px; font-weight: 700;">01. DrRing Emergency Device</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Wearable emergency device with a simple one-touch SOS button. Wear as a pendant or on your wrist for immediate call for help.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 17px; font-weight: 700;">02. Condition-Based Emergency Kit</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Personalized emergency kit tailored to patient health conditions, containing essential medicines and critical emergency supplies.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 17px; font-weight: 700;">03. Specialist Consultation</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Includes one complimentary specialist consultation to assess health condition and build personalized emergency preparedness needs.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 17px; font-weight: 700;">04. Emergency Doctor Support</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Access specialized emergency doctors over phone or video during a medical crisis for step-by-step guidance.</p>
+                  </div>
+                </div>
+              </div>
+
+              <h3 style="margin-top: 25px; margin-bottom: 15px;">How Emergency Assist Works</h3>
+              <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 25px; border-radius: 8px; margin-bottom: 25px;">
+                <ol style="padding-left: 20px; line-height: 1.9; color: #444; margin-bottom: 0;">
+                  <li><strong>Press for Help:</strong> Patient presses DrRing wearable button or SOS in CareYogi app.</li>
+                  <li><strong>Emergency Alert Initiated:</strong> Request carries vital info and triggers emergency response.</li>
+                  <li><strong>Family Gets Alert:</strong> Designated family members view patient status & location in real time.</li>
+                  <li><strong>Escalate When Required:</strong> Escalates to CareYogi medical responder network if family unavailable.</li>
+                  <li><strong>Emergency Assistance:</strong> Matched with available, verified medical responder for remote or physical support.</li>
+                  <li><strong>Incident Closure & Follow-up:</strong> Digital incident log retained for medical continuity and hospital care.</li>
+                </ol>
+              </div>
+
+              <h3 style="margin-top: 25px; margin-bottom: 15px;">Designed Especially for Families Caring from a Distance</h3>
+              <ul class="list-unstyled" style="line-height: 2;">
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Senior citizens living alone or at home during night hours</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Elderly parents whose children live in another city or country (NRIs)</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Patients with chronic conditions at risk of sudden medical emergencies</li>
+              </ul>
+
+              <div style="background: #fff8e1; border-left: 4px solid #f7a900; padding: 15px; margin-top: 30px; font-size: 13px; color: #666;">
+                <strong>Disclaimer:</strong> Emergency Assist provides technology-enabled emergency communication, care coordination, and access to available medical responders. It does not replace local emergency medical services or hospital emergency care. In life-threatening emergencies, contact local emergency services immediately.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Emergency Assistance",
+    "serviceType": "Emergency Assistance",
+    "description": "Smart emergency technology with DrRing wearable device, SOS alert app, emergency doctor support, and family notification.",
+    "provider": {
+      "@type": "Organization",
+      "name": "CareYogi",
+      "url": "https://www.careyogis.com/"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "India"
+    }
+  }
+  </script>
+  {% endblock %}
+</body>

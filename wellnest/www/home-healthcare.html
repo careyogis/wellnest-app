@@ -1,0 +1,138 @@
+{% extends "templates/wellnest_web.html" %}
+
+<title>{% block title %}CareYogi - Home Healthcare Services | Right at Your Doorstep{% endblock %}</title>
+<meta name="description" content="Skilled nursing care, doctor home visits, elder care, physiotherapy, chronic disease management, and medical equipment at home." />
+<meta property="og:image" content="https://www.careyogis.com/assets/wellnest/images/newimg/hospital-care-at-home.jpg" />
+
+<body>
+  {% block page_content %}
+  {% set active_service = 'home-healthcare' %}
+  <!-- Page Banner -->
+  <section
+    class="page-header"
+    style="
+      background-image: url(/assets/wellnest/images/background/page-header-nursing.jpg);
+    "
+  >
+    <!-- REPLACE_IMAGE: Banner image (1920x400) for Home Healthcare -->
+    <div class="container">
+      <h1>Home Healthcare</h1>
+      <ul class="list-unstyled thm-breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#services-section">Services</a></li>
+        <li><span>Home Healthcare</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Service Details Section -->
+  <section class="service-details" style="padding-top: 50px; padding-bottom: 70px;">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+          {% include "templates/includes/service_sidebar.html" %}
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-8">
+          <div class="service-details__main">
+            <div class="service-details__image mb-4" style="overflow: hidden; border-radius: 12px; max-height: 320px; box-shadow: 0 8px 24px rgba(0,0,0,0.06);">
+              <!-- REPLACE_IMAGE: Main image (800x450, cropped to 320px height) showing home healthcare caregiver and elder patient -->
+              <img
+                src="/assets/wellnest/images/newimg/nursing care service.jpg"
+                class="img-fluid"
+                alt="Placeholder: Caregiver and nurse assisting elderly patient at home"
+                style="width: 100%; height: 320px; object-fit: cover; display: block;"
+              />
+            </div>
+
+            <div class="service-details__content">
+              <h2>Home Healthcare Services. Right at Your Doorstep</h2>
+              <p class="lead" style="font-size: 18px; color: #555; line-height: 1.7; margin-top: 15px;">
+                The best place to heal is often the comfort and familiarity of home. Our network of service providers enables patients to recover safely, manage chronic conditions effectively, and enjoy greater independence without frequent hospital visits.
+              </p>
+              <p>
+                Our team of doctors, nurses, therapists, and caregivers work together to deliver personalized outcome-based coordinated care at home.
+              </p>
+
+              <h3 style="margin-top: 30px; margin-bottom: 20px;">Services Offered</h3>
+              
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 18px; font-weight: 700; margin-bottom: 10px;"><i class="fa fa-user-md" style="margin-right: 8px;"></i> Nursing Care at Home</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Medication administration, IV infusions, wound dressing, catheter care, tracheostomy care, feeding tube management, post-operative nursing, and vital signs monitoring.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 18px; font-weight: 700; margin-bottom: 10px;"><i class="fa fa-stethoscope" style="margin-right: 8px;"></i> Doctor Home Visits</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">General medical consultations, follow-up assessments, chronic disease management, medication review, and care coordination with specialists.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 18px; font-weight: 700; margin-bottom: 10px;"><i class="fa fa-heartbeat" style="margin-right: 8px;"></i> Elder Care Services</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Daily health monitoring, assistance with ADLs, fall prevention, Dementia and Alzheimer's support, medication reminders, nutrition guidance, and emergency response.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 18px; font-weight: 700; margin-bottom: 10px;"><i class="fa fa-walking" style="margin-right: 8px;"></i> Physiotherapy & Rehabilitation</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Orthopedic and stroke rehabilitation, post-surgical physiotherapy, balance/gait training, pain management, and joint mobility exercises.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 18px; font-weight: 700; margin-bottom: 10px;"><i class="fa fa-notes-medical" style="margin-right: 8px;"></i> Chronic Disease Management</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Long-term care plans for Diabetes, Hypertension, Heart disease, COPD, Asthma, Arthritis, Parkinson's disease, and Kidney disease.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 18px; font-weight: 700; margin-bottom: 10px;"><i class="fa fa-procedures" style="margin-right: 8px;"></i> Medical Equipment Support</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Hospital beds, oxygen concentrators, wheelchairs, walkers, patient lifts, BiPAP/CPAP devices, nebulizers, and monitoring equipment.</p>
+                  </div>
+                </div>
+              </div>
+
+              <h3 style="margin-top: 25px; margin-bottom: 15px;">Who Can Benefit?</h3>
+              <ul class="list-unstyled" style="line-height: 2;">
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Senior citizens & elderly living independently or with family</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Post-surgical patients & individuals recovering after hospitalization</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Patients with chronic illnesses or limited mobility</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Neurological rehab, cancer care, and palliative care patients</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Home Healthcare Services",
+    "serviceType": "Home Healthcare",
+    "description": "Comprehensive home healthcare services including nursing care, doctor visits, elder care, physiotherapy, and chronic disease management.",
+    "provider": {
+      "@type": "Organization",
+      "name": "CareYogi",
+      "url": "https://www.careyogis.com/"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "India"
+    }
+  }
+  </script>
+  {% endblock %}
+</body>

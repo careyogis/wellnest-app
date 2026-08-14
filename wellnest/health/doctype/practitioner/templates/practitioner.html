@@ -3,11 +3,7 @@
    `doc` is provided automatically by WebsiteGenerator - no get_context()
    override needed unless you want to customize it (see notes at bottom).
    ------------------------------------------------------------------ #}
-{% extends "templates/web.html" %}
-
-{% block navbar %}{% endblock %}
-{% block footer %}{% endblock %}
-{% block breadcrumbs %}{% endblock %}
+{% extends "templates/wellnest_web.html" %}
 
 {% block title %}{{ doc.full_name }}{% endblock %}
 
@@ -20,7 +16,7 @@
     --ink:#16302B; --paper:#F7F5EF; --teal:#2F6F62; --teal-deep:#1F4E44;
     --amber:#C98A2E; --slate:#6B7280; --line:#DAD5C6; --card:#FFFFFF;
     font-family:'Inter',sans-serif; color:var(--ink); background:var(--paper);
-    padding:48px 24px 96px; margin:-24px -24px 0;
+    padding:48px 24px 96px; margin:0 auto; max-width:1200px;
   }
   .prac-record *{ box-sizing:border-box; }
   .prac-sheet{ max-width:880px; margin:0 auto; background:var(--card);

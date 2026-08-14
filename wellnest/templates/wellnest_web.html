@@ -84,8 +84,12 @@
 		{% include "templates/includes/navbar.html" %}
 		{%- endblock -%}
 
-		{% block page_content %}
-		Blank - to be overridden
+		{% block page_container %}
+		<div class="wellnest-page-container">
+			{% block page_content %}
+			Blank - to be overridden
+			{% endblock %}
+		</div>
 		{% endblock %}
 
 		{%- block footer -%}

@@ -1,0 +1,129 @@
+{% extends "templates/wellnest_web.html" %}
+
+<title>{% block title %}CareYogi - Medicine Delivery & Management at Home{% endblock %}</title>
+<meta name="description" content="Prescription-based medicine ordering, Smart Rx digitization, medicine refills, and doorstep delivery coordinated by CareYogi." />
+<meta property="og:image" content="https://www.careyogis.com/assets/wellnest/images/newimg/hospital-care-at-home.jpg" />
+
+<body>
+  {% block page_content %}
+  {% set active_service = 'medicine-at-home' %}
+  <!-- Page Banner -->
+  <section
+    class="page-header"
+    style="
+      background-image: url(/assets/wellnest/images/newimg/diagnostics-at-home.jpg);
+    "
+  >
+    <!-- REPLACE_IMAGE: Banner image (1920x400) for Medicine at Home -->
+    <div class="container">
+      <h1>Medicine at Home</h1>
+      <ul class="list-unstyled thm-breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#services-section">Services</a></li>
+        <li><span>Medicine at Home</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Service Details Section -->
+  <section class="service-details" style="padding-top: 50px; padding-bottom: 70px;">
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+          {% include "templates/includes/service_sidebar.html" %}
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-8">
+          <div class="service-details__main">
+            <div class="service-details__image mb-4" style="overflow: hidden; border-radius: 12px; max-height: 320px; box-shadow: 0 8px 24px rgba(0,0,0,0.06);">
+              <!-- REPLACE_IMAGE: Main image (800x450, cropped to 320px height) showing medicine delivery / pharmacy care package -->
+              <img
+                src="/assets/wellnest/images/newimg/diagnostics-at-home.jpg"
+                class="img-fluid"
+                alt="Placeholder: Doorstep delivery of prescribed medicines for home healthcare"
+                style="width: 100%; height: 320px; object-fit: cover; display: block;"
+              />
+            </div>
+
+            <div class="service-details__content">
+              <h2>Medicines at Home — Coordinated Doorstep Delivery</h2>
+              <p class="lead" style="font-size: 18px; color: #555; line-height: 1.7; margin-top: 15px;">
+                Get your prescribed medicines coordinated and delivered right to your doorstep. CareYogi makes it easier to continue your treatment at home by seamlessly connecting your doctor's prescriptions with trusted local pharmacy partners.
+              </p>
+              <p>
+                Your prescription, medicines, and order history remain connected to your CareYogi Health Vault, making ongoing treatment easier for you and your family to manage remotely or in person.
+              </p>
+
+              <h3 style="margin-top: 30px; margin-bottom: 20px;">Key Features & Services</h3>
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 17px; font-weight: 700;"><i class="fa fa-file-prescription" style="margin-right: 8px;"></i> Prescription-Based Ordering</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Order medicines directly from prescriptions stored in your CareYogi Health Vault without re-uploading.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 17px; font-weight: 700;"><i class="fa fa-pills" style="margin-right: 8px;"></i> Smart Rx Information</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Converts digital prescriptions into easy-to-understand medication lists showing dosage, frequency, and duration at a glance.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 17px; font-weight: 700;"><i class="fa fa-redo" style="margin-right: 8px;"></i> Medicine Refill Support</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Easily initiate refill requests for chronic conditions before running out of essential long-term medications.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 22px; border-radius: 8px; height: 100%;">
+                    <h4 style="color: #f7a900; font-size: 17px; font-weight: 700;"><i class="fa fa-users" style="margin-right: 8px;"></i> Remote Family Management</h4>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 0;">Authorized family members or NRIs can place and track medicine orders for elderly parents from anywhere.</p>
+                  </div>
+                </div>
+              </div>
+
+              <h3 style="margin-top: 25px; margin-bottom: 15px;">How It Works</h3>
+              <div style="background: #fdfbf7; border: 1px solid #f0ece6; padding: 25px; border-radius: 8px;">
+                <p style="font-size: 14px; color: #444; line-height: 1.8;">
+                  <strong>Doctor prescribes</strong> &rarr; <strong>Prescription added to CareYogi</strong> &rarr; <strong>Smart Rx extracts medicines</strong> &rarr; <strong>Select items to order</strong> &rarr; <strong>CareYogi coordinates with local pharmacy partner</strong> &rarr; <strong>Medicines delivered to home</strong> &rarr; <strong>Order history updated in Health Vault</strong>
+                </p>
+              </div>
+
+              <h3 style="margin-top: 30px; margin-bottom: 15px;">Who Can Benefit?</h3>
+              <ul class="list-unstyled" style="line-height: 2;">
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Senior citizens & patients with chronic conditions taking multiple daily medications</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> Post-surgical patients requiring uninterrupted long-term treatment</li>
+                <li><i class="fa fa-check-circle" style="color: #f7a900; margin-right: 8px;"></i> NRIs and adult children managing medicine refills for elderly parents living alone</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Medicine at Home",
+    "serviceType": "Medicine at Home",
+    "description": "Prescription-based medicine ordering, Smart Rx digitization, and doorstep pharmacy fulfillment.",
+    "provider": {
+      "@type": "Organization",
+      "name": "CareYogi",
+      "url": "https://www.careyogis.com/"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "India"
+    }
+  }
+  </script>
+  {% endblock %}
+</body>
