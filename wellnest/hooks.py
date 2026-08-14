@@ -233,36 +233,13 @@ update_website_context = "wellnest.utils.website.update_website_context"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
-fixtures = [
-    "State",
-    "City",
-    "Specialization",
-    "Attendant Service",
-    "Nursing Service",
-    "Spoken Language",
-    "Medical Condition",
-    "Lead Status",
-    "Item Activity",
-    "Terms and Conditions",
-    "Service Mode",
-    "Service Category",
-    "Ownership Type",
-    "Hospital Type",
-    "Association Type",
-    {
-        "doctype": "Role",
-        "filters": [
-            ["name", "in", ["Caregiver", "Doctor"]]
+fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Service", "Spoken Language", "Medical Condition", "Lead Status", "Item Activity", "Terms and Conditions",
+            "Service Mode", "Service Category", "Ownership Type", "Hospital Type", "Association Type",
+        {"doctype": "Role", "filters": [["name", "in", ["Caregiver", "Doctor"]]]},
+            # export only those records that match the filter from Custom Field table
+        {"doctype": "Custom Field", "filters": [["module", "like", "WellNest%"]]},
+        { "doctype": "Client Script", "filters": [["module", "like", "WellNest%"]] }
         ]
-    },
-    {"doctype": "Custom Field", "filters": [["module", "like", "WellNest%"]]},
-    {
-        "doctype": "Client Script",
-        "filters": [
-            ["module", "like", "WellNest%"]
-        ]
-    },
-]
 
 website_route_rules = [
     {'from_route': '/caregiver-app/<path:app_path>', 'to_route': 'caregiver-app'},
