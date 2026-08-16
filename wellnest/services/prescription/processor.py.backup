@@ -1,0 +1,133 @@
+import frappe
+
+
+def process_prescription(document_name):
+    """
+    Background job for processing a prescription Medical Document.
+    """
+
+    try:
+        doc = frappe.get_doc("Medical Document", document_name)
+
+        # Only process prescriptions
+        if doc.document_type != "Prescription":
+            frappe.logger().info(
+                f"Skipping {document_name}: document type is "
+                f"{doc.document_type}"
+            )
+            return
+
+        # Make sure a file is attached
+        if not doc.file:
+            frappe.throw("No prescription file attached to the document.")
+
+        # Mark processing as started
+        doc.db_set("processing_status", "Processing")
+        doc.db_set("processing_error", None)
+        doc.db_set("prescription_result", None)
+        frappe.db.commit()
+
+        # Get the attached Frappe file
+        file_url = doc.file
+
+        if file_url.startswith("/files/"):
+            file_path = frappe.get_site_path(
+                "public",
+                file_url.lstrip("/")
+            )
+
+        elif file_url.startswith("/private/files/"):
+            file_name = file_url.split(
+                "/private/files/",
+                1
+            )[1]
+
+            file_path = frappe.get_site_path(
+                "private",
+                "files",
+                file_name
+            )
+
+        else:
+            frappe.throw(
+                f"Unsupported file path: {file_url}"
+            )
+
+        # Read prescription file
+        with open(file_path, "rb") as file:
+            image_bytes = file.read()
+
+        if not image_bytes:
+            frappe.throw("The prescription file is empty.")
+
+        # Import here so Gemini configuration is only loaded
+        # when the background job actually runs.
+        from wellnest.services.prescription.gemini_provider import (
+            parse_prescription
+        )
+
+        # Send prescription to Gemini
+        result = parse_prescription(image_bytes)
+
+        # Store parsed prescription JSON
+        doc.db_set(
+            "prescription_result",
+            frappe.as_json(result)
+        )
+
+        # Mark processing as completed
+        doc.db_set(
+            "processing_status",
+            "Completed"
+        )
+
+        doc.db_set(
+            "processing_error",
+            None
+        )
+
+        frappe.db.commit()
+
+        frappe.logger().info(
+            f"Prescription processing completed for {document_name}"
+        )
+
+    except Exception as e:
+        frappe.db.rollback()
+
+        error_message = str(e)
+
+        frappe.log_error(
+            title=f"Prescription Processing Failed: {document_name}",
+            message=frappe.get_traceback(),
+        )
+
+        # Update document with failure status
+        try:
+            doc = frappe.get_doc(
+                "Medical Document",
+                document_name
+            )
+
+            doc.db_set(
+                "processing_status",
+                "Failed"
+            )
+
+            doc.db_set(
+                "processing_error",
+                error_message
+            )
+
+            frappe.db.commit()
+
+        except Exception:
+            frappe.log_error(
+                title=(
+                    "Unable to update prescription "
+                    f"failure status: {document_name}"
+                ),
+                message=frappe.get_traceback(),
+            )
+
+        raise
