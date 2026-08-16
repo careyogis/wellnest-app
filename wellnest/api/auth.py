@@ -10,35 +10,6 @@ _firebase_app = None
 _customer_firebase_app = None
 
 
-def _get_firebase_app():
-	global _firebase_app
-	if _firebase_app is None:
-		service_account_path = frappe.conf.get("firebase_service_account_path")
-		if not service_account_path:
-			frappe.throw("firebase_service_account_path not set in site config")
-		cred = credentials.Certificate(service_account_path)
-		_firebase_app = firebase_admin.initialize_app(cred)
-	return _firebase_app
-
-
-def _get_customer_firebase_app():
-	global _customer_firebase_app
-	if _customer_firebase_app is None:
-		service_account_path = frappe.conf.get("customer_firebase_service_account_path")
-		if not service_account_path:
-			frappe.throw("customer_firebase_service_account_path not set in site config")
-		cred = credentials.Certificate(service_account_path)
-		_customer_firebase_app = firebase_admin.initialize_app(cred, name="customer")
-	return _customer_firebase_app
-
-
-def _get_firebase_web_api_key():
-	api_key = frappe.conf.get("firebase_web_api_key")
-	if not api_key:
-		frappe.throw("firebase_web_api_key not set in site config")
-	return api_key
-
-
 @frappe.whitelist(allow_guest=True)
 def send_otp(phone: str, recaptcha_token: str):
 	if not phone or not recaptcha_token:
@@ -243,3 +214,31 @@ def register_customer(id_token: str, full_name: str):
 		"full_name": full_name,
 		"patient": patient_doc.name
 	}
+
+def _get_firebase_app():
+	global _firebase_app
+	if _firebase_app is None:
+		service_account_path = frappe.conf.get("firebase_service_account_path")
+		if not service_account_path:
+			frappe.throw("firebase_service_account_path not set in site config")
+		cred = credentials.Certificate(service_account_path)
+		_firebase_app = firebase_admin.initialize_app(cred)
+	return _firebase_app
+
+
+def _get_customer_firebase_app():
+	global _customer_firebase_app
+	if _customer_firebase_app is None:
+		service_account_path = frappe.conf.get("customer_firebase_service_account_path")
+		if not service_account_path:
+			frappe.throw("customer_firebase_service_account_path not set in site config")
+		cred = credentials.Certificate(service_account_path)
+		_customer_firebase_app = firebase_admin.initialize_app(cred, name="customer")
+	return _customer_firebase_app
+
+
+def _get_firebase_web_api_key():
+	api_key = frappe.conf.get("firebase_web_api_key")
+	if not api_key:
+		frappe.throw("firebase_web_api_key not set in site config")
+	return api_key
