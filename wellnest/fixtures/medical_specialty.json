@@ -1,0 +1,30 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-16 22:20:24.534989",
+  "name": "Cardiology",
+  "specialty_name": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-16 22:20:33.992807",
+  "name": "Neurology",
+  "specialty_name": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-16 22:20:57.422744",
+  "name": "Nephrology",
+  "specialty_name": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-16 22:21:06.310009",
+  "name": "Dermatology",
+  "specialty_name": "Dermatology"
+ }
+]

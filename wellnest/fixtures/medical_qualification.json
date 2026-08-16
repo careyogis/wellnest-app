@@ -1,0 +1,23 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Medical Qualification",
+  "modified": "2026-08-16 22:24:16.086740",
+  "name": "FACS",
+  "qualification_name": "FACS"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Qualification",
+  "modified": "2026-08-16 22:24:25.089365",
+  "name": "FRCS",
+  "qualification_name": "FRCS"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Qualification",
+  "modified": "2026-08-16 22:24:35.481435",
+  "name": "FRCP",
+  "qualification_name": "FRCP"
+ }
+]
