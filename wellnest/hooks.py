@@ -234,12 +234,11 @@ update_website_context = "wellnest.utils.website.update_website_context"
 # }
 
 fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Service", "Spoken Language", "Medical Condition", "Lead Status", "Item Activity", "Terms and Conditions",
-            "Service Mode", "Service Category", "Ownership Type", "Hospital Type", "Association Type", "Medical Degree", "Medical Qualification", "Medical Specialty",
+            "Service Mode", "Service Category", "Ownership Type", "Hospital Type", "Association Type", "Medical Degree", "Medical Qualification", "Medical Specialty", "Educational Institution",
         {"doctype": "Role", "filters": [["name", "in", ["Caregiver", "Doctor"]]]},
             # export only those records that match the filter from Custom Field table
         {"doctype": "Custom Field", "filters": [["module", "like", "WellNest%"]]},
-        { "doctype": "Client Script", "filters": [["module", "like", "WellNest%"]] },
-
+        { "doctype": "Client Script", "filters": [["module", "like", "WellNest%"]] }
         ]
 
 website_route_rules = [
