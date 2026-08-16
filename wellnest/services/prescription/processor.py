@@ -17,34 +17,12 @@ def _parse_date(value):
     return None
 
 
-def _find_patient(patient_name):
-    if not patient_name:
-        return None
-
-    patient = frappe.db.get_value(
-        "Patient",
-        {"full_name": patient_name},
-        "name"
-    )
-
-    if patient:
-        return patient
-
-    if frappe.db.exists("Patient", patient_name):
-        return patient_name
-
-    return None
-
-
-def _create_medication(document_name, result):
+def _create_medication(document_name, result, patient):
     # Gemini may return the prescription directly or wrapped in "prescription"
     prescription = result.get("prescription", result)
 
-    patient_data = prescription.get("patient") or {}
     doctor_data = prescription.get("doctor") or {}
 
-    patient_name = patient_data.get("name")
-    patient = _find_patient(patient_name)
 
     medication = frappe.new_doc("Medication")
 
@@ -111,7 +89,6 @@ def _create_medication(document_name, result):
         )
 
         item.frequency = medicine.get("frequency")
-        item.dosage = medicine.get("dosage")
 
         item.custom_original_name = original_name
         item.custom_normalized_name = normalized_name
@@ -212,7 +189,8 @@ def process_prescription(document_name):
         # Create structured Medication record
         medication_name = _create_medication(
             document_name,
-            result
+            result,
+            doc.patient
         )
 
         doc.db_set(
