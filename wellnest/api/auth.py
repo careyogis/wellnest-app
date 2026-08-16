@@ -177,11 +177,15 @@ def register_customer(id_token: str, full_name: str):
 	from frappe.utils.password import get_random_password
 
 	email = f"{lookup_phone}@customer.careyogis.com"
+	full_name = full_name.strip() if full_name else f"Customer-{lookup_phone}"
+	first_name = full_name.split(" ")[0]
+	last_name = " ".join(full_name.split(" ")[1:]) if len(full_name.split(" ")) > 1 else ""
 
 	user_doc = frappe.get_doc({
 		"doctype": "User",
 		"email": email,
-		"first_name": full_name,
+		"first_name": first_name,
+		"last_name": last_name,
 		"mobile_no": phone_number,
 		"new_password": get_random_password(),
 		"send_welcome_email": 0,

@@ -34,6 +34,9 @@
   "column_break_rqub",
   "state",
   "pincode",
+  "educational_info_section",
+  "specialization",
+  "education_history",
   "section_break_bzxs",
   "qualification",
   "designation",
@@ -428,6 +431,24 @@
    "fieldtype": "Link",
    "label": "Sales Partner",
    "options": "Sales Partner"
+  },
+  {
+   "fieldname": "educational_info_section",
+   "fieldtype": "Section Break",
+   "label": "Educational Info"
+  },
+  {
+   "fieldname": "specialization",
+   "fieldtype": "Link",
+   "label": "Specialization",
+   "options": "Medical Specialty",
+   "search_index": 1
+  },
+  {
+   "fieldname": "education_history",
+   "fieldtype": "Table",
+   "label": "Education History",
+   "options": "Practitioner Education"
   }
  ],
  "grid_page_length": 50,
@@ -436,8 +457,8 @@
  "index_web_pages_for_search": 1,
  "is_published_field": "is_published",
  "links": [],
- "modified": "2026-07-27 00:18:54.831262",
- "modified_by": "randhirk@careyogis.com",
+ "modified": "2026-08-16 22:59:16.734190",
+ "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
  "naming_rule": "Expression",
@@ -487,6 +508,17 @@
    "read": 1,
    "report": 1,
    "role": "Purchase Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Doctor",
    "share": 1,
    "write": 1
   },
