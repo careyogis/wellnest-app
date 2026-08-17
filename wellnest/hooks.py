@@ -239,8 +239,8 @@ fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Ser
             "Medical Qualification", "Medical Specialty", "Educational Institution", "Terms and Conditions",
         {"doctype": "Role", "filters": [["name", "in", ["Caregiver", "Doctor"]]]},
             # export only those records that match the filter from Custom Field table
-        {"doctype": "Custom Field", "filters": [["module", "like", "WellNest%"]]},
-        { "doctype": "Client Script", "filters": [["module", "like", "WellNest%"]] }
+        {"doctype": "Custom Field", "filters": [["module", "in", ["WellNest", "Health"]]]},
+        { "doctype": "Client Script", "filters": [["module", "in", ["WellNest", "Health"]]]}
         ]
 
 website_route_rules = [
