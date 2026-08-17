@@ -46,6 +46,14 @@ frappe.ui.form.on("Practitioner", {
 		
 		// Setup availability days buttons
 		frm.trigger("setup_availability_days_buttons");
+
+		frm.set_query('super_specialty', function() {
+            return {
+                filters: {
+                    specialty: frm.doc.specialty
+                }
+            };
+        });
 	},
 
 	setup_availability_days_buttons: function (frm) {
@@ -80,6 +88,6 @@ frappe.ui.form.on("Practitioner", {
 		});
 
 		frm.refresh_field('availability_days');		
-		},
+	},
 },
 );

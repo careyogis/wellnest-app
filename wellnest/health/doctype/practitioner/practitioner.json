@@ -33,8 +33,8 @@
   "educational_info_section",
   "education_history",
   "section_break_bzxs",
-  "specialization",
-  "super_specialization",
+  "specialty",
+  "super_specialty",
   "designation",
   "additional_information",
   "experience_years",
@@ -340,13 +340,6 @@
    "label": "Educational Info"
   },
   {
-   "fieldname": "specialization",
-   "fieldtype": "Link",
-   "label": "Specialization",
-   "options": "Medical Specialty",
-   "search_index": 1
-  },
-  {
    "fieldname": "education_history",
    "fieldtype": "Table",
    "label": "Education History",
@@ -356,12 +349,6 @@
    "fieldname": "additional_information",
    "fieldtype": "Data",
    "label": "Additional Infomation"
-  },
-  {
-   "fieldname": "super_specialization",
-   "fieldtype": "Link",
-   "label": "Super Specialization",
-   "options": "Medical Super Specialty"
   },
   {
    "fieldname": "from_time",
@@ -400,6 +387,19 @@
    "fieldtype": "Currency",
    "label": "Clinic Charge",
    "options": "currency"
+  },
+  {
+   "fieldname": "specialty",
+   "fieldtype": "Link",
+   "label": "Specialty",
+   "options": "Medical Specialty",
+   "search_index": 1
+  },
+  {
+   "fieldname": "super_specialty",
+   "fieldtype": "Link",
+   "label": "Super Specialty",
+   "options": "Medical Super Specialty"
   }
  ],
  "grid_page_length": 50,
@@ -408,7 +408,7 @@
  "index_web_pages_for_search": 1,
  "is_published_field": "is_published",
  "links": [],
- "modified": "2026-08-17 21:31:00.146634",
+ "modified": "2026-08-17 23:57:24.724677",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
