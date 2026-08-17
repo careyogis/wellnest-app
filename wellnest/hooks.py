@@ -128,13 +128,13 @@ update_website_context = "wellnest.utils.website.update_website_context"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Terms and Conditions": {
+		"on_update": "wellnest.utils.terms_and_conditions_versioning.validate_terms_immutability",
+		# "on_cancel": "method",
+		# "on_trash": "method"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
@@ -233,8 +233,10 @@ update_website_context = "wellnest.utils.website.update_website_context"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
-fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Service", "Spoken Language", "Medical Condition", "Lead Status", "Item Activity", "Terms and Conditions",
-            "Service Mode", "Service Category", "Ownership Type", "Hospital Type", "Association Type", "Medical Degree", "Medical Qualification", "Medical Specialty", "Educational Institution",
+fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Service", "Spoken Language", 
+            "Medical Condition", "Lead Status", "Item Activity", "Terms and Conditions",
+            "Service Mode", "Service Category", "Ownership Type", "Hospital Type", "Association Type", "Medical Degree", 
+            "Medical Qualification", "Medical Specialty", "Educational Institution", "Terms and Conditions",
         {"doctype": "Role", "filters": [["name", "in", ["Caregiver", "Doctor"]]]},
             # export only those records that match the filter from Custom Field table
         {"doctype": "Custom Field", "filters": [["module", "like", "WellNest%"]]},

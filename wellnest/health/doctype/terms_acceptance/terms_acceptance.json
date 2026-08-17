@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-08-17 09:59:14.786930",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "party_type",
+  "party",
+  "terms_version",
+  "signature",
+  "accepted_on",
+  "ip_address"
+ ],
+ "fields": [
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Party Type",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "label": "Party",
+   "options": "party_type",
+   "reqd": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "accepted_on",
+   "fieldtype": "Datetime",
+   "label": "Accepted On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "IP Address"
+  },
+  {
+   "fieldname": "terms_version",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Terms Version",
+   "options": "Terms and Conditions",
+   "reqd": 1
+  },
+  {
+   "fieldname": "signature",
+   "fieldtype": "Signature",
+   "in_list_view": 1,
+   "label": "Signature",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-17 11:10:19.102632",
+ "modified_by": "Administrator",
+ "module": "Health",
+ "name": "Terms Acceptance",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
