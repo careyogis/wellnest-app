@@ -71,5 +71,15 @@ frappe.ui.form.on("Practitioner", {
 			frm.fields_dict["availability_days"].grid.add_custom_button(label, set_days, "top")
 		);
 	},
-	
-});
+
+	copy_to_all_days: function(frm) {
+		// Ease of use feature
+		(frm.doc.availability_days || []).forEach(row => {
+			row.from = row.emergency_from = row.clinic_from = frm.doc.from_time;
+			row.to = row.emergency_to = row.clinic_to = frm.doc.to_time;
+		});
+
+		frm.refresh_field('availability_days');		
+		},
+},
+);

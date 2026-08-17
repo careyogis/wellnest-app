@@ -1,0 +1,77 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-08-17 19:44:21.683381",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "day",
+  "from",
+  "to",
+  "emergency_from",
+  "emergency_to",
+  "clinic_from",
+  "clinic_to"
+ ],
+ "fields": [
+  {
+   "fieldname": "day",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Day",
+   "options": "Monday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday"
+  },
+  {
+   "fieldname": "emergency_from",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Emergency From"
+  },
+  {
+   "fieldname": "emergency_to",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Emergency To"
+  },
+  {
+   "fieldname": "clinic_from",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Clinic From"
+  },
+  {
+   "fieldname": "clinic_to",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Clinic To"
+  },
+  {
+   "fieldname": "from",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "From"
+  },
+  {
+   "fieldname": "to",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "To Time"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-08-17 20:57:44.007400",
+ "modified_by": "Administrator",
+ "module": "Health",
+ "name": "Availability Slots",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
