@@ -91,8 +91,8 @@ frappe.ui.form.on("Practitioner", {
 	copy_to_all_days: function(frm) {
 		// Ease of use feature
 		(frm.doc.availability_days || []).forEach(row => {
-			row.from = row.emergency_from = row.clinic_from = frm.doc.from_time;
-			row.to = row.emergency_to = row.clinic_to = frm.doc.to_time;
+			row.online_from = row.emergency_from = row.clinic_from = frm.doc.from_time;
+			row.online_to = row.emergency_to = row.clinic_to = frm.doc.to_time;
 		});
 
 		frm.refresh_field('availability_days');		
