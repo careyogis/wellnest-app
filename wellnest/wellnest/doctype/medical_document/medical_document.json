@@ -11,7 +11,10 @@
   "file",
   "column_break_zbfh",
   "document_type",
-  "uploader"
+  "uploader",
+  "processing_status",
+  "prescription_result",
+  "processing_error"
  ],
  "fields": [
   {
@@ -39,6 +42,26 @@
    "fieldtype": "Data",
    "label": "Uploader"
   },
+ {
+  "fieldname": "processing_status",
+  "fieldtype": "Select",
+  "label": "Processing Status",
+  "options": "Queued\nProcessing\nCompleted\nFailed",
+  "default": "Queued",
+  "read_only": 1
+ },
+ {
+  "fieldname": "prescription_result",
+  "fieldtype": "Long Text",
+  "label": "Prescription Result",
+  "read_only": 1
+ },
+ {
+  "fieldname": "processing_error",
+  "fieldtype": "Small Text",
+  "label": "Processing Error",
+  "read_only": 1
+ },
   {
    "fieldname": "patient",
    "fieldtype": "Link",
