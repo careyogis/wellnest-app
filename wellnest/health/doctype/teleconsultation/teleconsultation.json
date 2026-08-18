@@ -1,0 +1,94 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:TELE-{YYYY}{MM}{DD}-{#####}",
+ "creation": "2026-08-18 12:26:08.051105",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "practitioner",
+  "email",
+  "consultation_status",
+  "meeting_id",
+  "column_break_zpcc",
+  "patient",
+  "scheduled_time",
+  "meeting_provider",
+  "meeting_url"
+ ],
+ "fields": [
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Practitioner",
+   "options": "Practitioner"
+  },
+  {
+   "fieldname": "consultation_status",
+   "fieldtype": "Select",
+   "label": "Consultation Status",
+   "options": "\nScheduled\nIn Progress\nCompleted\nCancelled"
+  },
+  {
+   "fieldname": "meeting_id",
+   "fieldtype": "Data",
+   "label": "Meeting ID"
+  },
+  {
+   "fieldname": "column_break_zpcc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient",
+   "options": "Patient"
+  },
+  {
+   "fieldname": "scheduled_time",
+   "fieldtype": "Datetime",
+   "label": "Scheduled Time"
+  },
+  {
+   "fieldname": "meeting_provider",
+   "fieldtype": "Select",
+   "label": "Meeting Provider",
+   "options": "\nGoogle Meet"
+  },
+  {
+   "fieldname": "meeting_url",
+   "fieldtype": "Data",
+   "label": "Meeting URL"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-18 15:31:48.516479",
+ "modified_by": "Administrator",
+ "module": "Health",
+ "name": "Teleconsultation",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
