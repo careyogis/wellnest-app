@@ -54,6 +54,14 @@ frappe.ui.form.on("Practitioner", {
                 }
             };
         });
+
+        // Set column widths for the availaility_days grid
+        let grid = frm.get_field('availability_days').grid;
+        
+        // This forces the grid view to re-evaluate and draw more than 5 columns
+        grid.meta.max_columns = 6; 
+        
+        frm.refresh_field('availability_days');		
 	},
 
 	setup_availability_days_buttons: function (frm) {
