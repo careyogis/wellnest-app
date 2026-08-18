@@ -4,5 +4,5 @@
 from frappe.model.document import Document
 
 
-class TeleconsultAppointment(Document):
+class TeleconsultationAppointment(Document):
 	pass

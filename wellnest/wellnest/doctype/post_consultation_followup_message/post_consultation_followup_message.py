@@ -4,5 +4,5 @@
 from frappe.model.document import Document
 
 
-class PostConsultFollowupMessage(Document):
+class PostConsultationFollowupMessage(Document):
 	pass
