@@ -358,34 +358,3 @@ def _get_firebase_web_api_key():
 	if not api_key:
 		frappe.throw("firebase_web_api_key not set in site config")
 	return api_key
-
-
-@frappe.whitelist(allow_guest=True)
-def register_doctor(
-	first_name: str,
-	last_name: str,
-	email: str,
-	mobile: str,
-):
-	if not first_name or not last_name or not email or not mobile:
-		frappe.throw("First name, last name, email and mobile number are required")
-
-	first_name = first_name.strip()
-	last_name = last_name.strip()
-	email = email.strip().lower()
-	mobile = mobile.strip()
-
-	if not first_name or not last_name or not email or not mobile:
-		frappe.throw("All registration fields are required")
-
-	lookup_mobile = mobile
-	if lookup_mobile.startswith("+91"):
-		lookup_mobile = lookup_mobile[3:]
-
-	return {
-		"success": True,
-		"first_name": first_name,
-		"last_name": last_name,
-		"email": email,
-		"mobile": lookup_mobile,
-	}
