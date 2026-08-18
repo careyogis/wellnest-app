@@ -211,7 +211,8 @@ async function register() {
 
   const mobile = form.mobile.trim();
 
-  if (!/^\d{10}$/.test(mobile)) {
+  // Allow spaces in the mobile. Permits using firebase test numbers.
+  if (!/^\d(?:\s?\d){9}$/.test(mobile)) {
     message.value = 'Please enter a valid 10-digit mobile number.';
     messageType.value = 'error';
     return;

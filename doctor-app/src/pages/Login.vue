@@ -100,7 +100,7 @@
               </div>
 
               <div v-if="showRegisterOption" class="text-center mt-3">
-                <button type="button" class="text-sm font-medium text-blue-600 hover:underline" @click="goToRegister(phone)">Register with this number</button>
+                <button type="button" class="text-sm font-medium text-blue-600 hover:underline" @click="goToRegister(phone)">Register with Us</button>
               </div>
 
               <div v-if="otpSent">
@@ -250,7 +250,8 @@ async function sendOtp() {
   messageType.value = '';
 
   const cleanPhone = phone.value ? phone.value.trim() : '';
-  if (!cleanPhone || !/^\d{10}$/.test(cleanPhone)) {
+  // Allow spaces in the mobile. Permits using firebase test numbers.
+  if (!cleanPhone || !/^\d(?:\s?\d){9}$/.test(cleanPhone)) {
     message.value = 'Please enter a valid 10-digit mobile number.';
     messageType.value = 'error';
     return;
@@ -286,7 +287,7 @@ async function sendOtp() {
     if (err.messages && err.messages.length > 0) {
       message.value = err.messages[0];
 
-      if (err.messages[0].includes('No doctor found with this number')) {
+      if (err.messages[0].includes("Couldn't find any doctor with this number")) {
         showRegisterOption.value = true;
       }
     } else {
