@@ -99,8 +99,9 @@
                 {{ message }}
               </div>
 
-              <div v-if="showRegisterOption" class="text-center mt-3">
-                <button type="button" class="text-sm font-medium text-blue-600 hover:underline" @click="goToRegister(phone)">Register with Us</button>
+              <div v-if="showRegisterOption" class="text-center mt-6">
+                <span class="text-sm text-gray-500"> New here? </span>
+                <button type="button" class="ml-1 text-sm font-medium text-blue-600 hover:underline" @click="goToRegister(phone)">Register</button>
               </div>
 
               <div v-if="otpSent">
@@ -138,7 +139,7 @@ const otpSent = ref(false);
 const sessionInfo = ref('');
 const message = ref('');
 const messageType = ref<'success' | 'error' | ''>('');
-const showRegisterOption = ref(false);
+const showRegisterOption = ref(true);
 let recaptchaWidgetId: number | null = null;
 
 // OTP resend cooldown state
@@ -244,7 +245,7 @@ function startOtpCooldown() {
     }
   }, 1000);
 }
-showRegisterOption.value = false;
+
 async function sendOtp() {
   message.value = '';
   messageType.value = '';
@@ -274,7 +275,7 @@ async function sendOtp() {
 
     sessionInfo.value = response.session_info;
     otpSent.value = true;
-
+    showRegisterOption.value = false;
     message.value = 'OTP sent successfully.';
     messageType.value = 'success';
 

@@ -57,15 +57,23 @@
               <!-- First + Last Name -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="w-full">
-                  <Input v-model="form.full_name" class="doctor-input w-full" label="Full Name" placeholder="Enter your full name" />
+                  <Input v-model="form.full_name" class="doctor-input w-full mb-3" label="Full Name" placeholder="Enter your full name" />
                 </div>
               </div>
 
-              <!-- Email -->
-              <Input v-model="form.email" class="doctor-input mt-3" type="email" label="Email ID" placeholder="Enter email address" required />
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="w-full">
+                  <!-- Email -->
+                  <Input v-model="form.email" class="doctor-input mb-3" type="email" label="Email ID" placeholder="Enter email address" required />
+                </div>
+              </div>
 
-              <!-- Mobile -->
-              <Input v-model="form.mobile" class="doctor-input mt-3" label="Mobile Number" placeholder="Enter mobile number" required />
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="w-full">
+                  <!-- Mobile -->
+                  <Input v-model="form.mobile" class="doctor-input mb-3" label="Mobile Number" placeholder="Enter mobile number" required />
+                </div>
+              </div>
 
               <!-- Message -->
               <div v-if="message" :class="['p-3 rounded-lg mt-4 text-sm border', messageType === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200']">
@@ -129,7 +137,7 @@ const OTP_LENGTH = 6;
 const form = reactive({
   full_name: '',
   email: '',
-  mobile: '',
+  mobile: router.currentRoute.value.query.mobile || '',
 });
 
 const loading = ref(false);
