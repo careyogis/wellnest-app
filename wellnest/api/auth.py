@@ -174,7 +174,7 @@ def register_customer(id_token: str, full_name: str):
 	if frappe.db.exists("Patient", {"mobile": lookup_phone}):
 		frappe.throw("Patient already exists with this mobile number")
 
-	from frappe.utils.password import get_random_password
+	# from frappe.utils.password import get_random_password
 
 	email = f"{lookup_phone}@customer.careyogis.com"
 	full_name = full_name.strip() if full_name else f"Customer-{lookup_phone}"
@@ -187,7 +187,7 @@ def register_customer(id_token: str, full_name: str):
 		"first_name": first_name,
 		"last_name": last_name,
 		"mobile_no": phone_number,
-		"new_password": get_random_password(),
+		# "new_password": get_random_password(),
 		"send_welcome_email": 0,
 		"user_type": "Website User"
 	})
