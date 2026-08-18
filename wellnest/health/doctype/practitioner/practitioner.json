@@ -37,7 +37,7 @@
   "super_specialty",
   "designation",
   "additional_information",
-  "experience_years",
+  "practicing_from",
   "digital_signature_url",
   "professional_summary",
   "primary_facility",
@@ -168,11 +168,6 @@
    "fieldname": "digital_signature_url",
    "fieldtype": "Data",
    "label": "Digital Signature Url"
-  },
-  {
-   "fieldname": "experience_years",
-   "fieldtype": "Int",
-   "label": "Experience Years"
   },
   {
    "fieldname": "professional_summary",
@@ -400,6 +395,11 @@
    "fieldtype": "Link",
    "label": "Super Specialty",
    "options": "Medical Super Specialty"
+  },
+  {
+   "fieldname": "practicing_from",
+   "fieldtype": "Date",
+   "label": "Practicing From"
   }
  ],
  "grid_page_length": 50,
@@ -408,7 +408,7 @@
  "index_web_pages_for_search": 1,
  "is_published_field": "is_published",
  "links": [],
- "modified": "2026-08-17 23:57:24.724677",
+ "modified": "2026-08-18 08:34:11.082747",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
