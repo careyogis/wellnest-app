@@ -2,7 +2,7 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "TELE-APP-.YYYY.-.MM.-.#####",
- "creation": "2026-08-15 17:45:00.000000",
+ "creation": "2026-08-15 17:45:00",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -10,6 +10,7 @@
   "practitioner",
   "scheduled_time",
   "consultation_status",
+  "video_room_url",
   "column_break_tele",
   "consultation_fee",
   "sales_invoice",
@@ -80,11 +81,16 @@
    "fieldname": "video_room_token",
    "fieldtype": "Small Text",
    "label": "Video Room Token"
+  },
+  {
+   "fieldname": "video_room_url",
+   "fieldtype": "Data",
+   "label": "Video Room URL"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-15 17:45:00.000000",
+ "modified": "2026-08-18 21:37:09.936331",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Teleconsultation Appointment",
