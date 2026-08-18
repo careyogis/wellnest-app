@@ -14,8 +14,10 @@
   "full_name",
   "date_of_birth",
   "mobile",
+  "is_phone_verified",
   "address",
-  "ice"
+  "ice",
+  "family_members"
  ],
  "fields": [
   {
@@ -62,6 +64,12 @@
    "label": "Mobile"
   },
   {
+   "default": "0",
+   "fieldname": "is_phone_verified",
+   "fieldtype": "Check",
+   "label": "Is Phone Verified"
+  },
+  {
    "fieldname": "address",
    "fieldtype": "Small Text",
    "label": "Address"
@@ -70,6 +78,12 @@
    "fieldname": "ice",
    "fieldtype": "Small Text",
    "label": "ICE (In case of Emergency)"
+  },
+  {
+   "fieldname": "family_members",
+   "fieldtype": "Table",
+   "label": "Family Members Network",
+   "options": "Patient Family Member"
   }
  ],
  "index_web_pages_for_search": 1,
