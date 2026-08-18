@@ -56,9 +56,9 @@
             <form v-if="!otpSent" @submit.prevent="register">
               <!-- First + Last Name -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <Input v-model="form.first_name" class="doctor-input" label="First Name" placeholder="First name" required />
-
-                <Input v-model="form.last_name" class="doctor-input" label="Last Name" placeholder="Last name" required />
+                <div class="w-full">
+                  <Input v-model="form.full_name" class="doctor-input w-full" label="Full Name" placeholder="Enter your full name" />
+                </div>
               </div>
 
               <!-- Email -->
@@ -87,7 +87,12 @@
 
               <Input v-model="otp" class="doctor-input" label="OTP" placeholder="Enter 6-digit OTP" maxlength="6" />
 
-              <Button class="w-full mt-5 doctor-btn" variant="solid" :disabled="otp.length !== 6 || verifyingOtp" @click="verifyOtp">
+              <Button
+                class="w-full mt-5 doctor-btn !bg-black !text-white hover:!bg-gray-800 disabled:!bg-black disabled:!text-white"
+                variant="solid"
+                :disabled="otp.length !== 6 || verifyingOtp"
+                @click="verifyOtp"
+              >
                 {{ verifyingOtp ? 'Verifying...' : 'Verify & Continue' }}
               </Button>
             </div>
@@ -122,8 +127,7 @@ const RECAPTCHA_SITE_KEY = '6LcMZR0UAAAAALgPMcgHwga7gY5p8QMg1Hj-bmUv';
 const OTP_LENGTH = 6;
 
 const form = reactive({
-  first_name: '',
-  last_name: '',
+  full_name: '',
   email: '',
   mobile: '',
 });
@@ -139,16 +143,12 @@ const verifyingOtp = ref(false);
 
 let recaptchaWidgetId: number | null = null;
 
-const registerResource = createResource({
-  url: 'wellnest.api.auth.register_doctor',
-});
-
 const sendOtpResource = createResource({
-  url: 'wellnest.api.auth.send_otp',
+  url: 'wellnest.api.auth.send_registration_otp',
 });
 
 const verifyOtpResource = createResource({
-  url: 'wellnest.api.auth.verify_otp_and_login',
+  url: 'wellnest.api.auth.verify_registration_otp',
 });
 
 onMounted(() => {
@@ -220,22 +220,8 @@ async function register() {
   loading.value = true;
 
   try {
-    // Create User + Practitioner
-    const response = await registerResource.submit({
-      first_name: form.first_name.trim(),
-      last_name: form.last_name.trim(),
-      email: form.email.trim(),
-      mobile,
-    });
-
-    if (!response.success) {
-      throw new Error('Registration failed');
-    }
-
-    // Get reCAPTCHA token
     const recaptchaToken = await getRecaptchaToken();
 
-    // Send OTP
     const otpResponse = await sendOtpResource.submit({
       phone: '+91' + mobile,
       recaptcha_token: recaptchaToken,
@@ -244,7 +230,7 @@ async function register() {
     sessionInfo.value = otpResponse.session_info;
     otpSent.value = true;
 
-    message.value = 'Account created. OTP sent to your mobile number.';
+    message.value = 'OTP sent to your mobile number.';
     messageType.value = 'success';
   } catch (err: any) {
     console.error(err);
@@ -254,7 +240,7 @@ async function register() {
     if (err?.messages?.length) {
       message.value = err.messages[0];
     } else {
-      message.value = 'Unable to complete registration.';
+      message.value = 'Unable to send OTP.';
     }
   } finally {
     loading.value = false;
@@ -273,16 +259,29 @@ async function verifyOtp() {
   verifyingOtp.value = true;
 
   try {
-    await verifyOtpResource.submit({
+    const fullName = form.full_name.trim();
+    const nameParts = fullName.split(/\s+/);
+
+    const first_name = nameParts[0];
+    const last_name = nameParts.slice(1).join(' ');
+
+    if (!first_name || !last_name) {
+      message.value = 'Please enter your full name.';
+      messageType.value = 'error';
+      return;
+    }
+    const response = await verifyOtpResource.submit({
       session_info: sessionInfo.value,
       code: otp.value,
+      first_name,
+      last_name,
+      email: form.email.trim(),
+      mobile: form.mobile.trim(),
     });
 
-    // Refresh current Frappe user
-    await userResource.reload();
-    session.user = sessionUser();
+    session.user = response.user;
 
-    message.value = 'Mobile number verified successfully.';
+    message.value = 'Registration successful.';
     messageType.value = 'success';
 
     router.replace({ name: 'Dashboard' });
@@ -306,5 +305,4 @@ watch(otp, (newValue) => {
     verifyOtp();
   }
 });
-
 </script>
