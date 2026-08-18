@@ -10,6 +10,68 @@ _firebase_app = None
 _customer_firebase_app = None
 
 
+def _send_firebase_otp(phone: str, recaptcha_token: str):
+	if not phone or not recaptcha_token:
+		frappe.throw("phone and recaptcha_token are required")
+
+	api_key = _get_firebase_web_api_key()
+	url = f"{IDENTITY_TOOLKIT_BASE}/accounts:sendVerificationCode?key={api_key}"
+
+	payload = {
+		"phoneNumber": phone,
+		"recaptchaToken": recaptcha_token,
+	}
+
+	resp = requests.post(url, json=payload, timeout=15)
+	data = resp.json()
+
+	if resp.status_code != 200:
+		error_message = data.get("error", {}).get("message", "UNKNOWN_ERROR")
+
+		frappe.log_error(
+			title="Firebase sendVerificationCode failed",
+			message=frappe.as_json(data),
+		)
+
+		frappe.throw(f"Failed to send OTP: {error_message}")
+
+	return {
+		"success": True,
+		"session_info": data["sessionInfo"],
+	}
+
+
+def _verify_firebase_otp(session_info: str, code: str):
+	if not session_info or not code:
+		frappe.throw("session_info and code are required")
+
+	api_key = _get_firebase_web_api_key()
+	url = f"{IDENTITY_TOOLKIT_BASE}/accounts:signInWithPhoneNumber?key={api_key}"
+
+	payload = {
+		"sessionInfo": session_info,
+		"code": code,
+	}
+
+	resp = requests.post(url, json=payload, timeout=15)
+	data = resp.json()
+
+	if resp.status_code != 200:
+		error_message = data.get("error", {}).get("message", "UNKNOWN_ERROR")
+
+		frappe.log_error(
+			title="Firebase signInWithPhoneNumber failed",
+			message=frappe.as_json(data),
+		)
+
+		frappe.throw(f"Invalid OTP: {error_message}")
+
+	return {
+		"uid": data["localId"],
+		"phone_number": data.get("phoneNumber"),
+		"is_new_user": data.get("isNewUser", False),
+	}
+
 @frappe.whitelist(allow_guest=True)
 def send_otp(phone: str, recaptcha_token: str):
 	if not phone or not recaptcha_token:
@@ -26,71 +88,46 @@ def send_otp(phone: str, recaptcha_token: str):
 	if not practitioner:
 		frappe.throw("No doctor found with this number")
 
-	api_key = _get_firebase_web_api_key()
-	url = f"{IDENTITY_TOOLKIT_BASE}/accounts:sendVerificationCode?key={api_key}"
+	return _send_firebase_otp(phone, recaptcha_token)
 
-	payload = {
-		"phoneNumber": phone,
-		"recaptchaToken": recaptcha_token,
-	}
 
-	resp = requests.post(url, json=payload, timeout=15)
-	data = resp.json()
+@frappe.whitelist(allow_guest=True)
+def send_registration_otp(phone: str, recaptcha_token: str):
+	return _send_firebase_otp(phone, recaptcha_token)
 
-	if resp.status_code != 200:
-		error_message = data.get("error", {}).get("message", "UNKNOWN_ERROR")
-		frappe.log_error(
-			title="Firebase sendVerificationCode failed",
-			message=frappe.as_json(data),
-		)
-		frappe.throw(f"Failed to send OTP: {error_message}")
-
-	return {
-		"success": True,
-		"session_info": data["sessionInfo"],
-	}
 
 
 @frappe.whitelist(allow_guest=True)
 def verify_otp_and_login(session_info: str, code: str):
-	"""
-	Verifies Firebase OTP and logs user into Frappe atomically in one request.
-	"""
-	if not session_info or not code:
-		frappe.throw("session_info and code are required")
+	firebase_data = _verify_firebase_otp(session_info, code)
 
-	api_key = _get_firebase_web_api_key()
-	url = f"{IDENTITY_TOOLKIT_BASE}/accounts:signInWithPhoneNumber?key={api_key}"
-	payload = {"sessionInfo": session_info, "code": code}
-
-	resp = requests.post(url, json=payload, timeout=15)
-	data = resp.json()
-
-	if resp.status_code != 200:
-		error_message = data.get("error", {}).get("message", "UNKNOWN_ERROR")
-		frappe.log_error(
-			title="Firebase signInWithPhoneNumber failed", message=frappe.as_json(data)
-		)
-		frappe.throw(f"Invalid OTP: {error_message}")
-
-	uid = data["localId"]
-	phone_number = data.get("phoneNumber")
-	is_new_user = data.get("isNewUser", False)
+	uid = firebase_data["uid"]
+	phone_number = firebase_data["phone_number"]
+	is_new_user = firebase_data["is_new_user"]
 
 	lookup_phone = phone_number
+
 	if lookup_phone and lookup_phone.startswith("+91"):
 		lookup_phone = lookup_phone[3:]
 
-	# Find user by full phone number or 10-digit mobile_no
-	user = frappe.db.get_value("User", {"mobile_no": phone_number}, "name")
+	user = frappe.db.get_value(
+		"User",
+		{"mobile_no": phone_number},
+		"name"
+	)
+
 	if not user and lookup_phone:
-		user = frappe.db.get_value("User", {"mobile_no": lookup_phone}, "name")
+		user = frappe.db.get_value(
+			"User",
+			{"mobile_no": lookup_phone},
+			"name"
+		)
 
 	if not user:
 		frappe.throw("User not found for this mobile number")
 
-	# Perform Frappe login
 	frappe.set_user(user)
+
 	from frappe.auth import LoginManager
 
 	login_manager = LoginManager()
@@ -152,6 +189,81 @@ def verify_customer_firebase_token(id_token: str):
 		"full_name": patient.full_name,
 		"customer": patient.customer,
 		"patient": patient.name
+	}
+
+@frappe.whitelist(allow_guest=True)
+def verify_registration_otp(
+	session_info: str,
+	code: str,
+	first_name: str,
+	last_name: str,
+	email: str,
+	mobile: str,
+):
+	firebase_data = _verify_firebase_otp(session_info, code)
+
+	uid = firebase_data["uid"]
+	phone_number = firebase_data["phone_number"]
+
+	first_name = first_name.strip()
+	last_name = last_name.strip()
+	email = email.strip().lower()
+	mobile = mobile.strip()
+
+	if not first_name or not last_name or not email or not mobile:
+		frappe.throw("Registration details are incomplete")
+
+	lookup_mobile = mobile
+
+	if lookup_mobile.startswith("+91"):
+		lookup_mobile = lookup_mobile[3:]
+
+	user = frappe.get_doc(
+		{
+			"doctype": "User",
+			"first_name": first_name,
+			"last_name": last_name,
+			"email": email,
+			"mobile_no": lookup_mobile,
+			"user_type": "Website User",
+			"username": email,
+			"roles": [{"role": "Doctor"}],
+			"send_welcome_email": 1,
+		}
+	).insert(ignore_permissions=True)
+
+	practitioner = frappe.get_doc(
+		{
+			"doctype": "Practitioner",
+			"first_name": first_name,
+			"last_name": last_name,
+			"email": email,
+			"mobile": lookup_mobile,
+			"user_id": user.name,
+			"title": "Dr.",
+		}
+	).insert(ignore_permissions=True)
+
+	frappe.db.commit()
+
+	frappe.set_user(user.name)
+
+	from frappe.auth import LoginManager
+
+	login_manager = LoginManager()
+	login_manager.user = user.name
+	login_manager.post_login()
+
+	_get_firebase_app()
+	custom_token = firebase_auth.create_custom_token(uid)
+
+	return {
+		"success": True,
+		"user": user.name,
+		"practitioner": practitioner.name,
+		"custom_token": custom_token.decode("utf-8"),
+		"uid": uid,
+		"phone_number": phone_number,
 	}
 
 
@@ -246,3 +358,34 @@ def _get_firebase_web_api_key():
 	if not api_key:
 		frappe.throw("firebase_web_api_key not set in site config")
 	return api_key
+
+
+@frappe.whitelist(allow_guest=True)
+def register_doctor(
+	first_name: str,
+	last_name: str,
+	email: str,
+	mobile: str,
+):
+	if not first_name or not last_name or not email or not mobile:
+		frappe.throw("First name, last name, email and mobile number are required")
+
+	first_name = first_name.strip()
+	last_name = last_name.strip()
+	email = email.strip().lower()
+	mobile = mobile.strip()
+
+	if not first_name or not last_name or not email or not mobile:
+		frappe.throw("All registration fields are required")
+
+	lookup_mobile = mobile
+	if lookup_mobile.startswith("+91"):
+		lookup_mobile = lookup_mobile[3:]
+
+	return {
+		"success": True,
+		"first_name": first_name,
+		"last_name": last_name,
+		"email": email,
+		"mobile": lookup_mobile,
+	}

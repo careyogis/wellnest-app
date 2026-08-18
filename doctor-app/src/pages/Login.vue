@@ -79,6 +79,12 @@
               </div>
 
               <Button class="w-full mt-6 doctor-btn" variant="solid" type="submit"> Sign In </Button>
+
+              <div class="text-center mt-6">
+                <span class="text-sm text-gray-500"> New here? </span>
+
+                <button type="button" class="ml-1 text-sm font-medium text-blue-600 hover:underline" @click="goToRegister()">Register</button>
+              </div>
             </form>
 
             <!-- OTP -->
@@ -91,6 +97,10 @@
 
               <div v-if="message" :class="['p-3 rounded-lg mt-3 text-sm border', messageType === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200']">
                 {{ message }}
+              </div>
+
+              <div v-if="showRegisterOption" class="text-center mt-3">
+                <button type="button" class="text-sm font-medium text-blue-600 hover:underline" @click="goToRegister(phone)">Register with this number</button>
               </div>
 
               <div v-if="otpSent">
@@ -128,6 +138,7 @@ const otpSent = ref(false);
 const sessionInfo = ref('');
 const message = ref('');
 const messageType = ref<'success' | 'error' | ''>('');
+const showRegisterOption = ref(false);
 let recaptchaWidgetId: number | null = null;
 
 // OTP resend cooldown state
@@ -233,7 +244,7 @@ function startOtpCooldown() {
     }
   }, 1000);
 }
-
+showRegisterOption.value = false;
 async function sendOtp() {
   message.value = '';
   messageType.value = '';
@@ -274,6 +285,10 @@ async function sendOtp() {
 
     if (err.messages && err.messages.length > 0) {
       message.value = err.messages[0];
+
+      if (err.messages[0].includes('No doctor found with this number')) {
+        showRegisterOption.value = true;
+      }
     } else {
       message.value = 'Failed to send OTP.';
     }
@@ -311,6 +326,13 @@ async function verifyOtp() {
       message.value = 'Invalid OTP.';
     }
   }
+}
+
+function goToRegister(mobile = '') {
+  router.push({
+    name: 'Register',
+    query: mobile ? { mobile } : {},
+  });
 }
 
 // Auto-verify once the user has entered a full 6-digit OTP
