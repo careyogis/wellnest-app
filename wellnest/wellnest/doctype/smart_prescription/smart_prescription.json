@@ -1,0 +1,96 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "RX-.YYYY.-.MM.-.#####",
+ "creation": "2026-08-15 17:45:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "teleconsult_appointment",
+  "patient",
+  "practitioner",
+  "prescription_date",
+  "followup_expiry_date",
+  "section_break_meds",
+  "medicines",
+  "advice"
+ ],
+ "fields": [
+  {
+   "fieldname": "teleconsult_appointment",
+   "fieldtype": "Link",
+   "label": "Teleconsult Appointment",
+   "options": "Teleconsultation Appointment"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Practitioner",
+   "options": "Practitioner",
+   "reqd": 1
+  },
+  {
+   "fieldname": "prescription_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Prescription Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "followup_expiry_date",
+   "fieldtype": "Date",
+   "label": "Followup Expiry Date"
+  },
+  {
+   "fieldname": "section_break_meds",
+   "fieldtype": "Section Break",
+   "label": "Prescribed Medicines & Advice"
+  },
+  {
+   "fieldname": "medicines",
+   "fieldtype": "Table",
+   "label": "Medicines",
+   "options": "Prescription Item"
+  },
+  {
+   "fieldname": "advice",
+   "fieldtype": "Small Text",
+   "label": "Doctor Advice"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-18 20:43:23.764589",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Smart Prescription",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

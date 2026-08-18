@@ -7,8 +7,8 @@
  "engine": "InnoDB",
  "field_order": [
   "day",
-  "from",
-  "to",
+  "online_from",
+  "online_to",
   "emergency_from",
   "emergency_to",
   "clinic_from",
@@ -52,17 +52,17 @@
    "width": "1"
   },
   {
-   "fieldname": "from",
+   "fieldname": "online_from",
    "fieldtype": "Time",
    "in_list_view": 1,
-   "label": "From",
+   "label": "Online From",
    "width": "1"
   },
   {
-   "fieldname": "to",
+   "fieldname": "online_to",
    "fieldtype": "Time",
    "in_list_view": 1,
-   "label": "To Time",
+   "label": "Online To",
    "width": "1"
   }
  ],
@@ -70,7 +70,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-08-18 08:43:31.073734",
+ "modified": "2026-08-18 13:33:56.577539",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Availability Slots",
