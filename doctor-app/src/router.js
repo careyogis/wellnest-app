@@ -40,15 +40,19 @@ const routes = [
       {
         name: 'Schedule',
         path: 'schedule',
-        component: () => import('@/pages/ComingSoon.vue'),
-        props: { title: 'Schedule' },
+        component: () => import('@/pages/Schedule.vue'),
       },
       {
         name: 'Consultations',
         path: 'consultations',
-        component: () => import('@/pages/ComingSoon.vue'),
-        props: { title: 'Consultations' },
+        component: () => import('@/pages/Consultations.vue'),
       },
+      {
+        name: 'WaitingRoom',
+        path: 'consultations/:id/waiting-room',
+        component: () => import('@/pages/WaitingRoom.vue'),
+      },
+      
       {
         name: 'Messages',
         path: 'messages',
