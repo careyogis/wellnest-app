@@ -1,6 +1,9 @@
 # Copyright (c) 2026, www.careyogis.com and contributors
 # For license information, please see license.txt
 
+from datetime import datetime
+from select import select
+
 import frappe
 from frappe.website.website_generator import WebsiteGenerator
 from collections.abc import Iterable
@@ -8,6 +11,13 @@ from frappe.utils.data import comma_and
 
 
 class Practitioner(WebsiteGenerator):
+	def get_context(self, context):
+		context.charge_multiplier = 1.25
+		if (self.practicing_from):
+			context.experience = (datetime.now().date() - self.practicing_from).days // 365
+
+		return context
+
 	def before_save(self):		
 		self.full_name = f"{self.title} {self.first_name} {self.last_name}";
 
@@ -35,7 +45,10 @@ def get_list_context(context):
     # 2. Hide the Breadcrumbs (My Account > List).
     context.no_breadcrumbs = 1
     context.base_template_path = "templates/wellnest_web.html"
-    
+    # Add education_list to the context for each practitioner
+    # for practitioner in context:
+    #     education_list = [edu.degree for edu in practitioner.education_history]
+    #     practitioner.education_list = education_list    
 
 def get_repeated(values: Iterable) -> list:
 	unique = set()
