@@ -37,6 +37,11 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "read": 1,
+   "select": 1,
+   "role": "Doctor"
   }
  ],
  "row_format": "Dynamic",
