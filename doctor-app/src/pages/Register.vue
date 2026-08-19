@@ -57,15 +57,23 @@
               <!-- First + Last Name -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="w-full">
-                  <Input v-model="form.full_name" class="doctor-input w-full" label="Full Name" placeholder="Enter your full name" />
+                  <Input v-model="form.full_name" class="doctor-input w-full mb-3" label="Full Name" autofocus placeholder="Enter your full name" required />
                 </div>
               </div>
 
-              <!-- Email -->
-              <Input v-model="form.email" class="doctor-input mt-3" type="email" label="Email ID" placeholder="Enter email address" required />
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="w-full">
+                  <!-- Email -->
+                  <Input v-model="form.email" class="doctor-input mb-3" type="email" label="Email ID" placeholder="Enter email address" required />
+                </div>
+              </div>
 
-              <!-- Mobile -->
-              <Input v-model="form.mobile" class="doctor-input mt-3" label="Mobile Number" placeholder="Enter mobile number" required />
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="w-full">
+                  <!-- Mobile -->
+                  <Input v-model="form.mobile" class="doctor-input mb-3" label="Mobile Number" placeholder="Enter mobile number" required />
+                </div>
+              </div>
 
               <!-- Message -->
               <div v-if="message" :class="['p-3 rounded-lg mt-4 text-sm border', messageType === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200']">
@@ -74,7 +82,7 @@
 
               <!-- Register -->
               <Button class="w-full mt-6 doctor-btn" variant="solid" type="submit" :disabled="loading">
-                {{ loading ? 'Creating Account...' : 'Create Account' }}
+                {{ loading ? 'Registering...' : 'Register' }}
               </Button>
             </form>
 
@@ -100,7 +108,6 @@
             <!-- Login -->
             <div class="text-center mt-6">
               <span class="text-sm text-gray-500"> Already have an account? </span>
-
               <button type="button" class="ml-1 text-sm font-medium text-blue-600 hover:underline" @click="goToLogin">Login</button>
             </div>
           </div>
@@ -129,7 +136,7 @@ const OTP_LENGTH = 6;
 const form = reactive({
   full_name: '',
   email: '',
-  mobile: '',
+  mobile: router.currentRoute.value.query.mobile || '',
 });
 
 const loading = ref(false);
@@ -211,7 +218,8 @@ async function register() {
 
   const mobile = form.mobile.trim();
 
-  if (!/^\d{10}$/.test(mobile)) {
+  // Allow spaces in the mobile. Permits using firebase test numbers.
+  if (!/^\d(?:\s?\d){9}$/.test(mobile)) {
     message.value = 'Please enter a valid 10-digit mobile number.';
     messageType.value = 'error';
     return;
@@ -232,17 +240,17 @@ async function register() {
 
     message.value = 'OTP sent to your mobile number.';
     messageType.value = 'success';
-  } catch (err: any) {
-    console.error(err);
-
+  } 
+  catch (err) {
     messageType.value = 'error';
-
-    if (err?.messages?.length) {
-      message.value = err.messages[0];
-    } else {
-      message.value = 'Unable to send OTP.';
+    if (err?.exc_type === 'DuplicateEntryError') {
+      message.value = 'A user with this mobile number already exists. Please login instead.';
+    } 
+    else {
+      (err?.messages?.length) ? message.value = err.messages[0] : message.value = 'Error occurred. Unable to send OTP.'
     }
-  } finally {
+  }
+  finally {
     loading.value = false;
   }
 }

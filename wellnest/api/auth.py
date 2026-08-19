@@ -93,16 +93,31 @@ def send_otp(phone: str, recaptcha_token: str):
 
 @frappe.whitelist(allow_guest=True)
 def send_registration_otp(phone: str, recaptcha_token: str):
+	if not phone or not recaptcha_token:
+		frappe.throw("phone and recaptcha_token are required")
+
+	# Check if the phone number is already registered
+	lookup_phone = phone
+	if lookup_phone.startswith("+91"):
+		lookup_phone = lookup_phone[3:]
+
+	practitioner = frappe.db.get_value(
+		"Practitioner", {"mobile": lookup_phone}, "name"
+	)
+
+	if practitioner:
+		frappe.throw("This phone is already registered.", frappe.DuplicateEntryError)
+
 	return _send_firebase_otp(phone, recaptcha_token)
 
 
 
 @frappe.whitelist(allow_guest=True)
-def verify_otp_and_login(session_info: str, code: str):
-	firebase_data = _verify_firebase_otp(session_info, code)
+def verify_otp_and_login(session_info: str, phone: str, otp: str):
+	firebase_data = _verify_firebase_otp(session_info, otp)
 
 	uid = firebase_data["uid"]
-	phone_number = firebase_data["phone_number"]
+	phone_number = phone
 	is_new_user = firebase_data["is_new_user"]
 
 	lookup_phone = phone_number
@@ -218,33 +233,47 @@ def verify_registration_otp(
 	if lookup_mobile.startswith("+91"):
 		lookup_mobile = lookup_mobile[3:]
 
-	user = frappe.get_doc(
-		{
-			"doctype": "User",
-			"first_name": first_name,
-			"last_name": last_name,
-			"email": email,
-			"mobile_no": lookup_mobile,
-			"user_type": "Website User",
-			"username": email,
-			"roles": [{"role": "Doctor"}],
-			"send_welcome_email": 1,
-		}
-	).insert(ignore_permissions=True)
+	try:
+		user = frappe.get_doc(
+			{
+				"doctype": "User",
+				"first_name": first_name,
+				"last_name": last_name,
+				"email": email,
+				"mobile_no": lookup_mobile,
+				"user_type": "Website User",
+				"username": email,
+				"roles": [{"role": "Doctor"}],
+				"send_welcome_email": 1,
+			}
+		).insert(ignore_permissions=True)
 
-	practitioner = frappe.get_doc(
-		{
-			"doctype": "Practitioner",
-			"first_name": first_name,
-			"last_name": last_name,
-			"email": email,
-			"mobile": lookup_mobile,
-			"user_id": user.name,
-			"title": "Dr.",
-		}
-	).insert(ignore_permissions=True)
-
-	frappe.db.commit()
+		practitioner = frappe.get_doc(
+			{
+				"doctype": "Practitioner",
+				"first_name": first_name,
+				"last_name": last_name,
+				"email": email,
+				"mobile": lookup_mobile,
+				"user_id": user.name,
+				"title": "Dr.",
+			}
+		).insert(ignore_permissions=True)
+		frappe.db.commit()
+	except frappe.DuplicateEntryError as e:
+		frappe.db.rollback()
+		frappe.log_error(
+			title="Duplicate entry error while creating Practitioner/User account",
+			message=frappe.as_json({"error": str(e), "email": email, "mobile": mobile}),
+		)
+		frappe.throw("Practitioner/user account with this email/mobile already exists. Please login instead.")
+	except Exception as e:
+		frappe.db.rollback()
+		frappe.log_error(
+			title="Error creating Practitioner/User account",
+			message=frappe.as_json({"error": str(e), "email": email, "mobile": mobile}),
+		)
+		frappe.throw("Unexpected error creating user or practitioner. Please contact support.")
 
 	frappe.set_user(user.name)
 
@@ -358,3 +387,34 @@ def _get_firebase_web_api_key():
 	if not api_key:
 		frappe.throw("firebase_web_api_key not set in site config")
 	return api_key
+
+
+@frappe.whitelist(allow_guest=True)
+def register_doctor(
+	first_name: str,
+	last_name: str,
+	email: str,
+	mobile: str,
+):
+	if not first_name or not last_name or not email or not mobile:
+		frappe.throw("First name, last name, email and mobile number are required")
+
+	first_name = first_name.strip()
+	last_name = last_name.strip()
+	email = email.strip().lower()
+	mobile = mobile.strip()
+
+	if not first_name or not last_name or not email or not mobile:
+		frappe.throw("All registration fields are required")
+
+	lookup_mobile = mobile
+	if lookup_mobile.startswith("+91"):
+		lookup_mobile = lookup_mobile[3:]
+
+	return {
+		"success": True,
+		"first_name": first_name,
+		"last_name": last_name,
+		"email": email,
+		"mobile": lookup_mobile,
+	}
