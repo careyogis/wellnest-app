@@ -442,9 +442,9 @@ a { color: inherit; text-decoration: none; }
   .login-brand-panel p { font-size: 16px; }
 }
 .doctor-input input {
-    height: 52px;
+    height: 36px;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 14px;
 }
 .doctor-btn button,
 .doctor-btn {

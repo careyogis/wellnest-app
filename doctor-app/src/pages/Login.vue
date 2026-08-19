@@ -103,11 +103,9 @@
                 <span class="text-sm text-gray-500"> New here? </span>
                 <button type="button" class="ml-1 text-sm font-medium text-blue-600 hover:underline" @click="goToRegister(phone)">Register</button>
               </div>
-
               <div v-if="otpSent">
-                <Input class="mt-4 doctor-input" v-model="otp" label="OTP" placeholder="Enter OTP" />
-
-                <Button class="w-full mt-4 doctor-btn" variant="solid" @click="verifyOtp"> Verify OTP </Button>
+                <Input class="mt-4 doctor-input" v-model="otpEntry" label="OTP" placeholder="Enter OTP" @input="val => otpEntry = val" />
+                <Button class="w-full mt-4 doctor-btn" variant="solid" @click="verifyOtp" :disabled="verifyingOtp.value"> {{ verifyingOtp.value ? 'Verifying OTP...' : 'Verify OTP' }} </Button>
               </div>
             </div>
           </div>
@@ -134,7 +132,7 @@ const RECAPTCHA_SITE_KEY = '6LcMZR0UAAAAALgPMcgHwga7gY5p8QMg1Hj-bmUv';
 const loginMethod = ref('password');
 
 const phone = ref('');
-const otp = ref('');
+const otpEntry = ref('');
 const otpSent = ref(false);
 const sessionInfo = ref('');
 const message = ref('');
@@ -145,6 +143,7 @@ let recaptchaWidgetId: number | null = null;
 // OTP resend cooldown state
 const otpSending = ref(false);
 const otpCooldown = ref(0);
+const verifyingOtp = ref(false);
 const OTP_COOLDOWN_SECONDS = 30;
 let cooldownTimer: ReturnType<typeof setInterval> | null = null;
 
@@ -303,11 +302,13 @@ async function sendOtp() {
 async function verifyOtp() {
   message.value = '';
   messageType.value = '';
+  verifyingOtp.value = true;
 
   try {
     await verifyOtpResource.submit({
       session_info: sessionInfo.value,
-      code: otp.value,
+      phone: phone.value,
+      otp: otpEntry.value,
     });
 
     await userResource.reload();
@@ -327,6 +328,7 @@ async function verifyOtp() {
     } else {
       message.value = 'Invalid OTP.';
     }
+    verifyingOtp.value = false;
   }
 }
 
@@ -338,9 +340,13 @@ function goToRegister(mobile = '') {
 }
 
 // Auto-verify once the user has entered a full 6-digit OTP
-watch(otp, (newVal) => {
-  if (newVal.length === OTP_LENGTH) {
-    verifyOtp();
+watch(
+  otpEntry,
+  (newval) => {
+    // Trigger verification when length matches
+    if (newval.length === OTP_LENGTH) {      
+      verifyOtp();
+    }
   }
-});
+);
 </script>

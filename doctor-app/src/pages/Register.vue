@@ -57,7 +57,7 @@
               <!-- First + Last Name -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="w-full">
-                  <Input v-model="form.full_name" class="doctor-input w-full mb-3" label="Full Name" placeholder="Enter your full name" />
+                  <Input v-model="form.full_name" class="doctor-input w-full mb-3" label="Full Name" autofocus placeholder="Enter your full name" required />
                 </div>
               </div>
 
@@ -82,7 +82,7 @@
 
               <!-- Register -->
               <Button class="w-full mt-6 doctor-btn" variant="solid" type="submit" :disabled="loading">
-                {{ loading ? 'Creating Account...' : 'Create Account' }}
+                {{ loading ? 'Registering...' : 'Register' }}
               </Button>
             </form>
 
@@ -108,7 +108,6 @@
             <!-- Login -->
             <div class="text-center mt-6">
               <span class="text-sm text-gray-500"> Already have an account? </span>
-
               <button type="button" class="ml-1 text-sm font-medium text-blue-600 hover:underline" @click="goToLogin">Login</button>
             </div>
           </div>
@@ -241,17 +240,17 @@ async function register() {
 
     message.value = 'OTP sent to your mobile number.';
     messageType.value = 'success';
-  } catch (err: any) {
-    console.error(err);
-
+  } 
+  catch (err) {
     messageType.value = 'error';
-
-    if (err?.messages?.length) {
-      message.value = err.messages[0];
-    } else {
-      message.value = 'Unable to send OTP.';
+    if (err?.exc_type === 'DuplicateEntryError') {
+      message.value = 'A user with this mobile number already exists. Please login instead.';
+    } 
+    else {
+      (err?.messages?.length) ? message.value = err.messages[0] : message.value = 'Error occurred. Unable to send OTP.'
     }
-  } finally {
+  }
+  finally {
     loading.value = false;
   }
 }
