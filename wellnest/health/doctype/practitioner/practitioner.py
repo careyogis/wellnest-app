@@ -143,9 +143,12 @@ def update_doctor_profile(docname=None, updates=None):
         "sales_partner",
         "full_name",
         "account_status",
+        "abdm_council_code",
+        "abdm_specialty_code",
         "route",
         "languages_known",
         "availability_days",
+        "education_history",
     }
 
     for fieldname, value in updates.items():
@@ -191,6 +194,23 @@ def update_doctor_profile(docname=None, updates=None):
                         "custom_emergency_to": availability_day.get("emergency_to"),
                     },
                 )
+
+                
+    if "education_history" in updates:
+       education_history = updates.get("education_history") or []
+       practitioner.set("education_history", [])
+
+       for education in education_history:
+           if isinstance(education, dict):
+              practitioner.append(
+                  "education_history",
+                  {
+                      "degree": education.get("degree"),
+                      "institution": education.get("institution"),
+                      "year_of_completion": education.get("year_of_completion"),
+                  },
+              )
+
 
     practitioner.save(ignore_permissions=True)
     frappe.db.commit()
