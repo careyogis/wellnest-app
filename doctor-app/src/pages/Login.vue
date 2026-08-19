@@ -173,8 +173,6 @@ async function submit(e: Event) {
       password,
     });
   } catch (err: any) {
-    console.error(err);
-
     messageType.value = 'error';
 
     if (err?.messages && err.messages.length > 0) {
@@ -280,14 +278,12 @@ async function sendOtp() {
 
     startOtpCooldown();
   } catch (err: any) {
-    console.error(err);
-
     messageType.value = 'error';
 
     if (err.messages && err.messages.length > 0) {
       message.value = err.messages[0];
 
-      if (err.messages[0].includes("Couldn't find any doctor with this number")) {
+      if (err.messages[0].includes("No doctor found with this number")) {
         showRegisterOption.value = true;
       }
     } else {
@@ -319,8 +315,6 @@ async function verifyOtp() {
 
     router.replace({ name: 'Dashboard' });
   } catch (err: any) {
-    console.error(err);
-
     messageType.value = 'error';
 
     if (err.messages && err.messages.length > 0) {

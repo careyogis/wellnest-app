@@ -64,7 +64,7 @@ def _verify_firebase_otp(session_info: str, code: str):
 			message=frappe.as_json(data),
 		)
 
-		frappe.throw(f"Invalid OTP: {error_message}")
+		frappe.throw(f"{error_message}", frappe.AuthenticationError)
 
 	return {
 		"uid": data["localId"],
@@ -260,20 +260,20 @@ def verify_registration_otp(
 			}
 		).insert(ignore_permissions=True)
 		frappe.db.commit()
-	except frappe.DuplicateEntryError as e:
+	except frappe.ValidationError as e:
 		frappe.db.rollback()
 		frappe.log_error(
 			title="Duplicate entry error while creating Practitioner/User account",
 			message=frappe.as_json({"error": str(e), "email": email, "mobile": mobile}),
 		)
-		frappe.throw("Practitioner/user account with this email/mobile already exists. Please login instead.")
+		frappe.throw("Practitioner/user account with this email/mobile already exists. Please login instead.", frappe.DuplicateEntryError)
 	except Exception as e:
 		frappe.db.rollback()
 		frappe.log_error(
 			title="Error creating Practitioner/User account",
 			message=frappe.as_json({"error": str(e), "email": email, "mobile": mobile}),
 		)
-		frappe.throw("Unexpected error creating user or practitioner. Please contact support.")
+		frappe.throw("Unexpected error creating user or practitioner. Please contact support.", frappe.DataError)
 
 	frappe.set_user(user.name)
 

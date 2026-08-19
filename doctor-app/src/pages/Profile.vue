@@ -1099,7 +1099,6 @@ const totalRatings = computed(() => {
 const loadError = computed(() => {
   const error = profileData.error;
   if (!error) return null;
-  console.error('API call failed:', error);
   const serverMessage = error?.messages?.[0] || error?.message || '';
   if (serverMessage.toLowerCase().includes('practitioner not found')) {
     return 'Your account is not linked to a Practitioner record. Please contact the administrator to set up your doctor profile.';
@@ -1173,7 +1172,7 @@ async function handleDocumentSelected(event) {
 
     await documentsResource.reload();
   } catch (error) {
-    console.error('Failed to upload document:', error);
+    alert('Failed to upload document.');
   } finally {
     documentUploading.value = false;
     event.target.value = '';
@@ -1210,7 +1209,7 @@ async function deleteDocument(document) {
 
     await documentsResource.reload();
   } catch (error) {
-    console.error('Failed to delete document:', error);
+    alert('Failed to delete document.');
   }
 }
 
@@ -1267,7 +1266,6 @@ async function handlePhotoSelected(event) {
     // Reset image error state
     imageLoadError.value = false;
   } catch (error) {
-    console.error('Failed to upload profile photo:', error);
     alert('Failed to upload profile photo.');
   } finally {
     event.target.value = '';
@@ -1634,7 +1632,7 @@ async function saveProfile() {
 
     showEditProfile.value = false;
   } catch (err) {
-    console.error('Failed to save profile:', err);
+    alert('Failed to save profile.');
   }
 }
 </script>
