@@ -131,8 +131,24 @@ def get_current_practitioner(docname=None):
 def doctor_profile():
     practitioner = get_current_practitioner()
 
+    doctor = practitioner.as_dict()
+
+    if practitioner.specialty:
+        doctor["specialty_name"] = frappe.db.get_value(
+            "Medical Specialty",
+            practitioner.specialty,
+            "specialty_name",
+        )
+
+    if practitioner.super_specialty:
+        doctor["super_specialty_name"] = frappe.db.get_value(
+            "Medical Super Specialty",
+            practitioner.super_specialty,
+            "super_specialty_name",
+        )
+
     return {
-        "doctor": practitioner,
+        "doctor": doctor,
     }
 
 

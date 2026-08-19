@@ -238,12 +238,12 @@
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
                   <span class="font-medium text-gray-500 block text-xs mb-1"> Specialty </span>
-                  {{ profileData?.data?.doctor?.specialty || 'Not Available' }}
+                  {{ profileData?.data?.doctor?.specialty_name || 'Not Available' }}
                 </div>
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
                   <span class="font-medium text-gray-500 block text-xs mb-1"> Super Specialty </span>
-                  {{ profileData?.data?.doctor?.super_specialty || 'Not Available' }}
+                  {{ profileData?.data?.doctor?.super_specialty_name || 'Not Available' }}
                 </div>
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
@@ -1469,7 +1469,7 @@ const cityResource = createResource({
     return {
       doctype: 'City',
       fields: ['name'],
-      limit_page_length: 100,
+      limit_page_length: 0,
       order_by: 'name asc',
     };
   },
@@ -1522,14 +1522,14 @@ const specialtyResource = createResource({
   makeParams() {
     return {
       doctype: 'Medical Specialty',
-      fields: ['name'],
+      fields: ['name', 'specialty_name'],
       limit_page_length: 100,
-      order_by: 'name asc',
+      order_by: 'specialty_name asc',
     };
   },
   onSuccess(data) {
     specialtyOptions.value = (data || []).map((item) => ({
-      label: item.name,
+      label: item.specialty_name,
       value: item.name,
     }));
   },
@@ -1540,14 +1540,14 @@ const superSpecialtyResource = createResource({
   makeParams() {
     return {
       doctype: 'Medical Super Specialty',
-      fields: ['name'],
+      fields: ['name', 'super_specialty_name'],
       limit_page_length: 100,
-      order_by: 'name asc',
+      order_by: 'super_specialty_name asc',
     };
   },
   onSuccess(data) {
     superSpecialtyOptions.value = (data || []).map((item) => ({
-      label: item.name,
+      label: item.super_specialty_name,
       value: item.name,
     }));
   },
@@ -1806,6 +1806,10 @@ async function saveProfile() {
       doctor.designation = editForm.designation;
       doctor.specialty = editForm.specialty;
       doctor.super_specialty = editForm.super_specialty;
+
+      doctor.specialty_name = specialtyOptions.value.find((option) => option.value === editForm.specialty)?.label || '';
+
+      doctor.super_specialty_name = superSpecialtyOptions.value.find((option) => option.value === editForm.super_specialty)?.label || '';
       doctor.registration_no = editForm.registration_no;
       doctor.registration_valid_upto = editForm.registration_valid_upto;
       doctor.registration_letter = editForm.registration_letter;
@@ -1841,7 +1845,7 @@ async function saveProfile() {
         clinic_to: item.clinic_to,
       }));
     }
-    
+
     isEditingProfile.value = false;
     showEditProfile.value = false;
   } catch (err) {
