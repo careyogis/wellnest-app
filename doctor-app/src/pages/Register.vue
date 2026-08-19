@@ -75,11 +75,6 @@
                 </div>
               </div>
 
-              <!-- Message -->
-              <div v-if="message" :class="['p-3 rounded-lg mt-4 text-sm border', messageType === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200']">
-                {{ message }}
-              </div>
-
               <!-- Register -->
               <Button class="w-full mt-6 doctor-btn" variant="solid" type="submit" :disabled="loading">
                 {{ loading ? 'Registering...' : 'Register' }}
@@ -103,6 +98,11 @@
               >
                 {{ verifyingOtp ? 'Verifying...' : 'Verify & Continue' }}
               </Button>
+            </div>
+            
+            <!-- Message -->
+            <div v-if="message" :class="['p-3 rounded-lg mt-4 text-sm border', messageType === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200']">
+              {{ message }}
             </div>
 
             <!-- Login -->
@@ -294,14 +294,16 @@ async function verifyOtp() {
 
     router.replace({ name: 'Dashboard' });
   } catch (err: any) {
-    console.error(err);
-
     messageType.value = 'error';
 
-    if (err?.messages?.length) {
-      message.value = err.messages[0];
-    } else {
+    if (err?.exc_type === 'AuthenticationError') {
       message.value = 'Invalid OTP.';
+    } 
+    if (err?.exc_type === 'DuplicateEntryError' || err?.exc_type === 'DataError') {
+      message.value = 'A user with this mobile number already exists. Please login instead.';
+    } 
+    else {
+      (err?.messages?.length) ? message.value = err.messages[0] : message.value = 'Error occurred while verifying the OTP.'
     }
   } finally {
     verifyingOtp.value = false;

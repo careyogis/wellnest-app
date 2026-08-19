@@ -9,69 +9,6 @@ IDENTITY_TOOLKIT_BASE = "https://identitytoolkit.googleapis.com/v1"
 _firebase_app = None
 _customer_firebase_app = None
 
-
-def _send_firebase_otp(phone: str, recaptcha_token: str):
-	if not phone or not recaptcha_token:
-		frappe.throw("phone and recaptcha_token are required")
-
-	api_key = _get_firebase_web_api_key()
-	url = f"{IDENTITY_TOOLKIT_BASE}/accounts:sendVerificationCode?key={api_key}"
-
-	payload = {
-		"phoneNumber": phone,
-		"recaptchaToken": recaptcha_token,
-	}
-
-	resp = requests.post(url, json=payload, timeout=15)
-	data = resp.json()
-
-	if resp.status_code != 200:
-		error_message = data.get("error", {}).get("message", "UNKNOWN_ERROR")
-
-		frappe.log_error(
-			title="Firebase sendVerificationCode failed",
-			message=frappe.as_json(data),
-		)
-
-		frappe.throw(f"Failed to send OTP: {error_message}")
-
-	return {
-		"success": True,
-		"session_info": data["sessionInfo"],
-	}
-
-
-def _verify_firebase_otp(session_info: str, code: str):
-	if not session_info or not code:
-		frappe.throw("session_info and code are required")
-
-	api_key = _get_firebase_web_api_key()
-	url = f"{IDENTITY_TOOLKIT_BASE}/accounts:signInWithPhoneNumber?key={api_key}"
-
-	payload = {
-		"sessionInfo": session_info,
-		"code": code,
-	}
-
-	resp = requests.post(url, json=payload, timeout=15)
-	data = resp.json()
-
-	if resp.status_code != 200:
-		error_message = data.get("error", {}).get("message", "UNKNOWN_ERROR")
-
-		frappe.log_error(
-			title="Firebase signInWithPhoneNumber failed",
-			message=frappe.as_json(data),
-		)
-
-		frappe.throw(f"Invalid OTP: {error_message}")
-
-	return {
-		"uid": data["localId"],
-		"phone_number": data.get("phoneNumber"),
-		"is_new_user": data.get("isNewUser", False),
-	}
-
 @frappe.whitelist(allow_guest=True)
 def send_otp(phone: str, recaptcha_token: str):
 	if not phone or not recaptcha_token:
@@ -89,7 +26,6 @@ def send_otp(phone: str, recaptcha_token: str):
 		frappe.throw("No doctor found with this number")
 
 	return _send_firebase_otp(phone, recaptcha_token)
-
 
 @frappe.whitelist(allow_guest=True)
 def send_registration_otp(phone: str, recaptcha_token: str):
@@ -109,8 +45,6 @@ def send_registration_otp(phone: str, recaptcha_token: str):
 		frappe.throw("This phone is already registered.", frappe.DuplicateEntryError)
 
 	return _send_firebase_otp(phone, recaptcha_token)
-
-
 
 @frappe.whitelist(allow_guest=True)
 def verify_otp_and_login(session_info: str, phone: str, otp: str):
@@ -160,7 +94,6 @@ def verify_otp_and_login(session_info: str, phone: str, otp: str):
 		"phone_number": phone_number,
 		"is_new_user": is_new_user,
 	}
-
 
 @frappe.whitelist(allow_guest=True)
 def verify_customer_firebase_token(id_token: str):
@@ -260,20 +193,20 @@ def verify_registration_otp(
 			}
 		).insert(ignore_permissions=True)
 		frappe.db.commit()
-	except frappe.DuplicateEntryError as e:
+	except frappe.ValidationError as e:
 		frappe.db.rollback()
 		frappe.log_error(
 			title="Duplicate entry error while creating Practitioner/User account",
 			message=frappe.as_json({"error": str(e), "email": email, "mobile": mobile}),
 		)
-		frappe.throw("Practitioner/user account with this email/mobile already exists. Please login instead.")
+		frappe.throw("Practitioner/user account with this email/mobile already exists. Please login instead.", frappe.DuplicateEntryError)
 	except Exception as e:
 		frappe.db.rollback()
 		frappe.log_error(
 			title="Error creating Practitioner/User account",
 			message=frappe.as_json({"error": str(e), "email": email, "mobile": mobile}),
 		)
-		frappe.throw("Unexpected error creating user or practitioner. Please contact support.")
+		frappe.throw("Unexpected error creating user or practitioner. Please contact support.", frappe.DataError)
 
 	frappe.set_user(user.name)
 
@@ -294,7 +227,6 @@ def verify_registration_otp(
 		"uid": uid,
 		"phone_number": phone_number,
 	}
-
 
 @frappe.whitelist(allow_guest=True)
 def register_customer(id_token: str, full_name: str):
@@ -360,35 +292,6 @@ def register_customer(id_token: str, full_name: str):
 		"patient": patient_doc.name
 	}
 
-def _get_firebase_app():
-	global _firebase_app
-	if _firebase_app is None:
-		service_account_path = frappe.conf.get("firebase_service_account_path")
-		if not service_account_path:
-			frappe.throw("firebase_service_account_path not set in site config")
-		cred = credentials.Certificate(service_account_path)
-		_firebase_app = firebase_admin.initialize_app(cred)
-	return _firebase_app
-
-
-def _get_customer_firebase_app():
-	global _customer_firebase_app
-	if _customer_firebase_app is None:
-		service_account_path = frappe.conf.get("customer_firebase_service_account_path")
-		if not service_account_path:
-			frappe.throw("customer_firebase_service_account_path not set in site config")
-		cred = credentials.Certificate(service_account_path)
-		_customer_firebase_app = firebase_admin.initialize_app(cred, name="customer")
-	return _customer_firebase_app
-
-
-def _get_firebase_web_api_key():
-	api_key = frappe.conf.get("firebase_web_api_key")
-	if not api_key:
-		frappe.throw("firebase_web_api_key not set in site config")
-	return api_key
-
-
 @frappe.whitelist(allow_guest=True)
 def register_doctor(
 	first_name: str,
@@ -417,4 +320,93 @@ def register_doctor(
 		"last_name": last_name,
 		"email": email,
 		"mobile": lookup_mobile,
+	}
+
+
+# Helper/private functions area
+def _get_firebase_app():
+	global _firebase_app
+	if _firebase_app is None:
+		service_account_path = frappe.conf.get("firebase_service_account_path")
+		if not service_account_path:
+			frappe.throw("firebase_service_account_path not set in site config")
+		cred = credentials.Certificate(service_account_path)
+		_firebase_app = firebase_admin.initialize_app(cred)
+	return _firebase_app
+
+def _get_customer_firebase_app():
+	global _customer_firebase_app
+	if _customer_firebase_app is None:
+		service_account_path = frappe.conf.get("customer_firebase_service_account_path")
+		if not service_account_path:
+			frappe.throw("customer_firebase_service_account_path not set in site config")
+		cred = credentials.Certificate(service_account_path)
+		_customer_firebase_app = firebase_admin.initialize_app(cred, name="customer")
+	return _customer_firebase_app
+
+def _get_firebase_web_api_key():
+	api_key = frappe.conf.get("firebase_web_api_key")
+	if not api_key:
+		frappe.throw("firebase_web_api_key not set in site config")
+	return api_key
+
+def _send_firebase_otp(phone: str, recaptcha_token: str):
+	if not phone or not recaptcha_token:
+		frappe.throw("phone and recaptcha_token are required")
+
+	api_key = _get_firebase_web_api_key()
+	url = f"{IDENTITY_TOOLKIT_BASE}/accounts:sendVerificationCode?key={api_key}"
+
+	payload = {
+		"phoneNumber": phone,
+		"recaptchaToken": recaptcha_token,
+	}
+
+	resp = requests.post(url, json=payload, timeout=15)
+	data = resp.json()
+
+	if resp.status_code != 200:
+		error_message = data.get("error", {}).get("message", "UNKNOWN_ERROR")
+
+		frappe.log_error(
+			title="Firebase sendVerificationCode failed",
+			message=frappe.as_json(data),
+		)
+
+		frappe.throw(f"Failed to send OTP: {error_message}")
+
+	return {
+		"success": True,
+		"session_info": data["sessionInfo"],
+	}
+
+def _verify_firebase_otp(session_info: str, code: str):
+	if not session_info or not code:
+		frappe.throw("session_info and code are required")
+
+	api_key = _get_firebase_web_api_key()
+	url = f"{IDENTITY_TOOLKIT_BASE}/accounts:signInWithPhoneNumber?key={api_key}"
+
+	payload = {
+		"sessionInfo": session_info,
+		"code": code,
+	}
+
+	resp = requests.post(url, json=payload, timeout=15)
+	data = resp.json()
+
+	if resp.status_code != 200:
+		error_message = data.get("error", {}).get("message", "UNKNOWN_ERROR")
+
+		frappe.log_error(
+			title="Firebase signInWithPhoneNumber failed",
+			message=frappe.as_json(data),
+		)
+
+		frappe.throw(f"{error_message}", frappe.AuthenticationError)
+
+	return {
+		"uid": data["localId"],
+		"phone_number": data.get("phoneNumber"),
+		"is_new_user": data.get("isNewUser", False),
 	}
