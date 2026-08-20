@@ -1,0 +1,110 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "TELE-APP-.YYYY.-.MM.-.#####",
+ "creation": "2026-08-15 17:45:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "patient",
+  "practitioner",
+  "scheduled_time",
+  "consultation_status",
+  "column_break_tele",
+  "consultation_fee",
+  "sales_invoice",
+  "payment_status",
+  "video_room_id",
+  "video_room_token"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Practitioner",
+   "options": "Practitioner",
+   "reqd": 1
+  },
+  {
+   "fieldname": "scheduled_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Scheduled Time",
+   "reqd": 1
+  },
+  {
+   "default": "Scheduled",
+   "fieldname": "consultation_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Consultation Status",
+   "options": "Scheduled\nIn-Progress\nCompleted\nCancelled\nNo Show"
+  },
+  {
+   "fieldname": "column_break_tele",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "consultation_fee",
+   "fieldtype": "Currency",
+   "label": "Consultation Fee"
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "label": "Sales Invoice",
+   "options": "Sales Invoice"
+  },
+  {
+   "default": "Unpaid",
+   "fieldname": "payment_status",
+   "fieldtype": "Select",
+   "label": "Payment Status",
+   "options": "Unpaid\nPaid\nRefunded"
+  },
+  {
+   "fieldname": "video_room_id",
+   "fieldtype": "Data",
+   "label": "Video Room ID"
+  },
+  {
+   "fieldname": "video_room_token",
+   "fieldtype": "Small Text",
+   "label": "Video Room Token"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-15 17:45:00.000000",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Teleconsultation Appointment",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

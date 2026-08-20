@@ -6,10 +6,6 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "identifiers_section",
-  "hpr_id",
-  "column_break_dxqn",
-  "abha_id",
   "user_details_section",
   "user_id",
   "column_break_egfa",
@@ -34,52 +30,47 @@
   "column_break_rqub",
   "state",
   "pincode",
+  "educational_info_section",
+  "education_history",
   "section_break_bzxs",
-  "qualification",
+  "specialty",
+  "super_specialty",
   "designation",
-  "registration_no",
-  "registration_letter",
-  "experience_years",
+  "additional_information",
+  "practicing_from",
   "digital_signature_url",
   "professional_summary",
   "primary_facility",
   "telemedicine_certified",
   "hpr_verified",
+  "hpr_id",
   "full_name",
   "column_break_awmb",
-  "additional_qualification",
-  "super_specialty",
+  "registration_no",
   "registration_valid_upto",
   "council_name",
-  "account_status",
-  "doctor_type",
-  "abdm_council_code",
-  "abdm_specialty_code",
+  "registration_letter",
   "currency",
-  "normal_charge",
+  "online_charge",
   "emergency_charge",
   "priority_charge",
+  "clinic_charge",
   "is_active",
-  "availability_slots_section",
-  "available_from",
-  "available_till",
-  "availability_days",
-  "column_break_rfdq",
-  "available_in_emergency_from",
-  "available_in_emergency_till",
   "is_published",
-  "route"
+  "route",
+  "availability_slots_section",
+  "from_time",
+  "column_break_xrii",
+  "to_time",
+  "copy_to_all_days",
+  "availability_days_section",
+  "availability_days"
  ],
  "fields": [
   {
    "fieldname": "hpr_id",
    "fieldtype": "Data",
    "label": "HPR Id"
-  },
-  {
-   "fieldname": "abha_id",
-   "fieldtype": "Data",
-   "label": "ABHA Id"
   },
   {
    "fieldname": "title",
@@ -123,21 +114,6 @@
    "fieldname": "nationality",
    "fieldtype": "Data",
    "label": "Nationality"
-  },
-  {
-   "fieldname": "qualification",
-   "fieldtype": "Data",
-   "label": "Qualification"
-  },
-  {
-   "fieldname": "additional_qualification",
-   "fieldtype": "Data",
-   "label": "Additional Qualification"
-  },
-  {
-   "fieldname": "super_specialty",
-   "fieldtype": "Data",
-   "label": "Super Specialty"
   },
   {
    "fieldname": "designation",
@@ -195,11 +171,6 @@
    "label": "Digital Signature Url"
   },
   {
-   "fieldname": "experience_years",
-   "fieldtype": "Int",
-   "label": "Experience Years"
-  },
-  {
    "fieldname": "professional_summary",
    "fieldtype": "Small Text",
    "label": "Professional Summary"
@@ -214,15 +185,7 @@
    "fieldname": "emergency_charge",
    "fieldtype": "Currency",
    "label": "Emergency Charge",
-   "options": "currency",
-   "permlevel": 1
-  },
-  {
-   "fieldname": "normal_charge",
-   "fieldtype": "Currency",
-   "label": "Normal Charge",
-   "options": "currency",
-   "permlevel": 1
+   "options": "currency"
   },
   {
    "fieldname": "languages_known",
@@ -231,42 +194,16 @@
    "options": "Spoken Language Option"
   },
   {
-   "fieldname": "account_status",
-   "fieldtype": "Select",
-   "label": "Account Status",
-   "options": "active\ninactive\nsuspended\ncancel\npending_verification"
-  },
-  {
    "default": "0",
    "fieldname": "is_active",
    "fieldtype": "Check",
    "label": "Is Active?"
   },
   {
-   "fieldname": "doctor_type",
-   "fieldtype": "Select",
-   "label": "Doctor Type",
-   "options": "Doctor"
-  },
-  {
    "default": "0",
    "fieldname": "hpr_verified",
    "fieldtype": "Check",
    "label": "HPR Verified?"
-  },
-  {
-   "fieldname": "abdm_council_code",
-   "fieldtype": "Data",
-   "label": "ABDM Council Code"
-  },
-  {
-   "fieldname": "abdm_specialty_code",
-   "fieldtype": "Data",
-   "label": "ABDM Specialty Code"
-  },
-  {
-   "fieldname": "column_break_dxqn",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "section_break_bzxs",
@@ -276,11 +213,6 @@
   {
    "fieldname": "column_break_awmb",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "identifiers_section",
-   "fieldtype": "Section Break",
-   "label": "Identifiers"
   },
   {
    "fieldname": "primary_facility",
@@ -347,24 +279,10 @@
    "options": "User"
   },
   {
-   "fieldname": "available_from",
-   "fieldtype": "Time",
-   "label": "Available From",
-   "placeholder": "Time in HH:MM:SS"
-  },
-  {
-   "fieldname": "available_till",
-   "fieldtype": "Time",
-   "label": "Available Till",
-   "mandatory_depends_on": "eval: doc.available_from",
-   "placeholder": "Time in HH:MM:SS"
-  },
-  {
    "fieldname": "priority_charge",
    "fieldtype": "Currency",
    "label": "Priority Charge",
-   "options": "currency",
-   "permlevel": 1
+   "options": "currency"
   },
   {
    "fieldname": "availability_slots_section",
@@ -372,27 +290,10 @@
    "label": "Availability Slots"
   },
   {
-   "fieldname": "column_break_rfdq",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "available_in_emergency_from",
-   "fieldtype": "Time",
-   "label": "Available In Emergency From",
-   "placeholder": "Time in HH:MM:SS"
-  },
-  {
-   "fieldname": "available_in_emergency_till",
-   "fieldtype": "Time",
-   "label": "Available In Emergency Till",
-   "placeholder": "Time in HH:MM:SS"
-  },
-  {
    "fieldname": "availability_days",
    "fieldtype": "Table",
    "label": "Availability Days",
-   "mandatory_depends_on": "eval: doc.available_from",
-   "options": "Assignment Rule Day"
+   "options": "Availability Slots"
   },
   {
    "depends_on": "is_published",
@@ -428,6 +329,78 @@
    "fieldtype": "Link",
    "label": "Sales Partner",
    "options": "Sales Partner"
+  },
+  {
+   "fieldname": "educational_info_section",
+   "fieldtype": "Section Break",
+   "label": "Educational Info"
+  },
+  {
+   "fieldname": "education_history",
+   "fieldtype": "Table",
+   "label": "Education History",
+   "options": "Practitioner Education"
+  },
+  {
+   "fieldname": "additional_information",
+   "fieldtype": "Data",
+   "label": "Additional Infomation"
+  },
+  {
+   "fieldname": "from_time",
+   "fieldtype": "Time",
+   "label": "From Time",
+   "placeholder": "Time in HH:MM:SS"
+  },
+  {
+   "fieldname": "to_time",
+   "fieldtype": "Time",
+   "label": "To Time",
+   "mandatory_depends_on": "eval: doc.available_from",
+   "placeholder": "Time in HH:MM:SS"
+  },
+  {
+   "fieldname": "copy_to_all_days",
+   "fieldtype": "Button",
+   "label": "Copy to All Days"
+  },
+  {
+   "fieldname": "column_break_xrii",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "availability_days_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "online_charge",
+   "fieldtype": "Currency",
+   "label": "Online Charge",
+   "options": "currency"
+  },
+  {
+   "fieldname": "clinic_charge",
+   "fieldtype": "Currency",
+   "label": "Clinic Charge",
+   "options": "currency"
+  },
+  {
+   "fieldname": "specialty",
+   "fieldtype": "Link",
+   "label": "Specialty",
+   "options": "Medical Specialty",
+   "search_index": 1
+  },
+  {
+   "fieldname": "super_specialty",
+   "fieldtype": "Link",
+   "label": "Super Specialty",
+   "options": "Medical Super Specialty"
+  },
+  {
+   "fieldname": "practicing_from",
+   "fieldtype": "Date",
+   "label": "Practicing From"
   }
  ],
  "grid_page_length": 50,
@@ -436,8 +409,8 @@
  "index_web_pages_for_search": 1,
  "is_published_field": "is_published",
  "links": [],
- "modified": "2026-07-27 00:18:54.831262",
- "modified_by": "randhirk@careyogis.com",
+ "modified": "2026-08-18 08:34:11.082747",
+ "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
  "naming_rule": "Expression",
@@ -456,18 +429,6 @@
    "write": 1
   },
   {
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "permlevel": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  },
-  {
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -480,13 +441,13 @@
    "write": 1
   },
   {
+   "create": 1,
    "email": 1,
    "export": 1,
-   "permlevel": 1,
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Purchase Manager",
+   "role": "Doctor",
    "share": 1,
    "write": 1
   },

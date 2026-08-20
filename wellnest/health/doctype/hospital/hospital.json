@@ -241,8 +241,8 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-12 12:24:46.331121",
- "modified_by": "randhirk@careyogis.com",
+ "modified": "2026-08-16 23:42:21.371308",
+ "modified_by": "Administrator",
  "module": "Health",
  "name": "Hospital",
  "naming_rule": "Expression",
@@ -259,6 +259,28 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Doctor",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1
   }
  ],
  "row_format": "Dynamic",

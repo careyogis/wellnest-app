@@ -1,0 +1,330 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.046074",
+  "name": "MED",
+  "specialty_code": "MED",
+  "specialty_name": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.074298",
+  "name": "SUR",
+  "specialty_code": "SUR",
+  "specialty_name": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.079832",
+  "name": "PED",
+  "specialty_code": "PED",
+  "specialty_name": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.086902",
+  "name": "OBG",
+  "specialty_code": "OBG",
+  "specialty_name": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.094087",
+  "name": "ORT",
+  "specialty_code": "ORT",
+  "specialty_name": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.100318",
+  "name": "ENT",
+  "specialty_code": "ENT",
+  "specialty_name": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.107892",
+  "name": "OPH",
+  "specialty_code": "OPH",
+  "specialty_name": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.113918",
+  "name": "DER",
+  "specialty_code": "DER",
+  "specialty_name": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.119475",
+  "name": "PSY",
+  "specialty_code": "PSY",
+  "specialty_name": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.125117",
+  "name": "CAR",
+  "specialty_code": "CAR",
+  "specialty_name": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.131940",
+  "name": "NEU",
+  "specialty_code": "NEU",
+  "specialty_name": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.138728",
+  "name": "NRS",
+  "specialty_code": "NRS",
+  "specialty_name": "Neurosurgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.143538",
+  "name": "GAS",
+  "specialty_code": "GAS",
+  "specialty_name": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.148639",
+  "name": "END",
+  "specialty_code": "END",
+  "specialty_name": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.156494",
+  "name": "NEP",
+  "specialty_code": "NEP",
+  "specialty_name": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.162364",
+  "name": "PUL",
+  "specialty_code": "PUL",
+  "specialty_name": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.168324",
+  "name": "ONC",
+  "specialty_code": "ONC",
+  "specialty_name": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.174289",
+  "name": "URO",
+  "specialty_code": "URO",
+  "specialty_name": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.179917",
+  "name": "CTS",
+  "specialty_code": "CTS",
+  "specialty_name": "Cardiothoracic & Vascular Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.185207",
+  "name": "PLA",
+  "specialty_code": "PLA",
+  "specialty_name": "Plastic & Reconstructive Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.190677",
+  "name": "RHE",
+  "specialty_code": "RHE",
+  "specialty_name": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.196380",
+  "name": "INF",
+  "specialty_code": "INF",
+  "specialty_name": "Infectious Diseases"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.201834",
+  "name": "GER",
+  "specialty_code": "GER",
+  "specialty_name": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.204911",
+  "name": "PMR",
+  "specialty_code": "PMR",
+  "specialty_name": "Physical Medicine & Rehabilitation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.207876",
+  "name": "EMG",
+  "specialty_code": "EMG",
+  "specialty_name": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.210847",
+  "name": "CCM",
+  "specialty_code": "CCM",
+  "specialty_name": "Critical Care Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.213905",
+  "name": "RAD",
+  "specialty_code": "RAD",
+  "specialty_name": "Radiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.217778",
+  "name": "NUC",
+  "specialty_code": "NUC",
+  "specialty_name": "Nuclear Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.221413",
+  "name": "ANE",
+  "specialty_code": "ANE",
+  "specialty_name": "Anesthesiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.227478",
+  "name": "PATH",
+  "specialty_code": "PATH",
+  "specialty_name": "Pathology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.231519",
+  "name": "GEN",
+  "specialty_code": "GEN",
+  "specialty_name": "Clinical Genetics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.235624",
+  "name": "PAL",
+  "specialty_code": "PAL",
+  "specialty_name": "Palliative Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.239440",
+  "name": "SPM",
+  "specialty_code": "SPM",
+  "specialty_name": "Sports Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.242787",
+  "name": "PRE",
+  "specialty_code": "PRE",
+  "specialty_name": "Preventive & Lifestyle Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.246878",
+  "name": "HEM",
+  "specialty_code": "HEM",
+  "specialty_name": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.251625",
+  "name": "IMM",
+  "specialty_code": "IMM",
+  "specialty_name": "Clinical Immunology & Allergy"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.256056",
+  "name": "SEX",
+  "specialty_code": "SEX",
+  "specialty_name": "Sexual Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.259995",
+  "name": "TRM",
+  "specialty_code": "TRM",
+  "specialty_name": "Transplant Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.263958",
+  "name": "PAIN",
+  "specialty_code": "PAIN",
+  "specialty_name": "Pain Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.267837",
+  "name": "SLEEP",
+  "specialty_code": "SLEEP",
+  "specialty_name": "Sleep Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Specialty",
+  "modified": "2026-08-17 22:49:46.272367",
+  "name": "ADO",
+  "specialty_code": "ADO",
+  "specialty_name": "Adolescent Medicine"
+ }
+]

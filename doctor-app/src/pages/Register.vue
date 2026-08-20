@@ -56,25 +56,28 @@
             <form v-if="!otpSent" @submit.prevent="register">
               <!-- First + Last Name -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <Input v-model="form.first_name" class="doctor-input" label="First Name" placeholder="First name" required />
-
-                <Input v-model="form.last_name" class="doctor-input" label="Last Name" placeholder="Last name" required />
+                <div class="w-full">
+                  <Input v-model="form.full_name" class="doctor-input w-full mb-3" label="Full Name" autofocus placeholder="Enter your full name" required />
+                </div>
               </div>
 
-              <!-- Email -->
-              <Input v-model="form.email" class="doctor-input mt-3" type="email" label="Email ID" placeholder="Enter email address" required />
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="w-full">
+                  <!-- Email -->
+                  <Input v-model="form.email" class="doctor-input mb-3" type="email" label="Email ID" placeholder="Enter email address" required />
+                </div>
+              </div>
 
-              <!-- Mobile -->
-              <Input v-model="form.mobile" class="doctor-input mt-3" label="Mobile Number" placeholder="Enter mobile number" required />
-
-              <!-- Message -->
-              <div v-if="message" :class="['p-3 rounded-lg mt-4 text-sm border', messageType === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200']">
-                {{ message }}
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="w-full">
+                  <!-- Mobile -->
+                  <Input v-model="form.mobile" class="doctor-input mb-3" label="Mobile Number" placeholder="Enter mobile number" required />
+                </div>
               </div>
 
               <!-- Register -->
               <Button class="w-full mt-6 doctor-btn" variant="solid" type="submit" :disabled="loading">
-                {{ loading ? 'Creating Account...' : 'Create Account' }}
+                {{ loading ? 'Registering...' : 'Register' }}
               </Button>
             </form>
 
@@ -87,15 +90,24 @@
 
               <Input v-model="otp" class="doctor-input" label="OTP" placeholder="Enter 6-digit OTP" maxlength="6" />
 
-              <Button class="w-full mt-5 doctor-btn" variant="solid" :disabled="otp.length !== 6 || verifyingOtp" @click="verifyOtp">
+              <Button
+                class="w-full mt-5 doctor-btn !bg-black !text-white hover:!bg-gray-800 disabled:!bg-black disabled:!text-white"
+                variant="solid"
+                :disabled="otp.length !== 6 || verifyingOtp"
+                @click="verifyOtp"
+              >
                 {{ verifyingOtp ? 'Verifying...' : 'Verify & Continue' }}
               </Button>
+            </div>
+            
+            <!-- Message -->
+            <div v-if="message" :class="['p-3 rounded-lg mt-4 text-sm border', messageType === 'success' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200']">
+              {{ message }}
             </div>
 
             <!-- Login -->
             <div class="text-center mt-6">
               <span class="text-sm text-gray-500"> Already have an account? </span>
-
               <button type="button" class="ml-1 text-sm font-medium text-blue-600 hover:underline" @click="goToLogin">Login</button>
             </div>
           </div>
@@ -122,10 +134,9 @@ const RECAPTCHA_SITE_KEY = '6LcMZR0UAAAAALgPMcgHwga7gY5p8QMg1Hj-bmUv';
 const OTP_LENGTH = 6;
 
 const form = reactive({
-  first_name: '',
-  last_name: '',
+  full_name: '',
   email: '',
-  mobile: '',
+  mobile: router.currentRoute.value.query.mobile || '',
 });
 
 const loading = ref(false);
@@ -139,16 +150,12 @@ const verifyingOtp = ref(false);
 
 let recaptchaWidgetId: number | null = null;
 
-const registerResource = createResource({
-  url: 'wellnest.api.auth.register_doctor',
-});
-
 const sendOtpResource = createResource({
-  url: 'wellnest.api.auth.send_otp',
+  url: 'wellnest.api.auth.send_registration_otp',
 });
 
 const verifyOtpResource = createResource({
-  url: 'wellnest.api.auth.verify_otp_and_login',
+  url: 'wellnest.api.auth.verify_registration_otp',
 });
 
 onMounted(() => {
@@ -211,7 +218,8 @@ async function register() {
 
   const mobile = form.mobile.trim();
 
-  if (!/^\d{10}$/.test(mobile)) {
+  // Allow spaces in the mobile. Permits using firebase test numbers.
+  if (!/^\d(?:\s?\d){9}$/.test(mobile)) {
     message.value = 'Please enter a valid 10-digit mobile number.';
     messageType.value = 'error';
     return;
@@ -220,22 +228,8 @@ async function register() {
   loading.value = true;
 
   try {
-    // Create User + Practitioner
-    const response = await registerResource.submit({
-      first_name: form.first_name.trim(),
-      last_name: form.last_name.trim(),
-      email: form.email.trim(),
-      mobile,
-    });
-
-    if (!response.success) {
-      throw new Error('Registration failed');
-    }
-
-    // Get reCAPTCHA token
     const recaptchaToken = await getRecaptchaToken();
 
-    // Send OTP
     const otpResponse = await sendOtpResource.submit({
       phone: '+91' + mobile,
       recaptcha_token: recaptchaToken,
@@ -244,19 +238,19 @@ async function register() {
     sessionInfo.value = otpResponse.session_info;
     otpSent.value = true;
 
-    message.value = 'Account created. OTP sent to your mobile number.';
+    message.value = 'OTP sent to your mobile number.';
     messageType.value = 'success';
-  } catch (err: any) {
-    console.error(err);
-
+  } 
+  catch (err) {
     messageType.value = 'error';
-
-    if (err?.messages?.length) {
-      message.value = err.messages[0];
-    } else {
-      message.value = 'Unable to complete registration.';
+    if (err?.exc_type === 'DuplicateEntryError') {
+      message.value = 'A user with this mobile number already exists. Please login instead.';
+    } 
+    else {
+      (err?.messages?.length) ? message.value = err.messages[0] : message.value = 'Error occurred. Unable to send OTP.'
     }
-  } finally {
+  }
+  finally {
     loading.value = false;
   }
 }
@@ -273,28 +267,43 @@ async function verifyOtp() {
   verifyingOtp.value = true;
 
   try {
-    await verifyOtpResource.submit({
+    const fullName = form.full_name.trim();
+    const nameParts = fullName.split(/\s+/);
+
+    const first_name = nameParts[0];
+    const last_name = nameParts.slice(1).join(' ');
+
+    if (!first_name || !last_name) {
+      message.value = 'Please enter your full name.';
+      messageType.value = 'error';
+      return;
+    }
+    const response = await verifyOtpResource.submit({
       session_info: sessionInfo.value,
       code: otp.value,
+      first_name,
+      last_name,
+      email: form.email.trim(),
+      mobile: form.mobile.trim(),
     });
 
-    // Refresh current Frappe user
-    await userResource.reload();
-    session.user = sessionUser();
+    session.user = response.user;
 
-    message.value = 'Mobile number verified successfully.';
+    message.value = 'Registration successful.';
     messageType.value = 'success';
 
     router.replace({ name: 'Dashboard' });
   } catch (err: any) {
-    console.error(err);
-
     messageType.value = 'error';
 
-    if (err?.messages?.length) {
-      message.value = err.messages[0];
-    } else {
+    if (err?.exc_type === 'AuthenticationError') {
       message.value = 'Invalid OTP.';
+    } 
+    if (err?.exc_type === 'DuplicateEntryError' || err?.exc_type === 'DataError') {
+      message.value = 'A user with this mobile number already exists. Please login instead.';
+    } 
+    else {
+      (err?.messages?.length) ? message.value = err.messages[0] : message.value = 'Error occurred while verifying the OTP.'
     }
   } finally {
     verifyingOtp.value = false;
@@ -306,5 +315,4 @@ watch(otp, (newValue) => {
     verifyOtp();
   }
 });
-
 </script>

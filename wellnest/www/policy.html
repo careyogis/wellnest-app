@@ -1,0 +1,36 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<h2 id="t-and-c-title">Terms & Policy</h2>
+
+<!-- Terms & Conditions container -->
+<div id="t-and-c" style="border:1px solid #ccc; padding:20px; margin-bottom:30px;">
+  Loading Terms & Policy...
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const terms_type = params.get("type") || "General";
+
+  async function loadTerms() {
+    try {
+      const res = await fetch("/api/method/wellnest.api.get_terms_content?type=" + terms_type);
+      const data = await res.json();
+      if (data.message && data.message.success) {
+        document.getElementById("t-and-c").innerHTML = data.message.content;
+        document.getElementById("t-and-c-title").innerText = data.message.title;
+      } else {
+        document.getElementById("t-and-c").innerHTML = "No active Terms & Conditions found.";
+      }
+    } catch (err) {
+      document.getElementById("t-and-c").innerHTML = "Error loading Terms & Conditions.";
+      console.error(err);
+    }
+  }
+
+
+  window.addEventListener("DOMContentLoaded", () => {
+    loadTerms();
+  });
+</script>
+{% endblock %}

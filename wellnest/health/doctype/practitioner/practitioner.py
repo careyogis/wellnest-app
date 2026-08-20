@@ -1,6 +1,9 @@
 # Copyright (c) 2026, www.careyogis.com and contributors
 # For license information, please see license.txt
 
+from datetime import datetime
+from select import select
+
 import frappe
 from frappe.website.website_generator import WebsiteGenerator
 from collections.abc import Iterable
@@ -8,6 +11,13 @@ from frappe.utils.data import comma_and
 
 
 class Practitioner(WebsiteGenerator):
+	def get_context(self, context):
+		context.charge_multiplier = 1.25
+		if (self.practicing_from):
+			context.experience = (datetime.now().date() - self.practicing_from).days // 365
+
+		return context
+
 	def before_save(self):		
 		self.full_name = f"{self.title} {self.first_name} {self.last_name}";
 
@@ -35,7 +45,10 @@ def get_list_context(context):
     # 2. Hide the Breadcrumbs (My Account > List).
     context.no_breadcrumbs = 1
     context.base_template_path = "templates/wellnest_web.html"
-    
+    # Add education_list to the context for each practitioner
+    # for practitioner in context:
+    #     education_list = [edu.degree for edu in practitioner.education_history]
+    #     practitioner.education_list = education_list    
 
 def get_repeated(values: Iterable) -> list:
 	unique = set()
@@ -118,8 +131,24 @@ def get_current_practitioner(docname=None):
 def doctor_profile():
     practitioner = get_current_practitioner()
 
+    doctor = practitioner.as_dict()
+
+    if practitioner.specialty:
+        doctor["specialty_name"] = frappe.db.get_value(
+            "Medical Specialty",
+            practitioner.specialty,
+            "specialty_name",
+        )
+
+    if practitioner.super_specialty:
+        doctor["super_specialty_name"] = frappe.db.get_value(
+            "Medical Super Specialty",
+            practitioner.super_specialty,
+            "super_specialty_name",
+        )
+
     return {
-        "doctor": practitioner,
+        "doctor": doctor,
     }
 
 
@@ -143,9 +172,12 @@ def update_doctor_profile(docname=None, updates=None):
         "sales_partner",
         "full_name",
         "account_status",
+        "abdm_council_code",
+        "abdm_specialty_code",
         "route",
         "languages_known",
         "availability_days",
+        "education_history",
     }
 
     for fieldname, value in updates.items():
@@ -191,6 +223,23 @@ def update_doctor_profile(docname=None, updates=None):
                         "custom_emergency_to": availability_day.get("emergency_to"),
                     },
                 )
+
+                
+    if "education_history" in updates:
+       education_history = updates.get("education_history") or []
+       practitioner.set("education_history", [])
+
+       for education in education_history:
+           if isinstance(education, dict):
+              practitioner.append(
+                  "education_history",
+                  {
+                      "degree": education.get("degree"),
+                      "institution": education.get("institution"),
+                      "year_of_completion": education.get("year_of_completion"),
+                  },
+              )
+
 
     practitioner.save(ignore_permissions=True)
     frappe.db.commit()
@@ -239,7 +288,7 @@ def doctor_documents(docname=None):
 @frappe.whitelist()
 def delete_doctor_document(docname=None, file_name=None):
     if not file_name:
-        frappe.throw("File name is required")
+       frappe.throw("File name is required")
 
     practitioner = get_current_practitioner(docname)
 
@@ -274,4 +323,4 @@ def delete_doctor_document(docname=None, file_name=None):
     return {
         "success": True,
         "file_name": file_doc.name,
-    }
+    }    

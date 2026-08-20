@@ -90,10 +90,10 @@ def _build_payment_response(customer, invoice):
 
 
 @frappe.whitelist(allow_guest=True)
-def get_terms_content():
+def get_terms_content(type=None):
 	terms = frappe.db.get_value(
 		"Terms and Conditions",
-		{"custom_is_active": 1},
+		[{"custom_is_active": 1},{"custom_type": type or "General"}],
 		["name", "title", "terms"],
 		order_by="modified desc",
 		as_dict=True,

@@ -75,10 +75,6 @@
                 {{ profileData?.data?.doctor?.full_name }}
               </h4>
 
-              <div class="text-teal-600 font-semibold text-sm">
-                {{ profileData?.data?.doctor?.doctor_type }}
-              </div>
-
               <div class="text-gray-500 text-sm mb-4">
                 {{ profileData?.data?.doctor?.city }}
               </div>
@@ -116,12 +112,6 @@
                 <div class="flex justify-between py-3">
                   <span class="text-gray-500 text-sm">Mobile</span>
                   <span class="font-semibold text-gray-900 text-sm">{{ profileData?.data?.doctor?.mobile || 'Not Available' }}</span>
-                </div>
-                <div class="flex justify-between py-3">
-                  <span class="text-gray-500 text-sm">Account status</span>
-                  <span class="font-semibold text-sm capitalize" :class="profileData?.data?.doctor?.account_status === 'active' ? 'text-emerald-600' : 'text-gray-500'">
-                    {{ profileData?.data?.doctor?.account_status || 'Not Available' }}
-                  </span>
                 </div>
                 <div class="flex justify-between py-3">
                   <span class="text-gray-500 text-sm">Telemedicine certified</span>
@@ -179,8 +169,8 @@
 
               <div class="divide-y divide-gray-100">
                 <div class="flex justify-between py-3">
-                  <span class="text-gray-500 text-sm">Normal Consultation</span>
-                  <span class="font-semibold text-gray-900 text-sm">₹{{ profileData?.data?.doctor?.normal_charge }}</span>
+                  <span class="text-gray-500 text-sm">Online Consultation</span>
+                  <span class="font-semibold text-gray-900 text-sm">₹{{ profileData?.data?.doctor?.online_charge }}</span>
                 </div>
                 <div class="flex justify-between py-3">
                   <span class="text-gray-500 text-sm">Emergency Consultation</span>
@@ -221,14 +211,24 @@
               </p>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
-                  <span class="font-medium text-gray-500 block text-xs mb-1"> Qualification </span>
-                  {{ profileData?.data?.doctor?.qualification || 'Not Available' }}
-                </div>
+                <div class="sm:col-span-2 bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
+                  <span class="font-medium text-gray-500 block text-xs mb-2"> Education History </span>
 
-                <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
-                  <span class="font-medium text-gray-500 block text-xs mb-1"> Additional Qualification </span>
-                  {{ profileData?.data?.doctor?.additional_qualification || 'Not Available' }}
+                  <div v-if="profileData?.data?.doctor?.education_history?.length" class="space-y-2">
+                    <div v-for="(education, index) in profileData.data.doctor.education_history" :key="index" class="border border-gray-200 rounded-lg bg-white p-3">
+                      <div class="font-medium text-gray-900">
+                        {{ education.degree || 'Degree not available' }}
+                      </div>
+
+                      <div class="text-gray-500 text-sm">
+                        {{ education.institution || 'Institution not available' }}
+                      </div>
+
+                      <div v-if="education.year_of_completion" class="text-gray-500 text-xs mt-1">Completed: {{ education.year_of_completion }}</div>
+                    </div>
+                  </div>
+
+                  <div v-else class="text-gray-500">No education history available.</div>
                 </div>
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
@@ -237,14 +237,19 @@
                 </div>
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
-                  <span class="font-medium text-gray-500 block text-xs mb-1"> Super Specialty </span>
-                  {{ profileData?.data?.doctor?.super_specialty || 'Not Available' }}
+                  <span class="font-medium text-gray-500 block text-xs mb-1"> Specialty </span>
+                  {{ profileData?.data?.doctor?.specialty_name || 'Not Available' }}
                 </div>
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
-                  <span class="font-medium text-gray-500 block text-xs mb-1"> Experience </span>
-                  {{ profileData?.data?.doctor?.experience_years ?? 'Not Available' }}
-                  <span v-if="profileData?.data?.doctor?.experience_years != null"> years </span>
+                  <span class="font-medium text-gray-500 block text-xs mb-1"> Super Specialty </span>
+                  {{ profileData?.data?.doctor?.super_specialty_name || 'Not Available' }}
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
+                  <span class="font-medium text-gray-500 block text-xs mb-1"> Practicing From </span>
+
+                  {{ profileData?.data?.doctor?.practicing_from || 'Not Available' }}
                 </div>
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
@@ -276,31 +281,59 @@
 
                 <div v-if="profileData?.data?.doctor?.availability_days?.length" class="space-y-3">
                   <div v-for="item in profileData.data.doctor.availability_days" :key="item.day" class="p-3 bg-gray-50 rounded-xl border border-gray-100">
-                    <div class="text-sm font-semibold text-gray-900 mb-2">{{ item.day }}</div>
+                    <div class="text-sm font-semibold text-gray-900 mb-3">
+                      {{ item.day }}
+                    </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      <div class="text-xs text-gray-600">
-                        <span class="text-gray-400 block mb-0.5">Consultation</span>
-                        <span class="font-medium">
-                          <template v-if="formatTimeDisplay(item.custom_from_time) || formatTimeDisplay(item.custom_to_time)">
-                            {{ formatTimeDisplay(item.custom_from_time) || '—' }} – {{ formatTimeDisplay(item.custom_to_time) || '—' }}
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <!-- Online -->
+                      <div class="bg-white rounded-lg border border-gray-100 p-3">
+                        <span class="text-gray-400 block mb-1 text-xs"> Online </span>
+
+                        <span class="font-medium text-sm text-gray-700">
+                          <template v-if="formatTimeDisplay(item.online_from) || formatTimeDisplay(item.online_to)">
+                            {{ formatTimeDisplay(item.online_from) || '—' }}
+                            –
+                            {{ formatTimeDisplay(item.online_to) || '—' }}
                           </template>
-                          <template v-else>Not Available</template>
+
+                          <template v-else> Not Available </template>
                         </span>
                       </div>
 
-                      <div class="text-xs text-gray-600">
-                        <span class="text-gray-400 block mb-0.5">Emergency</span>
-                        <span class="font-medium">
-                          <template v-if="formatTimeDisplay(item.custom_emergency_from) || formatTimeDisplay(item.custom_emergency_to)">
-                            {{ formatTimeDisplay(item.custom_emergency_from) || '—' }} – {{ formatTimeDisplay(item.custom_emergency_to) || '—' }}
+                      <!-- Emergency -->
+                      <div class="bg-white rounded-lg border border-gray-100 p-3">
+                        <span class="text-gray-400 block mb-1 text-xs"> Emergency </span>
+
+                        <span class="font-medium text-sm text-gray-700">
+                          <template v-if="formatTimeDisplay(item.emergency_from) || formatTimeDisplay(item.emergency_to)">
+                            {{ formatTimeDisplay(item.emergency_from) || '—' }}
+                            –
+                            {{ formatTimeDisplay(item.emergency_to) || '—' }}
                           </template>
-                          <template v-else>Not Available</template>
+
+                          <template v-else> Not Available </template>
+                        </span>
+                      </div>
+
+                      <!-- In-Clinic -->
+                      <div class="bg-white rounded-lg border border-gray-100 p-3">
+                        <span class="text-gray-400 block mb-1 text-xs"> In-Clinic </span>
+
+                        <span class="font-medium text-sm text-gray-700">
+                          <template v-if="formatTimeDisplay(item.clinic_from) || formatTimeDisplay(item.clinic_to)">
+                            {{ formatTimeDisplay(item.clinic_from) || '—' }}
+                            –
+                            {{ formatTimeDisplay(item.clinic_to) || '—' }}
+                          </template>
+
+                          <template v-else> Not Available </template>
                         </span>
                       </div>
                     </div>
                   </div>
                 </div>
+
                 <div v-else class="text-gray-500 text-sm">Not Available</div>
               </div>
 
@@ -591,23 +624,64 @@
           <h5 class="text-base font-bold text-gray-900 mb-3">Professional Information</h5>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Qualification</label>
-              <input
-                v-model="editForm.qualification"
-                type="text"
-                placeholder="e.g. MBBS, MD"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-              />
-            </div>
+            <div class="sm:col-span-2">
+              <div class="flex items-center justify-between mb-2">
+                <label class="block text-sm font-medium text-gray-700"> Education History </label>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Additional Qualification</label>
-              <input
-                v-model="editForm.additional_qualification"
-                type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-              />
+                <button
+                  type="button"
+                  class="text-sm font-medium text-blue-600 hover:underline"
+                  @click="
+                    editForm.education_history.push({
+                      degree: '',
+                      institution: '',
+                      year_of_completion: '',
+                    })
+                  "
+                >
+                  + Add Education
+                </button>
+              </div>
+
+              <div v-if="editForm.education_history.length" class="space-y-3">
+                <div v-for="(education, index) in editForm.education_history" :key="index" class="border border-gray-200 rounded-lg p-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Degree</label>
+                      <Autocomplete
+                        :model-value="medicalDegreeOptions.find((option) => option.value === education.degree) || null"
+                        :options="medicalDegreeOptions"
+                        placeholder="Select degree"
+                        @update:model-value="(option) => (education.degree = option?.value || '')"
+                      />
+                    </div>
+
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1">Institution</label>
+                      <Autocomplete
+                        :model-value="educationalInstitutionOptions.find((option) => option.value === education.institution) || null"
+                        :options="educationalInstitutionOptions"
+                        placeholder="Select institution"
+                        @update:model-value="(option) => (education.institution = option?.value || '')"
+                      />
+                    </div>
+
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-1"> Year of Completion </label>
+                      <input
+                        v-model="education.year_of_completion"
+                        type="number"
+                        placeholder="e.g. 2022"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                      />
+                    </div>
+                  </div>
+
+                  <button type="button" class="mt-3 text-sm text-red-600 hover:underline" @click="editForm.education_history.splice(index, 1)">Remove</button>
+                </div>
+              </div>
+
+              <div v-else class="text-sm text-gray-500 border border-dashed border-gray-300 rounded-lg p-3">No education history added.</div>
             </div>
 
             <div>
@@ -620,20 +694,30 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Super Specialty</label>
-              <input
-                v-model="editForm.super_specialty"
-                type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              <label class="block text-sm font-medium text-gray-700 mb-1">Specialty</label>
+              <Autocomplete
+                :model-value="specialtyOptions.find((option) => option.value === editForm.specialty) || null"
+                :options="specialtyOptions"
+                placeholder="Select specialty"
+                @update:model-value="(option) => (editForm.specialty = option?.value || '')"
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Experience (years)</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Super Specialty</label>
+              <Autocomplete
+                :model-value="superSpecialtyOptions.find((option) => option.value === editForm.super_specialty) || null"
+                :options="superSpecialtyOptions"
+                placeholder="Select super specialty"
+                @update:model-value="(option) => (editForm.super_specialty = option?.value || '')"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Practicing From </label>
               <input
-                v-model="editForm.experience_years"
-                type="number"
-                min="0"
+                v-model="editForm.practicing_from"
+                type="date"
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
               />
             </div>
@@ -687,32 +771,6 @@
               />
             </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Doctor Type</label>
-              <select v-model="editForm.doctor_type" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
-                <option value="">Select doctor type</option>
-                <option value="Doctor">Doctor</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">ABDM Council Code</label>
-              <input
-                v-model="editForm.abdm_council_code"
-                type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-              />
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">ABDM Specialty Code</label>
-              <input
-                v-model="editForm.abdm_specialty_code"
-                type="text"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-              />
-            </div>
-
             <div class="sm:col-span-2">
               <label class="block text-sm font-medium text-gray-700 mb-1">Professional Summary</label>
               <textarea
@@ -741,9 +799,9 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Normal Consultation Charge</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Online Consultation Charge</label>
               <input
-                v-model="editForm.normal_charge"
+                v-model="editForm.online_charge"
                 type="number"
                 min="0"
                 step="0.01"
@@ -806,17 +864,6 @@
               />
             </div>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Account Status</label>
-              <input
-                :value="editForm.account_status || 'Not Available'"
-                type="text"
-                disabled
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-100 text-gray-500 cursor-not-allowed"
-              />
-              <div class="text-xs text-gray-500 mt-1">Account status can only be changed by an administrator.</div>
-            </div>
-
             <div class="flex items-center gap-3 pt-6">
               <input id="telemedicine-certified" v-model="editForm.telemedicine_certified" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500" />
               <label for="telemedicine-certified" class="text-sm font-medium text-gray-700"> Telemedicine Certified </label>
@@ -825,11 +872,6 @@
             <div class="flex items-center gap-3">
               <input id="hpr-verified" v-model="editForm.hpr_verified" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500" />
               <label for="hpr-verified" class="text-sm font-medium text-gray-700"> HPR Verified </label>
-            </div>
-
-            <div class="flex items-center gap-3">
-              <input id="is-active" v-model="editForm.is_active" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500" />
-              <label for="is-active" class="text-sm font-medium text-gray-700"> Is Active </label>
             </div>
 
             <div class="flex items-center gap-3">
@@ -855,114 +897,175 @@
                     <span class="text-sm font-medium text-gray-700">{{ day }}</span>
                   </label>
 
-                  <div v-if="getDayItem(day)" class="px-3 pb-3 pt-1 border-t border-gray-100 bg-gray-50">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
-                      <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Consultation Hours</label>
+                  <div v-if="getDayItem(day)" class="px-3 pb-4 pt-2 border-t border-gray-100 bg-gray-50">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <!-- Online -->
+                      <div class="bg-white border border-gray-200 rounded-lg p-3">
+                        <label class="block text-xs font-semibold text-gray-600 mb-2"> Online Hours </label>
+
                         <div class="flex gap-1.5">
                           <select
-                            :value="getHour12(getDayItem(day).from_time)"
-                            @change="setDayTime(getDayItem(day), 'from_time', 'hour', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            :value="getHour24(getDayItem(day).online_from)"
+                            @change="setDayTime(getDayItem(day), 'online_from', 'hour', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option v-for="h in 12" :key="h" :value="String(h).padStart(2, '0')">{{ String(h).padStart(2, '0') }}</option>
+                            <option value="">HH</option>
+                            <option v-for="h in 24" :key="h" :value="String(h).padStart(2, '0')">
+                              {{ String(h).padStart(2, '0') }}
+                            </option>
                           </select>
+
                           <select
-                            :value="getMinute(getDayItem(day).from_time)"
-                            @change="setDayTime(getDayItem(day), 'from_time', 'minute', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            :value="getMinute(getDayItem(day).online_from)"
+                            @change="setDayTime(getDayItem(day), 'online_from', 'minute', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">{{ m }}</option>
-                          </select>
-                          <select
-                            :value="getPeriod(getDayItem(day).from_time)"
-                            @change="setDayTime(getDayItem(day), 'from_time', 'period', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                          >
-                            <option value="AM">AM</option>
-                            <option value="PM">PM</option>
+                            <option value="">MM</option>
+                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">
+                              {{ m }}
+                            </option>
                           </select>
                         </div>
+
                         <div class="text-center text-xs text-gray-400 my-1">to</div>
+
                         <div class="flex gap-1.5">
                           <select
-                            :value="getHour12(getDayItem(day).to_time)"
-                            @change="setDayTime(getDayItem(day), 'to_time', 'hour', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            :value="getHour24(getDayItem(day).online_to)"
+                            @change="setDayTime(getDayItem(day), 'online_to', 'hour', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option v-for="h in 12" :key="h" :value="String(h).padStart(2, '0')">{{ String(h).padStart(2, '0') }}</option>
+                            <option value="">HH</option>
+                            <option v-for="h in 24" :key="h" :value="String(h).padStart(2, '0')">
+                              {{ String(h).padStart(2, '0') }}
+                            </option>
                           </select>
+
                           <select
-                            :value="getMinute(getDayItem(day).to_time)"
-                            @change="setDayTime(getDayItem(day), 'to_time', 'minute', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            :value="getMinute(getDayItem(day).online_to)"
+                            @change="setDayTime(getDayItem(day), 'online_to', 'minute', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">{{ m }}</option>
-                          </select>
-                          <select
-                            :value="getPeriod(getDayItem(day).to_time)"
-                            @change="setDayTime(getDayItem(day), 'to_time', 'period', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                          >
-                            <option value="AM">AM</option>
-                            <option value="PM">PM</option>
+                            <option value="">MM</option>
+                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">
+                              {{ m }}
+                            </option>
                           </select>
                         </div>
                       </div>
 
-                      <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">Emergency Hours</label>
+                      <!-- Emergency -->
+                      <div class="bg-white border border-gray-200 rounded-lg p-3">
+                        <label class="block text-xs font-semibold text-gray-600 mb-2"> Emergency Hours </label>
+
                         <div class="flex gap-1.5">
                           <select
-                            :value="getHour12(getDayItem(day).emergency_from)"
+                            :value="getHour24(getDayItem(day).emergency_from)"
                             @change="setDayTime(getDayItem(day), 'emergency_from', 'hour', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option v-for="h in 12" :key="h" :value="String(h).padStart(2, '0')">{{ String(h).padStart(2, '0') }}</option>
+                            <option value="">HH</option>
+                            <option v-for="h in 24" :key="h" :value="String(h).padStart(2, '0')">
+                              {{ String(h).padStart(2, '0') }}
+                            </option>
                           </select>
+
                           <select
                             :value="getMinute(getDayItem(day).emergency_from)"
                             @change="setDayTime(getDayItem(day), 'emergency_from', 'minute', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">{{ m }}</option>
-                          </select>
-                          <select
-                            :value="getPeriod(getDayItem(day).emergency_from)"
-                            @change="setDayTime(getDayItem(day), 'emergency_from', 'period', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                          >
-                            <option value="AM">AM</option>
-                            <option value="PM">PM</option>
+                            <option value="">MM</option>
+                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">
+                              {{ m }}
+                            </option>
                           </select>
                         </div>
+
                         <div class="text-center text-xs text-gray-400 my-1">to</div>
+
                         <div class="flex gap-1.5">
                           <select
-                            :value="getHour12(getDayItem(day).emergency_to)"
+                            :value="getHour24(getDayItem(day).emergency_to)"
                             @change="setDayTime(getDayItem(day), 'emergency_to', 'hour', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option v-for="h in 12" :key="h" :value="String(h).padStart(2, '0')">{{ String(h).padStart(2, '0') }}</option>
+                            <option value="">HH</option>
+                            <option v-for="h in 24" :key="h" :value="String(h).padStart(2, '0')">
+                              {{ String(h).padStart(2, '0') }}
+                            </option>
                           </select>
+
                           <select
                             :value="getMinute(getDayItem(day).emergency_to)"
                             @change="setDayTime(getDayItem(day), 'emergency_to', 'minute', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">{{ m }}</option>
+                            <option value="">MM</option>
+                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">
+                              {{ m }}
+                            </option>
                           </select>
+                        </div>
+                      </div>
+
+                      <!-- In-Clinic -->
+                      <div class="bg-white border border-gray-200 rounded-lg p-3">
+                        <label class="block text-xs font-semibold text-gray-600 mb-2"> In-Clinic Hours </label>
+
+                        <div class="flex gap-1.5">
                           <select
-                            :value="getPeriod(getDayItem(day).emergency_to)"
-                            @change="setDayTime(getDayItem(day), 'emergency_to', 'period', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            :value="getHour24(getDayItem(day).clinic_from)"
+                            @change="setDayTime(getDayItem(day), 'clinic_from', 'hour', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option value="AM">AM</option>
-                            <option value="PM">PM</option>
+                            <option value="">HH</option>
+                            <option v-for="h in 24" :key="h" :value="String(h).padStart(2, '0')">
+                              {{ String(h).padStart(2, '0') }}
+                            </option>
+                          </select>
+
+                          <select
+                            :value="getMinute(getDayItem(day).clinic_from)"
+                            @change="setDayTime(getDayItem(day), 'clinic_from', 'minute', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
+                          >
+                            <option value="">MM</option>
+                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">
+                              {{ m }}
+                            </option>
+                          </select>
+                        </div>
+
+                        <div class="text-center text-xs text-gray-400 my-1">to</div>
+
+                        <div class="flex gap-1.5">
+                          <select
+                            :value="getHour24(getDayItem(day).clinic_to)"
+                            @change="setDayTime(getDayItem(day), 'clinic_to', 'hour', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
+                          >
+                            <option value="">HH</option>
+                            <option v-for="h in 24" :key="h" :value="String(h).padStart(2, '0')">
+                              {{ String(h).padStart(2, '0') }}
+                            </option>
+                          </select>
+
+                          <select
+                            :value="getMinute(getDayItem(day).clinic_to)"
+                            @change="setDayTime(getDayItem(day), 'clinic_to', 'minute', $event.target.value)"
+                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
+                          >
+                            <option value="">MM</option>
+                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">
+                              {{ m }}
+                            </option>
                           </select>
                         </div>
                       </div>
                     </div>
+
+                    <button type="button" class="mt-3 text-xs font-medium text-teal-600 hover:underline" @click="copyAvailabilityToSelectedDays(day)">Copy these timings to all selected days</button>
                   </div>
                 </div>
               </div>
@@ -998,36 +1101,25 @@ function formatTimeOnly(timeString) {
 }
 
 function formatTimeDisplay(timeString) {
-  if (!timeString) return null;
+  if (!timeString) return '';
 
   const parts = timeString.split(':');
-  let hours = parseInt(parts[0], 10);
-  const minutes = (parts[1] || '00').padStart(2, '0');
+  const hours = parseInt(parts[0], 10);
 
-  if (Number.isNaN(hours)) return null;
+  if (Number.isNaN(hours)) return '';
 
-  const period = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12;
-  if (hours === 0) hours = 12;
+  const minutes = String(parts[1] || '00').padStart(2, '0');
 
-  return `${hours}:${minutes} ${period}`;
+  return `${String(hours).padStart(2, '0')}:${minutes}`;
 }
 
-function combineTime(hour12Str, minuteStr, period) {
-  let hour12 = parseInt(hour12Str, 10);
-  if (Number.isNaN(hour12)) hour12 = 12;
-  let hour24 = hour12 % 12;
-  if (period === 'PM') hour24 += 12;
-  return `${String(hour24).padStart(2, '0')}:${minuteStr}:00`;
-}
-
-function getHour12(timeString) {
+function getHour24(timeString) {
   if (!timeString) return '';
-  let h = parseInt(timeString.split(':')[0], 10);
-  if (Number.isNaN(h)) return '';
-  let h12 = h % 12;
-  if (h12 === 0) h12 = 12;
-  return String(h12).padStart(2, '0');
+  const hour = parseInt(timeString.split(':')[0], 10);
+
+  if (Number.isNaN(hour)) return '';
+
+  return String(hour).padStart(2, '0');
 }
 
 function getMinute(timeString) {
@@ -1035,18 +1127,14 @@ function getMinute(timeString) {
   return (timeString.split(':')[1] || '00').padStart(2, '0');
 }
 
-function getPeriod(timeString) {
-  if (!timeString) return 'AM';
-  const h = parseInt(timeString.split(':')[0], 10);
-  return h >= 12 ? 'PM' : 'AM';
-}
-
 function setDayTime(dayItem, fieldName, part, value) {
   const current = dayItem[fieldName] || '';
-  const hour12 = part === 'hour' ? value : getHour12(current) || '12';
+
+  const hour = part === 'hour' ? value : getHour24(current) || '00';
+
   const minute = part === 'minute' ? value : getMinute(current) || '00';
-  const period = part === 'period' ? value : getPeriod(current);
-  dayItem[fieldName] = combineTime(hour12, minute, period);
+
+  dayItem[fieldName] = `${hour}:${minute}:00`;
 }
 
 function getDayItem(dayName) {
@@ -1057,20 +1145,58 @@ function toggleDay(dayName, checked) {
   if (checked) {
     editForm.availability_days.push({
       day: dayName,
-      from_time: '',
-      to_time: '',
+      online_from: '',
+      online_to: '',
       emergency_from: '',
       emergency_to: '',
+      clinic_from: '',
+      clinic_to: '',
     });
   } else {
     editForm.availability_days = editForm.availability_days.filter((item) => item.day !== dayName);
   }
 }
 
-function updateLanguages(options) {
-  selectedLanguageOptions.value = options || [];
+function copyAvailabilityToSelectedDays(sourceDay) {
+  const source = getDayItem(sourceDay);
 
-  editForm.languages_known = (options || []).map((option) => {
+  if (!source) return;
+
+  editForm.availability_days.forEach((dayItem) => {
+    if (dayItem.day !== sourceDay) {
+      dayItem.online_from = source.online_from || '';
+      dayItem.online_to = source.online_to || '';
+      dayItem.emergency_from = source.emergency_from || '';
+      dayItem.emergency_to = source.emergency_to || '';
+      dayItem.clinic_from = source.clinic_from || '';
+      dayItem.clinic_to = source.clinic_to || '';
+    }
+  });
+}
+
+function updateLanguages(options) {
+  const incoming = Array.isArray(options) ? options : [];
+
+  const existing = selectedLanguageOptions.value || [];
+
+  const merged = [...existing];
+
+  for (const option of incoming) {
+    const value = typeof option === 'object' ? option.value : option;
+
+    if (
+      !merged.some((item) => {
+        const itemValue = typeof item === 'object' ? item.value : item;
+        return itemValue === value;
+      })
+    ) {
+      merged.push(typeof option === 'object' ? option : { label: option, value: option });
+    }
+  }
+
+  selectedLanguageOptions.value = merged;
+
+  editForm.languages_known = merged.map((option) => {
     return typeof option === 'object' ? option.value : option;
   });
 }
@@ -1086,6 +1212,7 @@ const documentInput = ref(null);
 const documentUploading = ref(false);
 
 const selectedLanguageOptions = ref([]);
+const isEditingProfile = ref(false);
 
 const totalRatings = computed(() => {
   const ratings = profileData.data?.doctor?.ratings;
@@ -1099,7 +1226,6 @@ const totalRatings = computed(() => {
 const loadError = computed(() => {
   const error = profileData.error;
   if (!error) return null;
-  console.error('API call failed:', error);
   const serverMessage = error?.messages?.[0] || error?.message || '';
   if (serverMessage.toLowerCase().includes('practitioner not found')) {
     return 'Your account is not linked to a Practitioner record. Please contact the administrator to set up your doctor profile.';
@@ -1173,7 +1299,7 @@ async function handleDocumentSelected(event) {
 
     await documentsResource.reload();
   } catch (error) {
-    console.error('Failed to upload document:', error);
+    alert('Failed to upload document.');
   } finally {
     documentUploading.value = false;
     event.target.value = '';
@@ -1210,7 +1336,7 @@ async function deleteDocument(document) {
 
     await documentsResource.reload();
   } catch (error) {
-    console.error('Failed to delete document:', error);
+    alert('Failed to delete document.');
   }
 }
 
@@ -1267,7 +1393,6 @@ async function handlePhotoSelected(event) {
     // Reset image error state
     imageLoadError.value = false;
   } catch (error) {
-    console.error('Failed to upload profile photo:', error);
     alert('Failed to upload profile photo.');
   } finally {
     event.target.value = '';
@@ -1291,6 +1416,7 @@ const editForm = reactive({
   nationality: '',
   photo: '',
   languages_known: [],
+  education_history: [],
 
   // Address
   address_line1: '',
@@ -1299,28 +1425,23 @@ const editForm = reactive({
   pincode: '',
 
   // Professional information
-  qualification: '',
-  additional_qualification: '',
   designation: '',
+  specialty: '',
   super_specialty: '',
   registration_no: '',
   registration_valid_upto: '',
   registration_letter: '',
   council_name: '',
-  experience_years: '',
+  practicing_from: '',
   digital_signature_url: '',
   professional_summary: '',
   primary_facility: '',
   telemedicine_certified: false,
   hpr_verified: false,
-  doctor_type: '',
-  abdm_council_code: '',
-  abdm_specialty_code: '',
 
   // Account / charges
-  account_status: '',
   currency: '',
-  normal_charge: '',
+  online_charge: '',
   emergency_charge: '',
   priority_charge: '',
   home_visit_charge: '',
@@ -1336,7 +1457,11 @@ const editForm = reactive({
 const cityOptions = ref([]);
 const stateOptions = ref([]);
 const hospitalOptions = ref([]);
+const specialtyOptions = ref([]);
+const superSpecialtyOptions = ref([]);
 const languageOptions = ref([]);
+const medicalDegreeOptions = ref([]);
+const educationalInstitutionOptions = ref([]);
 
 const cityResource = createResource({
   url: 'frappe.client.get_list',
@@ -1344,7 +1469,7 @@ const cityResource = createResource({
     return {
       doctype: 'City',
       fields: ['name'],
-      limit_page_length: 100,
+      limit_page_length: 0,
       order_by: 'name asc',
     };
   },
@@ -1392,6 +1517,78 @@ const hospitalResource = createResource({
   },
 });
 
+const specialtyResource = createResource({
+  url: 'frappe.client.get_list',
+  makeParams() {
+    return {
+      doctype: 'Medical Specialty',
+      fields: ['name', 'specialty_name'],
+      limit_page_length: 100,
+      order_by: 'specialty_name asc',
+    };
+  },
+  onSuccess(data) {
+    specialtyOptions.value = (data || []).map((item) => ({
+      label: item.specialty_name,
+      value: item.name,
+    }));
+  },
+});
+
+const superSpecialtyResource = createResource({
+  url: 'frappe.client.get_list',
+  makeParams() {
+    return {
+      doctype: 'Medical Super Specialty',
+      fields: ['name', 'super_specialty_name'],
+      limit_page_length: 100,
+      order_by: 'super_specialty_name asc',
+    };
+  },
+  onSuccess(data) {
+    superSpecialtyOptions.value = (data || []).map((item) => ({
+      label: item.super_specialty_name,
+      value: item.name,
+    }));
+  },
+});
+
+const medicalDegreeResource = createResource({
+  url: 'frappe.client.get_list',
+  makeParams() {
+    return {
+      doctype: 'Medical Degree',
+      fields: ['name'],
+      limit_page_length: 100,
+      order_by: 'name asc',
+    };
+  },
+  onSuccess(data) {
+    medicalDegreeOptions.value = (data || []).map((item) => ({
+      label: item.name,
+      value: item.name,
+    }));
+  },
+});
+
+const educationalInstitutionResource = createResource({
+  url: 'frappe.client.get_list',
+  makeParams() {
+    return {
+      doctype: 'Educational Institution',
+      fields: ['name'],
+      limit_page_length: 100,
+      order_by: 'name asc',
+    };
+  },
+  onSuccess(data) {
+    educationalInstitutionOptions.value = (data || []).map((item) => ({
+      label: item.name,
+      value: item.name,
+    }));
+  },
+});
+
 const languageResource = createResource({
   url: 'frappe.client.get_list',
   makeParams() {
@@ -1408,8 +1605,9 @@ const languageResource = createResource({
       value: item.name,
     }));
 
-    // Re-sync selected chips
-    selectedLanguageOptions.value = languageOptions.value.filter((option) => editForm.languages_known.includes(option.value));
+    if (isEditingProfile.value) {
+      selectedLanguageOptions.value = languageOptions.value.filter((option) => editForm.languages_known.includes(option.value));
+    }
   },
 });
 
@@ -1424,10 +1622,16 @@ const setPhotoResource = createResource({
 function editProfile() {
   const doctor = profileData?.data?.doctor;
 
+  isEditingProfile.value = true;
+
   cityResource.fetch();
   stateResource.fetch();
   hospitalResource.fetch();
+  specialtyResource.fetch();
+  superSpecialtyResource.fetch();
   languageResource.fetch();
+  medicalDegreeResource.fetch();
+  educationalInstitutionResource.fetch();
 
   // Personal information
   editForm.title = doctor?.title || '';
@@ -1441,6 +1645,11 @@ function editProfile() {
   editForm.nationality = doctor?.nationality || '';
   editForm.photo = doctor?.photo || '';
   editForm.languages_known = doctor?.languages_known?.length ? doctor.languages_known.map((l) => l.spoken_language_option) : [];
+  editForm.education_history = (doctor?.education_history || []).map((item) => ({
+    degree: item.degree || '',
+    institution: item.institution || '',
+    year_of_completion: item.year_of_completion || '',
+  }));
 
   // Sync immediately if options are already cached from a previous open
   if (languageOptions.value.length) {
@@ -1456,28 +1665,23 @@ function editProfile() {
   editForm.pincode = doctor?.pincode || '';
 
   // Professional information
-  editForm.qualification = doctor?.qualification || '';
-  editForm.additional_qualification = doctor?.additional_qualification || '';
   editForm.designation = doctor?.designation || '';
+  editForm.specialty = doctor?.specialty || '';
   editForm.super_specialty = doctor?.super_specialty || '';
   editForm.registration_no = doctor?.registration_no || '';
   editForm.registration_valid_upto = doctor?.registration_valid_upto || '';
   editForm.registration_letter = doctor?.registration_letter || '';
   editForm.council_name = doctor?.council_name || '';
-  editForm.experience_years = doctor?.experience_years ?? '';
+  editForm.practicing_from = doctor?.practicing_from || '';
   editForm.digital_signature_url = doctor?.digital_signature_url || '';
   editForm.professional_summary = doctor?.professional_summary || '';
   editForm.primary_facility = doctor?.primary_facility || '';
   editForm.telemedicine_certified = Boolean(doctor?.telemedicine_certified);
   editForm.hpr_verified = Boolean(doctor?.hpr_verified);
-  editForm.doctor_type = doctor?.doctor_type || '';
-  editForm.abdm_council_code = doctor?.abdm_council_code || '';
-  editForm.abdm_specialty_code = doctor?.abdm_specialty_code || '';
 
   // Account / charges
-  editForm.account_status = doctor?.account_status || '';
   editForm.currency = doctor?.currency || '';
-  editForm.normal_charge = doctor?.normal_charge ?? '';
+  editForm.online_charge = doctor?.online_charge ?? '';
   editForm.emergency_charge = doctor?.emergency_charge ?? '';
   editForm.priority_charge = doctor?.priority_charge ?? '';
   editForm.home_visit_charge = doctor?.home_visit_charge ?? '';
@@ -1488,10 +1692,12 @@ function editProfile() {
   // Availability
   editForm.availability_days = (doctor?.availability_days || []).map((item) => ({
     day: item.day,
-    from_time: formatTimeOnly(item.custom_from_time),
-    to_time: formatTimeOnly(item.custom_to_time),
-    emergency_from: formatTimeOnly(item.custom_emergency_from),
-    emergency_to: formatTimeOnly(item.custom_emergency_to),
+    online_from: formatTimeOnly(item.online_from),
+    online_to: formatTimeOnly(item.online_to),
+    emergency_from: formatTimeOnly(item.emergency_from),
+    emergency_to: formatTimeOnly(item.emergency_to),
+    clinic_from: formatTimeOnly(item.clinic_from),
+    clinic_to: formatTimeOnly(item.clinic_to),
   }));
   editForm.is_published = Boolean(doctor?.is_published);
 
@@ -1499,6 +1705,7 @@ function editProfile() {
 }
 
 function closeEditProfile() {
+  isEditingProfile.value = false;
   showEditProfile.value = false;
 }
 
@@ -1527,27 +1734,28 @@ async function saveProfile() {
         pincode: editForm.pincode,
 
         // Professional information
-        qualification: editForm.qualification,
-        additional_qualification: editForm.additional_qualification,
+        education_history: editForm.education_history.map((item) => ({
+          degree: item.degree,
+          institution: item.institution,
+          year_of_completion: item.year_of_completion,
+        })),
         designation: editForm.designation,
+        specialty: editForm.specialty,
         super_specialty: editForm.super_specialty,
         registration_no: editForm.registration_no,
         registration_valid_upto: editForm.registration_valid_upto,
         registration_letter: editForm.registration_letter,
         council_name: editForm.council_name,
-        experience_years: editForm.experience_years,
+        practicing_from: editForm.practicing_from,
         digital_signature_url: editForm.digital_signature_url,
         professional_summary: editForm.professional_summary,
         primary_facility: editForm.primary_facility,
         telemedicine_certified: editForm.telemedicine_certified,
         hpr_verified: editForm.hpr_verified,
-        doctor_type: editForm.doctor_type,
-        abdm_council_code: editForm.abdm_council_code,
-        abdm_specialty_code: editForm.abdm_specialty_code,
 
         // Account / charges
         currency: editForm.currency,
-        normal_charge: editForm.normal_charge,
+        online_charge: editForm.online_charge,
         emergency_charge: editForm.emergency_charge,
         priority_charge: editForm.priority_charge,
         home_visit_charge: editForm.home_visit_charge,
@@ -1590,32 +1798,36 @@ async function saveProfile() {
       doctor.state = editForm.state;
       doctor.pincode = editForm.pincode;
 
-      doctor.qualification = editForm.qualification;
-      doctor.additional_qualification = editForm.additional_qualification;
+      doctor.education_history = editForm.education_history.map((item) => ({
+        degree: item.degree,
+        institution: item.institution,
+        year_of_completion: item.year_of_completion,
+      }));
       doctor.designation = editForm.designation;
+      doctor.specialty = editForm.specialty;
       doctor.super_specialty = editForm.super_specialty;
+
+      doctor.specialty_name = specialtyOptions.value.find((option) => option.value === editForm.specialty)?.label || '';
+
+      doctor.super_specialty_name = superSpecialtyOptions.value.find((option) => option.value === editForm.super_specialty)?.label || '';
       doctor.registration_no = editForm.registration_no;
       doctor.registration_valid_upto = editForm.registration_valid_upto;
       doctor.registration_letter = editForm.registration_letter;
       doctor.council_name = editForm.council_name;
-      doctor.experience_years = editForm.experience_years;
+      doctor.practicing_from = editForm.practicing_from;
       doctor.digital_signature_url = editForm.digital_signature_url;
       doctor.professional_summary = editForm.professional_summary;
       doctor.primary_facility = editForm.primary_facility;
       doctor.telemedicine_certified = editForm.telemedicine_certified;
       doctor.hpr_verified = editForm.hpr_verified;
-      doctor.doctor_type = editForm.doctor_type;
-      doctor.abdm_council_code = editForm.abdm_council_code;
-      doctor.abdm_specialty_code = editForm.abdm_specialty_code;
 
       doctor.currency = editForm.currency;
-      doctor.normal_charge = editForm.normal_charge;
+      doctor.online_charge = editForm.online_charge;
       doctor.emergency_charge = editForm.emergency_charge;
       doctor.priority_charge = editForm.priority_charge;
       doctor.home_visit_charge = editForm.home_visit_charge;
       doctor.in_clinic_charge = editForm.in_clinic_charge;
       doctor.teleconsultation_charge = editForm.teleconsultation_charge;
-      doctor.is_active = editForm.is_active;
 
       doctor.is_published = editForm.is_published;
 
@@ -1625,16 +1837,19 @@ async function saveProfile() {
 
       doctor.availability_days = editForm.availability_days.map((item) => ({
         day: item.day,
-        custom_from_time: item.from_time,
-        custom_to_time: item.to_time,
-        custom_emergency_from: item.emergency_from,
-        custom_emergency_to: item.emergency_to,
+        online_from: item.online_from,
+        online_to: item.online_to,
+        emergency_from: item.emergency_from,
+        emergency_to: item.emergency_to,
+        clinic_from: item.clinic_from,
+        clinic_to: item.clinic_to,
       }));
     }
 
+    isEditingProfile.value = false;
     showEditProfile.value = false;
   } catch (err) {
-    console.error('Failed to save profile:', err);
+    alert('Failed to save profile.');
   }
 }
 </script>

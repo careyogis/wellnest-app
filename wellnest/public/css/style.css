@@ -3393,6 +3393,20 @@ li {
   padding-bottom: 0;
 }
 
+/* Blog Author Image styling for Blog Post Details page */
+.avatar-frame.standard-image {
+  max-height: 120px;   /* enforce height limit */
+  height: auto;        /* keep aspect ratio */
+  width: auto;         /* don’t distort */
+  object-fit: contain; /* ensures full image fits */
+}
+
+.blog-comments,
+.blog-comments .comment-view {
+  display: none !important;
+}
+
+
 .blog-details__share {
   margin-top: 34px;
   display: flex;

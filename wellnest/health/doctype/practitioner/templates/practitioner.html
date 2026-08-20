@@ -94,7 +94,6 @@
 
 <div class="prac-record">
   <div class="prac-record-back"><a href="/practitioners">&larr; Back to directory</a></div>
-
   <div class="prac-sheet">
     <div class="prac-header">
       {% if doc.photo %}
@@ -105,7 +104,10 @@
       <div>
         {% if doc.registration_no %}<p class="prac-id">Reg. No. {{ doc.registration_no }}</p>{% endif %}
         <h1>{{ doc.title ~ " " if doc.title }}{{ (doc.first_name or "") ~ " " ~ (doc.last_name or "") }}</h1>
-        <p class="role">{{ doc.qualification ~ ", " ~ doc.additional_qualification or "" }}</p>
+        {% if doc.education_list %}
+          <p class="role">{{ doc.education_list | join(", ") }}</p>
+        {% endif %}
+        <!-- <p class="role">{{ doc.qualification ~ ", " ~ doc.additional_qualification or "" }}</p> -->
         <div class="prac-badges">
           {% if doc.hpr_verified %}<span class="prac-badge is-verified">HPR Verified</span>{% endif %}
           {% if doc.telemedicine_certified %}<span class="prac-badge is-tele">Telemedicine Certified</span>{% endif %}
@@ -119,11 +121,15 @@
     <div class="prac-stats">
       <div class="prac-stat">
         <p class="label">Experience</p>
-        <p class="value">{{ doc.experience_years or "—" }}{{ " yrs" if doc.experience_years }}</p>
+        <p class="value">{{ experience or "—" }}{{ " yrs" if doc.practicing_from }}</p>
       </div>
       <div class="prac-stat">
-        <p class="label">Qualification</p>
-        <p class="value">{{ doc.qualification or "—" }}</p>
+        <p class="label">Specialty</p>
+        <p class="value">{{ frappe.db.get_value("Medical specialty", doc.specialty, "specialty_name") or "—" }}</p>
+      </div>
+      <div class="prac-stat">
+        <p class="label">Super Specialty</p>
+        <p class="value">{{ frappe.db.get_value("Medical super specialty", doc.super_specialty, "super_specialty_name") or "—" }}</p>
       </div>
       <div class="prac-stat">
         <p class="label">Council</p>
@@ -178,10 +184,21 @@
     <div class="prac-section">
       <h2>Availability</h2>
       <div class="prac-avail-grid">
-        {% if doc.available_from %}
+        {% if doc.availability_days %}
         <div class="prac-avail-card">
-          <p class="label">Regular Hours</p>
-          <p class="value">{{ doc.available_from }} - {{ doc.available_till }}</p>
+          <p class="label">Days and Hours</p>
+          {% for day in doc.availability_days %}
+            <p class="value">{{ day.day }}:</p>
+            {% if day.online_from and day.online_to %}
+              <pre class="value">  Online: {{ day.online_from }} - {{ day.online_to }}</pre>
+            {% endif %}
+            {% if day.emergency_from and day.emergency_to %}
+              <pre class="value">  Emergency: {{ day.emergency_from }} - {{ day.emergency_to }}</pre>
+            {% endif %}
+            {% if day.clinic_from and day.clinic_to %}
+              <pre class="value">  In Clinic: {{ day.clinic_from }} - {{ day.clinic_to }}</pre>
+            {% endif %}
+          {% endfor %}
         </div>
         {% endif %}
         {% if doc.available_in_emergency_from %}
@@ -190,39 +207,32 @@
           <p class="value">{{ doc.available_in_emergency_from }} - {{ doc.available_in_emergency_till }}</p>
         </div>
         {% endif %}
-        {% if doc.availability_days %}
-        <div class="prac-avail-card">
-          <p class="label">Days</p>
-          <p class="value">{% for d in doc.availability_days %}{{ d.day }}{{ ", " if not loop.last }}{% endfor %}</p>
-        </div>
-        {% endif %}
       </div>
     </div>
     {% endif %}
 
-    {# {% if doc.normal_charge or doc.emergency_charge or doc.priority_charge %} #}
-    {% if 0 == 1 %}
+    {# {% if doc.online_charge or doc.emergency_charge or doc.priority_charg eor doc.clinic_charge %} #}
     <div class="prac-section">
       <h2>Consultation Charges</h2>
       <div class="prac-charges">
         {% if doc.normal_charge %}
-        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.normal_charge) }}</p><p class="label">Normal</p></div>
+        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.normal_charge * charge_multiplier) }}</p><p class="label">Normal</p></div>
         {% endif %}
         {% if doc.priority_charge %}
-        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.priority_charge) }}</p><p class="label">Priority</p></div>
+        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.priority_charge * charge_multiplier) }}</p><p class="label">Priority</p></div>
         {% endif %}
         {% if doc.emergency_charge %}
-        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.emergency_charge) }}</p><p class="label">Emergency</p></div>
+        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.emergency_charge * charge_multiplier) }}</p><p class="label">Emergency</p></div>
+        {% endif %}
+        {% if doc.clinic_charge %}
+        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.clinic_charge * charge_multiplier) }}</p><p class="label">Clinic</p></div>
         {% endif %}
       </div>
     </div>
-    {% endif %}
 
     <div class="prac-section">
       <h2>Contact</h2>
       <div class="prac-field-grid">
-        {% if doc.email %}<div class="prac-field"><p class="label">Email</p><p class="value">{{ doc.email }}</p></div>{% endif %}
-        {% if doc.mobile %}<div class="prac-field"><p class="label">Mobile</p><p class="value mono">{{ doc.mobile }}</p></div>{% endif %}
         {% if doc.city %}<div class="prac-field"><p class="label">Location</p><p class="value">{{ doc.city }}{{ ", " ~ doc.state if doc.state }}</p></div>{% endif %}
       </div>
     </div>

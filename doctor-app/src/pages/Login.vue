@@ -83,7 +83,7 @@
               <div class="text-center mt-6">
                 <span class="text-sm text-gray-500"> New here? </span>
 
-                <button type="button" class="ml-1 text-sm font-medium text-blue-600 hover:underline" @click="goToRegister">Register</button>
+                <button type="button" class="ml-1 text-sm font-medium text-blue-600 hover:underline" @click="goToRegister()">Register</button>
               </div>
             </form>
 
@@ -99,10 +99,13 @@
                 {{ message }}
               </div>
 
+              <div v-if="showRegisterOption" class="text-center mt-6">
+                <span class="text-sm text-gray-500"> New here? </span>
+                <button type="button" class="ml-1 text-sm font-medium text-blue-600 hover:underline" @click="goToRegister(phone)">Register</button>
+              </div>
               <div v-if="otpSent">
-                <Input class="mt-4 doctor-input" v-model="otp" label="OTP" placeholder="Enter OTP" />
-
-                <Button class="w-full mt-4 doctor-btn" variant="solid" @click="verifyOtp"> Verify OTP </Button>
+                <Input class="mt-4 doctor-input" v-model="otpEntry" label="OTP" placeholder="Enter OTP" @input="val => otpEntry = val" />
+                <Button class="w-full mt-4 doctor-btn" variant="solid" @click="verifyOtp" :disabled="verifyingOtp.value"> {{ verifyingOtp.value ? 'Verifying OTP...' : 'Verify OTP' }} </Button>
               </div>
             </div>
           </div>
@@ -129,16 +132,18 @@ const RECAPTCHA_SITE_KEY = '6LcMZR0UAAAAALgPMcgHwga7gY5p8QMg1Hj-bmUv';
 const loginMethod = ref('password');
 
 const phone = ref('');
-const otp = ref('');
+const otpEntry = ref('');
 const otpSent = ref(false);
 const sessionInfo = ref('');
 const message = ref('');
 const messageType = ref<'success' | 'error' | ''>('');
+const showRegisterOption = ref(true);
 let recaptchaWidgetId: number | null = null;
 
 // OTP resend cooldown state
 const otpSending = ref(false);
 const otpCooldown = ref(0);
+const verifyingOtp = ref(false);
 const OTP_COOLDOWN_SECONDS = 30;
 let cooldownTimer: ReturnType<typeof setInterval> | null = null;
 
@@ -168,8 +173,6 @@ async function submit(e: Event) {
       password,
     });
   } catch (err: any) {
-    console.error(err);
-
     messageType.value = 'error';
 
     if (err?.messages && err.messages.length > 0) {
@@ -245,7 +248,8 @@ async function sendOtp() {
   messageType.value = '';
 
   const cleanPhone = phone.value ? phone.value.trim() : '';
-  if (!cleanPhone || !/^\d{10}$/.test(cleanPhone)) {
+  // Allow spaces in the mobile. Permits using firebase test numbers.
+  if (!cleanPhone || !/^\d(?:\s?\d){9}$/.test(cleanPhone)) {
     message.value = 'Please enter a valid 10-digit mobile number.';
     messageType.value = 'error';
     return;
@@ -268,18 +272,20 @@ async function sendOtp() {
 
     sessionInfo.value = response.session_info;
     otpSent.value = true;
-
+    showRegisterOption.value = false;
     message.value = 'OTP sent successfully.';
     messageType.value = 'success';
 
     startOtpCooldown();
   } catch (err: any) {
-    console.error(err);
-
     messageType.value = 'error';
 
     if (err.messages && err.messages.length > 0) {
       message.value = err.messages[0];
+
+      if (err.messages[0].includes("No doctor found with this number")) {
+        showRegisterOption.value = true;
+      }
     } else {
       message.value = 'Failed to send OTP.';
     }
@@ -292,11 +298,13 @@ async function sendOtp() {
 async function verifyOtp() {
   message.value = '';
   messageType.value = '';
+  verifyingOtp.value = true;
 
   try {
     await verifyOtpResource.submit({
       session_info: sessionInfo.value,
-      code: otp.value,
+      phone: phone.value,
+      otp: otpEntry.value,
     });
 
     await userResource.reload();
@@ -307,8 +315,6 @@ async function verifyOtp() {
 
     router.replace({ name: 'Dashboard' });
   } catch (err: any) {
-    console.error(err);
-
     messageType.value = 'error';
 
     if (err.messages && err.messages.length > 0) {
@@ -316,17 +322,25 @@ async function verifyOtp() {
     } else {
       message.value = 'Invalid OTP.';
     }
+    verifyingOtp.value = false;
   }
 }
 
-function goToRegister() {
-  router.push({ name: 'Register' });
+function goToRegister(mobile = '') {
+  router.push({
+    name: 'Register',
+    query: mobile ? { mobile } : {},
+  });
 }
 
 // Auto-verify once the user has entered a full 6-digit OTP
-watch(otp, (newVal) => {
-  if (newVal.length === OTP_LENGTH) {
-    verifyOtp();
+watch(
+  otpEntry,
+  (newval) => {
+    // Trigger verification when length matches
+    if (newval.length === OTP_LENGTH) {      
+      verifyOtp();
+    }
   }
-});
+);
 </script>

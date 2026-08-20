@@ -1,0 +1,84 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "MSG-.YYYY.-.MM.-.#####",
+ "creation": "2026-08-15 17:45:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "teleconsult_appointment",
+  "sender_type",
+  "sender",
+  "message_text",
+  "attachment",
+  "timestamp"
+ ],
+ "fields": [
+  {
+   "fieldname": "teleconsult_appointment",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Teleconsult Appointment",
+   "options": "Teleconsultation Appointment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sender_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Sender Type",
+   "options": "Patient\nPractitioner",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sender",
+   "fieldtype": "Link",
+   "label": "Sender",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "message_text",
+   "fieldtype": "Text",
+   "label": "Message Text",
+   "reqd": 1
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment"
+  },
+  {
+   "fieldname": "timestamp",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Timestamp"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-18 20:43:23.544665",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Post Consultation Followup Message",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

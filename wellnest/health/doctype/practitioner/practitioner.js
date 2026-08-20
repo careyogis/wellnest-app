@@ -46,6 +46,22 @@ frappe.ui.form.on("Practitioner", {
 		
 		// Setup availability days buttons
 		frm.trigger("setup_availability_days_buttons");
+
+		frm.set_query('super_specialty', function() {
+            return {
+                filters: {
+                    specialty: frm.doc.specialty
+                }
+            };
+        });
+
+        // Set column widths for the availaility_days grid
+        let grid = frm.get_field('availability_days').grid;
+        
+        // This forces the grid view to re-evaluate and draw more than 5 columns
+        grid.meta.max_columns = 6; 
+        
+        frm.refresh_field('availability_days');		
 	},
 
 	setup_availability_days_buttons: function (frm) {
@@ -71,5 +87,15 @@ frappe.ui.form.on("Practitioner", {
 			frm.fields_dict["availability_days"].grid.add_custom_button(label, set_days, "top")
 		);
 	},
-	
-});
+
+	copy_to_all_days: function(frm) {
+		// Ease of use feature
+		(frm.doc.availability_days || []).forEach(row => {
+			row.online_from = row.emergency_from = row.clinic_from = frm.doc.from_time;
+			row.online_to = row.emergency_to = row.clinic_to = frm.doc.to_time;
+		});
+
+		frm.refresh_field('availability_days');		
+	},
+},
+);

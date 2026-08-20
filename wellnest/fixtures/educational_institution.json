@@ -1,0 +1,37 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Educational Institution",
+  "institution_name": "AIIMS, Delhi",
+  "modified": "2026-08-16 22:13:57.587790",
+  "name": "AIIMS, Delhi"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Educational Institution",
+  "institution_name": "Ram Manohar Lohiya Hospital, Delhi",
+  "modified": "2026-08-16 22:14:52.657146",
+  "name": "Ram Manohar Lohiya Hospital, Delhi"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Educational Institution",
+  "institution_name": "Apollo Hospitals, Hyderabad",
+  "modified": "2026-08-16 22:15:28.068932",
+  "name": "Apollo Hospitals, Hyderabad"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Educational Institution",
+  "institution_name": "KIMS, Hyderabad",
+  "modified": "2026-08-16 22:15:52.642120",
+  "name": "KIMS, Hyderabad"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Educational Institution",
+  "institution_name": "Safdarjung Hospital, Delhi",
+  "modified": "2026-08-16 22:16:21.192234",
+  "name": "Safdarjung Hospital, Delhi"
+ }
+]
