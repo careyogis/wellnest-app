@@ -1631,18 +1631,33 @@
 
 </template>
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { FeatherIcon } from 'frappe-ui'
 import careyogiLogo from '@/assets/images/logo-01.png'
 
-const patient = ref({
-  name: 'Bhavna Patel',
+const props = defineProps({
+  selectedConsultation: {
+    type: Object,
+    default: null,
+  },
 })
-const consultation = ref({
-  reason: 'Survivorship care plan',
-  mode: 'Clinic',
-  time: '02:00',
-})
+
+const patient = computed(() => ({
+  name: props.selectedConsultation?.patient || 'Bhavna Patel',
+}))
+const consultation = computed(() => ({
+  reason:
+    props.selectedConsultation?.reason ||
+    'Survivorship care plan',
+
+  mode:
+    props.selectedConsultation?.mode ||
+    'Clinic',
+
+  time:
+    props.selectedConsultation?.time ||
+    '02:00',
+}))
 
 const complaints = ref([
   {

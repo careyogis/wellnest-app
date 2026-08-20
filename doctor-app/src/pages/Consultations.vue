@@ -356,10 +356,12 @@ consultations. page
         </div>
       </aside>
     </div>
-            <!-- Full consultation workspace -->
-    <section class="mt-6">
-      <Consultation />
-    </section>
+    <!-- Full consultation workspace -->
+<section class="mt-6">
+  <Consultation
+    :selected-consultation="selectedConsultation"
+  />
+</section>
     
 
 <!-- Join consultation modal -->
