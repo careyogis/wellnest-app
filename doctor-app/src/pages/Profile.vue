@@ -260,7 +260,7 @@
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
                   <span class="font-medium text-gray-500 block text-xs mb-1"> Primary Facility </span>
-                  {{ profileData?.data?.doctor?.primary_facility || 'Not Available' }}
+                  {{ profileData?.data?.doctor?.primary_facility_name || 'Not Available' }}
                 </div>
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
@@ -661,9 +661,31 @@
                       <Autocomplete
                         :model-value="educationalInstitutionOptions.find((option) => option.value === education.institution) || null"
                         :options="educationalInstitutionOptions"
-                        placeholder="Select institution"
-                        @update:model-value="(option) => (education.institution = option?.value || '')"
-                      />
+                        placeholder="Search institution"
+                        @update:query="
+                          (query) => {
+                            educationalInstitutionSearchQuery = query;
+                            educationalInstitutionResource.fetch();
+                          }
+                        "
+                        @update:model-value="
+                          (option) => {
+                            education.institution = option?.value || '';
+                            educationalInstitutionSearchQuery = '';
+                          }
+                        "
+                      >
+                        <template #footer>
+                          <div
+                            v-if="educationalInstitutionSearchQuery.trim() && !educationalInstitutionResource.loading && educationalInstitutionOptions.length === 0"
+                            class="border-t border-gray-200 p-2"
+                          >
+                            <button type="button" class="w-full text-left px-3 py-2 rounded-md text-sm text-teal-600 hover:bg-teal-50" @click="createInstitution(education)">
+                              + Add "{{ educationalInstitutionSearchQuery }}"
+                            </button>
+                          </div>
+                        </template>
+                      </Autocomplete>
                     </div>
 
                     <div>
@@ -762,13 +784,33 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Primary Facility</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Primary Facility </label>
+
               <Autocomplete
                 :model-value="hospitalOptions.find((option) => option.value === editForm.primary_facility) || null"
                 :options="hospitalOptions"
-                placeholder="Select hospital"
-                @update:model-value="(option) => (editForm.primary_facility = option?.value || '')"
-              />
+                placeholder="Search primary facility"
+                @update:query="
+                  (query) => {
+                    hospitalSearchQuery = query;
+                    hospitalResource.fetch();
+                  }
+                "
+                @update:model-value="
+                  (option) => {
+                    editForm.primary_facility = option?.value || '';
+                    hospitalSearchQuery = '';
+                  }
+                "
+              >
+                <template #footer>
+                  <div v-if="hospitalSearchQuery.trim() && !hospitalResource.loading && hospitalOptions.length === 0" class="border-t border-gray-200 p-2">
+                    <button type="button" class="w-full text-left px-3 py-2 rounded-md text-sm text-teal-600 hover:bg-teal-50" @click="createHospital">+ Add "{{ hospitalSearchQuery }}"</button>
+                  </div>
+                </template>
+              </Autocomplete>
+
+              <p class="text-xs text-gray-500 mt-1">Search for a hospital. If it is not available, you can add it.</p>
             </div>
 
             <div class="sm:col-span-2">
@@ -1457,11 +1499,13 @@ const editForm = reactive({
 const cityOptions = ref([]);
 const stateOptions = ref([]);
 const hospitalOptions = ref([]);
+const hospitalSearchQuery = ref('');
 const specialtyOptions = ref([]);
 const superSpecialtyOptions = ref([]);
 const languageOptions = ref([]);
 const medicalDegreeOptions = ref([]);
 const educationalInstitutionOptions = ref([]);
+const educationalInstitutionSearchQuery = ref('');
 
 const cityResource = createResource({
   url: 'frappe.client.get_list',
@@ -1501,21 +1545,104 @@ const stateResource = createResource({
 
 const hospitalResource = createResource({
   url: 'frappe.client.get_list',
+
   makeParams() {
     return {
       doctype: 'Hospital',
-      fields: ['name'],
+      fields: ['name', 'hospital_name'],
+      filters: hospitalSearchQuery.value ? [['hospital_name', 'like', `%${hospitalSearchQuery.value}%`]] : [],
       limit_page_length: 100,
-      order_by: 'name asc',
+      order_by: 'hospital_name asc',
     };
   },
+
   onSuccess(data) {
     hospitalOptions.value = (data || []).map((item) => ({
-      label: item.name,
+      label: item.hospital_name || item.name,
       value: item.name,
     }));
   },
 });
+
+const createHospitalResource = createResource({
+  url: 'wellnest.health.doctype.hospital.hospital.create_hospital',
+});
+
+async function createHospital() {
+  console.log('CREATE HOSPITAL CLICKED');
+  const hospitalName = hospitalSearchQuery.value.trim();
+
+  if (!hospitalName) {
+    return;
+  }
+
+  try {
+    const response = await createHospitalResource.submit({
+      hospital_name: hospitalName,
+    });
+
+    console.log('Create hospital response:', response);
+
+    const hospital = response?.message || response;
+
+    if (!hospital?.name) {
+      console.error('Hospital creation returned an unexpected response:', response);
+      return;
+    }
+
+    const option = {
+      label: hospital.hospital_name || hospitalName,
+      value: hospital.name,
+    };
+
+    hospitalOptions.value = [option, ...hospitalOptions.value.filter((item) => item.value !== option.value)];
+
+    editForm.primary_facility = hospital.name;
+
+    hospitalSearchQuery.value = '';
+
+    await hospitalResource.fetch();
+
+    editForm.primary_facility = hospital.name;
+  } catch (error) {
+    console.error('Failed to create hospital:', error);
+  }
+}
+
+async function createInstitution(education) {
+  const institutionName = educationalInstitutionSearchQuery.value.trim();
+
+  if (!institutionName) {
+    return;
+  }
+
+  try {
+    const response = await createResource({
+      url: 'wellnest.health.doctype.educational_institution.educational_institution.create_institution'
+    }).submit({
+      institution_name: institutionName,
+    });
+
+    const institution = response;
+
+    const option = {
+      label: institution.institution_name || institution.name,
+      value: institution.name,
+    };
+
+    const existing = educationalInstitutionOptions.value.find((item) => item.value === option.value);
+
+    if (!existing) {
+      educationalInstitutionOptions.value.push(option);
+    }
+
+    education.institution = option.value;
+
+    educationalInstitutionSearchQuery.value = '';
+  } catch (error) {
+    console.error('Failed to create institution:', error);
+  }
+}
 
 const specialtyResource = createResource({
   url: 'frappe.client.get_list',
@@ -1573,17 +1700,20 @@ const medicalDegreeResource = createResource({
 
 const educationalInstitutionResource = createResource({
   url: 'frappe.client.get_list',
+
   makeParams() {
     return {
       doctype: 'Educational Institution',
-      fields: ['name'],
+      fields: ['name', 'institution_name'],
+      filters: educationalInstitutionSearchQuery.value ? [['institution_name', 'like', `%${educationalInstitutionSearchQuery.value}%`]] : [],
       limit_page_length: 100,
-      order_by: 'name asc',
+      order_by: 'institution_name asc',
     };
   },
+
   onSuccess(data) {
     educationalInstitutionOptions.value = (data || []).map((item) => ({
-      label: item.name,
+      label: item.institution_name || item.name,
       value: item.name,
     }));
   },
@@ -1818,6 +1948,7 @@ async function saveProfile() {
       doctor.digital_signature_url = editForm.digital_signature_url;
       doctor.professional_summary = editForm.professional_summary;
       doctor.primary_facility = editForm.primary_facility;
+      doctor.primary_facility_name = hospitalOptions.value.find((option) => option.value === editForm.primary_facility)?.label || editForm.primary_facility;
       doctor.telemedicine_certified = editForm.telemedicine_certified;
       doctor.hpr_verified = editForm.hpr_verified;
 
