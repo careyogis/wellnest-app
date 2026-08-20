@@ -1565,7 +1565,7 @@ const hospitalResource = createResource({
 });
 
 const createHospitalResource = createResource({
-  url: 'wellnest.health.doctype.practitioner.practitioner.create_hospital',
+  url: 'wellnest.health.doctype.hospital.hospital.create_hospital',
 });
 
 async function createHospital() {
@@ -1618,7 +1618,7 @@ async function createInstitution(education) {
 
   try {
     const response = await createResource({
-      url: 'wellnest.health.doctype.practitioner.practitioner.create_institution',
+      url: 'wellnest.health.doctype.educational_institution.educational_institution.create_institution'
     }).submit({
       institution_name: institutionName,
     });
