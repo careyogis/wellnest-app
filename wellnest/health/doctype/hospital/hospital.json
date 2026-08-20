@@ -70,8 +70,7 @@
    "fieldname": "hospital_type",
    "fieldtype": "Link",
    "label": "Hospital Type",
-   "options": "Hospital Type",
-   "reqd": 1
+   "options": "Hospital Type"
   },
   {
    "fieldname": "facility_sub_type",
