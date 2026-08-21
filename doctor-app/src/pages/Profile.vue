@@ -939,51 +939,26 @@
                         <div class="flex gap-1.5">
                           <select
                             :value="getHour24(getDayItem(day).online_from)"
-                            @change="setDayTime(getDayItem(day), 'online_from', 'hour', $event.target.value)"
+                            @change="setDayTime(getDayItem(day), 'online_from', $event.target.value)"
                             class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option value="">HH</option>
+                            <option value="HH">HH</option>
                             <option v-for="h in 24" :key="h" :value="String(h).padStart(2, '0')">
                               {{ String(h).padStart(2, '0') }}
                             </option>
                           </select>
-
-                          <select
-                            :value="getMinute(getDayItem(day).online_from)"
-                            @change="setDayTime(getDayItem(day), 'online_from', 'minute', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
-                          >
-                            <option value="">MM</option>
-                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">
-                              {{ m }}
-                            </option>
-                          </select>
-                        </div>
-
-                        <div class="text-center text-xs text-gray-400 my-1">to</div>
-
-                        <div class="flex gap-1.5">
+                          <pre class="text-center text-xs text-gray-600 my-1">  to  </pre>
                           <select
                             :value="getHour24(getDayItem(day).online_to)"
-                            @change="setDayTime(getDayItem(day), 'online_to', 'hour', $event.target.value)"
+                            @change="setDayTime(getDayItem(day), 'online_to', $event.target.value)"
                             class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option value="">HH</option>
+                            <option value="HH">HH</option>
                             <option v-for="h in 24" :key="h" :value="String(h).padStart(2, '0')">
                               {{ String(h).padStart(2, '0') }}
                             </option>
                           </select>
 
-                          <select
-                            :value="getMinute(getDayItem(day).online_to)"
-                            @change="setDayTime(getDayItem(day), 'online_to', 'minute', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
-                          >
-                            <option value="">MM</option>
-                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">
-                              {{ m }}
-                            </option>
-                          </select>
                         </div>
                       </div>
 
@@ -994,51 +969,26 @@
                         <div class="flex gap-1.5">
                           <select
                             :value="getHour24(getDayItem(day).emergency_from)"
-                            @change="setDayTime(getDayItem(day), 'emergency_from', 'hour', $event.target.value)"
+                            @change="setDayTime(getDayItem(day), 'emergency_from', $event.target.value)"
                             class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option value="">HH</option>
+                            <option value="HH">HH</option>
                             <option v-for="h in 24" :key="h" :value="String(h).padStart(2, '0')">
                               {{ String(h).padStart(2, '0') }}
                             </option>
                           </select>
-
-                          <select
-                            :value="getMinute(getDayItem(day).emergency_from)"
-                            @change="setDayTime(getDayItem(day), 'emergency_from', 'minute', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
-                          >
-                            <option value="">MM</option>
-                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">
-                              {{ m }}
-                            </option>
-                          </select>
-                        </div>
-
-                        <div class="text-center text-xs text-gray-400 my-1">to</div>
-
-                        <div class="flex gap-1.5">
+                          <pre class="text-center text-xs text-gray-600 my-1">  to  </pre>
                           <select
                             :value="getHour24(getDayItem(day).emergency_to)"
-                            @change="setDayTime(getDayItem(day), 'emergency_to', 'hour', $event.target.value)"
+                            @change="setDayTime(getDayItem(day), 'emergency_to', $event.target.value)"
                             class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option value="">HH</option>
+                            <option value="HH">HH</option>
                             <option v-for="h in 24" :key="h" :value="String(h).padStart(2, '0')">
                               {{ String(h).padStart(2, '0') }}
                             </option>
                           </select>
 
-                          <select
-                            :value="getMinute(getDayItem(day).emergency_to)"
-                            @change="setDayTime(getDayItem(day), 'emergency_to', 'minute', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
-                          >
-                            <option value="">MM</option>
-                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">
-                              {{ m }}
-                            </option>
-                          </select>
                         </div>
                       </div>
 
@@ -1049,49 +999,23 @@
                         <div class="flex gap-1.5">
                           <select
                             :value="getHour24(getDayItem(day).clinic_from)"
-                            @change="setDayTime(getDayItem(day), 'clinic_from', 'hour', $event.target.value)"
+                            @change="setDayTime(getDayItem(day), 'clinic_from', $event.target.value)"
                             class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option value="">HH</option>
+                            <option value="HH">HH</option>
                             <option v-for="h in 24" :key="h" :value="String(h).padStart(2, '0')">
                               {{ String(h).padStart(2, '0') }}
                             </option>
                           </select>
-
-                          <select
-                            :value="getMinute(getDayItem(day).clinic_from)"
-                            @change="setDayTime(getDayItem(day), 'clinic_from', 'minute', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
-                          >
-                            <option value="">MM</option>
-                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">
-                              {{ m }}
-                            </option>
-                          </select>
-                        </div>
-
-                        <div class="text-center text-xs text-gray-400 my-1">to</div>
-
-                        <div class="flex gap-1.5">
+                          <pre class="text-center text-xs text-gray-600 my-1">  to  </pre>
                           <select
                             :value="getHour24(getDayItem(day).clinic_to)"
-                            @change="setDayTime(getDayItem(day), 'clinic_to', 'hour', $event.target.value)"
+                            @change="setDayTime(getDayItem(day), 'clinic_to', $event.target.value)"
                             class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
                           >
-                            <option value="">HH</option>
+                            <option value="HH">HH</option>
                             <option v-for="h in 24" :key="h" :value="String(h).padStart(2, '0')">
                               {{ String(h).padStart(2, '0') }}
-                            </option>
-                          </select>
-
-                          <select
-                            :value="getMinute(getDayItem(day).clinic_to)"
-                            @change="setDayTime(getDayItem(day), 'clinic_to', 'minute', $event.target.value)"
-                            class="w-1/3 px-1.5 py-1.5 border border-gray-300 rounded-lg text-xs"
-                          >
-                            <option value="">MM</option>
-                            <option v-for="m in ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']" :key="m" :value="m">
-                              {{ m }}
                             </option>
                           </select>
                         </div>
@@ -1126,10 +1050,10 @@ function formatDateOnly(dateString) {
 }
 
 function formatTimeOnly(timeString) {
-  if (!timeString) return '';
+  if (!timeString) return NaN;
   const parts = timeString.split(':');
   const paddedParts = parts.map((part) => part.padStart(2, '0'));
-  return paddedParts.join(':');
+  return parts[0];
 }
 
 function formatTimeDisplay(timeString) {
@@ -1140,9 +1064,7 @@ function formatTimeDisplay(timeString) {
 
   if (Number.isNaN(hours)) return '';
 
-  const minutes = String(parts[1] || '00').padStart(2, '0');
-
-  return `${String(hours).padStart(2, '0')}:${minutes}`;
+  return `${String(hours).padStart(2, '0')}00 hrs`;
 }
 
 function getHour24(timeString) {
@@ -1154,19 +1076,11 @@ function getHour24(timeString) {
   return String(hour).padStart(2, '0');
 }
 
-function getMinute(timeString) {
-  if (!timeString) return '';
-  return (timeString.split(':')[1] || '00').padStart(2, '0');
-}
-
-function setDayTime(dayItem, fieldName, part, value) {
-  const current = dayItem[fieldName] || '';
-
-  const hour = part === 'hour' ? value : getHour24(current) || '00';
-
-  const minute = part === 'minute' ? value : getMinute(current) || '00';
-
-  dayItem[fieldName] = `${hour}:${minute}:00`;
+function setDayTime(dayItem, fieldName, value) {
+  if (value && value != 'HH')
+    dayItem[fieldName] = `${value}`;
+  else
+    dayItem[fieldName] = NaN;
 }
 
 function getDayItem(dayName) {
