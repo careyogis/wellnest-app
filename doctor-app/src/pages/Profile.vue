@@ -181,13 +181,8 @@
                   <span class="font-semibold text-gray-900 text-sm">₹{{ profileData?.data?.doctor?.priority_charge }}</span>
                 </div>
                 <div class="flex justify-between py-3">
-                  <span class="text-gray-500 text-sm">Home Visit Consultation</span>
-                  <span class="font-semibold text-gray-900 text-sm"> ₹{{ profileData?.data?.doctor?.home_visit_charge }} </span>
-                </div>
-
-                <div class="flex justify-between py-3">
                   <span class="text-gray-500 text-sm">In-Clinic Consultation</span>
-                  <span class="font-semibold text-gray-900 text-sm"> ₹{{ profileData?.data?.doctor?.in_clinic_charge }} </span>
+                  <span class="font-semibold text-gray-900 text-sm"> ₹{{ profileData?.data?.doctor?.clinic_charge }} </span>
                 </div>
               </div>
             </div>
@@ -876,20 +871,9 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Home Visit Consultation </label>
-              <input
-                v-model="editForm.home_visit_charge"
-                type="number"
-                min="0"
-                step="0.01"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-              />
-            </div>
-
-            <div>
               <label class="block text-sm font-medium text-gray-700 mb-1"> In-Clinic Consultation </label>
               <input
-                v-model="editForm.in_clinic_charge"
+                v-model="editForm.clinic_charge"
                 type="number"
                 min="0"
                 step="0.01"
@@ -1390,8 +1374,7 @@ const editForm = reactive({
   online_charge: '',
   emergency_charge: '',
   priority_charge: '',
-  home_visit_charge: '',
-  in_clinic_charge: '',
+  clinic_charge: '',
   teleconsultation_charge: '',
   is_active: false,
 
@@ -1748,8 +1731,7 @@ function editProfile() {
   editForm.online_charge = doctor?.online_charge ?? '';
   editForm.emergency_charge = doctor?.emergency_charge ?? '';
   editForm.priority_charge = doctor?.priority_charge ?? '';
-  editForm.home_visit_charge = doctor?.home_visit_charge ?? '';
-  editForm.in_clinic_charge = doctor?.in_clinic_charge ?? '';
+  editForm.clinic_charge = doctor?.clinic_charge ?? '';
   editForm.teleconsultation_charge = doctor?.teleconsultation_charge ?? '';
   editForm.is_active = Boolean(doctor?.is_active);
 
@@ -1822,8 +1804,7 @@ async function saveProfile() {
         online_charge: editForm.online_charge,
         emergency_charge: editForm.emergency_charge,
         priority_charge: editForm.priority_charge,
-        home_visit_charge: editForm.home_visit_charge,
-        in_clinic_charge: editForm.in_clinic_charge,
+        clinic_charge: editForm.clinic_charge,
         teleconsultation_charge: editForm.teleconsultation_charge,
         is_active: editForm.is_active,
 
@@ -1890,8 +1871,7 @@ async function saveProfile() {
       doctor.online_charge = editForm.online_charge;
       doctor.emergency_charge = editForm.emergency_charge;
       doctor.priority_charge = editForm.priority_charge;
-      doctor.home_visit_charge = editForm.home_visit_charge;
-      doctor.in_clinic_charge = editForm.in_clinic_charge;
+      doctor.clinic_charge = editForm.clinic_charge;
       doctor.teleconsultation_charge = editForm.teleconsultation_charge;
 
       doctor.is_published = editForm.is_published;
