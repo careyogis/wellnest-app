@@ -10,18 +10,18 @@ from frappe.model.document import Document
 class TeleconsultationAppointment(Document):
 
     def after_insert(self):
-        """Create a Google Meet for scheduled teleconsultation appointments."""
+        """Queue Google Meet creation for scheduled teleconsultation appointments."""
 
         if self.consultation_status != "Scheduled":
             return
 
-        try:
-            self.create_video_room()
-        except Exception:
-            frappe.log_error(
-                frappe.get_traceback(),
-                "Teleconsultation Google Meet Creation Failed",
-            )
+        frappe.enqueue_doc(
+            self.doctype,
+            self.name,
+            "create_video_room",
+            queue="short",
+            enqueue_after_commit=True,
+        )
 
     def create_video_room(self):
         """Create a Google Meet space and store its details."""
