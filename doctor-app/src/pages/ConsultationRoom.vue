@@ -343,7 +343,7 @@ import { AgoraService } from '@/utils/agora';
 const route = useRoute();
 const router = useRouter();
 
-const bookingId = computed(() => route.params.bookingId || 'room_doc_Doc-1');
+const bookingId = computed(() => route.params.bookingId || 'room_doc_doc_1');
 // const channelName = computed(() => `room_${bookingId.value.replace(/[^a-zA-Z0-9_]/g, '_')}`);
 const channelName = bookingId;
 // Call State
@@ -398,7 +398,7 @@ onUnmounted(async () => {
 
 async function joinRoom() {
   try {
-    const tmpToken = '007eJxTYFiwe6KOlQ8P3zmDf4k5Xx/Ytx7TeWLeHhbxrXvlrMnz1zIqMKQmp1kmWySZJ1tYGJkYp5klJVlaWKQlpqWkGaekJJqYiBi3ZzUEMjJ869nCwAiFID4fQ1F+fm58Sn4yCOsaMjAAAPRjJHU=';
+    const tmpToken = '007eJxTYDi5SrbRO8IgbavklEbTrR4KPeKJ+kZNFtGra+SuR4S++K7AkJqcZplskWSebGFhZGKcZpaUZGlhkZaYlpJmnJKSaGKi+bI9qyGQkSEhfD8jIwMEgvh8DEX5+bnxKfnJYGzIwAAAH0ciVA==';
     const { localVideoTrack } = await agora.join({
       channelName: channelName.value,
       token: tmpToken,

@@ -189,11 +189,6 @@
                   <span class="text-gray-500 text-sm">In-Clinic Consultation</span>
                   <span class="font-semibold text-gray-900 text-sm"> ₹{{ profileData?.data?.doctor?.in_clinic_charge }} </span>
                 </div>
-
-                <div class="flex justify-between py-3">
-                  <span class="text-gray-500 text-sm">Teleconsultation</span>
-                  <span class="font-semibold text-gray-900 text-sm"> ₹{{ profileData?.data?.doctor?.teleconsultation_charge }} </span>
-                </div>
               </div>
             </div>
           </Card>
@@ -895,17 +890,6 @@
               <label class="block text-sm font-medium text-gray-700 mb-1"> In-Clinic Consultation </label>
               <input
                 v-model="editForm.in_clinic_charge"
-                type="number"
-                min="0"
-                step="0.01"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-              />
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"> Teleconsultation </label>
-              <input
-                v-model="editForm.teleconsultation_charge"
                 type="number"
                 min="0"
                 step="0.01"
