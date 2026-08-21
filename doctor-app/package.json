@@ -9,6 +9,7 @@
     "copy-html-entry": "cp ../wellnest/public/doctor-app/index.html ../wellnest/www/doctor-app.html"
   },
   "dependencies": {
+    "agora-rtc-sdk-ng": "^4.24.7",
     "feather-icons": "^4.28.0",
     "frappe-ui": "0.1.65",
     "vue": "^3.4.36",
