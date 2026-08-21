@@ -3,7 +3,7 @@
     <div v-if="sidebarOpen" class="fixed inset-0 bg-black/40 z-30 md:hidden" @click="closeSidebar"></div>
     <!-- Sidebar -->
     <aside
-      class="fixed inset-y-0 left-0 z-40 w-52 shrink-0 bg-white border-r border-gray-200 flex flex-col transform transition-transform duration-300 ease-in-out md:relative md:z-auto md:translate-x-0"
+      class="fixed inset-y-0 left-0 z-40 w-52 shrink-0 bg-white border-r border-gray-200 flex flex-col transform transition-transform duration-300 ease-in-out md:z-auto md:translate-x-0"
       :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <div class="flex items-center justify-center px-5 py-6 border-b border-gray-100">
@@ -37,7 +37,7 @@
     </aside>
 
     <!-- Main -->
-    <div class="flex-1 flex flex-col min-w-0">
+    <div class="flex-1 flex flex-col min-w-0 md:ml-52">
       <header class="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200">
         <div class="flex items-center gap-3">
           <button type="button" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500 md:hidden" aria-label="Toggle menu" @click="toggleSidebar">

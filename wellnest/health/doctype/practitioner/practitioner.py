@@ -147,6 +147,14 @@ def doctor_profile():
             "super_specialty_name",
         )
 
+
+    if practitioner.primary_facility:
+        doctor["primary_facility_name"] = frappe.db.get_value(
+            "Hospital",
+            practitioner.primary_facility,
+            "hospital_name",
+       )
+
     return {
         "doctor": doctor,
     }
