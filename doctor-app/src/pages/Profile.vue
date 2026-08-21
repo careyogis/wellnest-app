@@ -76,7 +76,7 @@
               </h4>
 
               <div class="text-gray-500 text-sm mb-4">
-                {{ profileData?.data?.doctor?.city }}
+                {{ profileData?.data?.doctor?.city?.replace(/,\s*[^,]+$/, '') }}
               </div>
 
               <div class="w-full bg-gray-200 rounded-full h-2 mb-2 overflow-hidden">
@@ -141,7 +141,7 @@
                 <div class="flex justify-between gap-4 py-3">
                   <span class="text-gray-500 text-sm">City</span>
                   <span class="font-semibold text-gray-900 text-sm">
-                    {{ profileData?.data?.doctor?.city || 'Not Available' }}
+                    {{ profileData?.data?.doctor?.city?.replace(/,\s*[^,]+$/, '') || 'Not Available' }}
                   </span>
                 </div>
 
@@ -590,7 +590,14 @@
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">City</label>
               <Autocomplete
-                :model-value="cityOptions.find((option) => option.value === editForm.city) || null"
+                :model-value="
+                  editForm.city
+                    ? {
+                        label: editForm.city.replace(/,\s*[^,]+$/, ''),
+                        value: editForm.city,
+                      }
+                    : null
+                "
                 :options="cityOptions"
                 placeholder="Select city"
                 @update:model-value="(option) => (editForm.city = option?.value || '')"
@@ -1127,7 +1134,6 @@
 import { computed, reactive, ref, watch } from 'vue';
 import { FeatherIcon, Badge, Avatar, Autocomplete, FileUploader, createResource } from 'frappe-ui';
 import { session } from '../data/session';
-import router from '@/router';
 import { profileData } from '@/data/doctorProfile';
 
 function formatDateOnly(dateString) {
@@ -1512,18 +1518,28 @@ const cityResource = createResource({
   makeParams() {
     return {
       doctype: 'City',
-      fields: ['name'],
+      fields: ['name', 'state'],
       limit_page_length: 0,
       order_by: 'name asc',
     };
   },
   onSuccess(data) {
     cityOptions.value = (data || []).map((item) => ({
-      label: item.name,
+      label: item.name.replace(/,\s*[^,]+$/, ''),
       value: item.name,
+      state: item.state,
     }));
   },
 });
+watch(
+  [() => editForm.city, cityOptions],
+  ([city, options]) => {
+    const selectedCity = options.find((option) => option.value === city);
+
+    editForm.state = selectedCity?.state || '';
+  },
+  { immediate: true }
+);
 
 const stateResource = createResource({
   url: 'frappe.client.get_list',
@@ -1618,7 +1634,7 @@ async function createInstitution(education) {
 
   try {
     const response = await createResource({
-      url: 'wellnest.health.doctype.educational_institution.educational_institution.create_institution'
+      url: 'wellnest.health.doctype.educational_institution.educational_institution.create_institution',
     }).submit({
       institution_name: institutionName,
     });
@@ -1665,20 +1681,40 @@ const specialtyResource = createResource({
 const superSpecialtyResource = createResource({
   url: 'frappe.client.get_list',
   makeParams() {
-    return {
+    const params = {
       doctype: 'Medical Super Specialty',
-      fields: ['name', 'super_specialty_name'],
+      fields: ['name', 'super_specialty_name', 'specialty'],
       limit_page_length: 100,
       order_by: 'super_specialty_name asc',
     };
+
+    if (editForm.specialty) {
+      params.filters = JSON.stringify({
+        specialty: editForm.specialty,
+      });
+    }
+
+    return params;
   },
   onSuccess(data) {
     superSpecialtyOptions.value = (data || []).map((item) => ({
       label: item.super_specialty_name,
       value: item.name,
     }));
+
+    if (editForm.super_specialty && !superSpecialtyOptions.value.some((option) => option.value === editForm.super_specialty)) {
+      editForm.super_specialty = '';
+    }
   },
 });
+
+watch(
+  () => editForm.specialty,
+  () => {
+    editForm.super_specialty = '';
+    superSpecialtyResource.reload();
+  }
+);
 
 const medicalDegreeResource = createResource({
   url: 'frappe.client.get_list',
