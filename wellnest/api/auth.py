@@ -327,9 +327,9 @@ def register_doctor(
 def _get_firebase_app():
 	global _firebase_app
 	if _firebase_app is None:
-		service_account_path = frappe.conf.get("firebase_service_account_path")
+		service_account_path = frappe.conf.get("firebase_service_principal_cert_path")
 		if not service_account_path:
-			frappe.throw("firebase_service_account_path not set in site config")
+			frappe.throw("firebase_service_principal_cert_path not set in site config")
 		cred = credentials.Certificate(service_account_path)
 		_firebase_app = firebase_admin.initialize_app(cred)
 	return _firebase_app
@@ -337,9 +337,9 @@ def _get_firebase_app():
 def _get_customer_firebase_app():
 	global _customer_firebase_app
 	if _customer_firebase_app is None:
-		service_account_path = frappe.conf.get("customer_firebase_service_account_path")
+		service_account_path = frappe.conf.get("firebase_service_principal_cert_path")
 		if not service_account_path:
-			frappe.throw("customer_firebase_service_account_path not set in site config")
+			frappe.throw("firebase_service_principal_cert_path not set in site config")
 		cred = credentials.Certificate(service_account_path)
 		_customer_firebase_app = firebase_admin.initialize_app(cred, name="customer")
 	return _customer_firebase_app

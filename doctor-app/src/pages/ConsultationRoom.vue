@@ -398,7 +398,8 @@ onUnmounted(async () => {
 
 async function joinRoom() {
   try {
-    const tmpToken = '007eJxTYDi5SrbRO8IgbavklEbTrR4KPeKJ+kZNFtGra+SuR4S++K7AkJqcZplskWSebGFhZGKcZpaUZGlhkZaYlpJmnJKSaGKi+bI9qyGQkSEhfD8jIwMEgvh8DEX5+bnxKfnJYGzIwAAAH0ciVA==';
+    // TODO: Remove this after testing
+    const tmpToken = '007eJxTYLi5siNm5uxV3yJbbO4/k+4/qa/67EnnB9nWC7OP1T1bar1JgSE1Oc0y2SLJPNnCwsjEOM0sKcnSwiItMS0lzTglJdHEZIdFZ1ZDICPDrWBdZkYGCATx+RiK8vNz41Pyk0FY15CBAQAMJycy';
     const { localVideoTrack } = await agora.join({
       channelName: channelName.value,
       token: tmpToken,
