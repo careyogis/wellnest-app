@@ -14,20 +14,22 @@
   {
    "fieldname": "medical_condtion",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Medical Condtion",
    "unique": 1
   },
   {
    "fieldname": "specialty",
    "fieldtype": "Link",
-   "label": "Specialty",
+   "in_list_view": 1,
+   "label": "Applicable Specialty",
    "options": "Medical Specialty"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-23 18:38:50.660519",
+ "modified": "2026-08-23 21:48:29.895764",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Medical Condition",
