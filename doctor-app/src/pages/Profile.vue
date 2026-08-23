@@ -184,6 +184,14 @@
                   <span class="text-gray-500 text-sm">In-Clinic Consultation</span>
                   <span class="font-semibold text-gray-900 text-sm"> ₹{{ profileData?.data?.doctor?.clinic_charge }} </span>
                 </div>
+                <div class="flex justify-between py-3">
+                  <span class="text-gray-500 text-sm">Available For Home Visits?</span>
+                  <span class="font-semibold text-gray-900 text-sm">{{ profileData?.data?.doctor?.available_for_home_visits ? 'Yes' : 'No' }}</span>
+                </div>
+                <div class="flex justify-between py-3"">
+                  <span class="text-gray-500 text-sm">Home Visit Consultation</span>
+                  <span class="font-semibold text-gray-900 text-sm"> ₹{{ profileData?.data?.doctor?.home_visit_charge }} </span>
+                </div>
               </div>
             </div>
           </Card>
@@ -880,6 +888,20 @@
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
               />
             </div>
+            <div class="flex items-center gap-3 pt-6">
+              <input id="available-for-home-visits" v-model="editForm.available_for_home_visits" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500" />
+              <label for="available-for-home-visits" class="text-sm font-medium text-gray-700"> Available for Home Visits? </label>
+            </div>
+            <div :hidden="!editForm.available_for_home_visits">
+              <label class="block text-sm font-medium text-gray-700 mb-1"> Home Visit Consultation </label>
+              <input
+                v-model="editForm.home_visit_charge"
+                type="number"
+                min="0"
+                step="0.01"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              />
+            </div>
 
             <div class="flex items-center gap-3 pt-6">
               <input id="telemedicine-certified" v-model="editForm.telemedicine_certified" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500" />
@@ -1375,7 +1397,8 @@ const editForm = reactive({
   emergency_charge: '',
   priority_charge: '',
   clinic_charge: '',
-  teleconsultation_charge: '',
+  available_for_home_visits: false,
+  home_visit_charge: '',
   is_active: false,
 
   // Availability
@@ -1732,7 +1755,8 @@ function editProfile() {
   editForm.emergency_charge = doctor?.emergency_charge ?? '';
   editForm.priority_charge = doctor?.priority_charge ?? '';
   editForm.clinic_charge = doctor?.clinic_charge ?? '';
-  editForm.teleconsultation_charge = doctor?.teleconsultation_charge ?? '';
+  editForm.available_for_home_visits = Boolean(doctor?.available_for_home_visits);
+  editForm.home_visit_charge = doctor?.home_visit_charge ?? '';
   editForm.is_active = Boolean(doctor?.is_active);
 
   // Availability
@@ -1805,7 +1829,8 @@ async function saveProfile() {
         emergency_charge: editForm.emergency_charge,
         priority_charge: editForm.priority_charge,
         clinic_charge: editForm.clinic_charge,
-        teleconsultation_charge: editForm.teleconsultation_charge,
+        available_for_home_visits: editForm.available_for_home_visits,
+        home_visit_charge: editForm.home_visit_charge,
         is_active: editForm.is_active,
 
         // Availability
@@ -1872,7 +1897,8 @@ async function saveProfile() {
       doctor.emergency_charge = editForm.emergency_charge;
       doctor.priority_charge = editForm.priority_charge;
       doctor.clinic_charge = editForm.clinic_charge;
-      doctor.teleconsultation_charge = editForm.teleconsultation_charge;
+      doctor.available_for_home_visits = editForm.available_for_home_visits;
+      doctor.home_visit_charge = editForm.home_visit_charge;
 
       doctor.is_published = editForm.is_published;
 

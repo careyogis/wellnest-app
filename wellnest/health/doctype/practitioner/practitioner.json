@@ -55,6 +55,8 @@
   "emergency_charge",
   "priority_charge",
   "clinic_charge",
+  "available_for_home_visits",
+  "home_visit_charge",
   "is_active",
   "is_published",
   "route",
@@ -102,8 +104,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Gender",
-   "options": "\nFemale\nMale",
-   "reqd": 0
+   "options": "\nFemale\nMale"
   },
   {
    "fieldname": "dob",
@@ -401,6 +402,20 @@
    "fieldname": "practicing_from",
    "fieldtype": "Date",
    "label": "Practicing From"
+  },
+  {
+   "default": "0",
+   "fieldname": "available_for_home_visits",
+   "fieldtype": "Check",
+   "label": "Available for Home Visits?"
+  },
+  {
+   "depends_on": "available_for_home_visits",
+   "fieldname": "home_visit_charge",
+   "fieldtype": "Currency",
+   "label": "Home Visit Charge",
+   "mandatory_depends_on": "available_for_home_visits",
+   "options": "currency"
   }
  ],
  "grid_page_length": 50,
@@ -409,7 +424,7 @@
  "index_web_pages_for_search": 1,
  "is_published_field": "is_published",
  "links": [],
- "modified": "2026-08-18 08:34:11.082747",
+ "modified": "2026-08-23 09:18:21.198055",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
