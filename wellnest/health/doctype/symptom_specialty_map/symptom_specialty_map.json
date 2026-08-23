@@ -1,35 +1,50 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:medical_condtion",
- "creation": "2024-06-13 16:49:30.710413",
+ "autoname": "field:symptom",
+ "creation": "2026-08-23 15:55:38.676018",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "medical_condtion",
-  "specialty"
+  "symptom_to_specialty_mapping_section",
+  "symptom",
+  "specialty",
+  "super_specialty"
  ],
  "fields": [
   {
-   "fieldname": "medical_condtion",
+   "fieldname": "symptom_to_specialty_mapping_section",
+   "fieldtype": "Section Break",
+   "label": "Symptom to Specialty Mapping"
+  },
+  {
+   "fieldname": "symptom",
    "fieldtype": "Data",
-   "label": "Medical Condtion",
+   "label": "Symptom",
    "unique": 1
   },
   {
+   "fetch_from": "super_specialty.specialty",
+   "fetch_if_empty": 1,
    "fieldname": "specialty",
    "fieldtype": "Link",
    "label": "Specialty",
    "options": "Medical Specialty"
+  },
+  {
+   "fieldname": "super_specialty",
+   "fieldtype": "Link",
+   "label": "Super Specialty",
+   "options": "Medical Super Specialty"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-23 16:25:38.001947",
+ "modified": "2026-08-23 16:00:50.816512",
  "modified_by": "Administrator",
- "module": "WellNest",
- "name": "Medical Condition",
+ "module": "Health",
+ "name": "Symptom Specialty Map",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
@@ -48,9 +63,7 @@
  ],
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
- "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
- "title_field": "medical_condtion"
+ "states": []
 }

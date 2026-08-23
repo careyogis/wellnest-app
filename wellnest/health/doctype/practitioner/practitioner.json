@@ -396,7 +396,8 @@
    "fieldname": "super_specialty",
    "fieldtype": "Link",
    "label": "Super Specialty",
-   "options": "Medical Super Specialty"
+   "options": "Medical Super Specialty",
+   "search_index": 1
   },
   {
    "fieldname": "practicing_from",
@@ -424,7 +425,7 @@
  "index_web_pages_for_search": 1,
  "is_published_field": "is_published",
  "links": [],
- "modified": "2026-08-23 09:18:21.198055",
+ "modified": "2026-08-23 16:02:28.819080",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
