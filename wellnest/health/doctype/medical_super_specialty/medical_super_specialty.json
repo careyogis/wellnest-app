@@ -2,12 +2,11 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "field:super_specialty_code",
+ "autoname": "field:super_specialty_name",
  "creation": "2026-08-17 19:31:35.162267",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "super_specialty_code",
   "super_specialty_name",
   "specialty"
  ],
@@ -19,12 +18,6 @@
    "options": "Medical Specialty"
   },
   {
-   "fieldname": "super_specialty_code",
-   "fieldtype": "Data",
-   "label": "Super Specialty Code",
-   "unique": 1
-  },
-  {
    "fieldname": "super_specialty_name",
    "fieldtype": "Data",
    "label": "Super Specialty Name",
@@ -34,7 +27,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-17 22:45:22.683752",
+ "modified": "2026-08-23 19:15:49.411965",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Medical Super Specialty",
@@ -67,9 +60,7 @@
  ],
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
- "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
- "title_field": "super_specialty_name"
+ "states": []
 }

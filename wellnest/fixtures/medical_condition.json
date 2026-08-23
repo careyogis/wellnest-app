@@ -4,34 +4,5543 @@
   "doctype": "Medical Condition",
   "medical_condtion": "Hypertension",
   "modified": "2024-06-13 16:50:48.438279",
-  "name": "Hypertension"
+  "name": "Hypertension",
+  "specialty": null
  },
  {
   "docstatus": 0,
   "doctype": "Medical Condition",
   "medical_condtion": "Diabetes",
   "modified": "2024-06-13 16:51:00.931464",
-  "name": "Diabetes"
+  "name": "Diabetes",
+  "specialty": null
  },
  {
   "docstatus": 0,
   "doctype": "Medical Condition",
   "medical_condtion": "Heart disease",
   "modified": "2024-06-13 16:51:16.766170",
-  "name": "Heart disease"
+  "name": "Heart disease",
+  "specialty": null
  },
  {
   "docstatus": 0,
   "doctype": "Medical Condition",
   "medical_condtion": "Dementia",
   "modified": "2024-06-13 16:51:29.323006",
-  "name": "Dementia"
+  "name": "Dementia",
+  "specialty": null
  },
  {
   "docstatus": 0,
   "doctype": "Medical Condition",
   "medical_condtion": "Cancer",
   "modified": "2024-06-13 16:51:43.304337",
-  "name": "Cancer"
+  "name": "Cancer",
+  "specialty": null
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained fever",
+  "modified": "2026-08-23 21:18:32.757234",
+  "name": "Unexplained fever",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever lasting more than 3 days",
+  "modified": "2026-08-23 21:18:32.771031",
+  "name": "Fever lasting more than 3 days",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained fatigue",
+  "modified": "2026-08-23 21:18:32.773785",
+  "name": "Unexplained fatigue",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent weakness",
+  "modified": "2026-08-23 21:18:32.776866",
+  "name": "Persistent weakness",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Generalized body ache",
+  "modified": "2026-08-23 21:18:32.781552",
+  "name": "Generalized body ache",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unintentional weight loss",
+  "modified": "2026-08-23 21:18:32.784950",
+  "name": "Unintentional weight loss",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unintentional weight gain",
+  "modified": "2026-08-23 21:18:32.788346",
+  "name": "Unintentional weight gain",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Night sweats",
+  "modified": "2026-08-23 21:18:32.791194",
+  "name": "Night sweats",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Loss of appetite",
+  "modified": "2026-08-23 21:18:32.794024",
+  "name": "Loss of appetite",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent malaise",
+  "modified": "2026-08-23 21:18:32.797102",
+  "name": "Persistent malaise",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent chills",
+  "modified": "2026-08-23 21:18:32.799878",
+  "name": "Recurrent chills",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Generalized swelling",
+  "modified": "2026-08-23 21:18:32.804303",
+  "name": "Generalized swelling",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New generalized itching",
+  "modified": "2026-08-23 21:18:32.807459",
+  "name": "New generalized itching",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pale appearance",
+  "modified": "2026-08-23 21:18:32.810254",
+  "name": "Pale appearance",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent dizziness",
+  "modified": "2026-08-23 21:18:32.813124",
+  "name": "Persistent dizziness",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Repeated faint feeling",
+  "modified": "2026-08-23 21:18:32.816099",
+  "name": "Repeated faint feeling",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained low-grade fever",
+  "modified": "2026-08-23 21:18:32.819153",
+  "name": "Unexplained low-grade fever",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent dehydration symptoms",
+  "modified": "2026-08-23 21:18:32.822354",
+  "name": "Persistent dehydration symptoms",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Excessive thirst",
+  "modified": "2026-08-23 21:18:32.841734",
+  "name": "Excessive thirst",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Excessive urination",
+  "modified": "2026-08-23 21:18:32.844559",
+  "name": "Excessive urination",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent nausea without clear cause",
+  "modified": "2026-08-23 21:18:32.847352",
+  "name": "Persistent nausea without clear cause",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Multiple nonspecific symptoms",
+  "modified": "2026-08-23 21:18:32.849770",
+  "name": "Multiple nonspecific symptoms",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained recurrent infections",
+  "modified": "2026-08-23 21:18:32.852444",
+  "name": "Unexplained recurrent infections",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent swollen glands",
+  "modified": "2026-08-23 21:18:32.855214",
+  "name": "Persistent swollen glands",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained bruising",
+  "modified": "2026-08-23 21:18:32.857660",
+  "name": "Unexplained bruising",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New exercise intolerance",
+  "modified": "2026-08-23 21:18:32.860899",
+  "name": "New exercise intolerance",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent reduced stamina",
+  "modified": "2026-08-23 21:18:32.864268",
+  "name": "Persistent reduced stamina",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained sweating",
+  "modified": "2026-08-23 21:18:32.866965",
+  "name": "Unexplained sweating",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Temperature intolerance",
+  "modified": "2026-08-23 21:18:32.869681",
+  "name": "Temperature intolerance",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Symptoms affecting several body systems",
+  "modified": "2026-08-23 21:18:32.872382",
+  "name": "Symptoms affecting several body systems",
+  "specialty": "General Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Chest pressure on exertion",
+  "modified": "2026-08-23 21:18:32.875702",
+  "name": "Chest pressure on exertion",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Chest pain with walking",
+  "modified": "2026-08-23 21:18:32.878947",
+  "name": "Chest pain with walking",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Chest tightness",
+  "modified": "2026-08-23 21:18:32.882239",
+  "name": "Chest tightness",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden severe chest pain",
+  "modified": "2026-08-23 21:18:32.885609",
+  "name": "Sudden severe chest pain",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Palpitations",
+  "modified": "2026-08-23 21:18:32.888918",
+  "name": "Palpitations",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fast heartbeat episodes",
+  "modified": "2026-08-23 21:18:32.891481",
+  "name": "Fast heartbeat episodes",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Slow heartbeat episodes",
+  "modified": "2026-08-23 21:18:32.895930",
+  "name": "Slow heartbeat episodes",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Irregular heartbeat",
+  "modified": "2026-08-23 21:18:32.898832",
+  "name": "Irregular heartbeat",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Skipped heartbeats",
+  "modified": "2026-08-23 21:18:32.901902",
+  "name": "Skipped heartbeats",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Breathlessness on exertion",
+  "modified": "2026-08-23 21:18:32.906879",
+  "name": "Breathlessness on exertion",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Breathlessness when lying flat",
+  "modified": "2026-08-23 21:18:32.910438",
+  "name": "Breathlessness when lying flat",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Waking breathless at night",
+  "modified": "2026-08-23 21:18:32.914005",
+  "name": "Waking breathless at night",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New ankle swelling",
+  "modified": "2026-08-23 21:18:32.917395",
+  "name": "New ankle swelling",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Leg swelling with breathlessness",
+  "modified": "2026-08-23 21:18:32.920634",
+  "name": "Leg swelling with breathlessness",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained fainting during exertion",
+  "modified": "2026-08-23 21:18:32.923338",
+  "name": "Unexplained fainting during exertion",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Near-fainting with palpitations",
+  "modified": "2026-08-23 21:18:32.926096",
+  "name": "Near-fainting with palpitations",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Reduced exercise tolerance",
+  "modified": "2026-08-23 21:18:32.929026",
+  "name": "Reduced exercise tolerance",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Rapid heartbeat with minimal activity",
+  "modified": "2026-08-23 21:18:32.932149",
+  "name": "Rapid heartbeat with minimal activity",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained sweating with chest discomfort",
+  "modified": "2026-08-23 21:18:32.934983",
+  "name": "Unexplained sweating with chest discomfort",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Jaw pain with exertion",
+  "modified": "2026-08-23 21:18:32.938358",
+  "name": "Jaw pain with exertion",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Arm pain with exertion",
+  "modified": "2026-08-23 21:18:32.940976",
+  "name": "Arm pain with exertion",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Back pain with chest discomfort",
+  "modified": "2026-08-23 21:18:32.943801",
+  "name": "Back pain with chest discomfort",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New high blood pressure symptoms",
+  "modified": "2026-08-23 21:18:32.946935",
+  "name": "New high blood pressure symptoms",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Very low blood pressure with dizziness",
+  "modified": "2026-08-23 21:18:32.949821",
+  "name": "Very low blood pressure with dizziness",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent racing pulse",
+  "modified": "2026-08-23 21:18:32.952645",
+  "name": "Persistent racing pulse",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New heart murmur finding",
+  "modified": "2026-08-23 21:18:32.956001",
+  "name": "New heart murmur finding",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Blue lips with exertion",
+  "modified": "2026-08-23 21:18:32.958547",
+  "name": "Blue lips with exertion",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden cold sweat with chest discomfort",
+  "modified": "2026-08-23 21:18:32.961074",
+  "name": "Sudden cold sweat with chest discomfort",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained fluid retention",
+  "modified": "2026-08-23 21:18:32.963788",
+  "name": "Unexplained fluid retention",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Weight gain with leg swelling",
+  "modified": "2026-08-23 21:18:32.967226",
+  "name": "Weight gain with leg swelling",
+  "specialty": "Cardiology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent cough",
+  "modified": "2026-08-23 21:18:32.970431",
+  "name": "Persistent cough",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Cough lasting more than 8 weeks",
+  "modified": "2026-08-23 21:18:32.973613",
+  "name": "Cough lasting more than 8 weeks",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Cough with phlegm",
+  "modified": "2026-08-23 21:18:32.976265",
+  "name": "Cough with phlegm",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Coughing blood",
+  "modified": "2026-08-23 21:18:32.979029",
+  "name": "Coughing blood",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Wheezing",
+  "modified": "2026-08-23 21:18:32.981899",
+  "name": "Wheezing",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Shortness of breath",
+  "modified": "2026-08-23 21:18:32.984558",
+  "name": "Shortness of breath",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden breathlessness",
+  "modified": "2026-08-23 21:18:32.987433",
+  "name": "Sudden breathlessness",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Breathlessness on stairs",
+  "modified": "2026-08-23 21:18:32.990434",
+  "name": "Breathlessness on stairs",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Breathlessness at rest",
+  "modified": "2026-08-23 21:18:32.992923",
+  "name": "Breathlessness at rest",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Noisy breathing",
+  "modified": "2026-08-23 21:18:32.995561",
+  "name": "Noisy breathing",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Chest tightness with wheezing",
+  "modified": "2026-08-23 21:18:32.998470",
+  "name": "Chest tightness with wheezing",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Night-time cough",
+  "modified": "2026-08-23 21:18:33.001274",
+  "name": "Night-time cough",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Cough triggered by exercise",
+  "modified": "2026-08-23 21:18:33.005009",
+  "name": "Cough triggered by exercise",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Cough triggered by cold air",
+  "modified": "2026-08-23 21:18:33.022313",
+  "name": "Cough triggered by cold air",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Cough triggered by allergens",
+  "modified": "2026-08-23 21:18:33.025412",
+  "name": "Cough triggered by allergens",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent chest infections",
+  "modified": "2026-08-23 21:18:33.028753",
+  "name": "Recurrent chest infections",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Frequent bronchitis",
+  "modified": "2026-08-23 21:18:33.031560",
+  "name": "Frequent bronchitis",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent sputum production",
+  "modified": "2026-08-23 21:18:33.034442",
+  "name": "Persistent sputum production",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Change in sputum color",
+  "modified": "2026-08-23 21:18:33.037597",
+  "name": "Change in sputum color",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pleuritic chest pain",
+  "modified": "2026-08-23 21:18:33.040458",
+  "name": "Pleuritic chest pain",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Breathlessness after respiratory infection",
+  "modified": "2026-08-23 21:18:33.043133",
+  "name": "Breathlessness after respiratory infection",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Snoring with daytime sleepiness",
+  "modified": "2026-08-23 21:18:33.046275",
+  "name": "Snoring with daytime sleepiness",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Witnessed pauses in breathing during sleep",
+  "modified": "2026-08-23 21:18:33.049467",
+  "name": "Witnessed pauses in breathing during sleep",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Morning headaches with loud snoring",
+  "modified": "2026-08-23 21:18:33.052753",
+  "name": "Morning headaches with loud snoring",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained low oxygen reading",
+  "modified": "2026-08-23 21:18:33.056370",
+  "name": "Unexplained low oxygen reading",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Breathlessness at high altitude",
+  "modified": "2026-08-23 21:18:33.060263",
+  "name": "Breathlessness at high altitude",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Occupational breathing difficulty",
+  "modified": "2026-08-23 21:18:33.063135",
+  "name": "Occupational breathing difficulty",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Dust-related cough",
+  "modified": "2026-08-23 21:18:33.066263",
+  "name": "Dust-related cough",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Smoking-related chronic cough",
+  "modified": "2026-08-23 21:18:33.069165",
+  "name": "Smoking-related chronic cough",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden unexplained low oxygen",
+  "modified": "2026-08-23 21:18:33.072449",
+  "name": "Sudden unexplained low oxygen",
+  "specialty": "Pulmonology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Upper abdominal pain",
+  "modified": "2026-08-23 21:18:33.075117",
+  "name": "Upper abdominal pain",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Lower abdominal pain",
+  "modified": "2026-08-23 21:18:33.077670",
+  "name": "Lower abdominal pain",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Right upper abdominal pain",
+  "modified": "2026-08-23 21:18:33.080448",
+  "name": "Right upper abdominal pain",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Left upper abdominal pain",
+  "modified": "2026-08-23 21:18:33.083202",
+  "name": "Left upper abdominal pain",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Central abdominal pain",
+  "modified": "2026-08-23 21:18:33.086275",
+  "name": "Central abdominal pain",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Abdominal bloating",
+  "modified": "2026-08-23 21:18:33.088924",
+  "name": "Abdominal bloating",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Abdominal distension",
+  "modified": "2026-08-23 21:18:33.091486",
+  "name": "Abdominal distension",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Heartburn",
+  "modified": "2026-08-23 21:18:33.094341",
+  "name": "Heartburn",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Acid regurgitation",
+  "modified": "2026-08-23 21:18:33.097468",
+  "name": "Acid regurgitation",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty swallowing solids",
+  "modified": "2026-08-23 21:18:33.100647",
+  "name": "Difficulty swallowing solids",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty swallowing liquids",
+  "modified": "2026-08-23 21:18:33.103579",
+  "name": "Difficulty swallowing liquids",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Painful swallowing",
+  "modified": "2026-08-23 21:18:33.107129",
+  "name": "Painful swallowing",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent nausea",
+  "modified": "2026-08-23 21:18:33.110800",
+  "name": "Persistent nausea",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Repeated vomiting",
+  "modified": "2026-08-23 21:18:33.113606",
+  "name": "Repeated vomiting",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Vomiting blood",
+  "modified": "2026-08-23 21:18:33.116873",
+  "name": "Vomiting blood",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Black stools",
+  "modified": "2026-08-23 21:18:33.119845",
+  "name": "Black stools",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Blood mixed with stool",
+  "modified": "2026-08-23 21:18:33.123118",
+  "name": "Blood mixed with stool",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Bright red rectal bleeding",
+  "modified": "2026-08-23 21:18:33.125760",
+  "name": "Bright red rectal bleeding",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent diarrhea",
+  "modified": "2026-08-23 21:18:33.128794",
+  "name": "Persistent diarrhea",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Chronic loose stools",
+  "modified": "2026-08-23 21:18:33.131765",
+  "name": "Chronic loose stools",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Constipation",
+  "modified": "2026-08-23 21:18:33.134917",
+  "name": "Constipation",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Alternating diarrhea and constipation",
+  "modified": "2026-08-23 21:18:33.140255",
+  "name": "Alternating diarrhea and constipation",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Urgency to pass stool",
+  "modified": "2026-08-23 21:18:33.142974",
+  "name": "Urgency to pass stool",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Mucus in stool",
+  "modified": "2026-08-23 21:18:33.145724",
+  "name": "Mucus in stool",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent indigestion",
+  "modified": "2026-08-23 21:18:33.148583",
+  "name": "Persistent indigestion",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Early fullness after meals",
+  "modified": "2026-08-23 21:18:33.151561",
+  "name": "Early fullness after meals",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained abdominal cramps",
+  "modified": "2026-08-23 21:18:33.154845",
+  "name": "Unexplained abdominal cramps",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pain after eating",
+  "modified": "2026-08-23 21:18:33.157523",
+  "name": "Pain after eating",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained jaundice",
+  "modified": "2026-08-23 21:18:33.160209",
+  "name": "Unexplained jaundice",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent hiccups",
+  "modified": "2026-08-23 21:18:33.163304",
+  "name": "Persistent hiccups",
+  "specialty": "Gastroenterology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New severe headache",
+  "modified": "2026-08-23 21:18:33.166812",
+  "name": "New severe headache",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent migraine-like headache",
+  "modified": "2026-08-23 21:18:33.169786",
+  "name": "Recurrent migraine-like headache",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Headache with visual symptoms",
+  "modified": "2026-08-23 21:18:33.172749",
+  "name": "Headache with visual symptoms",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Morning headache",
+  "modified": "2026-08-23 21:18:33.175490",
+  "name": "Morning headache",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Headache with vomiting",
+  "modified": "2026-08-23 21:18:33.178529",
+  "name": "Headache with vomiting",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden worst-ever headache",
+  "modified": "2026-08-23 21:18:33.181361",
+  "name": "Sudden worst-ever headache",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Facial weakness",
+  "modified": "2026-08-23 21:18:33.184305",
+  "name": "Facial weakness",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Arm weakness",
+  "modified": "2026-08-23 21:18:33.187531",
+  "name": "Arm weakness",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Leg weakness",
+  "modified": "2026-08-23 21:18:33.190222",
+  "name": "Leg weakness",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "One-sided weakness",
+  "modified": "2026-08-23 21:18:33.192966",
+  "name": "One-sided weakness",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Numbness in one side",
+  "modified": "2026-08-23 21:18:33.195811",
+  "name": "Numbness in one side",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent tingling",
+  "modified": "2026-08-23 21:18:33.198448",
+  "name": "Persistent tingling",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Burning sensation in feet",
+  "modified": "2026-08-23 21:18:33.201217",
+  "name": "Burning sensation in feet",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Loss of sensation",
+  "modified": "2026-08-23 21:18:33.204358",
+  "name": "Loss of sensation",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Tremor",
+  "modified": "2026-08-23 21:18:33.207045",
+  "name": "Tremor",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Hand tremor",
+  "modified": "2026-08-23 21:18:33.212238",
+  "name": "Hand tremor",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unsteady walking",
+  "modified": "2026-08-23 21:18:33.215304",
+  "name": "Unsteady walking",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Loss of balance",
+  "modified": "2026-08-23 21:18:33.218315",
+  "name": "Loss of balance",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Vertigo with neurological symptoms",
+  "modified": "2026-08-23 21:18:33.221614",
+  "name": "Vertigo with neurological symptoms",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New seizure",
+  "modified": "2026-08-23 21:18:33.224325",
+  "name": "New seizure",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Repeated seizures",
+  "modified": "2026-08-23 21:18:33.226816",
+  "name": "Repeated seizures",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Brief episodes of loss of awareness",
+  "modified": "2026-08-23 21:18:33.229463",
+  "name": "Brief episodes of loss of awareness",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Memory decline",
+  "modified": "2026-08-23 21:18:33.232090",
+  "name": "Memory decline",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New confusion",
+  "modified": "2026-08-23 21:18:33.235138",
+  "name": "New confusion",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Speech difficulty",
+  "modified": "2026-08-23 21:18:33.238577",
+  "name": "Speech difficulty",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Slurred speech",
+  "modified": "2026-08-23 21:18:33.241217",
+  "name": "Slurred speech",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty finding words",
+  "modified": "2026-08-23 21:18:33.243615",
+  "name": "Difficulty finding words",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Double vision with neurological symptoms",
+  "modified": "2026-08-23 21:18:33.246208",
+  "name": "Double vision with neurological symptoms",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Muscle twitching",
+  "modified": "2026-08-23 21:18:33.248849",
+  "name": "Muscle twitching",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Progressive muscle weakness",
+  "modified": "2026-08-23 21:18:33.251647",
+  "name": "Progressive muscle weakness",
+  "specialty": "Neurology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Neck pain",
+  "modified": "2026-08-23 21:18:33.254917",
+  "name": "Neck pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Neck stiffness after injury",
+  "modified": "2026-08-23 21:18:33.257657",
+  "name": "Neck stiffness after injury",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Shoulder pain",
+  "modified": "2026-08-23 21:18:33.260139",
+  "name": "Shoulder pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Shoulder stiffness",
+  "modified": "2026-08-23 21:18:33.262831",
+  "name": "Shoulder stiffness",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Shoulder weakness",
+  "modified": "2026-08-23 21:18:33.265536",
+  "name": "Shoulder weakness",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Elbow pain",
+  "modified": "2026-08-23 21:18:33.268375",
+  "name": "Elbow pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Wrist pain",
+  "modified": "2026-08-23 21:18:33.271428",
+  "name": "Wrist pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Hand joint pain",
+  "modified": "2026-08-23 21:18:33.273993",
+  "name": "Hand joint pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Finger pain",
+  "modified": "2026-08-23 21:18:33.276512",
+  "name": "Finger pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Hip pain",
+  "modified": "2026-08-23 21:18:33.278977",
+  "name": "Hip pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Groin pain with walking",
+  "modified": "2026-08-23 21:18:33.281548",
+  "name": "Groin pain with walking",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Knee pain",
+  "modified": "2026-08-23 21:18:33.284260",
+  "name": "Knee pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Knee swelling after injury",
+  "modified": "2026-08-23 21:18:33.287226",
+  "name": "Knee swelling after injury",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Knee locking",
+  "modified": "2026-08-23 21:18:33.289813",
+  "name": "Knee locking",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Knee instability",
+  "modified": "2026-08-23 21:18:33.292348",
+  "name": "Knee instability",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Ankle pain",
+  "modified": "2026-08-23 21:18:33.295035",
+  "name": "Ankle pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Ankle swelling after injury",
+  "modified": "2026-08-23 21:18:33.298550",
+  "name": "Ankle swelling after injury",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Heel pain",
+  "modified": "2026-08-23 21:18:33.301524",
+  "name": "Heel pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Foot pain",
+  "modified": "2026-08-23 21:18:33.304915",
+  "name": "Foot pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Toe pain",
+  "modified": "2026-08-23 21:18:33.307621",
+  "name": "Toe pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Back pain",
+  "modified": "2026-08-23 21:18:33.325473",
+  "name": "Back pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Low back pain after lifting",
+  "modified": "2026-08-23 21:18:33.328768",
+  "name": "Low back pain after lifting",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Back pain radiating to leg",
+  "modified": "2026-08-23 21:18:33.331767",
+  "name": "Back pain radiating to leg",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sciatica-like pain",
+  "modified": "2026-08-23 21:18:33.334880",
+  "name": "Sciatica-like pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Tailbone pain",
+  "modified": "2026-08-23 21:18:33.338355",
+  "name": "Tailbone pain",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Joint pain after injury",
+  "modified": "2026-08-23 21:18:33.341197",
+  "name": "Joint pain after injury",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent muscle pain after injury",
+  "modified": "2026-08-23 21:18:33.344534",
+  "name": "Persistent muscle pain after injury",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Reduced range of motion",
+  "modified": "2026-08-23 21:18:33.347711",
+  "name": "Reduced range of motion",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Limping",
+  "modified": "2026-08-23 21:18:33.351009",
+  "name": "Limping",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty bearing weight",
+  "modified": "2026-08-23 21:18:33.353906",
+  "name": "Difficulty bearing weight",
+  "specialty": "Orthopedics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent morning joint stiffness",
+  "modified": "2026-08-23 21:18:33.357428",
+  "name": "Persistent morning joint stiffness",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Multiple swollen joints",
+  "modified": "2026-08-23 21:18:33.360167",
+  "name": "Multiple swollen joints",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Symmetrical hand joint pain",
+  "modified": "2026-08-23 21:18:33.363130",
+  "name": "Symmetrical hand joint pain",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Small-joint swelling",
+  "modified": "2026-08-23 21:18:33.367114",
+  "name": "Small-joint swelling",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Migratory joint pain",
+  "modified": "2026-08-23 21:18:33.370168",
+  "name": "Migratory joint pain",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent joint inflammation",
+  "modified": "2026-08-23 21:18:33.372950",
+  "name": "Recurrent joint inflammation",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained joint stiffness",
+  "modified": "2026-08-23 21:18:33.375662",
+  "name": "Unexplained joint stiffness",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Joint pain with skin rash",
+  "modified": "2026-08-23 21:18:33.379643",
+  "name": "Joint pain with skin rash",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Joint pain with mouth ulcers",
+  "modified": "2026-08-23 21:18:33.382807",
+  "name": "Joint pain with mouth ulcers",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Joint pain with eye inflammation",
+  "modified": "2026-08-23 21:18:33.385855",
+  "name": "Joint pain with eye inflammation",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Back stiffness improving with activity",
+  "modified": "2026-08-23 21:18:33.388945",
+  "name": "Back stiffness improving with activity",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent inflammatory back pain",
+  "modified": "2026-08-23 21:18:33.391629",
+  "name": "Persistent inflammatory back pain",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Heel pain with morning stiffness",
+  "modified": "2026-08-23 21:18:33.394873",
+  "name": "Heel pain with morning stiffness",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Finger swelling",
+  "modified": "2026-08-23 21:18:33.398056",
+  "name": "Finger swelling",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Toe swelling",
+  "modified": "2026-08-23 21:18:33.401504",
+  "name": "Toe swelling",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent tendon pain",
+  "modified": "2026-08-23 21:18:33.404775",
+  "name": "Recurrent tendon pain",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained muscle weakness",
+  "modified": "2026-08-23 21:18:33.407495",
+  "name": "Unexplained muscle weakness",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Muscle pain with rash",
+  "modified": "2026-08-23 21:18:33.410524",
+  "name": "Muscle pain with rash",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Cold-induced finger color changes",
+  "modified": "2026-08-23 21:18:33.414723",
+  "name": "Cold-induced finger color changes",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Finger color changes in cold",
+  "modified": "2026-08-23 21:18:33.417958",
+  "name": "Finger color changes in cold",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent dry mouth with joint pain",
+  "modified": "2026-08-23 21:18:33.421109",
+  "name": "Persistent dry mouth with joint pain",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent dry eyes with joint pain",
+  "modified": "2026-08-23 21:18:33.424378",
+  "name": "Persistent dry eyes with joint pain",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained recurrent fevers with joint pain",
+  "modified": "2026-08-23 21:18:33.427018",
+  "name": "Unexplained recurrent fevers with joint pain",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Joint pain with unexplained weight loss",
+  "modified": "2026-08-23 21:18:33.429752",
+  "name": "Joint pain with unexplained weight loss",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Joint pain with prolonged fatigue",
+  "modified": "2026-08-23 21:18:33.432552",
+  "name": "Joint pain with prolonged fatigue",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained elevated inflammatory markers",
+  "modified": "2026-08-23 21:18:33.435152",
+  "name": "Unexplained elevated inflammatory markers",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent swelling of one joint",
+  "modified": "2026-08-23 21:18:33.438298",
+  "name": "Recurrent swelling of one joint",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Multiple episodes of unexplained arthritis",
+  "modified": "2026-08-23 21:18:33.440985",
+  "name": "Multiple episodes of unexplained arthritis",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Joint pain with photosensitive rash",
+  "modified": "2026-08-23 21:18:33.443777",
+  "name": "Joint pain with photosensitive rash",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Joint pain with unexplained anemia",
+  "modified": "2026-08-23 21:18:33.446485",
+  "name": "Joint pain with unexplained anemia",
+  "specialty": "Rheumatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New skin rash",
+  "modified": "2026-08-23 21:18:33.449252",
+  "name": "New skin rash",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent itchy rash",
+  "modified": "2026-08-23 21:18:33.452197",
+  "name": "Persistent itchy rash",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Hives",
+  "modified": "2026-08-23 21:18:33.455227",
+  "name": "Hives",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent hives",
+  "modified": "2026-08-23 21:18:33.457755",
+  "name": "Recurrent hives",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Facial rash",
+  "modified": "2026-08-23 21:18:33.460082",
+  "name": "Facial rash",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Scaly skin patches",
+  "modified": "2026-08-23 21:18:33.462789",
+  "name": "Scaly skin patches",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Red scaly plaques",
+  "modified": "2026-08-23 21:18:33.465691",
+  "name": "Red scaly plaques",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New mole",
+  "modified": "2026-08-23 21:18:33.468950",
+  "name": "New mole",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Changing mole",
+  "modified": "2026-08-23 21:18:33.472705",
+  "name": "Changing mole",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Bleeding mole",
+  "modified": "2026-08-23 21:18:33.475353",
+  "name": "Bleeding mole",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Non-healing skin sore",
+  "modified": "2026-08-23 21:18:33.477821",
+  "name": "Non-healing skin sore",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Skin ulcer",
+  "modified": "2026-08-23 21:18:33.480395",
+  "name": "Skin ulcer",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Blistering skin eruption",
+  "modified": "2026-08-23 21:18:33.483131",
+  "name": "Blistering skin eruption",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Widespread blisters",
+  "modified": "2026-08-23 21:18:33.487195",
+  "name": "Widespread blisters",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Painful skin lesions",
+  "modified": "2026-08-23 21:18:33.490064",
+  "name": "Painful skin lesions",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pus-filled skin lesions",
+  "modified": "2026-08-23 21:18:33.492781",
+  "name": "Pus-filled skin lesions",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Acne",
+  "modified": "2026-08-23 21:18:33.495665",
+  "name": "Acne",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Severe acne scarring",
+  "modified": "2026-08-23 21:18:33.498779",
+  "name": "Severe acne scarring",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Hair loss",
+  "modified": "2026-08-23 21:18:33.501710",
+  "name": "Hair loss",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Patchy hair loss",
+  "modified": "2026-08-23 21:18:33.505025",
+  "name": "Patchy hair loss",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden excessive hair shedding",
+  "modified": "2026-08-23 21:18:33.507753",
+  "name": "Sudden excessive hair shedding",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Dandruff with scalp inflammation",
+  "modified": "2026-08-23 21:18:33.510310",
+  "name": "Dandruff with scalp inflammation",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Scalp itching",
+  "modified": "2026-08-23 21:18:33.514308",
+  "name": "Scalp itching",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Nail discoloration",
+  "modified": "2026-08-23 21:18:33.517453",
+  "name": "Nail discoloration",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Nail thickening",
+  "modified": "2026-08-23 21:18:33.520879",
+  "name": "Nail thickening",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Brittle nails",
+  "modified": "2026-08-23 21:18:33.523569",
+  "name": "Brittle nails",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Skin pigmentation changes",
+  "modified": "2026-08-23 21:18:33.526107",
+  "name": "Skin pigmentation changes",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Loss of skin pigment",
+  "modified": "2026-08-23 21:18:33.529240",
+  "name": "Loss of skin pigment",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent facial redness",
+  "modified": "2026-08-23 21:18:33.532489",
+  "name": "Persistent facial redness",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained bruising on skin",
+  "modified": "2026-08-23 21:18:33.535290",
+  "name": "Unexplained bruising on skin",
+  "specialty": "Dermatology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Ear pain",
+  "modified": "2026-08-23 21:18:33.538707",
+  "name": "Ear pain",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Blocked ear",
+  "modified": "2026-08-23 21:18:33.541300",
+  "name": "Blocked ear",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Hearing loss",
+  "modified": "2026-08-23 21:18:33.543855",
+  "name": "Hearing loss",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden hearing loss",
+  "modified": "2026-08-23 21:18:33.546445",
+  "name": "Sudden hearing loss",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Ringing in the ears",
+  "modified": "2026-08-23 21:18:33.549288",
+  "name": "Ringing in the ears",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Ear discharge",
+  "modified": "2026-08-23 21:18:33.552654",
+  "name": "Ear discharge",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent ear infections",
+  "modified": "2026-08-23 21:18:33.555733",
+  "name": "Recurrent ear infections",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Dizziness with hearing symptoms",
+  "modified": "2026-08-23 21:18:33.559656",
+  "name": "Dizziness with hearing symptoms",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Nasal blockage",
+  "modified": "2026-08-23 21:18:33.562543",
+  "name": "Nasal blockage",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent runny nose",
+  "modified": "2026-08-23 21:18:33.565471",
+  "name": "Persistent runny nose",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sneezing with nasal symptoms",
+  "modified": "2026-08-23 21:18:33.568306",
+  "name": "Sneezing with nasal symptoms",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Loss of smell",
+  "modified": "2026-08-23 21:18:33.571537",
+  "name": "Loss of smell",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Reduced sense of smell",
+  "modified": "2026-08-23 21:18:33.574230",
+  "name": "Reduced sense of smell",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Nosebleed",
+  "modified": "2026-08-23 21:18:33.576726",
+  "name": "Nosebleed",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Facial pressure",
+  "modified": "2026-08-23 21:18:33.579215",
+  "name": "Facial pressure",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sinus pain",
+  "modified": "2026-08-23 21:18:33.581897",
+  "name": "Sinus pain",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent sinus infections",
+  "modified": "2026-08-23 21:18:33.584741",
+  "name": "Recurrent sinus infections",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Postnasal drip",
+  "modified": "2026-08-23 21:18:33.587716",
+  "name": "Postnasal drip",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent sore throat",
+  "modified": "2026-08-23 21:18:33.590259",
+  "name": "Persistent sore throat",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty swallowing with throat pain",
+  "modified": "2026-08-23 21:18:33.592742",
+  "name": "Difficulty swallowing with throat pain",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Hoarseness",
+  "modified": "2026-08-23 21:18:33.595221",
+  "name": "Hoarseness",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Voice loss",
+  "modified": "2026-08-23 21:18:33.597823",
+  "name": "Voice loss",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent throat clearing",
+  "modified": "2026-08-23 21:18:33.600695",
+  "name": "Persistent throat clearing",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Neck lump",
+  "modified": "2026-08-23 21:18:33.603448",
+  "name": "Neck lump",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Swollen tonsils",
+  "modified": "2026-08-23 21:18:33.606676",
+  "name": "Swollen tonsils",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent tonsillitis",
+  "modified": "2026-08-23 21:18:33.609319",
+  "name": "Recurrent tonsillitis",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Snoring",
+  "modified": "2026-08-23 21:18:33.612039",
+  "name": "Snoring",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Mouth breathing",
+  "modified": "2026-08-23 21:18:33.616030",
+  "name": "Mouth breathing",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sleep-related breathing difficulty",
+  "modified": "2026-08-23 21:18:33.619625",
+  "name": "Sleep-related breathing difficulty",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Foreign body sensation in throat",
+  "modified": "2026-08-23 21:18:33.622896",
+  "name": "Foreign body sensation in throat",
+  "specialty": "ENT / Otorhinolaryngology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Eye pain",
+  "modified": "2026-08-23 21:18:33.625616",
+  "name": "Eye pain",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden loss of vision",
+  "modified": "2026-08-23 21:18:33.628382",
+  "name": "Sudden loss of vision",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Blurred vision",
+  "modified": "2026-08-23 21:18:33.631042",
+  "name": "Blurred vision",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Double vision",
+  "modified": "2026-08-23 21:18:33.633834",
+  "name": "Double vision",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Flashes of light",
+  "modified": "2026-08-23 21:18:33.643645",
+  "name": "Flashes of light",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New floaters",
+  "modified": "2026-08-23 21:18:33.649318",
+  "name": "New floaters",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Red eye",
+  "modified": "2026-08-23 21:18:33.654195",
+  "name": "Red eye",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Painful red eye",
+  "modified": "2026-08-23 21:18:33.657361",
+  "name": "Painful red eye",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Light sensitivity",
+  "modified": "2026-08-23 21:18:33.659966",
+  "name": "Light sensitivity",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Excessive tearing",
+  "modified": "2026-08-23 21:18:33.662692",
+  "name": "Excessive tearing",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Dry eyes",
+  "modified": "2026-08-23 21:18:33.665816",
+  "name": "Dry eyes",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Eye discharge",
+  "modified": "2026-08-23 21:18:33.669145",
+  "name": "Eye discharge",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Itchy eyes",
+  "modified": "2026-08-23 21:18:33.672874",
+  "name": "Itchy eyes",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Swollen eyelid",
+  "modified": "2026-08-23 21:18:33.675577",
+  "name": "Swollen eyelid",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Drooping eyelid",
+  "modified": "2026-08-23 21:18:33.678449",
+  "name": "Drooping eyelid",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden visual field loss",
+  "modified": "2026-08-23 21:18:33.681223",
+  "name": "Sudden visual field loss",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty seeing at night",
+  "modified": "2026-08-23 21:18:33.684354",
+  "name": "Difficulty seeing at night",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Reduced color vision",
+  "modified": "2026-08-23 21:18:33.688036",
+  "name": "Reduced color vision",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Distorted vision",
+  "modified": "2026-08-23 21:18:33.691130",
+  "name": "Distorted vision",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Halos around lights",
+  "modified": "2026-08-23 21:18:33.694067",
+  "name": "Halos around lights",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Eye strain",
+  "modified": "2026-08-23 21:18:33.697140",
+  "name": "Eye strain",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Headache with visual strain",
+  "modified": "2026-08-23 21:18:33.700499",
+  "name": "Headache with visual strain",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Foreign body sensation in eye",
+  "modified": "2026-08-23 21:18:33.703860",
+  "name": "Foreign body sensation in eye",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent eye redness",
+  "modified": "2026-08-23 21:18:33.706995",
+  "name": "Persistent eye redness",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained eye swelling",
+  "modified": "2026-08-23 21:18:33.710008",
+  "name": "Unexplained eye swelling",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Loss of peripheral vision",
+  "modified": "2026-08-23 21:18:33.725508",
+  "name": "Loss of peripheral vision",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden pupil-size difference",
+  "modified": "2026-08-23 21:18:33.729266",
+  "name": "Sudden pupil-size difference",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Vision loss after eye injury",
+  "modified": "2026-08-23 21:18:33.732627",
+  "name": "Vision loss after eye injury",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Eye pain with nausea",
+  "modified": "2026-08-23 21:18:33.736151",
+  "name": "Eye pain with nausea",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Progressive vision deterioration",
+  "modified": "2026-08-23 21:18:33.739724",
+  "name": "Progressive vision deterioration",
+  "specialty": "Ophthalmology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Burning urination",
+  "modified": "2026-08-23 21:18:33.742737",
+  "name": "Burning urination",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Frequent urination",
+  "modified": "2026-08-23 21:18:33.746140",
+  "name": "Frequent urination",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Urgent need to urinate",
+  "modified": "2026-08-23 21:18:33.749491",
+  "name": "Urgent need to urinate",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Night-time urination",
+  "modified": "2026-08-23 21:18:33.752437",
+  "name": "Night-time urination",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Blood in urine",
+  "modified": "2026-08-23 21:18:33.755914",
+  "name": "Blood in urine",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty starting urination",
+  "modified": "2026-08-23 21:18:33.758494",
+  "name": "Difficulty starting urination",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Weak urine stream",
+  "modified": "2026-08-23 21:18:33.760916",
+  "name": "Weak urine stream",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Interrupted urine stream",
+  "modified": "2026-08-23 21:18:33.763939",
+  "name": "Interrupted urine stream",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Incomplete bladder emptying",
+  "modified": "2026-08-23 21:18:33.767374",
+  "name": "Incomplete bladder emptying",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Urinary leakage",
+  "modified": "2026-08-23 21:18:33.770265",
+  "name": "Urinary leakage",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Urinary retention",
+  "modified": "2026-08-23 21:18:33.774394",
+  "name": "Urinary retention",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Painful urination with fever",
+  "modified": "2026-08-23 21:18:33.777553",
+  "name": "Painful urination with fever",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Flank pain",
+  "modified": "2026-08-23 21:18:33.780854",
+  "name": "Flank pain",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Renal colic-like pain",
+  "modified": "2026-08-23 21:18:33.784147",
+  "name": "Renal colic-like pain",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent urinary tract infections",
+  "modified": "2026-08-23 21:18:33.787629",
+  "name": "Recurrent urinary tract infections",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Cloudy urine",
+  "modified": "2026-08-23 21:18:33.791197",
+  "name": "Cloudy urine",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Foul-smelling urine",
+  "modified": "2026-08-23 21:18:33.794450",
+  "name": "Foul-smelling urine",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Reduced urine output",
+  "modified": "2026-08-23 21:18:33.797934",
+  "name": "Reduced urine output",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden inability to urinate",
+  "modified": "2026-08-23 21:18:33.801213",
+  "name": "Sudden inability to urinate",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Painful ejaculation",
+  "modified": "2026-08-23 21:18:33.804985",
+  "name": "Painful ejaculation",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Blood in semen",
+  "modified": "2026-08-23 21:18:33.808083",
+  "name": "Blood in semen",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Scrotal pain",
+  "modified": "2026-08-23 21:18:33.811549",
+  "name": "Scrotal pain",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Scrotal swelling",
+  "modified": "2026-08-23 21:18:33.814902",
+  "name": "Scrotal swelling",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Testicular lump",
+  "modified": "2026-08-23 21:18:33.819812",
+  "name": "Testicular lump",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Testicular enlargement",
+  "modified": "2026-08-23 21:18:33.823275",
+  "name": "Testicular enlargement",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Groin pain with urinary symptoms",
+  "modified": "2026-08-23 21:18:33.827553",
+  "name": "Groin pain with urinary symptoms",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Erectile difficulty",
+  "modified": "2026-08-23 21:18:33.831317",
+  "name": "Erectile difficulty",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Reduced libido in male",
+  "modified": "2026-08-23 21:18:33.834768",
+  "name": "Reduced libido in male",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Infertility concern in male",
+  "modified": "2026-08-23 21:18:33.839711",
+  "name": "Infertility concern in male",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Penile discharge",
+  "modified": "2026-08-23 21:18:33.842731",
+  "name": "Penile discharge",
+  "specialty": "Urology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent protein in urine",
+  "modified": "2026-08-23 21:18:33.846099",
+  "name": "Persistent protein in urine",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Foamy urine",
+  "modified": "2026-08-23 21:18:33.849156",
+  "name": "Foamy urine",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Blood in urine without pain",
+  "modified": "2026-08-23 21:18:33.852665",
+  "name": "Blood in urine without pain",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained swelling around eyes",
+  "modified": "2026-08-23 21:18:33.856429",
+  "name": "Unexplained swelling around eyes",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Leg swelling with kidney findings",
+  "modified": "2026-08-23 21:18:33.859321",
+  "name": "Leg swelling with kidney findings",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Rapidly worsening kidney function",
+  "modified": "2026-08-23 21:18:33.862253",
+  "name": "Rapidly worsening kidney function",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistently high creatinine",
+  "modified": "2026-08-23 21:18:33.864960",
+  "name": "Persistently high creatinine",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Reduced kidney function",
+  "modified": "2026-08-23 21:18:33.867661",
+  "name": "Reduced kidney function",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Very low urine output",
+  "modified": "2026-08-23 21:18:33.870920",
+  "name": "Very low urine output",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained electrolyte abnormality",
+  "modified": "2026-08-23 21:18:33.873798",
+  "name": "Unexplained electrolyte abnormality",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent high potassium",
+  "modified": "2026-08-23 21:18:33.876849",
+  "name": "Persistent high potassium",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent low sodium",
+  "modified": "2026-08-23 21:18:33.879512",
+  "name": "Persistent low sodium",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained metabolic acidosis",
+  "modified": "2026-08-23 21:18:33.882153",
+  "name": "Unexplained metabolic acidosis",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent kidney stones with abnormal kidney function",
+  "modified": "2026-08-23 21:18:33.884921",
+  "name": "Recurrent kidney stones with abnormal kidney function",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Kidney disease with high blood pressure",
+  "modified": "2026-08-23 21:18:33.888198",
+  "name": "Kidney disease with high blood pressure",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Kidney disease with diabetes",
+  "modified": "2026-08-23 21:18:33.890958",
+  "name": "Kidney disease with diabetes",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained anemia with kidney disease",
+  "modified": "2026-08-23 21:18:33.895368",
+  "name": "Unexplained anemia with kidney disease",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent proteinuria in diabetes",
+  "modified": "2026-08-23 21:18:33.898097",
+  "name": "Persistent proteinuria in diabetes",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Swelling with heavy protein loss in urine",
+  "modified": "2026-08-23 21:18:33.900777",
+  "name": "Swelling with heavy protein loss in urine",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent unexplained kidney inflammation",
+  "modified": "2026-08-23 21:18:33.903496",
+  "name": "Recurrent unexplained kidney inflammation",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Abnormal kidney biopsy finding",
+  "modified": "2026-08-23 21:18:33.906737",
+  "name": "Abnormal kidney biopsy finding",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Kidney disease in pregnancy",
+  "modified": "2026-08-23 21:18:33.909282",
+  "name": "Kidney disease in pregnancy",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Family history of inherited kidney disease",
+  "modified": "2026-08-23 21:18:33.911782",
+  "name": "Family history of inherited kidney disease",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained recurrent kidney failure",
+  "modified": "2026-08-23 21:18:33.914332",
+  "name": "Unexplained recurrent kidney failure",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fluid overload with kidney disease",
+  "modified": "2026-08-23 21:18:33.916998",
+  "name": "Fluid overload with kidney disease",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Dialysis-related symptoms",
+  "modified": "2026-08-23 21:18:33.919441",
+  "name": "Dialysis-related symptoms",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Itching with advanced kidney disease",
+  "modified": "2026-08-23 21:18:33.922110",
+  "name": "Itching with advanced kidney disease",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Bone symptoms with chronic kidney disease",
+  "modified": "2026-08-23 21:18:33.924651",
+  "name": "Bone symptoms with chronic kidney disease",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent fatigue with advanced kidney disease",
+  "modified": "2026-08-23 21:18:33.927654",
+  "name": "Persistent fatigue with advanced kidney disease",
+  "specialty": "Nephrology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Excessive thirst with frequent urination",
+  "modified": "2026-08-23 21:18:33.931763",
+  "name": "Excessive thirst with frequent urination",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained high blood sugar",
+  "modified": "2026-08-23 21:18:33.935050",
+  "name": "Unexplained high blood sugar",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Repeated low blood sugar",
+  "modified": "2026-08-23 21:18:33.938223",
+  "name": "Repeated low blood sugar",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Increased hunger with weight loss",
+  "modified": "2026-08-23 21:18:33.941131",
+  "name": "Increased hunger with weight loss",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained weight gain with fatigue",
+  "modified": "2026-08-23 21:18:33.943590",
+  "name": "Unexplained weight gain with fatigue",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Heat intolerance",
+  "modified": "2026-08-23 21:18:33.946277",
+  "name": "Heat intolerance",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Cold intolerance",
+  "modified": "2026-08-23 21:18:33.949287",
+  "name": "Cold intolerance",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Excessive sweating",
+  "modified": "2026-08-23 21:18:33.952134",
+  "name": "Excessive sweating",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent constipation with fatigue",
+  "modified": "2026-08-23 21:18:33.955350",
+  "name": "Persistent constipation with fatigue",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent diarrhea with weight loss",
+  "modified": "2026-08-23 21:18:33.957938",
+  "name": "Persistent diarrhea with weight loss",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Neck swelling",
+  "modified": "2026-08-23 21:18:33.960394",
+  "name": "Neck swelling",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Neck lump with thyroid concern",
+  "modified": "2026-08-23 21:18:33.963164",
+  "name": "Neck lump with thyroid concern",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Palpitations with tremor",
+  "modified": "2026-08-23 21:18:33.966194",
+  "name": "Palpitations with tremor",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Tremor with weight loss",
+  "modified": "2026-08-23 21:18:33.969081",
+  "name": "Tremor with weight loss",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Menstrual irregularity with endocrine symptoms",
+  "modified": "2026-08-23 21:18:33.972376",
+  "name": "Menstrual irregularity with endocrine symptoms",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Excess facial hair",
+  "modified": "2026-08-23 21:18:33.975290",
+  "name": "Excess facial hair",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Acne with hormonal symptoms",
+  "modified": "2026-08-23 21:18:33.978051",
+  "name": "Acne with hormonal symptoms",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained infertility with endocrine symptoms",
+  "modified": "2026-08-23 21:18:33.980695",
+  "name": "Unexplained infertility with endocrine symptoms",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Darkening of skin folds",
+  "modified": "2026-08-23 21:18:33.983519",
+  "name": "Darkening of skin folds",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained skin darkening",
+  "modified": "2026-08-23 21:18:33.986306",
+  "name": "Unexplained skin darkening",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fragility fractures",
+  "modified": "2026-08-23 21:18:33.989168",
+  "name": "Fragility fractures",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Loss of height",
+  "modified": "2026-08-23 21:18:33.992051",
+  "name": "Loss of height",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent muscle weakness with electrolyte abnormality",
+  "modified": "2026-08-23 21:18:33.994785",
+  "name": "Persistent muscle weakness with electrolyte abnormality",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent kidney stones with high calcium",
+  "modified": "2026-08-23 21:18:33.997535",
+  "name": "Recurrent kidney stones with high calcium",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained high calcium",
+  "modified": "2026-08-23 21:18:34.000278",
+  "name": "Unexplained high calcium",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained low calcium",
+  "modified": "2026-08-23 21:18:34.003525",
+  "name": "Unexplained low calcium",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent low vitamin D with bone symptoms",
+  "modified": "2026-08-23 21:18:34.006483",
+  "name": "Persistent low vitamin D with bone symptoms",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Delayed puberty",
+  "modified": "2026-08-23 21:18:34.008956",
+  "name": "Delayed puberty",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Early puberty",
+  "modified": "2026-08-23 21:18:34.011497",
+  "name": "Early puberty",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Growth failure in child",
+  "modified": "2026-08-23 21:18:34.013995",
+  "name": "Growth failure in child",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Excessive growth in child",
+  "modified": "2026-08-23 21:18:34.016621",
+  "name": "Excessive growth in child",
+  "specialty": "Endocrinology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Abnormal vaginal bleeding",
+  "modified": "2026-08-23 21:18:34.019262",
+  "name": "Abnormal vaginal bleeding",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Very heavy periods",
+  "modified": "2026-08-23 21:18:34.022540",
+  "name": "Very heavy periods",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Bleeding between periods",
+  "modified": "2026-08-23 21:18:34.025046",
+  "name": "Bleeding between periods",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Bleeding after intercourse",
+  "modified": "2026-08-23 21:18:34.027534",
+  "name": "Bleeding after intercourse",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Painful periods",
+  "modified": "2026-08-23 21:18:34.043882",
+  "name": "Painful periods",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Severe menstrual cramps",
+  "modified": "2026-08-23 21:18:34.047967",
+  "name": "Severe menstrual cramps",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Irregular periods",
+  "modified": "2026-08-23 21:18:34.050955",
+  "name": "Irregular periods",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Absent periods",
+  "modified": "2026-08-23 21:18:34.053964",
+  "name": "Absent periods",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Bleeding after menopause",
+  "modified": "2026-08-23 21:18:34.057389",
+  "name": "Bleeding after menopause",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pelvic pain",
+  "modified": "2026-08-23 21:18:34.060343",
+  "name": "Pelvic pain",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Lower abdominal pain in woman",
+  "modified": "2026-08-23 21:18:34.063313",
+  "name": "Lower abdominal pain in woman",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pain during intercourse",
+  "modified": "2026-08-23 21:18:34.066271",
+  "name": "Pain during intercourse",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Vaginal discharge",
+  "modified": "2026-08-23 21:18:34.069424",
+  "name": "Vaginal discharge",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Foul-smelling vaginal discharge",
+  "modified": "2026-08-23 21:18:34.072901",
+  "name": "Foul-smelling vaginal discharge",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Vaginal itching",
+  "modified": "2026-08-23 21:18:34.075773",
+  "name": "Vaginal itching",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Vaginal dryness",
+  "modified": "2026-08-23 21:18:34.078676",
+  "name": "Vaginal dryness",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Hot flashes",
+  "modified": "2026-08-23 21:18:34.081613",
+  "name": "Hot flashes",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Breast lump",
+  "modified": "2026-08-23 21:18:34.084526",
+  "name": "Breast lump",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Nipple discharge",
+  "modified": "2026-08-23 21:18:34.087734",
+  "name": "Nipple discharge",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Nipple bleeding",
+  "modified": "2026-08-23 21:18:34.091773",
+  "name": "Nipple bleeding",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Breast pain",
+  "modified": "2026-08-23 21:18:34.094459",
+  "name": "Breast pain",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pregnancy with abdominal pain",
+  "modified": "2026-08-23 21:18:34.097136",
+  "name": "Pregnancy with abdominal pain",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pregnancy with vaginal bleeding",
+  "modified": "2026-08-23 21:18:34.100028",
+  "name": "Pregnancy with vaginal bleeding",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pregnancy with severe vomiting",
+  "modified": "2026-08-23 21:18:34.103234",
+  "name": "Pregnancy with severe vomiting",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pregnancy with high blood pressure symptoms",
+  "modified": "2026-08-23 21:18:34.106041",
+  "name": "Pregnancy with high blood pressure symptoms",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Reduced fetal movement",
+  "modified": "2026-08-23 21:18:34.108571",
+  "name": "Reduced fetal movement",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Contractions before term",
+  "modified": "2026-08-23 21:18:34.111382",
+  "name": "Contractions before term",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fluid leakage during pregnancy",
+  "modified": "2026-08-23 21:18:34.114254",
+  "name": "Fluid leakage during pregnancy",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty conceiving",
+  "modified": "2026-08-23 21:18:34.117139",
+  "name": "Difficulty conceiving",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent pregnancy loss",
+  "modified": "2026-08-23 21:18:34.121015",
+  "name": "Recurrent pregnancy loss",
+  "specialty": "Obstetrics & Gynecology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent sadness",
+  "modified": "2026-08-23 21:18:34.124268",
+  "name": "Persistent sadness",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Loss of interest in usual activities",
+  "modified": "2026-08-23 21:18:34.126751",
+  "name": "Loss of interest in usual activities",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Excessive worry",
+  "modified": "2026-08-23 21:18:34.130266",
+  "name": "Excessive worry",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Panic attacks",
+  "modified": "2026-08-23 21:18:34.134462",
+  "name": "Panic attacks",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent fear",
+  "modified": "2026-08-23 21:18:34.138730",
+  "name": "Persistent fear",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Severe irritability",
+  "modified": "2026-08-23 21:18:34.141335",
+  "name": "Severe irritability",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Mood swings",
+  "modified": "2026-08-23 21:18:34.143996",
+  "name": "Mood swings",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Periods of unusually elevated mood",
+  "modified": "2026-08-23 21:18:34.146602",
+  "name": "Periods of unusually elevated mood",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Reduced need for sleep with increased energy",
+  "modified": "2026-08-23 21:18:34.149346",
+  "name": "Reduced need for sleep with increased energy",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Racing thoughts",
+  "modified": "2026-08-23 21:18:34.152297",
+  "name": "Racing thoughts",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent insomnia",
+  "modified": "2026-08-23 21:18:34.155497",
+  "name": "Persistent insomnia",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Excessive daytime sleepiness",
+  "modified": "2026-08-23 21:18:34.158932",
+  "name": "Excessive daytime sleepiness",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Nightmares causing distress",
+  "modified": "2026-08-23 21:18:34.161671",
+  "name": "Nightmares causing distress",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Intrusive thoughts",
+  "modified": "2026-08-23 21:18:34.164915",
+  "name": "Intrusive thoughts",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Repetitive compulsive behaviors",
+  "modified": "2026-08-23 21:18:34.167538",
+  "name": "Repetitive compulsive behaviors",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Social withdrawal",
+  "modified": "2026-08-23 21:18:34.170505",
+  "name": "Social withdrawal",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Loss of motivation",
+  "modified": "2026-08-23 21:18:34.173115",
+  "name": "Loss of motivation",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty concentrating",
+  "modified": "2026-08-23 21:18:34.175539",
+  "name": "Difficulty concentrating",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent guilt",
+  "modified": "2026-08-23 21:18:34.178403",
+  "name": "Persistent guilt",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Feelings of hopelessness",
+  "modified": "2026-08-23 21:18:34.180980",
+  "name": "Feelings of hopelessness",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained anxiety symptoms",
+  "modified": "2026-08-23 21:18:34.183612",
+  "name": "Unexplained anxiety symptoms",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Trauma-related distress",
+  "modified": "2026-08-23 21:18:34.186874",
+  "name": "Trauma-related distress",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Flashbacks",
+  "modified": "2026-08-23 21:18:34.189647",
+  "name": "Flashbacks",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Avoidance related to trauma",
+  "modified": "2026-08-23 21:18:34.192131",
+  "name": "Avoidance related to trauma",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Eating restriction",
+  "modified": "2026-08-23 21:18:34.195205",
+  "name": "Eating restriction",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Binge eating",
+  "modified": "2026-08-23 21:18:34.197748",
+  "name": "Binge eating",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Self-induced vomiting after eating",
+  "modified": "2026-08-23 21:18:34.200595",
+  "name": "Self-induced vomiting after eating",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Substance-related behavioral concern",
+  "modified": "2026-08-23 21:18:34.203235",
+  "name": "Substance-related behavioral concern",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New personality change",
+  "modified": "2026-08-23 21:18:34.206238",
+  "name": "New personality change",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained behavioral change",
+  "modified": "2026-08-23 21:18:34.208821",
+  "name": "Unexplained behavioral change",
+  "specialty": "Psychiatry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent anemia",
+  "modified": "2026-08-23 21:18:34.211749",
+  "name": "Persistent anemia",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Low hemoglobin on testing",
+  "modified": "2026-08-23 21:18:34.214585",
+  "name": "Low hemoglobin on testing",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained pallor",
+  "modified": "2026-08-23 21:18:34.217323",
+  "name": "Unexplained pallor",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent fatigue with anemia",
+  "modified": "2026-08-23 21:18:34.220748",
+  "name": "Persistent fatigue with anemia",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent unusual infections with low blood counts",
+  "modified": "2026-08-23 21:18:34.223196",
+  "name": "Recurrent unusual infections with low blood counts",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Easy bruising",
+  "modified": "2026-08-23 21:18:34.225383",
+  "name": "Easy bruising",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Frequent nosebleeds with low platelets",
+  "modified": "2026-08-23 21:18:34.228220",
+  "name": "Frequent nosebleeds with low platelets",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Prolonged bleeding after minor injury",
+  "modified": "2026-08-23 21:18:34.232064",
+  "name": "Prolonged bleeding after minor injury",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained low platelets",
+  "modified": "2026-08-23 21:18:34.235228",
+  "name": "Unexplained low platelets",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained high platelets",
+  "modified": "2026-08-23 21:18:34.238432",
+  "name": "Unexplained high platelets",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained high white blood cell count",
+  "modified": "2026-08-23 21:18:34.240576",
+  "name": "Unexplained high white blood cell count",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained low white blood cell count",
+  "modified": "2026-08-23 21:18:34.242728",
+  "name": "Unexplained low white blood cell count",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent enlarged lymph nodes",
+  "modified": "2026-08-23 21:18:34.245205",
+  "name": "Persistent enlarged lymph nodes",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Multiple enlarged lymph nodes",
+  "modified": "2026-08-23 21:18:34.247631",
+  "name": "Multiple enlarged lymph nodes",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained spleen enlargement",
+  "modified": "2026-08-23 21:18:34.250107",
+  "name": "Unexplained spleen enlargement",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained abnormal blood smear",
+  "modified": "2026-08-23 21:18:34.252889",
+  "name": "Unexplained abnormal blood smear",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent blood clots",
+  "modified": "2026-08-23 21:18:34.255857",
+  "name": "Recurrent blood clots",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Blood clot at unusual site",
+  "modified": "2026-08-23 21:18:34.258594",
+  "name": "Blood clot at unusual site",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent miscarriages with clotting concern",
+  "modified": "2026-08-23 21:18:34.261213",
+  "name": "Recurrent miscarriages with clotting concern",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained high red blood cell count",
+  "modified": "2026-08-23 21:18:34.263670",
+  "name": "Unexplained high red blood cell count",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained low red blood cell count",
+  "modified": "2026-08-23 21:18:34.266125",
+  "name": "Unexplained low red blood cell count",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent iron deficiency",
+  "modified": "2026-08-23 21:18:34.269039",
+  "name": "Persistent iron deficiency",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Iron deficiency without obvious bleeding",
+  "modified": "2026-08-23 21:18:34.272441",
+  "name": "Iron deficiency without obvious bleeding",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained macrocytosis",
+  "modified": "2026-08-23 21:18:34.275399",
+  "name": "Unexplained macrocytosis",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent eosinophilia",
+  "modified": "2026-08-23 21:18:34.278460",
+  "name": "Persistent eosinophilia",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained prolonged clotting test",
+  "modified": "2026-08-23 21:18:34.281607",
+  "name": "Unexplained prolonged clotting test",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Family history of bleeding disorder",
+  "modified": "2026-08-23 21:18:34.284961",
+  "name": "Family history of bleeding disorder",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Family history of clotting disorder",
+  "modified": "2026-08-23 21:18:34.288857",
+  "name": "Family history of clotting disorder",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent night sweats with enlarged nodes",
+  "modified": "2026-08-23 21:18:34.291808",
+  "name": "Persistent night sweats with enlarged nodes",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained weight loss with enlarged nodes",
+  "modified": "2026-08-23 21:18:34.294684",
+  "name": "Unexplained weight loss with enlarged nodes",
+  "specialty": "Hematology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained persistent weight loss",
+  "modified": "2026-08-23 21:18:34.297749",
+  "name": "Unexplained persistent weight loss",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained persistent fever",
+  "modified": "2026-08-23 21:18:34.300926",
+  "name": "Unexplained persistent fever",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent night sweats",
+  "modified": "2026-08-23 21:18:34.304193",
+  "name": "Persistent night sweats",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New unexplained lump",
+  "modified": "2026-08-23 21:18:34.307203",
+  "name": "New unexplained lump",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Growing neck lump",
+  "modified": "2026-08-23 21:18:34.310047",
+  "name": "Growing neck lump",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent breast lump",
+  "modified": "2026-08-23 21:18:34.313145",
+  "name": "Persistent breast lump",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Non-healing ulcer",
+  "modified": "2026-08-23 21:18:34.316333",
+  "name": "Non-healing ulcer",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained blood in stool",
+  "modified": "2026-08-23 21:18:34.319729",
+  "name": "Unexplained blood in stool",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained blood in urine",
+  "modified": "2026-08-23 21:18:34.323490",
+  "name": "Unexplained blood in urine",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Coughing blood without infection",
+  "modified": "2026-08-23 21:18:34.325987",
+  "name": "Coughing blood without infection",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent hoarseness",
+  "modified": "2026-08-23 21:18:34.329651",
+  "name": "Persistent hoarseness",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent difficulty swallowing",
+  "modified": "2026-08-23 21:18:34.333688",
+  "name": "Persistent difficulty swallowing",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent change in bowel habit",
+  "modified": "2026-08-23 21:18:34.336801",
+  "name": "Persistent change in bowel habit",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent abdominal swelling",
+  "modified": "2026-08-23 21:18:34.340437",
+  "name": "Persistent abdominal swelling",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent abdominal mass",
+  "modified": "2026-08-23 21:18:34.343452",
+  "name": "Persistent abdominal mass",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained bone pain",
+  "modified": "2026-08-23 21:18:34.346381",
+  "name": "Unexplained bone pain",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent back pain with weight loss",
+  "modified": "2026-08-23 21:18:34.349953",
+  "name": "Persistent back pain with weight loss",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New testicular lump",
+  "modified": "2026-08-23 21:18:34.352713",
+  "name": "New testicular lump",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained vaginal bleeding after menopause",
+  "modified": "2026-08-23 21:18:34.355769",
+  "name": "Unexplained vaginal bleeding after menopause",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained postmenopausal discharge",
+  "modified": "2026-08-23 21:18:34.358408",
+  "name": "Unexplained postmenopausal discharge",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent enlarged lymph node",
+  "modified": "2026-08-23 21:18:34.361155",
+  "name": "Persistent enlarged lymph node",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Progressive swallowing difficulty",
+  "modified": "2026-08-23 21:18:34.363795",
+  "name": "Progressive swallowing difficulty",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent jaundice without clear cause",
+  "modified": "2026-08-23 21:18:34.366670",
+  "name": "Persistent jaundice without clear cause",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained recurrent vomiting",
+  "modified": "2026-08-23 21:18:34.369448",
+  "name": "Unexplained recurrent vomiting",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent unexplained anemia",
+  "modified": "2026-08-23 21:18:34.372695",
+  "name": "Persistent unexplained anemia",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained thrombosis with cancer concern",
+  "modified": "2026-08-23 21:18:34.375225",
+  "name": "Unexplained thrombosis with cancer concern",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New skin lesion that changes",
+  "modified": "2026-08-23 21:18:34.378872",
+  "name": "New skin lesion that changes",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained recurrent pleural fluid",
+  "modified": "2026-08-23 21:18:34.382076",
+  "name": "Unexplained recurrent pleural fluid",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained recurrent ascites",
+  "modified": "2026-08-23 21:18:34.384910",
+  "name": "Unexplained recurrent ascites",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent symptoms despite appropriate initial treatment",
+  "modified": "2026-08-23 21:18:34.388120",
+  "name": "Persistent symptoms despite appropriate initial treatment",
+  "specialty": "Oncology"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever after recent travel",
+  "modified": "2026-08-23 21:18:34.390694",
+  "name": "Fever after recent travel",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with rash",
+  "modified": "2026-08-23 21:18:34.393577",
+  "name": "Fever with rash",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with severe headache",
+  "modified": "2026-08-23 21:18:34.396586",
+  "name": "Fever with severe headache",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with neck stiffness",
+  "modified": "2026-08-23 21:18:34.399156",
+  "name": "Fever with neck stiffness",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with persistent diarrhea",
+  "modified": "2026-08-23 21:18:34.401844",
+  "name": "Fever with persistent diarrhea",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with prolonged cough",
+  "modified": "2026-08-23 21:18:34.405079",
+  "name": "Fever with prolonged cough",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with unexplained weight loss",
+  "modified": "2026-08-23 21:18:34.407729",
+  "name": "Fever with unexplained weight loss",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent unexplained fever",
+  "modified": "2026-08-23 21:18:34.410628",
+  "name": "Recurrent unexplained fever",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever lasting more than two weeks",
+  "modified": "2026-08-23 21:18:34.413232",
+  "name": "Fever lasting more than two weeks",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with enlarged lymph nodes",
+  "modified": "2026-08-23 21:18:34.416145",
+  "name": "Fever with enlarged lymph nodes",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever after animal exposure",
+  "modified": "2026-08-23 21:18:34.419056",
+  "name": "Fever after animal exposure",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever after insect bite",
+  "modified": "2026-08-23 21:18:34.421901",
+  "name": "Fever after insect bite",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever after contaminated food exposure",
+  "modified": "2026-08-23 21:18:34.424534",
+  "name": "Fever after contaminated food exposure",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever after freshwater exposure",
+  "modified": "2026-08-23 21:18:34.427219",
+  "name": "Fever after freshwater exposure",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent diarrhea after travel",
+  "modified": "2026-08-23 21:18:34.429945",
+  "name": "Persistent diarrhea after travel",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent cough after travel",
+  "modified": "2026-08-23 21:18:34.444919",
+  "name": "Persistent cough after travel",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Frequent opportunistic infections",
+  "modified": "2026-08-23 21:18:34.451673",
+  "name": "Frequent opportunistic infections",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained prolonged fever with low blood counts",
+  "modified": "2026-08-23 21:18:34.455019",
+  "name": "Unexplained prolonged fever with low blood counts",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained fever with liver enlargement",
+  "modified": "2026-08-23 21:18:34.457756",
+  "name": "Unexplained fever with liver enlargement",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained fever with spleen enlargement",
+  "modified": "2026-08-23 21:18:34.460738",
+  "name": "Unexplained fever with spleen enlargement",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with severe muscle pain",
+  "modified": "2026-08-23 21:18:34.463719",
+  "name": "Fever with severe muscle pain",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with jaundice",
+  "modified": "2026-08-23 21:18:34.466704",
+  "name": "Fever with jaundice",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with urinary symptoms",
+  "modified": "2026-08-23 21:18:34.469981",
+  "name": "Fever with urinary symptoms",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with wound infection",
+  "modified": "2026-08-23 21:18:34.473175",
+  "name": "Fever with wound infection",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with prosthetic device",
+  "modified": "2026-08-23 21:18:34.476402",
+  "name": "Fever with prosthetic device",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever after surgery",
+  "modified": "2026-08-23 21:18:34.479181",
+  "name": "Fever after surgery",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever in immunocompromised patient",
+  "modified": "2026-08-23 21:18:34.482725",
+  "name": "Fever in immunocompromised patient",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with positive blood culture",
+  "modified": "2026-08-23 21:18:34.485691",
+  "name": "Fever with positive blood culture",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever with unexplained inflammatory syndrome",
+  "modified": "2026-08-23 21:18:34.488867",
+  "name": "Fever with unexplained inflammatory syndrome",
+  "specialty": "Infectious Disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New difficulty walking in older adult",
+  "modified": "2026-08-23 21:18:34.491494",
+  "name": "New difficulty walking in older adult",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent falls",
+  "modified": "2026-08-23 21:18:34.494121",
+  "name": "Recurrent falls",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New unsteadiness in older adult",
+  "modified": "2026-08-23 21:18:34.497168",
+  "name": "New unsteadiness in older adult",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New confusion in older adult",
+  "modified": "2026-08-23 21:18:34.500157",
+  "name": "New confusion in older adult",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Memory decline affecting daily activities",
+  "modified": "2026-08-23 21:18:34.503300",
+  "name": "Memory decline affecting daily activities",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Loss of independence in daily activities",
+  "modified": "2026-08-23 21:18:34.506235",
+  "name": "Loss of independence in daily activities",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Reduced appetite in older adult",
+  "modified": "2026-08-23 21:18:34.508619",
+  "name": "Reduced appetite in older adult",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unintentional weight loss in older adult",
+  "modified": "2026-08-23 21:18:34.511179",
+  "name": "Unintentional weight loss in older adult",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Generalized weakness in older adult",
+  "modified": "2026-08-23 21:18:34.513866",
+  "name": "Generalized weakness in older adult",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Frailty symptoms",
+  "modified": "2026-08-23 21:18:34.516492",
+  "name": "Frailty symptoms",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Multiple medication-related concerns",
+  "modified": "2026-08-23 21:18:34.519278",
+  "name": "Multiple medication-related concerns",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Dizziness after standing",
+  "modified": "2026-08-23 21:18:34.522283",
+  "name": "Dizziness after standing",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent fainting in older adult",
+  "modified": "2026-08-23 21:18:34.524834",
+  "name": "Recurrent fainting in older adult",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sleep disturbance in older adult",
+  "modified": "2026-08-23 21:18:34.527610",
+  "name": "Sleep disturbance in older adult",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New urinary incontinence",
+  "modified": "2026-08-23 21:18:34.530904",
+  "name": "New urinary incontinence",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New bowel incontinence",
+  "modified": "2026-08-23 21:18:34.533427",
+  "name": "New bowel incontinence",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty managing medications",
+  "modified": "2026-08-23 21:18:34.537131",
+  "name": "Difficulty managing medications",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty managing finances due to memory problems",
+  "modified": "2026-08-23 21:18:34.540211",
+  "name": "Difficulty managing finances due to memory problems",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Social withdrawal in older adult",
+  "modified": "2026-08-23 21:18:34.543624",
+  "name": "Social withdrawal in older adult",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Repeated hospitalizations",
+  "modified": "2026-08-23 21:18:34.546917",
+  "name": "Repeated hospitalizations",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent pain affecting function",
+  "modified": "2026-08-23 21:18:34.549614",
+  "name": "Persistent pain affecting function",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Reduced mobility",
+  "modified": "2026-08-23 21:18:34.552454",
+  "name": "Reduced mobility",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fear of falling",
+  "modified": "2026-08-23 21:18:34.555845",
+  "name": "Fear of falling",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New swallowing difficulty in older adult",
+  "modified": "2026-08-23 21:18:34.558297",
+  "name": "New swallowing difficulty in older adult",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New hearing difficulty affecting communication",
+  "modified": "2026-08-23 21:18:34.560899",
+  "name": "New hearing difficulty affecting communication",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New vision difficulty affecting daily life",
+  "modified": "2026-08-23 21:18:34.563964",
+  "name": "New vision difficulty affecting daily life",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pressure sore risk",
+  "modified": "2026-08-23 21:18:34.566583",
+  "name": "Pressure sore risk",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Poor nutritional intake",
+  "modified": "2026-08-23 21:18:34.569201",
+  "name": "Poor nutritional intake",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Caregiver concern about functional decline",
+  "modified": "2026-08-23 21:18:34.572364",
+  "name": "Caregiver concern about functional decline",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Complex symptoms across multiple systems",
+  "modified": "2026-08-23 21:18:34.575007",
+  "name": "Complex symptoms across multiple systems",
+  "specialty": "Geriatric Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Fever in infant",
+  "modified": "2026-08-23 21:18:34.577673",
+  "name": "Fever in infant",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent fever in child",
+  "modified": "2026-08-23 21:18:34.580584",
+  "name": "Persistent fever in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Poor feeding in infant",
+  "modified": "2026-08-23 21:18:34.584287",
+  "name": "Poor feeding in infant",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Repeated vomiting in child",
+  "modified": "2026-08-23 21:18:34.587640",
+  "name": "Repeated vomiting in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent diarrhea in child",
+  "modified": "2026-08-23 21:18:34.590389",
+  "name": "Persistent diarrhea in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Dehydration signs in child",
+  "modified": "2026-08-23 21:18:34.592889",
+  "name": "Dehydration signs in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent cough in child",
+  "modified": "2026-08-23 21:18:34.595815",
+  "name": "Persistent cough in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Wheezing in child",
+  "modified": "2026-08-23 21:18:34.598654",
+  "name": "Wheezing in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Breathing difficulty in child",
+  "modified": "2026-08-23 21:18:34.601542",
+  "name": "Breathing difficulty in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent ear infections in child",
+  "modified": "2026-08-23 21:18:34.604784",
+  "name": "Recurrent ear infections in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Delayed speech",
+  "modified": "2026-08-23 21:18:34.607463",
+  "name": "Delayed speech",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Speech regression",
+  "modified": "2026-08-23 21:18:34.610107",
+  "name": "Speech regression",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Developmental delay",
+  "modified": "2026-08-23 21:18:34.613059",
+  "name": "Developmental delay",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Loss of previously acquired skills",
+  "modified": "2026-08-23 21:18:34.615638",
+  "name": "Loss of previously acquired skills",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Poor weight gain",
+  "modified": "2026-08-23 21:18:34.618266",
+  "name": "Poor weight gain",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Short stature concern",
+  "modified": "2026-08-23 21:18:34.621549",
+  "name": "Short stature concern",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Excessive weight gain in child",
+  "modified": "2026-08-23 21:18:34.624078",
+  "name": "Excessive weight gain in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent abdominal pain in child",
+  "modified": "2026-08-23 21:18:34.626730",
+  "name": "Recurrent abdominal pain in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent headache in child",
+  "modified": "2026-08-23 21:18:34.629701",
+  "name": "Persistent headache in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Recurrent fainting in child",
+  "modified": "2026-08-23 21:18:34.632472",
+  "name": "Recurrent fainting in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Seizure in child",
+  "modified": "2026-08-23 21:18:34.635186",
+  "name": "Seizure in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unusual movements in child",
+  "modified": "2026-08-23 21:18:34.639550",
+  "name": "Unusual movements in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent rash in child",
+  "modified": "2026-08-23 21:18:34.642041",
+  "name": "Persistent rash in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Jaundice in newborn",
+  "modified": "2026-08-23 21:18:34.644683",
+  "name": "Jaundice in newborn",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Prolonged jaundice in child",
+  "modified": "2026-08-23 21:18:34.647497",
+  "name": "Prolonged jaundice in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Blood in stool in child",
+  "modified": "2026-08-23 21:18:34.650085",
+  "name": "Blood in stool in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Painful urination in child",
+  "modified": "2026-08-23 21:18:34.652890",
+  "name": "Painful urination in child",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Bedwetting beyond expected age",
+  "modified": "2026-08-23 21:18:34.655871",
+  "name": "Bedwetting beyond expected age",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Early puberty concern",
+  "modified": "2026-08-23 21:18:34.658530",
+  "name": "Early puberty concern",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Delayed puberty concern",
+  "modified": "2026-08-23 21:18:34.660892",
+  "name": "Delayed puberty concern",
+  "specialty": "Pediatrics"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden severe abdominal pain",
+  "modified": "2026-08-23 21:18:34.663555",
+  "name": "Sudden severe abdominal pain",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Painful abdominal lump",
+  "modified": "2026-08-23 21:18:34.666256",
+  "name": "Painful abdominal lump",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Groin lump",
+  "modified": "2026-08-23 21:18:34.668899",
+  "name": "Groin lump",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Umbilical lump",
+  "modified": "2026-08-23 21:18:34.671760",
+  "name": "Umbilical lump",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Incisional hernia lump",
+  "modified": "2026-08-23 21:18:34.674196",
+  "name": "Incisional hernia lump",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Painful hernia",
+  "modified": "2026-08-23 21:18:34.676953",
+  "name": "Painful hernia",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent anal pain",
+  "modified": "2026-08-23 21:18:34.679920",
+  "name": "Persistent anal pain",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Painful hemorrhoids",
+  "modified": "2026-08-23 21:18:34.682667",
+  "name": "Painful hemorrhoids",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Anal bleeding",
+  "modified": "2026-08-23 21:18:34.685906",
+  "name": "Anal bleeding",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Anal discharge",
+  "modified": "2026-08-23 21:18:34.688900",
+  "name": "Anal discharge",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Perianal swelling",
+  "modified": "2026-08-23 21:18:34.691266",
+  "name": "Perianal swelling",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Perianal abscess-like pain",
+  "modified": "2026-08-23 21:18:34.693588",
+  "name": "Perianal abscess-like pain",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pilonidal swelling",
+  "modified": "2026-08-23 21:18:34.696475",
+  "name": "Pilonidal swelling",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pilonidal discharge",
+  "modified": "2026-08-23 21:18:34.698795",
+  "name": "Pilonidal discharge",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Non-healing wound",
+  "modified": "2026-08-23 21:18:34.701190",
+  "name": "Non-healing wound",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent wound drainage",
+  "modified": "2026-08-23 21:18:34.704156",
+  "name": "Persistent wound drainage",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Postoperative wound redness",
+  "modified": "2026-08-23 21:18:34.706618",
+  "name": "Postoperative wound redness",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Postoperative wound swelling",
+  "modified": "2026-08-23 21:18:34.708732",
+  "name": "Postoperative wound swelling",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Postoperative wound discharge",
+  "modified": "2026-08-23 21:18:34.710964",
+  "name": "Postoperative wound discharge",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent postoperative pain",
+  "modified": "2026-08-23 21:18:34.713320",
+  "name": "Persistent postoperative pain",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Gallbladder-type right upper abdominal pain",
+  "modified": "2026-08-23 21:18:34.715572",
+  "name": "Gallbladder-type right upper abdominal pain",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Suspected appendicitis-type pain",
+  "modified": "2026-08-23 21:18:34.717953",
+  "name": "Suspected appendicitis-type pain",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Intestinal obstruction-type abdominal distension",
+  "modified": "2026-08-23 21:18:34.720663",
+  "name": "Intestinal obstruction-type abdominal distension",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Acute abdominal tenderness",
+  "modified": "2026-08-23 21:18:34.723127",
+  "name": "Acute abdominal tenderness",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Breast lump requiring surgical assessment",
+  "modified": "2026-08-23 21:18:34.727704",
+  "name": "Breast lump requiring surgical assessment",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Thyroid lump requiring surgical assessment",
+  "modified": "2026-08-23 21:18:34.730017",
+  "name": "Thyroid lump requiring surgical assessment",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Skin lump requiring removal assessment",
+  "modified": "2026-08-23 21:18:34.732386",
+  "name": "Skin lump requiring removal assessment",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Swallowing problem with surgical concern",
+  "modified": "2026-08-23 21:18:34.734698",
+  "name": "Swallowing problem with surgical concern",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Postoperative hernia concern",
+  "modified": "2026-08-23 21:18:34.737655",
+  "name": "Postoperative hernia concern",
+  "specialty": "General Surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Toothache",
+  "modified": "2026-08-23 21:18:34.740859",
+  "name": "Toothache",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sensitivity to hot or cold",
+  "modified": "2026-08-23 21:18:34.743157",
+  "name": "Sensitivity to hot or cold",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pain while chewing",
+  "modified": "2026-08-23 21:18:34.745393",
+  "name": "Pain while chewing",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Swollen gums",
+  "modified": "2026-08-23 21:18:34.747695",
+  "name": "Swollen gums",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Bleeding gums",
+  "modified": "2026-08-23 21:18:34.750096",
+  "name": "Bleeding gums",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent bad breath",
+  "modified": "2026-08-23 21:18:34.752321",
+  "name": "Persistent bad breath",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Loose tooth",
+  "modified": "2026-08-23 21:18:34.763874",
+  "name": "Loose tooth",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Broken tooth",
+  "modified": "2026-08-23 21:18:34.767715",
+  "name": "Broken tooth",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Cracked tooth",
+  "modified": "2026-08-23 21:18:34.770950",
+  "name": "Cracked tooth",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Tooth abscess-like swelling",
+  "modified": "2026-08-23 21:18:34.773507",
+  "name": "Tooth abscess-like swelling",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Facial swelling from tooth",
+  "modified": "2026-08-23 21:18:34.775852",
+  "name": "Facial swelling from tooth",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Jaw pain",
+  "modified": "2026-08-23 21:18:34.778271",
+  "name": "Jaw pain",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Jaw clicking",
+  "modified": "2026-08-23 21:18:34.780690",
+  "name": "Jaw clicking",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty opening mouth",
+  "modified": "2026-08-23 21:18:34.783126",
+  "name": "Difficulty opening mouth",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Mouth ulcer lasting more than two weeks",
+  "modified": "2026-08-23 21:18:34.785763",
+  "name": "Mouth ulcer lasting more than two weeks",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "White patch in mouth",
+  "modified": "2026-08-23 21:18:34.789118",
+  "name": "White patch in mouth",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Red patch in mouth",
+  "modified": "2026-08-23 21:18:34.791339",
+  "name": "Red patch in mouth",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent tongue pain",
+  "modified": "2026-08-23 21:18:34.793524",
+  "name": "Persistent tongue pain",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Tongue swelling",
+  "modified": "2026-08-23 21:18:34.795938",
+  "name": "Tongue swelling",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Burning mouth sensation",
+  "modified": "2026-08-23 21:18:34.798200",
+  "name": "Burning mouth sensation",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Dry mouth",
+  "modified": "2026-08-23 21:18:34.800554",
+  "name": "Dry mouth",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Excessive salivation",
+  "modified": "2026-08-23 21:18:34.802862",
+  "name": "Excessive salivation",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty chewing",
+  "modified": "2026-08-23 21:18:34.805435",
+  "name": "Difficulty chewing",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Difficulty swallowing due to oral pain",
+  "modified": "2026-08-23 21:18:34.807554",
+  "name": "Difficulty swallowing due to oral pain",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Bleeding from mouth",
+  "modified": "2026-08-23 21:18:34.812428",
+  "name": "Bleeding from mouth",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent gum enlargement",
+  "modified": "2026-08-23 21:18:34.814967",
+  "name": "Persistent gum enlargement",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Pain after tooth extraction",
+  "modified": "2026-08-23 21:18:34.817507",
+  "name": "Pain after tooth extraction",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Non-healing extraction socket",
+  "modified": "2026-08-23 21:18:34.820407",
+  "name": "Non-healing extraction socket",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Unexplained oral lump",
+  "modified": "2026-08-23 21:18:34.822924",
+  "name": "Unexplained oral lump",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Persistent oral numbness",
+  "modified": "2026-08-23 21:18:34.825095",
+  "name": "Persistent oral numbness",
+  "specialty": "Dentistry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden chest pain",
+  "modified": "2026-08-23 21:18:34.827295",
+  "name": "Sudden chest pain",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Severe difficulty breathing",
+  "modified": "2026-08-23 21:18:34.829730",
+  "name": "Severe difficulty breathing",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden loss of consciousness",
+  "modified": "2026-08-23 21:18:34.832128",
+  "name": "Sudden loss of consciousness",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "New seizure lasting several minutes",
+  "modified": "2026-08-23 21:18:34.834730",
+  "name": "New seizure lasting several minutes",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden one-sided weakness",
+  "modified": "2026-08-23 21:18:34.837266",
+  "name": "Sudden one-sided weakness",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden speech difficulty",
+  "modified": "2026-08-23 21:18:34.852824",
+  "name": "Sudden speech difficulty",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden severe headache",
+  "modified": "2026-08-23 21:18:34.856541",
+  "name": "Sudden severe headache",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Major bleeding",
+  "modified": "2026-08-23 21:18:34.858997",
+  "name": "Major bleeding",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Vomiting blood with weakness",
+  "modified": "2026-08-23 21:18:34.861699",
+  "name": "Vomiting blood with weakness",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Black stools with faintness",
+  "modified": "2026-08-23 21:18:34.864794",
+  "name": "Black stools with faintness",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Severe abdominal pain",
+  "modified": "2026-08-23 21:18:34.867567",
+  "name": "Severe abdominal pain",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Severe allergic reaction",
+  "modified": "2026-08-23 21:18:34.870751",
+  "name": "Severe allergic reaction",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Facial swelling with breathing difficulty",
+  "modified": "2026-08-23 21:18:34.873547",
+  "name": "Facial swelling with breathing difficulty",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Severe asthma attack",
+  "modified": "2026-08-23 21:18:34.876238",
+  "name": "Severe asthma attack",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Severe dehydration",
+  "modified": "2026-08-23 21:18:34.878742",
+  "name": "Severe dehydration",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Heat stroke symptoms",
+  "modified": "2026-08-23 21:18:34.881746",
+  "name": "Heat stroke symptoms",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Severe hypothermia symptoms",
+  "modified": "2026-08-23 21:18:34.884974",
+  "name": "Severe hypothermia symptoms",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Major fall with severe pain",
+  "modified": "2026-08-23 21:18:34.888406",
+  "name": "Major fall with severe pain",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Head injury with loss of consciousness",
+  "modified": "2026-08-23 21:18:34.891270",
+  "name": "Head injury with loss of consciousness",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Suspected spinal injury",
+  "modified": "2026-08-23 21:18:34.894646",
+  "name": "Suspected spinal injury",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden severe eye pain with vision loss",
+  "modified": "2026-08-23 21:18:34.897323",
+  "name": "Sudden severe eye pain with vision loss",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden testicular pain",
+  "modified": "2026-08-23 21:18:34.900300",
+  "name": "Sudden testicular pain",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Severe pregnancy-related bleeding",
+  "modified": "2026-08-23 21:18:34.903668",
+  "name": "Severe pregnancy-related bleeding",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Severe pregnancy-related abdominal pain",
+  "modified": "2026-08-23 21:18:34.906532",
+  "name": "Severe pregnancy-related abdominal pain",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Poisoning concern",
+  "modified": "2026-08-23 21:18:34.908834",
+  "name": "Poisoning concern",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Electrical injury",
+  "modified": "2026-08-23 21:18:34.911150",
+  "name": "Electrical injury",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Major burn",
+  "modified": "2026-08-23 21:18:34.914080",
+  "name": "Major burn",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Severe infection with confusion",
+  "modified": "2026-08-23 21:18:34.917134",
+  "name": "Severe infection with confusion",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Blue lips with severe breathlessness",
+  "modified": "2026-08-23 21:18:34.920735",
+  "name": "Blue lips with severe breathlessness",
+  "specialty": "Emergency Medicine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Medical Condition",
+  "medical_condtion": "Sudden collapse",
+  "modified": "2026-08-23 21:18:34.923828",
+  "name": "Sudden collapse",
+  "specialty": "Emergency Medicine"
  }
 ]
