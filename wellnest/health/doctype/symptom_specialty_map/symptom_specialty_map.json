@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:symptom",
  "creation": "2026-08-23 15:55:38.676018",
@@ -41,7 +42,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-23 16:00:50.816512",
+ "modified": "2026-08-23 18:39:53.521074",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Symptom Specialty Map",
