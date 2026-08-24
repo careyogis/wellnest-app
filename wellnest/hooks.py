@@ -238,7 +238,7 @@ doc_events = {
 # }
 
 fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Service", "Spoken Language", 
-            "Medical Condition", "Lead Status", "Item Activity", "Terms and Conditions",
+            "Medical Condition", "Lead Status", "Item Activity", "Symptom Specialty Map",
             "Service Mode", "Service Category", "Ownership Type", "Hospital Type", "Association Type", "Medical Degree", 
             "Medical Qualification", "Medical Specialty", "Medical Super Specialty", "Educational Institution", "Terms and Conditions",
         {"doctype": "Role", "filters": [["name", "in", ["Caregiver", "Doctor"]]]},

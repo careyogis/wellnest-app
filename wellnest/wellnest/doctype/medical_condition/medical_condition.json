@@ -1,35 +1,24 @@
 {
  "actions": [],
- "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:medical_condtion",
  "creation": "2024-06-13 16:49:30.710413",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "medical_condtion",
-  "specialty"
+  "medical_condtion"
  ],
  "fields": [
   {
    "fieldname": "medical_condtion",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Medical Condtion",
    "unique": 1
-  },
-  {
-   "fieldname": "specialty",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Applicable Specialty",
-   "options": "Medical Specialty"
   }
  ],
- "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-23 21:48:29.895764",
+ "modified": "2024-07-31 09:23:25.081312",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Medical Condition",
@@ -49,8 +38,6 @@
    "write": 1
   }
  ],
- "row_format": "Dynamic",
- "rows_threshold_for_grid_search": 20,
  "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",

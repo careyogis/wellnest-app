@@ -133,21 +133,6 @@ def doctor_profile():
 
     doctor = practitioner.as_dict()
 
-    if practitioner.specialty:
-        doctor["specialty_name"] = frappe.db.get_value(
-            "Medical Specialty",
-            practitioner.specialty,
-            "specialty_name",
-        )
-
-    if practitioner.super_specialty:
-        doctor["super_specialty_name"] = frappe.db.get_value(
-            "Medical Super Specialty",
-            practitioner.super_specialty,
-            "super_specialty_name",
-        )
-
-
     if practitioner.primary_facility:
         doctor["primary_facility_name"] = frappe.db.get_value(
             "Hospital",
