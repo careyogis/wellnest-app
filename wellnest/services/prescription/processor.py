@@ -2,124 +2,6 @@ import frappe
 from datetime import datetime
 
 
-def _parse_date(value):
-    if not value:
-        return None
-
-    value = str(value).strip()
-
-    for fmt in ("%d/%m/%y", "%d/%m/%Y", "%Y-%m-%d"):
-        try:
-            return datetime.strptime(value, fmt).date()
-        except ValueError:
-            continue
-
-    return None
-
-
-def _create_medication(document_name, result, patient):
-    # Gemini may return the prescription directly or wrapped in "prescription"
-    prescription = result.get("prescription", result)
-
-    doctor_data = prescription.get("doctor") or {}
-
-
-    medication = frappe.new_doc("Medication")
-
-    if patient:
-        medication.patient = patient
-
-    medication.prescribed_by = doctor_data.get("name")
-
-    medication.custom_prescription_date = _parse_date(
-        prescription.get("date")
-    )
-
-    medication.custom_hospital = prescription.get("hospital")
-
-    diagnoses = prescription.get("diagnosis") or []
-
-    if isinstance(diagnoses, list):
-        medication.custom_diagnosis = "\n".join(
-            str(item) for item in diagnoses
-        )
-    else:
-        medication.custom_diagnosis = str(diagnoses)
-
-    investigations = prescription.get("investigations") or []
-
-    if investigations:
-        medication.custom_investigations = frappe.as_json(
-            investigations,
-            indent=2
-        )
-
-    general_instructions = prescription.get(
-        "general_instructions"
-    ) or []
-
-    if general_instructions:
-        medication.custom_general_instructions = frappe.as_json(
-            general_instructions,
-            indent=2
-        )
-
-    follow_up = prescription.get("follow_up") or {}
-
-    if isinstance(follow_up, dict):
-        medication.custom_follow_up = (
-            follow_up.get("duration")
-            or follow_up.get("duration_original")
-        )
-    else:
-        medication.custom_follow_up = str(follow_up)
-
-    medicines = prescription.get("medicines") or []
-
-    for medicine in medicines:
-        item = medication.append("medication_items", {})
-
-        original_name = medicine.get("original_name")
-        normalized_name = medicine.get("normalized_name")
-
-        item.medicine_name = (
-            normalized_name
-            or original_name
-            or ""
-        )
-
-        item.frequency = medicine.get("frequency")
-
-        item.custom_original_name = original_name
-        item.custom_normalized_name = normalized_name
-
-        generic_names = medicine.get("generic_names") or []
-
-        if isinstance(generic_names, list):
-            item.custom_generic_name = ", ".join(
-                str(name) for name in generic_names
-            )
-        else:
-            item.custom_generic_name = str(generic_names)
-
-        item.custom_strength = medicine.get("strength")
-        item.custom_dosage_form = medicine.get("dosage_form")
-        item.custom_duration = medicine.get("duration")
-        item.custom_instruction = medicine.get("instruction")
-        item.custom_instruction_translation = medicine.get(
-            "instruction_translation"
-        )
-
-    medication.insert(ignore_permissions=True)
-
-    frappe.logger().info(
-        f"Medication {medication.name} created from "
-        f"Medical Document {document_name}"
-    )
-
-    return medication.name
-
-
 def process_prescription(document_name):
     """
     Background job for processing a prescription Medical Document.
@@ -138,9 +20,14 @@ def process_prescription(document_name):
         if not doc.file:
             frappe.throw("No prescription file attached to the document.")
 
+        if doc.medication:
+            frappe.logger().info(
+                f"Skipping {document_name}: Medication "
+                f"{doc.medication} already exists."
+            )
+            return
+
         doc.db_set("processing_status", "Processing")
-        doc.db_set("processing_error", None)
-        doc.db_set("prescription_result", None)
         frappe.db.commit()
 
         file_url = doc.file
@@ -180,18 +67,18 @@ def process_prescription(document_name):
 
         result = parse_prescription(image_bytes)
 
-        # Preserve the raw Gemini response
         doc.db_set(
             "prescription_result",
             frappe.as_json(result)
         )
 
-        # Create structured Medication record
         medication_name = _create_medication(
             document_name,
             result,
             doc.patient
         )
+
+        doc.db_set("medication", medication_name)
 
         doc.db_set(
             "processing_status",
@@ -248,3 +135,115 @@ def process_prescription(document_name):
             )
 
         raise
+
+
+def _create_medication(document_name, result, patient):
+    prescription = result.get("prescription", result)
+    doctor_data = prescription.get("doctor") or {}
+
+    medication = frappe.new_doc("Medication")
+
+    if patient:
+        medication.patient = patient
+
+    medication.prescribed_by = doctor_data.get("name")
+    medication.custom_prescription_date = _parse_date(
+        prescription.get("date")
+    )
+    medication.custom_hospital = prescription.get("hospital")
+
+    diagnoses = prescription.get("diagnosis") or []
+
+    if isinstance(diagnoses, list):
+        medication.custom_diagnosis = "\n".join(
+            str(item) for item in diagnoses
+        )
+    else:
+        medication.custom_diagnosis = str(diagnoses)
+
+    investigations = prescription.get("investigations") or []
+
+    if investigations:
+        medication.custom_investigations = frappe.as_json(
+            investigations,
+            indent=2
+        )
+
+    general_instructions = prescription.get(
+        "general_instructions"
+    ) or []
+
+    if general_instructions:
+        medication.custom_general_instructions = frappe.as_json(
+            general_instructions,
+            indent=2
+        )
+
+    follow_up = prescription.get("follow_up") or {}
+
+    if isinstance(follow_up, dict):
+        medication.custom_follow_up = (
+            follow_up.get("duration")
+            or follow_up.get("duration_original")
+        )
+    else:
+        medication.custom_follow_up = str(follow_up)
+
+    medication_fields = [
+        "original_name",
+        "normalized_name",
+        "strength",
+        "dosage_form",
+        "duration",
+        "instruction",
+        "instruction_translation",
+    ]
+
+    for medicine in prescription.get("medicines") or []:
+        item = medication.append("medication_items", {})
+
+        original_name = medicine.get("original_name")
+        normalized_name = medicine.get("normalized_name")
+
+        item.medicine_name = normalized_name or original_name or ""
+        item.frequency = medicine.get("frequency")
+
+        generic_names = medicine.get("generic_names") or []
+
+        if isinstance(generic_names, list):
+            item.custom_generic_name = ", ".join(
+                str(name) for name in generic_names
+            )
+        else:
+            item.custom_generic_name = str(generic_names)
+
+        for field in medication_fields:
+            setattr(
+                item,
+                f"custom_{field}",
+                medicine.get(field)
+            )
+
+    medication.insert(ignore_permissions=True)
+
+    frappe.logger().info(
+        f"Medication {medication.name} created from "
+        f"Medical Document {document_name}"
+    )
+
+    return medication.name
+
+
+def _parse_date(value):
+    if not value:
+        return None
+
+    value = str(value).strip()
+
+    for fmt in ("%d/%m/%y", "%d/%m/%Y", "%Y-%m-%d"):
+        try:
+            return datetime.strptime(value, fmt).date()
+        except ValueError:
+            continue
+
+    return None

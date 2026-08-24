@@ -14,7 +14,8 @@
   "uploader",
   "processing_status",
   "prescription_result",
-  "processing_error"
+  "processing_error",
+  "medication"
  ],
  "fields": [
   {
@@ -62,6 +63,13 @@
   "label": "Processing Error",
   "read_only": 1
  },
+ {
+ "fieldname": "medication",
+ "fieldtype": "Link",
+ "label": "Medication",
+ "options": "Medication",
+ "read_only": 1
+},
   {
    "fieldname": "patient",
    "fieldtype": "Link",

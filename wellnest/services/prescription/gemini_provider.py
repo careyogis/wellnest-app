@@ -29,13 +29,16 @@ def clean_response(obj):
     return obj
 
 
-API_KEY = frappe.conf.get("gemini_api_key")
+def _get_client():
+    api_key = frappe.conf.get("gemini_api_key")
 
-if not API_KEY:
-    raise ValueError(
-        "gemini_api_key is missing from the Frappe site configuration."
-)
-client = genai.Client(api_key=API_KEY)
+    if not api_key:
+        raise ValueError(
+            "gemini_api_key is missing from the Frappe site configuration."
+        )
+
+    return genai.Client(api_key=api_key)
+
 
 BASE_DIR = Path(__file__).resolve().parent
 PROMPT_PATH = BASE_DIR / "prescription_prompt.txt"
@@ -48,6 +51,8 @@ PROMPT = PROMPT_PATH.read_text(encoding="utf-8")
 
 def parse_prescription(image_bytes: bytes):
     """Parse a prescription image using Gemini 2.5 Flash."""
+
+    client = _get_client()
 
     image = Image.open(BytesIO(image_bytes))
 
