@@ -21,6 +21,7 @@
   {
    "fieldname": "symptom",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Symptom",
    "unique": 1
   },
@@ -29,12 +30,14 @@
    "fetch_if_empty": 1,
    "fieldname": "specialty",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Specialty",
    "options": "Medical Specialty"
   },
   {
    "fieldname": "super_specialty",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Super Specialty",
    "options": "Medical Super Specialty"
   }
@@ -42,7 +45,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-23 18:39:53.521074",
+ "modified": "2026-08-24 09:00:41.503794",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Symptom Specialty Map",
