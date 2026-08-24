@@ -167,6 +167,8 @@ def verify_registration_otp(
 		lookup_mobile = lookup_mobile[3:]
 
 	try:
+		# manually starting transaction for multi-doctype updates 
+		frappe.db.begin()
 		user = frappe.get_doc(
 			{
 				"doctype": "User",
@@ -192,7 +194,6 @@ def verify_registration_otp(
 				"title": "Dr.",
 			}
 		).insert(ignore_permissions=True)
-		frappe.db.commit()
 	except frappe.ValidationError as e:
 		frappe.db.rollback()
 		frappe.log_error(
@@ -207,6 +208,8 @@ def verify_registration_otp(
 			message=frappe.as_json({"error": str(e), "email": email, "mobile": mobile}),
 		)
 		frappe.throw("Unexpected error creating user or practitioner. Please contact support.", frappe.DataError)
+	else:
+		frappe.db.commit()
 
 	frappe.set_user(user.name)
 
