@@ -7,7 +7,11 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <button type="button" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-semibold hover:bg-amber-600 transition-colors">
+        <button
+          @click="router.push({ name: 'ConsultationRoom', params: { bookingId: 'room_room_Doc-1' } })"
+          type="button"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-semibold hover:bg-amber-600 transition-colors cursor-pointer"
+        >
           <FeatherIcon name="video" class="w-4 h-4" />
           View bookings
         </button>
@@ -81,7 +85,8 @@
             v-for="action in quickActions"
             :key="action.label"
             type="button"
-            class="flex flex-col items-start gap-2 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors text-left"
+            @click="handleAction(action)"
+            class="flex flex-col items-start gap-2 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors text-left cursor-pointer"
           >
             <FeatherIcon :name="action.icon" class="w-4 h-4 text-amber-500" />
             <span class="text-sm font-medium text-gray-700">{{ action.label }}</span>
@@ -123,14 +128,24 @@
 
 <script setup>
 import { FeatherIcon } from 'frappe-ui';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const quickActions = [
-  { label: 'Join room', icon: 'video' },
-  { label: 'Message patient', icon: 'send' },
-  { label: 'Refer patient', icon: 'share-2' },
-  { label: 'Availability', icon: 'calendar' },
-  { label: 'Review report', icon: 'upload' },
-  { label: 'Payouts', icon: 'briefcase' },
+  { label: 'Join room', icon: 'video', action: () => router.push({ name: 'ConsultationRoom', params: { bookingId: 'room_room_Doc-1' } }) },
+  { label: 'Message patient', icon: 'send', to: { name: 'Messages' } },
+  { label: 'Refer patient', icon: 'share-2', to: { name: 'Referrals' } },
+  { label: 'Availability', icon: 'calendar', to: { name: 'Schedule' } },
+  { label: 'Review report', icon: 'upload', to: { name: 'Patients' } },
+  { label: 'Payouts', icon: 'briefcase', to: { name: 'Earnings' } },
 ];
+
+function handleAction(action) {
+  if (action.action) {
+    action.action();
+  } else if (action.to) {
+    router.push(action.to);
+  }
+}
 </script>

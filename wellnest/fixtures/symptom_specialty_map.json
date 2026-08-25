@@ -1,0 +1,6194 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.439166",
+  "name": "Unexplained fever",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Unexplained fever"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.469226",
+  "name": "Fever lasting more than 3 days",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Fever lasting more than 3 days"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.477246",
+  "name": "Unexplained fatigue",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Unexplained fatigue"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.483901",
+  "name": "Persistent weakness",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Persistent weakness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.491632",
+  "name": "Generalized body ache",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Generalized body ache"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.497987",
+  "name": "Unintentional weight loss",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Unintentional weight loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.504916",
+  "name": "Unintentional weight gain",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Unintentional weight gain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.511099",
+  "name": "Night sweats",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Night sweats"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.516564",
+  "name": "Loss of appetite",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Loss of appetite"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.523118",
+  "name": "Persistent malaise",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Persistent malaise"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.529278",
+  "name": "Recurrent chills",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Recurrent chills"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.536581",
+  "name": "Generalized swelling",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Generalized swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.543474",
+  "name": "New generalized itching",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "New generalized itching"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.549261",
+  "name": "Pale appearance",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Pale appearance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.555772",
+  "name": "Persistent dizziness",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Persistent dizziness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.563259",
+  "name": "Repeated faint feeling",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Repeated faint feeling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.569348",
+  "name": "Unexplained low-grade fever",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Unexplained low-grade fever"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.576549",
+  "name": "Persistent dehydration symptoms",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Persistent dehydration symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.583417",
+  "name": "Excessive thirst",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Excessive thirst"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.592762",
+  "name": "Excessive urination",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Excessive urination"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.598440",
+  "name": "Persistent nausea without clear cause",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Persistent nausea without clear cause"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.604625",
+  "name": "Multiple nonspecific symptoms",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Multiple nonspecific symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.610727",
+  "name": "Unexplained recurrent infections",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Unexplained recurrent infections"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.617686",
+  "name": "Persistent swollen glands",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Persistent swollen glands"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.625250",
+  "name": "Unexplained bruising",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Unexplained bruising"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.631608",
+  "name": "New exercise intolerance",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "New exercise intolerance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.637790",
+  "name": "Persistent reduced stamina",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Persistent reduced stamina"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.644472",
+  "name": "Unexplained sweating",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Unexplained sweating"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.650113",
+  "name": "Temperature intolerance",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Temperature intolerance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.657111",
+  "name": "Symptoms affecting several body systems",
+  "specialty": "General Medicine",
+  "super_specialty": null,
+  "symptom": "Symptoms affecting several body systems"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.664314",
+  "name": "Chest pressure on exertion",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Chest pressure on exertion"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.671687",
+  "name": "Chest pain with walking",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Chest pain with walking"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.678269",
+  "name": "Chest tightness",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Chest tightness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.684060",
+  "name": "Sudden severe chest pain",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Sudden severe chest pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.691761",
+  "name": "Palpitations",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Palpitations"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.698106",
+  "name": "Fast heartbeat episodes",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Fast heartbeat episodes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.703498",
+  "name": "Slow heartbeat episodes",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Slow heartbeat episodes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.709895",
+  "name": "Irregular heartbeat",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Irregular heartbeat"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.715002",
+  "name": "Skipped heartbeats",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Skipped heartbeats"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.724924",
+  "name": "Breathlessness on exertion",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Breathlessness on exertion"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.729692",
+  "name": "Breathlessness when lying flat",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Breathlessness when lying flat"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.735234",
+  "name": "Waking breathless at night",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Waking breathless at night"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.741138",
+  "name": "New ankle swelling",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "New ankle swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.746712",
+  "name": "Leg swelling with breathlessness",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Leg swelling with breathlessness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.753701",
+  "name": "Unexplained fainting during exertion",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Unexplained fainting during exertion"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.760826",
+  "name": "Near-fainting with palpitations",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Near-fainting with palpitations"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.769518",
+  "name": "Reduced exercise tolerance",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Reduced exercise tolerance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.776609",
+  "name": "Rapid heartbeat with minimal activity",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Rapid heartbeat with minimal activity"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.782365",
+  "name": "Unexplained sweating with chest discomfort",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Unexplained sweating with chest discomfort"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.788492",
+  "name": "Jaw pain with exertion",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Jaw pain with exertion"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.794959",
+  "name": "Arm pain with exertion",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Arm pain with exertion"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.801369",
+  "name": "Back pain with chest discomfort",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Back pain with chest discomfort"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.829181",
+  "name": "New high blood pressure symptoms",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "New high blood pressure symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.835065",
+  "name": "Very low blood pressure with dizziness",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Very low blood pressure with dizziness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.839854",
+  "name": "Persistent racing pulse",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Persistent racing pulse"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.845483",
+  "name": "New heart murmur finding",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "New heart murmur finding"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.850839",
+  "name": "Blue lips with exertion",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Blue lips with exertion"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.857065",
+  "name": "Sudden cold sweat with chest discomfort",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Sudden cold sweat with chest discomfort"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.861575",
+  "name": "Unexplained fluid retention",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Unexplained fluid retention"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.865527",
+  "name": "Weight gain with leg swelling",
+  "specialty": "Cardiology",
+  "super_specialty": null,
+  "symptom": "Weight gain with leg swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.869422",
+  "name": "Persistent cough",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Persistent cough"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.874408",
+  "name": "Cough lasting more than 8 weeks",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Cough lasting more than 8 weeks"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.878490",
+  "name": "Cough with phlegm",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Cough with phlegm"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.883583",
+  "name": "Coughing blood",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Coughing blood"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.887175",
+  "name": "Wheezing",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Wheezing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.891131",
+  "name": "Shortness of breath",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Shortness of breath"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.894081",
+  "name": "Sudden breathlessness",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Sudden breathlessness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.896967",
+  "name": "Breathlessness on stairs",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Breathlessness on stairs"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.900063",
+  "name": "Breathlessness at rest",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Breathlessness at rest"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.903282",
+  "name": "Noisy breathing",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Noisy breathing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.906688",
+  "name": "Chest tightness with wheezing",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Chest tightness with wheezing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.909816",
+  "name": "Night-time cough",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Night-time cough"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.912603",
+  "name": "Cough triggered by exercise",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Cough triggered by exercise"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.915519",
+  "name": "Cough triggered by cold air",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Cough triggered by cold air"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.918867",
+  "name": "Cough triggered by allergens",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Cough triggered by allergens"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.922179",
+  "name": "Recurrent chest infections",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Recurrent chest infections"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.925802",
+  "name": "Frequent bronchitis",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Frequent bronchitis"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.929000",
+  "name": "Persistent sputum production",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Persistent sputum production"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.932267",
+  "name": "Change in sputum color",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Change in sputum color"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.935905",
+  "name": "Pleuritic chest pain",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Pleuritic chest pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.940145",
+  "name": "Breathlessness after respiratory infection",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Breathlessness after respiratory infection"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.944078",
+  "name": "Snoring with daytime sleepiness",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Snoring with daytime sleepiness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.947929",
+  "name": "Witnessed pauses in breathing during sleep",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Witnessed pauses in breathing during sleep"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.951429",
+  "name": "Morning headaches with loud snoring",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Morning headaches with loud snoring"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.955302",
+  "name": "Unexplained low oxygen reading",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Unexplained low oxygen reading"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.959208",
+  "name": "Breathlessness at high altitude",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Breathlessness at high altitude"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.963050",
+  "name": "Occupational breathing difficulty",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Occupational breathing difficulty"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.966728",
+  "name": "Dust-related cough",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Dust-related cough"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.970994",
+  "name": "Smoking-related chronic cough",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Smoking-related chronic cough"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.975841",
+  "name": "Sudden unexplained low oxygen",
+  "specialty": "Pulmonology",
+  "super_specialty": null,
+  "symptom": "Sudden unexplained low oxygen"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.979347",
+  "name": "Upper abdominal pain",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Upper abdominal pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.982669",
+  "name": "Lower abdominal pain",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Lower abdominal pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.986434",
+  "name": "Right upper abdominal pain",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Right upper abdominal pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.990945",
+  "name": "Left upper abdominal pain",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Left upper abdominal pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.995085",
+  "name": "Central abdominal pain",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Central abdominal pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:38.999008",
+  "name": "Abdominal bloating",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Abdominal bloating"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.002577",
+  "name": "Abdominal distension",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Abdominal distension"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.006635",
+  "name": "Heartburn",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Heartburn"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.010077",
+  "name": "Acid regurgitation",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Acid regurgitation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.013853",
+  "name": "Difficulty swallowing solids",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Difficulty swallowing solids"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.017560",
+  "name": "Difficulty swallowing liquids",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Difficulty swallowing liquids"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.021438",
+  "name": "Painful swallowing",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Painful swallowing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.026307",
+  "name": "Persistent nausea",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Persistent nausea"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.029724",
+  "name": "Repeated vomiting",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Repeated vomiting"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.033152",
+  "name": "Vomiting blood",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Vomiting blood"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.036694",
+  "name": "Black stools",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Black stools"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.040530",
+  "name": "Blood mixed with stool",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Blood mixed with stool"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.051822",
+  "name": "Bright red rectal bleeding",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Bright red rectal bleeding"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.057068",
+  "name": "Persistent diarrhea",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Persistent diarrhea"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.060682",
+  "name": "Chronic loose stools",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Chronic loose stools"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.064297",
+  "name": "Constipation",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Constipation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.068042",
+  "name": "Alternating diarrhea and constipation",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Alternating diarrhea and constipation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.072607",
+  "name": "Urgency to pass stool",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Urgency to pass stool"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.076932",
+  "name": "Mucus in stool",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Mucus in stool"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.081157",
+  "name": "Persistent indigestion",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Persistent indigestion"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.085478",
+  "name": "Early fullness after meals",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Early fullness after meals"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.089029",
+  "name": "Unexplained abdominal cramps",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Unexplained abdominal cramps"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.092199",
+  "name": "Pain after eating",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Pain after eating"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.095362",
+  "name": "Unexplained jaundice",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Unexplained jaundice"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.098992",
+  "name": "Persistent hiccups",
+  "specialty": "Gastroenterology",
+  "super_specialty": null,
+  "symptom": "Persistent hiccups"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.103443",
+  "name": "New severe headache",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "New severe headache"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.107530",
+  "name": "Recurrent migraine-like headache",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Recurrent migraine-like headache"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.111750",
+  "name": "Headache with visual symptoms",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Headache with visual symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.115034",
+  "name": "Morning headache",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Morning headache"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.118354",
+  "name": "Headache with vomiting",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Headache with vomiting"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.121573",
+  "name": "Sudden worst-ever headache",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Sudden worst-ever headache"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.125459",
+  "name": "Facial weakness",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Facial weakness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.128670",
+  "name": "Arm weakness",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Arm weakness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.132538",
+  "name": "Leg weakness",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Leg weakness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.135951",
+  "name": "One-sided weakness",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "One-sided weakness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.139573",
+  "name": "Numbness in one side",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Numbness in one side"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.144148",
+  "name": "Persistent tingling",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Persistent tingling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.147190",
+  "name": "Burning sensation in feet",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Burning sensation in feet"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.150049",
+  "name": "Loss of sensation",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Loss of sensation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.153474",
+  "name": "Tremor",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Tremor"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.157334",
+  "name": "Hand tremor",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Hand tremor"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.160081",
+  "name": "Unsteady walking",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Unsteady walking"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.163097",
+  "name": "Loss of balance",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Loss of balance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.166211",
+  "name": "Vertigo with neurological symptoms",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Vertigo with neurological symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.169250",
+  "name": "New seizure",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "New seizure"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.172242",
+  "name": "Repeated seizures",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Repeated seizures"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.175849",
+  "name": "Brief episodes of loss of awareness",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Brief episodes of loss of awareness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.180492",
+  "name": "Memory decline",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Memory decline"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.183725",
+  "name": "New confusion",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "New confusion"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.186802",
+  "name": "Speech difficulty",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Speech difficulty"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.190235",
+  "name": "Slurred speech",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Slurred speech"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.194815",
+  "name": "Difficulty finding words",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Difficulty finding words"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.199027",
+  "name": "Double vision with neurological symptoms",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Double vision with neurological symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.202625",
+  "name": "Muscle twitching",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Muscle twitching"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.206111",
+  "name": "Progressive muscle weakness",
+  "specialty": "Neurology",
+  "super_specialty": null,
+  "symptom": "Progressive muscle weakness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.209821",
+  "name": "Neck pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Neck pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.212760",
+  "name": "Neck stiffness after injury",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Neck stiffness after injury"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.216631",
+  "name": "Shoulder pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Shoulder pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.220548",
+  "name": "Shoulder stiffness",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Shoulder stiffness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.225137",
+  "name": "Shoulder weakness",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Shoulder weakness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.229242",
+  "name": "Elbow pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Elbow pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.232642",
+  "name": "Wrist pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Wrist pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.235964",
+  "name": "Hand joint pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Hand joint pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.239528",
+  "name": "Finger pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Finger pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.243933",
+  "name": "Hip pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Hip pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.247019",
+  "name": "Groin pain with walking",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Groin pain with walking"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.251108",
+  "name": "Knee pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Knee pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.254972",
+  "name": "Knee swelling after injury",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Knee swelling after injury"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.258650",
+  "name": "Knee locking",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Knee locking"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.262034",
+  "name": "Knee instability",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Knee instability"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.264930",
+  "name": "Ankle pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Ankle pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.268451",
+  "name": "Ankle swelling after injury",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Ankle swelling after injury"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.272277",
+  "name": "Heel pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Heel pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.276176",
+  "name": "Foot pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Foot pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.279963",
+  "name": "Toe pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Toe pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.283489",
+  "name": "Back pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Back pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.286625",
+  "name": "Low back pain after lifting",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Low back pain after lifting"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.289660",
+  "name": "Back pain radiating to leg",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Back pain radiating to leg"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.293412",
+  "name": "Sciatica-like pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Sciatica-like pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.296587",
+  "name": "Tailbone pain",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Tailbone pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.299725",
+  "name": "Joint pain after injury",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Joint pain after injury"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.303313",
+  "name": "Persistent muscle pain after injury",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Persistent muscle pain after injury"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.306938",
+  "name": "Reduced range of motion",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Reduced range of motion"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.310349",
+  "name": "Limping",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Limping"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.313935",
+  "name": "Difficulty bearing weight",
+  "specialty": "Orthopedics",
+  "super_specialty": null,
+  "symptom": "Difficulty bearing weight"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.317721",
+  "name": "Persistent morning joint stiffness",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Persistent morning joint stiffness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.320921",
+  "name": "Multiple swollen joints",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Multiple swollen joints"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.323916",
+  "name": "Symmetrical hand joint pain",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Symmetrical hand joint pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.327262",
+  "name": "Small-joint swelling",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Small-joint swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.329911",
+  "name": "Migratory joint pain",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Migratory joint pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.333122",
+  "name": "Recurrent joint inflammation",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Recurrent joint inflammation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.336375",
+  "name": "Unexplained joint stiffness",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Unexplained joint stiffness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.339385",
+  "name": "Joint pain with skin rash",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Joint pain with skin rash"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.342704",
+  "name": "Joint pain with mouth ulcers",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Joint pain with mouth ulcers"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.345288",
+  "name": "Joint pain with eye inflammation",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Joint pain with eye inflammation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.347969",
+  "name": "Back stiffness improving with activity",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Back stiffness improving with activity"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.350612",
+  "name": "Persistent inflammatory back pain",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Persistent inflammatory back pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.353382",
+  "name": "Heel pain with morning stiffness",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Heel pain with morning stiffness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.356111",
+  "name": "Finger swelling",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Finger swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.358873",
+  "name": "Toe swelling",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Toe swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.361472",
+  "name": "Recurrent tendon pain",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Recurrent tendon pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.364152",
+  "name": "Unexplained muscle weakness",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Unexplained muscle weakness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.367030",
+  "name": "Muscle pain with rash",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Muscle pain with rash"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.370041",
+  "name": "Cold-induced finger color changes",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Cold-induced finger color changes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.373021",
+  "name": "Finger color changes in cold",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Finger color changes in cold"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.376142",
+  "name": "Persistent dry mouth with joint pain",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Persistent dry mouth with joint pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.378747",
+  "name": "Persistent dry eyes with joint pain",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Persistent dry eyes with joint pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.381381",
+  "name": "Unexplained recurrent fevers with joint pain",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Unexplained recurrent fevers with joint pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.384062",
+  "name": "Joint pain with unexplained weight loss",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Joint pain with unexplained weight loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.386782",
+  "name": "Joint pain with prolonged fatigue",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Joint pain with prolonged fatigue"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.389741",
+  "name": "Unexplained elevated inflammatory markers",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Unexplained elevated inflammatory markers"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.392558",
+  "name": "Recurrent swelling of one joint",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Recurrent swelling of one joint"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.395310",
+  "name": "Multiple episodes of unexplained arthritis",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Multiple episodes of unexplained arthritis"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.398290",
+  "name": "Joint pain with photosensitive rash",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Joint pain with photosensitive rash"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.401253",
+  "name": "Joint pain with unexplained anemia",
+  "specialty": "Rheumatology",
+  "super_specialty": null,
+  "symptom": "Joint pain with unexplained anemia"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.404029",
+  "name": "New skin rash",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "New skin rash"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.407036",
+  "name": "Persistent itchy rash",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Persistent itchy rash"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.409833",
+  "name": "Hives",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Hives"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.412345",
+  "name": "Recurrent hives",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Recurrent hives"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.415067",
+  "name": "Facial rash",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Facial rash"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.417994",
+  "name": "Scaly skin patches",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Scaly skin patches"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.420908",
+  "name": "Red scaly plaques",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Red scaly plaques"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.423938",
+  "name": "New mole",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "New mole"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.427189",
+  "name": "Changing mole",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Changing mole"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.429934",
+  "name": "Bleeding mole",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Bleeding mole"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.432665",
+  "name": "Non-healing skin sore",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Non-healing skin sore"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.435760",
+  "name": "Skin ulcer",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Skin ulcer"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.438739",
+  "name": "Blistering skin eruption",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Blistering skin eruption"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.443563",
+  "name": "Widespread blisters",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Widespread blisters"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.446304",
+  "name": "Painful skin lesions",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Painful skin lesions"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.449259",
+  "name": "Pus-filled skin lesions",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Pus-filled skin lesions"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.452483",
+  "name": "Acne",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Acne"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.455438",
+  "name": "Severe acne scarring",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Severe acne scarring"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.458562",
+  "name": "Hair loss",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Hair loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.461245",
+  "name": "Patchy hair loss",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Patchy hair loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.464082",
+  "name": "Sudden excessive hair shedding",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Sudden excessive hair shedding"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.466973",
+  "name": "Dandruff with scalp inflammation",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Dandruff with scalp inflammation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.470075",
+  "name": "Scalp itching",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Scalp itching"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.473469",
+  "name": "Nail discoloration",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Nail discoloration"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.476356",
+  "name": "Nail thickening",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Nail thickening"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.478866",
+  "name": "Brittle nails",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Brittle nails"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.482480",
+  "name": "Skin pigmentation changes",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Skin pigmentation changes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.485287",
+  "name": "Loss of skin pigment",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Loss of skin pigment"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.488232",
+  "name": "Persistent facial redness",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Persistent facial redness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.491132",
+  "name": "Unexplained bruising on skin",
+  "specialty": "Dermatology",
+  "super_specialty": null,
+  "symptom": "Unexplained bruising on skin"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.493745",
+  "name": "Ear pain",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Ear pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.496423",
+  "name": "Blocked ear",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Blocked ear"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.499536",
+  "name": "Hearing loss",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Hearing loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.502771",
+  "name": "Sudden hearing loss",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Sudden hearing loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.505810",
+  "name": "Ringing in the ears",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Ringing in the ears"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.508960",
+  "name": "Ear discharge",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Ear discharge"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.511464",
+  "name": "Recurrent ear infections",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Recurrent ear infections"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.514138",
+  "name": "Dizziness with hearing symptoms",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Dizziness with hearing symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.516927",
+  "name": "Nasal blockage",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Nasal blockage"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.519841",
+  "name": "Persistent runny nose",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Persistent runny nose"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.522641",
+  "name": "Sneezing with nasal symptoms",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Sneezing with nasal symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.526006",
+  "name": "Loss of smell",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Loss of smell"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.528477",
+  "name": "Reduced sense of smell",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Reduced sense of smell"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.531173",
+  "name": "Nosebleed",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Nosebleed"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.533826",
+  "name": "Facial pressure",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Facial pressure"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.537182",
+  "name": "Sinus pain",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Sinus pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.540032",
+  "name": "Recurrent sinus infections",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Recurrent sinus infections"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.543586",
+  "name": "Postnasal drip",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Postnasal drip"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.546312",
+  "name": "Persistent sore throat",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Persistent sore throat"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.549137",
+  "name": "Difficulty swallowing with throat pain",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Difficulty swallowing with throat pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.552025",
+  "name": "Hoarseness",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Hoarseness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.554881",
+  "name": "Voice loss",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Voice loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.558030",
+  "name": "Persistent throat clearing",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Persistent throat clearing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.560702",
+  "name": "Neck lump",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Neck lump"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.563145",
+  "name": "Swollen tonsils",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Swollen tonsils"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.565852",
+  "name": "Recurrent tonsillitis",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Recurrent tonsillitis"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.568837",
+  "name": "Snoring",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Snoring"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.571838",
+  "name": "Mouth breathing",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Mouth breathing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.575223",
+  "name": "Sleep-related breathing difficulty",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Sleep-related breathing difficulty"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.577733",
+  "name": "Foreign body sensation in throat",
+  "specialty": "ENT / Otorhinolaryngology",
+  "super_specialty": null,
+  "symptom": "Foreign body sensation in throat"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.580305",
+  "name": "Eye pain",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Eye pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.582954",
+  "name": "Sudden loss of vision",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Sudden loss of vision"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.585553",
+  "name": "Blurred vision",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Blurred vision"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.588697",
+  "name": "Double vision",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Double vision"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.591991",
+  "name": "Flashes of light",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Flashes of light"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.594482",
+  "name": "New floaters",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "New floaters"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.597111",
+  "name": "Red eye",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Red eye"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.599784",
+  "name": "Painful red eye",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Painful red eye"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.602668",
+  "name": "Light sensitivity",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Light sensitivity"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.605425",
+  "name": "Excessive tearing",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Excessive tearing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.608645",
+  "name": "Dry eyes",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Dry eyes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.611225",
+  "name": "Eye discharge",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Eye discharge"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.613703",
+  "name": "Itchy eyes",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Itchy eyes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.616261",
+  "name": "Swollen eyelid",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Swollen eyelid"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.618936",
+  "name": "Drooping eyelid",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Drooping eyelid"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.621583",
+  "name": "Sudden visual field loss",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Sudden visual field loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.624533",
+  "name": "Difficulty seeing at night",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Difficulty seeing at night"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.627310",
+  "name": "Reduced color vision",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Reduced color vision"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.630305",
+  "name": "Distorted vision",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Distorted vision"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.633245",
+  "name": "Halos around lights",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Halos around lights"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.636226",
+  "name": "Eye strain",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Eye strain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.638990",
+  "name": "Headache with visual strain",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Headache with visual strain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.642786",
+  "name": "Foreign body sensation in eye",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Foreign body sensation in eye"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.650356",
+  "name": "Persistent eye redness",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Persistent eye redness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.654054",
+  "name": "Unexplained eye swelling",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Unexplained eye swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.657106",
+  "name": "Loss of peripheral vision",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Loss of peripheral vision"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.659734",
+  "name": "Sudden pupil-size difference",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Sudden pupil-size difference"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.662195",
+  "name": "Vision loss after eye injury",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Vision loss after eye injury"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.664836",
+  "name": "Eye pain with nausea",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Eye pain with nausea"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.667428",
+  "name": "Progressive vision deterioration",
+  "specialty": "Ophthalmology",
+  "super_specialty": null,
+  "symptom": "Progressive vision deterioration"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.670086",
+  "name": "Burning urination",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Burning urination"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.672723",
+  "name": "Frequent urination",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Frequent urination"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.675509",
+  "name": "Urgent need to urinate",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Urgent need to urinate"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.678063",
+  "name": "Night-time urination",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Night-time urination"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.683579",
+  "name": "Blood in urine",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Blood in urine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.686775",
+  "name": "Difficulty starting urination",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Difficulty starting urination"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.690032",
+  "name": "Weak urine stream",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Weak urine stream"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.692748",
+  "name": "Interrupted urine stream",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Interrupted urine stream"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.695380",
+  "name": "Incomplete bladder emptying",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Incomplete bladder emptying"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.697997",
+  "name": "Urinary leakage",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Urinary leakage"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.700697",
+  "name": "Urinary retention",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Urinary retention"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.703440",
+  "name": "Painful urination with fever",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Painful urination with fever"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.706257",
+  "name": "Flank pain",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Flank pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.708760",
+  "name": "Renal colic-like pain",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Renal colic-like pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.711331",
+  "name": "Recurrent urinary tract infections",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Recurrent urinary tract infections"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.713850",
+  "name": "Cloudy urine",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Cloudy urine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.716413",
+  "name": "Foul-smelling urine",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Foul-smelling urine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.719656",
+  "name": "Reduced urine output",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Reduced urine output"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.722267",
+  "name": "Sudden inability to urinate",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Sudden inability to urinate"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.725291",
+  "name": "Painful ejaculation",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Painful ejaculation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.727874",
+  "name": "Blood in semen",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Blood in semen"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.730327",
+  "name": "Scrotal pain",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Scrotal pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.732943",
+  "name": "Scrotal swelling",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Scrotal swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.735675",
+  "name": "Testicular lump",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Testicular lump"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.738253",
+  "name": "Testicular enlargement",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Testicular enlargement"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.741153",
+  "name": "Groin pain with urinary symptoms",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Groin pain with urinary symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.743528",
+  "name": "Erectile difficulty",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Erectile difficulty"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.745991",
+  "name": "Reduced libido in male",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Reduced libido in male"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.748609",
+  "name": "Infertility concern in male",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Infertility concern in male"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.751228",
+  "name": "Penile discharge",
+  "specialty": "Urology",
+  "super_specialty": null,
+  "symptom": "Penile discharge"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.754010",
+  "name": "Persistent protein in urine",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Persistent protein in urine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.757243",
+  "name": "Foamy urine",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Foamy urine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.759606",
+  "name": "Blood in urine without pain",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Blood in urine without pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.761936",
+  "name": "Unexplained swelling around eyes",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Unexplained swelling around eyes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.775048",
+  "name": "Leg swelling with kidney findings",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Leg swelling with kidney findings"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.778470",
+  "name": "Rapidly worsening kidney function",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Rapidly worsening kidney function"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.781328",
+  "name": "Persistently high creatinine",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Persistently high creatinine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.784130",
+  "name": "Reduced kidney function",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Reduced kidney function"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.787113",
+  "name": "Very low urine output",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Very low urine output"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.790101",
+  "name": "Unexplained electrolyte abnormality",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Unexplained electrolyte abnormality"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.793318",
+  "name": "Persistent high potassium",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Persistent high potassium"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.795960",
+  "name": "Persistent low sodium",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Persistent low sodium"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.798826",
+  "name": "Unexplained metabolic acidosis",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Unexplained metabolic acidosis"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.802056",
+  "name": "Recurrent kidney stones with abnormal kidney function",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Recurrent kidney stones with abnormal kidney function"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.804913",
+  "name": "Kidney disease with high blood pressure",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Kidney disease with high blood pressure"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.808140",
+  "name": "Kidney disease with diabetes",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Kidney disease with diabetes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.810889",
+  "name": "Unexplained anemia with kidney disease",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Unexplained anemia with kidney disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.813859",
+  "name": "Persistent proteinuria in diabetes",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Persistent proteinuria in diabetes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.816662",
+  "name": "Swelling with heavy protein loss in urine",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Swelling with heavy protein loss in urine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.819633",
+  "name": "Recurrent unexplained kidney inflammation",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Recurrent unexplained kidney inflammation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.822634",
+  "name": "Abnormal kidney biopsy finding",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Abnormal kidney biopsy finding"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.825549",
+  "name": "Kidney disease in pregnancy",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Kidney disease in pregnancy"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.828026",
+  "name": "Family history of inherited kidney disease",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Family history of inherited kidney disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.830667",
+  "name": "Unexplained recurrent kidney failure",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Unexplained recurrent kidney failure"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.833516",
+  "name": "Fluid overload with kidney disease",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Fluid overload with kidney disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.836778",
+  "name": "Dialysis-related symptoms",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Dialysis-related symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.840152",
+  "name": "Itching with advanced kidney disease",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Itching with advanced kidney disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.843011",
+  "name": "Bone symptoms with chronic kidney disease",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Bone symptoms with chronic kidney disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.845457",
+  "name": "Persistent fatigue with advanced kidney disease",
+  "specialty": "Nephrology",
+  "super_specialty": null,
+  "symptom": "Persistent fatigue with advanced kidney disease"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.848110",
+  "name": "Excessive thirst with frequent urination",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Excessive thirst with frequent urination"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.851037",
+  "name": "Unexplained high blood sugar",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Unexplained high blood sugar"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.853741",
+  "name": "Repeated low blood sugar",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Repeated low blood sugar"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.856484",
+  "name": "Increased hunger with weight loss",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Increased hunger with weight loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.859224",
+  "name": "Unexplained weight gain with fatigue",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Unexplained weight gain with fatigue"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.861539",
+  "name": "Heat intolerance",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Heat intolerance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.864014",
+  "name": "Cold intolerance",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Cold intolerance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.866614",
+  "name": "Excessive sweating",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Excessive sweating"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.869426",
+  "name": "Persistent constipation with fatigue",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Persistent constipation with fatigue"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.872000",
+  "name": "Persistent diarrhea with weight loss",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Persistent diarrhea with weight loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.874794",
+  "name": "Neck swelling",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Neck swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.877106",
+  "name": "Neck lump with thyroid concern",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Neck lump with thyroid concern"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.879875",
+  "name": "Palpitations with tremor",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Palpitations with tremor"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.882623",
+  "name": "Tremor with weight loss",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Tremor with weight loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.885768",
+  "name": "Menstrual irregularity with endocrine symptoms",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Menstrual irregularity with endocrine symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.888590",
+  "name": "Excess facial hair",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Excess facial hair"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.892042",
+  "name": "Acne with hormonal symptoms",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Acne with hormonal symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.894723",
+  "name": "Unexplained infertility with endocrine symptoms",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Unexplained infertility with endocrine symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.897644",
+  "name": "Darkening of skin folds",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Darkening of skin folds"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.900610",
+  "name": "Unexplained skin darkening",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Unexplained skin darkening"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.903797",
+  "name": "Fragility fractures",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Fragility fractures"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.907736",
+  "name": "Loss of height",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Loss of height"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.910616",
+  "name": "Persistent muscle weakness with electrolyte abnormality",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Persistent muscle weakness with electrolyte abnormality"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.913433",
+  "name": "Recurrent kidney stones with high calcium",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Recurrent kidney stones with high calcium"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.917130",
+  "name": "Unexplained high calcium",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Unexplained high calcium"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.920817",
+  "name": "Unexplained low calcium",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Unexplained low calcium"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.940044",
+  "name": "Persistent low vitamin D with bone symptoms",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Persistent low vitamin D with bone symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.944800",
+  "name": "Delayed puberty",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Delayed puberty"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.947511",
+  "name": "Early puberty",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Early puberty"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.950356",
+  "name": "Growth failure in child",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Growth failure in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.953428",
+  "name": "Excessive growth in child",
+  "specialty": "Endocrinology",
+  "super_specialty": null,
+  "symptom": "Excessive growth in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.957669",
+  "name": "Abnormal vaginal bleeding",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Abnormal vaginal bleeding"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.960769",
+  "name": "Very heavy periods",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Very heavy periods"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.963667",
+  "name": "Bleeding between periods",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Bleeding between periods"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.966480",
+  "name": "Bleeding after intercourse",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Bleeding after intercourse"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.969900",
+  "name": "Painful periods",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Painful periods"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.973046",
+  "name": "Severe menstrual cramps",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Severe menstrual cramps"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.976711",
+  "name": "Irregular periods",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Irregular periods"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.979671",
+  "name": "Absent periods",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Absent periods"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.982782",
+  "name": "Bleeding after menopause",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Bleeding after menopause"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.985940",
+  "name": "Pelvic pain",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Pelvic pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.989023",
+  "name": "Lower abdominal pain in woman",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Lower abdominal pain in woman"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.992244",
+  "name": "Pain during intercourse",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Pain during intercourse"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.995004",
+  "name": "Vaginal discharge",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Vaginal discharge"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:39.997744",
+  "name": "Foul-smelling vaginal discharge",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Foul-smelling vaginal discharge"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.000609",
+  "name": "Vaginal itching",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Vaginal itching"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.003617",
+  "name": "Vaginal dryness",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Vaginal dryness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.006855",
+  "name": "Hot flashes",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Hot flashes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.010475",
+  "name": "Breast lump",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Breast lump"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.013391",
+  "name": "Nipple discharge",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Nipple discharge"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.016461",
+  "name": "Nipple bleeding",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Nipple bleeding"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.019848",
+  "name": "Breast pain",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Breast pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.023300",
+  "name": "Pregnancy with abdominal pain",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Pregnancy with abdominal pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.026517",
+  "name": "Pregnancy with vaginal bleeding",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Pregnancy with vaginal bleeding"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.029563",
+  "name": "Pregnancy with severe vomiting",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Pregnancy with severe vomiting"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.032705",
+  "name": "Pregnancy with high blood pressure symptoms",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Pregnancy with high blood pressure symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.035999",
+  "name": "Reduced fetal movement",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Reduced fetal movement"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.039717",
+  "name": "Contractions before term",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Contractions before term"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.043399",
+  "name": "Fluid leakage during pregnancy",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Fluid leakage during pregnancy"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.046527",
+  "name": "Difficulty conceiving",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Difficulty conceiving"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.049733",
+  "name": "Recurrent pregnancy loss",
+  "specialty": "Obstetrics & Gynecology",
+  "super_specialty": null,
+  "symptom": "Recurrent pregnancy loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.053008",
+  "name": "Persistent sadness",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Persistent sadness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.056322",
+  "name": "Loss of interest in usual activities",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Loss of interest in usual activities"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.059973",
+  "name": "Excessive worry",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Excessive worry"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.063062",
+  "name": "Panic attacks",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Panic attacks"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.066237",
+  "name": "Persistent fear",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Persistent fear"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.069641",
+  "name": "Severe irritability",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Severe irritability"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.073278",
+  "name": "Mood swings",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Mood swings"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.076315",
+  "name": "Periods of unusually elevated mood",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Periods of unusually elevated mood"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.079972",
+  "name": "Reduced need for sleep with increased energy",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Reduced need for sleep with increased energy"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.083110",
+  "name": "Racing thoughts",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Racing thoughts"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.086800",
+  "name": "Persistent insomnia",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Persistent insomnia"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.091575",
+  "name": "Excessive daytime sleepiness",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Excessive daytime sleepiness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.094662",
+  "name": "Nightmares causing distress",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Nightmares causing distress"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.097762",
+  "name": "Intrusive thoughts",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Intrusive thoughts"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.100894",
+  "name": "Repetitive compulsive behaviors",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Repetitive compulsive behaviors"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.104373",
+  "name": "Social withdrawal",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Social withdrawal"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.108023",
+  "name": "Loss of motivation",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Loss of motivation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.110904",
+  "name": "Difficulty concentrating",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Difficulty concentrating"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.113731",
+  "name": "Persistent guilt",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Persistent guilt"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.116842",
+  "name": "Feelings of hopelessness",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Feelings of hopelessness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.120327",
+  "name": "Unexplained anxiety symptoms",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Unexplained anxiety symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.123979",
+  "name": "Trauma-related distress",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Trauma-related distress"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.127638",
+  "name": "Flashbacks",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Flashbacks"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.130792",
+  "name": "Avoidance related to trauma",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Avoidance related to trauma"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.134251",
+  "name": "Eating restriction",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Eating restriction"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.137733",
+  "name": "Binge eating",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Binge eating"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.141715",
+  "name": "Self-induced vomiting after eating",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Self-induced vomiting after eating"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.145072",
+  "name": "Substance-related behavioral concern",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Substance-related behavioral concern"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.148139",
+  "name": "New personality change",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "New personality change"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.151732",
+  "name": "Unexplained behavioral change",
+  "specialty": "Psychiatry",
+  "super_specialty": null,
+  "symptom": "Unexplained behavioral change"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.154541",
+  "name": "Persistent anemia",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Persistent anemia"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.158687",
+  "name": "Low hemoglobin on testing",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Low hemoglobin on testing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.161593",
+  "name": "Unexplained pallor",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Unexplained pallor"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.164381",
+  "name": "Persistent fatigue with anemia",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Persistent fatigue with anemia"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.167723",
+  "name": "Recurrent unusual infections with low blood counts",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Recurrent unusual infections with low blood counts"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.170619",
+  "name": "Easy bruising",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Easy bruising"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.173981",
+  "name": "Frequent nosebleeds with low platelets",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Frequent nosebleeds with low platelets"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.176531",
+  "name": "Prolonged bleeding after minor injury",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Prolonged bleeding after minor injury"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.178792",
+  "name": "Unexplained low platelets",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Unexplained low platelets"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.181932",
+  "name": "Unexplained high platelets",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Unexplained high platelets"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.185308",
+  "name": "Unexplained high white blood cell count",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Unexplained high white blood cell count"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.188544",
+  "name": "Unexplained low white blood cell count",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Unexplained low white blood cell count"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.192233",
+  "name": "Persistent enlarged lymph nodes",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Persistent enlarged lymph nodes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.195081",
+  "name": "Multiple enlarged lymph nodes",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Multiple enlarged lymph nodes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.198471",
+  "name": "Unexplained spleen enlargement",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Unexplained spleen enlargement"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.201850",
+  "name": "Unexplained abnormal blood smear",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Unexplained abnormal blood smear"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.205127",
+  "name": "Recurrent blood clots",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Recurrent blood clots"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.209891",
+  "name": "Blood clot at unusual site",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Blood clot at unusual site"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.212996",
+  "name": "Recurrent miscarriages with clotting concern",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Recurrent miscarriages with clotting concern"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.216266",
+  "name": "Unexplained high red blood cell count",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Unexplained high red blood cell count"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.219551",
+  "name": "Unexplained low red blood cell count",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Unexplained low red blood cell count"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.222969",
+  "name": "Persistent iron deficiency",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Persistent iron deficiency"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.227086",
+  "name": "Iron deficiency without obvious bleeding",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Iron deficiency without obvious bleeding"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.230293",
+  "name": "Unexplained macrocytosis",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Unexplained macrocytosis"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.233478",
+  "name": "Persistent eosinophilia",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Persistent eosinophilia"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.236921",
+  "name": "Unexplained prolonged clotting test",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Unexplained prolonged clotting test"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.240481",
+  "name": "Family history of bleeding disorder",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Family history of bleeding disorder"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.244199",
+  "name": "Family history of clotting disorder",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Family history of clotting disorder"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.247413",
+  "name": "Persistent night sweats with enlarged nodes",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Persistent night sweats with enlarged nodes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.250717",
+  "name": "Unexplained weight loss with enlarged nodes",
+  "specialty": "Hematology",
+  "super_specialty": null,
+  "symptom": "Unexplained weight loss with enlarged nodes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.254055",
+  "name": "Unexplained persistent weight loss",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Unexplained persistent weight loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.258168",
+  "name": "Unexplained persistent fever",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Unexplained persistent fever"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.261751",
+  "name": "Persistent night sweats",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Persistent night sweats"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.264838",
+  "name": "New unexplained lump",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "New unexplained lump"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.268293",
+  "name": "Growing neck lump",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Growing neck lump"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.271606",
+  "name": "Persistent breast lump",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Persistent breast lump"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.275343",
+  "name": "Non-healing ulcer",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Non-healing ulcer"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.278438",
+  "name": "Unexplained blood in stool",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Unexplained blood in stool"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.281593",
+  "name": "Unexplained blood in urine",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Unexplained blood in urine"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.284987",
+  "name": "Coughing blood without infection",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Coughing blood without infection"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.288446",
+  "name": "Persistent hoarseness",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Persistent hoarseness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.293536",
+  "name": "Persistent difficulty swallowing",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Persistent difficulty swallowing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.297236",
+  "name": "Persistent change in bowel habit",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Persistent change in bowel habit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.300780",
+  "name": "Persistent abdominal swelling",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Persistent abdominal swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.304378",
+  "name": "Persistent abdominal mass",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Persistent abdominal mass"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.315246",
+  "name": "Unexplained bone pain",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Unexplained bone pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.319984",
+  "name": "Persistent back pain with weight loss",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Persistent back pain with weight loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.324461",
+  "name": "New testicular lump",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "New testicular lump"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.327884",
+  "name": "Unexplained vaginal bleeding after menopause",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Unexplained vaginal bleeding after menopause"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.330845",
+  "name": "Unexplained postmenopausal discharge",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Unexplained postmenopausal discharge"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.334466",
+  "name": "Persistent enlarged lymph node",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Persistent enlarged lymph node"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.338187",
+  "name": "Progressive swallowing difficulty",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Progressive swallowing difficulty"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.343177",
+  "name": "Persistent jaundice without clear cause",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Persistent jaundice without clear cause"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.346539",
+  "name": "Unexplained recurrent vomiting",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Unexplained recurrent vomiting"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.349675",
+  "name": "Persistent unexplained anemia",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Persistent unexplained anemia"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.352774",
+  "name": "Unexplained thrombosis with cancer concern",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Unexplained thrombosis with cancer concern"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.356833",
+  "name": "New skin lesion that changes",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "New skin lesion that changes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.360649",
+  "name": "Unexplained recurrent pleural fluid",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Unexplained recurrent pleural fluid"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.365019",
+  "name": "Unexplained recurrent ascites",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Unexplained recurrent ascites"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.368645",
+  "name": "Persistent symptoms despite appropriate initial treatment",
+  "specialty": "Oncology",
+  "super_specialty": null,
+  "symptom": "Persistent symptoms despite appropriate initial treatment"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.372052",
+  "name": "Fever after recent travel",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever after recent travel"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.375330",
+  "name": "Fever with rash",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with rash"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.378528",
+  "name": "Fever with severe headache",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with severe headache"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.382425",
+  "name": "Fever with neck stiffness",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with neck stiffness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.385770",
+  "name": "Fever with persistent diarrhea",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with persistent diarrhea"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.390373",
+  "name": "Fever with prolonged cough",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with prolonged cough"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.393785",
+  "name": "Fever with unexplained weight loss",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with unexplained weight loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.396844",
+  "name": "Recurrent unexplained fever",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Recurrent unexplained fever"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.399909",
+  "name": "Fever lasting more than two weeks",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever lasting more than two weeks"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.404010",
+  "name": "Fever with enlarged lymph nodes",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with enlarged lymph nodes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.407582",
+  "name": "Fever after animal exposure",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever after animal exposure"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.411643",
+  "name": "Fever after insect bite",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever after insect bite"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.415461",
+  "name": "Fever after contaminated food exposure",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever after contaminated food exposure"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.418967",
+  "name": "Fever after freshwater exposure",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever after freshwater exposure"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.422217",
+  "name": "Persistent diarrhea after travel",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Persistent diarrhea after travel"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.425960",
+  "name": "Persistent cough after travel",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Persistent cough after travel"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.443032",
+  "name": "Frequent opportunistic infections",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Frequent opportunistic infections"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.445871",
+  "name": "Unexplained prolonged fever with low blood counts",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Unexplained prolonged fever with low blood counts"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.448809",
+  "name": "Unexplained fever with liver enlargement",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Unexplained fever with liver enlargement"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.452402",
+  "name": "Unexplained fever with spleen enlargement",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Unexplained fever with spleen enlargement"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.456026",
+  "name": "Fever with severe muscle pain",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with severe muscle pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.460132",
+  "name": "Fever with jaundice",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with jaundice"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.463795",
+  "name": "Fever with urinary symptoms",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with urinary symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.467316",
+  "name": "Fever with wound infection",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with wound infection"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.470776",
+  "name": "Fever with prosthetic device",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with prosthetic device"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.474280",
+  "name": "Fever after surgery",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever after surgery"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.478498",
+  "name": "Fever in immunocompromised patient",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever in immunocompromised patient"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.482243",
+  "name": "Fever with positive blood culture",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with positive blood culture"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.486046",
+  "name": "Fever with unexplained inflammatory syndrome",
+  "specialty": "Infectious Disease",
+  "super_specialty": null,
+  "symptom": "Fever with unexplained inflammatory syndrome"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.490510",
+  "name": "New difficulty walking in older adult",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "New difficulty walking in older adult"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.493782",
+  "name": "Recurrent falls",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Recurrent falls"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.496735",
+  "name": "New unsteadiness in older adult",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "New unsteadiness in older adult"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.499917",
+  "name": "New confusion in older adult",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "New confusion in older adult"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.503952",
+  "name": "Memory decline affecting daily activities",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Memory decline affecting daily activities"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.507902",
+  "name": "Loss of independence in daily activities",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Loss of independence in daily activities"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.512558",
+  "name": "Reduced appetite in older adult",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Reduced appetite in older adult"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.517300",
+  "name": "Unintentional weight loss in older adult",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Unintentional weight loss in older adult"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.520965",
+  "name": "Generalized weakness in older adult",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Generalized weakness in older adult"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.524749",
+  "name": "Frailty symptoms",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Frailty symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.528842",
+  "name": "Multiple medication-related concerns",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Multiple medication-related concerns"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.532368",
+  "name": "Dizziness after standing",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Dizziness after standing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.536220",
+  "name": "Recurrent fainting in older adult",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Recurrent fainting in older adult"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.540833",
+  "name": "Sleep disturbance in older adult",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Sleep disturbance in older adult"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.544001",
+  "name": "New urinary incontinence",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "New urinary incontinence"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.546776",
+  "name": "New bowel incontinence",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "New bowel incontinence"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.550006",
+  "name": "Difficulty managing medications",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Difficulty managing medications"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.554281",
+  "name": "Difficulty managing finances due to memory problems",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Difficulty managing finances due to memory problems"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.560897",
+  "name": "Social withdrawal in older adult",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Social withdrawal in older adult"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.563727",
+  "name": "Repeated hospitalizations",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Repeated hospitalizations"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.566852",
+  "name": "Persistent pain affecting function",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Persistent pain affecting function"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.571092",
+  "name": "Reduced mobility",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Reduced mobility"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.575888",
+  "name": "Fear of falling",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Fear of falling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.578689",
+  "name": "New swallowing difficulty in older adult",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "New swallowing difficulty in older adult"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.581773",
+  "name": "New hearing difficulty affecting communication",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "New hearing difficulty affecting communication"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.584906",
+  "name": "New vision difficulty affecting daily life",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "New vision difficulty affecting daily life"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.588194",
+  "name": "Pressure sore risk",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Pressure sore risk"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.592322",
+  "name": "Poor nutritional intake",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Poor nutritional intake"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.595178",
+  "name": "Caregiver concern about functional decline",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Caregiver concern about functional decline"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.598190",
+  "name": "Complex symptoms across multiple systems",
+  "specialty": "Geriatric Medicine",
+  "super_specialty": null,
+  "symptom": "Complex symptoms across multiple systems"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.601571",
+  "name": "Fever in infant",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Fever in infant"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.605750",
+  "name": "Persistent fever in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Persistent fever in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.610040",
+  "name": "Poor feeding in infant",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Poor feeding in infant"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.614099",
+  "name": "Repeated vomiting in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Repeated vomiting in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.617248",
+  "name": "Persistent diarrhea in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Persistent diarrhea in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.620456",
+  "name": "Dehydration signs in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Dehydration signs in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.623896",
+  "name": "Persistent cough in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Persistent cough in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.627019",
+  "name": "Wheezing in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Wheezing in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.629858",
+  "name": "Breathing difficulty in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Breathing difficulty in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.632628",
+  "name": "Recurrent ear infections in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Recurrent ear infections in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.635917",
+  "name": "Delayed speech",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Delayed speech"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.638831",
+  "name": "Speech regression",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Speech regression"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.642465",
+  "name": "Developmental delay",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Developmental delay"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.645561",
+  "name": "Loss of previously acquired skills",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Loss of previously acquired skills"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.648298",
+  "name": "Poor weight gain",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Poor weight gain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.651089",
+  "name": "Short stature concern",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Short stature concern"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.654051",
+  "name": "Excessive weight gain in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Excessive weight gain in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.657078",
+  "name": "Recurrent abdominal pain in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Recurrent abdominal pain in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.662142",
+  "name": "Persistent headache in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Persistent headache in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.664851",
+  "name": "Recurrent fainting in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Recurrent fainting in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.667493",
+  "name": "Seizure in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Seizure in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.669947",
+  "name": "Unusual movements in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Unusual movements in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.672272",
+  "name": "Persistent rash in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Persistent rash in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.675458",
+  "name": "Jaundice in newborn",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Jaundice in newborn"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.678322",
+  "name": "Prolonged jaundice in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Prolonged jaundice in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.680987",
+  "name": "Blood in stool in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Blood in stool in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.683981",
+  "name": "Painful urination in child",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Painful urination in child"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.686983",
+  "name": "Bedwetting beyond expected age",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Bedwetting beyond expected age"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.689909",
+  "name": "Early puberty concern",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Early puberty concern"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.693281",
+  "name": "Delayed puberty concern",
+  "specialty": "Pediatrics",
+  "super_specialty": null,
+  "symptom": "Delayed puberty concern"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.696031",
+  "name": "Sudden severe abdominal pain",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Sudden severe abdominal pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.698719",
+  "name": "Painful abdominal lump",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Painful abdominal lump"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.701822",
+  "name": "Groin lump",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Groin lump"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.704674",
+  "name": "Umbilical lump",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Umbilical lump"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.707822",
+  "name": "Incisional hernia lump",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Incisional hernia lump"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.710541",
+  "name": "Painful hernia",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Painful hernia"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.713284",
+  "name": "Persistent anal pain",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Persistent anal pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.716132",
+  "name": "Painful hemorrhoids",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Painful hemorrhoids"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.719238",
+  "name": "Anal bleeding",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Anal bleeding"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.722074",
+  "name": "Anal discharge",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Anal discharge"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.725302",
+  "name": "Perianal swelling",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Perianal swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.728164",
+  "name": "Perianal abscess-like pain",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Perianal abscess-like pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.731065",
+  "name": "Pilonidal swelling",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Pilonidal swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.733863",
+  "name": "Pilonidal discharge",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Pilonidal discharge"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.736869",
+  "name": "Non-healing wound",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Non-healing wound"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.739640",
+  "name": "Persistent wound drainage",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Persistent wound drainage"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.742853",
+  "name": "Postoperative wound redness",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Postoperative wound redness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.745896",
+  "name": "Postoperative wound swelling",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Postoperative wound swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.748978",
+  "name": "Postoperative wound discharge",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Postoperative wound discharge"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.751950",
+  "name": "Persistent postoperative pain",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Persistent postoperative pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.754952",
+  "name": "Gallbladder-type right upper abdominal pain",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Gallbladder-type right upper abdominal pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.758255",
+  "name": "Suspected appendicitis-type pain",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Suspected appendicitis-type pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.761022",
+  "name": "Intestinal obstruction-type abdominal distension",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Intestinal obstruction-type abdominal distension"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.763844",
+  "name": "Acute abdominal tenderness",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Acute abdominal tenderness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.769649",
+  "name": "Breast lump requiring surgical assessment",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Breast lump requiring surgical assessment"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.773411",
+  "name": "Thyroid lump requiring surgical assessment",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Thyroid lump requiring surgical assessment"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.776149",
+  "name": "Skin lump requiring removal assessment",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Skin lump requiring removal assessment"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.778870",
+  "name": "Swallowing problem with surgical concern",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Swallowing problem with surgical concern"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.782050",
+  "name": "Postoperative hernia concern",
+  "specialty": "General Surgery",
+  "super_specialty": null,
+  "symptom": "Postoperative hernia concern"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.786106",
+  "name": "Toothache",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Toothache"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.788945",
+  "name": "Sensitivity to hot or cold",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Sensitivity to hot or cold"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.792384",
+  "name": "Pain while chewing",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Pain while chewing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.810188",
+  "name": "Swollen gums",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Swollen gums"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.849934",
+  "name": "Bleeding gums",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Bleeding gums"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.856886",
+  "name": "Persistent bad breath",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Persistent bad breath"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.859877",
+  "name": "Loose tooth",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Loose tooth"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.862689",
+  "name": "Broken tooth",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Broken tooth"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.874183",
+  "name": "Cracked tooth",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Cracked tooth"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.878096",
+  "name": "Tooth abscess-like swelling",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Tooth abscess-like swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.881476",
+  "name": "Facial swelling from tooth",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Facial swelling from tooth"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.884256",
+  "name": "Jaw pain",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Jaw pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.887675",
+  "name": "Jaw clicking",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Jaw clicking"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.891816",
+  "name": "Difficulty opening mouth",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Difficulty opening mouth"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.894839",
+  "name": "Mouth ulcer lasting more than two weeks",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Mouth ulcer lasting more than two weeks"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.898538",
+  "name": "White patch in mouth",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "White patch in mouth"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.902106",
+  "name": "Red patch in mouth",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Red patch in mouth"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.905515",
+  "name": "Persistent tongue pain",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Persistent tongue pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.909471",
+  "name": "Tongue swelling",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Tongue swelling"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.912771",
+  "name": "Burning mouth sensation",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Burning mouth sensation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.916491",
+  "name": "Dry mouth",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Dry mouth"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.921167",
+  "name": "Excessive salivation",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Excessive salivation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.924991",
+  "name": "Difficulty chewing",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Difficulty chewing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.928830",
+  "name": "Difficulty swallowing due to oral pain",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Difficulty swallowing due to oral pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.932939",
+  "name": "Bleeding from mouth",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Bleeding from mouth"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.936837",
+  "name": "Persistent gum enlargement",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Persistent gum enlargement"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.940348",
+  "name": "Pain after tooth extraction",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Pain after tooth extraction"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.944015",
+  "name": "Non-healing extraction socket",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Non-healing extraction socket"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.947974",
+  "name": "Unexplained oral lump",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Unexplained oral lump"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.951492",
+  "name": "Persistent oral numbness",
+  "specialty": "Dentistry",
+  "super_specialty": null,
+  "symptom": "Persistent oral numbness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.955656",
+  "name": "Sudden chest pain",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Sudden chest pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.959878",
+  "name": "Severe difficulty breathing",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Severe difficulty breathing"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.963469",
+  "name": "Sudden loss of consciousness",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Sudden loss of consciousness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.966720",
+  "name": "New seizure lasting several minutes",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "New seizure lasting several minutes"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.970482",
+  "name": "Sudden one-sided weakness",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Sudden one-sided weakness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.975091",
+  "name": "Sudden speech difficulty",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Sudden speech difficulty"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.978976",
+  "name": "Sudden severe headache",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Sudden severe headache"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.983491",
+  "name": "Major bleeding",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Major bleeding"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.987612",
+  "name": "Vomiting blood with weakness",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Vomiting blood with weakness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.991666",
+  "name": "Black stools with faintness",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Black stools with faintness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:40.996047",
+  "name": "Severe abdominal pain",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Severe abdominal pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.000083",
+  "name": "Severe allergic reaction",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Severe allergic reaction"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.004112",
+  "name": "Facial swelling with breathing difficulty",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Facial swelling with breathing difficulty"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.008757",
+  "name": "Severe asthma attack",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Severe asthma attack"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.012641",
+  "name": "Severe dehydration",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Severe dehydration"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.016072",
+  "name": "Heat stroke symptoms",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Heat stroke symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.019817",
+  "name": "Severe hypothermia symptoms",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Severe hypothermia symptoms"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.024455",
+  "name": "Major fall with severe pain",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Major fall with severe pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.028519",
+  "name": "Head injury with loss of consciousness",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Head injury with loss of consciousness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.032901",
+  "name": "Suspected spinal injury",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Suspected spinal injury"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.036596",
+  "name": "Sudden severe eye pain with vision loss",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Sudden severe eye pain with vision loss"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.040234",
+  "name": "Sudden testicular pain",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Sudden testicular pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.044165",
+  "name": "Severe pregnancy-related bleeding",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Severe pregnancy-related bleeding"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.048516",
+  "name": "Severe pregnancy-related abdominal pain",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Severe pregnancy-related abdominal pain"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.052203",
+  "name": "Poisoning concern",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Poisoning concern"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.057091",
+  "name": "Electrical injury",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Electrical injury"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.061343",
+  "name": "Major burn",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Major burn"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.065076",
+  "name": "Severe infection with confusion",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Severe infection with confusion"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.068622",
+  "name": "Blue lips with severe breathlessness",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Blue lips with severe breathlessness"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Symptom Specialty Map",
+  "modified": "2026-08-24 07:39:41.072519",
+  "name": "Sudden collapse",
+  "specialty": "Emergency Medicine",
+  "super_specialty": null,
+  "symptom": "Sudden collapse"
+ }
+]

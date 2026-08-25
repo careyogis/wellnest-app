@@ -18,6 +18,11 @@ const routes = [
     component: () => import('@/pages/Register.vue'),
   },
   {
+    name: 'ConsultationRoom',
+    path: '/consultations/:bookingId?',
+    component: () => import('@/pages/ConsultationRoom.vue'),
+  },
+  {
     path: '/',
     component: () => import('@/layouts/AppLayout.vue'),
     children: [

@@ -133,21 +133,6 @@ def doctor_profile():
 
     doctor = practitioner.as_dict()
 
-    if practitioner.specialty:
-        doctor["specialty_name"] = frappe.db.get_value(
-            "Medical Specialty",
-            practitioner.specialty,
-            "specialty_name",
-        )
-
-    if practitioner.super_specialty:
-        doctor["super_specialty_name"] = frappe.db.get_value(
-            "Medical Super Specialty",
-            practitioner.super_specialty,
-            "super_specialty_name",
-        )
-
-
     if practitioner.primary_facility:
         doctor["primary_facility_name"] = frappe.db.get_value(
             "Hospital",
@@ -225,12 +210,12 @@ def update_doctor_profile(docname=None, updates=None):
                     "availability_days",
                     {
                         "day": availability_day.get("day"),
-                        "online_from": availability_day.get("online_from"),
-                        "online_to": availability_day.get("online_to"),
-                        "emergency_from": availability_day.get("emergency_from"),
-                        "emergency_to": availability_day.get("emergency_to"),
-                        "clinic_from": availability_day.get("clinic_from"),
-                        "clinic_to": availability_day.get("clinic_to"),
+                        "online_from": availability_day.get("online_from") + ":00:00" if availability_day.get("online_from") else '',
+                        "online_to": availability_day.get("online_to") + ":00:00" if availability_day.get("online_to") else '',
+                        "emergency_from": availability_day.get("emergency_from") + ":00:00" if availability_day.get("emergency_from") else '',
+                        "emergency_to": availability_day.get("emergency_to") + ":00:00" if availability_day.get("emergency_to") else '',
+                        "clinic_from": availability_day.get("clinic_from") + ":00:00" if availability_day.get("clinic_from") else '',
+                        "clinic_to": availability_day.get("clinic_to") + ":00:00" if availability_day.get("clinic_to") else '',
 },
                 )
 
