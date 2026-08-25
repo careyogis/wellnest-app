@@ -188,7 +188,7 @@
                   <span class="text-gray-500 text-sm">Available For Home Visits?</span>
                   <span class="font-semibold text-gray-900 text-sm">{{ profileData?.data?.doctor?.available_for_home_visits ? 'Yes' : 'No' }}</span>
                 </div>
-                <div class="flex justify-between py-3"">
+                <div class="flex justify-between py-3">
                   <span class="text-gray-500 text-sm">Home Visit Consultation</span>
                   <span class="font-semibold text-gray-900 text-sm"> ₹{{ profileData?.data?.doctor?.home_visit_charge }} </span>
                 </div>
@@ -236,12 +236,12 @@
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
                   <span class="font-medium text-gray-500 block text-xs mb-1"> Specialty </span>
-                  {{ profileData?.data?.doctor?.specialty || 'Not Available' }}
+                  {{ specialtyOptions.find((option) => option.value === profileData?.data?.doctor?.specialty)?.label || 'Not Available' }}
                 </div>
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
                   <span class="font-medium text-gray-500 block text-xs mb-1"> Super Specialty </span>
-                  {{ profileData?.data?.doctor?.super_specialty || 'Not Available' }}
+                  {{ superSpecialtyOptions.find((option) => option.value === profileData?.data?.doctor?.super_specialty)?.label || 'Not Available' }}
                 </div>
 
                 <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-800 border border-gray-100">
@@ -964,7 +964,6 @@
                               {{ String(h).padStart(2, '0') }}
                             </option>
                           </select>
-
                         </div>
                       </div>
 
@@ -994,7 +993,6 @@
                               {{ String(h).padStart(2, '0') }}
                             </option>
                           </select>
-
                         </div>
                       </div>
 
@@ -1083,10 +1081,8 @@ function getHour24(timeString) {
 }
 
 function setDayTime(dayItem, fieldName, value) {
-  if (value && value != 'HH')
-    dayItem[fieldName] = `${value}`;
-  else
-    dayItem[fieldName] = NaN;
+  if (value && value != 'HH') dayItem[fieldName] = `${value}`;
+  else dayItem[fieldName] = NaN;
 }
 
 function getDayItem(dayName) {
@@ -1162,6 +1158,7 @@ const imageLoadError = ref(false);
 const photoInput = ref(null);
 const documentInput = ref(null);
 const documentUploading = ref(false);
+const isInitializingProfile = ref(false);
 
 const selectedLanguageOptions = ref([]);
 const isEditingProfile = ref(false);
@@ -1569,7 +1566,7 @@ const specialtyResource = createResource({
   makeParams() {
     return {
       doctype: 'Medical Specialty',
-      fields: ['specialty_name'],
+      fields: ['name', 'specialty_name'],
       limit_page_length: 100,
       order_by: 'specialty_name asc',
     };
@@ -1577,7 +1574,7 @@ const specialtyResource = createResource({
   onSuccess(data) {
     specialtyOptions.value = (data || []).map((item) => ({
       label: item.specialty_name,
-      value: item.specialty_name,
+      value: item.name,
     }));
   },
 });
@@ -1587,7 +1584,7 @@ const superSpecialtyResource = createResource({
   makeParams() {
     const params = {
       doctype: 'Medical Super Specialty',
-      fields: ['super_specialty_name', 'specialty'],
+      fields: ['name', 'super_specialty_name', 'specialty'],
       limit_page_length: 100,
       order_by: 'super_specialty_name asc',
     };
@@ -1603,7 +1600,7 @@ const superSpecialtyResource = createResource({
   onSuccess(data) {
     superSpecialtyOptions.value = (data || []).map((item) => ({
       label: item.super_specialty_name,
-      value: item.super_specialty_name,
+      value: item.name,
     }));
 
     if (editForm.super_specialty && !superSpecialtyOptions.value.some((option) => option.value === editForm.super_specialty)) {
@@ -1613,10 +1610,27 @@ const superSpecialtyResource = createResource({
 });
 
 watch(
+  () => profileData.data?.doctor?.name,
+  (docname) => {
+    if (docname) {
+      specialtyResource.fetch();
+      superSpecialtyResource.fetch();
+    }
+  },
+  { immediate: true }
+);
+
+watch(
   () => editForm.specialty,
-  () => {
-    editForm.super_specialty = '';
-    superSpecialtyResource.reload();
+  (newSpecialty, oldSpecialty) => {
+    if (isInitializingProfile.value) {
+      return;
+    }
+
+    if (newSpecialty !== oldSpecialty) {
+      editForm.super_specialty = '';
+      superSpecialtyResource.reload();
+    }
   }
 );
 
@@ -1689,16 +1703,16 @@ const setPhotoResource = createResource({
   url: 'frappe.client.set_value',
 });
 
-function editProfile() {
+async function editProfile() {
+
   const doctor = profileData?.data?.doctor;
 
   isEditingProfile.value = true;
+  isInitializingProfile.value = true;
 
   cityResource.fetch();
   stateResource.fetch();
   hospitalResource.fetch();
-  specialtyResource.fetch();
-  superSpecialtyResource.fetch();
   languageResource.fetch();
   medicalDegreeResource.fetch();
   educationalInstitutionResource.fetch();
@@ -1738,6 +1752,8 @@ function editProfile() {
   editForm.designation = doctor?.designation || '';
   editForm.specialty = doctor?.specialty || '';
   editForm.super_specialty = doctor?.super_specialty || '';
+  specialtyResource.fetch();
+  superSpecialtyResource.fetch();
   editForm.registration_no = doctor?.registration_no || '';
   editForm.registration_valid_upto = doctor?.registration_valid_upto || '';
   editForm.registration_letter = doctor?.registration_letter || '';
@@ -1771,6 +1787,7 @@ function editProfile() {
   }));
   editForm.is_published = Boolean(doctor?.is_published);
 
+  isInitializingProfile.value = false;
   showEditProfile.value = true;
 }
 
@@ -1876,10 +1893,6 @@ async function saveProfile() {
       doctor.designation = editForm.designation;
       doctor.specialty = editForm.specialty;
       doctor.super_specialty = editForm.super_specialty;
-
-      doctor.specialty = specialtyOptions.value.find((option) => option.value === editForm.specialty)?.label || '';
-
-      doctor.super_specialty = superSpecialtyOptions.value.find((option) => option.value === editForm.super_specialty)?.label || '';
       doctor.registration_no = editForm.registration_no;
       doctor.registration_valid_upto = editForm.registration_valid_upto;
       doctor.registration_letter = editForm.registration_letter;
