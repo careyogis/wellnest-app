@@ -45,7 +45,7 @@
 
 <a class="card shadow-sm prac-card text-decoration-none text-dark mb-4"
    href="/{{ doc.route or doc.name | lower }}"
-   data-search="{{ ((doc.full_name or '') ~ ' ' ~ (doc.qualification or '') ~ ' ' ~ (doc.super_specialty or '') ~ ' ' ~ (doc.city or '')) | lower }}"
+   data-search="{{ ((doc.full_name or '') ~ ' ' ~ (doc.designation or '') ~ ' ' ~ (doc.super_specialty or '') ~ ' ' ~ (doc.city or '')) | lower }}"
    data-tele="{{ 1 if doc.telemedicine_certified else 0 }}">
   
   <div class="card-body p-4">
@@ -63,7 +63,7 @@
             {{ doc.title ~ " " if doc.title }}{{ (doc.first_name or "") ~ " " ~ (doc.last_name or "") }}
         </h5>
         <div class="text-muted small">
-            {{ doc.qualification }}{% if doc.additional_qualification %}, {{ doc.additional_qualification }}{% endif %}
+            {{ doc.designation or "" }}
         </div>
       </div>
     </div>
@@ -96,8 +96,8 @@
     <!-- Footer Facts -->
     <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-3 text-muted small">
       <div>
-        {% if doc.experience_years %}
-            <strong>{{ doc.experience_years }} yrs</strong> experience
+        {% if doc.practicing_from %}
+            <strong>{{ frappe.utils.getdate().year - frappe.utils.getdate(doc.practicing_from).year }} yrs</strong> total experience
         {% else %}
             <span>&nbsp;</span>
         {% endif %}
@@ -129,7 +129,7 @@
                 <input type="text" id="pracSearchInput" 
                        class="form-control form-control-lg shadow-sm" 
                        style="border-radius: 8px;"
-                       placeholder="Search by Name, Qualification, Specialty, or City...">
+                       placeholder="Search by Name, Designation, Specialty, or City...">
             `;
 
             // Inject the search bar immediately above the first card
