@@ -1076,63 +1076,57 @@ consultations. page
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
-import { FeatherIcon } from 'frappe-ui'
+import { computed, ref, watch } from 'vue'
+import { FeatherIcon, createResource } from 'frappe-ui'
 import { useRouter } from 'vue-router'
 import Consultation from './Consultation.vue'
 import logoUrl from '@/assets/images/logo-01.png'
 
 const router = useRouter()
 
-const consultations = ref([
-  {
-    id: 'asha-mehta-1',
-    time: '10:30 AM',
-    patient: 'Asha Mehta',
-    bookingStatus: 'Waiting',
-    mode: 'Video',
-    reason: 'Review glucose logs and BP readings',
-    workflow: 'Digital draft',
-  },
-  {
-    id: 'nirmala-devi-1',
-    time: '11:15 AM',
-    patient: 'Nirmala Devi',
-    bookingStatus: 'Upcoming',
-    mode: 'Video',
-    reason: 'Breathlessness after discharge',
-    workflow: 'In review',
-  },
-  {
-    id: 'rohan-gupta-1',
-    time: '12:20 PM',
-    patient: 'Rohan Gupta',
-    bookingStatus: 'Upcoming',
-    mode: 'Clinic',
-    reason: 'Post angioplasty medication review',
-    workflow: 'Ready for validation',
-  },
-  {
-    id: 'meera-iyer-1',
-    time: '03:00 PM',
-    patient: 'Meera Iyer',
-    bookingStatus: 'Upcoming',
-    mode: 'Video',
-    reason: 'Joint pain flare-up',
-    workflow: 'Digital draft',
-  },
-  {
-    id: 'leela-rao-1',
-    time: '05:20 PM',
-    patient: 'Leela Rao',
-    bookingStatus: 'Assistant assigned',
-    mode: 'Home',
-    reason: 'Fluid retention check',
-    workflow: 'Digital draft',
-  },
-])
+const consultationsResource = createResource({
+  url: 'wellnest.wellnest.doctype.teleconsultation_appointment.teleconsultation_appointment.get_teleconsultation_appointments',
+  auto: true,
+})
 
-const selectedConsultation = ref(consultations.value[0])
+const consultations = computed(() => {
+  return (consultationsResource.data || []).map((appointment) => ({
+    id: appointment.name,
+    time: appointment.scheduled_time,
+    patient: appointment.patient,
+    practitioner: appointment.practitioner,
+    bookingStatus: appointment.consultation_status,
+    mode: 'Video',
+    reason: 'Teleconsultation',
+    workflow: 'Clinical consultation',
+    appointment: appointment.name,
+  }))
+})
+
+const selectedConsultation = ref({
+  id: null,
+  time: '',
+  patient: '',
+  practitioner: '',
+  bookingStatus: '',
+  mode: 'Video',
+  reason: 'Teleconsultation',
+  workflow: 'Clinical consultation',
+  appointment: null,
+})
+
+watch(
+  () => consultations.value,
+  (value) => {
+    if (value.length && !selectedConsultation.value.appointment) {
+      selectedConsultation.value = value[0]
+    }
+  },
+  { immediate: true }
+)
+
+// const selectedConsultation = ref(consultations.value[0])
+
 const showJoinModal = ref(false)
 const showTemplatePreview = ref(false)
 

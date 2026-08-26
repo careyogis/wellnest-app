@@ -17,7 +17,7 @@
                 Final CareYogi digital prescription fields,
                 scoped to {{ patient.name }}.
               </p>
-            </div>
+            </div class="flex items-center gap-3">
 
             <button
               type="button"
@@ -30,6 +30,18 @@
             >
               Preview template
             </button>
+            <button
+             type="button"
+             class="px-4 py-2 rounded-lg
+           bg-amber-500
+           text-white
+           font-semibold
+           hover:bg-amber-600"
+    @click="saveClinicalRecord"
+  >
+    Save Clinical Record
+  </button>
+
           </div>
 
           <!-- Chief complaints -->
@@ -140,6 +152,9 @@
               >
                 <label class="block text-sm text-gray-700 mb-2">
                   {{ vital.label }}
+                  <span class="text-gray-400">
+                    ({{ vital.unit }})
+                  </span>
                 </label>
 
                 <input
@@ -186,7 +201,7 @@
   </h2>
 
   <textarea
-  v-model="diagnosis"
+  v-model="provisionalDiagnosis"
   rows="3"
   placeholder="Enter provisional diagnosis"
   class="w-full
@@ -1239,7 +1254,7 @@
                    text-gray-700
                    mt-2"
           >
-            {{ diagnosis || 'No provisional diagnosis entered.' }}
+            {{ provisionalDiagnosis || 'No provisional diagnosis entered.' }}
           </p>
         </div>
 
@@ -1631,8 +1646,8 @@
 
 </template>
 <script setup>
-import { computed, ref } from 'vue'
-import { FeatherIcon } from 'frappe-ui'
+import { computed, ref, watch } from 'vue'
+import { FeatherIcon, createResource } from 'frappe-ui'
 import careyogiLogo from '@/assets/images/logo-01.png'
 
 const props = defineProps({
@@ -1642,9 +1657,26 @@ const props = defineProps({
   },
 })
 
+const clinicalRecordResource = createResource({
+  url: 'wellnest.wellnest.doctype.teleconsultation_clinical_record.teleconsultation_clinical_record.get_clinical_record',
+})
+
+const saveClinicalRecordResource = createResource({
+  url: 'wellnest.wellnest.doctype.teleconsultation_clinical_record.teleconsultation_clinical_record.save_clinical_record',
+})
+
+const vitalsResource = createResource({
+  url: 'wellnest.wellnest.doctype.vitals.vitals.get_consultation_vitals',
+})
+
+const saveVitalsResource = createResource({
+  url: 'wellnest.wellnest.doctype.vitals.vitals.save_consultation_vitals',
+})
+
 const patient = computed(() => ({
   name: props.selectedConsultation?.patient || 'Bhavna Patel',
 }))
+
 const consultation = computed(() => ({
   reason:
     props.selectedConsultation?.reason ||
@@ -1659,32 +1691,19 @@ const consultation = computed(() => ({
     '02:00',
 }))
 
-const complaints = ref([
-  {
-    id: 1,
-    text: 'Survivorship care plan',
-    duration: 'Current visit',
-  },
-])
+// Clinical Record data
+const complaints = ref([])
+const investigations = ref([])
 
-const investigations = ref([
-  'HbA1c',
-  'Lipid profile',
-  'Urine microalbumin',
-])
+const history = ref('')
+const examination = ref('')
+const provisionalDiagnosis = ref('')
 
-const followUpAdvice = ref(
-  'Upload fasting glucose for 7 days and review over video in 2 weeks.'
-)
+const followUpAdvice = ref('')
+const dietAdvice = ref('')
+const exerciseAdvice = ref('')
 
-const dietAdvice = ref(
-  'Low GI meals, avoid sweetened beverages, and keep dinner light.'
-)
-
-const exerciseAdvice = ref(
-  '30-minute brisk walk on at least 5 days each week.'
-)
-
+// Existing prescription data - KEEP FOR NOW
 const medicines = ref([
   {
     medicine: 'Metformin XR 500 mg',
@@ -1706,51 +1725,165 @@ const medicines = ref([
   },
 ])
 
-const history = ref('')
-
+// Existing vitals data - KEEP FOR NOW
 const vitals = ref([
   {
     key: 'weight',
     label: 'Weight',
     placeholder: 'Weight',
     value: '',
+    vitalType: 'Weight',
+    unit: 'kg',
   },
   {
     key: 'height',
     label: 'Height',
     placeholder: 'Height',
     value: '',
+    vitalType: 'Height',
+    unit: 'cm',
   },
   {
     key: 'pulse',
     label: 'Pulse',
     placeholder: 'Pulse',
     value: '',
+    vitalType: 'Heart Rate',
+    unit: 'bpm',
   },
   {
     key: 'bp',
     label: 'BP',
     placeholder: 'Blood pressure',
     value: '',
+    vitalType: 'BP',
+    unit: 'mmHg',
   },
   {
     key: 'spo2',
     label: 'SpO2',
     placeholder: 'SpO2',
     value: '',
+    vitalType: 'SPO2',
+    unit: '%',
   },
   {
     key: 'temperature',
     label: 'Temperature',
     placeholder: 'Temperature',
     value: '',
+    vitalType: 'Temperature',
+    unit: '°C',
+  },
+  {
+    key: 'sugar',
+    label: 'Blood Sugar',
+    placeholder: 'Blood sugar',
+    value: '',
+    vitalType: 'Sugar',
+    unit: 'mg/dL',
+  },
+  {
+    key: 'respiratory_rate',
+    label: 'Respiratory Rate',
+    placeholder: 'Respiratory rate',
+    value: '',
+    vitalType: 'Respiratory Rate',
+    unit: 'breaths/min',
   },
 ])
 
-const examination = ref('')
 const showPreview = ref(false)
 const showJoinModal = ref(false)
 const showOcrModal = ref(false)
+
+async function loadClinicalRecord() {
+  const appointment = props.selectedConsultation?.appointment
+
+  if (!appointment) {
+    return
+  }
+
+  try {
+    // Load clinical record
+    const response = await clinicalRecordResource.submit({
+      appointment,
+    })
+
+    if (!response) {
+      complaints.value = []
+      investigations.value = []
+      history.value = ''
+      examination.value = ''
+      provisionalDiagnosis.value = ''
+      followUpAdvice.value = ''
+      dietAdvice.value = ''
+      exerciseAdvice.value = ''
+    } else {
+      complaints.value = (response.chief_complaints || []).map(
+        (complaint, index) => ({
+          id: index + 1,
+          text: complaint.complaint || '',
+          duration: complaint.duration || '',
+        }),
+      )
+
+      investigations.value = (
+        response.investigations || []
+      ).map((item) => item.investigation || '')
+
+      history.value = response.history || ''
+      examination.value = response.examination || ''
+      provisionalDiagnosis.value =
+        response.provisional_diagnosis || ''
+
+      followUpAdvice.value =
+        response.follow_up_advice || ''
+
+      dietAdvice.value =
+        response.diet_advice || ''
+
+      exerciseAdvice.value =
+        response.exercise_advice || ''
+    }
+
+    // Load vitals
+    const vitalsResponse = await vitalsResource.submit({
+      appointment,
+    })
+
+    // Clear current UI values first
+    vitals.value.forEach((vital) => {
+      vital.value = ''
+    })
+
+    // Populate saved vital values
+    if (vitalsResponse?.vital_reading) {
+      vitalsResponse.vital_reading.forEach((reading) => {
+        const matchingVital = vitals.value.find(
+          (vital) => vital.vitalType === reading.vital_type,
+        )
+
+        if (matchingVital) {
+          matchingVital.value = reading.value || ''
+        }
+      })
+    }
+  } catch (error) {
+    console.error(
+      'Failed to load consultation data:',
+      error,
+    )
+  }
+}
+
+watch(
+  () => props.selectedConsultation?.appointment,
+  () => {
+    loadClinicalRecord()
+  },
+  { immediate: true },
+)
 
 const previewDetails = [
   {
@@ -1790,8 +1923,10 @@ const previewDetails = [
 const doctorDetails = [
   {
     label: 'Consulting Doctor',
-    value: 'Brigadier (Retd.) Dr. Yashwant Singh Bisht',
-    description: 'Senior Consultant, Internal Medicine',
+    value:
+      'Brigadier (Retd.) Dr. Yashwant Singh Bisht',
+    description:
+      'Senior Consultant, Internal Medicine',
   },
   {
     label: 'Qualification',
@@ -1812,12 +1947,15 @@ function addComplaint() {
     duration: '',
   })
 }
+
 function addInvestigation() {
   investigations.value.push('')
 }
+
 function removeInvestigation(index) {
   investigations.value.splice(index, 1)
 }
+
 function addMedicine() {
   medicines.value.push({
     medicine: '',
@@ -1826,8 +1964,76 @@ function addMedicine() {
     instruction: '',
   })
 }
+
 function finalizePrescription() {
   console.log('Prescription submitted.')
+}
+async function saveClinicalRecord() {
+  const appointment = props.selectedConsultation?.appointment
+
+  if (!appointment) {
+    console.error('No consultation appointment selected.')
+    return
+  }
+
+  const data = {
+    consultation_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+
+    chief_complaints: complaints.value
+      .filter((complaint) => complaint.text?.trim())
+      .map((complaint) => ({
+        complaint: complaint.text.trim(),
+        duration: complaint.duration?.trim() || '',
+      })),
+
+    history: history.value,
+
+    examination: examination.value,
+
+    provisional_diagnosis: provisionalDiagnosis.value,
+
+    investigations: investigations.value
+      .filter((investigation) => investigation?.trim())
+      .map((investigation) => ({
+        investigation: investigation.trim(),
+      })),
+
+    follow_up_advice: followUpAdvice.value,
+
+    diet_advice: dietAdvice.value,
+
+    exercise_advice: exerciseAdvice.value,
+
+    status: 'Draft',
+  }
+
+  try {
+    const response = await saveClinicalRecordResource.submit({
+      appointment,
+      data: JSON.stringify(data),
+    })
+
+    console.log('Clinical record saved:', response)
+    const vitalReadings = vitals.value
+    .filter((vital) => vital.value?.trim())
+    .map((vital) => ({
+    vital_type: vital.vitalType,
+    unit: vital.unit,
+    value: vital.value.trim(),
+  }))
+
+const vitalsResponse = await saveVitalsResource.submit({
+  appointment,
+  readings: JSON.stringify(vitalReadings),
+})
+
+console.log('Vitals saved:', vitalsResponse)
+
+    alert('Clinical record saved successfully.')
+  } catch (error) {
+    console.error('Failed to save clinical record:', error)
+    alert('Failed to save clinical record.')
+  }
 }
 
 function removeMedicine(index) {

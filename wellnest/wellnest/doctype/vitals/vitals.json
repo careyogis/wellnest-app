@@ -11,6 +11,8 @@
   "recorded_on",
   "recorded_by",
   "column_break_uxds",
+  "practitioner",
+  "teleconsultation_appointment",
   "vital_reading"
  ],
  "fields": [
@@ -45,11 +47,23 @@
    "fieldtype": "Link",
    "label": "Patient",
    "options": "Patient"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Practitioner",
+   "options": "Practitioner"
+  },
+  {
+   "fieldname": "teleconsultation_appointment",
+   "fieldtype": "Link",
+   "label": "Teleconsultation Appointment",
+   "options": "Teleconsultation Appointment"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-05-14 14:40:39.614935",
+ "modified": "2026-08-26 14:03:06.695083",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Vitals",
