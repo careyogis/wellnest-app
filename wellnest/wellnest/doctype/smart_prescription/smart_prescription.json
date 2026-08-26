@@ -13,7 +13,8 @@
   "followup_expiry_date",
   "section_break_meds",
   "medicines",
-  "advice"
+  "advice",
+  "response_data"
  ],
  "fields": [
   {
@@ -65,12 +66,17 @@
    "fieldname": "advice",
    "fieldtype": "Small Text",
    "label": "Doctor Advice"
+  },
+  {
+   "fieldname": "response_data",
+   "fieldtype": "Long Text",
+   "label": "Response Data"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-18 20:43:23.764589",
- "modified_by": "Administrator",
+ "modified": "2026-08-26 13:23:17.772158",
+ "modified_by": "nikhilsinha789@gmail.com",
  "module": "WellNest",
  "name": "Smart Prescription",
  "naming_rule": "Expression",
