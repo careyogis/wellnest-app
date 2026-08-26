@@ -40,7 +40,7 @@
    "fieldname": "recorded_by",
    "fieldtype": "Link",
    "label": "Recorded By",
-   "options": "Caregiver"
+   "options": "User"
   },
   {
    "fieldname": "patient",
@@ -58,12 +58,13 @@
    "fieldname": "teleconsultation_appointment",
    "fieldtype": "Link",
    "label": "Teleconsultation Appointment",
-   "options": "Teleconsultation Appointment"
+   "options": "Teleconsultation Appointment",
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-26 14:03:06.695083",
+ "modified": "2026-08-26 18:31:21.922324",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Vitals",

@@ -16,8 +16,20 @@ class TeleconsultationAppointment(Document):
 
 @frappe.whitelist()
 def get_teleconsultation_appointments():
+    practitioner = frappe.db.get_value(
+        "Practitioner",
+        {"user_id": frappe.session.user},
+        "name",
+    )
+
+    if not practitioner:
+        frappe.throw("Practitioner not found")
+
     return frappe.get_all(
         "Teleconsultation Appointment",
+        filters={
+            "practitioner": practitioner,
+        },
         fields=[
             "name",
             "patient",

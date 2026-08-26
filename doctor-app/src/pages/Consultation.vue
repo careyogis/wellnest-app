@@ -1977,7 +1977,6 @@ async function saveClinicalRecord() {
   }
 
   const data = {
-    consultation_date: new Date().toISOString().slice(0, 19).replace('T', ' '),
 
     chief_complaints: complaints.value
       .filter((complaint) => complaint.text?.trim())
@@ -2004,7 +2003,6 @@ async function saveClinicalRecord() {
 
     exercise_advice: exerciseAdvice.value,
 
-    status: 'Draft',
   }
 
   try {

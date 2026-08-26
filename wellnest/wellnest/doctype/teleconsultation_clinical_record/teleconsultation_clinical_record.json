@@ -64,35 +64,36 @@
   },
   {
    "fieldname": "provisional_diagnosis",
-   "fieldtype": "Small Text",
+   "fieldtype": "Text",
    "label": "Provisional Diagnosis"
   },
   {
    "fieldname": "diet_advice",
-   "fieldtype": "Small Text",
+   "fieldtype": "Text",
    "label": "Diet Advice"
   },
   {
    "fieldname": "history",
-   "fieldtype": "Small Text",
+   "fieldtype": "Text",
    "label": "History"
   },
   {
    "fieldname": "examination",
-   "fieldtype": "Small Text",
+   "fieldtype": "Text",
    "label": "Examination"
   },
   {
    "fieldname": "follow_up_advice",
-   "fieldtype": "Small Text",
+   "fieldtype": "Text",
    "label": "Follow Up Advice"
   },
   {
    "fieldname": "exercise_advice",
-   "fieldtype": "Small Text",
+   "fieldtype": "Text",
    "label": "Exercise Advice"
   },
   {
+   "default": "Draft",
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
@@ -107,7 +108,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-25 23:17:44.819559",
+ "modified": "2026-08-26 19:16:18.877762",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Teleconsultation Clinical Record",

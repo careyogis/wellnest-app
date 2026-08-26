@@ -15,6 +15,27 @@ def get_consultation_vitals(appointment):
     Get the Vitals record associated with a teleconsultation appointment.
     """
 
+    current_practitioner = frappe.db.get_value(
+        "Practitioner",
+        {"user_id": frappe.session.user},
+        "name",
+    )
+
+    if not current_practitioner:
+        frappe.throw("Practitioner not found")
+
+    appointment_practitioner = frappe.db.get_value(
+        "Teleconsultation Appointment",
+        appointment,
+        "practitioner",
+    )
+
+    if appointment_practitioner != current_practitioner:
+        frappe.throw(
+            "Not authorized to access this consultation",
+            frappe.PermissionError,
+        )
+
     vital_name = frappe.db.get_value(
         "Vitals",
         {"teleconsultation_appointment": appointment},
@@ -73,6 +94,7 @@ def save_consultation_vitals(appointment, readings):
         vital_doc.practitioner = appointment_doc.practitioner
         vital_doc.teleconsultation_appointment = appointment
 
+    vital_doc.recorded_by = frappe.session.user
     vital_doc.recorded_on = frappe.utils.now_datetime()
 
     # Replace the existing readings with the current consultation values.

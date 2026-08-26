@@ -11,6 +11,36 @@ class TeleconsultationClinicalRecord(Document):
 
 @frappe.whitelist()
 def get_clinical_record(appointment):
+    practitioner = frappe.db.get_value(
+        "Practitioner",
+        {"user_id": frappe.session.user},
+        "name",
+    )
+
+    if not practitioner:
+        frappe.throw(
+            "Practitioner not found",
+            frappe.PermissionError,
+        )
+
+    appointment_practitioner = frappe.db.get_value(
+        "Teleconsultation Appointment",
+        appointment,
+        "practitioner",
+    )
+
+    if not appointment_practitioner:
+        frappe.throw(
+            "Teleconsultation Appointment not found",
+            frappe.DoesNotExistError,
+        )
+
+    if appointment_practitioner != practitioner:
+        frappe.throw(
+            "Not authorized to access this consultation",
+            frappe.PermissionError,
+        )
+
     record_name = frappe.db.get_value(
         "Teleconsultation Clinical Record",
         {"teleconsultation_appointment": appointment},
@@ -20,7 +50,10 @@ def get_clinical_record(appointment):
     if not record_name:
         return None
 
-    record = frappe.get_doc("Teleconsultation Clinical Record", record_name)
+    record = frappe.get_doc(
+        "Teleconsultation Clinical Record",
+        record_name,
+    )
 
     return {
         "name": record.name,
@@ -76,8 +109,7 @@ def save_clinical_record(appointment, data):
         record.patient = appointment_doc.patient
         record.practitioner = appointment_doc.practitioner
 
-    if data.get("consultation_date"):
-        record.consultation_date = data.get("consultation_date")
+    record.consultation_date = appointment_doc.scheduled_time
 
     record.history = data.get("history")
     record.examination = data.get("examination")
@@ -86,8 +118,6 @@ def save_clinical_record(appointment, data):
     record.diet_advice = data.get("diet_advice")
     record.exercise_advice = data.get("exercise_advice")
 
-    if data.get("status"):
-        record.status = data.get("status")
 
     record.set("chief_complaints", [])
 
