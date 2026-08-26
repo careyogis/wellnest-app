@@ -4,7 +4,12 @@ from datetime import datetime
 from .gemini_provider import parse_prescription
 
 
-def process_prescription(image_bytes, patient, practitioner):
+def process_prescription(
+    image_bytes,
+    patient,
+    practitioner,
+    teleconsult_appointment=None,
+):
     result = parse_prescription(image_bytes)
     prescription = result.get("prescription", result)
 
@@ -12,6 +17,11 @@ def process_prescription(image_bytes, patient, practitioner):
 
     doc.patient = patient
     doc.practitioner = practitioner
+    doc.workflow_state = "Draft"
+
+    if teleconsult_appointment:
+        doc.teleconsult_appointment = teleconsult_appointment
+
     doc.prescription_date = _parse_date(
         prescription.get("date")
     )
