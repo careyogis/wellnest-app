@@ -281,15 +281,6 @@ def register_customer(id_token: str, full_name: str):
 		user_doc.insert()
 		user_doc.add_roles("Customer")
 
-		patient_doc = frappe.get_doc({
-			"doctype": "Patient",
-			"full_name": full_name,
-			"mobile": lookup_phone,
-			"is_phone_verified": 1
-		})
-		patient_doc.flags.ignore_permissions = True
-		patient_doc.insert()
-
 		customer_doc = frappe.get_doc({
 			"doctype": "Customer",
 			"customer_name": full_name,
@@ -297,6 +288,16 @@ def register_customer(id_token: str, full_name: str):
 		})
 		customer_doc.flags.ignore_permissions = True
 		customer_doc.insert()
+
+		patient_doc = frappe.get_doc({
+			"doctype": "Patient",
+			"full_name": full_name,
+			"mobile": lookup_phone,
+			"is_phone_verified": 1,
+			"customer": customer_doc.get("name"),
+		})
+		patient_doc.flags.ignore_permissions = True
+		patient_doc.insert()
 
 		terms_acceptance_doc = frappe.get_doc({
 			"doctype": "Terms Acceptance",
