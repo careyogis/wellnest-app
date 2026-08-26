@@ -34,7 +34,8 @@
    "fieldname": "accepted_on",
    "fieldtype": "Datetime",
    "label": "Accepted On",
-   "read_only": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "ip_address",
@@ -53,14 +54,13 @@
    "fieldname": "signature",
    "fieldtype": "Signature",
    "in_list_view": 1,
-   "label": "Signature",
-   "reqd": 1
+   "label": "Signature"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-17 11:10:19.102632",
+ "modified": "2026-08-26 12:32:44.954483",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Terms Acceptance",
