@@ -19,7 +19,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Teleconsult Appointment",
-   "options": "Teleconsultation Appointment",
+   "options": "Patient Appointment",
    "reqd": 1
   },
   {
@@ -57,7 +57,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-18 20:43:23.544665",
+ "modified": "2026-08-27 01:44:50.204275",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Post Consultation Followup Message",
