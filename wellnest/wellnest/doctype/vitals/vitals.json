@@ -57,8 +57,8 @@
   {
    "fieldname": "teleconsultation_appointment",
    "fieldtype": "Link",
-   "label": "Teleconsultation Appointment",
-   "options": "Teleconsultation Appointment",
+   "label": "Patient Appointment",
+   "options": "Patient Appointment",
    "unique": 1
   }
  ],
@@ -66,10 +66,6 @@
  "links": [],
  "modified": "2026-08-26 18:31:21.922324",
  "modified_by": "Administrator",
- "module": "WellNest",
- "name": "Vitals",
- "naming_rule": "Expression",
- "owner": "Administrator",
  "permissions": [
   {
    "create": 1,
@@ -77,13 +73,15 @@
    "email": 1,
    "export": 1,
    "print": 1,
-   "read": 1,
    "report": 1,
    "role": "System Manager",
-   "share": 1,
    "write": 1
   }
  ],
+ "module": "WellNest",
+ "name": "Vitals",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

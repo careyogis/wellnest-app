@@ -25,10 +25,16 @@ def get_consultation_vitals(appointment):
         frappe.throw("Practitioner not found")
 
     appointment_practitioner = frappe.db.get_value(
-        "Teleconsultation Appointment",
+        "Patient Appointment",
         appointment,
         "practitioner",
     )
+
+    if not appointment_practitioner:
+        frappe.throw(
+            "Patient Appointment not found",
+            frappe.DoesNotExistError,
+        )
 
     if appointment_practitioner != current_practitioner:
         frappe.throw(
@@ -75,7 +81,7 @@ def save_consultation_vitals(appointment, readings):
     readings = frappe.parse_json(readings)
 
     appointment_doc = frappe.get_doc(
-        "Teleconsultation Appointment",
+        "Patient Appointment",
         appointment,
     )
 

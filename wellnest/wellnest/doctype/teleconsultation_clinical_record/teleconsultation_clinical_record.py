@@ -24,14 +24,14 @@ def get_clinical_record(appointment):
         )
 
     appointment_practitioner = frappe.db.get_value(
-        "Teleconsultation Appointment",
+        "Patient Appointment",
         appointment,
         "practitioner",
     )
 
     if not appointment_practitioner:
         frappe.throw(
-            "Teleconsultation Appointment not found",
+            "Patient Appointment not found",
             frappe.DoesNotExistError,
         )
 
@@ -83,12 +83,13 @@ def get_clinical_record(appointment):
         "status": record.status,
     }
 
+
 @frappe.whitelist()
 def save_clinical_record(appointment, data):
     data = frappe.parse_json(data)
 
     appointment_doc = frappe.get_doc(
-        "Teleconsultation Appointment",
+        "Patient Appointment",
         appointment
     )
 

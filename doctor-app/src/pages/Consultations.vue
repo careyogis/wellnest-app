@@ -1085,7 +1085,7 @@ import logoUrl from '@/assets/images/logo-01.png'
 const router = useRouter()
 
 const consultationsResource = createResource({
-  url: 'wellnest.wellnest.doctype.teleconsultation_appointment.teleconsultation_appointment.get_teleconsultation_appointments',
+  url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.get_teleconsultation_appointments',
   auto: true,
 })
 

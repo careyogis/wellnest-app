@@ -87,11 +87,13 @@ class TestTeleconsultationClinicalRecord(FrappeTestCase):
             })
             cls.patient.insert(ignore_permissions=True)
 
+        # Patient Appointment is the actual appointment DocType.
         cls.appointment = frappe.get_doc({
-            "doctype": "Teleconsultation Appointment",
+            "doctype": "Patient Appointment",
             "patient": cls.patient.name,
             "practitioner": cls.practitioner.name,
             "scheduled_time": frappe.utils.now_datetime(),
+            "consultation_type": "Online",
         })
         cls.appointment.insert(ignore_permissions=True)
 
@@ -131,7 +133,7 @@ class TestTeleconsultationClinicalRecord(FrappeTestCase):
                 )
 
             frappe.db.delete(
-                "Teleconsultation Appointment",
+                "Patient Appointment",
                 {"name": cls.appointment.name},
             )
 
@@ -197,14 +199,17 @@ class TestTeleconsultationClinicalRecord(FrappeTestCase):
         )
 
         self.assertTrue(result["name"])
+
         self.assertEqual(
             result["teleconsultation_appointment"],
             self.appointment.name,
         )
+
         self.assertEqual(
             result["patient"],
             self.patient.name,
         )
+
         self.assertEqual(
             result["practitioner"],
             self.practitioner.name,
@@ -214,10 +219,12 @@ class TestTeleconsultationClinicalRecord(FrappeTestCase):
             len(result["chief_complaints"]),
             2,
         )
+
         self.assertEqual(
             result["chief_complaints"][0]["complaint"],
             "Headache",
         )
+
         self.assertEqual(
             result["chief_complaints"][0]["duration"],
             "2 days",
@@ -227,6 +234,7 @@ class TestTeleconsultationClinicalRecord(FrappeTestCase):
             len(result["investigations"]),
             2,
         )
+
         self.assertEqual(
             result["investigations"][0]["investigation"],
             "CBC",
@@ -240,14 +248,17 @@ class TestTeleconsultationClinicalRecord(FrappeTestCase):
             fetched["name"],
             result["name"],
         )
+
         self.assertEqual(
             fetched["history"],
             "Patient reports intermittent headache.",
         )
+
         self.assertEqual(
             len(fetched["chief_complaints"]),
             2,
         )
+
         self.assertEqual(
             len(fetched["investigations"]),
             2,
@@ -279,29 +290,40 @@ class TestTeleconsultationClinicalRecord(FrappeTestCase):
         )
 
         self.assertEqual(
+            updated["name"],
+            result["name"],
+        )
+
+        self.assertEqual(
             updated["history"],
             "Updated patient history.",
         )
+
         self.assertEqual(
             updated["provisional_diagnosis"],
             "Updated diagnosis",
         )
+
         self.assertEqual(
             len(updated["chief_complaints"]),
             1,
         )
+
         self.assertEqual(
             updated["chief_complaints"][0]["complaint"],
             "Headache",
         )
+
         self.assertEqual(
             updated["chief_complaints"][0]["duration"],
             "5 days",
         )
+
         self.assertEqual(
             len(updated["investigations"]),
             1,
         )
+
         self.assertEqual(
             updated["investigations"][0]["investigation"],
             "MRI Brain",
@@ -327,22 +349,27 @@ class TestTeleconsultationClinicalRecord(FrappeTestCase):
         )
 
         self.assertTrue(result["name"])
+
         self.assertEqual(
             result["patient"],
             self.patient.name,
         )
+
         self.assertEqual(
             result["practitioner"],
             self.practitioner.name,
         )
+
         self.assertEqual(
             result["teleconsultation_appointment"],
             self.appointment.name,
         )
+
         self.assertEqual(
             len(result["vital_reading"]),
             2,
         )
+
         self.assertEqual(
             result["vital_reading"][0]["vital_type"],
             "Weight",
@@ -380,14 +407,17 @@ class TestTeleconsultationClinicalRecord(FrappeTestCase):
             updated["name"],
             result["name"],
         )
+
         self.assertEqual(
             len(updated["vital_reading"]),
             2,
         )
+
         self.assertEqual(
             updated["vital_reading"][0]["value"],
             "75",
         )
+
         self.assertEqual(
             updated["vital_reading"][1]["vital_type"],
             "BP",
@@ -401,10 +431,12 @@ class TestTeleconsultationClinicalRecord(FrappeTestCase):
             fetched["name"],
             result["name"],
         )
+
         self.assertEqual(
             len(fetched["vital_reading"]),
             2,
         )
+
         self.assertEqual(
             fetched["vital_reading"][0]["value"],
             "75",
