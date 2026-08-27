@@ -10,6 +10,41 @@ class Patient(Document):
 
 
 @frappe.whitelist()
+def get_family_profile(customer):
+    primary = frappe.get_all("Patient", filters={"customer": customer}, fields=["name", "full_name", "gender", "date_of_birth"])
+    if not primary:
+        return {"primary": None, "family": []}
+    
+    primary_patient_id = primary[0].name
+    patient_doc = frappe.get_doc("Patient", primary_patient_id)
+    
+    family = []
+    for member in patient_doc.get("family_members", []):
+        if member.relative_patient:
+            rel_patient = frappe.get_value("Patient", member.relative_patient, ["name", "full_name", "gender", "date_of_birth"], as_dict=True)
+            if rel_patient:
+                family.append({
+                    "patient": rel_patient.name,
+                    "full_name": rel_patient.full_name,
+                    "relationship": member.relationship,
+                    "is_primary_contact": member.is_primary_contact,
+                    "gender": rel_patient.gender,
+                    "date_of_birth": rel_patient.date_of_birth
+                })
+                
+    return {
+        "primary": {
+            "patient": primary_patient_id,
+            "full_name": primary[0].full_name,
+            "relationship": "Self",
+            "gender": primary[0].gender,
+            "date_of_birth": primary[0].date_of_birth
+        },
+        "family": family
+    }
+
+
+@frappe.whitelist()
 def get_patient_timeline(patient):
 
     # -----------------------------------
