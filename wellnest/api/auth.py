@@ -281,7 +281,7 @@ def register_customer(id_token: str, full_name: str):
 	# Set user in the session so that all other documents get created with this id
 	# This enables us to set permissions for the creator
 	frappe.set_user(user_doc.name)
-	frappe.db.set_user(user_doc.name)
+	# frappe.db.set_user(user_doc.name)
 
 	try:
 		customer_doc = frappe.get_doc({
