@@ -11,9 +11,11 @@
   "practitioner",
   "prescription_date",
   "followup_expiry_date",
+  "workflow_state",
   "section_break_meds",
   "medicines",
-  "advice"
+  "advice",
+  "response_data"
  ],
  "fields": [
   {
@@ -51,6 +53,13 @@
    "label": "Followup Expiry Date"
   },
   {
+    "default": "Draft",
+    "fieldname": "workflow_state",
+    "fieldtype": "Select",
+    "label": "Workflow State",
+    "options": "Draft\nDoctor Review\nConfirmed"
+  },
+  {
    "fieldname": "section_break_meds",
    "fieldtype": "Section Break",
    "label": "Prescribed Medicines & Advice"
@@ -65,6 +74,11 @@
    "fieldname": "advice",
    "fieldtype": "Small Text",
    "label": "Doctor Advice"
+  },
+  {
+   "fieldname": "response_data",
+   "fieldtype": "Long Text",
+   "label": "Response Data"
   }
  ],
  "index_web_pages_for_search": 1,
