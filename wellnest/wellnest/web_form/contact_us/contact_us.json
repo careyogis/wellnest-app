@@ -107,7 +107,7 @@
    "label": "Requirement",
    "max_length": 0,
    "max_value": 0,
-   "options": "\nElder Assist\nAttendant at Home\nBaby Care\nCritical Care at Home\nDementia Care\nHospice Care\nMedical Equipments\nNursing Care\nPalliative Care\nPhysiotherapy\nSpeech Therapy\nOther Services",
+   "options": "\nEmergency Assist\nGDA / Caregiver Attendant\nAyurveda\nBaby Care\nCritical Care at Home\nDementia Care\nHospice Care\nLab Test Collection\nMedical Equipments\nQualified Nursing Care\nPalliative Care\nHome Physiotherapist\nSpeech Therapist\nMedicine Delivery Order\nOther Services",
    "precision": "",
    "read_only": 0,
    "reqd": 1,
