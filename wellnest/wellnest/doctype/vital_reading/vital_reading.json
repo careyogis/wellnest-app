@@ -17,13 +17,13 @@
    "fieldname": "vital_type",
    "fieldtype": "Select",
    "label": "Vital Type",
-   "options": "\nBP\nSPO2\nHeart Rate\nTemperature\nSugar\nWeight\nRespiratory Rate"
+   "options": "\nBP\nSPO2\nHeart Rate\nTemperature\nSugar\nWeight\nHeight\nRespiratory Rate"
   },
   {
    "fieldname": "unit",
    "fieldtype": "Select",
    "label": "Unit",
-   "options": "\nmmHg\n%\nbpm\n\u00b0C\nmg/dL\nkg\nbreaths/min"
+   "options": "\nmmHg\n%\nbpm\n\u00b0C\nmg/dL\nkg\ncm\nbreaths/min"
   },
   {
    "fieldname": "column_break_qnhs",
@@ -43,7 +43,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-05-08 12:34:28.839534",
+ "modified": "2026-08-26 14:06:56.523742",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Vital Reading",
