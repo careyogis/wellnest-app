@@ -8,7 +8,7 @@
 
       <div class="flex items-center gap-3">
         <button
-          @click="router.push({ name: 'ConsultationRoom', params: { bookingId: 'room_room_Doc-1' } })"
+          @click="router.push({ name: 'Consultations' })"
           type="button"
           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-semibold hover:bg-amber-600 transition-colors cursor-pointer"
         >
@@ -133,7 +133,7 @@ import { RouterLink, useRouter } from 'vue-router';
 const router = useRouter();
 
 const quickActions = [
-  { label: 'Join room', icon: 'video', action: () => router.push({ name: 'ConsultationRoom', params: { bookingId: 'room_room_Doc-1' } }) },
+  { label: 'Join room', icon: 'video', to: { name: 'Consultations' } },
   { label: 'Message patient', icon: 'send', to: { name: 'Messages' } },
   { label: 'Refer patient', icon: 'share-2', to: { name: 'Referrals' } },
   { label: 'Availability', icon: 'calendar', to: { name: 'Schedule' } },
