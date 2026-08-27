@@ -265,29 +265,51 @@ def register_customer(id_token: str, full_name: str):
 			order_by="custom_effective_date desc",
 		)
 
-	try:
-		# Create User, Patient, Customer and Terms Acceptance
-		frappe.db.begin()
-		user_doc = frappe.get_doc({
-			"doctype": "User",
-			"email": email,
-			"first_name": first_name,
-			"last_name": last_name,
-			"mobile_no": phone_number,
-			"send_welcome_email": 0,
-			"user_type": "Website User"
-		})
-		user_doc.flags.ignore_permissions = True
-		user_doc.insert()
-		user_doc.add_roles("Customer")
+	# Create User, Patient, Customer, Contact and Terms Acceptance
+	user_doc = frappe.get_doc({
+		"doctype": "User",
+		"email": email,
+		"first_name": first_name,
+		"last_name": last_name,
+		"mobile_no": phone_number,
+		"send_welcome_email": 0,
+		"user_type": "Website User"
+	})
+	user_doc.add_roles("Customer")
+	user_doc.insert(ignore_permissions = True)
 
+	# Set user in the session so that all other documents get created with this id
+	# This enables us to set permissions for the creator
+	frappe.set_user(user_doc.name)
+	frappe.db.set_user(user_doc.name)
+
+	try:
 		customer_doc = frappe.get_doc({
 			"doctype": "Customer",
 			"customer_name": full_name,
 			"customer_type": "Individual",
 		})
-		customer_doc.flags.ignore_permissions = True
 		customer_doc.insert()
+		contact = frappe.new_doc("Contact")
+		contact.first_name = full_name
+		contact.email_id = user_doc.email
+		contact.mobile_no = phone_number
+		contact.is_primary_contact = 1 # Marks as the main contact for the customer
+
+        # Append Dynamic Links to connect back to BOTH the Customer and the User
+		contact.append("links", {
+            "link_doctype": "Customer",
+            "link_name": customer_doc.name,
+            "link_title": customer_doc.customer_name
+        })
+        
+		contact.append("links", {
+            "link_doctype": "User",
+            "link_name": user_doc.name,
+            "link_title": user_doc.first_name
+        })
+
+		contact.insert()		
 
 		patient_doc = frappe.get_doc({
 			"doctype": "Patient",
@@ -296,7 +318,6 @@ def register_customer(id_token: str, full_name: str):
 			"is_phone_verified": 1,
 			"customer": customer_doc.get("name"),
 		})
-		patient_doc.flags.ignore_permissions = True
 		patient_doc.insert()
 
 		terms_acceptance_doc = frappe.get_doc({
@@ -306,17 +327,13 @@ def register_customer(id_token: str, full_name: str):
 			"terms_version": terms_and_conditions,
 			"accepted_on": datetime.now(),
 		})
-		terms_acceptance_doc.flags.ignore_permissions = True
 		terms_acceptance_doc.insert()
 		
 	except Exception as exp:
 		frappe.db.rollback()
 		frappe.log_error("Error Occured during Customer Registration. Err:" + str(exp));
-		raise exp;
-	else:
-		frappe.db.commit()
+		frappe.throw(f"Registration failed: {str(exp)}")
 
-	frappe.set_user(user_doc.name)
 	from frappe.auth import LoginManager
 	login_manager = LoginManager()
 	login_manager.user = user_doc.name

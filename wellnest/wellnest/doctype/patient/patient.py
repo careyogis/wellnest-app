@@ -10,6 +10,35 @@ class Patient(Document):
 
 
 @frappe.whitelist()
+def add_family_member(customer, full_name, relationship, gender=None, date_of_birth=None, mobile=None, is_primary_contact=0, allow_record_sharing=1):
+    primary = frappe.get_all("Patient", filters={"customer": customer}, fields=["name"])
+    if not primary:
+        frappe.throw("Primary patient not found for customer.")
+        
+    primary_patient_id = primary[0].name
+    
+    new_patient = frappe.get_doc({
+        "doctype": "Patient",
+        "full_name": full_name,
+        "gender": gender,
+        "date_of_birth": date_of_birth,
+        "mobile": mobile
+    })
+    new_patient.insert(ignore_permissions=True)
+    
+    primary_patient = frappe.get_doc("Patient", primary_patient_id)
+    primary_patient.append("family_members", {
+        "relative_patient": new_patient.name,
+        "relationship": relationship,
+        "is_primary_contact": int(is_primary_contact),
+        "allow_record_sharing": int(allow_record_sharing)
+    })
+    primary_patient.save(ignore_permissions=True)
+    
+    return {"message": "Success", "patient_id": new_patient.name}
+
+
+@frappe.whitelist()
 def get_family_profile(customer):
     primary = frappe.get_all("Patient", filters={"customer": customer}, fields=["name", "full_name", "gender", "date_of_birth"])
     if not primary:
