@@ -276,7 +276,7 @@ def register_customer(id_token: str, full_name: str):
 		"user_type": "Website User"
 	})
 	user_doc.add_roles("Customer")
-	user_doc.insert(ignore_permissions = True)
+	user_doc.insert(ignore_permissions=True)
 
 	# Set user in the session so that all other documents get created with this id
 	# This enables us to set permissions for the creator
@@ -289,7 +289,8 @@ def register_customer(id_token: str, full_name: str):
 			"customer_name": full_name,
 			"customer_type": "Individual",
 		})
-		customer_doc.insert()
+		customer_doc.insert(ignore_permissions=True)
+
 		contact = frappe.new_doc("Contact")
 		contact.first_name = full_name
 		contact.email_id = user_doc.email
@@ -308,8 +309,7 @@ def register_customer(id_token: str, full_name: str):
             "link_name": user_doc.name,
             "link_title": user_doc.first_name
         })
-
-		contact.insert()		
+		contact.insert(ignore_permissions=True)		
 
 		patient_doc = frappe.get_doc({
 			"doctype": "Patient",
@@ -318,7 +318,7 @@ def register_customer(id_token: str, full_name: str):
 			"is_phone_verified": 1,
 			"customer": customer_doc.get("name"),
 		})
-		patient_doc.insert()
+		patient_doc.insert(ignore_permissions=True)
 
 		terms_acceptance_doc = frappe.get_doc({
 			"doctype": "Terms Acceptance",
@@ -327,17 +327,17 @@ def register_customer(id_token: str, full_name: str):
 			"terms_version": terms_and_conditions,
 			"accepted_on": datetime.now(),
 		})
-		terms_acceptance_doc.insert()
-		
+		terms_acceptance_doc.insert(ignore_permissions=True)
+
+		from frappe.auth import LoginManager
+		login_manager = LoginManager()
+		login_manager.user = user_doc.name
+		login_manager.post_login()
 	except Exception as exp:
 		frappe.db.rollback()
-		frappe.log_error("Error Occured during Customer Registration. Err:" + str(exp));
+		traceback_details = frappe.get_traceback()
+		frappe.log_error(title="Customer Registration failed. Debug Info: ", message=traceback_details)
 		frappe.throw(f"Registration failed: {str(exp)}")
-
-	from frappe.auth import LoginManager
-	login_manager = LoginManager()
-	login_manager.user = user_doc.name
-	login_manager.post_login()
 
 	return {
 		"success": True,
