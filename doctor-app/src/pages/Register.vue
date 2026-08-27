@@ -155,7 +155,7 @@ const sendOtpResource = createResource({
 });
 
 const verifyOtpResource = createResource({
-  url: 'wellnest.api.auth.verify_registration_otp',
+  url: 'wellnest.api.auth.verify_practitioner_registration_otp',
 });
 
 onMounted(() => {

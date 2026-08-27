@@ -1,6 +1,7 @@
 import frappe
 import requests
 import json
+from datetime import datetime
 import firebase_admin
 from firebase_admin import credentials, auth as firebase_auth
 
@@ -140,7 +141,7 @@ def verify_customer_firebase_token(id_token: str):
 	}
 
 @frappe.whitelist(allow_guest=True)
-def verify_registration_otp(
+def verify_practitioner_registration_otp(
 	session_info: str,
 	code: str,
 	first_name: str,
@@ -179,7 +180,7 @@ def verify_registration_otp(
 				"user_type": "Website User",
 				"username": email,
 				"roles": [{"role": "Doctor"}],
-				"send_welcome_email": 1,
+				"send_welcome_email": 0,
 			}
 		).insert(ignore_permissions=True)
 
@@ -250,43 +251,93 @@ def register_customer(id_token: str, full_name: str):
 	if frappe.db.exists("Patient", {"mobile": lookup_phone}):
 		frappe.throw("Patient already exists with this mobile number")
 
-	# from frappe.utils.password import get_random_password
-
+	lookup_phone = lookup_phone.replace(" ", "")
 	email = f"{lookup_phone}@customer.careyogis.com"
 	full_name = full_name.strip() if full_name else f"Customer-{lookup_phone}"
 	first_name = full_name.split(" ")[0]
 	last_name = " ".join(full_name.split(" ")[1:]) if len(full_name.split(" ")) > 1 else ""
 
+	# Need to capture Terms and Conditions acceptance as well
+	# User can proceed to register only after checking "I agree to the Terms & Conditions" 
+	terms_and_conditions = frappe.db.get_value(
+			"Terms and Conditions", 
+			filters=[["custom_is_active", "=", "1"], ["custom_type", "=", "General"]],
+			order_by="custom_effective_date desc",
+		)
+
+	# Create User, Patient, Customer, Contact and Terms Acceptance
 	user_doc = frappe.get_doc({
 		"doctype": "User",
 		"email": email,
 		"first_name": first_name,
 		"last_name": last_name,
 		"mobile_no": phone_number,
-		# "new_password": get_random_password(),
 		"send_welcome_email": 0,
 		"user_type": "Website User"
 	})
-	user_doc.flags.ignore_permissions = True
-	user_doc.insert()
 	user_doc.add_roles("Customer")
+	user_doc.insert(ignore_permissions=True)
 
-	patient_doc = frappe.get_doc({
-		"doctype": "Patient",
-		"full_name": full_name,
-		"mobile": lookup_phone,
-		"is_phone_verified": 1
-	})
-	patient_doc.flags.ignore_permissions = True
-	patient_doc.insert()
-
-	frappe.db.commit()
-
+	# Set user in the session so that all other documents get created with this id
+	# This enables us to set permissions for the creator
 	frappe.set_user(user_doc.name)
-	from frappe.auth import LoginManager
-	login_manager = LoginManager()
-	login_manager.user = user_doc.name
-	login_manager.post_login()
+	# frappe.db.set_user(user_doc.name)
+
+	try:
+		customer_doc = frappe.get_doc({
+			"doctype": "Customer",
+			"customer_name": full_name,
+			"customer_type": "Individual",
+		})
+		customer_doc.insert(ignore_permissions=True)
+
+		contact = frappe.new_doc("Contact")
+		contact.first_name = full_name
+		contact.email_id = user_doc.email
+		contact.mobile_no = phone_number
+		contact.is_primary_contact = 1 # Marks as the main contact for the customer
+
+        # Append Dynamic Links to connect back to BOTH the Customer and the User
+		contact.append("links", {
+            "link_doctype": "Customer",
+            "link_name": customer_doc.name,
+            "link_title": customer_doc.customer_name
+        })
+        
+		contact.append("links", {
+            "link_doctype": "User",
+            "link_name": user_doc.name,
+            "link_title": user_doc.first_name
+        })
+		contact.insert(ignore_permissions=True)		
+
+		patient_doc = frappe.get_doc({
+			"doctype": "Patient",
+			"full_name": full_name,
+			"mobile": lookup_phone,
+			"is_phone_verified": 1,
+			"customer": customer_doc.get("name"),
+		})
+		patient_doc.insert(ignore_permissions=True)
+
+		terms_acceptance_doc = frappe.get_doc({
+			"doctype": "Terms Acceptance",
+			"party_type": "Customer",
+			"party": customer_doc.get("name"),
+			"terms_version": terms_and_conditions,
+			"accepted_on": datetime.now(),
+		})
+		terms_acceptance_doc.insert(ignore_permissions=True)
+
+		from frappe.auth import LoginManager
+		login_manager = LoginManager()
+		login_manager.user = user_doc.name
+		login_manager.post_login()
+	except Exception as exp:
+		frappe.db.rollback()
+		traceback_details = frappe.get_traceback()
+		frappe.log_error(title="Customer Registration failed. Debug Info: ", message=traceback_details)
+		frappe.throw(f"Registration failed: {str(exp)}")
 
 	return {
 		"success": True,

@@ -22,7 +22,7 @@
    "fieldname": "teleconsult_appointment",
    "fieldtype": "Link",
    "label": "Teleconsult Appointment",
-   "options": "Teleconsultation Appointment"
+   "options": "Patient Appointment"
   },
   {
    "fieldname": "patient",
@@ -83,8 +83,8 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-26 13:23:17.772158",
- "modified_by": "nikhilsinha789@gmail.com",
+ "modified": "2026-08-27 01:44:50.731273",
+ "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Smart Prescription",
  "naming_rule": "Expression",

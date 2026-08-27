@@ -104,14 +104,13 @@
       <div>
         {% if doc.registration_no %}<p class="prac-id">Reg. No. {{ doc.registration_no }}</p>{% endif %}
         <h1>{{ doc.title ~ " " if doc.title }}{{ (doc.first_name or "") ~ " " ~ (doc.last_name or "") }}</h1>
-        {% if doc.education_list %}
-          <p class="role">{{ doc.education_list | join(", ") }}</p>
+        {% if doc.designation %}
+          <p class="role">{{ doc.designation }}</p>
         {% endif %}
-        <!-- <p class="role">{{ doc.qualification ~ ", " ~ doc.additional_qualification or "" }}</p> -->
         <div class="prac-badges">
           {% if doc.hpr_verified %}<span class="prac-badge is-verified">HPR Verified</span>{% endif %}
           {% if doc.telemedicine_certified %}<span class="prac-badge is-tele">Telemedicine Certified</span>{% endif %}
-          {% if doc.account_status %}<span class="prac-badge">{{ doc.account_status | replace("_"," ") | title }}</span>{% endif %}
+          {% if doc.is_active %}<span class="prac-badge">Active</span>{% endif %}
         </div>
       </div>
     </div>
@@ -120,8 +119,8 @@
 
     <div class="prac-stats">
       <div class="prac-stat">
-        <p class="label">Experience</p>
-        <p class="value">{{ experience or "—" }}{{ " yrs" if doc.practicing_from }}</p>
+        <p class="label">Total Experience</p>
+        <p class="value">{{ experience or "—" }}{{ " yrs" if doc.practicing_from else "" }}</p>
       </div>
       <div class="prac-stat">
         <p class="label">Specialty</p>
@@ -151,17 +150,11 @@
     <div class="prac-section">
       <h2>Professional Details</h2>
       <div class="prac-field-grid">
-        {% if doc.additional_qualification %}
-        <div class="prac-field"><p class="label">Additional Qualification</p><p class="value">{{ doc.additional_qualification }}</p></div>
+        {% if doc.designation %}
+        <div class="prac-field"><p class="label">Designation</p><p class="value">{{ doc.designation }}</p></div>
         {% endif %}
         {% if doc.registration_valid_upto %}
         <div class="prac-field"><p class="label">Registration Valid Upto</p><p class="value mono">{{ doc.registration_valid_upto }}</p></div>
-        {% endif %}
-        {% if doc.abdm_specialty_code %}
-        <div class="prac-field"><p class="label">ABDM Specialty Code</p><p class="value mono">{{ doc.abdm_specialty_code }}</p></div>
-        {% endif %}
-        {% if doc.abdm_council_code %}
-        <div class="prac-field"><p class="label">ABDM Council Code</p><p class="value mono">{{ doc.abdm_council_code }}</p></div>
         {% endif %}
         {% if doc.hpr_id %}
         <div class="prac-field"><p class="label">HPR ID</p><p class="value mono">{{ doc.hpr_id }}</p></div>
@@ -180,33 +173,17 @@
     </div>
     {% endif %}
 
-    {% if doc.available_from or doc.available_in_emergency_from %}
+    {% if doc.availability_days %}
     <div class="prac-section">
       <h2>Availability</h2>
       <div class="prac-avail-grid">
-        {% if doc.availability_days %}
         <div class="prac-avail-card">
           <p class="label">Days and Hours</p>
           {% for day in doc.availability_days %}
             <p class="value">{{ day.day }}:</p>
-            {% if day.online_from and day.online_to %}
-              <pre class="value">  Online: {{ day.online_from }} - {{ day.online_to }}</pre>
-            {% endif %}
-            {% if day.emergency_from and day.emergency_to %}
-              <pre class="value">  Emergency: {{ day.emergency_from }} - {{ day.emergency_to }}</pre>
-            {% endif %}
-            {% if day.clinic_from and day.clinic_to %}
-              <pre class="value">  In Clinic: {{ day.clinic_from }} - {{ day.clinic_to }}</pre>
-            {% endif %}
+            <pre class="value">  {{ day.from_time or '00:00:00' }} - {{ day.to_time or '00:00:00' }}</pre>
           {% endfor %}
         </div>
-        {% endif %}
-        {% if doc.available_in_emergency_from %}
-        <div class="prac-avail-card">
-          <p class="label">Emergency Hours</p>
-          <p class="value">{{ doc.available_in_emergency_from }} - {{ doc.available_in_emergency_till }}</p>
-        </div>
-        {% endif %}
       </div>
     </div>
     {% endif %}
@@ -215,17 +192,20 @@
     <div class="prac-section">
       <h2>Consultation Charges</h2>
       <div class="prac-charges">
-        {% if doc.normal_charge %}
-        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.normal_charge * charge_multiplier) }}</p><p class="label">Normal</p></div>
+        {% if doc.online_charge %}
+        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.online_charge) }}</p><p class="label">Online</p></div>
         {% endif %}
         {% if doc.priority_charge %}
-        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.priority_charge * charge_multiplier) }}</p><p class="label">Priority</p></div>
+        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.priority_charge) }}</p><p class="label">Priority</p></div>
         {% endif %}
         {% if doc.emergency_charge %}
-        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.emergency_charge * charge_multiplier) }}</p><p class="label">Emergency</p></div>
+        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.emergency_charge) }}</p><p class="label">Emergency</p></div>
         {% endif %}
         {% if doc.clinic_charge %}
-        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.clinic_charge * charge_multiplier) }}</p><p class="label">Clinic</p></div>
+        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.clinic_charge) }}</p><p class="label">Clinic</p></div>
+        {% endif %}
+        {% if doc.home_visit_charge and doc.available_for_home_visits %}
+        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.home_visit_charge) }}</p><p class="label">Home Visit</p></div>
         {% endif %}
       </div>
     </div>

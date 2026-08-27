@@ -1,0 +1,132 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "TELE-CLINIC-REC-.YYYY.-.MM.-.#####",
+ "creation": "2026-08-25 22:00:28.879610",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "teleconsultation_appointment",
+  "practitioner",
+  "status",
+  "chief_complaints",
+  "teleconsultation_investigation",
+  "provisional_diagnosis",
+  "diet_advice",
+  "column_break_ttou",
+  "patient",
+  "consultation_date",
+  "history",
+  "examination",
+  "follow_up_advice",
+  "exercise_advice"
+ ],
+ "fields": [
+  {
+   "fieldname": "teleconsultation_appointment",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient Appointment",
+   "options": "Patient Appointment",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_ttou",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Practitioner",
+   "options": "Practitioner",
+   "reqd": 1
+  },
+  {
+   "fieldname": "teleconsultation_investigation",
+   "fieldtype": "Table",
+   "label": "Investigations",
+   "options": "Teleconsultation Investigation"
+  },
+  {
+   "fieldname": "consultation_date",
+   "fieldtype": "Datetime",
+   "label": "Consultation Date"
+  },
+  {
+   "fieldname": "provisional_diagnosis",
+   "fieldtype": "Text",
+   "label": "Provisional Diagnosis"
+  },
+  {
+   "fieldname": "diet_advice",
+   "fieldtype": "Text",
+   "label": "Diet Advice"
+  },
+  {
+   "fieldname": "history",
+   "fieldtype": "Text",
+   "label": "History"
+  },
+  {
+   "fieldname": "examination",
+   "fieldtype": "Text",
+   "label": "Examination"
+  },
+  {
+   "fieldname": "follow_up_advice",
+   "fieldtype": "Text",
+   "label": "Follow Up Advice"
+  },
+  {
+   "fieldname": "exercise_advice",
+   "fieldtype": "Text",
+   "label": "Exercise Advice"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nDraft\nIn Progress\nCompleted"
+  },
+  {
+   "fieldname": "chief_complaints",
+   "fieldtype": "Table",
+   "label": "Chief Complaints",
+   "options": "Teleconsultation Chief Complaint"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-26 19:16:18.877762",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Teleconsultation Clinical Record",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
