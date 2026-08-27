@@ -136,6 +136,7 @@ def verify_customer_firebase_token(id_token: str):
 		"success": True,
 		"user": user,
 		"full_name": patient.full_name,
+		"phone_number": phone_number,
 		"customer": patient.customer,
 		"patient": patient.name
 	}
@@ -291,25 +292,45 @@ def register_customer(id_token: str, full_name: str):
 		})
 		customer_doc.insert(ignore_permissions=True)
 
-		contact = frappe.new_doc("Contact")
-		contact.first_name = full_name
-		contact.email_id = user_doc.email
-		contact.mobile_no = phone_number
-		contact.is_primary_contact = 1 # Marks as the main contact for the customer
+		contact_name = frappe.db.get_value("Contact", 
+			{"email_id": user_doc.email}, "name"
+		) or frappe.db.get_value("Contact", 
+			{"mobile_no": phone_number}, "name"
+		)
 
-        # Append Dynamic Links to connect back to BOTH the Customer and the User
-		contact.append("links", {
-            "link_doctype": "Customer",
-            "link_name": customer_doc.name,
-            "link_title": customer_doc.customer_name
-        })
-        
-		contact.append("links", {
-            "link_doctype": "User",
-            "link_name": user_doc.name,
-            "link_title": user_doc.first_name
-        })
-		contact.insert(ignore_permissions=True)		
+		if contact_name:
+			# Load the existing contact created by the Customer controller
+			contact = frappe.get_doc("Contact", contact_name)
+		else:
+			# Fallback block just in case auto-creation didn't fire
+			contact = frappe.new_doc("Contact")
+			contact.first_name = full_name
+			contact.email_id = user_doc.email
+			contact.mobile_no = phone_number
+			contact.is_primary_contact = 1
+
+		# 3. VERIFY AND UPDATE THE LINKS BLOCK
+		# Check if the Customer link is already mapped by the framework
+		has_customer_link = any(l.link_doctype == "Customer" and l.link_name == customer_doc.name for l in contact.links)
+		if not has_customer_link:
+			contact.append("links", {
+				"link_doctype": "Customer",
+				"link_name": customer_doc.name,
+				"link_title": customer_doc.customer_name
+			})
+
+		# Append the User dynamic link so it connects back to the auth account
+		has_user_link = any(l.link_doctype == "User" and l.link_name == user_doc.name for l in contact.links)
+		if not has_user_link:
+			contact.append("links", {
+				"link_doctype": "User",
+				"link_name": user_doc.name,
+				"link_title": user_doc.first_name
+			})
+
+		# Save the contact updates (Updates existing or inserts fallback safely)
+		contact.save(ignore_permissions=True)
+
 
 		patient_doc = frappe.get_doc({
 			"doctype": "Patient",
