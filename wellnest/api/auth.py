@@ -266,7 +266,7 @@ def register_customer(id_token: str, full_name: str):
 			order_by="custom_effective_date desc",
 		)
 
-	# Create User, Patient, Customer, Contact and Terms Acceptance
+	# Create User
 	try:
 		user_doc = frappe.get_doc({
 			"doctype": "User",
@@ -288,21 +288,13 @@ def register_customer(id_token: str, full_name: str):
 	# Set user in the session so that all other documents get created with this id
 	# This enables us to set permissions for the creator
 	frappe.set_user(user_doc.name)
-	# frappe.db.set_user(user_doc.name)
+	frappe.db.set_user(user_doc.name)
 
 	try:
-		customer_doc = frappe.get_doc({
-			"doctype": "Customer",
-			"customer_name": full_name,
-			"customer_type": "Individual",
-		})
-		customer_doc.insert(ignore_permissions=True)
-
+		# Now Create Contact, Customer, Patient and Terms Acceptance
 		contact_name = frappe.db.get_value("Contact", 
 			{"email_id": user_doc.email}, "name"
-		) or frappe.db.get_value("Contact", 
-			{"mobile_no": phone_number}, "name"
-		)
+		) 
 
 		if contact_name:
 			# Load the existing contact created by the Customer controller
@@ -310,11 +302,23 @@ def register_customer(id_token: str, full_name: str):
 		else:
 			# Fallback block just in case auto-creation didn't fire
 			contact = frappe.new_doc("Contact")
-			contact.first_name = full_name
-			contact.user_id = user_doc.name
-			contact.email_id = user_doc.email
-			contact.mobile_no = phone_number
-			contact.is_primary_contact = 1
+
+		contact.first_name = full_name
+		contact.user_id = user_doc.name
+		contact.email_id = user_doc.email
+		contact.mobile_no = phone_number
+		contact.is_primary_contact = 1
+		contact.save()
+
+		customer_doc = frappe.get_doc({
+			"doctype": "Customer",
+			"customer_name": full_name,
+			"customer_type": "Individual",
+			"customer_group": "Individual",
+			"customer_primary_contact": contact.name,
+			"mobile_no": phone_number,
+		})
+		customer_doc.insert()
 
 		# Check if the Customer link is already mapped by the framework
 		has_customer_link = any(l.link_doctype == "Customer" and l.link_name == customer_doc.name for l in contact.links)
@@ -324,9 +328,7 @@ def register_customer(id_token: str, full_name: str):
 				"link_name": customer_doc.name,
 				"link_title": customer_doc.customer_name
 			})
-
-		# Save the contact updates (Updates existing or inserts fallback safely)
-		contact.save(ignore_permissions=True)
+		contact.save()
 
 		patient_doc = frappe.get_doc({
 			"doctype": "Patient",
@@ -335,7 +337,7 @@ def register_customer(id_token: str, full_name: str):
 			"is_phone_verified": 1,
 			"customer": customer_doc.get("name"),
 		})
-		patient_doc.insert(ignore_permissions=True)
+		patient_doc.insert()
 
 		terms_acceptance_doc = frappe.get_doc({
 			"doctype": "Terms Acceptance",
@@ -344,7 +346,7 @@ def register_customer(id_token: str, full_name: str):
 			"terms_version": terms_and_conditions,
 			"accepted_on": datetime.now(),
 		})
-		terms_acceptance_doc.insert(ignore_permissions=True)
+		terms_acceptance_doc.insert()
 
 		from frappe.auth import LoginManager
 		login_manager = LoginManager()
