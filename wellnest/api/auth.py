@@ -290,44 +290,15 @@ def register_customer(id_token: str, full_name: str):
 	frappe.set_user(user_doc.name)
 
 	try:
-		# Now Create Contact, Customer, Patient and Terms Acceptance
-		contact_name = frappe.db.get_value("Contact", 
-			{"email_id": user_doc.email}, "name"
-		) 
-
-		if contact_name:
-			# Load the existing contact created by the Customer controller
-			contact = frappe.get_doc("Contact", contact_name)
-		else:
-			# Fallback block just in case auto-creation didn't fire
-			contact = frappe.new_doc("Contact")
-
-		contact.first_name = full_name
-		contact.user_id = user_doc.name
-		contact.email_id = user_doc.email
-		contact.mobile_no = phone_number
-		contact.is_primary_contact = 1
-		contact.save()
-
+		# Now Create Customer, Patient and Terms Acceptance
 		customer_doc = frappe.get_doc({
 			"doctype": "Customer",
 			"customer_name": full_name,
 			"customer_type": "Individual",
 			"customer_group": "Individual",
-			"customer_primary_contact": contact.name,
 			"mobile_no": phone_number,
 		})
 		customer_doc.insert()
-
-		# Check if the Customer link is already mapped by the framework
-		has_customer_link = any(l.link_doctype == "Customer" and l.link_name == customer_doc.name for l in contact.links)
-		if not has_customer_link:
-			contact.append("links", {
-				"link_doctype": "Customer",
-				"link_name": customer_doc.name,
-				"link_title": customer_doc.customer_name
-			})
-		contact.save()
 
 		patient_doc = frappe.get_doc({
 			"doctype": "Patient",
