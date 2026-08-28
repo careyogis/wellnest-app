@@ -1089,6 +1089,10 @@ const consultationsResource = createResource({
   auto: true,
 })
 
+const startConsultationResource = createResource({
+  url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.start_consultation',
+})
+
 const consultations = computed(() => {
   return (consultationsResource.data || []).map((appointment) => ({
     id: appointment.name,
@@ -1182,13 +1186,26 @@ function openPrescription(consultation) {
   selectedConsultation.value = consultation
 }
 
-function joinConsultation(consultation) {
-  router.push({
-    name: 'WaitingRoom',
-    params: {
-      id: consultation.id,
-    },
-  })
+async function joinConsultation(consultation) {
+  try {
+    const response = await startConsultationResource.submit({
+      appointment: consultation.id,
+    })
+
+    router.push({
+      name: 'ConsultationRoom',
+      params: {
+        bookingId: consultation.id,
+      },
+      query: {
+        channelName: response.channel_name,
+        uid: response.uid,
+        rtcToken: response.rtcToken,
+      },
+    })
+  } catch (error) {
+    console.error('Failed to start consultation:', error)
+  }
 }
 
 function closeJoinModal() {

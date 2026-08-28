@@ -400,13 +400,20 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { FeatherIcon } from 'frappe-ui';
+import { FeatherIcon, createResource } from 'frappe-ui';
 import { AgoraService } from '@/utils/agora';
 
 const route = useRoute();
 const router = useRouter();
 
-const bookingId = computed(() => route.params.bookingId || 'room_doc_doc_1');
+
+const endConsultationResource = createResource({
+  url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.end_consultation',
+});
+
+
+// const bookingId = computed(() => route.params.bookingId || 'room_doc_doc_1');
+const bookingId = computed(() => route.params.bookingId);
 // const channelName = computed(() => `room_${bookingId.value.replace(/[^a-zA-Z0-9_]/g, '_')}`);
 const channelName = bookingId;
 // Call State
@@ -477,12 +484,16 @@ onUnmounted(async () => {
 
 async function joinRoom() {
   try {
-    // TODO: Remove this after testing
-    const tmpToken = '007eJxTYLi5siNm5uxV3yJbbO4/k+4/qa/67EnnB9nWC7OP1T1bar1JgSE1Oc0y2SLJPNnCwsjEOM0sKcnSwiItMS0lzTglJdHEZIdFZ1ZDICPDrWBdZkYGCATx+RiK8vNz41Pyk0FY15CBAQAMJycy';
-    const { localVideoTrack } = await agora.join({
-      channelName: channelName.value,
-      token: tmpToken,
-      uid: 2001,
+    const { channelName: backendChannelName, uid, rtcToken } = route.query
+
+  if (!backendChannelName || !uid || !rtcToken) {
+  throw new Error('Missing consultation session details')
+  }
+
+const { localVideoTrack } = await agora.join({
+  channelName: backendChannelName,
+  token: rtcToken,
+  uid: Number(uid),
       onUserPublished: async (user, mediaType) => {
         await agora.client.subscribe(user, mediaType);
         if (mediaType === 'video') {
@@ -577,9 +588,19 @@ function submitPrescription() {
   activeTab.value = 'summary';
 }
 
-function confirmEndCall() {
-  if (confirm('Are you sure you want to conclude this teleconsultation?')) {
-    leaveRoom();
+async function confirmEndCall() {
+  if (!confirm('Are you sure you want to conclude this teleconsultation?')) {
+    return;
+  }
+
+  try {
+    await endConsultationResource.submit({
+      appointment: bookingId.value,
+    });
+
+    await leaveRoom();
+  } catch (error) {
+    console.error('Failed to end consultation:', error);
   }
 }
 
