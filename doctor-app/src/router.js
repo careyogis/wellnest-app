@@ -19,7 +19,7 @@ const routes = [
   },
   {
     name: 'ConsultationRoom',
-    path: '/consultations/:bookingId?',
+    path: '/consultations/:bookingId',
     component: () => import('@/pages/ConsultationRoom.vue'),
   },
   {
