@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:full_name",
+ "autoname": "PAT-.#######",
  "creation": "2026-05-14 14:35:15.561546",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -92,7 +92,7 @@
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Patient",
- "naming_rule": "By fieldname",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -108,7 +108,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "full_name"
 }
