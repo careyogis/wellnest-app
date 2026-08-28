@@ -305,11 +305,11 @@ def register_customer(id_token: str, full_name: str):
 			# Fallback block just in case auto-creation didn't fire
 			contact = frappe.new_doc("Contact")
 			contact.first_name = full_name
+			contact.user_id = user_doc.name
 			contact.email_id = user_doc.email
 			contact.mobile_no = phone_number
 			contact.is_primary_contact = 1
 
-		# 3. VERIFY AND UPDATE THE LINKS BLOCK
 		# Check if the Customer link is already mapped by the framework
 		has_customer_link = any(l.link_doctype == "Customer" and l.link_name == customer_doc.name for l in contact.links)
 		if not has_customer_link:
@@ -319,18 +319,8 @@ def register_customer(id_token: str, full_name: str):
 				"link_title": customer_doc.customer_name
 			})
 
-		# Append the User dynamic link so it connects back to the auth account
-		has_user_link = any(l.link_doctype == "User" and l.link_name == user_doc.name for l in contact.links)
-		if not has_user_link:
-			contact.append("links", {
-				"link_doctype": "User",
-				"link_name": user_doc.name,
-				"link_title": user_doc.first_name
-			})
-
 		# Save the contact updates (Updates existing or inserts fallback safely)
 		contact.save(ignore_permissions=True)
-
 
 		patient_doc = frappe.get_doc({
 			"doctype": "Patient",
@@ -358,6 +348,8 @@ def register_customer(id_token: str, full_name: str):
 		frappe.db.rollback()
 		traceback_details = frappe.get_traceback()
 		frappe.log_error(title="Customer Registration failed. Debug Info: ", message=traceback_details)
+		# To commit the error log
+		frappe.db.commit()
 		frappe.throw(f"Registration failed: {str(exp)}")
 
 	return {
