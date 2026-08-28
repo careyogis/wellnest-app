@@ -267,17 +267,23 @@ def register_customer(id_token: str, full_name: str):
 		)
 
 	# Create User, Patient, Customer, Contact and Terms Acceptance
-	user_doc = frappe.get_doc({
-		"doctype": "User",
-		"email": email,
-		"first_name": first_name,
-		"last_name": last_name,
-		"mobile_no": phone_number,
-		"send_welcome_email": 0,
-		"user_type": "Website User"
-	})
-	user_doc.add_roles("Customer")
-	user_doc.insert(ignore_permissions=True)
+	try:
+		user_doc = frappe.get_doc({
+			"doctype": "User",
+			"email": email,
+			"first_name": first_name,
+			"last_name": last_name,
+			"mobile_no": phone_number,
+			"send_welcome_email": 0,
+			"user_type": "Website User"
+		})
+		user_doc.insert(ignore_permissions=True)
+		user_doc.add_roles("Customer")
+	except Exception as exp:
+		frappe.db.rollback()
+		traceback_details = frappe.get_traceback()
+		frappe.log_error(title="User Creation failed. Debug Info: ", message=traceback_details)
+		raise exp
 
 	# Set user in the session so that all other documents get created with this id
 	# This enables us to set permissions for the creator
@@ -348,8 +354,6 @@ def register_customer(id_token: str, full_name: str):
 		frappe.db.rollback()
 		traceback_details = frappe.get_traceback()
 		frappe.log_error(title="Customer Registration failed. Debug Info: ", message=traceback_details)
-		# To commit the error log
-		frappe.db.commit()
 		frappe.throw(f"Registration failed: {str(exp)}")
 
 	return {
