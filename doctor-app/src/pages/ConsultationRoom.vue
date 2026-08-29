@@ -603,10 +603,12 @@ async function confirmEndCall() {
     console.error('Failed to end consultation:', error);
   }
 }
-
 async function leaveRoom() {
   clearInterval(timerInterval);
   await agora.leave();
-  router.push({ name: 'Dashboard' });
+
+  router.push({
+    name: 'Consultations',
+  });
 }
 </script>

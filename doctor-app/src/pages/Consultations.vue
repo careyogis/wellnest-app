@@ -16,7 +16,7 @@ consultations. page
           type="button"
           class="px-4 py-2 rounded-lg border border-amber-400 bg-white
                  text-amber-700 font-semibold hover:bg-amber-50 transition"
-                   @click="showTemplatePreview = true"
+                @click="consultationRef?.previewTemplate()"
         >
           Preview selected template
         </button>
@@ -136,9 +136,14 @@ consultations. page
 
             <!-- Patient -->
             <div>
-              <p class="font-bold text-gray-900">
-                {{ consultation.patient }}
-              </p>
+             <p
+  class="font-bold text-gray-900
+         truncate
+         max-w-[180px]"
+  :title="consultation.patient"
+>
+  {{ consultation.patient }}
+</p>
 
               <p class="text-sm text-gray-500">
                 {{ consultation.bookingStatus }}
@@ -184,16 +189,35 @@ consultations. page
                  Open prescription
                 </button>
 
-              <button
-                type="button"
-                class="px-4 py-2 rounded-lg
-                       bg-amber-500 text-white
-                       text-sm font-semibold
-                       hover:bg-amber-600 transition"
-                @click="joinConsultation(consultation)"
-              >
-                Join
-              </button>
+            <template v-if="consultation.bookingStatus === 'Completed'">
+  <span
+    class="inline-flex items-center
+           px-3 py-2
+           rounded-lg
+           bg-emerald-100
+           text-emerald-700
+           text-sm
+           font-semibold"
+  >
+    Completed
+  </span>
+</template>
+
+<template v-else>
+  <button
+    type="button"
+    class="px-4 py-2 rounded-lg
+           bg-amber-500
+           text-white
+           text-sm font-semibold
+           hover:bg-amber-600
+           transition"
+    @click="joinConsultation(consultation)"
+  >
+    {{ consultation.bookingStatus === 'In-Progress' ? 'Continue' : 'Join' }}
+  </button>
+</template>
+              
             </div>
           </div>
         </div>
@@ -218,7 +242,7 @@ consultations. page
                    text-amber-700
                    text-sm font-semibold
                    hover:bg-amber-50"
-                   @click="showTemplatePreview = true"
+                   @click="consultationRef?.previewTemplate()"
           >
             Open full preview
           </button>
@@ -227,58 +251,31 @@ consultations. page
         <div class="p-5">
 
           <!-- Doctor details -->
-          <div class="grid grid-cols-3 gap-3">
+          
+<div class="grid grid-cols-3 gap-3">
 
-            <div class="border border-gray-200 rounded-xl p-4">
-              <p class="text-xs text-gray-500">
-                Consulting Doctor
-              </p>
+  <div
+    v-for="doctor in (consultationRef?.doctorDetails || [])"
+    :key="doctor.label"
+    class="border border-gray-200 rounded-xl p-4"
+  >
+    <p class="text-xs text-gray-500">
+      {{ doctor.label }}
+    </p>
 
-              <p class="font-bold text-gray-900 mt-2">
-                Brigadier (Retd.) Dr. Yashwant Singh Bisht
-              </p>
+    <p class="font-bold text-gray-900 mt-2">
+      {{ doctor.value }}
+    </p>
 
-              <p class="text-xs text-gray-500 mt-2">
-                Senior Consultant
-              </p>
+    <p
+      v-if="doctor.description"
+      class="text-xs text-gray-500 mt-2"
+    >
+      {{ doctor.description }}
+    </p>
+  </div>
 
-              <p class="text-xs text-gray-500">
-                Internal Medicine
-              </p>
-            </div>
-
-            <div class="border border-gray-200 rounded-xl p-4">
-              <p class="text-xs text-gray-500">
-                Qualification
-              </p>
-
-              <p class="font-bold text-gray-900 mt-2">
-                MBBS, MD
-              </p>
-
-              <p class="text-xs text-gray-500 mt-2">
-                Internal Medicine
-              </p>
-
-              <p class="text-xs text-gray-500">
-                34 Years Experience
-              </p>
-            </div>
-
-            <div class="border border-gray-200 rounded-xl p-4">
-              <p class="text-xs text-gray-500">
-                Registration
-              </p>
-
-              <p class="font-bold text-gray-900 mt-2">
-                DMC/R/04821
-              </p>
-
-              <p class="text-xs text-gray-500 mt-2">
-                Digitally signed draft
-              </p>
-            </div>
-          </div>
+</div>
 
           <!-- Selected patient -->
           <div class="mt-6">
@@ -303,14 +300,23 @@ consultations. page
             </h3>
 
             <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-gray-700">
-              <li>
-                Elevated fasting glucose readings (7 days)
-              </li>
+  <li
+    v-for="complaint in (consultationRef?.complaints || [])"
+    :key="complaint.id"
+  >
+    {{ complaint.text }}
+    <span v-if="complaint.duration">
+      ({{ complaint.duration }})
+    </span>
+  </li>
 
-              <li>
-                Evening blood pressure spikes (5 days)
-              </li>
-            </ul>
+  <li
+    v-if="!(consultationRef?.complaints || []).length"
+    class="list-none text-gray-500"
+  >
+    No complaints entered.
+  </li>
+</ul>
           </div>
 
           <!-- History -->
@@ -319,10 +325,9 @@ consultations. page
               History (brief)
             </h3>
 
-            <p class="text-sm text-gray-700 mt-2 leading-6">
-              Known type 2 diabetes and hypertension.
-              Dietary adherence has been variable during recent travel.
-            </p>
+           <p class="text-sm text-gray-700 mt-2 leading-6">
+  {{ consultationRef?.history || 'No history entered.' }}
+</p>
           </div>
 
           <!-- Vitals -->
@@ -338,29 +343,33 @@ consultations. page
             </div>
 
             <div class="grid grid-cols-2 gap-3 mt-3">
-              <div
-                v-for="vital in vitals"
-                :key="vital.label"
-                class="border border-gray-200 rounded-xl p-3"
-              >
-                <p class="text-xs text-gray-500">
-                  {{ vital.label }}
-                </p>
+  <div
+    v-for="vital in (consultationRef?.vitals || []).filter(item => item.value)"
+    :key="vital.label"
+    class="border border-gray-200 rounded-xl p-3"
+  >
+    <p class="text-xs text-gray-500">
+      {{ vital.label }}
+    </p>
 
-                <p class="font-bold text-gray-900 mt-1">
-                  {{ vital.value }}
-                </p>
-              </div>
-            </div>
+    <p class="font-bold text-gray-900 mt-1">
+      {{ vital.value }}
+      <span v-if="vital.unit">
+        {{ vital.unit }}
+      </span>
+    </p>
+  </div>
+</div>
           </div>
         </div>
       </aside>
     </div>
     <!-- Full consultation workspace -->
 <section class="mt-6">
-  <Consultation
-    :selected-consultation="selectedConsultation"
-  />
+<Consultation
+  ref="consultationRef"
+  :selected-consultation="selectedConsultation"
+/>
 </section>
     
 
@@ -482,599 +491,7 @@ consultations. page
 </div>
 
 </div>
-<!-- Selected prescription template preview -->
-<div
-  v-if="showTemplatePreview"
-  class="fixed inset-0 z-50
-         bg-black/50
-         flex items-center justify-center
-         p-4"
-  @click.self="showTemplatePreview = false"
->
-  <div
-    class="w-full
-           max-w-5xl
-           h-[90vh]
-           bg-white
-           rounded-2xl
-           shadow-xl
-           overflow-hidden
-           flex flex-col"
-  >
-
-    <!-- Modal header -->
-    <div
-      class="flex items-center
-             justify-between
-             px-6 py-4
-             border-b border-gray-200
-             shrink-0"
-    >
-      <h2 class="text-2xl font-semibold text-gray-900">
-        {{ selectedConsultation.patient }} prescription preview
-      </h2>
-
-      <button
-        type="button"
-        class="text-gray-500
-               hover:text-gray-900
-               text-3xl
-               leading-none"
-        @click="showTemplatePreview = false"
-      >
-        ×
-      </button>
-    </div>
-
-    <!-- Scrollable prescription -->
-    <div class="flex-1 overflow-y-auto px-4 py-4">
-
-      <div
-        class="border border-amber-200
-               bg-[#fffdf7]
-               rounded-xl
-               p-5"
-      >
-
-        <!-- Prescription header -->
-        <div
-          class="flex items-start
-                 justify-between
-                 gap-4
-                 pb-4
-                 border-b border-amber-200"
-        >
-          <div class="flex items-start gap-3">
-
-            <img
-  :src="logoUrl"
-  alt="CareYogi"
-  class="w-24
-         h-auto
-         object-contain
-         shrink-0"
-/>
-
-            <div>
-              <h3
-                class="text-lg
-                       font-bold
-                       text-gray-900"
-              >
-                CAREYOGI DIGITAL CONSULTATION PRESCRIPTION
-              </h3>
-
-              <p class="text-sm text-gray-600 mt-1">
-                5th Floor, Adilakshmi Square, Plot No.137,
-                Old Mumbai Highway, Gachibowli, Hyderabad,
-                Telangana - 500032
-              </p>
-
-              <p class="text-sm text-gray-600 mt-1">
-                +91-9810918237 / info@careyogis.com
-              </p>
-            </div>
-          </div>
-
-          <span
-            class="shrink-0
-                   px-3 py-1
-                   rounded-lg
-                   bg-emerald-100
-                   text-emerald-700
-                   text-xs
-                   font-semibold"
-          >
-            Digital draft
-          </span>
-        </div>
-
-        <!-- Patient details -->
-        <div
-          class="grid grid-cols-2
-                 md:grid-cols-4
-                 gap-2
-                 mt-4"
-        >
-          <div class="border border-gray-200 bg-white rounded-xl p-3">
-            <p class="text-xs text-gray-500">
-              Patient
-            </p>
-            <p class="font-bold text-gray-900 mt-1">
-              {{ selectedConsultation.patient }}
-            </p>
-          </div>
-
-          <div class="border border-gray-200 bg-white rounded-xl p-3">
-            <p class="text-xs text-gray-500">
-              Age/Gender
-            </p>
-            <p class="font-bold text-gray-900 mt-1">
-              54 Years / Female
-            </p>
-          </div>
-
-          <div class="border border-gray-200 bg-white rounded-xl p-3">
-            <p class="text-xs text-gray-500">
-              Prescription ID
-            </p>
-            <p class="font-bold text-gray-900 mt-1">
-              CY-2026-000137
-            </p>
-          </div>
-
-          <div class="border border-gray-200 bg-white rounded-xl p-3">
-            <p class="text-xs text-gray-500">
-              Consultation Type
-            </p>
-            <p class="font-bold text-gray-900 mt-1">
-              {{ selectedConsultation.mode }}
-            </p>
-          </div>
-
-          <div class="border border-gray-200 bg-white rounded-xl p-3">
-            <p class="text-xs text-gray-500">
-              Date
-            </p>
-            <p class="font-bold text-gray-900 mt-1">
-              10 Jul 2026
-            </p>
-          </div>
-
-          <div class="border border-gray-200 bg-white rounded-xl p-3">
-            <p class="text-xs text-gray-500">
-              Time
-            </p>
-            <p class="font-bold text-gray-900 mt-1">
-              {{ selectedConsultation.time }}
-            </p>
-          </div>
-
-          <div class="border border-gray-200 bg-white rounded-xl p-3">
-            <p class="text-xs text-gray-500">
-              UHID
-            </p>
-            <p class="font-bold text-gray-900 mt-1">
-              CY-004614
-            </p>
-          </div>
-
-          <div class="border border-gray-200 bg-white rounded-xl p-3">
-            <p class="text-xs text-gray-500">
-              Appointment ID
-            </p>
-            <p class="font-bold text-gray-900 mt-1">
-              APT-009814
-            </p>
-          </div>
-        </div>
-
-        <!-- Doctor details -->
-        <div
-          class="grid grid-cols-1
-                 md:grid-cols-3
-                 gap-2
-                 mt-3"
-        >
-          <div class="border border-gray-200 bg-white rounded-xl p-3">
-            <p class="text-xs text-gray-500">
-              Consulting Doctor
-            </p>
-
-            <p class="font-bold text-gray-900 mt-1">
-              Brigadier (Retd.) Dr. Yashwant Singh Bisht
-            </p>
-
-            <p class="text-xs text-gray-500 mt-1">
-              Senior Consultant, Internal Medicine
-            </p>
-          </div>
-
-          <div class="border border-gray-200 bg-white rounded-xl p-3">
-            <p class="text-xs text-gray-500">
-              Qualification
-            </p>
-
-            <p class="font-bold text-gray-900 mt-1">
-              MBBS, MD (Internal Medicine)
-            </p>
-
-            <p class="text-xs text-gray-500 mt-1">
-              34 Years Experience
-            </p>
-          </div>
-
-          <div class="border border-gray-200 bg-white rounded-xl p-3">
-            <p class="text-xs text-gray-500">
-              Registration
-            </p>
-
-            <p class="font-bold text-gray-900 mt-1">
-              DMC/R/04821
-            </p>
-
-            <p class="text-xs text-gray-500 mt-1">
-              Digitally signed draft
-            </p>
-          </div>
-        </div>
-
-        <!-- Chief complaints -->
-        <div class="mt-6">
-          <h3 class="font-bold text-gray-900">
-            Chief Complaints (with duration)
-          </h3>
-
-          <ul
-            class="list-disc
-                   pl-5
-                   mt-2
-                   space-y-1
-                   text-sm
-                   text-gray-700"
-          >
-            <li>
-              Elevated fasting glucose readings (7 days)
-            </li>
-
-            <li>
-              Evening blood pressure spikes (5 days)
-            </li>
-          </ul>
-        </div>
-
-        <!-- History -->
-        <div class="mt-5">
-          <h3 class="font-bold text-gray-900">
-            History (brief)
-          </h3>
-
-          <p class="text-sm text-gray-700 mt-2">
-            Known type 2 diabetes and hypertension.
-            Dietary adherence has been variable during recent travel.
-          </p>
-        </div>
-
-        <!-- Vitals -->
-        <div class="mt-5">
-          <h3 class="font-bold text-gray-900">
-            Vitals
-          </h3>
-
-          <div
-            class="grid grid-cols-2
-                   md:grid-cols-3
-                   gap-2
-                   mt-3"
-          >
-            <div
-              class="border border-gray-200
-                     bg-white
-                     rounded-xl
-                     p-3"
-            >
-              <p class="text-xs text-gray-500 uppercase">
-                Weight
-              </p>
-
-              <p class="font-bold text-gray-900 mt-1">
-                74 kg
-              </p>
-            </div>
-
-            <div
-              class="border border-gray-200
-                     bg-white
-                     rounded-xl
-                     p-3"
-            >
-              <p class="text-xs text-gray-500 uppercase">
-                Height
-              </p>
-
-              <p class="font-bold text-gray-900 mt-1">
-                162 cm
-              </p>
-            </div>
-
-            <div
-              class="border border-gray-200
-                     bg-white
-                     rounded-xl
-                     p-3"
-            >
-              <p class="text-xs text-gray-500 uppercase">
-                Pulse
-              </p>
-
-              <p class="font-bold text-gray-900 mt-1">
-                76 /min
-              </p>
-            </div>
-
-            <div
-              class="border border-gray-200
-                     bg-white
-                     rounded-xl
-                     p-3"
-            >
-              <p class="text-xs text-gray-500 uppercase">
-                BP
-              </p>
-
-              <p class="font-bold text-gray-900 mt-1">
-                128/78 mmHg
-              </p>
-            </div>
-
-            <div
-              class="border border-gray-200
-                     bg-white
-                     rounded-xl
-                     p-3"
-            >
-              <p class="text-xs text-gray-500 uppercase">
-                SpO2
-              </p>
-
-              <p class="font-bold text-gray-900 mt-1">
-                98%
-              </p>
-            </div>
-
-            <div
-              class="border border-gray-200
-                     bg-white
-                     rounded-xl
-                     p-3"
-            >
-              <p class="text-xs text-gray-500 uppercase">
-                Temperature
-              </p>
-
-              <p class="font-bold text-gray-900 mt-1">
-                98.4 F
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Examination -->
-        <div class="mt-5">
-          <h3 class="font-bold text-gray-900">
-            Examination
-          </h3>
-
-          <p class="text-sm text-gray-700 mt-2">
-            Alert, oriented, no pedal edema, no hypoglycaemic symptoms at present.
-            Home glucose log reviewed.
-          </p>
-        </div>
-
-        <!-- Provisional diagnosis -->
-        <div class="mt-5">
-          <h3 class="font-bold text-gray-900">
-            Provisional Diagnosis
-          </h3>
-
-          <p class="text-sm text-gray-700 mt-2">
-            Type 2 diabetes with suboptimal fasting control;
-            hypertension presently controlled.
-          </p>
-        </div>
-
-        <!-- Investigations -->
-        <div class="mt-5">
-          <h3 class="font-bold text-gray-900">
-            Investigations Advised
-          </h3>
-
-          <ul
-            class="list-disc
-                   pl-5
-                   mt-2
-                   space-y-1
-                   text-sm
-                   text-gray-700"
-          >
-            <li>HbA1c</li>
-            <li>Lipid profile</li>
-            <li>Urine microalbumin</li>
-          </ul>
-        </div>
-
-        <!-- Treatment -->
-        <div class="mt-5">
-          <h3 class="font-bold text-gray-900">
-            Treatment / Medication
-          </h3>
-
-          <div class="mt-3 overflow-x-auto">
-            <table class="w-full text-left text-sm">
-              <thead>
-                <tr class="bg-amber-100 border-b border-amber-200">
-                  <th class="px-3 py-2 font-bold">
-                    Medicine (Brand / Generic)
-                  </th>
-                  <th class="px-3 py-2 font-bold">
-                    Dose
-                  </th>
-                  <th class="px-3 py-2 font-bold">
-                    Frequency
-                  </th>
-                  <th class="px-3 py-2 font-bold">
-                    Instructions
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr class="border-b border-gray-200">
-                  <td class="px-3 py-2">
-                    Metformin XR 500 mg
-                  </td>
-                  <td class="px-3 py-2">
-                    1 tablet
-                  </td>
-                  <td class="px-3 py-2">
-                    Twice daily
-                  </td>
-                  <td class="px-3 py-2">
-                    After breakfast and dinner
-                  </td>
-                </tr>
-
-                <tr class="border-b border-gray-200">
-                  <td class="px-3 py-2">
-                    Telmisartan 40 mg
-                  </td>
-                  <td class="px-3 py-2">
-                    1 tablet
-                  </td>
-                  <td class="px-3 py-2">
-                    Once daily
-                  </td>
-                  <td class="px-3 py-2">
-                    Morning
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="px-3 py-2">
-                    Rosuvastatin 10 mg
-                  </td>
-                  <td class="px-3 py-2">
-                    1 tablet
-                  </td>
-                  <td class="px-3 py-2">
-                    Once daily
-                  </td>
-                  <td class="px-3 py-2">
-                    At bedtime
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Follow-up -->
-        <div class="mt-6">
-          <h3 class="font-bold text-gray-900">
-            Follow-up Advise
-          </h3>
-
-          <p class="text-sm text-gray-700 mt-2">
-            Upload fasting glucose for 7 days and review over video in 2 weeks.
-          </p>
-        </div>
-
-        <!-- Diet -->
-        <div class="mt-5">
-          <h3 class="font-bold text-gray-900">
-            Diet Advice
-          </h3>
-
-          <p class="text-sm text-gray-700 mt-2">
-            Low GI meals, avoid sweetened beverages, and keep dinner light.
-          </p>
-        </div>
-
-        <!-- Exercise -->
-        <div class="mt-5">
-          <h3 class="font-bold text-gray-900">
-            Exercise Advice
-          </h3>
-
-          <p class="text-sm text-gray-700 mt-2">
-            30-minute brisk walk on at least 5 days each week.
-          </p>
-        </div>
-
-        <!-- Digitally signed -->
-        <div
-          class="mt-6
-                 pt-5
-                 border-t border-amber-200"
-        >
-          <h3 class="font-bold text-gray-900">
-            Digitally Signed
-          </h3>
-
-          <p class="text-sm text-gray-600 mt-2">
-            This is a digitally generated CareYogi prescription
-            and does not require a physical signature.
-          </p>
-
-          <p class="text-sm text-gray-700 mt-2">
-            © CareYogi 2026
-          </p>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <div
-      class="flex items-center
-             justify-end
-             gap-3
-             px-6 py-4
-             border-t border-gray-200
-             bg-white
-             shrink-0"
-    >
-      <button
-        type="button"
-        class="px-5 py-3
-               rounded-xl
-               bg-gray-100
-               text-gray-800
-               font-semibold
-               hover:bg-gray-200"
-        @click="showTemplatePreview = false"
-      >
-        Close
-      </button>
-
-      <button
-        type="button"
-        class="px-5 py-3
-               rounded-xl
-               bg-amber-500
-               text-white
-               font-semibold
-               hover:bg-amber-600"
-        @click="showTemplatePreview = false"
-      >
-        Finalize draft
-      </button>
-    </div>
-
-  </div>
-</div>
 </template>
-
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { FeatherIcon, createResource } from 'frappe-ui'
@@ -1093,10 +510,40 @@ const startConsultationResource = createResource({
   url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.start_consultation',
 })
 
+function formatAppointmentTime(value) {
+  if (!value) return ''
+
+  const [datePart, timePart] = value.split(' ')
+
+  if (!datePart || !timePart) {
+    return value
+  }
+
+  const [year, month, day] = datePart.split('-')
+  const [hours, minutes] = timePart.split(':')
+
+  const date = new Date(
+    Number(year),
+    Number(month) - 1,
+    Number(day),
+    Number(hours),
+    Number(minutes)
+  )
+
+  return date.toLocaleString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  })
+}
+
 const consultations = computed(() => {
   return (consultationsResource.data || []).map((appointment) => ({
     id: appointment.name,
-    time: appointment.scheduled_time,
+   time: formatAppointmentTime(appointment.scheduled_time),
     patient: appointment.patient,
     practitioner: appointment.practitioner,
     bookingStatus: appointment.consultation_status,
@@ -1106,6 +553,8 @@ const consultations = computed(() => {
     appointment: appointment.name,
   }))
 })
+
+const consultationRef = ref(null)
 
 const selectedConsultation = ref({
   id: null,

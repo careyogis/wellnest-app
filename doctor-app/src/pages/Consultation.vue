@@ -1673,8 +1673,27 @@ const saveVitalsResource = createResource({
   url: 'wellnest.wellnest.doctype.vitals.vitals.save_consultation_vitals',
 })
 
+const createPrescriptionResource = createResource({
+  url: 'wellnest.api.prescription.create_consultation_prescription',
+})
+const updatePrescriptionResource = createResource({
+  url: 'wellnest.api.prescription.update_consultation_prescription',
+})
+
+const getPrescriptionResource = createResource({
+  url: 'wellnest.api.prescription.get_consultation_prescription',
+})
+
+const confirmPrescriptionResource = createResource({
+  url: 'wellnest.api.prescription.confirm_prescription',
+})
+
+const startDoctorReviewResource = createResource({
+  url: 'wellnest.api.prescription.start_doctor_review',
+})
+
 const patient = computed(() => ({
-  name: props.selectedConsultation?.patient || 'Bhavna Patel',
+ name: props.selectedConsultation?.patient || 'Not Available',
 }))
 
 const consultation = computed(() => ({
@@ -1686,9 +1705,9 @@ const consultation = computed(() => ({
     props.selectedConsultation?.mode ||
     'Clinic',
 
-  time:
-    props.selectedConsultation?.time ||
-    '02:00',
+ time:
+  props.selectedConsultation?.time ||
+  'Not Available',
 }))
 
 // Clinical Record data
@@ -1704,26 +1723,9 @@ const dietAdvice = ref('')
 const exerciseAdvice = ref('')
 
 // Existing prescription data - KEEP FOR NOW
-const medicines = ref([
-  {
-    medicine: 'Metformin XR 500 mg',
-    dose: '1 tablet',
-    frequency: 'Twice daily',
-    instruction: 'After breakfast and dinner',
-  },
-  {
-    medicine: 'Telmisartan 40 mg',
-    dose: '1 tablet',
-    frequency: 'Once daily',
-    instruction: 'Morning',
-  },
-  {
-    medicine: 'Rosuvastatin 10 mg',
-    dose: '1 tablet',
-    frequency: 'Once daily',
-    instruction: 'At bedtime',
-  },
-])
+const medicines = ref([])
+const prescriptionName = ref(null)
+const prescriptionWorkflowState = ref(null)
 
 // Existing vitals data - KEEP FOR NOW
 const vitals = ref([
@@ -1877,56 +1879,77 @@ async function loadClinicalRecord() {
   }
 }
 
+async function loadPrescription() {
+  const appointment = props.selectedConsultation?.appointment
+
+  if (!appointment) {
+    return
+  }
+
+  try {
+    const response = await getPrescriptionResource.submit({
+      appointment,
+    })
+
+    if (!response) {
+      return
+    }
+    prescriptionName.value = response.name
+    prescriptionWorkflowState.value = response.workflow_state
+
+    medicines.value = (response.medicines || []).map((medicine) => ({
+      medicine: medicine.medicine_name || '',
+      dose: medicine.dosage || '',
+      frequency: medicine.timing || '',
+      instruction: medicine.instructions || '',
+    }))
+
+    followUpAdvice.value = response.advice || ''
+  } catch (error) {
+    console.error('Failed to load prescription:', error)
+  }
+}
+
 watch(
   () => props.selectedConsultation?.appointment,
   () => {
     loadClinicalRecord()
+    loadPrescription()
   },
   { immediate: true },
 )
 
-const previewDetails = [
+const previewDetails = computed(() => [
   {
     label: 'Patient',
-    value: 'Bhavna Patel',
-  },
-  {
-    label: 'Age/Gender',
-    value: '54 Years / Female',
-  },
-  {
-    label: 'Prescription ID',
-    value: 'CY-2026-000137',
+    value: patient.value.name || 'Not Available',
   },
   {
     label: 'Consultation Type',
-    value: 'Clinic',
+    value: consultation.value.mode || 'Not Available',
   },
   {
     label: 'Date',
-    value: '10 Jul 2026',
+    value: consultation.value.time
+      ? consultation.value.time.split(',')[0]
+      : 'Not Available',
   },
   {
     label: 'Time',
-    value: '02:00',
-  },
-  {
-    label: 'UHID',
-    value: 'CY-004614',
+    value: consultation.value.time
+      ? consultation.value.time.split(',').slice(1).join(',').trim()
+      : 'Not Available',
   },
   {
     label: 'Appointment ID',
-    value: 'APT-009814',
+    value: props.selectedConsultation?.appointment || 'Not Available',
   },
-]
-
-const doctorDetails = [
+])
+const doctorDetails = computed(() => [
   {
     label: 'Consulting Doctor',
-    value:
-      'Brigadier (Retd.) Dr. Yashwant Singh Bisht',
-    description:
-      'Senior Consultant, Internal Medicine',
+    value: props.selectedConsultation?.practitioner || 'Not Available',
+    description: '',
   },
   {
     label: 'Qualification',
@@ -1935,11 +1958,10 @@ const doctorDetails = [
   },
   {
     label: 'Registration',
-    value: 'DMC/R/04821',
+   value: props.selectedConsultation?.registration_no || 'Not Available',
     description: 'Digitally signed draft',
   },
-]
-
+])
 function addComplaint() {
   complaints.value.push({
     id: Date.now(),
@@ -1965,8 +1987,62 @@ function addMedicine() {
   })
 }
 
-function finalizePrescription() {
-  console.log('Prescription submitted.')
+async function finalizePrescription() {
+  const appointment = props.selectedConsultation?.appointment
+
+  if (!appointment) {
+    alert('No consultation selected.')
+    return
+  }
+
+  try {
+    const medicinesPayload = medicines.value
+      .filter((medicine) => medicine.medicine?.trim())
+      .map((medicine) => ({
+        medicine_name: medicine.medicine.trim(),
+        dosage: medicine.dose?.trim() || '',
+        timing: medicine.frequency?.trim() || '',
+        duration: 'Not specified',
+        instructions: medicine.instruction?.trim() || '',
+      }))
+
+    let response
+
+    if (prescriptionName.value) {
+  if (prescriptionWorkflowState.value === 'Draft') {
+    const reviewResponse = await startDoctorReviewResource.submit({
+      name: prescriptionName.value,
+    })
+
+    prescriptionWorkflowState.value =
+      reviewResponse.workflow_state
+  }
+
+  response = await updatePrescriptionResource.submit({
+    name: prescriptionName.value,
+    prescription_date: new Date().toISOString().split('T')[0],
+    medicines: JSON.stringify(medicinesPayload),
+    advice: followUpAdvice.value || '',
+  })
+} else {
+      response = await createPrescriptionResource.submit({
+        appointment,
+        medicines: JSON.stringify(medicinesPayload),
+        advice: followUpAdvice.value || '',
+      })
+    }
+
+    if (response?.name) {
+      prescriptionName.value = response.name
+    }
+
+    console.log('Prescription saved:', response)
+    alert('Prescription saved successfully.')
+
+  } catch (error) {
+    console.error('Failed to save prescription:', error)
+    alert('Failed to save prescription.')
+  }
 }
 async function saveClinicalRecord() {
   const appointment = props.selectedConsultation?.appointment
@@ -2068,7 +2144,40 @@ function previewTemplate() {
   showPreview.value = true
 }
 
-function finalizeDraft() {
-  console.log('Mock prescription draft finalized.')
+defineExpose({
+  previewTemplate,
+  complaints,
+  history,
+  vitals,
+  medicines,
+  followUpAdvice,
+  dietAdvice,
+  exerciseAdvice,
+  provisionalDiagnosis,
+  investigations,
+  previewDetails,
+  doctorDetails,
+})
+async function finalizeDraft() {
+  if (!prescriptionName.value) {
+    alert('No prescription found.')
+    return
+  }
+
+  try {
+    const response = await confirmPrescriptionResource.submit({
+      name: prescriptionName.value,
+    })
+
+    prescriptionWorkflowState.value =
+      response.workflow_state
+
+    console.log('Prescription confirmed:', response)
+
+    alert('Prescription confirmed successfully.')
+  } catch (error) {
+    console.error('Failed to confirm prescription:', error)
+    alert('Failed to confirm prescription.')
+  }
 }
 </script>
