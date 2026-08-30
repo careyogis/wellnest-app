@@ -98,6 +98,7 @@ def start_consultation(appointment):
         role="publisher",
     )
 
+    # Customer app polls this field to detect when to join RTC
     appointment.db_set("consultation_status", "In-Progress")
 
     return {

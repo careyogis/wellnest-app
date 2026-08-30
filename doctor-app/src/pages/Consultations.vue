@@ -207,14 +207,14 @@ consultations. page
   <button
     type="button"
     class="px-4 py-2 rounded-lg
-           bg-amber-500
-           text-white
-           text-sm font-semibold
-           hover:bg-amber-600
-           transition"
+          bg-teal-600
+          text-white
+          text-sm font-semibold
+          hover:bg-teal-700
+          transition"
     @click="joinConsultation(consultation)"
   >
-    {{ consultation.bookingStatus === 'In-Progress' ? 'Continue' : 'Join' }}
+    {{ consultation.bookingStatus === 'In-Progress' ? 'Continue' : 'Start Call' }}
   </button>
 </template>
               
