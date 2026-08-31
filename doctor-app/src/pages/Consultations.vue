@@ -347,7 +347,7 @@ consultations. page
       </aside>
     </div>
     <!-- Full consultation workspace -->
-<section class="mt-6">
+<section class="mt-4">
 <Consultation
   ref="consultationRef"
   :selected-consultation="selectedConsultation"

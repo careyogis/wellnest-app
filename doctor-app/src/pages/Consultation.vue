@@ -464,32 +464,49 @@
       </p>
     </div>
 <div class="flex justify-end gap-3">
-  <button
-    type="button"
-    class="px-5 py-3
-           rounded-xl
-           border border-amber-400
-           text-amber-700
-           font-semibold
-           hover:bg-amber-50"
-    @click="savePrescriptionDraft"
-  >
-  Save As Draft
-  </button>
+  <template
+  v-if="
+    prescriptionWorkflowState !== 'Confirmed' &&
+    prescriptionWorkflowState !== 'Complete'
+  "
+>
+    <button
+      type="button"
+      class="px-5 py-3
+             rounded-xl
+             border border-amber-400
+             text-amber-700
+             font-semibold
+             hover:bg-amber-50"
+      @click="savePrescriptionDraft"
+    >
+      Save As Draft
+    </button>
 
-  <button
-    type="button"
-    class="px-5 py-3
-           rounded-xl
-           bg-amber-500
-           text-white
-           font-semibold
-           hover:bg-amber-600"
-    @click="finalizePrescription"
-  >
-    Submit prescription
-  </button>
+    <button
+      type="button"
+      class="px-5 py-3
+             rounded-xl
+             bg-amber-500
+             text-white
+             font-semibold
+             hover:bg-amber-600"
+      @click="finalizePrescription"
+    >
+      Submit prescription
+    </button>
+  </template>
 
+  <div
+    v-else
+    class="rounded-xl border border-green-200
+           bg-green-50
+           px-5 py-3
+           text-sm font-semibold
+           text-green-700"
+  >
+    Prescription already submitted for this patient.
+  </div>
 </div>
   </div>
 
@@ -1707,6 +1724,10 @@ const confirmPrescriptionResource = createResource({
   url: 'wellnest.api.prescription.confirm_prescription',
 })
 
+const completePrescriptionResource = createResource({
+  url: 'wellnest.api.prescription.complete_consultation_prescription',
+})
+
 const startDoctorReviewResource = createResource({
   url: 'wellnest.api.prescription.start_doctor_review',
 })
@@ -1923,7 +1944,9 @@ async function loadPrescription() {
       instruction: medicine.instructions || '',
     }))
 
-    followUpAdvice.value = response.advice || ''
+    followUpAdvice.value = response.follow_up_advice || ''
+    dietAdvice.value = response.diet_advice || ''
+    exerciseAdvice.value = response.exercise_advice || ''
   } catch (error) {
     console.error('Failed to load prescription:', error)
   }
@@ -2007,10 +2030,50 @@ function addMedicine() {
 }
 
 async function finalizePrescription() {
+  if (
+  prescriptionWorkflowState.value === 'Confirmed' ||
+  prescriptionWorkflowState.value === 'Complete'
+) {
+  alert('This prescription has already been submitted for this patient.')
+  return
+}
+
   const appointment = props.selectedConsultation?.appointment
 
   if (!appointment) {
     alert('No consultation selected.')
+    return
+  }
+
+    // Validate mandatory clinical findings before submitting prescription.
+  const hasChiefComplaint = complaints.value.some(
+    (complaint) => complaint.text?.trim(),
+  )
+
+  if (!hasChiefComplaint) {
+    alert('Chief Complaint is required before submitting the prescription.')
+    return
+  }
+
+  if (!history.value?.trim()) {
+    alert('History is required before submitting the prescription.')
+    return
+  }
+
+  if (!examination.value?.trim()) {
+    alert('Examination is required before submitting the prescription.')
+    return
+  }
+
+  if (!provisionalDiagnosis.value?.trim()) {
+    alert(
+      'Provisional Diagnosis is required before submitting the prescription.',
+    )
+    return
+  }
+
+  if (prescriptionWorkflowState.value === 'Confirmed') {
+    alert('This prescription has already been submitted.')
     return
   }
 
@@ -2027,37 +2090,40 @@ async function finalizePrescription() {
 
     let response
 
-    if (prescriptionName.value) {
-      if (prescriptionWorkflowState.value === 'Draft') {
-        const reviewResponse = await startDoctorReviewResource.submit({
-          name: prescriptionName.value,
-        })
-
-        prescriptionWorkflowState.value =
-          reviewResponse.workflow_state
-      }
-
-      response = await updatePrescriptionResource.submit({
-        name: prescriptionName.value,
-        prescription_date: new Date().toISOString().split('T')[0],
-        medicines: JSON.stringify(medicinesPayload),
-        advice: followUpAdvice.value || '',
-      })
-    } else {
+    // If no prescription exists yet, create it as Draft first.
+    if (!prescriptionName.value) {
       response = await createPrescriptionResource.submit({
         appointment,
+        prescription_date: new Date().toISOString().split('T')[0],
         medicines: JSON.stringify(medicinesPayload),
-        advice: followUpAdvice.value || '',
+        follow_up_advice: followUpAdvice.value || '',
+        diet_advice: dietAdvice.value || '',
+        exercise_advice: exerciseAdvice.value || '',
       })
-    }
 
-    if (response?.name) {
       prescriptionName.value = response.name
+      prescriptionWorkflowState.value = response.workflow_state
+    } else {
+      // Existing Draft: save the latest changes before submitting.
+      if (prescriptionWorkflowState.value === 'Draft') {
+        response = await savePrescriptionDraftResource.submit({
+          name: prescriptionName.value,
+          prescription_date: new Date().toISOString().split('T')[0],
+          medicines: JSON.stringify(medicinesPayload),
+          follow_up_advice: followUpAdvice.value || '',
+          diet_advice: dietAdvice.value || '',
+          exercise_advice: exerciseAdvice.value || '',
+        })
+
+        prescriptionWorkflowState.value = response.workflow_state
+      }
     }
 
-    if (response?.workflow_state) {
-      prescriptionWorkflowState.value = response.workflow_state
-    }
+    response = await completePrescriptionResource.submit({
+      name: prescriptionName.value,
+    })
+
+    prescriptionWorkflowState.value = response.workflow_state
 
     console.log('Prescription submitted:', response)
     alert('Prescription submitted successfully.')
@@ -2068,6 +2134,18 @@ async function finalizePrescription() {
 }
 
 async function savePrescriptionDraft() {
+    console.log(
+    'Current prescription workflow state:',
+    prescriptionWorkflowState.value
+  )
+if (
+  prescriptionWorkflowState.value === 'Confirmed' ||
+  prescriptionWorkflowState.value === 'Complete'
+) {
+  alert('This prescription has already been submitted for this patient.')
+  return
+}
+
   const appointment = props.selectedConsultation?.appointment
 
   if (!appointment) {
@@ -2090,18 +2168,22 @@ async function savePrescriptionDraft() {
 
    if (prescriptionName.value) {
   response = await savePrescriptionDraftResource.submit({
-    name: prescriptionName.value,
-    prescription_date: new Date().toISOString().split('T')[0],
-    medicines: JSON.stringify(medicinesPayload),
-    advice: followUpAdvice.value || '',
-  })
+  name: prescriptionName.value,
+  prescription_date: new Date().toISOString().split('T')[0],
+  medicines: JSON.stringify(medicinesPayload),
+  follow_up_advice: followUpAdvice.value || '',
+  diet_advice: dietAdvice.value || '',
+  exercise_advice: exerciseAdvice.value || '',
+})
 
     } else {
       response = await createPrescriptionResource.submit({
-        appointment,
-        medicines: JSON.stringify(medicinesPayload),
-        advice: followUpAdvice.value || '',
-      })
+  appointment,
+  medicines: JSON.stringify(medicinesPayload),
+  follow_up_advice: followUpAdvice.value || '',
+  diet_advice: dietAdvice.value || '',
+  exercise_advice: exerciseAdvice.value || '',
+})
     }
 
     if (response?.name) {
