@@ -960,11 +960,12 @@
 </div>
 
 </template>
-
 <script setup>
 import { onMounted, ref } from 'vue'
 import { createResource } from 'frappe-ui'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const showPublishModal = ref(false)
 
 const showUnavailableModal = ref(false)
@@ -1134,5 +1135,9 @@ function formatTime(time) {
 
 onMounted(() => {
   loadTimeaway()
+
+  if (route.query.openUnavailable === '1') {
+    showUnavailableModal.value = true
+  }
 })
 </script>

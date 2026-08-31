@@ -463,19 +463,34 @@
         Optional lifestyle sections remain visible in the final prescription only when filled.
       </p>
     </div>
+<div class="flex justify-end gap-3">
+  <button
+    type="button"
+    class="px-5 py-3
+           rounded-xl
+           border border-amber-400
+           text-amber-700
+           font-semibold
+           hover:bg-amber-50"
+    @click="savePrescriptionDraft"
+  >
+  Save As Draft
+  </button>
 
-    <button
-      type="button"
-      class="px-5 py-3
-             rounded-xl
-             bg-amber-500
-             text-white
-             font-semibold
-             hover:bg-amber-600"
-      @click="finalizePrescription"
-    >
-      Submit prescription
-    </button>
+  <button
+    type="button"
+    class="px-5 py-3
+           rounded-xl
+           bg-amber-500
+           text-white
+           font-semibold
+           hover:bg-amber-600"
+    @click="finalizePrescription"
+  >
+    Submit prescription
+  </button>
+
+</div>
   </div>
 
   <!-- Follow-up -->
@@ -1680,6 +1695,10 @@ const updatePrescriptionResource = createResource({
   url: 'wellnest.api.prescription.update_consultation_prescription',
 })
 
+const savePrescriptionDraftResource = createResource({
+  url: 'wellnest.api.prescription.save_consultation_prescription_draft',
+})
+
 const getPrescriptionResource = createResource({
   url: 'wellnest.api.prescription.get_consultation_prescription',
 })
@@ -2009,22 +2028,22 @@ async function finalizePrescription() {
     let response
 
     if (prescriptionName.value) {
-  if (prescriptionWorkflowState.value === 'Draft') {
-    const reviewResponse = await startDoctorReviewResource.submit({
-      name: prescriptionName.value,
-    })
+      if (prescriptionWorkflowState.value === 'Draft') {
+        const reviewResponse = await startDoctorReviewResource.submit({
+          name: prescriptionName.value,
+        })
 
-    prescriptionWorkflowState.value =
-      reviewResponse.workflow_state
-  }
+        prescriptionWorkflowState.value =
+          reviewResponse.workflow_state
+      }
 
-  response = await updatePrescriptionResource.submit({
-    name: prescriptionName.value,
-    prescription_date: new Date().toISOString().split('T')[0],
-    medicines: JSON.stringify(medicinesPayload),
-    advice: followUpAdvice.value || '',
-  })
-} else {
+      response = await updatePrescriptionResource.submit({
+        name: prescriptionName.value,
+        prescription_date: new Date().toISOString().split('T')[0],
+        medicines: JSON.stringify(medicinesPayload),
+        advice: followUpAdvice.value || '',
+      })
+    } else {
       response = await createPrescriptionResource.submit({
         appointment,
         medicines: JSON.stringify(medicinesPayload),
@@ -2036,14 +2055,73 @@ async function finalizePrescription() {
       prescriptionName.value = response.name
     }
 
-    console.log('Prescription saved:', response)
-    alert('Prescription saved successfully.')
+    if (response?.workflow_state) {
+      prescriptionWorkflowState.value = response.workflow_state
+    }
 
+    console.log('Prescription submitted:', response)
+    alert('Prescription submitted successfully.')
   } catch (error) {
-    console.error('Failed to save prescription:', error)
-    alert('Failed to save prescription.')
+    console.error('Failed to submit prescription:', error)
+    alert('Failed to submit prescription.')
   }
 }
+
+async function savePrescriptionDraft() {
+  const appointment = props.selectedConsultation?.appointment
+
+  if (!appointment) {
+    alert('No consultation selected.')
+    return
+  }
+
+  try {
+    const medicinesPayload = medicines.value
+      .filter((medicine) => medicine.medicine?.trim())
+      .map((medicine) => ({
+        medicine_name: medicine.medicine.trim(),
+        dosage: medicine.dose?.trim() || '',
+        timing: medicine.frequency?.trim() || '',
+        duration: 'Not specified',
+        instructions: medicine.instruction?.trim() || '',
+      }))
+
+    let response
+
+   if (prescriptionName.value) {
+  response = await savePrescriptionDraftResource.submit({
+    name: prescriptionName.value,
+    prescription_date: new Date().toISOString().split('T')[0],
+    medicines: JSON.stringify(medicinesPayload),
+    advice: followUpAdvice.value || '',
+  })
+
+    } else {
+      response = await createPrescriptionResource.submit({
+        appointment,
+        medicines: JSON.stringify(medicinesPayload),
+        advice: followUpAdvice.value || '',
+      })
+    }
+
+    if (response?.name) {
+      prescriptionName.value = response.name
+    }
+
+    if (response?.workflow_state) {
+      prescriptionWorkflowState.value = response.workflow_state
+    } else {
+      prescriptionWorkflowState.value = 'Draft'
+    }
+
+    console.log('Prescription draft saved:', response)
+    alert('Prescription saved as draft.')
+  } catch (error) {
+    console.error('Failed to save prescription draft:', error)
+    alert('Failed to save prescription draft.')
+  }
+}
+
 async function saveClinicalRecord() {
   const appointment = props.selectedConsultation?.appointment
 
@@ -2053,7 +2131,6 @@ async function saveClinicalRecord() {
   }
 
   const data = {
-
     chief_complaints: complaints.value
       .filter((complaint) => complaint.text?.trim())
       .map((complaint) => ({
@@ -2078,7 +2155,6 @@ async function saveClinicalRecord() {
     diet_advice: dietAdvice.value,
 
     exercise_advice: exerciseAdvice.value,
-
   }
 
   try {
@@ -2088,25 +2164,26 @@ async function saveClinicalRecord() {
     })
 
     console.log('Clinical record saved:', response)
+
     const vitalReadings = vitals.value
-    .filter((vital) => vital.value?.trim())
-    .map((vital) => ({
-    vital_type: vital.vitalType,
-    unit: vital.unit,
-    value: vital.value.trim(),
-  }))
+      .filter((vital) => vital.value?.trim())
+      .map((vital) => ({
+        vital_type: vital.vitalType,
+        unit: vital.unit,
+        value: vital.value.trim(),
+      }))
 
-const vitalsResponse = await saveVitalsResource.submit({
-  appointment,
-  readings: JSON.stringify(vitalReadings),
-})
+    const vitalsResponse = await saveVitalsResource.submit({
+      appointment,
+      readings: JSON.stringify(vitalReadings),
+    })
 
-console.log('Vitals saved:', vitalsResponse)
+    console.log('Vitals saved:', vitalsResponse)
 
     alert('Clinical record saved successfully.')
   } catch (error) {
     console.error('Failed to save clinical record:', error)
-    alert('Failed to save clinical record.')
+    alert('Failed to save clinical record:', error)
   }
 }
 
@@ -2158,6 +2235,7 @@ defineExpose({
   previewDetails,
   doctorDetails,
 })
+
 async function finalizeDraft() {
   if (!prescriptionName.value) {
     alert('No prescription found.')

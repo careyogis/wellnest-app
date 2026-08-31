@@ -195,6 +195,91 @@ def create_consultation_prescription(
         ],
     }
 
+@frappe.whitelist()
+def save_consultation_prescription_draft(
+    name,
+    prescription_date=None,
+    followup_expiry_date=None,
+    medicines=None,
+    advice=None,
+):
+    if not name:
+        frappe.throw("Prescription name is required.")
+
+    doc = frappe.get_doc("Smart Prescription", name)
+
+    practitioner = frappe.db.get_value(
+        "Practitioner",
+        {"user_id": frappe.session.user},
+        "name",
+    )
+
+    if not practitioner:
+        frappe.throw("Practitioner not found.")
+
+    if doc.practitioner != practitioner:
+        frappe.throw(
+            "You are not authorized to update this prescription.",
+            frappe.PermissionError,
+        )
+
+    if doc.workflow_state != "Draft":
+        frappe.throw(
+            "Prescription can only be saved as draft while in Draft state."
+        )
+
+    medicines = frappe.parse_json(medicines or "[]")
+
+    doc.prescription_date = (
+        prescription_date or frappe.utils.today()
+    )
+    doc.followup_expiry_date = followup_expiry_date
+    doc.advice = advice
+
+    doc.set("medicines", [])
+
+    for medicine in medicines:
+        for field in (
+            "medicine_name",
+            "dosage",
+            "timing",
+            "duration",
+        ):
+            if not medicine.get(field):
+                frappe.throw(
+                    f"{field.replace('_', ' ').title()} is required."
+                )
+
+        item = doc.append("medicines", {})
+        item.medicine_name = medicine["medicine_name"]
+        item.dosage = medicine["dosage"]
+        item.timing = medicine["timing"]
+        item.duration = medicine["duration"]
+        item.instructions = medicine.get("instructions")
+
+    doc.save(
+        ignore_permissions=True,
+        ignore_links=True,
+    )
+
+    return {
+        "name": doc.name,
+        "workflow_state": doc.workflow_state,
+        "patient": doc.patient,
+        "practitioner": doc.practitioner,
+        "advice": doc.advice,
+        "medicines": [
+            {
+                "name": item.name,
+                "medicine_name": item.medicine_name,
+                "dosage": item.dosage,
+                "timing": item.timing,
+                "duration": item.duration,
+                "instructions": item.instructions,
+            }
+            for item in doc.medicines
+        ],
+    }
 
 @frappe.whitelist()
 def get_consultation_prescription(appointment):
