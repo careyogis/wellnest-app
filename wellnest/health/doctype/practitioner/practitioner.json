@@ -24,6 +24,7 @@
   "nationality",
   "photo",
   "languages_known",
+  "full_name",
   "address_section",
   "address_line1",
   "city",
@@ -41,10 +42,10 @@
   "digital_signature_url",
   "professional_summary",
   "primary_facility",
-  "telemedicine_certified",
+  "nmc_verified",
   "hpr_verified",
   "hpr_id",
-  "full_name",
+  "telemedicine_certified",
   "column_break_awmb",
   "registration_no",
   "registration_valid_upto",
@@ -417,6 +418,12 @@
    "label": "Home Visit Charge",
    "mandatory_depends_on": "available_for_home_visits",
    "options": "currency"
+  },
+  {
+   "default": "0",
+   "fieldname": "nmc_verified",
+   "fieldtype": "Check",
+   "label": "NMC Verified?"
   }
  ],
  "grid_page_length": 50,
@@ -425,7 +432,7 @@
  "index_web_pages_for_search": 1,
  "is_published_field": "is_published",
  "links": [],
- "modified": "2026-08-23 16:02:28.819080",
+ "modified": "2026-08-31 08:22:14.569220",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
