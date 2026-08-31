@@ -407,50 +407,74 @@
         <div class="mt-5">
 
           <div
-            class="flex items-center
-                   justify-between
-                   gap-4
-                   py-4
-                   border-b border-gray-200"
+            v-if="loadingTimeaway"
+            class="py-4 text-gray-500"
           >
-            <span class="text-gray-700">
-              15 Aug 2026
-            </span>
-
-            <span class="font-semibold text-gray-900">
-              Full day
-            </span>
+            Loading unavailable dates...
           </div>
 
           <div
-            class="flex items-center
-                   justify-between
-                   gap-4
-                   py-4
-                   border-b border-gray-200"
+            v-else-if="!timeawayRecords.length"
+            class="py-4 text-gray-500"
           >
-            <span class="text-gray-700">
-              First Friday monthly
-            </span>
-
-            <span class="font-semibold text-gray-900">
-              CME block
-            </span>
+            No unavailable dates configured.
           </div>
 
           <div
-            class="flex items-center
-                   justify-between
-                   gap-4
-                   py-4"
+            v-else
+            class="space-y-0"
           >
-            <span class="text-gray-700">
-              28 Jul 2026
-            </span>
+            <div
+              v-for="record in timeawayRecords"
+              :key="record.name"
+              class="flex items-center
+                     justify-between
+                     gap-4
+                     py-4
+                     border-b border-gray-200"
+            >
+              <span class="text-gray-700">
+                {{ formatDate(record.from_date) }}
+                <span
+                  v-if="record.to_date && record.to_date !== record.from_date"
+                >
+                  - {{ formatDate(record.to_date) }}
+                </span>
+              </span>
 
-            <span class="font-semibold text-gray-900">
-              After 2 PM
-            </span>
+              <div class="text-right">
+                <div class="font-semibold text-gray-900">
+                  {{ formatTime(record.from_time) }}
+                  -
+                  {{ formatTime(record.to_time) }}
+                </div>
+
+                <div
+                  v-if="record.reason"
+                  class="text-sm text-gray-500 mt-1"
+                >
+                  {{ record.reason }}
+                </div>
+
+                <div class="flex justify-end gap-3 mt-2">
+                  <button
+                    type="button"
+                    class="text-sm font-medium text-amber-600 hover:text-amber-700"
+                    @click="editTimeaway(record)"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    type="button"
+                    class="text-sm font-medium text-red-600 hover:text-red-700"
+                    @click="cancelTimeaway(record)"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -465,7 +489,7 @@
                  text-amber-700
                  font-semibold
                  hover:bg-amber-50"
-                 @click="showUnavailableModal = true"
+          @click="showUnavailableModal = true"
         >
           Manage unavailable dates
         </button>
@@ -787,7 +811,7 @@
              border-b border-gray-200"
     >
       <h2 class="text-2xl font-semibold text-gray-900">
-        Unavailable dates
+        {{ editingTimeaway ? 'Edit unavailable date' : 'Unavailable dates' }}
       </h2>
 
       <button
@@ -829,7 +853,7 @@
 
           <input
             v-model="unavailableDate"
-            type="text"
+            type="date"
             class="w-full
                    rounded-xl
                    border border-gray-200
@@ -919,14 +943,16 @@
       <button
         type="button"
         class="px-5 py-3
-               rounded-xl
-               bg-amber-500
-               text-white
-               font-semibold
-               hover:bg-amber-600"
-        @click="showUnavailableModal = false"
+              rounded-xl
+              bg-amber-500
+              text-white
+              font-semibold
+              hover:bg-amber-600
+              disabled:opacity-50"
+        :disabled="savingTimeaway"
+        @click="saveUnavailableDate"
       >
-        Save unavailable date
+        {{ savingTimeaway ? 'Saving...' : 'Save unavailable date' }}
       </button>
     </div>
 
@@ -936,12 +962,177 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { createResource } from 'frappe-ui'
 
 const showPublishModal = ref(false)
 
 const showUnavailableModal = ref(false)
-const unavailableDate = ref('15 Aug 2026')
+const unavailableDate = ref('')
 const unavailableType = ref('Full day unavailable')
-const unavailableReason = ref('Personal leave')
+const unavailableReason = ref('')
+
+const timeawayRecords = ref([])
+const loadingTimeaway = ref(false)
+const savingTimeaway = ref(false)
+const editingTimeaway = ref(null)
+
+const timeawayResource = createResource({
+  url: 'wellnest.health.doctype.practitioner.practitioner.get_doctor_timeaway',
+  onSuccess(data) {
+    timeawayRecords.value = data || []
+  },
+})
+
+const saveTimeawayResource = createResource({
+  url: 'wellnest.health.doctype.practitioner.practitioner.save_doctor_timeaway',
+})
+
+const cancelTimeawayResource = createResource({
+  url: 'wellnest.health.doctype.practitioner.practitioner.cancel_doctor_timeaway',
+})
+
+function getTimeRange(type) {
+  switch (type) {
+    case 'Morning unavailable':
+      return {
+        from_time: '00:00:00',
+        to_time: '12:00:00',
+      }
+
+    case 'After 2 PM unavailable':
+      return {
+        from_time: '14:00:00',
+        to_time: '23:59:59',
+      }
+
+    case 'Full day unavailable':
+    default:
+      return {
+        from_time: '00:00:00',
+        to_time: '23:59:59',
+      }
+  }
+}
+
+function getUnavailableType(fromTime, toTime) {
+  if (fromTime === '00:00:00' && toTime === '23:59:59') {
+    return 'Full day unavailable'
+  }
+
+  if (fromTime === '00:00:00' && toTime === '12:00:00') {
+    return 'Morning unavailable'
+  }
+
+  if (fromTime === '14:00:00' && toTime === '23:59:59') {
+    return 'After 2 PM unavailable'
+  }
+
+  return 'Full day unavailable'
+}
+
+function editTimeaway(record) {
+  editingTimeaway.value = record
+  unavailableDate.value = record.from_date
+  unavailableType.value = getUnavailableType(
+    record.from_time,
+    record.to_time
+  )
+  unavailableReason.value = record.reason || ''
+  showUnavailableModal.value = true
+}
+
+async function saveUnavailableDate() {
+  if (!unavailableDate.value) {
+    alert('Please select a date.')
+    return
+  }
+
+  const { from_time, to_time } = getTimeRange(unavailableType.value)
+
+  savingTimeaway.value = true
+
+  try {
+    await saveTimeawayResource.submit({
+      name: editingTimeaway.value?.name || null,
+      from_date: unavailableDate.value,
+      to_date: unavailableDate.value,
+      from_time,
+      to_time,
+      reason: unavailableReason.value || null,
+    })
+
+    await loadTimeaway()
+
+    showUnavailableModal.value = false
+    editingTimeaway.value = null
+    unavailableDate.value = ''
+    unavailableType.value = 'Full day unavailable'
+    unavailableReason.value = ''
+  } catch (err) {
+    console.error('Failed to save unavailable date:', err)
+    alert('Failed to save unavailable date.')
+  } finally {
+    savingTimeaway.value = false
+  }
+}
+
+async function cancelTimeaway(record) {
+  if (!confirm('Remove this unavailable period?')) {
+    return
+  }
+
+  try {
+    await cancelTimeawayResource.submit({
+      name: record.name,
+    })
+
+    await loadTimeaway()
+  } catch (err) {
+    console.error('Failed to remove unavailable date:', err)
+    alert('Failed to remove unavailable date.')
+  }
+}
+
+async function loadTimeaway() {
+  loadingTimeaway.value = true
+
+  try {
+    await timeawayResource.fetch()
+  } catch (err) {
+    console.error('Failed to load unavailable dates:', err)
+  } finally {
+    loadingTimeaway.value = false
+  }
+}
+
+function formatDate(date) {
+  if (!date) return ''
+
+  const value = new Date(`${date}T00:00:00`)
+
+  return value.toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+
+function formatTime(time) {
+  if (!time) return ''
+
+  const [hours, minutes] = time.split(':')
+  const value = new Date()
+
+  value.setHours(Number(hours), Number(minutes), 0, 0)
+
+  return value.toLocaleTimeString('en-IN', {
+    hour: 'numeric',
+    minute: '2-digit',
+  })
+}
+
+onMounted(() => {
+  loadTimeaway()
+})
 </script>

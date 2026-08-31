@@ -318,4 +318,106 @@ def delete_doctor_document(docname=None, file_name=None):
     return {
         "success": True,
         "file_name": file_doc.name,
-    }    
+    }
+
+
+@frappe.whitelist()
+def get_doctor_timeaway():
+    practitioner = get_current_practitioner()
+
+    return frappe.get_all(
+        "Practitioner TimeAway",
+        filters={
+            "practitioner": practitioner.name,
+            "status": "Approved",
+        },
+        fields=[
+            "name",
+            "from_date",
+            "to_date",
+            "from_time",
+            "to_time",
+            "reason",
+            "status",
+        ],
+        order_by="from_date asc, from_time asc",
+    )
+
+
+@frappe.whitelist()
+def save_doctor_timeaway(
+    from_date,
+    to_date=None,
+    from_time="00:00:00",
+    to_time="23:59:59",
+    reason=None,
+    name=None,
+):
+    practitioner = get_current_practitioner()
+
+    to_date = to_date or from_date
+
+    if from_date > to_date:
+        frappe.throw("From Date cannot be after To Date.")
+
+    if from_time >= to_time:
+        frappe.throw("From Time must be before To Time.")
+
+    if name:
+        timeaway = frappe.get_doc("Practitioner TimeAway", name)
+
+        if timeaway.practitioner != practitioner.name:
+            frappe.throw(
+                "Not authorized to modify this unavailable period",
+                frappe.PermissionError,
+            )
+
+        timeaway.from_date = from_date
+        timeaway.to_date = to_date
+        timeaway.from_time = from_time
+        timeaway.to_time = to_time
+        timeaway.reason = reason
+
+        timeaway.save(ignore_permissions=True)
+
+    else:
+        timeaway = frappe.get_doc({
+            "doctype": "Practitioner TimeAway",
+            "practitioner": practitioner.name,
+            "from_date": from_date,
+            "to_date": to_date,
+            "from_time": from_time,
+            "to_time": to_time,
+            "reason": reason,
+            "status": "Approved",
+        })
+
+        timeaway.insert(ignore_permissions=True)
+
+    return {
+        "success": True,
+        "name": timeaway.name,
+        "status": timeaway.status,
+    }
+
+
+@frappe.whitelist()
+def cancel_doctor_timeaway(name):
+    practitioner = get_current_practitioner()
+
+    timeaway = frappe.get_doc("Practitioner TimeAway", name)
+
+    if timeaway.practitioner != practitioner.name:
+        frappe.throw(
+            "Not authorized to modify this unavailable period",
+            frappe.PermissionError,
+        )
+
+    timeaway.status = "Cancelled"
+    timeaway.save(ignore_permissions=True)
+
+    return {
+        "success": True,
+        "name": timeaway.name,
+        "status": timeaway.status,
+    }
