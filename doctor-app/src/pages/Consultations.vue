@@ -11,29 +11,7 @@ consultations. page
         </p>
       </div>
 
-      <div class="flex flex-wrap gap-2">
-        <button
-          type="button"
-          class="px-4 py-2 rounded-lg border border-amber-400 bg-white
-                 text-amber-700 font-semibold hover:bg-amber-50 transition"
-                @click="consultationRef?.previewTemplate()"
-        >
-          Preview selected template
-        </button>
-
-        <button
-  type="button"
-  class="px-5 py-3
-         rounded-xl
-         border border-amber-400
-         text-amber-700
-         font-semibold
-         hover:bg-amber-50"
-  @click="router.push({ name: 'Schedule' })"
->
-  Update availability
-</button>
-      </div>
+     
     </div>
 
     <!-- Summary Cards -->
@@ -70,13 +48,13 @@ consultations. page
     </div>
 
     <!-- Main Workspace -->
-    <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,2fr)_minmax(360px,1fr)] gap-6 items-start">
+<div class="grid grid-cols-1 xl:grid-cols-[minmax(0,2fr)_380px] gap-6 items-start">
 
       <!-- Waiting Room / Upcoming -->
      <section
   class="bg-white border border-gray-200
          rounded-2xl overflow-y-auto
-         max-h-[620px]"
+         max-h-[300px]"
       >
 
         <div class="flex items-center justify-between px-6 py-5 border-b border-gray-200">
@@ -114,41 +92,44 @@ consultations. page
         </div>
 
         <!-- Consultation rows -->
-       <div
-          v-for="consultation in consultations"
-           :key="consultation.id"
-           class="border-t border-gray-100 transition-colors"
-           :class="{
-        'bg-amber-50/60':
-          selectedConsultation.id === consultation.id
-         }"
-        >
-          <div
-            class="grid grid-cols-1 lg:grid-cols-[90px_1.2fr_90px_1.5fr_150px_165px]
-                   gap-4
-                   px-6 py-5
-                   items-center"
-          >
+    <div
+  v-for="consultation in consultations"
+  :key="consultation.id"
+  class="w-max min-w-full border-t border-gray-100 transition-colors"
+  :class="{
+    'bg-amber-50/60':
+    selectedConsultation?.id === consultation.id
+  }"
+>
+        <div
+  class="w-full grid grid-cols-1 lg:grid-cols-[90px_1.2fr_90px_1.5fr_150px_180px]
+         gap-4
+         px-6 py-5
+         items-center"
+>
             <!-- Time -->
             <div class="text-sm font-semibold text-gray-900">
               {{ consultation.time }}
             </div>
 
             <!-- Patient -->
-            <div>
-             <p
-  class="font-bold text-gray-900
-         truncate
-         max-w-[180px]"
-  :title="consultation.patient"
->
-  {{ consultation.patient }}
-</p>
+          <div>
+  <p
+    class="font-bold text-gray-900
+           truncate
+           max-w-[180px]
+           cursor-pointer
+           hover:text-amber-600"
+    :title="consultation.patient"
+    @click="openPrescription(consultation)"
+  >
+    {{ consultation.patient }}
+  </p>
 
-              <p class="text-sm text-gray-500">
-                {{ consultation.bookingStatus }}
-              </p>
-            </div>
+  <p class="text-sm text-gray-500">
+    {{ consultation.bookingStatus }}
+  </p>
+</div>
 
             <!-- Mode -->
             <div class="text-sm text-gray-700">
@@ -223,12 +204,13 @@ consultations. page
         </div>
       </section>
 
-      <!-- Template Preview -->
-     <aside
-       class="bg-white border border-gray-200
+<!-- Template Preview -->
+<aside
+  v-if="showPatientDetails"
+  class="bg-white border border-gray-200
          rounded-2xl overflow-y-auto
          max-h-[600px]"
-        >
+>
 
         <div class="flex items-center justify-between px-5 py-5 border-b border-gray-200">
           <h2 class="text-xl font-bold text-gray-900">
@@ -365,7 +347,7 @@ consultations. page
       </aside>
     </div>
     <!-- Full consultation workspace -->
-<section class="mt-6">
+<section class="mt-4">
 <Consultation
   ref="consultationRef"
   :selected-consultation="selectedConsultation"
@@ -506,6 +488,8 @@ const consultationsResource = createResource({
   auto: true,
 })
 
+
+
 const startConsultationResource = createResource({
   url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.start_consultation',
 })
@@ -567,16 +551,9 @@ const selectedConsultation = ref({
   workflow: 'Clinical consultation',
   appointment: null,
 })
+const showPatientDetails = ref(false)
 
-watch(
-  () => consultations.value,
-  (value) => {
-    if (value.length && !selectedConsultation.value.appointment) {
-      selectedConsultation.value = value[0]
-    }
-  },
-  { immediate: true }
-)
+
 
 // const selectedConsultation = ref(consultations.value[0])
 
@@ -633,8 +610,8 @@ function workflowClass(workflow) {
 
 function openPrescription(consultation) {
   selectedConsultation.value = consultation
+  showPatientDetails.value = true
 }
-
 async function joinConsultation(consultation) {
   try {
     const response = await startConsultationResource.submit({

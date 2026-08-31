@@ -27,7 +27,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Duration",
-   "reqd": 1
+   "reqd": 0
   }
  ],
  "index_web_pages_for_search": 1,

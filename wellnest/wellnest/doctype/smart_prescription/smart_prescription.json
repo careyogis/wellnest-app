@@ -14,7 +14,9 @@
   "workflow_state",
   "section_break_meds",
   "medicines",
-  "advice",
+  "follow_up_advice",
+  "diet_advice",
+  "exercise_advice",
   "response_data"
  ],
  "fields": [
@@ -57,7 +59,7 @@
     "fieldname": "workflow_state",
     "fieldtype": "Select",
     "label": "Workflow State",
-    "options": "Draft\nDoctor Review\nConfirmed"
+    "options": "Draft\nDoctor Review\nConfirmed\nComplete"
   },
   {
    "fieldname": "section_break_meds",
@@ -71,10 +73,20 @@
    "options": "Prescription Item"
   },
   {
-   "fieldname": "advice",
-   "fieldtype": "Small Text",
-   "label": "Doctor Advice"
-  },
+  "fieldname": "follow_up_advice",
+  "fieldtype": "Small Text",
+  "label": "Follow-up Advice"
+},
+{
+  "fieldname": "diet_advice",
+  "fieldtype": "Small Text",
+  "label": "Diet Advice"
+},
+{
+  "fieldname": "exercise_advice",
+  "fieldtype": "Small Text",
+  "label": "Exercise Advice"
+},
   {
    "fieldname": "response_data",
    "fieldtype": "Long Text",

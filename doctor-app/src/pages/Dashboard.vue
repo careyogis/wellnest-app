@@ -7,17 +7,21 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <button
-          @click="router.push({ name: 'Consultations' })"
-          type="button"
-          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-semibold hover:bg-amber-600 transition-colors cursor-pointer"
-        >
-          <FeatherIcon name="video" class="w-4 h-4" />
-          View bookings
-        </button>
-        <button type="button" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-amber-400 text-amber-600 text-sm font-semibold hover:bg-amber-50 transition-colors">
-          Publish availability
-        </button>
+       <button
+  @click="router.push({ name: 'Consultations' })"
+  type="button"
+  class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-semibold hover:bg-amber-600 transition-colors cursor-pointer"
+>
+  <FeatherIcon name="video" class="w-4 h-4" />
+  View Consultations
+</button>
+     <button
+  type="button"
+  @click="router.push({ name: 'Schedule', query: { openUnavailable: '1' } })"
+  class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-amber-400 text-amber-600 text-sm font-semibold hover:bg-amber-50 transition-colors"
+>
+  Publish Time Away
+</button>
       </div>
     </div>
 
@@ -29,9 +33,18 @@
             <FeatherIcon name="video" class="w-4 h-4" />
           </div>
         </div>
-        <div class="text-3xl font-bold text-gray-900 mb-1">0</div>
-        <div class="text-xs text-gray-400">No consultations yet</div>
-      </div>
+    <div class="text-3xl font-bold text-gray-900 mb-1">
+  {{ consultationsResource.data?.length || 0 }}
+</div>
+
+<div class="text-xs text-gray-400">
+  {{
+    consultationsResource.data?.length
+      ? 'Consultations scheduled'
+      : 'No consultations yet'
+  }}
+</div>
+</div>
 
       <div class="bg-white rounded-2xl border border-gray-200 p-5">
         <div class="flex items-center justify-between mb-3">
@@ -74,7 +87,51 @@
           <RouterLink :to="{ name: 'Consultations' }" class="text-sm font-semibold text-amber-600 hover:underline">View consultations</RouterLink>
         </div>
 
-        <div class="text-center py-10 text-gray-400 text-sm">Nothing needs your attention right now.</div>
+       <div class="space-y-3">
+  <div
+    v-for="consultation in consultationsResource.data || []"
+    :key="consultation.name"
+    class="flex items-center justify-between border border-gray-200 rounded-xl p-4"
+  >
+    <div class="flex items-center gap-3">
+      <div
+        class="w-10 h-10 rounded-lg bg-amber-50
+               flex items-center justify-center text-amber-600"
+      >
+        <FeatherIcon name="video" class="w-5 h-5" />
+      </div>
+
+      <div>
+        <p class="font-semibold text-gray-900">
+          {{ consultation.patient }}
+        </p>
+
+        <p class="text-sm text-gray-500">
+          {{ consultation.scheduled_time }}
+          · Teleconsultation
+        </p>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="px-4 py-2 rounded-lg
+             bg-amber-500 text-white
+             text-sm font-semibold
+             hover:bg-amber-600"
+      @click="router.push({ name: 'Consultations' })"
+    >
+      Open consultation
+    </button>
+  </div>
+
+  <div
+    v-if="!consultationsResource.data?.length"
+    class="text-center py-10 text-gray-400 text-sm"
+  >
+    Nothing needs your attention right now.
+  </div>
+</div>
       </div>
 
       <div class="bg-white rounded-2xl border border-gray-200 p-6">
@@ -127,10 +184,15 @@
 </template>
 
 <script setup>
-import { FeatherIcon } from 'frappe-ui';
+import { FeatherIcon, createResource } from 'frappe-ui';
 import { RouterLink, useRouter } from 'vue-router';
 
 const router = useRouter();
+
+const consultationsResource = createResource({
+  url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.get_teleconsultation_appointments',
+  auto: true,
+});
 
 const quickActions = [
   { label: 'Join room', icon: 'video', to: { name: 'Consultations' } },
