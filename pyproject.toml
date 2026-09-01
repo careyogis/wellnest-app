@@ -9,7 +9,8 @@ readme = "README.md"
 dynamic = ["version"]
 dependencies = [
     "firebase-admin<5",
-    "agora-token-builder"
+    "agora-token-builder",
+    "google-genai"
 ]
 
 [build-system]
