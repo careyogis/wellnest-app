@@ -11,21 +11,17 @@ def get_razorpay_client():
 	return razorpay.Client(auth=(key_id, key_secret))
 
 @frappe.whitelist(allow_guest=True)
-def create_payment_order(subscription_id):
+def create_payment_order(service_id):
 	"""
-	Replaces pay() from _Payments.php
 	Creates a Razorpay order and returns details to the frontend.
-	"""
-	# Decode logic would go here if subscription_id is encrypted
-	
-	# Fetch subscription details (Replace 'Subscription' with your actual DocType)
-	# subscription = frappe.get_doc("Subscription", subscription_id)
-	
-	# For demonstration, using dummy data based on the PHP script structure
-	price_inr = 500
-	member_id = "user123"
-	sub_type = "premium"
-	duration_months = 12
+	"""	
+	# Fetch invoice details 
+	patient_appointment = frappe.get_doc("Patient Appointment", service_id)
+	sales_order_id = patient_appointment.sales_order or ''
+	price_inr = patient_appointment.consultation_fee or 1
+	member_id = patient_appointment.patient
+	sub_type = "teleconsultation"
+	duration_months = 1
 
 	client = get_razorpay_client()
 	
@@ -35,7 +31,7 @@ def create_payment_order(subscription_id):
 		'currency': 'INR',
 		'payment_capture': 1,
 		'notes': {
-			'user_subscription_id': subscription_id,
+			'sales_order_id': sales_order_id,
 			'user_id': member_id,
 			'plan_type': f"{sub_type}-{duration_months}",
 		}
@@ -46,7 +42,7 @@ def create_payment_order(subscription_id):
 	return {
 		"success": True,
 		"order_id": order.get('id'),
-		"subscription_id": subscription_id,
+		"sales_order_id": sales_order_id,
 		"key_id": frappe.conf.get("razorpay_key_id")
 	}
 
@@ -76,8 +72,8 @@ def payment_verify(razorpay_payment_id, razorpay_order_id, razorpay_signature):
 		return {"success": False, "message": "Payment verification failed", "redirect_url": "/payment-failure"}
 
 @frappe.whitelist(allow_guest=True)
-def create_payment_link(subscription_id):
+def create_payment_link(sales_order_id):
 	"""
 	Replaces create_payment_link()
 	"""
-	return f"/payment?subscription={subscription_id}"
+	return f"/payment?sales_invoice={sales_order_id}"

@@ -12,7 +12,7 @@
   "consultation_status",
   "column_break_tele",
   "consultation_fee",
-  "sales_invoice",
+  "sales_order",
   "payment_status",
   "video_room_id",
   "video_room_token",
@@ -61,10 +61,10 @@
    "label": "Consultation Fee"
   },
   {
-   "fieldname": "sales_invoice",
+   "fieldname": "sales_order",
    "fieldtype": "Link",
-   "label": "Sales Invoice",
-   "options": "Sales Invoice"
+   "label": "Sales Order",
+   "options": "Sales Order"
   },
   {
    "default": "Unpaid",

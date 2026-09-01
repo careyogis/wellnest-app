@@ -12,7 +12,9 @@
   "customer_firebase_service_principal_cert_path",
   "phone_number_id",
   "access_token",
-  "gemini_api_key"
+  "gemini_api_key",
+  "razorpay_key_id",
+  "razorpay_key_secret"
  ],
  "fields": [
   {
@@ -54,6 +56,16 @@
    "fieldname": "gemini_api_key",
    "fieldtype": "Data",
    "label": "Gemini API Key"
+  },
+  {
+   "fieldname": "razorpay_key_id",
+   "fieldtype": "Data",
+   "label": "Razorpay Key ID"
+  },
+  {
+   "fieldname": "razorpay_key_secret",
+   "fieldtype": "Data",
+   "label": "Razorpay Key Secret"
   }
  ],
  "grid_page_length": 50,

@@ -216,13 +216,13 @@
 
       try {
         const urlParams = new URLSearchParams(window.location.search);
-        const subscriptionId = urlParams.get('subscription') || 'DUMMY_SUB_123';
+        const serviceId = urlParams.get('service_id') || 'DUMMY_ORD_123';
 
         // 1. Create order
         const orderRes = await fetch('/api/method/wellnest.api.razorpay_payment.create_payment_order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ subscription_id: subscriptionId })
+          body: JSON.stringify({ service_id: serviceId })
         });
         
         const orderData = await orderRes.json();
