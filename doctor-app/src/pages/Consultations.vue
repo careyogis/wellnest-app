@@ -528,7 +528,7 @@ const consultations = computed(() => {
   return (consultationsResource.data || []).map((appointment) => ({
     id: appointment.name,
    time: formatAppointmentTime(appointment.scheduled_time),
-    patient: appointment.patient,
+    patient: appointment.patient_name || appointment.patient,
     practitioner: appointment.practitioner,
     bookingStatus: appointment.consultation_status,
     mode: 'Video',

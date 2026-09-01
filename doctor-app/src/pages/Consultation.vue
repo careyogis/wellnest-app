@@ -906,13 +906,25 @@
            mt-5"
   >
     <!-- Uploaded source -->
-    <div
-      class="border border-gray-200
-             rounded-xl
-             p-4"
-    >
+   <div
+  class="border border-gray-200
+         rounded-xl
+         p-4
+         cursor-pointer
+         hover:border-amber-400
+         hover:bg-amber-50/20"
+  @click="prescriptionFileInput?.click()"
+>
+
+<input
+  ref="prescriptionFileInput"
+  type="file"
+  accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+  class="hidden"
+  @change="handlePrescriptionFile"
+/>
       <h3 class="font-semibold text-gray-900">
-        Uploaded source
+        Upload source
       </h3>
 
       <div
@@ -928,6 +940,29 @@
                text-center
                px-4"
       >
+<img
+  v-if="prescriptionImagePreview"
+  :src="prescriptionImagePreview"
+  :alt="selectedPrescriptionFile?.name || 'Uploaded prescription'"
+  class="max-h-[180px]
+         max-w-full
+         rounded-lg
+         object-contain
+         mb-4"
+/>
+
+<button
+  v-if="selectedPrescriptionFile"
+  type="button"
+  class="text-sm
+         font-semibold
+         text-red-600
+         hover:text-red-700"
+  @click.stop="removePrescriptionFile"
+>
+  Remove image
+</button>
+      
         <div
           class="text-5xl
                  font-serif
@@ -974,13 +1009,20 @@
                leading-relaxed
                bg-amber-50/20"
       >
-        <p>
-          Digital form started during consultation.
-        </p>
-
-        <p class="mt-4">
-          No paper upload queued for OCR.
-        </p>
+        <textarea
+  v-model="ocrExtractedText"
+  rows="8"
+  class="w-full
+         rounded-xl
+         border border-gray-300
+         p-4
+         text-gray-800
+         leading-7
+         focus:outline-none
+         focus:ring-2
+         focus:ring-amber-200"
+  placeholder="OCR extracted prescription text will appear here..."
+></textarea>
       </div>
 
       <button
@@ -994,9 +1036,7 @@
                font-semibold
                hover:bg-amber-600"
       >
-        Review structured
-        <br />
-        prescription
+      Confirm
       </button>
     </div>
   </div>
@@ -1578,16 +1618,27 @@
                    px-5"
           >
 
-            <div
-              class="text-[72px]
-                     leading-none
-                     font-normal
-                     italic
-                     text-gray-800"
-              style="font-family: 'Comic Sans MS', 'Segoe Print', cursive;"
-            >
-              Rx
-            </div>
+           <img
+  v-if="prescriptionImagePreview"
+  :src="prescriptionImagePreview"
+  :alt="selectedPrescriptionFile?.name || 'Uploaded prescription'"
+  class="max-h-[220px]
+         max-w-full
+         rounded-lg
+         object-contain"
+/>
+
+<div
+  v-else
+  class="text-[72px]
+         leading-none
+         font-normal
+         italic
+         text-gray-800"
+  style="font-family: 'Comic Sans MS', 'Segoe Print', cursive;"
+>
+  Rx
+</div>
 
             <p
               class="mt-5
@@ -1596,7 +1647,7 @@
                      italic
                      text-gray-700"
             >
-              asha-follow-up-note.jpg
+           {{ selectedPrescriptionFile?.name || 'No image selected' }}
             </p>
 
             <p
@@ -1605,7 +1656,7 @@
                      italic
                      text-gray-700"
             >
-              Digital entry in progress
+              {{ selectedPrescriptionFile ? 'Image uploaded' : 'No image uploaded' }}
             </p>
 
           </div>
@@ -1639,39 +1690,61 @@
       </div>
     </div>
 
-    <!-- Modal footer -->
-    <div
-      class="flex items-center
-             justify-end
-             gap-3
-             px-5 py-4
-             border-t border-gray-200"
+   <!-- Modal footer -->
+<div
+  class="flex items-center
+         justify-between
+         gap-4
+         px-6 py-4
+         border-t border-gray-200
+         bg-gray-50"
+>
+  <!-- Workflow actions -->
+  <div class="flex items-center gap-3">
+    <button
+      type="button"
+      class="px-6 py-3
+             rounded-xl
+             border border-amber-400
+             bg-white
+             text-amber-700
+             font-semibold
+             hover:bg-amber-50
+             transition-colors"
     >
-      <button
-        type="button"
-        class="px-5 py-3
-               rounded-xl
-               bg-gray-100
-               text-gray-800
-               font-semibold
-               hover:bg-gray-200"
-        @click="showOcrModal = false"
-      >
-        Close
-      </button>
+      Doctor Review
+    </button>
 
-      <button
-        type="button"
-        class="px-5 py-3
-               rounded-xl
-               bg-amber-500
-               text-white
-               font-semibold
-               hover:bg-amber-600"
-      >
-        Review structured draft
-      </button>
-    </div>
+    <button
+      type="button"
+      class="px-6 py-3
+             rounded-xl
+             bg-amber-500
+             text-white
+             font-semibold
+             hover:bg-amber-600
+             transition-colors"
+    >
+      Save / Update
+    </button>
+  </div>
+
+  <!-- Close -->
+  <button
+    type="button"
+    class="px-5 py-3
+           rounded-xl
+           bg-gray-100
+           text-gray-700
+           font-semibold
+           hover:bg-gray-200
+           transition-colors"
+    @click="showOcrModal = false"
+  >
+    Close
+  </button>
+</div>
+
 
   </div>
 </div>
@@ -1838,6 +1911,11 @@ const vitals = ref([
 const showPreview = ref(false)
 const showJoinModal = ref(false)
 const showOcrModal = ref(false)
+const ocrExtractedText = ref('')
+
+const prescriptionFileInput = ref(null)
+const selectedPrescriptionFile = ref(null)
+const prescriptionImagePreview = ref('')
 
 async function loadClinicalRecord() {
   const appointment = props.selectedConsultation?.appointment
@@ -2266,6 +2344,46 @@ async function saveClinicalRecord() {
   } catch (error) {
     console.error('Failed to save clinical record:', error)
     alert('Failed to save clinical record:', error)
+  }
+}
+
+function handlePrescriptionFile(event) {
+  const file = event.target.files?.[0]
+
+  if (!file) {
+    return
+  }
+
+  const allowedTypes = ['image/jpeg', 'image/png']
+
+  if (!allowedTypes.includes(file.type)) {
+    alert('Please upload a JPG, JPEG, or PNG image.')
+    event.target.value = ''
+    return
+  }
+
+  selectedPrescriptionFile.value = file
+
+  if (prescriptionImagePreview.value) {
+    URL.revokeObjectURL(prescriptionImagePreview.value)
+  }
+
+  prescriptionImagePreview.value = URL.createObjectURL(file)
+
+  console.log('Prescription image selected:', file)
+}
+
+function removePrescriptionFile() {
+  selectedPrescriptionFile.value = null
+
+  if (prescriptionImagePreview.value) {
+    URL.revokeObjectURL(prescriptionImagePreview.value)
+  }
+
+  prescriptionImagePreview.value = ''
+
+  if (prescriptionFileInput.value) {
+    prescriptionFileInput.value.value = ''
   }
 }
 

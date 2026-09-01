@@ -24,7 +24,7 @@ def get_teleconsultation_appointments():
     if not practitioner:
         frappe.throw("Practitioner not found")
 
-    return frappe.get_all(
+    appointments = frappe.get_all(
         "Patient Appointment",
         filters={
             "practitioner": practitioner,
@@ -42,6 +42,15 @@ def get_teleconsultation_appointments():
         ],
         order_by="scheduled_time asc",
     )
+
+    for appointment in appointments:
+        appointment["patient_name"] = frappe.db.get_value(
+            "Patient",
+            appointment["patient"],
+            "full_name",
+        ) or appointment["patient"]
+
+    return appointments
 
 def _get_agora_uid(user):
     """Return a stable numeric Agora UID for a user."""
