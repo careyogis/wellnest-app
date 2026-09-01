@@ -1,52 +1,20 @@
-"""Enables flexible config settings - can be read from both the db and frappe config files"""
+"""Injects DB settings into frappe.conf on every request"""
 import frappe
 
-# Keep a reference to the original get method
-_original_conf_get = frappe.conf.get
-
-# Cache for singleton values
-_singleton_cache = {}
-_SINGLETON_DOCTYPE = "System Settings Extended"
-
-def enable_conf_override():
-    """Enable the custom get method globally."""
-    frappe.conf.get = custom_conf_get
-
-def custom_conf_get(key, default=None):
+def inject_db_settings_into_conf():
     """
-    Check site_config/common_site_config or cached values or load singleton from db
+    Hooked to `before_request`.
+    Fetches the singleton 'System Settings Extended' from Redis and updates frappe.local.conf.
+    This ensures that frappe.conf.get("...") works for all keys in the singleton.
     """
-    value = _original_conf_get(key, None)
-    if value is not None:
-        return value
-
-    if key in _singleton_cache:
-        return _singleton_cache.get(key) or default
-
-    _load_singleton_cache()
-    return _singleton_cache.get(key, default)
-
-# --- Hook handler to refresh cache when singleton is saved ---
-def refresh_cache_on_save(doc):
-    """Clear and reload cache when singleton is updated."""
-    if doc.doctype == _SINGLETON_DOCTYPE:
-        _load_singleton_cache()
-        frappe.logger().info(f"{_SINGLETON_DOCTYPE} cache refreshed after save")
-
-def _load_singleton_cache():
-    """Load all fields from the singleton into memory."""
-    global _singleton_cache
+    if not getattr(frappe.local, 'site', None):
+        return
+        
     try:
-        # Ensure we have an active site context
-        if not frappe.local.site:
-            return
-
-        # Try fetching the singleton
-        doc = frappe.get_single(_SINGLETON_DOCTYPE)
-        _singleton_cache = doc.as_dict()
-
-    except frappe.DoesNotExistError:
-        _singleton_cache = {}
+        # frappe.get_single implicitly uses frappe.cache() so this is a fast Redis read
+        settings = frappe.get_single("System Settings Extended").as_dict()
+        if settings:
+            # Update the current request's frappe.conf with the settings
+            frappe.local.conf.update(settings)
     except Exception as e:
-        frappe.log_error(f"Error loading {_SINGLETON_DOCTYPE} into config cache: {e}")
-        _singleton_cache = {}
+        frappe.logger().error(f"Failed to inject System Settings Extended into conf: {e}")

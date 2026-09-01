@@ -484,15 +484,16 @@ onUnmounted(async () => {
 
 async function joinRoom() {
   try {
-    const { channelName: backendChannelName, uid, rtcToken } = route.query
+    const { channelName: backendChannelName, uid, rtcToken, appId } = route.query
 
-  if (!backendChannelName || !uid || !rtcToken) {
+  if (!backendChannelName || !uid || rtcToken === undefined) {
   throw new Error('Missing consultation session details')
   }
 
 const { localVideoTrack } = await agora.join({
+  appId,
   channelName: backendChannelName,
-  token: rtcToken,
+  token: rtcToken || null,
   uid: Number(uid),
       onUserPublished: async (user, mediaType) => {
         await agora.client.subscribe(user, mediaType);

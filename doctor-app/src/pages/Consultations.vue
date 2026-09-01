@@ -627,6 +627,7 @@ async function joinConsultation(consultation) {
         channelName: response.channel_name,
         uid: response.uid,
         rtcToken: response.rtcToken,
+        appId: response.appId,
       },
     })
   } catch (error) {

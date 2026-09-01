@@ -107,6 +107,7 @@ def start_consultation(appointment):
         "channel_name": appointment.video_room_id,
         "uid": uid,
         "rtcToken": token_response["rtcToken"],
+        "appId": token_response.get("appId"),
         "consultation_status": "In-Progress",
     }
 

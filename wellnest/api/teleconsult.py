@@ -10,7 +10,7 @@ def get_agora_token(channel_name, uid=1001, role="publisher"):
 
 	if not app_cert:                                                                                                                                 
 		# If testing mode (certificate disabled in Agora Console)                                                                                    
-		return {"rtcToken": ""}                                                                                                                      
+		return {"rtcToken": "", "appId": app_id}                                                                                                                      
 
 	# 15 mins expiry                                                                                                                                  
 	privilege_expired_ts = int(time.time()) + 900                                                     
@@ -19,4 +19,4 @@ def get_agora_token(channel_name, uid=1001, role="publisher"):
 	token = RtcTokenBuilder.buildTokenWithUid(                                                                                                       
 		app_id, app_cert, channel_name, int(uid), role_type, privilege_expired_ts                                                                    
 	)                                                                                                                                                
-	return {"rtcToken": token}      
+	return {"rtcToken": token, "appId": app_id}      

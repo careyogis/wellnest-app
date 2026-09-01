@@ -6,9 +6,7 @@ app_email = "info@careyogis.com"
 app_license = "mit"
 required_apps = ["frappe/erpnext@version-15", "frappe/payments@version-15", "resilient-tech/india_compliance@version-15"]
 
-# Enable config override at startup, to read from db
-from wellnest import config_override
-config_override.enable_conf_override()
+
 
 website_context = {
 	"favicon": "/assets/wellnest/images/favicon/favicon.ico"
@@ -191,7 +189,7 @@ doc_events = {
 
 # Request Events
 # ----------------
-# before_request = ["wellnest.utils.before_request"]
+before_request = ["wellnest.config_override.inject_db_settings_into_conf"]
 # after_request = ["wellnest.utils.after_request"]
 
 # Job Events

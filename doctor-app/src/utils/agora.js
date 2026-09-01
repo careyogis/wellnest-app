@@ -11,12 +11,13 @@ export class AgoraService {
     this.isScreenSharing = false;
   }
 
-  async join({ channelName, token = null, uid = 2001, onUserPublished, onUserUnpublished }) {
+  async join({ appId, channelName, token = null, uid = 2001, onUserPublished, onUserUnpublished }) {
     this.client.on('user-published', onUserPublished);
     this.client.on('user-unpublished', onUserUnpublished);
 
     // Join the channel
-    await this.client.join(AGORA_APP_ID, channelName, token, uid);
+    const actualAppId = appId || AGORA_APP_ID;
+    await this.client.join(actualAppId, channelName, token, uid);
 
     // Create local audio and video tracks
     const [audioTrack, videoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks(
