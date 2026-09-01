@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#5bb286">
+  <title>Secure payment | CareYogi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=Rubik:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    :root { --cy-green: #5bb286; --cy-green-dark: #377b5a; --cy-ink: #2d2929; --cy-cream: #f8f6f1; --cy-line: #e5e7df; }
+    * { box-sizing: border-box; }
+    body { min-height: 100vh; margin: 0; color: var(--cy-ink); background: linear-gradient(180deg, #f4f8f3 0, #fff 38rem); font-family: "Rubik", sans-serif; }
+    button { font: inherit; }
+    .payment-shell { width: min(100% - 32px, 880px); margin: 0 auto; padding: 24px 0 48px; }
+    .payment-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+    .brand { display: inline-flex; align-items: center; text-decoration: none; }
+    .brand img { display: block; width: 132px; height: auto; }
+    .secure-label { display: inline-flex; align-items: center; gap: 7px; color: #617068; font-size: 12px; font-weight: 600; }
+    .secure-label i { color: var(--cy-green); }
+    .intro { text-align: center; margin: 0 auto 25px; }
+    .eyebrow { margin: 0 0 7px; color: var(--cy-green-dark); font-size: 12px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 8px; font-family: "Baloo 2", sans-serif; font-size: clamp(29px, 5vw, 40px); line-height: 1.1; }
+    .intro > p:last-child { margin: 0; color: #72766e; font-size: 15px; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin: 0 auto 22px; max-width: 510px; }
+    .step { position: relative; display: grid; justify-items: center; gap: 7px; color: #929891; font-size: 11px; font-weight: 600; text-align: center; }
+    .step::before { content: ""; position: absolute; z-index: 0; top: 14px; left: calc(-50% + 16px); width: calc(100% - 32px); height: 2px; background: #dfe6dd; }
+    .step:first-child::before { display: none; }
+    .step-number { position: relative; z-index: 1; display: grid; place-items: center; width: 30px; height: 30px; border: 2px solid #dfe6dd; border-radius: 50%; background: #fff; font-size: 12px; }
+    .step.active, .step.complete { color: var(--cy-green-dark); }
+    .step.active .step-number, .step.complete .step-number { color: #fff; border-color: var(--cy-green); background: var(--cy-green); }
+    .step.complete::before, .step.active::before { background: var(--cy-green); }
+    .card { overflow: hidden; border: 1px solid var(--cy-line); border-radius: 18px; background: #fff; box-shadow: 0 16px 48px rgba(51, 70, 56, .09); }
+    .view { display: none; padding: 25px; }
+    .view.active { display: block; }
+    .service-banner { display: flex; align-items: flex-start; gap: 13px; padding: 16px; margin-bottom: 22px; border-radius: 13px; background: #eef7f0; }
+    .service-icon { display: grid; flex: 0 0 auto; place-items: center; width: 39px; height: 39px; color: var(--cy-green-dark); border-radius: 11px; background: #fff; }
+    .service-banner h2 { margin: 0 0 3px; font-family: "Baloo 2", sans-serif; font-size: 19px; line-height: 1.1; }
+    .service-banner p { margin: 0; color: #617068; font-size: 13px; line-height: 1.5; }
+    .section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .section-title h3 { margin: 0; font-family: "Baloo 2", sans-serif; font-size: 20px; }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; overflow: hidden; border: 1px solid var(--cy-line); border-radius: 12px; background: var(--cy-line); }
+    .detail { min-width: 0; padding: 13px 14px; background: #fff; }
+    .detail.full { grid-column: 1 / -1; }
+    .detail label, .invoice-row span { display: block; margin-bottom: 4px; color: #7b827b; font-size: 11px; font-weight: 600; }
+    .detail strong { display: block; overflow: hidden; color: #323630; font-size: 14px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+    .payment-divider { height: 1px; margin: 23px 0; background: var(--cy-line); }
+    .invoice-preview { padding: 17px; border: 1px solid var(--cy-line); border-radius: 13px; background: #fffcf7; }
+    .invoice-top { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+    .invoice-top strong { font-size: 14px; }
+    .invoice-top span { color: #757b73; font-size: 12px; }
+    .invoice-row { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px dashed #d8d8ce; }
+    .invoice-row span { margin: 0; color: #52594f; font-size: 13px; font-weight: 400; }
+    .invoice-row strong { flex: 0 0 auto; font-size: 14px; }
+    .invoice-row.total { padding-bottom: 0; border-top-style: solid; }
+    .invoice-row.total span, .invoice-row.total strong { color: var(--cy-ink); font-size: 16px; font-weight: 700; }
+    .view-invoice { padding: 0; color: var(--cy-green-dark); border: 0; background: none; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .button-row { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 23px; }
+    .pay-button, .secondary-button { min-height: 52px; padding: 12px 20px; border: 0; border-radius: 10px; font-weight: 700; cursor: pointer; transition: .2s ease; }
+    .pay-button { color: #fff; background: var(--cy-green); box-shadow: 0 8px 16px rgba(91,178,134,.22); }
+    .pay-button:hover { background: var(--cy-green-dark); transform: translateY(-1px); }
+    .pay-button i { margin-right: 8px; }
+    .secondary-button { color: #4f5c52; border: 1px solid #dce4db; background: #fff; }
+    .payment-note { display: flex; gap: 8px; align-items: flex-start; margin: 13px 1px 0; color: #7a8179; font-size: 11px; line-height: 1.5; }
+    .payment-note i { margin-top: 2px; color: var(--cy-green); }
+    .method-list { display: grid; gap: 10px; }
+    .method { display: flex; align-items: center; gap: 13px; width: 100%; padding: 13px; color: var(--cy-ink); text-align: left; border: 1px solid var(--cy-line); border-radius: 12px; background: #fff; cursor: pointer; }
+    .method.selected { border-color: var(--cy-green); background: #f4fbf6; box-shadow: 0 0 0 1px var(--cy-green); }
+    .method-icon { display: grid; place-items: center; width: 38px; height: 38px; color: var(--cy-green-dark); border-radius: 10px; background: #eaf5ed; }
+    .method b { display: block; font-size: 14px; }
+    .method small { display: block; margin-top: 2px; color: #747b73; font-size: 11px; }
+    .method-check { display: none; margin-left: auto; color: var(--cy-green); }
+    .method.selected .method-check { display: block; }
+    .confirm-summary { padding: 17px; border-radius: 13px; background: #f7f8f5; }
+    .confirm-summary .invoice-row:first-child { padding-top: 0; border-top: 0; }
+    .confirm-summary .invoice-row:last-child { padding-bottom: 0; }
+    .back { padding: 0; color: #6b746c; border: 0; background: none; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .back i { margin-right: 5px; }
+    .confirmation-card { text-align: center; padding: 20px 0 4px; }
+    .success-icon { display: grid; place-items: center; width: 72px; height: 72px; margin: 0 auto 17px; color: #fff; border-radius: 50%; background: var(--cy-green); box-shadow: 0 10px 25px rgba(91,178,134,.28); font-size: 29px; }
+    .confirmation-card h2 { margin-bottom: 7px; font-family: "Baloo 2", sans-serif; font-size: 29px; }
+    .confirmation-card p { margin: 0 auto 20px; max-width: 370px; color: #6c746c; font-size: 14px; line-height: 1.55; }
+    .receipt { margin-top: 18px; padding: 15px; text-align: left; border: 1px solid var(--cy-line); border-radius: 12px; }
+    .receipt .invoice-row:first-child { padding-top: 0; border-top: 0; }
+    .receipt .invoice-row:last-child { padding-bottom: 0; }
+    .footer { margin-top: 22px; color: #8a918a; font-size: 11px; text-align: center; }
+    .footer a { color: var(--cy-green-dark); text-decoration: none; }
+    dialog { width: min(calc(100% - 32px), 520px); padding: 0; border: 0; border-radius: 16px; box-shadow: 0 24px 80px rgba(25, 38, 29, .3); }
+    dialog::backdrop { background: rgba(32, 41, 33, .52); backdrop-filter: blur(2px); }
+    .modal-content { padding: 23px; }
+    .modal-head { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; margin-bottom: 18px; }
+    .modal-head h2 { margin: 0; font-family: "Baloo 2", sans-serif; font-size: 23px; }
+    .close-modal { display: grid; place-items: center; width: 32px; height: 32px; padding: 0; color: #627066; border: 0; border-radius: 50%; background: #f1f4ef; cursor: pointer; }
+    .modal-content .invoice-preview { box-shadow: none; }
+    @media (min-width: 620px) { .view { padding: 31px 34px; } .button-row.two { grid-template-columns: 1fr 1.8fr; } }
+    @media (max-width: 430px) { .payment-shell { width: min(100% - 24px, 880px); padding-top: 18px; } .brand img { width: 115px; } .view { padding: 20px; } .detail-grid { grid-template-columns: 1fr; } .detail.full { grid-column: auto; } .invoice-preview { padding: 14px; } }
+  </style>
+</head>
+<body>
+  <main class="payment-shell">
+    <header class="payment-header">
+      <a class="brand" href="homepage.html" aria-label="CareYogi home"><img src="logo-01.png" alt="CareYogi"></a>
+      <span class="secure-label"><i class="fas fa-lock"></i> Secure payment</span>
+    </header>
+
+    <section class="intro" aria-labelledby="payment-title">
+      <p class="eyebrow">CareYogi Digital Hospital</p>
+      <h1 id="payment-title">Teleconsultation payment</h1>
+      <p>Review your consultation and complete payment securely.</p>
+    </section>
+
+    <div class="steps" aria-label="Payment progress">
+      <div class="step active" data-step="1"><span class="step-number">1</span><span>Review</span></div>
+      <div class="step" data-step="2"><span class="step-number">2</span><span>Payment</span></div>
+      <div class="step" data-step="3"><span class="step-number">3</span><span>Confirmation</span></div>
+    </div>
+
+    <section class="card" aria-live="polite">
+      <div class="view active" id="review-view">
+        <div class="service-banner">
+          <span class="service-icon"><i class="fas fa-video"></i></span>
+          <div><h2>Online consultation with Dr. Ananya Rao</h2><p>General Medicine · 30 minutes · Today, 4:30 PM</p></div>
+        </div>
+        <div class="section-title"><h3>Customer details</h3></div>
+        <div class="detail-grid">
+          <div class="detail"><label>Patient name</label><strong>Priya Nair</strong></div>
+          <div class="detail"><label>Mobile number</label><strong>+91 98765 43210</strong></div>
+          <div class="detail full"><label>Email address</label><strong>priya.nair@example.com</strong></div>
+        </div>
+        <div class="payment-divider"></div>
+        <div class="section-title"><h3>Invoice preview</h3><button class="view-invoice" type="button" data-open-invoice>View invoice <i class="fas fa-arrow-up-right-from-square"></i></button></div>
+        <div class="invoice-preview">
+          <div class="invoice-top"><div><strong>Invoice #CY-2026-08194</strong><br><span>Issued 28 Aug 2026</span></div><span>CareYogi Digital Hospital</span></div>
+          <div class="invoice-row"><span>Teleconsultation fee</span><strong>₹600</strong></div>
+          <div class="invoice-row"><span>GST (5%)</span><strong>₹30</strong></div>
+          <div class="invoice-row total"><span>Total payable</span><strong>₹630</strong></div>
+        </div>
+        <div class="button-row"><button class="pay-button" type="button" data-go="payment"><i class="fas fa-arrow-right"></i> Continue to payment</button></div>
+        <p class="payment-note"><i class="fas fa-shield-alt"></i><span>You will review the payment method before payment is submitted.</span></p>
+      </div>
+
+      <div class="view" id="payment-view">
+        <button class="back" type="button" data-go="review"><i class="fas fa-arrow-left"></i> Back to review</button>
+        <div class="service-banner" style="margin-top:18px"><span class="service-icon"><i class="fas fa-video"></i></span><div><h2>Teleconsultation with Dr. Ananya Rao</h2><p>Invoice #CY-2026-08194 · ₹630 payable</p></div></div>
+        <div class="section-title"><h3>Choose a payment method</h3></div>
+        <div class="method-list" role="radiogroup" aria-label="Payment methods">
+          <button class="method selected" type="button" role="radio" aria-checked="true"><span class="method-icon"><i class="fas fa-mobile-screen-button"></i></span><span><b>UPI</b><small>Google Pay, PhonePe, Paytm and more</small></span><i class="fas fa-circle-check method-check"></i></button>
+          <button class="method" type="button" role="radio" aria-checked="false"><span class="method-icon"><i class="far fa-credit-card"></i></span><span><b>Card</b><small>Credit, debit or RuPay card</small></span><i class="fas fa-circle-check method-check"></i></button>
+          <button class="method" type="button" role="radio" aria-checked="false"><span class="method-icon"><i class="fas fa-building-columns"></i></span><span><b>Net banking</b><small>Pay securely from your bank account</small></span><i class="fas fa-circle-check method-check"></i></button>
+        </div>
+        <div class="payment-divider"></div>
+        <div class="confirm-summary"><div class="invoice-row"><span>Payment for</span><strong>Teleconsultation</strong></div><div class="invoice-row total"><span>Amount to pay</span><strong>₹630</strong></div></div>
+        <div class="button-row two"><button class="secondary-button" type="button" data-open-invoice>Invoice</button><button class="pay-button" type="button" data-go="confirm"><i class="fas fa-lock"></i> Review &amp; pay ₹630</button></div>
+        <p class="payment-note"><i class="fas fa-lock"></i><span>Payments are processed through our secure payment partner. CareYogi does not store your card or UPI details.</span></p>
+      </div>
+
+      <div class="view" id="confirm-view">
+        <button class="back" type="button" data-go="payment"><i class="fas fa-arrow-left"></i> Change payment method</button>
+        <div class="service-banner" style="margin-top:18px"><span class="service-icon"><i class="fas fa-circle-check"></i></span><div><h2>One final check</h2><p>Please confirm the details below before paying.</p></div></div>
+        <div class="confirm-summary">
+          <div class="invoice-row"><span>Patient</span><strong>Priya Nair</strong></div>
+          <div class="invoice-row"><span>Service</span><strong>Teleconsultation</strong></div>
+          <div class="invoice-row"><span>Payment method</span><strong id="chosen-method">UPI</strong></div>
+          <div class="invoice-row total"><span>Total payable</span><strong>₹630</strong></div>
+        </div>
+        <div class="button-row"><button class="pay-button" type="button" id="make-payment"><i class="fas fa-lock"></i> Pay ₹630 securely</button></div>
+        <p class="payment-note"><i class="fas fa-circle-info"></i><span>By continuing, you agree to CareYogi’s payment terms. Your confirmation will be sent to your mobile number.</span></p>
+      </div>
+
+      <div class="view" id="success-view">
+        <div class="confirmation-card">
+          <div class="success-icon"><i class="fas fa-check"></i></div>
+          <h2>Payment received</h2>
+          <p>Thank you, Priya. Your teleconsultation with Dr. Ananya Rao is confirmed for today at 4:30 PM.</p>
+          <div class="receipt"><div class="invoice-row"><span>Transaction ID</span><strong>CY-PAY-8F41A9</strong></div><div class="invoice-row"><span>Paid with</span><strong id="receipt-method">UPI</strong></div><div class="invoice-row"><span>Invoice number</span><strong>CY-2026-08194</strong></div><div class="invoice-row total"><span>Paid</span><strong>₹630</strong></div></div>
+          <div class="button-row"><button class="secondary-button" type="button" data-open-invoice><i class="fas fa-download"></i> Download invoice</button></div>
+        </div>
+      </div>
+    </section>
+    <p class="footer">Need help? <a href="tel:+916302693084">Contact CareYogi support</a></p>
+  </main>
+
+  <dialog id="invoice-dialog" aria-labelledby="invoice-heading">
+    <div class="modal-content"><div class="modal-head"><div><p class="eyebrow">Invoice preview</p><h2 id="invoice-heading">CareYogi Digital Hospital</h2></div><button class="close-modal" type="button" data-close-invoice aria-label="Close invoice"><i class="fas fa-times"></i></button></div><div class="invoice-preview"><div class="invoice-top"><div><strong>Invoice #CY-2026-08194</strong><br><span>Issued 28 Aug 2026</span></div><span>Paid by Priya Nair</span></div><div class="invoice-row"><span>Online teleconsultation<br><small>Dr. Ananya Rao · 30 minutes</small></span><strong>₹600</strong></div><div class="invoice-row"><span>GST (5%)</span><strong>₹30</strong></div><div class="invoice-row total"><span>Total payable</span><strong>₹630</strong></div></div></div>
+  </dialog>
+
+  <script>
+    const views = { review: 'review-view', payment: 'payment-view', confirm: 'confirm-view', success: 'success-view' };
+    const stepNodes = [...document.querySelectorAll('.step')];
+    const methodLabel = document.getElementById('chosen-method');
+    const receiptMethod = document.getElementById('receipt-method');
+    let selectedMethod = 'UPI';
+    function showView(name) {
+      document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+      document.getElementById(views[name]).classList.add('active');
+      const current = Object.keys(views).indexOf(name) + 1;
+      stepNodes.forEach((step, index) => { step.classList.toggle('active', index + 1 === current); step.classList.toggle('complete', index + 1 < current); });
+      if (name === 'success') { stepNodes.forEach(step => step.classList.add('complete')); }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', () => showView(button.dataset.go)));
+    document.querySelectorAll('.method').forEach(method => method.addEventListener('click', () => {
+      document.querySelectorAll('.method').forEach(item => { item.classList.remove('selected'); item.setAttribute('aria-checked', 'false'); });
+      method.classList.add('selected'); method.setAttribute('aria-checked', 'true'); selectedMethod = method.querySelector('b').textContent; methodLabel.textContent = selectedMethod; receiptMethod.textContent = selectedMethod;
+    }));
+    document.getElementById('make-payment').addEventListener('click', async () => {
+      const btn = document.getElementById('make-payment');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      btn.disabled = true;
+
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const subscriptionId = urlParams.get('subscription') || 'DUMMY_SUB_123';
+
+        // 1. Create order
+        const orderRes = await fetch('/api/method/wellnest.api.razorpay_payment.create_payment_order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ subscription_id: subscriptionId })
+        });
+        
+        const orderData = await orderRes.json();
+        
+        if (orderData.message && orderData.message.success) {
+          const apiMessage = orderData.message;
+          
+          // 2. Open Razorpay Checkout
+          const options = {
+            "key": apiMessage.key_id,
+            "amount": "63000", // Will be overridden by the order on the backend side, but safe to set 
+            "currency": "INR",
+            "name": "CareYogi",
+            "description": "Secure Payment",
+            "order_id": apiMessage.order_id,
+            "handler": async function (response) {
+              // 3. Verify Payment
+              const verifyRes = await fetch('/api/method/wellnest.api.razorpay_payment.payment_verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_signature: response.razorpay_signature
+                })
+              });
+              const verifyData = await verifyRes.json();
+              if (verifyData.message && verifyData.message.success) {
+                // Document receipt 
+                document.getElementById('receipt-method').textContent = 'Razorpay / ' + selectedMethod;
+                showView('success');
+              } else {
+                alert("Payment verification failed. Please contact support.");
+              }
+            },
+            "prefill": {
+              "name": "Priya Nair",
+              "email": "priya.nair@example.com",
+              "contact": "9876543210"
+            },
+            "theme": { "color": "#5bb286" }
+          };
+          
+          const rzp = new Razorpay(options);
+          rzp.on('payment.failed', function (response){
+            alert("Payment failed: " + response.error.description);
+          });
+          rzp.open();
+        } else {
+           alert("Failed to initialize payment. " + (orderData.message?.error || ''));
+        }
+      } catch (err) {
+        alert("An error occurred: " + err.message);
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    });
+
+    const invoiceDialog = document.getElementById('invoice-dialog');
+    document.querySelectorAll('[data-open-invoice]').forEach(button => button.addEventListener('click', () => invoiceDialog.showModal()));
+    document.querySelector('[data-close-invoice]').addEventListener('click', () => invoiceDialog.close());
+    invoiceDialog.addEventListener('click', event => { if (event.target === invoiceDialog) invoiceDialog.close(); });
+  </script>
+</body>
+</html>
