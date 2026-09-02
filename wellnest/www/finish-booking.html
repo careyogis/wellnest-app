@@ -124,21 +124,21 @@
       <div class="view active" id="review-view">
         <div class="service-banner">
           <span class="service-icon"><i class="fas fa-video"></i></span>
-          <div><h2>Online consultation with Dr. Ananya Rao</h2><p>General Medicine · 30 minutes · Today, 4:30 PM</p></div>
+          <div><h2>Online consultation with Dr. {{ practitioner.practitioner_name if practitioner else 'Doctor' }}</h2><p>{{ appointment.consultation_type or 'Teleconsultation' }} · {{ appointment.duration or '30' }} minutes · {{ formatted_date }}</p></div>
         </div>
         <div class="section-title"><h3>Customer details</h3></div>
         <div class="detail-grid">
-          <div class="detail"><label>Patient name</label><strong>Priya Nair</strong></div>
-          <div class="detail"><label>Mobile number</label><strong>+91 98765 43210</strong></div>
-          <div class="detail full"><label>Email address</label><strong>priya.nair@example.com</strong></div>
+          <div class="detail"><label>Patient name</label><strong>{{ patient.patient_name if patient else 'Patient' }}</strong></div>
+          <div class="detail"><label>Mobile number</label><strong>{{ patient.mobile if patient else '' }}</strong></div>
+          <div class="detail full"><label>Email address</label><strong>{{ patient.email if patient else '' }}</strong></div>
         </div>
         <div class="payment-divider"></div>
         <div class="section-title"><h3>Invoice preview</h3><button class="view-invoice" type="button" data-open-invoice>View invoice <i class="fas fa-arrow-up-right-from-square"></i></button></div>
         <div class="invoice-preview">
-          <div class="invoice-top"><div><strong>Invoice #CY-2026-08194</strong><br><span>Issued 28 Aug 2026</span></div><span>CareYogi Digital Hospital</span></div>
-          <div class="invoice-row"><span>Teleconsultation fee</span><strong>₹600</strong></div>
-          <div class="invoice-row"><span>GST (5%)</span><strong>₹30</strong></div>
-          <div class="invoice-row total"><span>Total payable</span><strong>₹630</strong></div>
+          <div class="invoice-top"><div><strong>Booking #{{ appointment.name }}</strong><br><span>Issued {{ issue_date }}</span></div><span>CareYogi Digital Hospital</span></div>
+          <div class="invoice-row"><span>Teleconsultation fee</span><strong>₹{{ amount }}</strong></div>
+          
+          <div class="invoice-row total"><span>Total payable</span><strong>₹{{ amount }}</strong></div>
         </div>
         <div class="button-row"><button class="pay-button" type="button" data-go="payment"><i class="fas fa-arrow-right"></i> Continue to payment</button></div>
         <p class="payment-note"><i class="fas fa-shield-alt"></i><span>You will review the payment method before payment is submitted.</span></p>
@@ -146,7 +146,7 @@
 
       <div class="view" id="payment-view">
         <button class="back" type="button" data-go="review"><i class="fas fa-arrow-left"></i> Back to review</button>
-        <div class="service-banner" style="margin-top:18px"><span class="service-icon"><i class="fas fa-video"></i></span><div><h2>Teleconsultation with Dr. Ananya Rao</h2><p>Invoice #CY-2026-08194 · ₹630 payable</p></div></div>
+        <div class="service-banner" style="margin-top:18px"><span class="service-icon"><i class="fas fa-video"></i></span><div><h2>Teleconsultation with Dr. {{ practitioner.practitioner_name if practitioner else 'Doctor' }}</h2><p>Booking #{{ appointment.name }} · ₹{{ amount }} payable</p></div></div>
         <div class="section-title"><h3>Choose a payment method</h3></div>
         <div class="method-list" role="radiogroup" aria-label="Payment methods">
           <button class="method selected" type="button" role="radio" aria-checked="true"><span class="method-icon"><i class="fas fa-mobile-screen-button"></i></span><span><b>UPI</b><small>Google Pay, PhonePe, Paytm and more</small></span><i class="fas fa-circle-check method-check"></i></button>
@@ -154,8 +154,8 @@
           <button class="method" type="button" role="radio" aria-checked="false"><span class="method-icon"><i class="fas fa-building-columns"></i></span><span><b>Net banking</b><small>Pay securely from your bank account</small></span><i class="fas fa-circle-check method-check"></i></button>
         </div>
         <div class="payment-divider"></div>
-        <div class="confirm-summary"><div class="invoice-row"><span>Payment for</span><strong>Teleconsultation</strong></div><div class="invoice-row total"><span>Amount to pay</span><strong>₹630</strong></div></div>
-        <div class="button-row two"><button class="secondary-button" type="button" data-open-invoice>Invoice</button><button class="pay-button" type="button" data-go="confirm"><i class="fas fa-lock"></i> Review &amp; pay ₹630</button></div>
+        <div class="confirm-summary"><div class="invoice-row"><span>Payment for</span><strong>Teleconsultation</strong></div><div class="invoice-row total"><span>Amount to pay</span><strong>₹{{ amount }}</strong></div></div>
+        <div class="button-row two"><button class="secondary-button" type="button" data-open-invoice>Invoice</button><button class="pay-button" type="button" data-go="confirm"><i class="fas fa-lock"></i> Review &amp; pay ₹{{ amount }}</button></div>
         <p class="payment-note"><i class="fas fa-lock"></i><span>Payments are processed through our secure payment partner. CareYogi does not store your card or UPI details.</span></p>
       </div>
 
@@ -163,12 +163,12 @@
         <button class="back" type="button" data-go="payment"><i class="fas fa-arrow-left"></i> Change payment method</button>
         <div class="service-banner" style="margin-top:18px"><span class="service-icon"><i class="fas fa-circle-check"></i></span><div><h2>One final check</h2><p>Please confirm the details below before paying.</p></div></div>
         <div class="confirm-summary">
-          <div class="invoice-row"><span>Patient</span><strong>Priya Nair</strong></div>
+          <div class="invoice-row"><span>Patient</span><strong>{{ patient.patient_name if patient else 'Patient' }}</strong></div>
           <div class="invoice-row"><span>Service</span><strong>Teleconsultation</strong></div>
           <div class="invoice-row"><span>Payment method</span><strong id="chosen-method">UPI</strong></div>
-          <div class="invoice-row total"><span>Total payable</span><strong>₹630</strong></div>
+          <div class="invoice-row total"><span>Total payable</span><strong>₹{{ amount }}</strong></div>
         </div>
-        <div class="button-row"><button class="pay-button" type="button" id="make-payment"><i class="fas fa-lock"></i> Pay ₹630 securely</button></div>
+        <div class="button-row"><button class="pay-button" type="button" id="make-payment"><i class="fas fa-lock"></i> Pay ₹{{ amount }} securely</button></div>
         <p class="payment-note"><i class="fas fa-circle-info"></i><span>By continuing, you agree to CareYogi’s payment terms. Your confirmation will be sent to your mobile number.</span></p>
       </div>
 
@@ -176,8 +176,8 @@
         <div class="confirmation-card">
           <div class="success-icon"><i class="fas fa-check"></i></div>
           <h2>Payment received</h2>
-          <p>Thank you, Priya. Your teleconsultation with Dr. Ananya Rao is confirmed for today at 4:30 PM.</p>
-          <div class="receipt"><div class="invoice-row"><span>Transaction ID</span><strong>CY-PAY-8F41A9</strong></div><div class="invoice-row"><span>Paid with</span><strong id="receipt-method">UPI</strong></div><div class="invoice-row"><span>Invoice number</span><strong>CY-2026-08194</strong></div><div class="invoice-row total"><span>Paid</span><strong>₹630</strong></div></div>
+          <p>Thank you, {{ patient.patient_name.split(' ')[0] if patient else 'Patient' }}. Your teleconsultation with Dr. {{ practitioner.practitioner_name if practitioner else 'Doctor' }} is confirmed for {{ formatted_date }}.</p>
+          <div class="receipt"><div class="invoice-row"><span>Transaction ID</span><strong>Payment Processed</strong></div><div class="invoice-row"><span>Paid with</span><strong id="receipt-method">UPI</strong></div><div class="invoice-row"><span>Invoice number</span><strong>{{ appointment.name }}</strong></div><div class="invoice-row total"><span>Paid</span><strong>₹{{ amount }}</strong></div></div>
           <div class="button-row"><button class="secondary-button" type="button" data-open-invoice><i class="fas fa-download"></i> Download invoice</button></div>
         </div>
       </div>
@@ -186,7 +186,7 @@
   </main>
 
   <dialog id="invoice-dialog" aria-labelledby="invoice-heading">
-    <div class="modal-content"><div class="modal-head"><div><p class="eyebrow">Invoice preview</p><h2 id="invoice-heading">CareYogi Digital Hospital</h2></div><button class="close-modal" type="button" data-close-invoice aria-label="Close invoice"><i class="fas fa-times"></i></button></div><div class="invoice-preview"><div class="invoice-top"><div><strong>Invoice #CY-2026-08194</strong><br><span>Issued 28 Aug 2026</span></div><span>Paid by Priya Nair</span></div><div class="invoice-row"><span>Online teleconsultation<br><small>Dr. Ananya Rao · 30 minutes</small></span><strong>₹600</strong></div><div class="invoice-row"><span>GST (5%)</span><strong>₹30</strong></div><div class="invoice-row total"><span>Total payable</span><strong>₹630</strong></div></div></div>
+    <div class="modal-content"><div class="modal-head"><div><p class="eyebrow">Invoice preview</p><h2 id="invoice-heading">CareYogi Digital Hospital</h2></div><button class="close-modal" type="button" data-close-invoice aria-label="Close invoice"><i class="fas fa-times"></i></button></div><div class="invoice-preview"><div class="invoice-top"><div><strong>Booking #{{ appointment.name }}</strong><br><span>Issued {{ issue_date }}</span></div><span>Paid by {{ patient.patient_name if patient else 'Patient' }}</span></div><div class="invoice-row"><span>{{ appointment.consultation_type or 'Teleconsultation' }}<br><small>Dr. {{ practitioner.practitioner_name if practitioner else 'Doctor' }} · {{ appointment.duration or '30' }} minutes</small></span><strong>₹{{ amount }}</strong></div><div class="invoice-row total"><span>Total payable</span><strong>₹{{ amount }}</strong></div></div></div>
   </dialog>
 
   <script>
@@ -233,7 +233,7 @@
           // 2. Open Razorpay Checkout
           const options = {
             "key": apiMessage.key_id,
-            "amount": "63000", // Will be overridden by the order on the backend side, but safe to set 
+            "amount": "{{ amount_paise }}", // Will be overridden by the order on the backend side, but safe to set 
             "currency": "INR",
             "name": "CareYogi",
             "description": "Secure Payment",
@@ -265,8 +265,8 @@
               }
             },
             "prefill": {
-              "name": "Priya Nair",
-              "email": "priya.nair@example.com",
+              "name": "{{ patient.patient_name if patient else 'Patient' }}",
+              "email": "{{ patient.email if patient else '' }}",
               "contact": "9876543210"
             },
             "theme": { "color": "#5bb286" }

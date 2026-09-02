@@ -48,7 +48,7 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Consultation Status",
+   "label": "Status",
    "options": "Unverified\nScheduled\nIn-Progress\nCompleted\nCancelled\nNo Show"
   },
   {
