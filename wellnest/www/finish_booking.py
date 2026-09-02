@@ -1,6 +1,8 @@
 import frappe
 from frappe.utils import formatdate, format_time, getdate, get_time
 
+no_cache = 1
+
 def get_context(context):
     service_id = frappe.form_dict.get("service_id")
     if not service_id:
