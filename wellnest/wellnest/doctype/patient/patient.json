@@ -60,8 +60,7 @@
   {
    "fieldname": "mobile",
    "fieldtype": "Data",
-   "label": "Mobile",
-   "unique": 1
+   "label": "Mobile"
   },
   {
    "default": "0",

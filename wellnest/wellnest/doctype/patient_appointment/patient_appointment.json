@@ -44,7 +44,7 @@
    "reqd": 1
   },
   {
-   "default": "Scheduled",
+   "default": "Unverified",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
