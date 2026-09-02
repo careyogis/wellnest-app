@@ -93,7 +93,7 @@ class TestPatientAppointment(FrappeTestCase):
             "practitioner": self.practitioner.name,
             "scheduled_time": frappe.utils.now_datetime(),
             "consultation_type": "Online",
-            "consultation_status": "Scheduled",
+            "status": "Scheduled",
         })
         self.appointment.insert(ignore_permissions=True)
         frappe.db.commit()
@@ -171,7 +171,7 @@ class TestPatientAppointment(FrappeTestCase):
         )
 
         self.assertEqual(
-            appointment.consultation_status,
+            appointment.status,
             "In-Progress",
         )
         self.assertEqual(
@@ -197,7 +197,7 @@ class TestPatientAppointment(FrappeTestCase):
         )
         self.assertIn("rtcToken", result)
         self.assertEqual(
-            result["consultation_status"],
+            result["status"],
             "In-Progress",
         )
 
@@ -212,7 +212,7 @@ class TestPatientAppointment(FrappeTestCase):
         )
 
         self.assertEqual(
-            appointment.consultation_status,
+            appointment.status,
             "Completed",
         )
         self.assertEqual(
@@ -220,7 +220,7 @@ class TestPatientAppointment(FrappeTestCase):
             appointment.name,
         )
         self.assertEqual(
-            result["consultation_status"],
+            result["status"],
             "Completed",
         )
 
@@ -232,7 +232,7 @@ class TestPatientAppointment(FrappeTestCase):
 
     def test_cannot_start_completed_consultation(self):
         self.appointment.db_set(
-            "consultation_status",
+            "status",
             "Completed",
         )
 

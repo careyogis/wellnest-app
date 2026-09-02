@@ -26,8 +26,7 @@ def get_agora_token(channel_name, uid=1001, role="publisher"):
 @frappe.whitelist()                                                                                                                                   
 def book_appointment(practitioner, patient, customer, scheduled_time, consultation_type, consultation_fee):                                           
 	"""                                                                                                                                               
-	Creates a Patient Appointment and a corresponding Sales Order.                                                                                    
-	Stamps the Sales Order ID on the Patient Appointment.                                                                                             
+	Creates a Patient Appointment in Unverified status.                                                                                    
 	"""                                                                                                                                               
 	# 1. Create Patient Appointment                                                                                                                   
 	appointment = frappe.get_doc({                                                                                                                    
@@ -35,42 +34,13 @@ def book_appointment(practitioner, patient, customer, scheduled_time, consultati
 		"practitioner": practitioner,                                                                                                                 
 		"patient": patient,                                                                                                                           
 		"scheduled_time": scheduled_time,                                                                                                             
-		"appointment_type": consultation_type, # Or "consultation_type" depending on your field name
+		"appointment_type": consultation_type,
 		"consultation_fee": consultation_fee,
+		"status": "Unverified"
 	})                                                                                                                                                
 	appointment.insert(ignore_permissions=True)                                                                                                       
 																																						
-	# 2. Get Default Company (Required for Sales Order)                                                                                               
-	company = frappe.db.get_single_value('Global Defaults', 'default_company')                                                                        
-	if not company:                                                                                                                                   
-		company = frappe.get_all("Company", limit=1)[0].name                                                                                          
-																																						
-	# 3. Create the Sales Order                                                                                                                       
-	sales_order = frappe.get_doc({                                                                                                                    
-		"doctype": "Sales Order",                                                                                                                     
-		"customer": customer,                                                                                                                         
-		"company": company,                                                                                                                           
-		"transaction_date": today(),                                                                                                                  
-		"delivery_date": today(),                                                                                                                     
-		"order_type": "Sales",                                                                                                                        
-		"items": [                                                                                                                                    
-			{                                                                                                                                         
-				# IMPORTANT: Replace "Teleconsultation" with your actual Service Item Code from ERPNext                                               
-				"item_code": "Teleconsultation",                                                                                                      
-				"qty": 1,                                                                                                                             
-				"rate": float(consultation_fee),                                                                                                      
-			}                                                                                                                                         
-		]                                                                                                                                             
-	})                                                                            
-																																						
-	# Save and submit the Sales Order                                                                                                    
-	sales_order.insert(ignore_permissions=True)                                                                                                       
-	sales_order.submit()                                                                     
-
-	# 4. Stamp the Sales Order on the Patient Appointment                                                                                             
-	frappe.db.set_value("Patient Appointment", appointment.name, "sales_order", sales_order.name)                                              
-																																						
-	# 5. Return the appointment details to the Flutter app                                                                                            
+	# 2. Return the appointment details to the Flutter app                                                                                            
 	return {                                                                                                                                          
 		"name": appointment.name                                                                                                                      
 	}

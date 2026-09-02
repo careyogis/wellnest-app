@@ -9,7 +9,7 @@
   "patient",
   "practitioner",
   "scheduled_time",
-  "consultation_status",
+  "status",
   "column_break_tele",
   "consultation_fee",
   "sales_order",
@@ -45,11 +45,11 @@
   },
   {
    "default": "Scheduled",
-   "fieldname": "consultation_status",
+   "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Consultation Status",
-   "options": "Scheduled\nIn-Progress\nCompleted\nCancelled\nNo Show"
+   "options": "Unverified\nScheduled\nIn-Progress\nCompleted\nCancelled\nNo Show"
   },
   {
    "fieldname": "column_break_tele",

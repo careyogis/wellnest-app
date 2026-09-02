@@ -246,7 +246,8 @@
                 body: JSON.stringify({
                   razorpay_payment_id: response.razorpay_payment_id,
                   razorpay_order_id: response.razorpay_order_id,
-                  razorpay_signature: response.razorpay_signature
+                  razorpay_signature: response.razorpay_signature,
+                  appointment_id: serviceId
                 })
               });
               const verifyData = await verifyRes.json();
@@ -254,6 +255,11 @@
                 // Document receipt 
                 document.getElementById('receipt-method').textContent = 'Razorpay / ' + selectedMethod;
                 showView('success');
+                
+                // Redirect back to Flutter app after 2 seconds
+                setTimeout(() => {
+                  window.location.href = 'careyogi://payment-success';
+                }, 2000);
               } else {
                 alert("Payment verification failed. Please contact support.");
               }
