@@ -1,5 +1,6 @@
 import time                                                                                                                                          
 import frappe                                                                                                                                        
+from frappe.utils import today                                                                                                                        
 from agora_token_builder import RtcTokenBuilder                                                                                                      
 																																						
 @frappe.whitelist()                                                                                                                                  
@@ -20,3 +21,26 @@ def get_agora_token(channel_name, uid=1001, role="publisher"):
 		app_id, app_cert, channel_name, int(uid), role_type, privilege_expired_ts                                                                    
 	)                                                                                                                                                
 	return {"rtcToken": token, "appId": app_id}      
+
+                                                                                                                                                          
+@frappe.whitelist()                                                                                                                                   
+def book_appointment(practitioner, patient, customer, scheduled_time, consultation_type, consultation_fee):                                           
+	"""                                                                                                                                               
+	Creates a Patient Appointment in Unverified status.                                                                                    
+	"""                                                                                                                                               
+	# 1. Create Patient Appointment                                                                                                                   
+	appointment = frappe.get_doc({                                                                                                                    
+		"doctype": "Patient Appointment",                                                                                                             
+		"practitioner": practitioner,                                                                                                                 
+		"patient": patient,                                                                                                                           
+		"scheduled_time": scheduled_time,                                                                                                             
+		"appointment_type": consultation_type,
+		"consultation_fee": consultation_fee,
+		"status": "Unverified"
+	})                                                                                                                                                
+	appointment.insert(ignore_permissions=True)                                                                                                       
+																																						
+	# 2. Return the appointment details to the Flutter app                                                                                            
+	return {                                                                                                                                          
+		"name": appointment.name                                                                                                                      
+	}

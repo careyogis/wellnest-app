@@ -530,7 +530,7 @@ const consultations = computed(() => {
    time: formatAppointmentTime(appointment.scheduled_time),
     patient: appointment.patient_name || appointment.patient,
     practitioner: appointment.practitioner,
-    bookingStatus: appointment.consultation_status,
+    bookingStatus: appointment.status,
     mode: 'Video',
     reason: 'Teleconsultation',
     workflow: 'Clinical consultation',

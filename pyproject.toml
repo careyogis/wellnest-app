@@ -10,7 +10,8 @@ dynamic = ["version"]
 dependencies = [
     "firebase-admin<5",
     "agora-token-builder",
-    "google-genai"
+    "google-genai",
+    "razorpay"
 ]
 
 [build-system]

@@ -9,10 +9,10 @@
   "patient",
   "practitioner",
   "scheduled_time",
-  "consultation_status",
+  "status",
   "column_break_tele",
   "consultation_fee",
-  "sales_invoice",
+  "sales_order",
   "payment_status",
   "video_room_id",
   "video_room_token",
@@ -44,12 +44,12 @@
    "reqd": 1
   },
   {
-   "default": "Scheduled",
-   "fieldname": "consultation_status",
+   "default": "Unverified",
+   "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Consultation Status",
-   "options": "Scheduled\nIn-Progress\nCompleted\nCancelled\nNo Show"
+   "label": "Status",
+   "options": "Unverified\nScheduled\nIn-Progress\nCompleted\nCancelled\nNo Show"
   },
   {
    "fieldname": "column_break_tele",
@@ -61,10 +61,10 @@
    "label": "Consultation Fee"
   },
   {
-   "fieldname": "sales_invoice",
+   "fieldname": "sales_order",
    "fieldtype": "Link",
-   "label": "Sales Invoice",
-   "options": "Sales Invoice"
+   "label": "Sales Order",
+   "options": "Sales Order"
   },
   {
    "default": "Unpaid",

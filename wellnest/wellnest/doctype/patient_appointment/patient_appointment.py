@@ -35,7 +35,7 @@ def get_teleconsultation_appointments():
             "patient",
             "practitioner",
             "scheduled_time",
-            "consultation_status",
+            "status",
             "consultation_fee",
             "payment_status",
             "video_room_id",
@@ -90,7 +90,7 @@ def start_consultation(appointment):
     if appointment.consultation_type != "Online":
         frappe.throw("Only online appointments can be started")
 
-    if appointment.consultation_status != "Scheduled":
+    if appointment.status != "Scheduled":
         frappe.throw(
             "Consultation can only be started from Scheduled status"
         )
@@ -108,7 +108,7 @@ def start_consultation(appointment):
     )
 
     # Customer app polls this field to detect when to join RTC
-    appointment.db_set("consultation_status", "In-Progress")
+    appointment.db_set("status", "In-Progress")
 
     return {
         "appointment": appointment.name,
@@ -117,7 +117,7 @@ def start_consultation(appointment):
         "uid": uid,
         "rtcToken": token_response["rtcToken"],
         "appId": token_response.get("appId"),
-        "consultation_status": "In-Progress",
+        "status": "In-Progress",
     }
 
 
@@ -125,14 +125,14 @@ def start_consultation(appointment):
 def end_consultation(appointment):
     appointment = _get_appointment_for_current_practitioner(appointment)
 
-    if appointment.consultation_status != "In-Progress":
+    if appointment.status != "In-Progress":
         frappe.throw(
             "Only an in-progress consultation can be ended"
         )
 
-    appointment.db_set("consultation_status", "Completed")
+    appointment.db_set("status", "Completed")
 
     return {
         "appointment": appointment.name,
-        "consultation_status": "Completed",
+        "status": "Completed",
     }

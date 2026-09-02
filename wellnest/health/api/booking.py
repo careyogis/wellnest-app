@@ -83,7 +83,7 @@ def get_available_slots(practitioner, date, consult_type):
     bookings = frappe.get_all("Patient Appointment", filters={
         "practitioner": practitioner,
         "scheduled_time": ("between", [f"{date} 00:00:00", f"{date} 23:59:59"]),
-        "consultation_status": ("not in", ["Cancelled", "No Show"])
+        "status": ("not in", ["Cancelled", "No Show"])
     }, fields=["scheduled_time"])
     
     final_slots = []
