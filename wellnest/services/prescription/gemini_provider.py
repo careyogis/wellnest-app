@@ -30,12 +30,10 @@ def clean_response(obj):
 
 
 def _get_client():
-    api_key = frappe.conf.get("gemini_api_key")
+    api_key = frappe.get_site_config().get("gemini_api_key")
 
     if not api_key:
-        raise ValueError(
-            "gemini_api_key is missing from the Frappe site configuration."
-        )
+        frappe.throw("Gemini API key is not configured.")
 
     return genai.Client(api_key=api_key)
 

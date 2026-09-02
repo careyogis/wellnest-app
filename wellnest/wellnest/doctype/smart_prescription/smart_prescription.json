@@ -55,11 +55,11 @@
    "label": "Followup Expiry Date"
   },
   {
-    "default": "Draft",
-    "fieldname": "workflow_state",
-    "fieldtype": "Select",
-    "label": "Workflow State",
-    "options": "Draft\nDoctor Review\nConfirmed\nComplete"
+   "default": "Draft",
+   "fieldname": "workflow_state",
+   "fieldtype": "Select",
+   "label": "Workflow State",
+   "options": "Draft\nComplete"
   },
   {
    "fieldname": "section_break_meds",
@@ -73,20 +73,20 @@
    "options": "Prescription Item"
   },
   {
-  "fieldname": "follow_up_advice",
-  "fieldtype": "Small Text",
-  "label": "Follow-up Advice"
-},
-{
-  "fieldname": "diet_advice",
-  "fieldtype": "Small Text",
-  "label": "Diet Advice"
-},
-{
-  "fieldname": "exercise_advice",
-  "fieldtype": "Small Text",
-  "label": "Exercise Advice"
-},
+   "fieldname": "follow_up_advice",
+   "fieldtype": "Small Text",
+   "label": "Follow-up Advice"
+  },
+  {
+   "fieldname": "diet_advice",
+   "fieldtype": "Small Text",
+   "label": "Diet Advice"
+  },
+  {
+   "fieldname": "exercise_advice",
+   "fieldtype": "Small Text",
+   "label": "Exercise Advice"
+  },
   {
    "fieldname": "response_data",
    "fieldtype": "Long Text",
@@ -95,32 +95,32 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-27 01:44:50.731273",
- "modified_by": "Administrator",
+ "modified": "2026-09-02 17:26:04.416580",
+ "modified_by": "nikhilsinha789@gmail.com",
  "module": "WellNest",
  "name": "Smart Prescription",
  "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
-    "create": 1,
-    "delete": 1,
-    "email": 1,
-    "export": 1,
-    "print": 1,
-    "read": 1,
-    "report": 1,
-    "role": "System Manager",
-    "share": 1,
-    "write": 1
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
   },
   {
-    "create": 1,
-    "read": 1,
-    "write": 1,
-    "role": "Doctor"
+   "create": 1,
+   "read": 1,
+   "role": "Doctor",
+   "write": 1
   }
-],
+ ],
  "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",

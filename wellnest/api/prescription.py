@@ -57,9 +57,9 @@ def parse_and_create_prescription(
 def start_doctor_review(name):
     doc = frappe.get_doc("Smart Prescription", name)
 
-    if doc.workflow_state != "Draft":
+    if doc.workflow_state not in ("Draft", "Doctor Review"):
         frappe.throw(
-            f"Prescription must be in Draft state to start doctor review."
+            "Prescription can only be saved while in Draft or Doctor Review state."
         )
 
     doc.workflow_state = "Doctor Review"
@@ -69,13 +69,37 @@ def start_doctor_review(name):
         "name": doc.name,
         "workflow_state": doc.workflow_state,
     }
+    
+@frappe.whitelist()
+def save_ocr_prescription(name, response_data):
+    if not name:
+        frappe.throw("Prescription name is required.")
 
+    doc = frappe.get_doc("Smart Prescription", name)
+
+    if doc.workflow_state != "Draft":
+        frappe.throw(
+            "Prescription can only be updated while in Draft or Doctor Review state."
+        )
+
+    if not response_data:
+        frappe.throw("Prescription data is required.")
+
+    doc.response_data = response_data
+    doc.workflow_state = "Complete"
+    doc.save(ignore_permissions=True)
+
+    return {
+        "name": doc.name,
+        "workflow_state": doc.workflow_state,
+        "response_data": doc.response_data,
+    }
 
 @frappe.whitelist()
 def confirm_prescription(name):
     doc = frappe.get_doc("Smart Prescription", name)
 
-    if doc.workflow_state != "Doctor Review":
+    if doc.workflow_state != "Draft":
         frappe.throw(
             "Prescription must be in Doctor Review state before confirmation."
         )
