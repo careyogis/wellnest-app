@@ -1025,19 +1025,6 @@
 ></textarea>
       </div>
 
-      <button
-        type="button"
-        class="w-full
-               mt-4
-               px-4 py-3
-               rounded-xl
-               bg-amber-500
-               text-white
-               font-semibold
-               hover:bg-amber-600"
-      >
-      Confirm
-      </button>
     </div>
   </div>
 </section>
@@ -1056,7 +1043,7 @@
 >
   <div
     class="w-full
-           max-w-4xl
+           max-w-6xl
            h-[90vh]
            bg-white
            rounded-2xl
@@ -1541,7 +1528,7 @@
 >
   <div
     class="w-full
-           max-w-3xl
+           max-w-6xl
            max-h-[90vh]
            bg-white
            rounded-xl
@@ -1574,7 +1561,7 @@
 
     <!-- Modal body -->
     <div
-      class="max-h-[72vh]
+      class="max-h-[78vh]
              overflow-y-auto
              px-5 py-5"
     >
@@ -1668,23 +1655,24 @@
             Current system extraction
           </h3>
 
-          <div
-            class="mt-2
-                   min-h-[150px]
-                   rounded-xl
-                   border border-dashed
-                   border-gray-300
-                   p-4
-                   text-gray-800"
-          >
-            <p class="text-base leading-7">
-              Digital form started during consultation.
-            </p>
-
-            <p class="mt-6 text-base leading-7">
-              No paper upload queued for OCR.
-            </p>
-          </div>
+          <textarea
+  v-model="ocrExtractedText"
+  class="mt-2
+         w-full
+         h-[450px]
+         p-4
+         rounded-xl
+         border border-gray-300
+         bg-white
+         text-sm
+         font-mono
+         text-gray-800
+         resize-none
+         focus:outline-none
+         focus:ring-2
+         focus:ring-amber-400"
+  placeholder="Gemini extracted prescription data will appear here..."
+></textarea>
         </div>
 
       </div>
@@ -1701,21 +1689,9 @@
 >
   <!-- Workflow actions -->
   <div class="flex items-center gap-3">
-    <button
-      type="button"
-      class="px-6 py-3
-             rounded-xl
-             border border-amber-400
-             bg-white
-             text-amber-700
-             font-semibold
-             hover:bg-amber-50
-             transition-colors"
-    >
-      Doctor Review
-    </button>
 
     <button
+      @click="handleOcrSaveUpdate"
       type="button"
       class="px-6 py-3
              rounded-xl
@@ -1727,7 +1703,6 @@
     >
       Save / Update
     </button>
-  </div>
 
   <!-- Close -->
   <button
@@ -1743,8 +1718,8 @@
   >
     Close
   </button>
+  </div>
 </div>
-
 
   </div>
 </div>
@@ -1803,6 +1778,14 @@ const completePrescriptionResource = createResource({
 
 const startDoctorReviewResource = createResource({
   url: 'wellnest.api.prescription.start_doctor_review',
+})
+
+const ocrPrescriptionResource = createResource({
+  url: 'wellnest.api.prescription.parse_and_create_prescription',
+})
+
+const saveOcrPrescriptionResource = createResource({
+  url: 'wellnest.api.prescription.save_ocr_prescription',
 })
 
 const patient = computed(() => ({
@@ -1912,6 +1895,9 @@ const showPreview = ref(false)
 const showJoinModal = ref(false)
 const showOcrModal = ref(false)
 const ocrExtractedText = ref('')
+
+const ocrPrescriptionName = ref('')
+const ocrLoading = ref(false)
 
 const prescriptionFileInput = ref(null)
 const selectedPrescriptionFile = ref(null)
@@ -2347,12 +2333,10 @@ async function saveClinicalRecord() {
   }
 }
 
-function handlePrescriptionFile(event) {
+async function handlePrescriptionFile(event) {
   const file = event.target.files?.[0]
 
-  if (!file) {
-    return
-  }
+  if (!file) return
 
   const allowedTypes = ['image/jpeg', 'image/png']
 
@@ -2370,7 +2354,81 @@ function handlePrescriptionFile(event) {
 
   prescriptionImagePreview.value = URL.createObjectURL(file)
 
-  console.log('Prescription image selected:', file)
+  ocrLoading.value = true
+  ocrExtractedText.value = 'Processing prescription...'
+
+  try {
+    // Upload image to Frappe
+    const formData = new FormData()
+    formData.append('file', file)
+
+    const uploadResponse = await fetch('/api/method/upload_file', {
+      method: 'POST',
+      body: formData,
+    })
+
+    const uploadResult = await uploadResponse.json()
+    const fileUrl = uploadResult.message?.file_url
+
+    if (!fileUrl) {
+      throw new Error('Failed to upload prescription image.')
+    }
+
+    // Send uploaded file to OCR/Gemini backend
+    const response = await ocrPrescriptionResource.submit({
+      patient: props.selectedConsultation?.patient,
+      practitioner: props.selectedConsultation?.practitioner,
+      file_url: fileUrl,
+      teleconsult_appointment:
+        props.selectedConsultation?.appointment || null,
+    })
+
+    ocrPrescriptionName.value = response?.name || ''
+
+    // Show complete Gemini response in the UI
+    if (ocrPrescriptionName.value) {
+      const docResponse = await fetch(
+        `/api/resource/Smart%20Prescription/${encodeURIComponent(
+          ocrPrescriptionName.value,
+        )}`,
+      )
+
+      const docResult = await docResponse.json()
+
+      ocrExtractedText.value =
+        docResult.data?.response_data ||
+        'Prescription processed, but no response data was returned.'
+    } else {
+      ocrExtractedText.value =
+        'Prescription processed, but Smart Prescription was not created.'
+    }
+  } catch (error) {
+    console.error('Prescription OCR failed:', error)
+
+    ocrExtractedText.value =
+      'Failed to process the prescription. Please try again.'
+  } finally {
+    ocrLoading.value = false
+  }
+}
+
+async function handleOcrSaveUpdate() {
+  if (!ocrPrescriptionName.value) {
+    alert('Prescription not found.')
+    return
+  }
+
+  try {
+    await saveOcrPrescriptionResource.submit({
+      name: ocrPrescriptionName.value,
+      response_data: ocrExtractedText.value,
+    })
+
+    alert('Prescription updated successfully.')
+  } catch (error) {
+    console.error('Failed to update prescription:', error)
+    alert('Failed to update prescription.')
+  }
 }
 
 function removePrescriptionFile() {
