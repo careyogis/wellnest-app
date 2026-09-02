@@ -51,11 +51,11 @@ consultations. page
 <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,2fr)_380px] gap-6 items-start">
 
       <!-- Waiting Room / Upcoming -->
-     <section
+    <section
   class="bg-white border border-gray-200
-         rounded-2xl overflow-y-auto
-         max-h-[300px]"
-      >
+         rounded-2xl overflow-y-auto overflow-x-hidden
+         max-h-[600px]"
+>
 
         <div class="flex items-center justify-between px-6 py-5 border-b border-gray-200">
           <div>
@@ -72,14 +72,16 @@ consultations. page
   Manage slots
 </button>
         </div>
+<div class="w-full overflow-x-auto">
+<div class="min-w-full">
 
         <!-- Desktop table header -->
-        <div
-          class="hidden lg:grid
-                 grid-cols-[90px_1.2fr_90px_1.5fr_150px_165px]
-                 gap-3
-                 px-6 py-3
-                 bg-gray-50
+       <div
+  class="hidden lg:grid w-max min-w-full
+         grid-cols-[140px_150px_100px_150px_300px]
+         gap-4
+         px-6 py-3
+         bg-gray-50
                  text-xs font-semibold text-gray-500
                  uppercase tracking-wide"
         >
@@ -87,7 +89,7 @@ consultations. page
           <div>Patient</div>
           <div>Mode</div>
           <div>Reason</div>
-          <div>Workflow</div>
+          
           <div>Actions</div>
         </div>
 
@@ -95,17 +97,17 @@ consultations. page
     <div
   v-for="consultation in consultations"
   :key="consultation.id"
-  class="w-max min-w-full border-t border-gray-100 transition-colors"
+class="w-max min-w-full border-t border-gray-100 transition-colors"
   :class="{
     'bg-amber-50/60':
     selectedConsultation?.id === consultation.id
   }"
 >
         <div
-  class="w-full grid grid-cols-1 lg:grid-cols-[90px_1.2fr_90px_1.5fr_150px_180px]
-         gap-4
-         px-6 py-5
-         items-center"
+  class="w-full min-w-0 grid grid-cols-1 lg:grid-cols-[140px_150px_100px_150px_300px]
+       gap-4
+       px-6 py-5
+       items-center"
 >
             <!-- Time -->
             <div class="text-sm font-semibold text-gray-900">
@@ -141,19 +143,9 @@ consultations. page
               {{ consultation.reason }}
             </div>
 
-            <!-- Workflow -->
-            <div>
-              <span
-                class="inline-flex px-3 py-1 rounded-full
-                       text-xs font-semibold"
-                :class="workflowClass(consultation.workflow)"
-              >
-                {{ consultation.workflow }}
-              </span>
-            </div>
 
             <!-- Actions -->
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-3 whitespace-nowrap min-w-max">
               <button
                 type="button"
                  class="px-3 py-2 rounded-lg
@@ -201,6 +193,8 @@ consultations. page
               
             </div>
           </div>
+        </div>
+        </div>
         </div>
       </section>
 
@@ -563,19 +557,19 @@ const showTemplatePreview = ref(false)
 const summaryCards = computed(() => [
   {
     title: 'Digital drafts',
-    value: '18',
+    value: '0',
     description: 'Written during or after consultation',
     icon: 'edit-3',
   },
   {
     title: 'In review',
-    value: '1',
+    value: '0',
     description: 'Paper uploads being processed asynchronously',
     icon: 'loader',
   },
   {
     title: 'Ready for validation',
-    value: '1',
+    value: '0',
     description: 'OCR output awaiting doctor confirmation',
     icon: 'check-square',
   },

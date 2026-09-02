@@ -969,7 +969,7 @@
                  text-gray-800
                  italic"
         >
-          Rx
+          Image
         </div>
 
         <p
@@ -978,7 +978,7 @@
                  text-gray-700
                  leading-relaxed"
         >
-          asha-follow-up-<br />
+         {{ selectedPrescriptionFile?.name || 'No image selected' }}
           note.jpg
         </p>
 

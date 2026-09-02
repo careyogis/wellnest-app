@@ -103,7 +103,7 @@
 
       <div>
         <p class="font-semibold text-gray-900">
-          {{ consultation.patient }}
+        {{ consultation.patient_name || consultation.patient }}
         </p>
 
         <p class="text-sm text-gray-500">
