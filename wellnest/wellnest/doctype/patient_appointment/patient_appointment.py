@@ -30,6 +30,7 @@ def get_teleconsultation_appointments():
             "practitioner": practitioner,
             "consultation_type": "Online",
         },
+       
         fields=[
             "name",
             "patient",
