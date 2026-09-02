@@ -16,7 +16,9 @@ def create_payment_order(service_id):
 	Creates a Razorpay order and returns details to the frontend.
 	"""	
 	# Fetch invoice details 
+	frappe.flags.ignore_permissions = True
 	patient_appointment = frappe.get_doc("Patient Appointment", service_id)
+	frappe.flags.ignore_permissions = False
 	price_inr = patient_appointment.consultation_fee or 1
 	member_id = patient_appointment.patient
 

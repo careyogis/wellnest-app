@@ -104,7 +104,7 @@
 <body>
   <main class="payment-shell">
     <header class="payment-header">
-      <a class="brand" href="homepage.html" aria-label="CareYogi home"><img src="logo-01.png" alt="CareYogi"></a>
+      <a class="brand" href="homepage.html" aria-label="CareYogi home"><img src="/assets/wellnest/images/logo-01.png" alt="CareYogi"></a>
       <span class="secure-label"><i class="fas fa-lock"></i> Secure payment</span>
     </header>
 
@@ -146,7 +146,7 @@
 
       <div class="view" id="payment-view">
         <button class="back" type="button" data-go="review"><i class="fas fa-arrow-left"></i> Back to review</button>
-        <div class="service-banner" style="margin-top:18px"><span class="service-icon"><i class="fas fa-video"></i></span><div><h2>Teleconsultation with Dr. {{ practitioner.practitioner_name if practitioner else 'Doctor' }}</h2><p>Booking #{{ appointment.name }} · ₹{{ amount }} payable</p></div></div>
+        <div class="service-banner" style="margin-top:18px"><span class="service-icon"><i class="fas fa-video"></i></span><div><h2>Teleconsultation with Dr. {{ practitioner.full_name if practitioner else 'Doctor' }}</h2><p>Booking #{{ appointment.name }} · ₹{{ amount }} payable</p></div></div>
         <div class="section-title"><h3>Choose a payment method</h3></div>
         <div class="method-list" role="radiogroup" aria-label="Payment methods">
           <button class="method selected" type="button" role="radio" aria-checked="true"><span class="method-icon"><i class="fas fa-mobile-screen-button"></i></span><span><b>UPI</b><small>Google Pay, PhonePe, Paytm and more</small></span><i class="fas fa-circle-check method-check"></i></button>
@@ -163,7 +163,7 @@
         <button class="back" type="button" data-go="payment"><i class="fas fa-arrow-left"></i> Change payment method</button>
         <div class="service-banner" style="margin-top:18px"><span class="service-icon"><i class="fas fa-circle-check"></i></span><div><h2>One final check</h2><p>Please confirm the details below before paying.</p></div></div>
         <div class="confirm-summary">
-          <div class="invoice-row"><span>Patient</span><strong>{{ patient.patient_name if patient else 'Patient' }}</strong></div>
+          <div class="invoice-row"><span>Patient</span><strong>{{ patient.full_name if patient else 'Patient' }}</strong></div>
           <div class="invoice-row"><span>Service</span><strong>Teleconsultation</strong></div>
           <div class="invoice-row"><span>Payment method</span><strong id="chosen-method">UPI</strong></div>
           <div class="invoice-row total"><span>Total payable</span><strong>₹{{ amount }}</strong></div>
@@ -221,7 +221,7 @@
         // 1. Create order
         const orderRes = await fetch('/api/method/wellnest.api.razorpay_payment.create_payment_order', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-Frappe-CSRF-Token': '{{ csrf_token }}' },
           body: JSON.stringify({ service_id: serviceId })
         });
         
@@ -242,7 +242,7 @@
               // 3. Verify Payment
               const verifyRes = await fetch('/api/method/wellnest.api.razorpay_payment.payment_verify', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-Frappe-CSRF-Token': '{{ csrf_token }}' },
                 body: JSON.stringify({
                   razorpay_payment_id: response.razorpay_payment_id,
                   razorpay_order_id: response.razorpay_order_id,
@@ -265,9 +265,9 @@
               }
             },
             "prefill": {
-              "name": "{{ patient.patient_name if patient else 'Patient' }}",
-              "email": "{{ patient.email if patient else '' }}",
-              "contact": "9876543210"
+              "name": "{{ patient.full_name if patient else 'Patient' }}",
+              "contact": "{{ patient.mobile or else '' }}"
+              // "contact": "9876543210"
             },
             "theme": { "color": "#5bb286" }
           };

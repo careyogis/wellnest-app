@@ -6,9 +6,11 @@ def get_context(context):
     if not service_id:
         frappe.throw("Invalid Appointment ID")
 
+    frappe.flags.ignore_permissions = True
     appointment = frappe.get_doc("Patient Appointment", service_id)
     practitioner = frappe.get_doc("Practitioner", appointment.practitioner) if appointment.practitioner else None
     patient = frappe.get_doc("Patient", appointment.patient) if appointment.patient else None
+    frappe.flags.ignore_permissions = False
 
     # Determine amount
     amount = float(appointment.consultation_fee or 0)
@@ -25,3 +27,4 @@ def get_context(context):
         context.formatted_date = frappe.utils.format_datetime(appointment.scheduled_time, "dd MMM yyyy, hh:mm a")
 
     context.issue_date = frappe.utils.formatdate(frappe.utils.today(), "dd MMM yyyy")
+    context.csrf_token = frappe.sessions.get_csrf_token()
