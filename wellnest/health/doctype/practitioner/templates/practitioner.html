@@ -109,6 +109,7 @@
         {% endif %}
         <div class="prac-badges">
           {% if doc.hpr_verified %}<span class="prac-badge is-verified">HPR Verified</span>{% endif %}
+          {% if doc.nmc_verified %}<span class="prac-badge is-verified">NMC Verified</span>{% endif %}
           {% if doc.telemedicine_certified %}<span class="prac-badge is-tele">Telemedicine Certified</span>{% endif %}
           {% if doc.is_active %}<span class="prac-badge">Active</span>{% endif %}
         </div>
@@ -118,6 +119,12 @@
     <div class="prac-vitals-strip"></div>
 
     <div class="prac-stats">
+      {% if doc.average_rating %}
+      <div class="prac-stat">
+        <p class="label">Rating</p>
+        <p class="value">★ {{ doc.average_rating }} ({{ doc.total_reviews or 0 }})</p>
+      </div>
+      {% endif %}
       <div class="prac-stat">
         <p class="label">Total Experience</p>
         <p class="value">{{ experience or "—" }}{{ " yrs" if doc.practicing_from else "" }}</p>
@@ -144,6 +151,37 @@
     <div class="prac-section">
       <h2>About</h2>
       <p class="summary">{{ doc.professional_summary }}</p>
+    </div>
+    {% endif %}
+
+    <div class="prac-section">
+      <h2>Personal Details</h2>
+      <div class="prac-field-grid">
+        {% if doc.gender %}
+        <div class="prac-field"><p class="label">Gender</p><p class="value">{{ doc.gender }}</p></div>
+        {% endif %}
+        {% if doc.dob %}
+        <div class="prac-field"><p class="label">Date of Birth</p><p class="value mono">{{ doc.dob }}</p></div>
+        {% endif %}
+        {% if doc.nationality %}
+        <div class="prac-field"><p class="label">Nationality</p><p class="value">{{ doc.nationality }}</p></div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if doc.education_history %}
+    <div class="prac-section">
+      <h2>Education History</h2>
+      <ul style="margin: 0; padding-left: 20px;">
+        {% for edu in doc.education_history %}
+        <li style="margin-bottom: 8px; font-size: 14px;">
+          <strong>{{ edu.degree }}</strong>{% if edu.institution %} - {{ edu.institution }}{% endif %}
+          {% if edu.year_of_completion %}
+            <span style="color: var(--slate); font-size: 13px;">({{ edu.year_of_completion }})</span>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
     </div>
     {% endif %}
 
@@ -213,7 +251,9 @@
     <div class="prac-section">
       <h2>Contact</h2>
       <div class="prac-field-grid">
+        {% if doc.address_line1 %}<div class="prac-field"><p class="label">Address</p><p class="value">{{ doc.address_line1 }}</p></div>{% endif %}
         {% if doc.city %}<div class="prac-field"><p class="label">Location</p><p class="value">{{ doc.city }}{{ ", " ~ doc.state if doc.state }}</p></div>{% endif %}
+        {% if doc.pincode %}<div class="prac-field"><p class="label">Pincode</p><p class="value">{{ doc.pincode }}</p></div>{% endif %}
       </div>
     </div>
 

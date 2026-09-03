@@ -45,7 +45,7 @@
 
 <a class="card shadow-sm prac-card text-decoration-none text-dark mb-4"
    href="/{{ doc.route or doc.name | lower }}"
-   data-search="{{ ((doc.full_name or '') ~ ' ' ~ (doc.designation or '') ~ ' ' ~ (doc.super_specialty or '') ~ ' ' ~ (doc.city or '')) | lower }}"
+   data-search="{{ ((doc.full_name or '') ~ ' ' ~ (doc.designation or '') ~ ' ' ~ (doc.specialty or '') ~ ' ' ~ (doc.super_specialty or '') ~ ' ' ~ (doc.city or '') ~ ' ' ~ (doc.gender or '')) | lower }}"
    data-tele="{{ 1 if doc.telemedicine_certified else 0 }}">
   
   <div class="card-body p-4">
@@ -85,6 +85,13 @@
         </span>
       {% endif %}
       
+      {% if doc.nmc_verified %}
+        <span class="prac-tag is-verified">
+            <svg width="12" height="12" fill="currentColor" class="mr-1 me-1" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>
+            NMC Verified
+        </span>
+      {% endif %}
+      
       {% if doc.telemedicine_certified %}
         <span class="prac-tag is-tele">
             <svg width="12" height="12" fill="currentColor" class="mr-1 me-1" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5z"/></svg>
@@ -100,6 +107,12 @@
             <strong>{{ frappe.utils.getdate().year - frappe.utils.getdate(doc.practicing_from).year }} yrs</strong> total experience
         {% else %}
             <span>&nbsp;</span>
+        {% endif %}
+        {% if doc.gender %}
+            &bull; {{ doc.gender }}
+        {% endif %}
+        {% if doc.average_rating %}
+            &bull; ★ {{ doc.average_rating }} ({{ doc.total_reviews or 0 }})
         {% endif %}
       </div>
       <div class="text-right text-end">
