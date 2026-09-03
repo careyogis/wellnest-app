@@ -39,14 +39,17 @@ def get_available_slots(practitioner, date, consult_type):
     current_dt = datetime.combine(date_obj, get_time(start_time))
     end_dt = datetime.combine(date_obj, get_time(end_time))
     
+    now_dt = frappe.utils.now_datetime()
     while current_dt < end_dt:
         slot_end_dt = current_dt + timedelta(minutes=15)
         if slot_end_dt > end_dt:
             break
-        slots.append({
-            "from_time": current_dt.time().strftime("%H:%M:%S"),
-            "to_time": slot_end_dt.time().strftime("%H:%M:%S")
-        })
+        
+        if current_dt >= now_dt:
+            slots.append({
+                "from_time": current_dt.time().strftime("%H:%M:%S"),
+                "to_time": slot_end_dt.time().strftime("%H:%M:%S")
+            })
         current_dt = slot_end_dt
 
     # 3. Filter Unavailability
