@@ -262,3 +262,10 @@ website_redirects = [
     {"source": "/palliative-care", "target": "/home-healthcare"},
     {"source": "/ayurveda", "target": "/home-healthcare"},
 ]
+
+
+scheduler_events = {
+	'all': [
+		'wellnest.health.doctype.app_notification.app_notification.send_scheduled_pushes'
+	]
+}

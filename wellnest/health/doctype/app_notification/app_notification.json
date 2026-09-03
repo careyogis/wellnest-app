@@ -1,0 +1,118 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "NOTIF-.YYYY.-.#####",
+ "creation": "2026-09-03 15:10:28.071601",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "body",
+  "target_audience",
+  "patient",
+  "column_break_1",
+  "action_type",
+  "action_url",
+  "send_push_notification",
+  "scheduled_time",
+  "push_sent"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "body",
+   "fieldtype": "Text",
+   "label": "Body",
+   "reqd": 1
+  },
+  {
+   "default": "Specific Patient",
+   "fieldname": "target_audience",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Target Audience",
+   "options": "Specific Patient\nGlobal Broadcast"
+  },
+  {
+   "depends_on": "eval:doc.target_audience=='Specific Patient'",
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient",
+   "mandatory_depends_on": "eval:doc.target_audience=='Specific Patient'",
+   "options": "Patient"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "None",
+   "fieldname": "action_type",
+   "fieldtype": "Select",
+   "label": "Action Type",
+   "options": "None\nIn-App Route\nExternal URL"
+  },
+  {
+   "depends_on": "eval:doc.action_type!='None'",
+   "fieldname": "action_url",
+   "fieldtype": "Data",
+   "label": "Action URL",
+   "mandatory_depends_on": "eval:doc.action_type!='None'"
+  },
+  {
+   "default": "1",
+   "fieldname": "send_push_notification",
+   "fieldtype": "Check",
+   "label": "Send Push Notification on Save"
+  },
+  {
+   "default": "Today",
+   "fieldname": "scheduled_time",
+   "fieldtype": "Datetime",
+   "label": "Scheduled Time"
+  },
+  {
+   "default": "0",
+   "fieldname": "push_sent",
+   "fieldtype": "Check",
+   "label": "Push Sent",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-03 15:20:08.455969",
+ "modified_by": "Administrator",
+ "module": "Health",
+ "name": "App Notification",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
