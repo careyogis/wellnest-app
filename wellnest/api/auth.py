@@ -332,6 +332,7 @@ def register_customer(id_token: str, full_name: str):
 		"success": True,
 		"user": user_doc.name,
 		"full_name": full_name,
+		"customer": customer_doc.name,
 		"patient": patient_doc.name
 	}
 
