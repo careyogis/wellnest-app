@@ -1,0 +1,109 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "PFB-.YYYY.-.#####",
+ "creation": "2026-09-03 08:58:41.064717",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "patient",
+  "practitioner",
+  "appointment",
+  "column_break_1",
+  "date",
+  "average_rating",
+  "section_break_ratings",
+  "ratings",
+  "comments_section",
+  "comments"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Practitioner",
+   "options": "Practitioner",
+   "reqd": 1
+  },
+  {
+   "fieldname": "appointment",
+   "fieldtype": "Link",
+   "label": "Appointment",
+   "options": "Patient Appointment"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "average_rating",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Average Rating",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_ratings",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "ratings",
+   "fieldtype": "Table",
+   "label": "Ratings",
+   "options": "Practitioner Feedback Rating"
+  },
+  {
+   "fieldname": "comments_section",
+   "fieldtype": "Section Break",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Text",
+   "label": "Comments"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-03 08:58:41.064717",
+ "modified_by": "Administrator",
+ "module": "Health",
+ "name": "Practitioner Feedback",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -67,7 +67,10 @@
   "to_time",
   "copy_to_all_days",
   "availability_days_section",
-  "availability_days"
+  "availability_days",
+  "feedback_section",
+  "average_rating",
+  "total_reviews"
  ],
  "fields": [
   {
@@ -424,6 +427,23 @@
    "fieldname": "nmc_verified",
    "fieldtype": "Check",
    "label": "NMC Verified?"
+  },
+  {
+   "fieldname": "feedback_section",
+   "fieldtype": "Section Break",
+   "label": "Feedback & Ratings"
+  },
+  {
+   "fieldname": "average_rating",
+   "fieldtype": "Float",
+   "label": "Average Rating",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_reviews",
+   "fieldtype": "Int",
+   "label": "Total Reviews",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
@@ -432,7 +452,7 @@
  "index_web_pages_for_search": 1,
  "is_published_field": "is_published",
  "links": [],
- "modified": "2026-08-31 08:22:14.569220",
+ "modified": "2026-09-03 08:58:24.826867",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
