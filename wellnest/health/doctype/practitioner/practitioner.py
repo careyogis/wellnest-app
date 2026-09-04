@@ -421,3 +421,86 @@ def cancel_doctor_timeaway(name):
         "name": timeaway.name,
         "status": timeaway.status,
     }
+
+
+@frappe.whitelist(allow_guest=False)
+def search_doctors(query=None, specialty=None):
+	"""Search active practitioners by name or specialty.
+
+	Args:
+		query (str): Free-text search matched against full_name and specialty.
+		specialty (str): Exact specialty filter (applied as OR alongside query filters).
+
+	Returns:
+		list[dict]: Practitioner records with education_history and languages_known
+		            as nested lists, grouped in Python from 3 bulk DB queries.
+	"""
+	filters = [["is_active", "=", 1]]
+
+	or_filters = []
+	if query:
+		or_filters.append(["full_name", "like", f"%{query}%"])
+		or_filters.append(["specialty", "like", f"%{query}%"])
+	if specialty:
+		or_filters.append(["specialty", "=", specialty])
+
+	get_all_kwargs = dict(
+		doctype="Practitioner",
+		filters=filters,
+		fields=[
+			"name",
+			"full_name",
+			"specialty",
+			"super_specialty",
+			"designation",
+			"professional_summary",
+			"online_charge",
+			"photo",
+			"city",
+			"practicing_from",
+		],
+		limit=50,
+	)
+	if or_filters:
+		get_all_kwargs["or_filters"] = or_filters
+
+	practitioners = frappe.db.get_all(**get_all_kwargs)
+
+	if not practitioners:
+		return []
+
+	practitioner_names = [p.name for p in practitioners]
+
+	# Bulk fetch child rows — 2 queries regardless of result count
+	education_rows = frappe.db.get_all(
+		"Practitioner Education",
+		filters=[["parent", "in", practitioner_names]],
+		fields=["parent", "degree", "year_of_completion"],
+	)
+
+	language_rows = frappe.db.get_all(
+		"Practitioner Language",
+		filters=[["parent", "in", practitioner_names]],
+		fields=["parent", "spoken_language_option"],
+	)
+
+	# Group child rows by parent in Python
+	education_map = {}
+	for row in education_rows:
+		education_map.setdefault(row.parent, []).append({
+			"degree": row.degree,
+			"year_of_completion": row.year_of_completion,
+		})
+
+	language_map = {}
+	for row in language_rows:
+		language_map.setdefault(row.parent, []).append(row.spoken_language_option)
+
+	result = []
+	for p in practitioners:
+		doc = dict(p)
+		doc["education_history"] = education_map.get(p.name, [])
+		doc["languages_known"] = language_map.get(p.name, [])
+		result.append(doc)
+
+	return result

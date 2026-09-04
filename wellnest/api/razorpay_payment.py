@@ -59,58 +59,65 @@ def payment_verify(razorpay_payment_id, razorpay_order_id, razorpay_signature, a
 		})
 		
 		# Signature is valid. Elevate privileges to create accounting ledgers.
-		frappe.flags.ignore_permissions = True
-		
-		appointment = frappe.get_doc("Patient Appointment", appointment_id)
-		
-		# Find the linked customer (Assuming Patient links to Customer)
-		customer = frappe.db.get_value("Patient", appointment.patient, "customer") 
-		if not customer:
-			# Fallback if no direct customer link on Patient
-			customer = frappe.db.get_value("Customer", {"customer_name": appointment.patient})
-		
-		company = frappe.db.get_single_value('Global Defaults', 'default_company')
-		if not company:
-			company = frappe.get_all("Company", limit=1)[0].name
-		
-		# 2. Create the Sales Invoice directly
-		sales_invoice = frappe.get_doc({
-			"doctype": "Sales Invoice",
-			"customer": customer or appointment.patient, 
-			"company": company,
-			"items": [{
-				"item_code": "Teleconsultation",
-				"qty": 1,
-				"rate": float(appointment.consultation_fee or 0),
-			}]
-		})
-		sales_invoice.insert(ignore_permissions=True)
-		sales_invoice.submit()
-		
-		# 3. Create the Payment Entry to mark the Invoice as Paid
-		payment = frappe.get_doc({
-			"doctype": "Payment Entry",
-			"payment_type": "Receive",
-			"party_type": "Customer",
-			"party": sales_invoice.customer,
-			"paid_amount": sales_invoice.grand_total,
-			"received_amount": sales_invoice.grand_total,
-			"reference_no": razorpay_payment_id,
-			"reference_date": frappe.utils.today(),
-			"references": [{
-				"reference_doctype": "Sales Invoice",
-				"reference_name": sales_invoice.name,
-				"allocated_amount": sales_invoice.grand_total
-			}]
-		})
-		payment.insert(ignore_permissions=True)
-		payment.submit()
-		
-		# 4. Confirm the Appointment
-		frappe.db.set_value("Patient Appointment", appointment.name, "status", "Scheduled")
-		
-		frappe.db.commit()
-		frappe.flags.ignore_permissions = False
+		original_user = frappe.session.user
+		frappe.set_user("Administrator")
+		try:
+			frappe.flags.ignore_permissions = True
+			frappe.flags.ignore_account_permission = True
+			
+			appointment = frappe.get_doc("Patient Appointment", appointment_id)
+			
+			# Find the linked customer (Assuming Patient links to Customer)
+			customer = frappe.db.get_value("Patient", appointment.patient, "customer") 
+			if not customer:
+				# Fallback if no direct customer link on Patient
+				customer = frappe.db.get_value("Customer", {"customer_name": appointment.patient})
+			
+			company = frappe.db.get_single_value('Global Defaults', 'default_company')
+			if not company:
+				company = frappe.get_all("Company", limit=1)[0].name
+			
+			# 2. Create the Sales Invoice directly
+			sales_invoice = frappe.get_doc({
+				"doctype": "Sales Invoice",
+				"customer": customer or appointment.patient, 
+				"company": company,
+				"items": [{
+					"item_code": "Teleconsultation",
+					"qty": 1,
+					"rate": float(appointment.consultation_fee or 0),
+				}]
+			})
+			sales_invoice.insert(ignore_permissions=True)
+			sales_invoice.submit()
+			
+			# 3. Create the Payment Entry to mark the Invoice as Paid
+			payment = frappe.get_doc({
+				"doctype": "Payment Entry",
+				"payment_type": "Receive",
+				"party_type": "Customer",
+				"party": sales_invoice.customer,
+				"paid_amount": sales_invoice.grand_total,
+				"received_amount": sales_invoice.grand_total,
+				"reference_no": razorpay_payment_id,
+				"reference_date": frappe.utils.today(),
+				"references": [{
+					"reference_doctype": "Sales Invoice",
+					"reference_name": sales_invoice.name,
+					"allocated_amount": sales_invoice.grand_total
+				}]
+			})
+			payment.insert(ignore_permissions=True)
+			payment.submit()
+			
+			# 4. Confirm the Appointment
+			frappe.db.set_value("Patient Appointment", appointment.name, "status", "Scheduled")
+			
+			frappe.db.commit()
+		finally:
+			frappe.set_user(original_user)
+			frappe.flags.ignore_permissions = False
+			frappe.flags.ignore_account_permission = False
 		
 		return {"success": True, "message": "Payment verified successfully", "redirect_url": "/payment-success"}
 		
