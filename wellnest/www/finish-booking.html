@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=Rubik:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="/assets/wellnest/css/fontawesome-all.min.css">
+  <link rel="stylesheet" href="/assets/wellnest/css/style.css">
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <style>
     :root { --cy-green: #5bb286; --cy-green-dark: #377b5a; --cy-ink: #2d2929; --cy-cream: #f8f6f1; --cy-line: #e5e7df; }
@@ -130,7 +130,7 @@
         <div class="detail-grid">
           <div class="detail"><label>Patient name</label><strong>{{ patient.full_name if patient else 'Patient' }}</strong></div>
           <div class="detail"><label>Mobile number</label><strong>{{ patient_mobile }}</strong></div>
-          <div class="detail full"><label>Email address</label><strong>{{ patient_email }}</strong></div>
+          <!-- <div class="detail full"><label>Email address</label><strong>{{ patient_email }}</strong></div> -->
         </div>
         <div class="payment-divider"></div>
         <div class="section-title"><h3>Invoice preview</h3><button class="view-invoice" type="button" data-open-invoice>View invoice <i class="fas fa-arrow-up-right-from-square"></i></button></div>
@@ -266,8 +266,7 @@
             },
             "prefill": {
               "name": "{{ patient.full_name if patient else 'Patient' }}",
-              "email": "{{ patient_email }}",
-              "contact": "{{ patient_mobile }}"
+              "contact": "{{ patient_mobile }}",
               // "contact": "9876543210"
             },
             "theme": { "color": "#5bb286" }
