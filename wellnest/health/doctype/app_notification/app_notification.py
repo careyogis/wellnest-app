@@ -1,6 +1,6 @@
 import frappe
 from frappe.model.document import Document
-from frappe.utils import now_datetime
+from frappe.utils import now_datetime, get_datetime
 
 class AppNotification(Document):
 	def on_update(self):
@@ -11,7 +11,7 @@ class AppNotification(Document):
 
 	def check_and_send_push(self):
 		if self.send_push_notification and not self.push_sent:
-			if not self.scheduled_time or self.scheduled_time <= now_datetime():
+			if not self.scheduled_time or get_datetime(self.scheduled_time) <= now_datetime():
 				frappe.enqueue("wellnest.health.doctype.app_notification.app_notification.send_fcm_push", queue="short", notification_name=self.name)
 
 @frappe.whitelist()
