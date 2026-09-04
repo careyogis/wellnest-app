@@ -171,10 +171,10 @@
               </div>
             </div>
           </div>
-        
+
        <div class="h-6"></div>
         <!-- Examination -->
-    
+
           <div class="mb-3">
             <h2 class="text-xl font-bold text-gray-900">
               Examination
@@ -193,7 +193,7 @@
                    focus:outline-none
                    focus:ring-2 focus:ring-amber-200"
           ></textarea>
-          
+
            <!-- Provisional Diagnosis -->
 <div class="mt-6">
   <h2 class="text-xl font-bold text-gray-900">
@@ -590,252 +590,7 @@
 
       </main>
 
-      <!-- CareYogi Assist -->
-      <aside class="space-y-6">
-
-        <section
-          class="bg-amber-50
-                 border border-amber-200
-                 rounded-2xl
-                 p-5"
-        >
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="text-xl font-bold text-gray-900">
-              CareYogi Assist
-            </h2>
-
-            <span
-              class="px-2 py-1 rounded-lg
-                     bg-white
-                     text-xs font-semibold
-                     text-gray-700"
-            >
-              Autosuggest
-            </span>
-          </div>
-
-          <p class="text-sm text-gray-500 mb-5">
-            Prototype capability for AI or trusted medical source
-            suggestions. Click to insert or append into the selected
-            patient record.
-          </p>
-
-          <!-- Suggestions -->
-          <div class="space-y-5">
-
-            <div>
-              <h3 class="text-sm font-semibold text-gray-900">
-                Chief complaints
-              </h3>
-
-              <button
-                type="button"
-                class="mt-2 px-3 py-2 rounded-full
-                       border border-amber-300
-                       text-amber-700
-                       text-sm
-                       hover:bg-amber-100"
-                @click="insertComplaintSuggestion"
-              >
-                Elevated fasting glucose / BP spikes
-              </button>
-            </div>
-
-            <div>
-              <h3 class="text-sm font-semibold text-gray-900">
-                History
-              </h3>
-
-              <button
-                type="button"
-                class="mt-2 px-3 py-2 rounded-full
-                       border border-amber-300
-                       text-amber-700
-                       text-sm
-                       hover:bg-amber-100"
-                @click="insertHistorySuggestion"
-              >
-                Known diabetes and hypertension.
-              </button>
-            </div>
-
-            <div>
-              <h3 class="text-sm font-semibold text-gray-900">
-                Examination
-              </h3>
-
-              <button
-                type="button"
-                class="mt-2 px-3 py-2 rounded-full
-                       border border-amber-300
-                       text-amber-700
-                       text-sm
-                       hover:bg-amber-100"
-                @click="insertExaminationSuggestion"
-              >
-                General condition reviewed and relevant systems examined.
-              </button>
-            </div>
-            
-
-            <div>
-              <h3 class="text-sm font-semibold text-gray-900">
-                Diagnosis
-              </h3>
-
-              <button
-                type="button"
-                class="mt-2 px-3 py-2 rounded-full
-                       border border-amber-300
-                       text-amber-700
-                       text-sm
-                       hover:bg-amber-100"
-                @click="insertDiagnosisSuggestion"
-              >
-                Diabetes / hypertension follow-up
-              </button>
-            </div>
-
-            <div>
-              <h3 class="text-sm font-semibold text-gray-900">
-                Investigations
-              </h3>
-
-              <div class="flex flex-wrap gap-2 mt-2">
-                <button
-                  type="button"
-                  class="px-3 py-2 rounded-full
-                         border border-amber-300
-                         text-amber-700
-                         text-sm
-                         hover:bg-amber-100"
-                >
-                  CBC
-                </button>
-
-                <button
-                  type="button"
-                  class="px-3 py-2 rounded-full
-                         border border-amber-300
-                         text-amber-700
-                         text-sm
-                         hover:bg-amber-100"
-                >
-                  RFT
-                </button>
-
-                <button
-                  type="button"
-                  class="px-3 py-2 rounded-full
-                         border border-amber-300
-                         text-amber-700
-                         text-sm
-                         hover:bg-amber-100"
-                >
-                  Doctor to confirm
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <h3 class="text-sm font-semibold text-gray-900">
-                Follow-up
-              </h3>
-
-              <button
-                type="button"
-                class="mt-2 px-3 py-2 rounded-full
-                       border border-amber-300
-                       text-amber-700
-                       text-sm
-                       hover:bg-amber-100"
-              >
-                Review again with reports and symptom update.
-              </button>
-            </div>
-
-          </div>
-        </section>
-
-        <!-- Selected consultation -->
-     <section class="bg-white border border-gray-200 rounded-2xl p-5">
-          <span
-            class="inline-flex px-3 py-1 rounded-lg
-                   bg-gray-100
-                   text-gray-700
-                   text-xs font-semibold"
-          >
-            Selected consultation
-          </span>
-
-        <div
-  class="mt-4 rounded-2xl
-         bg-gradient-to-br from-teal-500 to-teal-700
-         text-white
-         p-5
-         cursor-pointer
-         hover:shadow-lg
-         transition-shadow"
-  @click="showJoinModal = true"
->
-            <h2 class="text-3xl font-bold">
-              {{ patient.name }}
-            </h2>
-
-            <p class="mt-2">
-              {{ consultation.reason }}
-            </p>
-
-            <p class="text-sm mt-2 text-white/80">
-              {{ consultation.mode }} consult /
-              {{ consultation.time }}
-            </p>
-
-            <div class="flex items-center gap-2 mt-6">
-
-              <button
-                type="button"
-                class="w-11 h-11 rounded-xl
-                       border border-white/40
-                       bg-white/10
-                       flex items-center justify-center"
-              >
-                <FeatherIcon name="mic" class="w-5 h-5" />
-              </button>
-
-              <button
-                type="button"
-                class="w-11 h-11 rounded-xl
-                       border border-white/40
-                       bg-white/10
-                       flex items-center justify-center"
-              >
-                <FeatherIcon name="video" class="w-5 h-5" />
-              </button>
-
-              <button
-                type="button"
-                class="w-11 h-11 rounded-xl
-                       border border-white/40
-                       bg-white/10
-                       flex items-center justify-center"
-              >
-                <FeatherIcon name="monitor" class="w-5 h-5" />
-              </button>
-
-              <button
-                type="button"
-                class="ml-auto px-4 py-2 rounded-lg
-                       bg-red-500
-                       text-white
-                       font-semibold"
-              >
-                End consultation
-              </button>
-            </div>
-          </div>
-        </section>
-        <!-- Handwritten prescription workflow -->
+      <!-- Handwritten prescription workflow -->
 <section
   class="mt-6
          bg-white
@@ -962,7 +717,7 @@
 >
   Remove image
 </button>
-      
+
         <div
           class="text-5xl
                  font-serif
@@ -1029,7 +784,7 @@
   </div>
 </section>
 
-      </aside>
+
     </div>
 
     <!-- Template preview modal -->
