@@ -24,7 +24,7 @@ def get_agora_token(channel_name, uid=1001, role="publisher"):
 
                                                                                                                                                           
 @frappe.whitelist()                                                                                                                                   
-def book_appointment(practitioner, patient, customer, scheduled_time, consultation_type, consultation_fee):                                           
+def book_appointment(practitioner, patient, scheduled_time, consultation_type, consultation_fee, main_complaints):
 	"""                                                                                                                                               
 	Creates a Patient Appointment in Unverified status.                                                                                    
 	"""                                                                                                                                               
@@ -36,6 +36,7 @@ def book_appointment(practitioner, patient, customer, scheduled_time, consultati
 		"scheduled_time": scheduled_time,                                                                                                             
 		"appointment_type": consultation_type,
 		"consultation_fee": consultation_fee,
+		"main_complaints": main_complaints,
 		"status": "Unverified"
 	})                                                                                                                                                
 	appointment.insert(ignore_permissions=True)                                                                                                       
