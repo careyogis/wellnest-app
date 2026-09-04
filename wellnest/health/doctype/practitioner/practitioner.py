@@ -479,7 +479,7 @@ def search_doctors(query=None, specialty=None):
 	)
 
 	language_rows = frappe.db.get_all(
-		"Practitioner Language",
+		"Spoken Language Option",
 		filters=[["parent", "in", practitioner_names]],
 		fields=["parent", "spoken_language_option"],
 	)
