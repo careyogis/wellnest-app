@@ -15,7 +15,7 @@
   "sales_order",
   "payment_status",
   "video_room_id",
-  "video_room_token",
+  "main_complaints",
   "consultation_type"
  ],
  "fields": [
@@ -79,9 +79,9 @@
    "label": "Video Room ID"
   },
   {
-   "fieldname": "video_room_token",
+   "fieldname": "main_complaints",
    "fieldtype": "Small Text",
-   "label": "Video Room Token"
+   "label": "Main Complaints"
   },
   {
    "fieldname": "consultation_type",
