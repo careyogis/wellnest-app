@@ -50,18 +50,17 @@
             <div class="flex p-1 rounded-full mb-6 bg-[#eef1f7]">
               <button
                 class="flex-1 py-2 px-4 border-0 rounded-full transition-colors duration-150 font-semibold text-sm"
-                :class="loginMethod == 'password' ? 'bg-white shadow-sm text-[#f5a623]' : 'bg-transparent text-gray-500 hover:text-gray-700'"
-                @click="loginMethod = 'password'"
-              >
-                Password
-              </button>
-
-              <button
-                class="flex-1 py-2 px-4 border-0 rounded-full transition-colors duration-150 font-semibold text-sm"
                 :class="loginMethod == 'otp' ? 'bg-white shadow-sm text-[#f5a623]' : 'bg-transparent text-gray-500 hover:text-gray-700'"
                 @click="loginMethod = 'otp'"
               >
                 OTP
+              </button>
+              <button
+                class="flex-1 py-2 px-4 border-0 rounded-full transition-colors duration-150 font-semibold text-sm"
+                :class="loginMethod == 'password' ? 'bg-white shadow-sm text-[#f5a623]' : 'bg-transparent text-gray-500 hover:text-gray-700'"
+                @click="loginMethod = 'password'"
+              >
+                Password
               </button>
             </div>
 
@@ -104,15 +103,13 @@
                 <button type="button" class="ml-1 text-sm font-medium text-blue-600 hover:underline" @click="goToRegister(phone)">Register</button>
               </div>
               <div v-if="otpSent">
-                <Input class="mt-4 doctor-input" v-model="otpEntry" label="OTP" placeholder="Enter OTP" @input="val => otpEntry = val" />
+                <Input class="mt-4 doctor-input" v-model="otpEntry" label="OTP" placeholder="Enter OTP" @input="(val) => (otpEntry = val)" />
                 <Button class="w-full mt-4 doctor-btn" variant="solid" @click="verifyOtp" :disabled="verifyingOtp.value">
                   <svg v-if="isLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" 
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>                   
-                  {{ verifyingOtp.value ? 'Verifying OTP...' : 'Verify OTP' }} 
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  {{ verifyingOtp.value ? 'Verifying OTP...' : 'Verify OTP' }}
                 </Button>
               </div>
             </div>
@@ -137,7 +134,7 @@ declare const grecaptcha: any;
 //Public site key from https://www.google.com/recaptcha/admin - safe to expose in frontend acc. to documentation
 const RECAPTCHA_SITE_KEY = '6LcMZR0UAAAAALgPMcgHwga7gY5p8QMg1Hj-bmUv';
 
-const loginMethod = ref('password');
+const loginMethod = ref('otp');
 
 const phone = ref('');
 const otpEntry = ref('');
@@ -291,7 +288,7 @@ async function sendOtp() {
     if (err.messages && err.messages.length > 0) {
       message.value = err.messages[0];
 
-      if (err.messages[0].includes("No doctor found with this number")) {
+      if (err.messages[0].includes('No doctor found with this number')) {
         showRegisterOption.value = true;
       }
     } else {
@@ -342,13 +339,10 @@ function goToRegister(mobile = '') {
 }
 
 // Auto-verify once the user has entered a full 6-digit OTP
-watch(
-  otpEntry,
-  (newval) => {
-    // Trigger verification when length matches
-    if (newval.length === OTP_LENGTH) {      
-      verifyOtp();
-    }
+watch(otpEntry, (newval) => {
+  // Trigger verification when length matches
+  if (newval.length === OTP_LENGTH) {
+    verifyOtp();
   }
-);
+});
 </script>
