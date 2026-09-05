@@ -101,7 +101,11 @@ def payment_verify(razorpay_payment_id, razorpay_order_id, razorpay_signature, a
 			payment.submit()
 			
 			# 4. Confirm the Appointment
-			frappe.db.set_value("Patient Appointment", appointment.name, "status", "Scheduled")
+			frappe.db.set_value("Patient Appointment", appointment.name, {
+				"status": "Scheduled",
+				"payment_status": "Paid",
+				"sales_invoice": sales_invoice.name,
+			})
 			
 			frappe.db.commit()
 		finally:

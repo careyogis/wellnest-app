@@ -270,7 +270,7 @@ scheduler_events = {
 	],
 	"cron": {
 		"*/10 * * * *": [
-			"wellnest.wellnest.api.notifications.send_doctor_whatsapp_alert"
+			"wellnest.api.notifications.send_doctor_whatsapp_alert"
 		]
 	}    
 }

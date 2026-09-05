@@ -12,9 +12,8 @@
   "status",
   "column_break_tele",
   "consultation_fee",
-  "sales_order",
+  "sales_invoice",
   "payment_status",
-  "video_room_id",
   "main_complaints",
   "consultation_type"
  ],
@@ -61,10 +60,10 @@
    "label": "Consultation Fee"
   },
   {
-   "fieldname": "sales_order",
+   "fieldname": "sales_invoice",
    "fieldtype": "Link",
-   "label": "Sales Order",
-   "options": "Sales Order"
+   "label": "Sales Invoice",
+   "options": "Sales Invoice"
   },
   {
    "default": "Unpaid",
@@ -72,11 +71,6 @@
    "fieldtype": "Select",
    "label": "Payment Status",
    "options": "Unpaid\nPaid\nRefunded"
-  },
-  {
-   "fieldname": "video_room_id",
-   "fieldtype": "Data",
-   "label": "Video Room ID"
   },
   {
    "fieldname": "main_complaints",
