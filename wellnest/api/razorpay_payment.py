@@ -2,6 +2,7 @@ import frappe
 from frappe import _
 import razorpay
 import time
+from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 
 def get_razorpay_client():
 	key_id = frappe.conf.get("razorpay_key_id")
@@ -91,22 +92,11 @@ def payment_verify(razorpay_payment_id, razorpay_order_id, razorpay_signature, a
 			sales_invoice.insert(ignore_permissions=True)
 			sales_invoice.submit()
 			
-			# 3. Create the Payment Entry to mark the Invoice as Paid
-			payment = frappe.get_doc({
-				"doctype": "Payment Entry",
-				"payment_type": "Receive",
-				"party_type": "Customer",
-				"party": sales_invoice.customer,
-				"paid_amount": sales_invoice.grand_total,
-				"received_amount": sales_invoice.grand_total,
-				"reference_no": razorpay_payment_id,
-				"reference_date": frappe.utils.today(),
-				"references": [{
-					"reference_doctype": "Sales Invoice",
-					"reference_name": sales_invoice.name,
-					"allocated_amount": sales_invoice.grand_total
-				}]
-			})
+			# 3. Create Payment Entry using ERPNext's helper so paid_from/paid_to
+			#    accounts, currencies, and exchange rates are resolved correctly.
+			payment = get_payment_entry("Sales Invoice", sales_invoice.name)
+			payment.reference_no = razorpay_payment_id
+			payment.reference_date = frappe.utils.today()
 			payment.insert(ignore_permissions=True)
 			payment.submit()
 			
