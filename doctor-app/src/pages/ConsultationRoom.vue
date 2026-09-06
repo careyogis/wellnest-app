@@ -139,15 +139,6 @@
           </button>
 
           <!-- Screen Share Toggle -->
-          <button
-            @click="toggleScreenShare"
-            type="button"
-            :class="isScreenSharing ? 'bg-amber-500 text-black border-amber-400' : 'bg-gray-800 text-white border-gray-700 hover:bg-gray-700'"
-            class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl border flex items-center justify-center transition-all shadow-lg flex-shrink-0"
-            :title="isScreenSharing ? 'Stop Screen Share' : 'Share Screen'"
-          >
-            <FeatherIcon name="airplay" class="w-4 h-4 sm:w-5 sm:h-5" />
-          </button>
 
           <!-- End Call Button -->
           <button
@@ -190,6 +181,13 @@
         <!-- Drawer Tabs -->
         <div class="flex border-b border-gray-800 bg-gray-950/60 p-1.5 gap-1 flex-shrink-0">
           <button
+            @click="activeTab = 'rx'"
+            :class="activeTab === 'rx' ? 'bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30' : 'text-gray-400 hover:text-white'"
+            class="flex-1 py-2 text-xs rounded-lg transition-colors text-center truncate px-1"
+          >
+            Smart Rx
+          </button>
+          <button
             @click="activeTab = 'summary'"
             :class="activeTab === 'summary' ? 'bg-gray-800 text-white font-bold' : 'text-gray-400 hover:text-white'"
             class="flex-1 py-2 text-xs rounded-lg transition-colors text-center truncate px-1"
@@ -206,87 +204,9 @@
               {{ unreadChatCount }}
             </span>
           </button>
-          <button
-            @click="activeTab = 'rx'"
-            :class="activeTab === 'rx' ? 'bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30' : 'text-gray-400 hover:text-white'"
-            class="flex-1 py-2 text-xs rounded-lg transition-colors text-center truncate px-1"
-          >
-            Smart Rx
-          </button>
         </div>
 
-        <!-- Tab 1: Summary & Patient EHR -->
-        <div v-show="activeTab === 'summary'" class="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 text-sm">
-          <!-- Vitals Card -->
-          <div class="bg-gray-950 rounded-xl p-3 sm:p-3.5 border border-gray-800">
-            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 sm:mb-2.5">Recorded Vitals</h4>
-            <div class="grid grid-cols-3 gap-1.5 sm:gap-2 text-center">
-              <div class="bg-gray-900 p-2 rounded-lg border border-gray-800">
-                <span class="text-[10px] text-gray-400">BP</span>
-                <p class="font-bold text-xs sm:text-sm text-emerald-400">122/80</p>
-              </div>
-              <div class="bg-gray-900 p-2 rounded-lg border border-gray-800">
-                <span class="text-[10px] text-gray-400">Heart Rate</span>
-                <p class="font-bold text-xs sm:text-sm text-amber-400">74 bpm</p>
-              </div>
-              <div class="bg-gray-900 p-2 rounded-lg border border-gray-800">
-                <span class="text-[10px] text-gray-400">SpO2</span>
-                <p class="font-bold text-xs sm:text-sm text-blue-400">98%</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Medical History -->
-          <div class="bg-gray-950 rounded-xl p-3 sm:p-3.5 border border-gray-800">
-            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Conditions & Allergies</h4>
-            <div class="space-y-1.5 text-xs text-gray-300">
-              <p><span class="text-gray-500">Known Conditions:</span> Type 2 Diabetes (5 yrs), Hypertension</p>
-              <p><span class="text-gray-500">Allergies:</span> Penicillin (Mild skin rash)</p>
-              <p><span class="text-gray-500">Ongoing Meds:</span> Metformin 500mg, Telmisartan 40mg</p>
-            </div>
-          </div>
-
-          <!-- Consultation Notes -->
-          <div class="bg-gray-950 rounded-xl p-3 sm:p-3.5 border border-gray-800">
-            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Doctor's Private Notes</h4>
-            <textarea
-              v-model="doctorNotes"
-              rows="4"
-              placeholder="Type clinical observations, patient reported symptoms, differential diagnosis..."
-              class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-            ></textarea>
-          </div>
-        </div>
-
-        <!-- Tab 2: In-Call Live Chat -->
-        <div v-show="activeTab === 'chat'" class="flex-1 flex flex-col overflow-hidden">
-          <div class="flex-1 overflow-y-auto p-3 sm:p-4 space-y-2.5 sm:space-y-3">
-            <div
-              v-for="(msg, idx) in chatMessages"
-              :key="idx"
-              :class="msg.sender === 'Doctor' ? 'ml-auto bg-amber-500/20 text-amber-200 border-amber-500/30' : 'mr-auto bg-gray-800 text-gray-200 border-gray-700'"
-              class="max-w-[85%] sm:max-w-[80%] rounded-xl p-2.5 border text-xs"
-            >
-              <div class="font-bold text-[10px] text-gray-400 mb-0.5">{{ msg.sender }} • {{ msg.time }}</div>
-              <p class="break-words">{{ msg.text }}</p>
-            </div>
-          </div>
-
-          <div class="p-2.5 sm:p-3 bg-gray-950 border-t border-gray-800 flex gap-2 flex-shrink-0">
-            <input
-              v-model="newChatMessage"
-              @keyup.enter="sendChatMessage"
-              type="text"
-              placeholder="Type message to patient..."
-              class="flex-1 bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-            />
-            <button @click="sendChatMessage" type="button" class="p-2 rounded-lg bg-amber-500 text-black font-bold hover:bg-amber-400 flex-shrink-0">
-              <FeatherIcon name="send" class="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        <!-- Tab 3: Smart Prescription Generator -->
+        <!-- Tab 1: Smart Prescription Generator -->
         <div v-show="activeTab === 'rx'" class="flex-1 flex flex-col overflow-hidden">
           <div class="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
 
@@ -424,6 +344,77 @@
             </button>
           </div>
         </div>
+
+        <!-- Tab 2: Summary & Patient EHR -->
+        <div v-show="activeTab === 'summary'" class="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 text-sm">
+          <!-- Vitals Card -->
+          <div class="bg-gray-950 rounded-xl p-3 sm:p-3.5 border border-gray-800">
+            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 sm:mb-2.5">Recorded Vitals</h4>
+            <div class="grid grid-cols-3 gap-1.5 sm:gap-2 text-center">
+              <div class="bg-gray-900 p-2 rounded-lg border border-gray-800">
+                <span class="text-[10px] text-gray-400">BP</span>
+                <p class="font-bold text-xs sm:text-sm text-emerald-400">122/80</p>
+              </div>
+              <div class="bg-gray-900 p-2 rounded-lg border border-gray-800">
+                <span class="text-[10px] text-gray-400">Heart Rate</span>
+                <p class="font-bold text-xs sm:text-sm text-amber-400">74 bpm</p>
+              </div>
+              <div class="bg-gray-900 p-2 rounded-lg border border-gray-800">
+                <span class="text-[10px] text-gray-400">SpO2</span>
+                <p class="font-bold text-xs sm:text-sm text-blue-400">98%</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Medical History -->
+          <div class="bg-gray-950 rounded-xl p-3 sm:p-3.5 border border-gray-800">
+            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Conditions & Allergies</h4>
+            <div class="space-y-1.5 text-xs text-gray-300">
+              <p><span class="text-gray-500">Known Conditions:</span> Type 2 Diabetes (5 yrs), Hypertension</p>
+              <p><span class="text-gray-500">Allergies:</span> Penicillin (Mild skin rash)</p>
+              <p><span class="text-gray-500">Ongoing Meds:</span> Metformin 500mg, Telmisartan 40mg</p>
+            </div>
+          </div>
+
+          <!-- Consultation Notes -->
+          <div class="bg-gray-950 rounded-xl p-3 sm:p-3.5 border border-gray-800">
+            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Doctor's Private Notes</h4>
+            <textarea
+              v-model="doctorNotes"
+              rows="4"
+              placeholder="Type clinical observations, patient reported symptoms, differential diagnosis..."
+              class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Tab 3: In-Call Live Chat -->
+        <div v-show="activeTab === 'chat'" class="flex-1 flex flex-col overflow-hidden">
+          <div class="flex-1 overflow-y-auto p-3 sm:p-4 space-y-2.5 sm:space-y-3">
+            <div
+              v-for="(msg, idx) in chatMessages"
+              :key="idx"
+              :class="msg.sender === 'Doctor' ? 'ml-auto bg-amber-500/20 text-amber-200 border-amber-500/30' : 'mr-auto bg-gray-800 text-gray-200 border-gray-700'"
+              class="max-w-[85%] sm:max-w-[80%] rounded-xl p-2.5 border text-xs"
+            >
+              <div class="font-bold text-[10px] text-gray-400 mb-0.5">{{ msg.sender }} • {{ msg.time }}</div>
+              <p class="break-words">{{ msg.text }}</p>
+            </div>
+          </div>
+
+          <div class="p-2.5 sm:p-3 bg-gray-950 border-t border-gray-800 flex gap-2 flex-shrink-0">
+            <input
+              v-model="newChatMessage"
+              @keyup.enter="sendChatMessage"
+              type="text"
+              placeholder="Type message to patient..."
+              class="flex-1 bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+            />
+            <button @click="sendChatMessage" type="button" class="p-2 rounded-lg bg-amber-500 text-black font-bold hover:bg-amber-400 flex-shrink-0">
+              <FeatherIcon name="send" class="w-4 h-4" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -453,7 +444,7 @@ const isMuted = ref(false);
 const isVideoOff = ref(false);
 const isScreenSharing = ref(false);
 const remoteUserConnected = ref(false);
-const activeTab = ref('summary');
+const activeTab = ref('rx');
 const unreadChatCount = ref(0);
 const isMobileDrawerOpen = ref(false);
 const isMobileScreen = ref(false);
@@ -535,7 +526,7 @@ async function submitRxImage() {
     const fileUrl = uploadResult.message?.file_url;
     if (!fileUrl) throw new Error('Failed to upload prescription image.');
 
-    // 2. Call parse_and_create_prescription with correct params
+    // 2. Call parse_and_create_prescription
     await parseRxResource.submit({
       patient_appointment: bookingId.value,
       file_url: fileUrl,

@@ -40,8 +40,7 @@
    "fieldname": "prescription_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Prescription Date",
-   "reqd": 1
+   "label": "Prescription Date"
   },
   {
    "fieldname": "followup_expiry_date",
@@ -95,7 +94,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-06 07:07:36.746146",
+ "modified": "2026-09-06 16:42:50.450738",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Smart Prescription",

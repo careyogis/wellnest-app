@@ -30,7 +30,7 @@ def clean_response(obj):
 
 
 def _get_client():
-    api_key = frappe.get_site_config().get("gemini_api_key")
+    api_key = frappe.frappe.conf.get("gemini_api_key")
 
     if not api_key:
         frappe.throw("Gemini API key is not configured.")
@@ -55,7 +55,7 @@ def parse_prescription(image_bytes: bytes):
     image = Image.open(BytesIO(image_bytes))
 
     response = client.models.generate_content(
-        model="gemini-2.5-flash",
+        model="gemini-3.6-flash",
         contents=[
             PROMPT,
             image,
