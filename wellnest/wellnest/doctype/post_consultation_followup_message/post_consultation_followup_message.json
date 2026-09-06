@@ -6,7 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "teleconsult_appointment",
+  "patient_appointment",
   "sender_type",
   "sender",
   "message_text",
@@ -15,7 +15,7 @@
  ],
  "fields": [
   {
-   "fieldname": "teleconsult_appointment",
+   "fieldname": "patient_appointment",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Teleconsult Appointment",

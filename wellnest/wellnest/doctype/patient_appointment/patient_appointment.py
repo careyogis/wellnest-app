@@ -39,7 +39,6 @@ def get_teleconsultation_appointments():
             "status",
             "consultation_fee",
             "payment_status",
-            "video_room_id",
         ],
         order_by="scheduled_time asc",
     )
@@ -85,25 +84,21 @@ def _get_appointment_for_current_practitioner(appointment_name):
 
 
 @frappe.whitelist()
-def start_consultation(appointment):
-    appointment = _get_appointment_for_current_practitioner(appointment)
+def start_consultation(appointmentId):
+    appointment = _get_appointment_for_current_practitioner(appointmentId)
 
     if appointment.consultation_type != "Online":
         frappe.throw("Only online appointments can be started")
 
-    if appointment.status != "Scheduled":
+    if appointment.status != "In-Progress" and appointment.status != "Scheduled":
         frappe.throw(
-            "Consultation can only be started from Scheduled status"
+            f"Consultation can only be started from Scheduled or In-Progress status. Current status for appt: {appointment.name} is {appointment.status}"
         )
-
-    if not appointment.video_room_id:
-        appointment.db_set("video_room_id", appointment.name)
-        appointment.reload()
 
     uid = _get_agora_uid(frappe.session.user)
 
     token_response = get_agora_token(
-        channel_name=appointment.video_room_id,
+        channel_name=appointment.name,
         uid=uid,
         role="publisher",
     )
@@ -112,13 +107,11 @@ def start_consultation(appointment):
     appointment.db_set("status", "In-Progress")
 
     return {
-        "appointment": appointment.name,
-        "video_room_id": appointment.video_room_id,
-        "channel_name": appointment.video_room_id,
+        "channel_name": appointment.name,
         "uid": uid,
         "rtcToken": token_response["rtcToken"],
         "appId": token_response.get("appId"),
-        "status": "In-Progress",
+        "status": appointment.status,
     }
 
 

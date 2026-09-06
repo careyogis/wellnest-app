@@ -2131,11 +2131,9 @@ async function handlePrescriptionFile(event) {
 
     // Send uploaded file to OCR/Gemini backend
     const response = await ocrPrescriptionResource.submit({
-      patient: props.selectedConsultation?.patient,
-      practitioner: props.selectedConsultation?.practitioner,
-      file_url: fileUrl,
-      teleconsult_appointment:
+      patient_appointment:
         props.selectedConsultation?.appointment || null,
+      file_url: fileUrl,
     })
 
     ocrPrescriptionName.value = response?.name || ''

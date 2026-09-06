@@ -5,16 +5,11 @@ from wellnest.services.prescription.processor import process_prescription
 
 @frappe.whitelist()
 def parse_and_create_prescription(
-    patient,
-    practitioner,
+    patient_appointment,
     file_url,
-    teleconsult_appointment=None,
 ):
-    if not patient:
-        frappe.throw("Patient is required.")
-
-    if not practitioner:
-        frappe.throw("Practitioner is required.")
+    if not patient_appointment:
+        frappe.throw("Patient Appointment is required.")
 
     if not file_url:
         frappe.throw("Prescription file is required.")
@@ -46,9 +41,7 @@ def parse_and_create_prescription(
 
     doc_name = process_prescription(
         image_bytes,
-        patient,
-        practitioner,
-        teleconsult_appointment,
+        patient_appointment,
     )
 
     return {"name": doc_name}
@@ -152,7 +145,7 @@ def create_consultation_prescription(
 
     existing = frappe.db.exists(
         "Smart Prescription",
-        {"teleconsult_appointment": appointment},
+        {"patient_appointment": appointment},
     )
 
     if existing:
@@ -164,7 +157,7 @@ def create_consultation_prescription(
 
     doc = frappe.new_doc("Smart Prescription")
 
-    doc.teleconsult_appointment = appointment
+    doc.patient_appointment = appointment
     doc.patient = appointment_doc.patient
     doc.practitioner = appointment_doc.practitioner
     doc.prescription_date = (
@@ -202,7 +195,7 @@ def create_consultation_prescription(
 
     return {
         "name": doc.name,
-        "teleconsult_appointment": doc.teleconsult_appointment,
+        "patient_appointment": doc.patient_appointment,
         "patient": doc.patient,
         "practitioner": doc.practitioner,
         "prescription_date": doc.prescription_date,
@@ -387,7 +380,7 @@ def get_consultation_prescription(appointment):
 
     prescription_name = frappe.db.get_value(
         "Smart Prescription",
-        {"teleconsult_appointment": appointment},
+        {"patient_appointment": appointment},
         "name",
     )
 
@@ -401,7 +394,7 @@ def get_consultation_prescription(appointment):
 
     return {
         "name": doc.name,
-        "teleconsult_appointment": doc.teleconsult_appointment,
+        "patient_appointment": doc.patient_appointment,
         "patient": doc.patient,
         "practitioner": doc.practitioner,
         "prescription_date": doc.prescription_date,

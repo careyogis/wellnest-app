@@ -289,6 +289,73 @@
         <!-- Tab 3: Smart Prescription Generator -->
         <div v-show="activeTab === 'rx'" class="flex-1 flex flex-col overflow-hidden">
           <div class="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
+
+            <!-- Scan Physical Rx -->
+            <div class="bg-gray-950 rounded-xl border border-gray-800 overflow-hidden">
+              <div class="flex items-center justify-between px-3 py-2.5 border-b border-gray-800">
+                <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <FeatherIcon name="camera" class="w-3.5 h-3.5 text-amber-400" />
+                  Scan Physical Rx
+                </h4>
+                <button
+                  @click="triggerRxImageCapture"
+                  type="button"
+                  class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1"
+                >
+                  <FeatherIcon name="camera" class="w-3 h-3" /> Take Photo
+                </button>
+              </div>
+
+              <!-- Hidden file input -->
+              <input
+                ref="rxImageInput"
+                type="file"
+                accept="image/*"
+                capture="environment"
+                class="hidden"
+                @change="onRxImageSelected"
+              />
+
+              <!-- Preview & submit -->
+              <div v-if="rxImagePreview" class="p-3 space-y-2.5">
+                <img :src="rxImagePreview" alt="Rx preview" class="w-full rounded-lg border border-gray-700 object-contain max-h-48" />
+                <div class="flex gap-2">
+                  <button
+                    @click="submitRxImage"
+                    :disabled="rxParseLoading"
+                    type="button"
+                    class="flex-1 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold text-xs flex items-center justify-center gap-1.5 transition-all"
+                  >
+                    <FeatherIcon :name="rxParseLoading ? 'loader' : 'upload-cloud'" class="w-3.5 h-3.5" :class="rxParseLoading ? 'animate-spin' : ''" />
+                    {{ rxParseLoading ? 'Sending...' : 'Parse & Create Rx' }}
+                  </button>
+                  <button
+                    @click="clearRxImage"
+                    type="button"
+                    class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs font-bold transition-all"
+                  >
+                    Clear
+                  </button>
+                </div>
+              </div>
+
+              <!-- Empty state -->
+              <div v-else class="p-4 flex flex-col items-center gap-2 text-center">
+                <FeatherIcon name="image" class="w-8 h-8 text-gray-700" />
+                <p class="text-xs text-gray-500">Capture or upload a photo of a physical prescription.<br/>It will be parsed and created asynchronously.</p>
+              </div>
+
+              <!-- Status message -->
+              <div
+                v-if="rxParseStatus"
+                :class="rxParseStatus.type === 'success' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-red-500/10 text-red-400 border-red-500/30'"
+                class="mx-3 mb-3 px-3 py-2 rounded-lg border text-xs flex items-center gap-1.5"
+              >
+                <FeatherIcon :name="rxParseStatus.type === 'success' ? 'check-circle' : 'alert-circle'" class="w-3.5 h-3.5 flex-shrink-0" />
+                {{ rxParseStatus.message }}
+              </div>
+            </div>
+
             <div class="flex items-center justify-between">
               <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider">Prescribed Medicines</h4>
               <button @click="addMedicine" type="button" class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
@@ -426,6 +493,74 @@ const patient = ref({
 const doctorNotes = ref('');
 const newChatMessage = ref('');
 const chatMessages = ref([{ sender: 'System', text: 'Encrypted channel active.', time: 'Just now' }]);
+
+// Rx Image Capture
+const rxImageInput = ref(null);
+const rxImagePreview = ref(null);
+const rxSelectedFile = ref(null);
+const rxParseLoading = ref(false);
+const rxParseStatus = ref(null);
+
+const parseRxResource = createResource({
+  url: 'wellnest.api.prescription.parse_and_create_prescription',
+});
+
+function triggerRxImageCapture() {
+  rxParseStatus.value = null;
+  rxImageInput.value?.click();
+}
+
+function onRxImageSelected(event) {
+  const file = event.target.files?.[0];
+  if (!file) return;
+  rxSelectedFile.value = file;
+  if (rxImagePreview.value) URL.revokeObjectURL(rxImagePreview.value);
+  rxImagePreview.value = URL.createObjectURL(file);
+  event.target.value = '';
+}
+
+async function submitRxImage() {
+  if (!rxSelectedFile.value) return;
+  rxParseLoading.value = true;
+  rxParseStatus.value = null;
+  try {
+    // 1. Upload image to Frappe file store
+    const formData = new FormData();
+    formData.append('file', rxSelectedFile.value);
+    const uploadResponse = await fetch('/api/method/upload_file', {
+      method: 'POST',
+      body: formData,
+    });
+    const uploadResult = await uploadResponse.json();
+    const fileUrl = uploadResult.message?.file_url;
+    if (!fileUrl) throw new Error('Failed to upload prescription image.');
+
+    // 2. Call parse_and_create_prescription with correct params
+    await parseRxResource.submit({
+      patient_appointment: bookingId.value,
+      file_url: fileUrl,
+    });
+
+    rxParseStatus.value = {
+      type: 'success',
+      message: 'Rx image sent. Prescription will be created in the background.',
+    };
+    clearRxImage();
+  } catch (err) {
+    rxParseStatus.value = {
+      type: 'error',
+      message: err?.message || 'Failed to submit Rx image. Please try again.',
+    };
+  } finally {
+    rxParseLoading.value = false;
+  }
+}
+
+function clearRxImage() {
+  if (rxImagePreview.value) URL.revokeObjectURL(rxImagePreview.value);
+  rxImagePreview.value = null;
+  rxSelectedFile.value = null;
+}
 
 // Smart Rx Data
 const medicines = ref([

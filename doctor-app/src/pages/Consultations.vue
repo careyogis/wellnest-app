@@ -449,7 +449,7 @@ function openPrescription(consultation) {
 async function joinConsultation(consultation) {
   try {
     const response = await startConsultationResource.submit({
-      appointment: consultation.id,
+      appointmentId: consultation.id,
     });
 
     router.push({

@@ -6,7 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "teleconsult_appointment",
+  "patient_appointment",
   "patient",
   "practitioner",
   "prescription_date",
@@ -20,12 +20,6 @@
   "response_data"
  ],
  "fields": [
-  {
-   "fieldname": "teleconsult_appointment",
-   "fieldtype": "Link",
-   "label": "Teleconsult Appointment",
-   "options": "Patient Appointment"
-  },
   {
    "fieldname": "patient",
    "fieldtype": "Link",
@@ -91,12 +85,18 @@
    "fieldname": "response_data",
    "fieldtype": "Long Text",
    "label": "Response Data"
+  },
+  {
+   "fieldname": "patient_appointment",
+   "fieldtype": "Link",
+   "label": "Patient Appointment",
+   "options": "Patient Appointment"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-02 17:26:04.416580",
- "modified_by": "nikhilsinha789@gmail.com",
+ "modified": "2026-09-06 07:07:36.746146",
+ "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Smart Prescription",
  "naming_rule": "Expression",
@@ -121,17 +121,11 @@
    "write": 1
   },
   {
-   "role": "Customer",
-   "create": 0,
-   "delete": 0,
    "email": 1,
-   "export": 0,
    "print": 1,
    "read": 1,
    "report": 1,
-   "select": 0,
-   "share": 0,
-   "write": 0
+   "role": "Customer"
   }
  ],
  "row_format": "Dynamic",

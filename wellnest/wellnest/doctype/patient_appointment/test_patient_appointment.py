@@ -174,22 +174,10 @@ class TestPatientAppointment(FrappeTestCase):
             appointment.status,
             "In-Progress",
         )
-        self.assertEqual(
-            appointment.video_room_id,
-            appointment.name,
-        )
 
         self.assertEqual(
             result["appointment"],
             appointment.name,
-        )
-        self.assertEqual(
-            result["video_room_id"],
-            appointment.video_room_id,
-        )
-        self.assertEqual(
-            result["channel_name"],
-            appointment.video_room_id,
         )
         self.assertEqual(
             result["uid"],
