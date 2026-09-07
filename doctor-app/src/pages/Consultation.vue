@@ -48,7 +48,7 @@
           <div class="mb-7">
             <div class="flex items-center justify-between mb-4">
               <h2 class="text-xl font-bold text-gray-900">
-                Chief Complaints
+               Chief Complaints (with duration) <span class="text-red-500">*</span>
               </h2>
 
               <button
@@ -112,10 +112,8 @@
           <div class="mb-7">
             <div class="flex items-center justify-between mb-3">
               <h2 class="text-lg font-semibold text-gray-900">
-                History (brief)
-                <span class="font-normal text-gray-400">
-                  Optional
-                </span>
+                History (brief) <span class="text-red-500">*</span>
+                
               </h2>
             </div>
 
@@ -177,7 +175,7 @@
 
           <div class="mb-3">
             <h2 class="text-xl font-bold text-gray-900">
-              Examination
+             Examination <span class="text-red-500">*</span>
             </h2>
           </div>
 
@@ -197,7 +195,7 @@
            <!-- Provisional Diagnosis -->
 <div class="mt-6">
   <h2 class="text-xl font-bold text-gray-900">
-    Provisional Diagnosis
+  Provisional Diagnosis <span class="text-red-500">*</span>
   </h2>
 
   <textarea
@@ -964,7 +962,7 @@
         <!-- Chief Complaints -->
         <div class="mt-6">
           <h3 class="font-bold text-gray-900">
-            Chief Complaints (with duration)
+            Chief Complaints (with duration) <span class="text-red-500">*</span>
           </h3>
 
           <ul
@@ -991,7 +989,7 @@
         <!-- History -->
         <div class="mt-5">
           <h3 class="font-bold text-gray-900">
-            History (brief)
+         History (brief) <span class="text-red-500">*</span>
           </h3>
 
           <p
@@ -1045,7 +1043,7 @@
         <!-- Examination -->
         <div class="mt-5">
           <h3 class="font-bold text-gray-900">
-            Examination
+         Examination <span class="text-red-500">*</span>
           </h3>
 
           <p
@@ -1060,7 +1058,7 @@
         <!-- Provisional Diagnosis -->
         <div class="mt-5">
           <h3 class="font-bold text-gray-900">
-            Provisional Diagnosis
+        Provisional Diagnosis <span class="text-red-500">*</span>
           </h3>
 
           <p

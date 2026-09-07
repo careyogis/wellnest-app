@@ -190,7 +190,7 @@ consultations. page
 
           <!-- Chief Complaints -->
           <div class="mt-6">
-            <h3 class="text-lg font-bold text-gray-900">Chief Complaints (with duration)</h3>
+            <h3 class="text-lg font-bold text-gray-900">Chief Complaints (with duration) <span class="text-red-500">*</span></h3>
 
             <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-gray-700">
               <li v-for="complaint in consultationRef?.complaints || []" :key="complaint.id">
