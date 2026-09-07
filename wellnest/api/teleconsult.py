@@ -51,11 +51,17 @@ def report_doctor_noshow(appointment_id):
 	"""                                         
 	Updates the status of a Patient Appointment to 'No Show' and creates a support ticket for investigating.                                                  
 	"""
-	appointment = frappe.get_doc("Patient Appointment", appointment_id)                     
+	appointment = frappe.get_doc("Patient Appointment", appointment_id)
+                     
 	if appointment.status != "Scheduled":
 		frappe.log_error(f"Customer reported 'No Show' for the appointmentId: {appointment_id}, but the status was {appointment.status}")
 		return {"message": f"Appointment in {appointment.status} state cannot be marked as 'No Show'."}
-																																		
+
+	# Do not mark No Show till at least 15 mins passed the scheduled_time
+	if frappe.utils.now_datetime() < appointment.scheduled_time + frappe.utils.timedelta(minutes=15):
+		frappe.log_error(f"Customer reported 'No Show' for the appointmentId: {appointment_id}, but inside 15 mins post the secheduled time of: {appointment.scheduled_time}")
+		return {"message": f"Cannot mark appointment as 'No Show' until it is at least 15 minutes past the scheduled time of:{appointment.scheduled_time}"}	
+
 	appointment.status = "No Show"                                                                                                                   
 	appointment.save(ignore_permissions=True)                                                                                                         
 																																		
