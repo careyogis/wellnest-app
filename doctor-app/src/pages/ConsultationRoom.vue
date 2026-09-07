@@ -47,12 +47,14 @@
       <!-- Right: Quick Actions -->
       <div class="flex items-center gap-1 md:gap-2 flex-shrink-0 order-3 md:order-none">
         <!-- Chat Button -->
-        <button @click="openDrawerTab('chat')" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors relative" title="In-call Chat">
-          <FeatherIcon name="message-square" class="w-4 h-4 sm:w-5 sm:h-5" />
-          <span v-if="unreadChatCount > 0" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-black text-[10px] font-bold flex items-center justify-center">
-            {{ unreadChatCount }}
-          </span>
-        </button>
+       <!--
+<button @click="openDrawerTab('chat')" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors relative" title="In-call Chat">
+  <FeatherIcon name="message-square" class="w-4 h-4 sm:w-5 sm:h-5" />
+  <span v-if="unreadChatCount > 0" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-black text-[10px] font-bold flex items-center justify-center">
+    {{ unreadChatCount }}
+  </span>
+</button>
+-->
 
         <!-- EHR / Notes Button (Mobile quick open) -->
         <button @click="openDrawerTab('summary')" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors lg:hidden" title="Patient EHR & Notes">
@@ -194,16 +196,18 @@
           >
             Summary & EHR
           </button>
-          <button
-            @click="activeTab = 'chat'"
-            :class="activeTab === 'chat' ? 'bg-gray-800 text-white font-bold' : 'text-gray-400 hover:text-white'"
-            class="flex-1 py-2 text-xs rounded-lg transition-colors text-center relative truncate px-1"
-          >
-            Chat
-            <span v-if="unreadChatCount > 0" class="ml-1 px-1.5 py-0.2 rounded-full bg-amber-500 text-black text-[9px] font-bold">
-              {{ unreadChatCount }}
-            </span>
-          </button>
+          <!--
+<button
+  @click="activeTab = 'chat'"
+  :class="activeTab === 'chat' ? 'bg-gray-800 text-white font-bold' : 'text-gray-400 hover:text-white'"
+  class="flex-1 py-2 text-xs rounded-lg transition-colors text-center relative truncate px-1"
+>
+  Chat
+  <span v-if="unreadChatCount > 0" class="ml-1 px-1.5 py-0.2 rounded-full bg-amber-500 text-black text-[9px] font-bold">
+    {{ unreadChatCount }}
+  </span>
+</button>
+-->
         </div>
 
         <!-- Tab 1: Smart Prescription Generator -->
