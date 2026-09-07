@@ -65,8 +65,6 @@ def report_doctor_noshow(appointment_id):
 		"subject": f"Customer reported 'No Show' for appointment {appointment_id}",
 		"description": f"The customer reported that the doctor: {appointment.practitioner} did not show up for the appointment with ID {appointment_id}. Please investigate.",
 		"issue_type": "Service",
-		"raised_by": appointment.patient,
-		"assigned_to": appointment.practitioner,
 	})
 	issue.insert(ignore_permissions=True)
 																																					
