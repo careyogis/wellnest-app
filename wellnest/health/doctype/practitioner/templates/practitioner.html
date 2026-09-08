@@ -1,7 +1,7 @@
  {# ------------------------------------------------------------------
    Route:  /<doc.route>   e.g. /practitioners/dr-000123
-   `doc` is provided automatically by WebsiteGenerator - no get_context()
-   override needed unless you want to customize it (see notes at bottom).
+   `doc` is provided automatically by WebsiteGenerator.
+   `experience` is injected in get_context() in practitioner.py
    ------------------------------------------------------------------ #}
 {% extends "templates/wellnest_web.html" %}
 
@@ -12,141 +12,376 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-  .prac-record{
-    --ink:#16302B; --paper:#F7F5EF; --teal:#2F6F62; --teal-deep:#1F4E44;
-    --amber:#C98A2E; --slate:#6B7280; --line:#DAD5C6; --card:#FFFFFF;
-    font-family:'Inter',sans-serif; color:var(--ink); background:var(--paper);
-    padding:48px 24px 96px; margin:0 auto; max-width:1200px;
+  /* ── Root & layout ─────────────────────────────────────── */
+  .prac-record {
+    --ink:       #16302B;
+    --paper:     #F7F5EF;
+    --teal:      #2F6F62;
+    --teal-deep: #1F4E44;
+    --teal-pale: #EEF4F1;
+    --amber:     #C98A2E;
+    --amber-pale:#FBF2E3;
+    --slate:     #6B7280;
+    --line:      #DAD5C6;
+    --card:      #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    padding: 48px 24px 96px;
+    margin: 0 auto;
+    max-width: 1200px;
   }
-  .prac-record *{ box-sizing:border-box; }
-  .prac-sheet{ max-width:880px; margin:0 auto; background:var(--card);
-    border:1px solid var(--line); border-radius:3px; overflow:hidden; }
+  .prac-record * { box-sizing: border-box; }
 
-  .prac-record-back{ max-width:880px; margin:0 auto 18px; }
-  .prac-record-back a{ font-family:'IBM Plex Mono',monospace; font-size:12px;
-    color:var(--slate); text-decoration:none; letter-spacing:.04em; }
-  .prac-record-back a:hover{ color:var(--teal-deep); }
+  .prac-sheet {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
 
-  /* header */
-  .prac-header{ display:flex; gap:22px; padding:34px 36px 26px; border-bottom:1px solid var(--line);
-    position:relative; align-items:flex-start; flex-wrap:wrap; }
-  .prac-header::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--teal); }
-  .prac-photo-lg{ width:96px; height:96px; border-radius:50%; object-fit:cover; border:1px solid var(--line); flex-shrink:0; }
-  .prac-photo-lg-fallback{ width:96px; height:96px; border-radius:50%; background:var(--teal-deep); color:#fff;
-    display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-size:32px; flex-shrink:0; }
+  .prac-record-back { max-width: 900px; margin: 0 auto 18px; }
+  .prac-record-back a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--slate);
+    text-decoration: none;
+    letter-spacing: .04em;
+  }
+  .prac-record-back a:hover { color: var(--teal-deep); }
 
-  .prac-id{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--slate); letter-spacing:.08em;
-    text-transform:uppercase; margin:0 0 8px; }
-  .prac-header h1{ font-family:'Fraunces',serif; font-weight:600; font-size:32px; margin:0 0 6px; line-height:1.1; }
-  .prac-header .role{ font-size:15px; color:var(--slate); margin:0 0 12px; }
+  /* ── Hero header ────────────────────────────────────────── */
+  .prac-header {
+    display: flex;
+    gap: 24px;
+    padding: 36px 40px 28px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    background: linear-gradient(135deg, var(--teal-pale) 0%, var(--card) 60%);
+  }
+  .prac-header::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--teal) 0%, var(--teal-deep) 100%);
+  }
 
-  .prac-badges{ display:flex; flex-wrap:wrap; gap:8px; }
-  .prac-badge{ font-family:'IBM Plex Mono',monospace; font-size:11px; padding:4px 9px; border-radius:2px;
-    border:1px solid var(--line); color:var(--slate); }
-  .prac-badge.is-verified{ border-color:var(--teal); color:var(--teal-deep); background:#EEF4F1; }
-  .prac-badge.is-tele{ border-color:var(--amber); color:#8A5D1D; background:#FBF2E3; }
+  .prac-photo-lg {
+    width: 108px; height: 108px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--card);
+    box-shadow: 0 2px 12px rgba(0,0,0,.12);
+    flex-shrink: 0;
+  }
+  .prac-photo-lg-fallback {
+    width: 108px; height: 108px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif; font-size: 38px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,.12);
+  }
 
-  /* vitals strip - signature element, echoes the list card */
-  .prac-vitals-strip{ height:24px; margin:0 36px; background-repeat:no-repeat; background-size:auto 100%;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='24' viewBox='0 0 500 24'%3E%3Cpath d='M0 12 H180 L192 3 L202 21 L212 12 H500' fill='none' stroke='%23DAD5C6' stroke-width='1.4'/%3E%3C/svg%3E"); }
+  .prac-header-info { flex: 1; min-width: 200px; }
+  .prac-id {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px; color: var(--slate);
+    letter-spacing: .08em; text-transform: uppercase;
+    margin: 0 0 8px;
+  }
+  .prac-header h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600; font-size: 32px;
+    margin: 0 0 4px; line-height: 1.1;
+  }
+  .prac-header .role {
+    font-size: 15px; color: var(--slate);
+    margin: 0 0 14px;
+  }
+  .prac-header .middle-name {
+    font-size: 13px; color: var(--slate);
+    font-style: italic; margin: 0 0 10px;
+  }
 
-  /* quick stats row */
-  .prac-stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:0;
-    border-bottom:1px solid var(--line); }
-  .prac-stat{ padding:18px 24px; border-left:1px solid var(--line); }
-  .prac-stat:first-child{ border-left:none; }
-  .prac-stat .label{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.08em;
-    text-transform:uppercase; color:var(--slate); margin:0 0 5px; }
-  .prac-stat .value{ font-family:'Fraunces',serif; font-size:20px; font-weight:500; margin:0; }
+  /* ── Badges ─────────────────────────────────────────────── */
+  .prac-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .prac-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+    color: var(--slate);
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .prac-badge.is-verified { border-color: var(--teal); color: var(--teal-deep); background: var(--teal-pale); }
+  .prac-badge.is-tele    { border-color: var(--amber); color: #8A5D1D; background: var(--amber-pale); }
+  .prac-badge.is-active  { border-color: #6EE7B7; color: #065F46; background: #ECFDF5; }
 
-  /* body sections */
-  .prac-section{ padding:28px 36px; border-bottom:1px solid var(--line); }
-  .prac-section:last-child{ border-bottom:none; }
-  .prac-section h2{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
-    color:var(--teal-deep); margin:0 0 16px; }
-  .prac-section p.summary{ font-size:14.5px; line-height:1.65; color:var(--ink); margin:0; }
+  /* ── ECG vitals strip ───────────────────────────────────── */
+  .prac-vitals-strip {
+    height: 28px; margin: 0 40px;
+    background-repeat: repeat-x; background-size: auto 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='28' viewBox='0 0 500 28'%3E%3Cpath d='M0 14 H180 L192 3 L202 25 L212 14 H500' fill='none' stroke='%23DAD5C6' stroke-width='1.5'/%3E%3C/svg%3E");
+  }
 
-  .prac-field-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:18px 24px; }
-  .prac-field .label{ font-size:11.5px; color:var(--slate); margin:0 0 3px; }
-  .prac-field .value{ font-size:14px; color:var(--ink); margin:0; font-weight:500; }
-  .prac-field .value.mono{ font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:400; }
+  /* ── Quick-stats bar ────────────────────────────────────── */
+  .prac-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    border-bottom: 1px solid var(--line);
+  }
+  .prac-stat { padding: 18px 20px; border-left: 1px solid var(--line); }
+  .prac-stat:first-child { border-left: none; }
+  .prac-stat .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--slate);
+    margin: 0 0 5px;
+  }
+  .prac-stat .value {
+    font-family: 'Fraunces', serif;
+    font-size: 19px; font-weight: 500; margin: 0;
+    word-break: break-word;
+  }
 
-  .prac-chips{ display:flex; flex-wrap:wrap; gap:8px; }
-  .prac-chip{ font-size:12.5px; padding:5px 12px; border:1px solid var(--line); border-radius:20px; color:var(--ink); }
+  /* ── Body sections ──────────────────────────────────────── */
+  .prac-section { padding: 28px 40px; border-bottom: 1px solid var(--line); }
+  .prac-section:last-child { border-bottom: none; }
+  .prac-section h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--teal-deep); margin: 0 0 18px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .prac-section h2::after {
+    content: ""; flex: 1; height: 1px;
+    background: var(--line);
+  }
+  .prac-section p.summary {
+    font-size: 14.5px; line-height: 1.7; color: var(--ink); margin: 0;
+  }
 
-  .prac-avail-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; }
-  .prac-avail-card{ border:1px solid var(--line); border-radius:3px; padding:14px 16px; }
-  .prac-avail-card .label{ font-size:11px; color:var(--slate); margin:0 0 4px; text-transform:uppercase; letter-spacing:.06em; }
-  .prac-avail-card .value{ font-family:'IBM Plex Mono',monospace; font-size:14px; margin:0; }
+  /* ── Field grid ─────────────────────────────────────────── */
+  .prac-field-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px 28px;
+  }
+  .prac-field .label { font-size: 11px; color: var(--slate); margin: 0 0 3px; }
+  .prac-field .value { font-size: 14px; color: var(--ink); margin: 0; font-weight: 500; }
+  .prac-field .value.mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px; font-weight: 400;
+  }
 
-  .prac-charges{ display:flex; gap:28px; flex-wrap:wrap; }
-  .prac-charge .amount{ font-family:'Fraunces',serif; font-size:22px; margin:0; }
-  .prac-charge .label{ font-size:11.5px; color:var(--slate); margin:2px 0 0; }
+  /* ── Education timeline ─────────────────────────────────── */
+  .edu-timeline { list-style: none; margin: 0; padding: 0; }
+  .edu-timeline li {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 10px 0; border-bottom: 1px dashed var(--line);
+  }
+  .edu-timeline li:last-child { border-bottom: none; }
+  .edu-year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; color: var(--slate);
+    min-width: 40px; padding-top: 1px;
+  }
+  .edu-body { flex: 1; }
+  .edu-degree { font-size: 14px; font-weight: 600; margin: 0 0 2px; }
+  .edu-inst { font-size: 12.5px; color: var(--slate); margin: 0; }
 
-  @media (max-width:640px){
-    .prac-record{ padding:28px 14px 64px; }
-    .prac-header{ padding:26px 22px 20px; }
-    .prac-vitals-strip{ margin:0 22px; }
-    .prac-section{ padding:22px 22px; }
-    .prac-header h1{ font-size:26px; }
+  /* ── Language chips ─────────────────────────────────────── */
+  .prac-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .prac-chip {
+    font-size: 12.5px; padding: 5px 14px;
+    border: 1px solid var(--line);
+    border-radius: 20px; color: var(--ink);
+    background: var(--paper);
+  }
+
+  /* ── Availability grid ──────────────────────────────────── */
+  .avail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .avail-day-card {
+    border: 1px solid var(--line);
+    border-radius: 4px; padding: 14px 16px;
+    background: var(--paper);
+  }
+  .avail-day-card .day-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--teal-deep);
+    margin: 0 0 10px; font-weight: 600;
+  }
+  .avail-slot { margin-bottom: 6px; }
+  .avail-slot .slot-type {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: .05em; color: var(--slate); margin: 0;
+  }
+  .avail-slot .slot-time {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px; margin: 0; color: var(--ink);
+  }
+
+  /* ── Charges ─────────────────────────────────────────────── */
+  .prac-charges { display: flex; flex-wrap: wrap; gap: 20px; }
+  .prac-charge {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 16px 22px;
+    min-width: 120px;
+    text-align: center;
+  }
+  .prac-charge .amount {
+    font-family: 'Fraunces', serif;
+    font-size: 24px; font-weight: 500;
+    margin: 0; color: var(--teal-deep);
+  }
+  .prac-charge .currency { font-size: 13px; vertical-align: super; }
+  .prac-charge .charge-label {
+    font-size: 11px; color: var(--slate);
+    margin: 4px 0 0; text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  .prac-charge.home-visit { border-color: var(--teal); }
+
+  /* ── Location ────────────────────────────────────────────── */
+  .location-row {
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .location-pin {
+    margin-top: 3px; flex-shrink: 0;
+    color: var(--teal);
+  }
+  .location-text { font-size: 14px; line-height: 1.55; }
+
+  /* ── Additional info ─────────────────────────────────────── */
+  .additional-info-box {
+    background: var(--paper);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 4px 4px 0;
+    padding: 12px 16px;
+    font-size: 14px; line-height: 1.6;
+  }
+
+  /* ── Responsive ──────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .prac-record  { padding: 24px 12px 64px; }
+    .prac-header  { padding: 26px 22px 22px; }
+    .prac-vitals-strip { margin: 0 22px; }
+    .prac-section { padding: 22px 22px; }
+    .prac-header h1 { font-size: 26px; }
+    .prac-stat { padding: 14px 16px; }
   }
 </style>
 
 <div class="prac-record">
   <div class="prac-record-back"><a href="/practitioners">&larr; Back to directory</a></div>
   <div class="prac-sheet">
+
+    {# ── HEADER ──────────────────────────────────────────────── #}
     <div class="prac-header">
       {% if doc.photo %}
         <img class="prac-photo-lg" src="{{ doc.photo }}" alt="{{ doc.full_name }}">
       {% else %}
         <div class="prac-photo-lg-fallback">{{ (doc.first_name or "?")[0] }}</div>
       {% endif %}
-      <div>
-        {% if doc.registration_no %}<p class="prac-id">Reg. No. {{ doc.registration_no }}</p>{% endif %}
-        <h1>{{ doc.title ~ " " if doc.title }}{{ (doc.first_name or "") ~ " " ~ (doc.last_name or "") }}</h1>
+
+      <div class="prac-header-info">
+        {% if doc.registration_no %}
+          <p class="prac-id">Reg. No. {{ doc.registration_no }}</p>
+        {% endif %}
+
+        <h1>{{ doc.title ~ " " if doc.title }}{{ (doc.first_name or "") }}{% if doc.middle_name %} {{ doc.middle_name }}{% endif %} {{ doc.last_name or "" }}</h1>
+
         {% if doc.designation %}
           <p class="role">{{ doc.designation }}</p>
         {% endif %}
+
         <div class="prac-badges">
-          {% if doc.hpr_verified %}<span class="prac-badge is-verified">HPR Verified</span>{% endif %}
-          {% if doc.nmc_verified %}<span class="prac-badge is-verified">NMC Verified</span>{% endif %}
-          {% if doc.telemedicine_certified %}<span class="prac-badge is-tele">Telemedicine Certified</span>{% endif %}
-          {% if doc.is_active %}<span class="prac-badge">Active</span>{% endif %}
+          {% if doc.hpr_verified %}
+            <span class="prac-badge is-verified">
+              <svg width="10" height="10" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>
+              HPR Verified
+            </span>
+          {% endif %}
+          {% if doc.nmc_verified %}
+            <span class="prac-badge is-verified">
+              <svg width="10" height="10" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>
+              NMC Verified
+            </span>
+          {% endif %}
+          {% if doc.telemedicine_certified %}
+            <span class="prac-badge is-tele">
+              <svg width="10" height="10" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5z"/></svg>
+              Telemedicine Certified
+            </span>
+          {% endif %}
+          {% if doc.available_for_home_visits %}
+            <span class="prac-badge" style="border-color:#6366F1;color:#3730A3;background:#EEF2FF;">
+              <svg width="10" height="10" fill="currentColor" viewBox="0 0 16 16"><path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5z"/></svg>
+              Home Visits
+            </span>
+          {% endif %}
+          {% if doc.is_active %}
+            <span class="prac-badge is-active">Active</span>
+          {% endif %}
         </div>
       </div>
     </div>
 
     <div class="prac-vitals-strip"></div>
 
+    {# ── QUICK STATS ─────────────────────────────────────────── #}
     <div class="prac-stats">
       {% if doc.average_rating %}
       <div class="prac-stat">
         <p class="label">Rating</p>
-        <p class="value">★ {{ doc.average_rating }} ({{ doc.total_reviews or 0 }})</p>
+        <p class="value">★ {{ "%.1f"|format(doc.average_rating) }} <span style="font-size:13px;font-family:'Inter',sans-serif;">({{ doc.total_reviews or 0 }})</span></p>
       </div>
       {% endif %}
       <div class="prac-stat">
-        <p class="label">Total Experience</p>
-        <p class="value">{{ experience or "—" }}{{ " yrs" if doc.practicing_from else "" }}</p>
+        <p class="label">Experience</p>
+        <p class="value">{{ experience ~ " yrs" if experience else "—" }}</p>
       </div>
       <div class="prac-stat">
         <p class="label">Specialty</p>
-        <p class="value">{{ frappe.db.get_value("Medical specialty", doc.specialty, "specialty_name") or "—" }}</p>
+        <p class="value" style="font-size:14px;">{{ frappe.db.get_value("Medical specialty", doc.specialty, "specialty_name") or "—" }}</p>
       </div>
+      {% if doc.super_specialty %}
       <div class="prac-stat">
         <p class="label">Super Specialty</p>
-        <p class="value">{{ frappe.db.get_value("Medical super specialty", doc.super_specialty, "super_specialty_name") or "—" }}</p>
+        <p class="value" style="font-size:14px;">{{ frappe.db.get_value("Medical super specialty", doc.super_specialty, "super_specialty_name") or "—" }}</p>
       </div>
+      {% endif %}
+      {% if doc.council_name %}
       <div class="prac-stat">
         <p class="label">Council</p>
-        <p class="value">{{ doc.council_name or "—" }}</p>
+        <p class="value" style="font-size:13px;">{{ doc.council_name }}</p>
       </div>
+      {% endif %}
+      {% if doc.primary_facility %}
       <div class="prac-stat">
         <p class="label">Primary Facility</p>
-        <p class="value">{{ doc.primary_facility or "—" }}</p>
+        <p class="value" style="font-size:13px;">{{ doc.primary_facility }}</p>
       </div>
+      {% endif %}
     </div>
 
+    {# ── ABOUT ───────────────────────────────────────────────── #}
     {% if doc.professional_summary %}
     <div class="prac-section">
       <h2>About</h2>
@@ -154,109 +389,212 @@
     </div>
     {% endif %}
 
+    {# ── PERSONAL DETAILS ────────────────────────────────────── #}
     <div class="prac-section">
       <h2>Personal Details</h2>
       <div class="prac-field-grid">
         {% if doc.gender %}
-        <div class="prac-field"><p class="label">Gender</p><p class="value">{{ doc.gender }}</p></div>
+        <div class="prac-field">
+          <p class="label">Gender</p>
+          <p class="value">{{ doc.gender }}</p>
+        </div>
         {% endif %}
         {% if doc.dob %}
-        <div class="prac-field"><p class="label">Date of Birth</p><p class="value mono">{{ doc.dob }}</p></div>
+        <div class="prac-field">
+          <p class="label">Date of Birth</p>
+          <p class="value mono">{{ frappe.utils.formatdate(doc.dob) }}</p>
+        </div>
         {% endif %}
         {% if doc.nationality %}
-        <div class="prac-field"><p class="label">Nationality</p><p class="value">{{ doc.nationality }}</p></div>
+        <div class="prac-field">
+          <p class="label">Nationality</p>
+          <p class="value">{{ doc.nationality }}</p>
+        </div>
+        {% endif %}
+        {% if doc.practicing_from %}
+        <div class="prac-field">
+          <p class="label">Practicing Since</p>
+          <p class="value mono">{{ frappe.utils.formatdate(doc.practicing_from) }}</p>
+        </div>
         {% endif %}
       </div>
     </div>
 
+    {# ── EDUCATION ────────────────────────────────────────────── #}
     {% if doc.education_history %}
     <div class="prac-section">
-      <h2>Education History</h2>
-      <ul style="margin: 0; padding-left: 20px;">
+      <h2>Education</h2>
+      <ul class="edu-timeline">
         {% for edu in doc.education_history %}
-        <li style="margin-bottom: 8px; font-size: 14px;">
-          <strong>{{ edu.degree }}</strong>{% if edu.institution %} - {{ edu.institution }}{% endif %}
-          {% if edu.year_of_completion %}
-            <span style="color: var(--slate); font-size: 13px;">({{ edu.year_of_completion }})</span>
-          {% endif %}
+        <li>
+          <span class="edu-year">{{ edu.year_of_completion or "—" }}</span>
+          <div class="edu-body">
+            <p class="edu-degree">{{ edu.degree or "—" }}</p>
+            {% if edu.institution %}
+            <p class="edu-inst">{{ edu.institution }}</p>
+            {% endif %}
+          </div>
         </li>
         {% endfor %}
       </ul>
     </div>
     {% endif %}
 
+    {# ── PROFESSIONAL DETAILS ─────────────────────────────────── #}
     <div class="prac-section">
       <h2>Professional Details</h2>
       <div class="prac-field-grid">
         {% if doc.designation %}
-        <div class="prac-field"><p class="label">Designation</p><p class="value">{{ doc.designation }}</p></div>
+        <div class="prac-field">
+          <p class="label">Designation</p>
+          <p class="value">{{ doc.designation }}</p>
+        </div>
+        {% endif %}
+        {% if doc.registration_no %}
+        <div class="prac-field">
+          <p class="label">Registration No.</p>
+          <p class="value mono">{{ doc.registration_no }}</p>
+        </div>
         {% endif %}
         {% if doc.registration_valid_upto %}
-        <div class="prac-field"><p class="label">Registration Valid Upto</p><p class="value mono">{{ doc.registration_valid_upto }}</p></div>
+        <div class="prac-field">
+          <p class="label">Registration Valid Upto</p>
+          <p class="value mono">{{ frappe.utils.formatdate(doc.registration_valid_upto) }}</p>
+        </div>
+        {% endif %}
+        {% if doc.council_name %}
+        <div class="prac-field">
+          <p class="label">Council Name</p>
+          <p class="value">{{ doc.council_name }}</p>
+        </div>
         {% endif %}
         {% if doc.hpr_id %}
-        <div class="prac-field"><p class="label">HPR ID</p><p class="value mono">{{ doc.hpr_id }}</p></div>
+        <div class="prac-field">
+          <p class="label">HPR ID</p>
+          <p class="value mono">{{ doc.hpr_id }}</p>
+        </div>
+        {% endif %}
+        {% if doc.primary_facility %}
+        <div class="prac-field">
+          <p class="label">Primary Facility</p>
+          <p class="value">{{ doc.primary_facility }}</p>
+        </div>
         {% endif %}
       </div>
     </div>
 
+    {# ── LANGUAGES ───────────────────────────────────────────── #}
     {% if doc.languages_known %}
     <div class="prac-section">
       <h2>Languages Spoken</h2>
       <div class="prac-chips">
         {% for lang in doc.languages_known %}
-        <span class="prac-chip">{{ lang.language or lang.spoken_language_option or lang.get("language") }}</span>
+        <span class="prac-chip">{{ lang.spoken_language_option or lang.language or lang.get("spoken_language_option") }}</span>
         {% endfor %}
       </div>
     </div>
     {% endif %}
 
+    {# ── ADDITIONAL INFORMATION ───────────────────────────────── #}
+    {% if doc.additional_information %}
+    <div class="prac-section">
+      <h2>Additional Information</h2>
+      <div class="additional-info-box">{{ doc.additional_information }}</div>
+    </div>
+    {% endif %}
+
+    {# ── AVAILABILITY ─────────────────────────────────────────── #}
     {% if doc.availability_days %}
     <div class="prac-section">
       <h2>Availability</h2>
-      <div class="prac-avail-grid">
-        <div class="prac-avail-card">
-          <p class="label">Days and Hours</p>
-          {% for day in doc.availability_days %}
-            <p class="value">{{ day.day }}:</p>
-            <pre class="value">  {{ day.from_time or '00:00:00' }} - {{ day.to_time or '00:00:00' }}</pre>
-          {% endfor %}
+      <div class="avail-grid">
+        {% for day in doc.availability_days %}
+        <div class="avail-day-card">
+          <p class="day-name">{{ day.day }}</p>
+          {% if day.online_from or day.online_to %}
+          <div class="avail-slot">
+            <p class="slot-type">Online</p>
+            <p class="slot-time">{{ day.online_from or "—" }} – {{ day.online_to or "—" }}</p>
+          </div>
+          {% endif %}
+          {% if day.clinic_from or day.clinic_to %}
+          <div class="avail-slot">
+            <p class="slot-type">Clinic</p>
+            <p class="slot-time">{{ day.clinic_from or "—" }} – {{ day.clinic_to or "—" }}</p>
+          </div>
+          {% endif %}
+          {% if day.emergency_from or day.emergency_to %}
+          <div class="avail-slot">
+            <p class="slot-type">Emergency</p>
+            <p class="slot-time">{{ day.emergency_from or "—" }} – {{ day.emergency_to or "—" }}</p>
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {# ── CONSULTATION CHARGES ─────────────────────────────────── #}
+    {% if doc.online_charge or doc.clinic_charge or doc.emergency_charge or doc.priority_charge or (doc.home_visit_charge and doc.available_for_home_visits) %}
+    <div class="prac-section">
+      <h2>Consultation Charges</h2>
+      <div class="prac-charges">
+        {% if doc.online_charge %}
+        <div class="prac-charge">
+          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(doc.online_charge * charge_multiplier) }}</p>
+          <p class="charge-label">Online</p>
+        </div>
+        {% endif %}
+        {% if doc.clinic_charge %}
+        <div class="prac-charge">
+          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(doc.clinic_charge * charge_multiplier) }}</p>
+          <p class="charge-label">Clinic</p>
+        </div>
+        {% endif %}
+        {% if doc.priority_charge %}
+        <div class="prac-charge">
+          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(doc.priority_charge * charge_multiplier) }}</p>
+          <p class="charge-label">Priority</p>
+        </div>
+        {% endif %}
+        {% if doc.emergency_charge %}
+        <div class="prac-charge">
+          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(doc.emergency_charge * charge_multiplier) }}</p>
+          <p class="charge-label">Emergency</p>
+        </div>
+        {% endif %}
+        {% if doc.home_visit_charge and doc.available_for_home_visits %}
+        <div class="prac-charge home-visit">
+          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(doc.home_visit_charge * charge_multiplier) }}</p>
+          <p class="charge-label">Home Visit</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    {# ── LOCATION ─────────────────────────────────────────────── #}
+    {% if doc.address_line1 or doc.city or doc.state or doc.pincode %}
+    <div class="prac-section">
+      <h2>Location</h2>
+      <div class="location-row">
+        <svg class="location-pin" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+        </svg>
+        <div class="location-text">
+          {% if doc.address_line1 %}<span>{{ doc.address_line1 }}</span><br>{% endif %}
+          {% if doc.city or doc.state %}
+            <span>{{ doc.city }}{% if doc.city and doc.state %},{% endif %} {{ doc.state }}</span>
+            {% if doc.pincode %} – {{ doc.pincode }}{% endif %}
+          {% elif doc.pincode %}
+            <span>{{ doc.pincode }}</span>
+          {% endif %}
         </div>
       </div>
     </div>
     {% endif %}
 
-    {# {% if doc.online_charge or doc.emergency_charge or doc.priority_charg eor doc.clinic_charge %} #}
-    <div class="prac-section">
-      <h2>Consultation Charges</h2>
-      <div class="prac-charges">
-        {% if doc.online_charge %}
-        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.online_charge) }}</p><p class="label">Online</p></div>
-        {% endif %}
-        {% if doc.priority_charge %}
-        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.priority_charge) }}</p><p class="label">Priority</p></div>
-        {% endif %}
-        {% if doc.emergency_charge %}
-        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.emergency_charge) }}</p><p class="label">Emergency</p></div>
-        {% endif %}
-        {% if doc.clinic_charge %}
-        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.clinic_charge) }}</p><p class="label">Clinic</p></div>
-        {% endif %}
-        {% if doc.home_visit_charge and doc.available_for_home_visits %}
-        <div class="prac-charge"><p class="amount">{{ doc.currency or "INR" }} {{ "%.0f"|format(doc.home_visit_charge) }}</p><p class="label">Home Visit</p></div>
-        {% endif %}
-      </div>
-    </div>
-
-    <div class="prac-section">
-      <h2>Contact</h2>
-      <div class="prac-field-grid">
-        {% if doc.address_line1 %}<div class="prac-field"><p class="label">Address</p><p class="value">{{ doc.address_line1 }}</p></div>{% endif %}
-        {% if doc.city %}<div class="prac-field"><p class="label">Location</p><p class="value">{{ doc.city }}{{ ", " ~ doc.state if doc.state }}</p></div>{% endif %}
-        {% if doc.pincode %}<div class="prac-field"><p class="label">Pincode</p><p class="value">{{ doc.pincode }}</p></div>{% endif %}
-      </div>
-    </div>
-
-  </div>
-</div>
+  </div><!-- .prac-sheet -->
+</div><!-- .prac-record -->
 {% endblock %}

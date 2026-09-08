@@ -20,6 +20,7 @@ class AppNotification(Document):
 				try:
 					scheduled = get_datetime(self.scheduled_time)
 				except Exception:
+					frappe.log_error(frappe.get_traceback(), f"Invalid scheduled_time on AppNotification {self.name}")
 					scheduled = None
 
 			if not scheduled or scheduled <= now_datetime():

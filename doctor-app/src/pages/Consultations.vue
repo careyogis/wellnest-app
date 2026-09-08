@@ -443,6 +443,14 @@ function workflowClass(workflow) {
 }
 
 function openPrescription(consultation) {
+  if (
+    selectedConsultation.value?.id === consultation.id &&
+    showPatientDetails.value
+  ) {
+    showPatientDetails.value = false;
+    return;
+  }
+
   selectedConsultation.value = consultation;
   showPatientDetails.value = true;
 }
