@@ -25,7 +25,7 @@ class AppNotification(Document):
 			if not scheduled or scheduled <= now_datetime():
 				frappe.enqueue(
 					"wellnest.health.doctype.app_notification.app_notification.send_fcm_push",
-					queue="short",
+					queue="default",
 					# Idempotent job_id prevents duplicate jobs when the doc is
 					# re-saved before the worker has a chance to run.
 					job_id=f"fcm_push_{self.name}",
@@ -110,7 +110,7 @@ def send_scheduled_pushes():
 	for notif in pending_notifications:
 		frappe.enqueue(
 			"wellnest.health.doctype.app_notification.app_notification.send_fcm_push",
-			queue="short",
+			queue="default",
 			# Idempotent: RQ drops this silently if the job is already queued or
 			# running, preventing the queue from accumulating duplicate entries.
 			job_id=f"fcm_push_{notif.name}",
