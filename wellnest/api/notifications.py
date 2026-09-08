@@ -50,11 +50,11 @@ def send_doctor_whatsapp_alert():
 	try:
 		all_upcoming_appointments = frappe.get_all(
 			"Patient Appointment",
-			filters={
-				"status": "Scheduled",
-				"scheduled_time": [">=", now_datetime()],
-				"scheduled_time": ["<=", now_datetime() + timedelta(minutes=minutes_before)],
-			},
+			filters=[
+				["status", "=", "Scheduled"],
+				["scheduled_time", ">=", now_datetime()],
+				["scheduled_time", "<=", now_datetime() + timedelta(minutes=minutes_before)],
+			],
 			fields=["name", "practitioner", "patient", "scheduled_time", "consultation_type", "main_complaints"],
 			ignore_permissions=True,
 		)
