@@ -8,11 +8,16 @@ def parse_and_create_prescription(
     patient_appointment,
     file_url,
 ):
+    print(">>> PRESCRIPTION API START")
+
     if not patient_appointment:
         frappe.throw("Patient Appointment is required.")
 
     if not file_url:
         frappe.throw("Prescription file is required.")
+
+    print(f">>> Appointment: {patient_appointment}")
+    print(f">>> File URL: {file_url}")
 
     if file_url.startswith("/files/"):
         file_path = frappe.get_site_path(
@@ -33,35 +38,37 @@ def parse_and_create_prescription(
     else:
         frappe.throw(f"Unsupported file path: {file_url}")
 
+    print(f">>> Reading file: {file_path}")
+
     with open(file_path, "rb") as file:
         image_bytes = file.read()
 
-    if not image_bytes:
-        frappe.throw("Prescription file is empty.")
+    print(f">>> Image loaded: {len(image_bytes)} bytes")
+    print(">>> Calling process_prescription")
 
     doc_name = process_prescription(
         image_bytes,
         patient_appointment,
     )
 
-    return {"name": doc_name}
+    print(f">>> Prescription created: {doc_name}")
 
-@frappe.whitelist()
-def start_doctor_review(name):
-    doc = frappe.get_doc("Smart Prescription", name)
-
-    if doc.workflow_state not in ("Draft", "Doctor Review"):
-        frappe.throw(
-            "Prescription can only be saved while in Draft or Doctor Review state."
-        )
-
-    doc.workflow_state = "Doctor Review"
-    doc.save(ignore_permissions=True)
+    doc = frappe.get_doc("Smart Prescription", doc_name)
 
     return {
         "name": doc.name,
-        "workflow_state": doc.workflow_state,
-    }
+        "medicines": [
+            {
+                "name": medicine.medicine_name or "",
+                "dosage": medicine.dosage or "",
+                "timing": medicine.timing or "",
+                "duration": medicine.duration or "",
+            }
+            for medicine in doc.medicines
+        ],
+        "advice": doc.advice or "",
+}
+
     
 @frappe.whitelist()
 def save_ocr_prescription(name, response_data):
@@ -86,23 +93,6 @@ def save_ocr_prescription(name, response_data):
         "name": doc.name,
         "workflow_state": doc.workflow_state,
         "response_data": doc.response_data,
-    }
-
-@frappe.whitelist()
-def confirm_prescription(name):
-    doc = frappe.get_doc("Smart Prescription", name)
-
-    if doc.workflow_state != "Draft":
-        frappe.throw(
-            "Prescription must be in Doctor Review state before confirmation."
-        )
-
-    doc.workflow_state = "Confirmed"
-    doc.save(ignore_permissions=True)
-
-    return {
-        "name": doc.name,
-        "workflow_state": doc.workflow_state,
     }
 
 @frappe.whitelist()

@@ -527,15 +527,26 @@ async function submitRxImage() {
     if (!fileUrl) throw new Error('Failed to upload prescription image.');
 
     // 2. Call parse_and_create_prescription
-    await parseRxResource.submit({
-      patient_appointment: bookingId.value,
-      file_url: fileUrl,
-    });
+    const response = await parseRxResource.submit({
+  patient_appointment: bookingId.value,
+  file_url: fileUrl,
+});
 
-    rxParseStatus.value = {
-      type: 'success',
-      message: 'Rx image sent. Prescription will be created in the background.',
-    };
+const prescription = response?.message || response;
+
+medicines.value = (prescription?.medicines || []).map((medicine) => ({
+  name: medicine.name || '',
+  dosage: medicine.dosage || '',
+  timing: medicine.timing || '',
+  duration: medicine.duration || '',
+}));
+
+adviceNotes.value = prescription?.advice || '';
+
+rxParseStatus.value = {
+  type: 'success',
+  message: 'Prescription parsed successfully. Please review and edit before publishing.',
+};
     clearRxImage();
   } catch (err) {
     rxParseStatus.value = {
@@ -554,11 +565,9 @@ function clearRxImage() {
 }
 
 // Smart Rx Data
-const medicines = ref([
-  { name: 'Metformin 500mg', dosage: '1 tablet', timing: 'After Breakfast & Dinner', duration: '30 Days' },
-  { name: 'Glimepiride 1mg', dosage: '1 tablet', timing: 'Before Breakfast', duration: '30 Days' },
-]);
-const adviceNotes = ref('Maintain 45 mins morning walk daily. Check fasting blood sugar twice a week.');
+const medicines = ref([]);
+
+const adviceNotes = ref('');
 
 onMounted(async () => {
   handleResize();

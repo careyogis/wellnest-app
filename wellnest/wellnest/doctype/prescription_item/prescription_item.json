@@ -29,8 +29,7 @@
    "fieldname": "timing",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Timing",
-   "reqd": 1
+   "label": "Timing"
   },
   {
    "fieldname": "duration",
@@ -47,7 +46,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-09-02 10:00:12.376095",
+ "modified": "2026-09-07 15:51:28.334253",
  "modified_by": "nikhilsinha789@gmail.com",
  "module": "WellNest",
  "name": "Prescription Item",

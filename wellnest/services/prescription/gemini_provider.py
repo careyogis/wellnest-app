@@ -30,10 +30,14 @@ def clean_response(obj):
 
 
 def _get_client():
-    api_key = frappe.frappe.conf.get("gemini_api_key")
+    api_key = frappe.get_site_config().get("gemini_api_key")
 
     if not api_key:
-        frappe.throw("Gemini API key is not configured.")
+        frappe.throw(
+            f"Gemini API key is not configured. "
+            f"Site: {frappe.local.site}, "
+            f"Key present: {bool(frappe.get_site_config().get('gemini_api_key'))}"
+        )
 
     return genai.Client(api_key=api_key)
 
@@ -70,7 +74,7 @@ def parse_prescription(image_bytes: bytes):
     usage = response.usage_metadata
 
     print("\n========== Prescription Parsing ==========")
-    print("Model           : Gemini 2.5 Flash")
+    print("Model           : Gemini 3.6 Flash")
     print(f"Prompt Tokens   : {usage.prompt_token_count:,}")
     print(f"Response Tokens : {usage.candidates_token_count:,}")
     print(f"Total Tokens    : {usage.total_token_count:,}")
