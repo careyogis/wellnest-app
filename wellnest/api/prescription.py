@@ -11,13 +11,10 @@ def parse_and_create_prescription(
 ):
     print(">>> PRESCRIPTION API START")
 
-    if not patient_appointment:
-        frappe.throw("Patient Appointment is required.")
-
     if not file_url:
         frappe.throw("Prescription file is required.")
 
-    print(f">>> Appointment: {patient_appointment}")
+    print(f">>> Appointment: {patient_appointment or 'n/a'}")
     print(f">>> File URL: {file_url}")
 
     if file_url.startswith("/files/"):
