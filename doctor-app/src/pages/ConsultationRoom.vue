@@ -565,11 +565,15 @@ function clearRxImage() {
 }
 
 // Smart Rx Data
-const medicines = ref([
-  { name: 'Metformin 500mg', dosage: '1 tablet', timing: 'After Breakfast & Dinner', duration: '30 Days' },
-  { name: 'Glimepiride 1mg', dosage: '1 tablet', timing: 'Before Breakfast', duration: '30 Days' },
-]);
-const adviceNotes = ref('Maintain 45 mins morning walk daily. Check fasting blood sugar twice a week.');
+const medicines = ref([]);
+const adviceNotes = ref('');
+
+const prescriptionFilled = computed(() => {
+  const hasMedicine = medicines.value.some((medicine) => medicine.name?.trim());
+  const hasAdvice = adviceNotes.value.trim();
+
+  return hasMedicine || hasAdvice;
+});
 
 onMounted(async () => {
   handleResize();
@@ -691,7 +695,7 @@ function submitPrescription() {
 }
 
 async function confirmEndCall() {
-  if (!rxSubmitted.value) {
+ if (!prescriptionFilled.value && !rxSubmitted.value) {
     showPrescriptionPrompt.value = true;
     return;
   }
