@@ -79,8 +79,9 @@ def send_doctor_whatsapp_alert():
 			appointment_id = appointment.name
 			_send_whatsapp_message(doctor_phone, doctor_name, patient_name, age, reason, time, mode, appointment_id)
 	except Exception as exp:
-		frappe.log_error("Error Occurred while sending WhatsApp alert to doctors", str(exp))
+		frappe.log_error(frappe.get_traceback(), "WhatsApp Alert Error")
 		_logInfo(f"Check the error: {str(exp)}")
+
 
 	_logInfo(f"Finished sending WhatsApp alerts")
 

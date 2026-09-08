@@ -8,8 +8,8 @@ def parse_and_create_prescription(
     patient_appointment,
     file_url,
 ):
-    if not patient_appointment:
-        frappe.throw("Patient Appointment is required.")
+    # if not patient_appointment:
+    #     frappe.throw("Patient Appointment is required.")
 
     if not file_url:
         frappe.throw("Prescription file is required.")
