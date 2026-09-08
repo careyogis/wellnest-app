@@ -56,32 +56,27 @@ def get_customer_for_user(user):
 def update_fcm_token():
 	try:
 		data = json.loads(frappe.request.data)
-		email_id = data.get("email_id")
 		fcm_token = data.get("fcm_token")
 
-		if not email_id or not fcm_token:
-			frappe.throw("Missing email or token", title="Validation Error")
+		if not fcm_token:
+			frappe.throw("Missing fcm_token", title="Validation Error")
 
-		contact = frappe.db.sql(
-			"""
-			SELECT parent FROM `tabContact Email`
-			WHERE email_id = %s
-			LIMIT 1
-		""",
-			(email_id,),
-			as_dict=True,
+		# Use the session user's email so the client never needs to supply it,
+		# and there is no risk of one user overwriting another's token.
+		email_id = frappe.session.user
+
+		contact_name = frappe.db.get_value(
+			"Contact Email", {"email_id": email_id}, "parent"
 		)
 
-		if contact:
-			contact_doc = frappe.get_doc("Contact", contact[0]["parent"])
-			contact_doc.custom_fcm_token = fcm_token
-			contact_doc.save(ignore_permissions=True)
-			frappe.db.commit()
-
-			frappe.logger().info(f"✅ FCM Token updated for: {email_id}")
-			return {"status": "success", "message": "FCM Token updated successfully"}
-		else:
+		if not contact_name:
 			frappe.throw(f"Contact not found for {email_id}", title="Not Found")
+
+		# Targeted single-field update — no need to load the full Contact doc.
+		frappe.db.set_value("Contact", contact_name, "custom_fcm_token", fcm_token)
+
+		frappe.logger().info(f"FCM Token updated for: {email_id}")
+		return {"status": "success", "message": "FCM Token updated successfully"}
 
 	except Exception as e:
 		frappe.log_error(f"Exception: {str(e)}", "update_fcm_token")
