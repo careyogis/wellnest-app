@@ -7,12 +7,18 @@ from wellnest.services.prescription.processor import process_prescription
 def parse_and_create_prescription(
     patient_appointment,
     file_url,
+    file_name=None,
 ):
-    # if not patient_appointment:
-    #     frappe.throw("Patient Appointment is required.")
+    print(">>> PRESCRIPTION API START")
+
+    if not patient_appointment:
+        frappe.throw("Patient Appointment is required.")
 
     if not file_url:
         frappe.throw("Prescription file is required.")
+
+    print(f">>> Appointment: {patient_appointment}")
+    print(f">>> File URL: {file_url}")
 
     if file_url.startswith("/files/"):
         file_path = frappe.get_site_path(
@@ -33,36 +39,46 @@ def parse_and_create_prescription(
     else:
         frappe.throw(f"Unsupported file path: {file_url}")
 
+    print(f">>> Reading file: {file_path}")
+
     with open(file_path, "rb") as file:
         image_bytes = file.read()
 
-    if not image_bytes:
-        frappe.throw("Prescription file is empty.")
+    print(f">>> Image loaded: {len(image_bytes)} bytes")
+    print(">>> Calling process_prescription")
 
     doc_name = process_prescription(
         image_bytes,
         patient_appointment,
     )
 
-    return {"name": doc_name}
+    print(f">>> Prescription created: {doc_name}")
 
-@frappe.whitelist()
-def start_doctor_review(name):
-    doc = frappe.get_doc("Smart Prescription", name)
+    if file_name:
+        file_doc = frappe.get_doc("File", file_name)
+        file_doc.attached_to_doctype = "Smart Prescription"
+        file_doc.attached_to_name = doc_name
+        file_doc.save(ignore_permissions=True)
 
-    if doc.workflow_state not in ("Draft", "Doctor Review"):
-        frappe.throw(
-            "Prescription can only be saved while in Draft or Doctor Review state."
-        )
-
-    doc.workflow_state = "Doctor Review"
-    doc.save(ignore_permissions=True)
+    doc = frappe.get_doc("Smart Prescription", doc_name)
 
     return {
         "name": doc.name,
+        "file_url": file_url,
         "workflow_state": doc.workflow_state,
+        "medicines": [
+            {
+                "name": medicine.medicine_name or "",
+                "dosage": medicine.dosage or "",
+                "timing": medicine.timing or "",
+                "duration": medicine.duration or "",
+            }
+            for medicine in doc.medicines
+        ],
+        "advice": doc.advice or "",
     }
-    
+
+
 @frappe.whitelist()
 def save_ocr_prescription(name, response_data):
     if not name:
@@ -88,22 +104,6 @@ def save_ocr_prescription(name, response_data):
         "response_data": doc.response_data,
     }
 
-@frappe.whitelist()
-def confirm_prescription(name):
-    doc = frappe.get_doc("Smart Prescription", name)
-
-    if doc.workflow_state != "Draft":
-        frappe.throw(
-            "Prescription must be in Doctor Review state before confirmation."
-        )
-
-    doc.workflow_state = "Confirmed"
-    doc.save(ignore_permissions=True)
-
-    return {
-        "name": doc.name,
-        "workflow_state": doc.workflow_state,
-    }
 
 @frappe.whitelist()
 def create_consultation_prescription(
@@ -190,8 +190,8 @@ def create_consultation_prescription(
         item.instructions = medicine.get("instructions")
 
     doc.insert(
-    ignore_permissions=True,
-)
+        ignore_permissions=True,
+    )
 
     return {
         "name": doc.name,
@@ -216,6 +216,7 @@ def create_consultation_prescription(
             for item in doc.medicines
         ],
     }
+
 
 @frappe.whitelist()
 def save_consultation_prescription_draft(
@@ -265,22 +266,11 @@ def save_consultation_prescription_draft(
     doc.set("medicines", [])
 
     for medicine in medicines:
-        for field in (
-            "medicine_name",
-            "dosage",
-            "timing",
-            "duration",
-        ):
-            if not medicine.get(field):
-                frappe.throw(
-                    f"{field.replace('_', ' ').title()} is required."
-                )
-
         item = doc.append("medicines", {})
-        item.medicine_name = medicine["medicine_name"]
-        item.dosage = medicine["dosage"]
-        item.timing = medicine["timing"]
-        item.duration = medicine["duration"]
+        item.medicine_name = medicine.get("medicine_name")
+        item.dosage = medicine.get("dosage")
+        item.timing = medicine.get("timing")
+        item.duration = medicine.get("duration")
         item.instructions = medicine.get("instructions")
 
     doc.save(
@@ -308,6 +298,7 @@ def save_consultation_prescription_draft(
         ],
     }
 
+
 @frappe.whitelist()
 def complete_consultation_prescription(name):
     if not name:
@@ -330,8 +321,8 @@ def complete_consultation_prescription(name):
             frappe.PermissionError,
         )
 
-    if doc.workflow_state == "Confirmed":
-         return {
+    if doc.workflow_state == "Complete":
+        return {
             "name": doc.name,
             "workflow_state": doc.workflow_state,
         }
@@ -341,7 +332,7 @@ def complete_consultation_prescription(name):
             "Only a Draft prescription can be submitted."
         )
 
-    doc.workflow_state = "Confirmed"
+    doc.workflow_state = "Complete"
 
     doc.save(
         ignore_permissions=True,
@@ -353,6 +344,7 @@ def complete_consultation_prescription(name):
         "patient": doc.patient,
         "practitioner": doc.practitioner,
     }
+
 
 @frappe.whitelist()
 def get_consultation_prescription(appointment):
@@ -392,6 +384,15 @@ def get_consultation_prescription(appointment):
         prescription_name,
     )
 
+    file_url = frappe.db.get_value(
+        "File",
+        {
+            "attached_to_doctype": "Smart Prescription",
+            "attached_to_name": doc.name,
+        },
+        "file_url",
+    )
+
     return {
         "name": doc.name,
         "patient_appointment": doc.patient_appointment,
@@ -403,6 +404,7 @@ def get_consultation_prescription(appointment):
         "follow_up_advice": doc.follow_up_advice,
         "diet_advice": doc.diet_advice,
         "exercise_advice": doc.exercise_advice,
+        "file_url": file_url,
         "medicines": [
             {
                 "name": item.name,
@@ -415,5 +417,3 @@ def get_consultation_prescription(appointment):
             for item in doc.medicines
         ],
     }
-
-

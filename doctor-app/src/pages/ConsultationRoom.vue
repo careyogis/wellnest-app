@@ -229,10 +229,15 @@
               <input ref="rxImageInput" type="file" accept="image/*" capture="environment" class="hidden" @change="onRxImageSelected" />
 
               <!-- Preview & submit -->
-              <div v-if="rxImagePreview" class="p-3 space-y-2.5">
-                <img :src="rxImagePreview" alt="Rx preview" class="w-full rounded-lg border border-gray-700 object-contain max-h-48" />
+              <div v-if="rxImagePreview || rxPersistedImage" class="p-3 space-y-2.5">
+                <img
+                :src="rxImagePreview || rxPersistedImage"
+                alt="Rx preview"
+                class="w-full rounded-lg border border-gray-700 object-contain max-h-48"
+                />
                 <div class="flex gap-2">
                   <button
+                  v-if="rxImagePreview"
                     @click="submitRxImage"
                     :disabled="rxParseLoading"
                     type="button"
@@ -241,7 +246,7 @@
                     <FeatherIcon :name="rxParseLoading ? 'loader' : 'upload-cloud'" class="w-3.5 h-3.5" :class="rxParseLoading ? 'animate-spin' : ''" />
                     {{ rxParseLoading ? 'Sending...' : 'Parse & Create Rx' }}
                   </button>
-                  <button @click="clearRxImage" type="button" class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs font-bold transition-all">Clear</button>
+                  <button @click="clearRxImage"  v-if="rxImagePreview" type="button" class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs font-bold transition-all">Clear</button>
                 </div>
               </div>
 
@@ -264,7 +269,11 @@
 
             <div class="flex items-center justify-between">
               <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider">Prescribed Medicines</h4>
-              <button @click="addMedicine" type="button" class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
+              <button
+                v-if="isEditingPrescription"
+              @click="addMedicine"
+              type="button"
+              class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
                 <FeatherIcon name="plus" class="w-3 h-3" /> Add Drug
               </button>
             </div>
@@ -275,29 +284,36 @@
                 <div class="flex items-center justify-between gap-2">
                   <input
                     v-model="med.name"
+                    :disabled="!isEditingPrescription"
                     type="text"
                     placeholder="Medicine Name (e.g. Metformin 500mg)"
                     class="flex-1 bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500 font-medium"
                   />
-                  <button @click="removeMedicine(idx)" class="p-1 text-gray-500 hover:text-red-400 flex-shrink-0" title="Remove Medicine">
+                  <button
+                  v-if="isEditingPrescription"
+                   @click="removeMedicine(idx)"
+                   class="p-1 text-gray-500 hover:text-red-400 flex-shrink-0" title="Remove Medicine">
                     <FeatherIcon name="trash-2" class="w-3.5 h-3.5" />
                   </button>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5 text-xs sm:text-[11px]">
                   <input
                     v-model="med.dosage"
+                    :disabled="!isEditingPrescription"
                     type="text"
                     placeholder="Dosage (e.g. 1 tab)"
                     class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-white focus:outline-none focus:border-amber-500"
                   />
                   <input
                     v-model="med.timing"
+                    :disabled="!isEditingPrescription"
                     type="text"
                     placeholder="Timing (e.g. After Meals)"
                     class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-white focus:outline-none focus:border-amber-500"
                   />
                   <input
                     v-model="med.duration"
+                    :disabled="!isEditingPrescription"
                     type="text"
                     placeholder="Duration (e.g. 30 Days)"
                     class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-white focus:outline-none focus:border-amber-500"
@@ -311,6 +327,7 @@
               <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Doctor's Advice / Diet</h4>
               <textarea
                 v-model="adviceNotes"
+                :disabled="!isEditingPrescription"
                 rows="3"
                 placeholder="e.g. 45 mins brisk walk daily. Avoid sugar and refined carbs. Re-check fasting sugar in 2 weeks."
                 class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
@@ -320,14 +337,39 @@
 
           <!-- Bottom Action: Sign & Dispatch Rx -->
           <div class="p-2.5 sm:p-3 bg-gray-950 border-t border-gray-800 flex-shrink-0">
-            <button
-              @click="submitPrescription"
-              type="button"
-              class="w-full py-2.5 sm:py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg"
-            >
-              <FeatherIcon name="check-circle" class="w-4 h-4" />
-              Sign & Publish Smart Rx to Patient
-            </button>
+            <div class="flex gap-2">
+  <button
+    v-if="!isEditingPrescription && prescriptionWorkflowState === 'Draft'"
+    @click="isEditingPrescription = true"
+    type="button"
+    class="flex-1 py-2.5 sm:py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2"
+  >
+    <FeatherIcon name="edit-2" class="w-4 h-4" />
+    Edit
+  </button>
+
+  <button
+    v-if="isEditingPrescription"
+    @click="savePrescriptionDraft"
+    :disabled="rxSaving"
+    type="button"
+    class="flex-1 py-2.5 sm:py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 disabled:opacity-50"
+  >
+    <FeatherIcon name="save" class="w-4 h-4" />
+    {{ rxSaving ? 'Saving...' : 'Save Draft' }}
+  </button>
+
+  <button
+    v-if="!isEditingPrescription && prescriptionWorkflowState === 'Draft'"
+    @click="submitPrescription"
+    :disabled="rxSubmitting"
+    type="button"
+    class="flex-1 py-2.5 sm:py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm sm:text-base flex items-center justify-center gap-2 disabled:opacity-50"
+  >
+    <FeatherIcon name="check-circle" class="w-4 h-4" />
+    {{ rxSubmitting ? 'Submitting...' : 'Submit Final' }}
+  </button>
+</div>
           </div>
         </div>
 
@@ -504,9 +546,27 @@ const rxParseLoading = ref(false);
 const rxParseStatus = ref(null);
 const rxSubmitted = ref(false);
 const showPrescriptionPrompt = ref(false);
+const prescriptionName = ref(null);
+const rxPersistedImage = ref(null);
+const isEditingPrescription = ref(false);
+const prescriptionWorkflowState = ref(null);
+const rxSaving = ref(false);
+const rxSubmitting = ref(false);
 
 const parseRxResource = createResource({
   url: 'wellnest.api.prescription.parse_and_create_prescription',
+});
+
+const getPrescriptionResource = createResource({
+  url: 'wellnest.api.prescription.get_consultation_prescription',
+});
+
+const savePrescriptionDraftResource = createResource({
+  url: 'wellnest.api.prescription.save_consultation_prescription_draft',
+});
+
+const completePrescriptionResource = createResource({
+  url: 'wellnest.api.prescription.complete_consultation_prescription',
 });
 
 function triggerRxImageCapture() {
@@ -527,30 +587,52 @@ async function submitRxImage() {
   if (!rxSelectedFile.value) return;
   rxParseLoading.value = true;
   rxParseStatus.value = null;
+
   try {
     // 1. Upload image to Frappe file store
     const formData = new FormData();
     formData.append('file', rxSelectedFile.value);
+
     const uploadResponse = await fetch('/api/method/upload_file', {
       method: 'POST',
       body: formData,
     });
+
     const uploadResult = await uploadResponse.json();
+    console.log('UPLOAD RESULT:', uploadResult);
     const fileUrl = uploadResult.message?.file_url;
-    if (!fileUrl) throw new Error('Failed to upload prescription image.');
+    const fileName = uploadResult.message?.name;
+
+    if (!fileUrl) {
+      throw new Error('Failed to upload prescription image.');
+    }
 
     // 2. Call parse_and_create_prescription
-    await parseRxResource.submit({
+    const response = await parseRxResource.submit({
       patient_appointment: bookingId.value,
       file_url: fileUrl,
+      file_name: fileName,
     });
+
+    const prescription = response?.message || response;
+    prescriptionName.value = prescription?.name || null;
+
+    medicines.value = (prescription?.medicines || []).map((medicine) => ({
+      name: medicine.name || '',
+      dosage: medicine.dosage || '',
+      timing: medicine.timing || '',
+      duration: medicine.duration || '',
+    }));
+
+    adviceNotes.value = prescription?.advice || '';
 
     rxSubmitted.value = true;
 
     rxParseStatus.value = {
       type: 'success',
-      message: 'Rx image sent. Prescription will be created in the background.',
+      message: 'Prescription parsed successfully. Please review and edit before publishing.',
     };
+
     clearRxImage();
   } catch (err) {
     rxParseStatus.value = {
@@ -568,8 +650,44 @@ function clearRxImage() {
   rxSelectedFile.value = null;
 }
 
+async function loadExistingPrescription() {
+  try {
+    const response = await getPrescriptionResource.submit({
+      appointment: bookingId.value,
+    });
+
+    const prescription = response?.message || response;
+
+    if (!prescription) {
+      return;
+    }
+    prescriptionName.value = prescription.name || null;
+
+    rxPersistedImage.value = prescription.file_url || null;
+    prescriptionWorkflowState.value = prescription.workflow_state || null;
+    isEditingPrescription.value = false;
+
+    medicines.value = (prescription.medicines || []).map((medicine) => ({
+      name: medicine.medicine_name || '',
+      dosage: medicine.dosage || '',
+      timing: medicine.timing || '',
+      duration: medicine.duration || '',
+    }));
+
+    adviceNotes.value =
+      prescription.follow_up_advice ||
+      prescription.diet_advice ||
+      '';
+
+    rxSubmitted.value = prescription.workflow_state === 'Confirmed';
+  } catch (error) {
+    console.error('Failed to load existing prescription:', error);
+  }
+}
+
 // Smart Rx Data
 const medicines = ref([]);
+
 const adviceNotes = ref('');
 
 const prescriptionFilled = computed(() => {
@@ -582,6 +700,8 @@ const prescriptionFilled = computed(() => {
 onMounted(async () => {
   handleResize();
   window.addEventListener('resize', handleResize);
+
+  await loadExistingPrescription();
   await joinRoom();
 });
 
@@ -693,9 +813,79 @@ function removeMedicine(index) {
   medicines.value.splice(index, 1);
 }
 
-function submitPrescription() {
-  alert('Smart Prescription signed and delivered to patient app successfully!');
-  activeTab.value = 'summary';
+async function savePrescriptionDraft() {
+  if (!prescriptionName.value) {
+    alert('Prescription not found. Please process the prescription first.');
+    return;
+  }
+
+  rxSaving.value = true;
+
+  try {
+    await savePrescriptionDraftResource.submit({
+      name: prescriptionName.value,
+      medicines: JSON.stringify(
+        medicines.value.map((medicine) => ({
+          medicine_name: medicine.name,
+          dosage: medicine.dosage,
+          timing: medicine.timing,
+          duration: medicine.duration,
+        }))
+      ),
+      follow_up_advice: adviceNotes.value,
+    });
+
+    isEditingPrescription.value = false;
+
+    rxParseStatus.value = {
+      type: 'success',
+      message: 'Prescription draft saved successfully.',
+    };
+  } catch (error) {
+    console.error('Failed to save prescription draft:', error);
+
+    rxParseStatus.value = {
+      type: 'error',
+      message: error?.message || 'Failed to save prescription draft.',
+    };
+  } finally {
+    rxSaving.value = false;
+  }
+}
+
+async function submitPrescription() {
+  if (!prescriptionName.value) {
+    alert('Prescription not found. Please process the prescription first.');
+    return;
+  }
+
+  rxSubmitting.value = true;
+
+  try {
+    await completePrescriptionResource.submit({
+      name: prescriptionName.value,
+    });
+
+    prescriptionWorkflowState.value = 'Complete';
+    rxSubmitted.value = true;
+    isEditingPrescription.value = false;
+
+    rxParseStatus.value = {
+      type: 'success',
+      message: 'Prescription submitted successfully.',
+    };
+
+    activeTab.value = 'summary';
+  } catch (error) {
+    console.error('Failed to submit prescription:', error);
+
+    rxParseStatus.value = {
+      type: 'error',
+      message: error?.message || 'Failed to submit prescription.',
+    };
+  } finally {
+    rxSubmitting.value = false;
+  }
 }
 
 async function confirmEndCall() {
