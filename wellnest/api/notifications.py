@@ -122,7 +122,7 @@ def _send_whatsapp_message(doctor_phone, doctor_name, patient_name, age, reason,
                         {"type": "text", "text": reason},
                         {"type": "text", "text": time},
                         {"type": "text", "text": mode},
-                        {"type": "text", "text": f"{site_url}/doctor-app/consultations/{appointment_id}"}
+                        {"type": "text", "text": f"{site_url}/doctor-app/consultations"}
                     ]
                 }
             ]

@@ -47,12 +47,14 @@
       <!-- Right: Quick Actions -->
       <div class="flex items-center gap-1 md:gap-2 flex-shrink-0 order-3 md:order-none">
         <!-- Chat Button -->
-        <button @click="openDrawerTab('chat')" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors relative" title="In-call Chat">
-          <FeatherIcon name="message-square" class="w-4 h-4 sm:w-5 sm:h-5" />
-          <span v-if="unreadChatCount > 0" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-black text-[10px] font-bold flex items-center justify-center">
-            {{ unreadChatCount }}
-          </span>
-        </button>
+       <!--
+<button @click="openDrawerTab('chat')" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors relative" title="In-call Chat">
+  <FeatherIcon name="message-square" class="w-4 h-4 sm:w-5 sm:h-5" />
+  <span v-if="unreadChatCount > 0" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-black text-[10px] font-bold flex items-center justify-center">
+    {{ unreadChatCount }}
+  </span>
+</button>
+-->
 
         <!-- EHR / Notes Button (Mobile quick open) -->
         <button @click="openDrawerTab('summary')" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors lg:hidden" title="Patient EHR & Notes">
@@ -194,22 +196,23 @@
           >
             Summary & EHR
           </button>
-          <button
-            @click="activeTab = 'chat'"
-            :class="activeTab === 'chat' ? 'bg-gray-800 text-white font-bold' : 'text-gray-400 hover:text-white'"
-            class="flex-1 py-2 text-xs rounded-lg transition-colors text-center relative truncate px-1"
-          >
-            Chat
-            <span v-if="unreadChatCount > 0" class="ml-1 px-1.5 py-0.2 rounded-full bg-amber-500 text-black text-[9px] font-bold">
-              {{ unreadChatCount }}
-            </span>
-          </button>
+          <!--
+<button
+  @click="activeTab = 'chat'"
+  :class="activeTab === 'chat' ? 'bg-gray-800 text-white font-bold' : 'text-gray-400 hover:text-white'"
+  class="flex-1 py-2 text-xs rounded-lg transition-colors text-center relative truncate px-1"
+>
+  Chat
+  <span v-if="unreadChatCount > 0" class="ml-1 px-1.5 py-0.2 rounded-full bg-amber-500 text-black text-[9px] font-bold">
+    {{ unreadChatCount }}
+  </span>
+</button>
+-->
         </div>
 
         <!-- Tab 1: Smart Prescription Generator -->
         <div v-show="activeTab === 'rx'" class="flex-1 flex flex-col overflow-hidden">
           <div class="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
-
             <!-- Scan Physical Rx -->
             <div class="bg-gray-950 rounded-xl border border-gray-800 overflow-hidden">
               <div class="flex items-center justify-between px-3 py-2.5 border-b border-gray-800">
@@ -217,24 +220,13 @@
                   <FeatherIcon name="camera" class="w-3.5 h-3.5 text-amber-400" />
                   Scan Physical Rx
                 </h4>
-                <button
-                  @click="triggerRxImageCapture"
-                  type="button"
-                  class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1"
-                >
+                <button @click="triggerRxImageCapture" type="button" class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
                   <FeatherIcon name="camera" class="w-3 h-3" /> Take Photo
                 </button>
               </div>
 
               <!-- Hidden file input -->
-              <input
-                ref="rxImageInput"
-                type="file"
-                accept="image/*"
-                capture="environment"
-                class="hidden"
-                @change="onRxImageSelected"
-              />
+              <input ref="rxImageInput" type="file" accept="image/*" capture="environment" class="hidden" @change="onRxImageSelected" />
 
               <!-- Preview & submit -->
               <div v-if="rxImagePreview" class="p-3 space-y-2.5">
@@ -249,20 +241,14 @@
                     <FeatherIcon :name="rxParseLoading ? 'loader' : 'upload-cloud'" class="w-3.5 h-3.5" :class="rxParseLoading ? 'animate-spin' : ''" />
                     {{ rxParseLoading ? 'Sending...' : 'Parse & Create Rx' }}
                   </button>
-                  <button
-                    @click="clearRxImage"
-                    type="button"
-                    class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs font-bold transition-all"
-                  >
-                    Clear
-                  </button>
+                  <button @click="clearRxImage" type="button" class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs font-bold transition-all">Clear</button>
                 </div>
               </div>
 
               <!-- Empty state -->
               <div v-else class="p-4 flex flex-col items-center gap-2 text-center">
                 <FeatherIcon name="image" class="w-8 h-8 text-gray-700" />
-                <p class="text-xs text-gray-500">Capture or upload a photo of a physical prescription.<br/>It will be parsed and created asynchronously.</p>
+                <p class="text-xs text-gray-500">Capture or upload a photo of a physical prescription.<br />It will be parsed and created asynchronously.</p>
               </div>
 
               <!-- Status message -->
@@ -418,6 +404,31 @@
       </div>
     </div>
   </div>
+
+  <!-- Prescription Upload Prompt -->
+  <div v-if="showPrescriptionPrompt" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
+    <div class="w-full max-w-md rounded-2xl bg-gray-900 border border-gray-700 shadow-2xl p-5 sm:p-6">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0">
+          <FeatherIcon name="file-text" class="w-5 h-5 text-amber-400" />
+        </div>
+
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-white">Prescription Not Uploaded</h3>
+
+          <p class="mt-2 text-sm text-gray-400 leading-relaxed">Please upload or scan the handwritten prescription before ending the consultation.</p>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 mt-6">
+        <button @click="cancelPrescriptionPrompt" type="button" class="px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold transition-colors">Cancel</button>
+
+        <button @click="uploadPrescriptionBeforeEnd" type="button" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-sm font-bold transition-colors">
+          Upload Prescription
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -491,6 +502,8 @@ const rxImagePreview = ref(null);
 const rxSelectedFile = ref(null);
 const rxParseLoading = ref(false);
 const rxParseStatus = ref(null);
+const rxSubmitted = ref(false);
+const showPrescriptionPrompt = ref(false);
 
 const parseRxResource = createResource({
   url: 'wellnest.api.prescription.parse_and_create_prescription',
@@ -514,39 +527,48 @@ async function submitRxImage() {
   if (!rxSelectedFile.value) return;
   rxParseLoading.value = true;
   rxParseStatus.value = null;
+
   try {
     // 1. Upload image to Frappe file store
     const formData = new FormData();
     formData.append('file', rxSelectedFile.value);
+
     const uploadResponse = await fetch('/api/method/upload_file', {
       method: 'POST',
       body: formData,
     });
+
     const uploadResult = await uploadResponse.json();
     const fileUrl = uploadResult.message?.file_url;
-    if (!fileUrl) throw new Error('Failed to upload prescription image.');
+
+    if (!fileUrl) {
+      throw new Error('Failed to upload prescription image.');
+    }
 
     // 2. Call parse_and_create_prescription
     const response = await parseRxResource.submit({
-  patient_appointment: bookingId.value,
-  file_url: fileUrl,
-});
+      patient_appointment: bookingId.value,
+      file_url: fileUrl,
+    });
 
-const prescription = response?.message || response;
+    const prescription = response?.message || response;
 
-medicines.value = (prescription?.medicines || []).map((medicine) => ({
-  name: medicine.name || '',
-  dosage: medicine.dosage || '',
-  timing: medicine.timing || '',
-  duration: medicine.duration || '',
-}));
+    medicines.value = (prescription?.medicines || []).map((medicine) => ({
+      name: medicine.name || '',
+      dosage: medicine.dosage || '',
+      timing: medicine.timing || '',
+      duration: medicine.duration || '',
+    }));
 
-adviceNotes.value = prescription?.advice || '';
+    adviceNotes.value = prescription?.advice || '';
 
-rxParseStatus.value = {
-  type: 'success',
-  message: 'Prescription parsed successfully. Please review and edit before publishing.',
-};
+    rxSubmitted.value = true;
+
+    rxParseStatus.value = {
+      type: 'success',
+      message: 'Prescription parsed successfully. Please review and edit before publishing.',
+    };
+
     clearRxImage();
   } catch (err) {
     rxParseStatus.value = {
@@ -689,6 +711,15 @@ function submitPrescription() {
 }
 
 async function confirmEndCall() {
+  if (!rxSubmitted.value) {
+    showPrescriptionPrompt.value = true;
+    return;
+  }
+
+  await endConsultation();
+}
+
+async function endConsultation() {
   if (!confirm('Are you sure you want to conclude this teleconsultation?')) {
     return;
   }
@@ -702,6 +733,16 @@ async function confirmEndCall() {
   } catch (error) {
     console.error('Failed to end consultation:', error);
   }
+}
+
+function uploadPrescriptionBeforeEnd() {
+  showPrescriptionPrompt.value = false;
+  triggerRxImageCapture();
+}
+
+async function cancelPrescriptionPrompt() {
+  showPrescriptionPrompt.value = false;
+  await endConsultation();
 }
 async function leaveRoom() {
   clearInterval(timerInterval);
