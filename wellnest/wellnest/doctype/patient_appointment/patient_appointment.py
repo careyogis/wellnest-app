@@ -50,6 +50,12 @@ def get_teleconsultation_appointments():
             "full_name",
         ) or appointment["patient"]
 
+        appointment["prescription_workflow_state"] = frappe.db.get_value(
+            "Smart Prescription",
+            {"patient_appointment": appointment["name"]},
+            "workflow_state",
+        )
+
     return appointments
 
 def _get_agora_uid(user):
