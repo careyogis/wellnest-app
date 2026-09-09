@@ -42,7 +42,7 @@ def get_recommended_packages(parent_group: str = "Packages"):
 	# 3. Fetch all active prices for these items (Removed limit_page_length)
 	prices = frappe.get_all(
 		"Item Price",
-		filters=[["item_code", "in", item_codes]],
+		filters=[["item_code", "in", item_codes], ["disabled", "=", 0]],
 		fields=["item_code", "price_list_rate", "uom", "packing_unit"],
 		ignore_permissions=True,
 	)
