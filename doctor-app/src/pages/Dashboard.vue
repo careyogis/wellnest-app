@@ -91,7 +91,7 @@
   <div
     v-for="consultation in consultationsResource.data || []"
     :key="consultation.name"
-    class="flex items-center justify-between border border-gray-200 rounded-xl p-4"
+   class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border border-gray-200 rounded-xl p-4"
   >
     <div class="flex items-center gap-3">
       <div
