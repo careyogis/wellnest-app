@@ -5,11 +5,13 @@ from wellnest.services.prescription.processor import process_prescription
 
 @frappe.whitelist()
 def parse_and_create_prescription(
-    patient_appointment,
+    patient,
     file_url,
-    file_name=None,
+    patient_appointment=None,
 ):
     print(">>> PRESCRIPTION API START")
+
+    file_name=None
 
     if not file_url:
         frappe.throw("Prescription file is required.")
@@ -46,6 +48,7 @@ def parse_and_create_prescription(
 
     doc_name = process_prescription(
         image_bytes,
+        patient,
         patient_appointment,
     )
 

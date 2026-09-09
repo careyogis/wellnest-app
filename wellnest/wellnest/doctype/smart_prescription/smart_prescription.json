@@ -33,8 +33,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Practitioner",
-   "options": "Practitioner",
-   "reqd": 1
+   "options": "Practitioner"
   },
   {
    "fieldname": "prescription_date",

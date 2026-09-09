@@ -609,9 +609,9 @@ async function submitRxImage() {
 
     // 2. Call parse_and_create_prescription
     const response = await parseRxResource.submit({
-      patient_appointment: bookingId.value,
+      patient: patient.name,
       file_url: fileUrl,
-      file_name: fileName,
+      patient_appointment: bookingId.value,
     });
 
     const prescription = response?.message || response;
