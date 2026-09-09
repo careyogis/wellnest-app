@@ -6,19 +6,12 @@ from .gemini_provider import parse_prescription
 
 def process_prescription(
     image_bytes,
+    patient,
     patient_appointment,
 ):    
-    if not patient_appointment:
-        frappe.log_error("process_prescription called without the mandatory patient_appointment param")
-        return
-
-    appointment = frappe.get_doc("Patient Appointment", patient_appointment)
-    patient = appointment.patient
-    practitioner = appointment.practitioner
-
-    if not patient or not practitioner:
-        frappe.log_error("Patient or Practitioner not found on appointment on the appointment: {patient_appointment}")
-        return
+    practitioner = None
+    if patient_appointment:
+        practitioner = frappe.get_value("Patient Appointment", patient_appointment, "practitioner")
 
     result = parse_prescription(image_bytes)
     prescription = result.get("prescription", result)
