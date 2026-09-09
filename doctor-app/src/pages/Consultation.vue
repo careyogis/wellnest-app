@@ -7,7 +7,7 @@
 
         <!-- Clinical findings -->
         <section class="bg-white border border-gray-200 rounded-2xl p-6">
-          <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
             <div>
               <h1 class="text-2xl font-bold text-gray-900">
                 Clinical findings
@@ -46,7 +46,7 @@
 
           <!-- Chief complaints -->
           <div class="mb-7">
-            <div class="flex items-center justify-between mb-4">
+       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
               <h2 class="text-xl font-bold text-gray-900">
                Chief Complaints (with duration) <span class="text-red-500">*</span>
               </h2>
@@ -223,11 +223,12 @@
          p-6"
 >
   <div
-    class="flex items-start
-           justify-between
-           gap-4
-           mb-4"
-  >
+  class="flex flex-col sm:flex-row
+         sm:items-start
+         sm:justify-between
+         gap-3
+         mb-4"
+>
     <div>
       <h2 class="text-xl font-bold text-gray-900">
         Investigations advised
@@ -240,7 +241,8 @@
 
     <button
       type="button"
-      class="px-4 py-2
+     class="w-full sm:w-auto
+       px-4 py-2
              rounded-xl
              bg-gray-50
              text-gray-900
@@ -256,7 +258,7 @@
   <div
     v-for="(investigation, index) in investigations"
     :key="index"
-    class="flex items-center gap-3"
+   class="flex flex-col sm:flex-row sm:items-center gap-3"
   >
     <input
       v-model="investigations[index]"
@@ -300,11 +302,13 @@
 >
   <!-- Header -->
   <div
-    class="flex items-start
-           justify-between
-           gap-4
-           mb-5"
-  >
+  class="flex flex-col
+         sm:flex-row
+         sm:items-start
+         sm:justify-between
+         gap-3
+         mb-5"
+>
     <div>
       <h2 class="text-xl font-bold text-gray-900">
         Treatment / Medication
@@ -446,12 +450,14 @@
          p-6"
 >
   <!-- Header -->
-  <div
-    class="flex items-start
-           justify-between
-           gap-4
-           mb-6"
-  >
+ <div
+  class="flex flex-col
+         sm:flex-row
+         sm:items-start
+         sm:justify-between
+         gap-3
+         mb-6"
+>
     <div>
       <h2 class="text-xl font-bold text-gray-900">
         Follow-up and lifestyle advice
@@ -839,39 +845,45 @@
       >
 <!-- Prescription header -->
 <div
-  class="flex items-start
-         justify-between
-         gap-5
+  class="flex flex-col
+         md:flex-row
+         md:items-start
+         md:justify-between
+         gap-4
          pb-5
          border-b border-amber-200"
 >
   <!-- CareYogi logo + details -->
-  <div class="flex items-start gap-4">
+  <div class="flex flex-col sm:flex-row items-start gap-4">
     <img
       :src="careyogiLogo"
       alt="CareYogi"
-      class="w-32
-             h-auto
-             object-contain
-             shrink-0"
+    class="w-24 sm:w-32
+       h-auto
+       object-contain
+       shrink-0"
     />
 
     <div>
       <h3
-        class="text-xl
-               font-bold
-               text-gray-900"
-      >
+    
+  class="text-lg
+         sm:text-xl
+         font-bold
+         text-gray-900
+         break-words"
+>
+      
                 CAREYOGI DIGITAL CONSULTATION PRESCRIPTION
               </h3>
 
-              <p class="text-sm text-gray-600 mt-2">
+             <p class="text-sm text-gray-600 mt-2 break-words">
                 5th Floor, Adilakshmi Square, Plot No.137,
                 Old Mumbai Highway, Gachibowli, Hyderabad,
                 Telangana - 500032
               </p>
 
-              <p class="text-sm text-gray-600 mt-1">
+             <p class="text-sm text-gray-600 mt-1 break-words">
                 +91-9810918237 / info@careyogis.com
               </p>
             </div>
@@ -893,12 +905,13 @@
         </div>
 
         <!-- Patient / consultation details -->
-        <div
-          class="grid grid-cols-2
-                 md:grid-cols-4
-                 gap-3
-                 mt-5"
-        >
+       <div
+  class="grid grid-cols-1
+         sm:grid-cols-2
+         md:grid-cols-4
+         gap-3
+         mt-5"
+>
           <div
             v-for="item in previewDetails"
             :key="item.label"
@@ -1008,11 +1021,12 @@
           </h3>
 
           <div
-            class="grid grid-cols-2
-                   md:grid-cols-3
-                   gap-3
-                   mt-3"
-          >
+  class="grid grid-cols-1
+         sm:grid-cols-2
+         md:grid-cols-3
+         gap-3
+         mt-4"
+>
             <div
               v-for="vital in vitals"
               :key="vital.label"
@@ -1280,14 +1294,16 @@
   @click.self="showOcrModal = false"
 >
   <div
-    class="w-full
-           max-w-6xl
-           max-h-[90vh]
-           bg-white
-           rounded-xl
-           shadow-xl
-           overflow-hidden"
-  >
+  class="w-full
+         max-w-6xl
+         h-[90vh]
+         max-h-[90vh]
+         bg-white
+         rounded-xl
+         shadow-xl
+         overflow-hidden
+         flex flex-col"
+>
 
     <!-- Modal header -->
     <div
@@ -1321,21 +1337,22 @@
 
       <!-- Information banner -->
       <div
-        class="rounded-lg
-               border border-sky-300
-               bg-sky-100
-               px-5 py-4
-               text-sky-900"
-      >
-        Doctor can complete the digital prescription during or after the consultation.
-      </div>
+  class="rounded-lg
+         border border-sky-300
+         bg-sky-100
+         px-4 py-2
+         text-sm
+         text-sky-900"
+>
+  Doctor can complete the digital prescription during or after the consultation.
+</div>
 
       <!-- Two-column content -->
       <div
         class="grid grid-cols-1
                md:grid-cols-2
                gap-5
-               mt-5"
+               mt-3"
       >
 
         <!-- Uploaded image -->
