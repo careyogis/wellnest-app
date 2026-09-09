@@ -345,12 +345,19 @@ const consultations = computed(() => {
     practitioner: appointment.practitioner,
     bookingStatus: appointment.status,
     paymentStatus: appointment.payment_status,
+    prescriptionWorkflowState: appointment.prescription_workflow_state,
     mode: 'Video',
     reason: 'Teleconsultation',
     workflow: 'Clinical consultation',
     appointment: appointment.name,
   }));
 });
+
+const digitalDraftCount = computed(() =>
+  consultations.value.filter(
+    (consultation) => consultation.prescriptionWorkflowState === 'Draft'
+  ).length
+);
 
 const statusFilter = ref('Upcoming');
 
@@ -397,7 +404,7 @@ const showTemplatePreview = ref(false);
 const summaryCards = computed(() => [
   {
     title: 'Digital drafts',
-    value: '0',
+    value: digitalDraftCount.value,
     description: 'Written during or after consultation',
     icon: 'edit-3',
   },
