@@ -609,13 +609,14 @@ async function submitRxImage() {
 
     // 2. Call parse_and_create_prescription
     const response = await parseRxResource.submit({
-      patient: patient.name,
+       patient: patient.value.name,
       file_url: fileUrl,
       patient_appointment: bookingId.value,
     });
 
     const prescription = response?.message || response;
     prescriptionName.value = prescription?.name || null;
+    prescriptionWorkflowState.value = prescription?.workflow_state || 'Draft';
 
     medicines.value = (prescription?.medicines || []).map((medicine) => ({
       name: medicine.name || '',

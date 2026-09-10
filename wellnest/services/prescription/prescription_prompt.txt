@@ -9,6 +9,45 @@ Return ONLY valid JSON matching the provided response schema.
 Do not return markdown, explanations, comments, reasoning, or extra text.
 
 ====================================================
+DOCUMENT TYPE
+====================================================
+
+First determine whether the uploaded image is a medical prescription.
+
+Set:
+
+• is_prescription = true
+
+ONLY when the document is a prescription or medication order issued by a doctor or other medical practitioner, containing prescribed medicines or treatment instructions.
+
+Set:
+
+• is_prescription = false
+
+when the image is not a prescription, including:
+
+• laboratory reports
+• diagnostic reports
+• medical bills or invoices
+• patient ID cards
+• referral letters without a prescription
+• medical certificates
+• discharge summaries without a prescription
+• unrelated documents
+• blank or unreadable images
+• photographs that are not medical prescriptions
+
+Rules:
+
+• Do not classify a document as a prescription merely because it contains medical words.
+• A lab report, even if it contains medicines or medical information, is not a prescription.
+• When uncertain whether the document is a prescription, set is_prescription = false.
+• If is_prescription = false, return ONLY:
+  {"is_prescription": false}
+
+Do not extract patient, doctor, medicines, diagnosis, investigations, instructions, or any other prescription fields when is_prescription = false.
+
+====================================================
 GENERAL RULES
 ====================================================
 
@@ -182,14 +221,68 @@ Do NOT copy prescription follow-up duration.
 
 Instruction
 
-Include ONLY medicine-specific instructions.
+Include ONLY medicine-specific instructions that are explicitly written on the prescription.
 
-Do not repeat frequency.
+Do NOT infer, interpret, expand, or generate an instruction from:
 
-If written in another language:
+• medicine name
+• dosage
+• frequency
+• duration
+• dosage form
+• common medical usage
+• medical knowledge
+• context
+• partially readable handwriting
 
-• preserve original
-• provide English translation
+Do NOT create an instruction when no medicine-specific instruction is explicitly written.
+
+Do NOT convert dosage or frequency into an instruction.
+
+Examples:
+
+• "1-0-1" → frequency only, NOT an instruction.
+• "BD" → frequency only, NOT an instruction.
+• "5 days" → duration only, NOT an instruction.
+• "after food" → instruction.
+• "before food" → instruction.
+• "with water" → instruction.
+
+If the instruction is unclear or partially readable:
+
+• Do NOT guess what it says.
+• Do NOT reconstruct it from context.
+• Omit the instruction field.
+
+Translation
+
+Only translate an instruction when the original instruction is explicitly present and can be read confidently.
+
+The translation MUST be a faithful English translation of the original instruction.
+
+Do NOT add medical meaning that is not present in the original text.
+
+Do NOT generate a translation based on what would normally be recommended for that medicine.
+
+If the original instruction cannot be confidently understood, omit both:
+
+• instruction
+• instruction_translation
+
+The English translation must never contain information that is absent from the original instruction.
+
+Example:
+
+Original: "खाने के बाद"
+
+instruction: "खाने के बाद"
+
+instruction_translation: "After food"
+
+If the text is unclear:
+
+instruction: omit
+instruction_translation: omit
 
 ====================================================
 INVESTIGATIONS

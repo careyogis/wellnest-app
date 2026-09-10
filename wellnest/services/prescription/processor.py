@@ -2,6 +2,7 @@ import frappe
 from datetime import datetime
 
 from .gemini_provider import parse_prescription
+from frappe.utils.file_manager import save_file
 
 
 def process_prescription(
@@ -14,13 +15,27 @@ def process_prescription(
         practitioner = frappe.get_value("Patient Appointment", patient_appointment, "practitioner")
 
     result = parse_prescription(image_bytes)
-    prescription = result.get("prescription", result)
+
+    parsed_result = result["parsed"]
+    raw_response = result["raw_response"]
+
+    if not parsed_result.get("is_prescription", True):
+        return None
+
+    prescription = parsed_result.get(
+        "prescription",
+        parsed_result,
+    )
 
     doc = frappe.new_doc("Smart Prescription")
 
     doc.patient = patient
-    doc.practitioner = practitioner
-    doc.workflow_state = "Draft"
+
+    if practitioner:
+        doc.practitioner = practitioner
+        doc.workflow_state = "Draft"
+    else:
+        doc.workflow_state = "Complete"
 
     if patient_appointment:
         doc.patient_appointment = patient_appointment
@@ -28,8 +43,6 @@ def process_prescription(
     doc.prescription_date = _parse_date(
         prescription.get("date")
     )
-    doc.response_data = frappe.as_json(result)
-
     advice = []
 
     for instruction in prescription.get("general_instructions") or []:
@@ -60,6 +73,14 @@ def process_prescription(
         item.instructions = medicine.get("instruction") or ""
 
     doc.insert(ignore_permissions=True)
+
+    save_file(
+        f"{doc.name}-gemini-response.json",
+        raw_response.encode("utf-8"),
+        "Smart Prescription",
+        doc.name,
+        is_private=1,
+    )
 
     return doc.name
 

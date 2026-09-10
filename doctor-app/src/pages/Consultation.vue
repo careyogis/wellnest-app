@@ -1537,10 +1537,6 @@ const ocrPrescriptionResource = createResource({
   url: 'wellnest.api.prescription.parse_and_create_prescription',
 })
 
-const saveOcrPrescriptionResource = createResource({
-  url: 'wellnest.api.prescription.save_ocr_prescription',
-})
-
 const patient = computed(() => ({
  name: props.selectedConsultation?.patient || 'Not Available',
 }))
@@ -2130,7 +2126,7 @@ async function handlePrescriptionFile(event) {
     // Send uploaded file to OCR/Gemini backend
     const response = await ocrPrescriptionResource.submit({
       file_url: fileUrl,
-      patient: patient,
+      patient: props.selectedConsultation?.patient || null,
       patient_appointment:
         props.selectedConsultation?.appointment || null,
     })
@@ -2139,20 +2135,17 @@ async function handlePrescriptionFile(event) {
 
     // Show complete Gemini response in the UI
     if (ocrPrescriptionName.value) {
-      const docResponse = await fetch(
-        `/api/resource/Smart%20Prescription/${encodeURIComponent(
-          ocrPrescriptionName.value,
-        )}`,
+      ocrExtractedText.value = JSON.stringify(
+        {
+          medicines: response?.medicines || [],
+          advice: response?.advice || '',
+        },
+        null,
+        2,
       )
-
-      const docResult = await docResponse.json()
-
-      ocrExtractedText.value =
-        docResult.data?.response_data ||
-        'Prescription processed, but no response data was returned.'
     } else {
       ocrExtractedText.value =
-        'Prescription processed, but Smart Prescription was not created.'
+        'This document was identified as not being a prescription. No Smart Prescription was created.'
     }
   } catch (error) {
     console.error('Prescription OCR failed:', error)
@@ -2164,23 +2157,13 @@ async function handlePrescriptionFile(event) {
   }
 }
 
-async function handleOcrSaveUpdate() {
+function handleOcrSaveUpdate() {
   if (!ocrPrescriptionName.value) {
     alert('Prescription not found.')
     return
   }
 
-  try {
-    await saveOcrPrescriptionResource.submit({
-      name: ocrPrescriptionName.value,
-      response_data: ocrExtractedText.value,
-    })
-
-    alert('Prescription updated successfully.')
-  } catch (error) {
-    console.error('Failed to update prescription:', error)
-    alert('Failed to update prescription.')
-  }
+  alert('Prescription has already been saved successfully.')
 }
 
 function removePrescriptionFile() {

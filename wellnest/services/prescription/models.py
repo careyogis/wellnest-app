@@ -63,14 +63,16 @@ class FollowUp(BaseModel):
 # ==========================
 
 class Prescription(BaseModel):
-    patient: Patient
-    doctor: Doctor
+    is_prescription: bool = True
+
+    patient: Optional[Patient] = None
+    doctor: Optional[Doctor] = None
     hospital: Optional[str] = None
     date: Optional[str] = None
 
     diagnosis: Optional[List[str]] = None
 
-    medicines: List[Medicine]
+    medicines: Optional[List[Medicine]] = None
 
     investigations: Optional[List[Investigation]] = None
 
