@@ -1538,6 +1538,10 @@ const getPrescriptionResource = createResource({
   url: 'wellnest.api.prescription.get_consultation_prescription',
 })
 
+const saveOcrPrescriptionResource = createResource({
+  url: 'wellnest.api.prescription.save_ocr_prescription',
+})
+
 const confirmPrescriptionResource = createResource({
   url: 'wellnest.api.prescription.confirm_prescription',
 })
@@ -1752,6 +1756,8 @@ async function loadClinicalRecord() {
 async function loadPrescription() {
   const appointment = props.selectedConsultation?.appointment
 
+  console.log('>>> loadPrescription appointment:', appointment)
+
   if (!appointment) {
     return
   }
@@ -1766,6 +1772,15 @@ async function loadPrescription() {
     }
     prescriptionName.value = response.name
     prescriptionWorkflowState.value = response.workflow_state
+    ocrPrescriptionName.value = response.name
+ocrExtractedText.value = JSON.stringify(
+  {
+    medicines: response.medicines || [],
+    advice: response.advice || '',
+  },
+  null,
+  2,
+)
 
     medicines.value = (response.medicines || []).map((medicine) => ({
       medicine: medicine.medicine_name || '',
@@ -1774,7 +1789,7 @@ async function loadPrescription() {
       instruction: medicine.instructions || '',
     }))
 
-    followUpAdvice.value = response.follow_up_advice || ''
+    followUpAdvice.value = response.advice || response.follow_up_advice || ''
     dietAdvice.value = response.diet_advice || ''
     exerciseAdvice.value = response.exercise_advice || ''
   } catch (error) {
@@ -2174,13 +2189,26 @@ async function handlePrescriptionFile(event) {
   }
 }
 
-function handleOcrSaveUpdate() {
+async function handleOcrSaveUpdate() {
+  console.log('>>> SAVE/UPDATE CLICKED')
   if (!ocrPrescriptionName.value) {
     alert('Prescription not found.')
     return
   }
 
-  alert('Prescription has already been saved successfully.')
+  try {
+    const response = await saveOcrPrescriptionResource.submit({
+      name: ocrPrescriptionName.value,
+      response_data: ocrExtractedText.value,
+    })
+
+    if (response) {
+      alert('Prescription updated successfully.')
+    }
+  } catch (error) {
+    console.error('Failed to update prescription:', error)
+    alert('Failed to update prescription.')
+  }
 }
 
 function removePrescriptionFile() {
