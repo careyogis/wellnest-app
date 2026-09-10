@@ -1,6 +1,6 @@
 import time                                                                                                                                          
-import frappe                                                                                                                                        
-from frappe.utils import today                                                                                                                        
+import frappe
+import frappe.utils
 from agora_token_builder import RtcTokenBuilder                                                                                                      
 																																						
 @frappe.whitelist()                                                                                                                                  
@@ -40,8 +40,22 @@ def book_appointment(practitioner, patient, scheduled_time, consultation_type, c
 		"status": "Unverified"
 	})                                                                                                                                                
 	appointment.insert(ignore_permissions=True)                                                                                                       
-																																						
-	# 2. Return the appointment details to the Flutter app                                                                                            
+
+	doctor_full_name = frappe.get_value("Practitioner", practitioner, "full_name")
+
+	# 2. Schedule an App Notification
+	app_notification = frappe.get_doc({                                                                                                                 
+		"doctype": "App Notification",
+		"title": "Upcoming doctor appointment",
+		"body": f"You have an upcoming appointment with {doctor_full_name} at {appointment.scheduled_time}.",
+		"target_audience": "Specific Patient",
+		"patient": patient,
+		"scheduled_time": (frappe.utils.add_to_date(scheduled_time, minutes=-15)),
+	})                                                                                                                                                
+	app_notification.insert(ignore_permissions=True)                                                                                                       
+	frappe.db.commit()
+
+	# 3. Return the appointment name  
 	return {                                                                                                                                          
 		"name": appointment.name                                                                                                                      
 	}
@@ -58,7 +72,7 @@ def report_doctor_noshow(appointment_id):
 		return {"message": f"Appointment in {appointment.status} state cannot be marked as 'No Show'."}
 
 	# Do not mark No Show till at least 15 mins passed the scheduled_time
-	if frappe.utils.now_datetime() < appointment.scheduled_time + frappe.utils.timedelta(minutes=15):
+	if frappe.utils.now_datetime() < frappe.utils.add_to_date(appointment.scheduled_time, minutes=15):
 		frappe.log_error(f"Customer reported 'No Show' for the appointmentId: {appointment_id}, but inside 15 mins post the secheduled time of: {appointment.scheduled_time}")
 		return {"message": f"Cannot mark appointment as 'No Show' until it is at least 15 minutes past the scheduled time of:{appointment.scheduled_time}"}	
 
