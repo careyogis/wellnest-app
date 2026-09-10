@@ -109,7 +109,7 @@
       </div>
       <div style="flex:1; min-width:0;">
         <h5 class="mb-1 font-weight-bold" style="line-height:1.2;">
-          {{ doc.title ~ " " if doc.title }}{{ (doc.first_name or "") ~ " " ~ (doc.middle_name ~ " " if doc.middle_name else "") ~ (doc.last_name or "") }}
+          {{ doc.title ~ " " if doc.title else "" }} {{ (doc.full_name or "") }}
         </h5>
         {% if doc.designation %}
           <div class="text-muted small mb-1">{{ doc.designation }}</div>

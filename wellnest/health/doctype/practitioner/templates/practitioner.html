@@ -359,12 +359,12 @@
       </div>
       <div class="prac-stat">
         <p class="label">Specialty</p>
-        <p class="value" style="font-size:14px;">{{ frappe.db.get_value("Medical specialty", doc.specialty, "specialty_name") or "—" }}</p>
+        <p class="value" style="font-size:14px;">{{ doc.specialty or "—" }}</p>
       </div>
       {% if doc.super_specialty %}
       <div class="prac-stat">
         <p class="label">Super Specialty</p>
-        <p class="value" style="font-size:14px;">{{ frappe.db.get_value("Medical super specialty", doc.super_specialty, "super_specialty_name") or "—" }}</p>
+        <p class="value" style="font-size:14px;">{{ doc.super_specialty or "—" }}</p>
       </div>
       {% endif %}
       {% if doc.council_name %}
