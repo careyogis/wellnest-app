@@ -51,10 +51,32 @@ def get_list_context(context):
     # 2. Hide the Breadcrumbs (My Account > List).
     context.no_breadcrumbs = 1
     context.base_template_path = "templates/wellnest_web.html"
-    # Add education_list to the context for each practitioner
-    # for practitioner in context:
-    #     education_list = [edu.degree for edu in practitioner.education_history]
-    #     practitioner.education_list = education_list    
+
+    # 3. Tell Frappe to use our custom function to fetch rows
+    context.get_list = _get_custom_row_data
+
+def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length=20, order_by=None):
+    # 1. Fetch the default fields for the rows
+    fields = ["name", "title", "route", "modified", "full_name", "designation", "specialty", "super_specialty", "gender", "telemedicine_certified", "photo", "first_name", "available_for_home_visits", "education_history", "languages_known", "practicing_from", "average_rating", "total_reviews", "city", "state", "currency", "online_charge", "clinic_charge"]
+    
+    # You can also use frappe.qb or frappe.get_all
+    practitioners = frappe.get_list(
+        doctype,
+        filters=filters,
+        fields=fields,
+        limit_start=limit_start,
+        limit_page_length=limit_page_length,
+        order_by=order_by or "modified desc"
+    )
+
+    # 2. Calculate markup for each practitioner
+    for practitioner in practitioners:
+        # Example A: Add a simple computed property or standard lookup
+        practitioner.online_charge = match.ceil(practitioner.online_charge * 1.25 / 25) * 25
+        practitioner.clinic_charge = match.ceil(practitioner.clinic_charge * 1.25 / 25) * 25
+        practitioner.education_list = [edu.degree for edu in practitioner.education_history]
+        
+    return practitioners
 
 def get_repeated(values: Iterable) -> list:
 	unique = set()
