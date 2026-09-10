@@ -199,11 +199,11 @@
       <div class="right">
         {% if doc.online_charge %}
           <span class="prac-charge-bubble">
-            {{ doc.currency or "₹" }} {{ "%.0f"|format(doc.online_charge) }} Online
+            {{ doc.currency or "₹" }} {{ "%.0f"|format(online_charge) }} Online
           </span>
         {% elif doc.clinic_charge %}
           <span class="prac-charge-bubble">
-            {{ doc.currency or "₹" }} {{ "%.0f"|format(doc.clinic_charge) }} Clinic
+            {{ doc.currency or "₹" }} {{ "%.0f"|format(clinic_charge) }} Clinic
           </span>
         {% endif %}
       </div>

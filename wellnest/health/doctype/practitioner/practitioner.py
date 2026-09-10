@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 from datetime import datetime
+import math
 from select import select
 
 import frappe
@@ -12,7 +13,12 @@ from frappe.utils.data import comma_and
 
 class Practitioner(WebsiteGenerator):
 	def get_context(self, context):
-		context.charge_multiplier = 1.25
+		# round up to nearest 25 after markup
+		context.online_charge = math.ceil(self.online_charge * 1.25 / 25) * 25
+		context.clinic_charge = math.ceil(self.clinic_charge * 1.25 / 25) * 25
+		context.priority_charge = math.ceil(self.priority_charge * 1.25 / 25) * 25
+		context.emergency_charge = math.ceil(self.emergency_charge * 1.25 / 25) * 25
+		context.home_visit_charge = math.ceil(self.home_visit_charge * 1.25 / 25) * 25
 		if (self.practicing_from):
 			context.experience = (datetime.now().date() - self.practicing_from).days // 365
 
