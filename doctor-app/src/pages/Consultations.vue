@@ -158,7 +158,7 @@ consultations. page
         <div class="p-5">
           <!-- Doctor details -->
 
-          <div class="grid grid-cols-3 gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
             <div v-for="doctor in consultationRef?.doctorDetails || []" :key="doctor.label" class="border border-gray-200 rounded-xl p-4">
               <p class="text-xs text-gray-500">
                 {{ doctor.label }}
@@ -178,7 +178,7 @@ consultations. page
           <div class="mt-6">
             <p class="text-xs text-gray-500">Selected patient</p>
 
-            <p class="text-3xl font-bold text-gray-900 mt-1">
+            <p class="text-2xl sm:text-3xl font-bold text-gray-900 mt-1 break-words">
               {{ selectedConsultation.patient }}
             </p>
 

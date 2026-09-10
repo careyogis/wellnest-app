@@ -288,15 +288,34 @@ def register_customer(id_token: str, full_name: str):
 	frappe.set_user(user_doc.name)
 
 	try:
-		# Now Create Customer, Patient and Terms Acceptance
+		# Now Create Customer, Patient and Terms Acceptance.
+		# NOTE: include email_id on the Customer so that ERPNext's
+		# Customer.on_update → create_primary_contact() → make_contact() adds the
+		# user's email to the Customer-linked Contact.  Frappe's background job
+		# (enqueued by User.on_update) calls create_contact(), which checks for an
+		# existing Contact by email via get_contact_name().  If the email is present
+		# on the Customer Contact, the job will UPDATE that Contact instead of
+		# inserting a second bare Contact with no Customer link.
 		customer_doc = frappe.get_doc({
 			"doctype": "Customer",
 			"customer_name": full_name,
 			"customer_type": "Individual",
 			"customer_group": "Individual",
 			"mobile_no": phone_number,
+			"email_id": email,  # ← ensures make_contact() embeds email in the Contact
 		})
 		customer_doc.insert()
+
+		# Backfill the `user` field on the Customer-linked Contact so that it is
+		# fully associated with the User account (Frappe's async job will also set
+		# this, but doing it synchronously here is safer and faster).
+		contact_name = frappe.db.get_value(
+			"Dynamic Link",
+			{"link_doctype": "Customer", "link_name": customer_doc.name, "parenttype": "Contact"},
+			"parent",
+		)
+		if contact_name:
+			frappe.db.set_value("Contact", contact_name, "user", user_doc.name)
 
 		patient_doc = frappe.get_doc({
 			"doctype": "Patient",

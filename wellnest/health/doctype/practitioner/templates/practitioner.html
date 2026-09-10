@@ -542,31 +542,31 @@
       <div class="prac-charges">
         {% if doc.online_charge %}
         <div class="prac-charge">
-          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(doc.online_charge * charge_multiplier) }}</p>
+          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(online_charge) }}</p>
           <p class="charge-label">Online</p>
         </div>
         {% endif %}
         {% if doc.clinic_charge %}
         <div class="prac-charge">
-          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(doc.clinic_charge * charge_multiplier) }}</p>
+          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(clinic_charge) }}</p>
           <p class="charge-label">Clinic</p>
         </div>
         {% endif %}
         {% if doc.priority_charge %}
         <div class="prac-charge">
-          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(doc.priority_charge * charge_multiplier) }}</p>
+          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(priority_charge) }}</p>
           <p class="charge-label">Priority</p>
         </div>
         {% endif %}
         {% if doc.emergency_charge %}
         <div class="prac-charge">
-          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(doc.emergency_charge * charge_multiplier) }}</p>
+          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(emergency_charge) }}</p>
           <p class="charge-label">Emergency</p>
         </div>
         {% endif %}
         {% if doc.home_visit_charge and doc.available_for_home_visits %}
         <div class="prac-charge home-visit">
-          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(doc.home_visit_charge * charge_multiplier) }}</p>
+          <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(home_visit_charge) }}</p>
           <p class="charge-label">Home Visit</p>
         </div>
         {% endif %}

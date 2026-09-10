@@ -30,7 +30,8 @@ def process_prescription(
     doc = frappe.new_doc("Smart Prescription")
 
     doc.patient = patient
-
+    # If this is written by our Doctor, we wait for him/her to review
+    # If this was done by some other doctor, there's no one to review - so we save it as final
     if practitioner:
         doc.practitioner = practitioner
         doc.workflow_state = "Draft"
