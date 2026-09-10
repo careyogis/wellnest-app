@@ -536,11 +536,11 @@
     {% endif %}
 
     {# ── CONSULTATION CHARGES ─────────────────────────────────── #}
-    {% if doc.online_charge or doc.clinic_charge or doc.emergency_charge or doc.priority_charge or (doc.home_visit_charge and doc.available_for_home_visits) %}
+    {% if doc.online_charge or online_charge %}
     <div class="prac-section">
       <h2>Consultation Charges</h2>
       <div class="prac-charges">
-        {% if doc.online_charge %}
+        {% if online_charge %}
         <div class="prac-charge">
           <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(online_charge) }}</p>
           <p class="charge-label">Online</p>

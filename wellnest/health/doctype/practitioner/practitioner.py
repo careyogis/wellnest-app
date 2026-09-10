@@ -14,11 +14,15 @@ from frappe.utils.data import comma_and
 class Practitioner(WebsiteGenerator):
 	def get_context(self, context):
 		# round up to nearest 25 after markup
-		context.online_charge = math.ceil(self.online_charge * 1.25 / 25) * 25
+		if self.online_charge and self.online_charge > 0:
+			context.online_charge = math.ceil(self.online_charge * 1.25 / 25) * 25
+		else:
+			context.online_charge = 25
+ 
 		context.clinic_charge = math.ceil(self.clinic_charge * 1.25 / 25) * 25
 		context.priority_charge = math.ceil(self.priority_charge * 1.25 / 25) * 25
 		context.emergency_charge = math.ceil(self.emergency_charge * 1.25 / 25) * 25
-		context.home_visit_charge = math.ceil(self.home_visit_charge * 1.25 / 25) * 25
+		context.home_visit_charge = math.ceil(self.home_visit_charge * 1.25 / 25) * 25          
 		if (self.practicing_from):
 			context.experience = (datetime.now().date() - self.practicing_from).days // 365
 
@@ -57,7 +61,7 @@ def get_list_context(context):
 
 def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length=20, order_by=None):
     # 1. Fetch the default fields for the rows
-    fields = ["name", "title", "route", "modified", "full_name", "designation", "specialty", "super_specialty", "gender", "telemedicine_certified", "photo", "first_name", "available_for_home_visits", "education_history", "languages_known", "practicing_from", "average_rating", "total_reviews", "city", "state", "currency", "online_charge", "clinic_charge"]
+    fields = ["name", "title", "route", "modified", "full_name", "designation", "specialty", "super_specialty", "gender", "telemedicine_certified", "photo", "first_name", "available_for_home_visits", "practicing_from", "average_rating", "total_reviews", "city", "state", "currency", "online_charge", "clinic_charge"]
     
     # You can also use frappe.qb or frappe.get_all
     practitioners = frappe.get_list(
@@ -66,17 +70,41 @@ def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length=2
         fields=fields,
         limit_start=limit_start,
         limit_page_length=limit_page_length,
-        order_by=order_by or "modified desc"
+        order_by=order_by or "modified desc",
+        ignore_permissions=True
     )
+
+    # "education_history", "languages_known", 
 
     # 2. Calculate markup for each practitioner
     for practitioner in practitioners:
         # Example A: Add a simple computed property or standard lookup
-        practitioner.online_charge = math.ceil(practitioner.online_charge * 1.25 / 25) * 25
-        practitioner.clinic_charge = math.ceil(practitioner.clinic_charge * 1.25 / 25) * 25
-        if practitioner.education_history :
-            practitioner.education_list = [edu.degree for edu in practitioner.education_history]
-        
+        if practitioner.online_charge and practitioner.online_charge > 0: 
+            practitioner.online_charge = math.ceil(practitioner.online_charge * 1.25 / 25) * 25
+        else:
+            practitioner.online_charge = 25
+
+        if practitioner.clinic_charge and practitioner.clinic_charge > 0:
+            practitioner.clinic_charge = math.ceil(practitioner.clinic_charge * 1.25 / 25) * 25
+        else:
+            practitioner.clinic_charge = 25
+
+        practitioner.education_history = frappe.get_all(
+            "Practitioner Education", 
+            filters={"parenttype": "Practitioner", "parent": practitioner.name},
+            fields=["degree", "institution", "year_of_completion"],
+            order_by="year_of_completion",
+            ignore_permissions=True
+        )
+
+        practitioner.languages_known = frappe.get_all(
+            "Spoken Language Option", 
+            filters={"parenttype": "Practitioner", "parent": practitioner.name},
+            fields=["spoken_language_option"],
+            order_by="spoken_language_option",
+            ignore_permissions=True
+        )
+
     return practitioners
 
 def get_repeated(values: Iterable) -> list:

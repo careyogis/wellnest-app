@@ -163,7 +163,7 @@
     {% if doc.languages_known %}
       <div class="mb-2">
         {% for lang in doc.languages_known %}
-          <span class="prac-lang-chip">{{ lang.spoken_language_option or lang.language }}</span>
+          <span class="prac-lang-chip">{{ lang.spoken_language_option }}</span>
         {% endfor %}
       </div>
     {% endif %}
