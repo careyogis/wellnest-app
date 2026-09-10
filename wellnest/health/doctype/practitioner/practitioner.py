@@ -72,9 +72,10 @@ def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length=2
     # 2. Calculate markup for each practitioner
     for practitioner in practitioners:
         # Example A: Add a simple computed property or standard lookup
-        practitioner.online_charge = match.ceil(practitioner.online_charge * 1.25 / 25) * 25
-        practitioner.clinic_charge = match.ceil(practitioner.clinic_charge * 1.25 / 25) * 25
-        practitioner.education_list = [edu.degree for edu in practitioner.education_history]
+        practitioner.online_charge = math.ceil(practitioner.online_charge * 1.25 / 25) * 25
+        practitioner.clinic_charge = math.ceil(practitioner.clinic_charge * 1.25 / 25) * 25
+        if practitioner.education_history :
+            practitioner.education_list = [edu.degree for edu in practitioner.education_history]
         
     return practitioners
 
