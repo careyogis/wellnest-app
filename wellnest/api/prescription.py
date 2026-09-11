@@ -98,27 +98,44 @@ def parse_and_create_prescription(
 
 @frappe.whitelist()
 def save_ocr_prescription(name, response_data):
-    if not name:
-        frappe.throw("Prescription name is required.")
-
     doc = frappe.get_doc("Smart Prescription", name)
 
-    if doc.workflow_state != "Draft":
-        frappe.throw(
-            "Prescription can only be updated while in Draft or Doctor Review state."
+    data = frappe.parse_json(response_data)
+
+    doc.advice = data.get("advice") or ""
+
+    doc.set("medicines", [])
+
+    for medicine in data.get("medicines") or []:
+        item = doc.append("medicines", {})
+        item.medicine_name = (
+            medicine.get("medicine_name")
+            or medicine.get("name")
+            or ""
         )
+        item.dosage = medicine.get("dosage") or ""
+        item.timing = medicine.get("timing") or ""
+        item.duration = medicine.get("duration") or ""
+        item.instructions = medicine.get("instructions") or ""
 
-    if not response_data:
-        frappe.throw("Prescription data is required.")
-
-    doc.response_data = response_data
     doc.workflow_state = "Complete"
     doc.save(ignore_permissions=True)
 
     return {
         "name": doc.name,
         "workflow_state": doc.workflow_state,
-        "response_data": doc.response_data,
+        "medicines": [
+            {
+                "name": item.name,
+                "medicine_name": item.medicine_name,
+                "dosage": item.dosage,
+                "timing": item.timing,
+                "duration": item.duration,
+                "instructions": item.instructions,
+            }
+            for item in doc.medicines
+        ],
+        "advice": doc.advice or "",
     }
 
 
@@ -299,6 +316,7 @@ def save_consultation_prescription_draft(
         "workflow_state": doc.workflow_state,
         "patient": doc.patient,
         "practitioner": doc.practitioner,
+        "advice": doc.advice,
         "follow_up_advice": doc.follow_up_advice,
         "diet_advice": doc.diet_advice,
         "exercise_advice": doc.exercise_advice,

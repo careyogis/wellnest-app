@@ -41,7 +41,7 @@ Rules:
 
 • Do not classify a document as a prescription merely because it contains medical words.
 • A lab report, even if it contains medicines or medical information, is not a prescription.
-• When uncertain whether the document is a prescription, set is_prescription = false.
+• When uncertain whether a document is a prescription, set is_prescription = false.
 • If is_prescription = false, return ONLY:
   {"is_prescription": false}
 
@@ -53,6 +53,7 @@ GENERAL RULES
 
 • Extract ONLY information explicitly written in the prescription.
 • Never guess, infer, diagnose, recommend, or hallucinate.
+• Analyze the COMPLETE prescription from top to bottom before producing the JSON.
 • Use both document layout and medical context to classify information into the correct section.
 • Never duplicate information across sections.
 • If an optional section is absent, omit it.
@@ -131,7 +132,6 @@ Do NOT include:
 If no diagnosis is explicitly written, omit the diagnosis field.
 If diagnosis is written in another language, preserve it and provide translation.
 
-
 ====================================================
 MEDICINES
 ====================================================
@@ -177,14 +177,13 @@ If normalization is uncertain, keep original_name unchanged.
 
 generic_names
 
-
 Return the active ingredient(s) of the prescribed medicine as a separate field.
 
 • Do NOT modify original_name or normalized_name.
 • If the medicine has one active ingredient, return a single-item array.
 • If it is a combination medicine, return all active ingredients.
 • Return only internationally recognized generic names.
-• If original_name or normalized_name is already an internationally recognized generic medicine name (e.g., Prednisolone, Apremilast, Methylcobalamin), return that same name in generic_names.
+• If original_name or normalized_name is already an internationally recognized generic medicine name, return that same name in generic_names.
 • Only omit generic_names when the prescribed medicine is a brand or proprietary product whose active ingredient(s) cannot be determined confidently.
 
 Strength
@@ -194,14 +193,11 @@ Strength
 Dosage Form
 
 • Return only if explicitly written or confidently identifiable from common medical abbreviations (e.g. Tab., Cap., Cream).
-
-Otherwise omit the field.
+• Otherwise omit the field.
 
 Frequency
 
 Normalize common expressions.
-
-Examples
 
 OD → Once daily
 
@@ -212,6 +208,18 @@ HS → At bedtime
 SOS → As needed
 
 Alternate day → Alternate day
+
+Also recognize clearly written dosage patterns such as:
+
+1-0-1 → Twice daily
+1-0-0 → Once daily
+0-1-0 → Once daily
+0-0-1 → Once daily
+1-1-1 → Three times daily
+
+A dosage pattern written beside or below a medicine belongs to that medicine when the prescription layout clearly associates it with that medicine.
+
+Do not put dosage patterns in the instruction field.
 
 Duration
 
@@ -237,8 +245,6 @@ Do NOT infer, interpret, expand, or generate an instruction from:
 
 Do NOT create an instruction when no medicine-specific instruction is explicitly written.
 
-Do NOT convert dosage or frequency into an instruction.
-
 Examples:
 
 • "1-0-1" → frequency only, NOT an instruction.
@@ -247,6 +253,7 @@ Examples:
 • "after food" → instruction.
 • "before food" → instruction.
 • "with water" → instruction.
+• "@ lunch" → instruction.
 
 If the instruction is unclear or partially readable:
 
@@ -262,40 +269,31 @@ The translation MUST be a faithful English translation of the original instructi
 
 Do NOT add medical meaning that is not present in the original text.
 
-Do NOT generate a translation based on what would normally be recommended for that medicine.
-
 If the original instruction cannot be confidently understood, omit both:
 
 • instruction
 • instruction_translation
 
-The English translation must never contain information that is absent from the original instruction.
-
-Example:
-
-Original: "खाने के बाद"
-
-instruction: "खाने के बाद"
-
-instruction_translation: "After food"
-
-If the text is unclear:
-
-instruction: omit
-instruction_translation: omit
-
 ====================================================
 INVESTIGATIONS
 ====================================================
 
-Extract ONLY prescribed investigations.
+Extract ALL explicitly prescribed investigations, tests, scans, or diagnostic examinations.
 
-Examples
+Investigations may appear below the medicines, beside the medicines, on the same line, or across multiple handwritten lines.
+
+Examples:
 
 CBC
 LFT
 KFT
 HbA1c
+Lipid profile
+Creatinine
+TSH
+Vit D
+Vit B12
+Urine microalbumin
 MRI
 CT
 X-ray
@@ -309,11 +307,15 @@ For each investigation return:
 • instruction
 • instruction_translation
 
-Do not invent, expand, or complete partially readable investigation names.
+Rules:
 
-If an investigation name cannot be read confidently, omit it.
-
-
+• Continue reading the prescription after the medicine section.
+• Extract investigations appearing anywhere in the prescription.
+• If multiple investigations are separated by "/" or ",", extract each one separately.
+• If an investigation list continues onto another line, continue extracting it.
+• Do not classify investigations as medicines.
+• Do not invent, expand, or complete partially readable investigation names.
+• If an investigation cannot be read confidently, omit it.
 
 ====================================================
 GENERAL INSTRUCTIONS
@@ -321,7 +323,7 @@ GENERAL INSTRUCTIONS
 
 Return ONLY instructions that clearly apply to the entire prescription or patient.
 
-Examples
+Examples:
 
 • Bed rest
 • Drink plenty of water
@@ -349,22 +351,22 @@ If written in another language, also provide translation.
 
 Do NOT copy follow-up duration into medicine duration.
 
-
 ====================================================
 FINAL VALIDATION
 ====================================================
 
 Before generating JSON:
 
-
+• Scan the complete prescription from top to bottom.
 • Ensure every extracted item belongs to the correct medical section.
-• Use medical meaning rather than physical proximity.
+• Verify that all medicines have been considered.
+• Verify that investigations appearing after the medicines have also been considered.
+• Verify that handwritten dosage patterns are associated with the correct medicine.
 • Medicine instructions belong to their medicine even if written below it.
 • Follow-up belongs only to follow-up.
 • Investigations belong only to investigations.
 • Do not generate fields that have no extracted value.
 • Omit any field whose value is null, an empty array, or an empty object.
-
-When uncertain between extracting an incorrect value and omitting the field, always prefer omitting the field.
+• When uncertain between extracting an incorrect value and omitting the field, always prefer omitting the field.
 
 Return ONLY valid JSON matching the provided response schema.
