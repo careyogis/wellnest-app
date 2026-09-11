@@ -492,6 +492,25 @@ def search_doctors(query=None, specialty=None):
 		list[dict]: Practitioner records with education_history and languages_known
 		            as nested lists, grouped in Python from 3 bulk DB queries.
 	"""
+	import frappe
+	import math
+	from frappe.utils import nowdate
+    
+    # check if any active promotion is configured
+	active_discount_rule = frappe.db.sql("""
+        SELECT pr.discount_percentage
+        FROM `tabPricing Rule` pr
+        INNER JOIN `tabPricing Rule Item Code` pri
+            ON pri.parent = pr.name
+        WHERE pri.item_code = %s
+        AND pr.disable = 0
+        AND pr.valid_from <= %s
+        AND pr.valid_upto >= %s
+        LIMIT 1
+    """, ("Teleconsultation", nowdate(), nowdate()), as_dict=True)
+
+	active_discount_pct = active_discount_rule[0].discount_percentage if active_discount_rule else 0
+
 	filters = [["is_active", "=", 1]]
 
 	or_filters = []
@@ -511,7 +530,8 @@ def search_doctors(query=None, specialty=None):
 			"super_specialty",
 			"designation",
 			"professional_summary",
-			"online_charge",
+            # "CEIL(online_charge * 1.25 * 25) / 25 AS original_online_charge",
+            "online_charge AS original_online_charge",
 			"photo",
 			"city",
 			"practicing_from",
@@ -554,8 +574,12 @@ def search_doctors(query=None, specialty=None):
 		language_map.setdefault(row.parent, []).append(row.spoken_language_option)
 
 	result = []
+    # Apply price markup and any ongoing discounts
 	for p in practitioners:
 		doc = dict(p)
+		doc["original_online_charge"] = math.ceil(doc["original_online_charge"] * 1.25 * 25) / 25
+		doc["discount_pct"] = active_discount_pct
+		doc["discounted_price"] = int(doc["original_online_charge"] * (1 - active_discount_pct / 100))
 		doc["education_history"] = education_map.get(p.name, [])
 		doc["languages_known"] = language_map.get(p.name, [])
 		result.append(doc)
