@@ -47,7 +47,7 @@
       <!-- Right: Quick Actions -->
       <div class="flex items-center gap-1 md:gap-2 flex-shrink-0 order-3 md:order-none">
         <!-- Chat Button -->
-       <!--
+        <!--
 <button @click="openDrawerTab('chat')" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors relative" title="In-call Chat">
   <FeatherIcon name="message-square" class="w-4 h-4 sm:w-5 sm:h-5" />
   <span v-if="unreadChatCount > 0" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-black text-[10px] font-bold flex items-center justify-center">
@@ -230,14 +230,10 @@
 
               <!-- Preview & submit -->
               <div v-if="rxImagePreview || rxPersistedImage" class="p-3 space-y-2.5">
-                <img
-                :src="rxImagePreview || rxPersistedImage"
-                alt="Rx preview"
-                class="w-full rounded-lg border border-gray-700 object-contain max-h-48"
-                />
+                <img :src="rxImagePreview || rxPersistedImage" alt="Rx preview" class="w-full rounded-lg border border-gray-700 object-contain max-h-48" />
                 <div class="flex gap-2">
                   <button
-                  v-if="rxImagePreview"
+                    v-if="rxImagePreview"
                     @click="submitRxImage"
                     :disabled="rxParseLoading"
                     type="button"
@@ -246,7 +242,9 @@
                     <FeatherIcon :name="rxParseLoading ? 'loader' : 'upload-cloud'" class="w-3.5 h-3.5" :class="rxParseLoading ? 'animate-spin' : ''" />
                     {{ rxParseLoading ? 'Sending...' : 'Parse & Create Rx' }}
                   </button>
-                  <button @click="clearRxImage"  v-if="rxImagePreview" type="button" class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs font-bold transition-all">Clear</button>
+                  <button @click="clearRxImage" v-if="rxImagePreview" type="button" class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs font-bold transition-all">
+                    Clear
+                  </button>
                 </div>
               </div>
 
@@ -269,11 +267,7 @@
 
             <div class="flex items-center justify-between">
               <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider">Prescribed Medicines</h4>
-              <button
-                v-if="isEditingPrescription"
-              @click="addMedicine"
-              type="button"
-              class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
+              <button v-if="isEditingPrescription" @click="addMedicine" type="button" class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
                 <FeatherIcon name="plus" class="w-3 h-3" /> Add Drug
               </button>
             </div>
@@ -289,10 +283,7 @@
                     placeholder="Medicine Name (e.g. Metformin 500mg)"
                     class="flex-1 bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500 font-medium"
                   />
-                  <button
-                  v-if="isEditingPrescription"
-                   @click="removeMedicine(idx)"
-                   class="p-1 text-gray-500 hover:text-red-400 flex-shrink-0" title="Remove Medicine">
+                  <button v-if="isEditingPrescription" @click="removeMedicine(idx)" class="p-1 text-gray-500 hover:text-red-400 flex-shrink-0" title="Remove Medicine">
                     <FeatherIcon name="trash-2" class="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -338,38 +329,38 @@
           <!-- Bottom Action: Sign & Dispatch Rx -->
           <div class="p-2.5 sm:p-3 bg-gray-950 border-t border-gray-800 flex-shrink-0">
             <div class="flex gap-2">
-  <button
-    v-if="!isEditingPrescription && prescriptionWorkflowState === 'Draft'"
-    @click="isEditingPrescription = true"
-    type="button"
-    class="flex-1 py-2.5 sm:py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2"
-  >
-    <FeatherIcon name="edit-2" class="w-4 h-4" />
-    Edit
-  </button>
+              <button
+                v-if="!isEditingPrescription && prescriptionWorkflowState === 'Draft'"
+                @click="isEditingPrescription = true"
+                type="button"
+                class="flex-1 py-2.5 sm:py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2"
+              >
+                <FeatherIcon name="edit-2" class="w-4 h-4" />
+                Edit
+              </button>
 
-  <button
-    v-if="isEditingPrescription"
-    @click="savePrescriptionDraft"
-    :disabled="rxSaving"
-    type="button"
-    class="flex-1 py-2.5 sm:py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 disabled:opacity-50"
-  >
-    <FeatherIcon name="save" class="w-4 h-4" />
-    {{ rxSaving ? 'Saving...' : 'Save Draft' }}
-  </button>
+              <button
+                v-if="isEditingPrescription"
+                @click="savePrescriptionDraft"
+                :disabled="rxSaving"
+                type="button"
+                class="flex-1 py-2.5 sm:py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                <FeatherIcon name="save" class="w-4 h-4" />
+                {{ rxSaving ? 'Saving...' : 'Save Draft' }}
+              </button>
 
-  <button
-    v-if="!isEditingPrescription && prescriptionWorkflowState === 'Draft'"
-    @click="submitPrescription"
-    :disabled="rxSubmitting"
-    type="button"
-    class="flex-1 py-2.5 sm:py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm sm:text-base flex items-center justify-center gap-2 disabled:opacity-50"
-  >
-    <FeatherIcon name="check-circle" class="w-4 h-4" />
-    {{ rxSubmitting ? 'Submitting...' : 'Submit Final' }}
-  </button>
-</div>
+              <button
+                v-if="!isEditingPrescription && prescriptionWorkflowState === 'Draft'"
+                @click="submitPrescription"
+                :disabled="rxSubmitting"
+                type="button"
+                class="flex-1 py-2.5 sm:py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm sm:text-base flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                <FeatherIcon name="check-circle" class="w-4 h-4" />
+                {{ rxSubmitting ? 'Submitting...' : 'Submit Final' }}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -491,6 +482,22 @@ const endConsultationResource = createResource({
 const bookingId = computed(() => route.params.bookingId);
 // const channelName = computed(() => `room_${bookingId.value.replace(/[^a-zA-Z0-9_]/g, '_')}`);
 const channelName = bookingId;
+
+function logCallEvent(event, metadata = {}) {
+  console.log('CALL EVENT:', event, metadata);
+  createResource({
+    url: 'wellnest.api.logger.log_call_event',
+  })
+    .submit({
+      event,
+      appointment_id: bookingId.value,
+      ...metadata,
+    })
+    .catch((error) => {
+      console.error(`Failed to log call event: ${event}`, error);
+    });
+}
+
 // Call State
 const agora = new AgoraService();
 const isMuted = ref(false);
@@ -595,6 +602,9 @@ async function submitRxImage() {
 
     const uploadResponse = await fetch('/api/method/upload_file', {
       method: 'POST',
+      headers: {
+        'X-Frappe-CSRF-Token': window.csrf_token,
+      },
       body: formData,
     });
 
@@ -609,7 +619,7 @@ async function submitRxImage() {
 
     // 2. Call parse_and_create_prescription
     const response = await parseRxResource.submit({
-       patient: patient.value.name,
+      patient: patient.value.name,
       file_url: fileUrl,
       patient_appointment: bookingId.value,
     });
@@ -675,10 +685,7 @@ async function loadExistingPrescription() {
       duration: medicine.duration || '',
     }));
 
-    adviceNotes.value =
-      prescription.follow_up_advice ||
-      prescription.diet_advice ||
-      '';
+    adviceNotes.value = prescription.follow_up_advice || prescription.diet_advice || '';
 
     rxSubmitted.value = prescription.workflow_state === 'Confirmed';
   } catch (error) {
@@ -749,6 +756,13 @@ async function joinRoom() {
       },
     });
 
+    const isResume = route.query.resume === '1';
+
+    logCallEvent(isResume ? 'doctor_resumed_call' : 'doctor_joined_rtc_channel', {
+      channel: backendChannelName,
+      uid: Number(uid),
+    });
+
     // Play local camera feed in #local-player
     setTimeout(() => {
       const localElement = document.getElementById('local-player');
@@ -771,17 +785,24 @@ function startTimer() {
 async function toggleAudio() {
   isMuted.value = !isMuted.value;
   await agora.toggleAudio(!isMuted.value);
+
+  logCallEvent(isMuted.value ? 'doctor_muted' : 'doctor_unmuted');
 }
 
 async function toggleVideo() {
   isVideoOff.value = !isVideoOff.value;
   await agora.toggleVideo(!isVideoOff.value);
+
+  logCallEvent(isVideoOff.value ? 'doctor_video_disabled' : 'doctor_video_enabled');
 }
 
 async function toggleScreenShare() {
   if (isScreenSharing.value) {
     await agora.stopScreenShare();
     isScreenSharing.value = false;
+
+    logCallEvent('screen_share_stopped');
+
     // Replay local camera in local player
     if (agora.localVideoTrack) {
       const localElement = document.getElementById('local-player');
@@ -791,6 +812,8 @@ async function toggleScreenShare() {
     const screenTrack = await agora.startScreenShare();
     if (screenTrack) {
       isScreenSharing.value = true;
+
+      logCallEvent('screen_share_started');
     }
   }
 }
@@ -890,7 +913,7 @@ async function submitPrescription() {
 }
 
 async function confirmEndCall() {
- if (!prescriptionFilled.value && !rxSubmitted.value) {
+  if (!prescriptionFilled.value && !rxSubmitted.value) {
     showPrescriptionPrompt.value = true;
     return;
   }
@@ -906,6 +929,11 @@ async function endConsultation() {
   try {
     await endConsultationResource.submit({
       appointment: bookingId.value,
+    });
+
+    logCallEvent('call_ended', {
+      duration_seconds: callDurationSeconds.value,
+      doctor_joined: true,
     });
 
     await leaveRoom();
@@ -926,6 +954,10 @@ async function cancelPrescriptionPrompt() {
 async function leaveRoom() {
   clearInterval(timerInterval);
   await agora.leave();
+
+  logCallEvent('doctor_left_rtc_channel', {
+    duration_seconds: callDurationSeconds.value,
+  });
 
   router.push({
     name: 'Consultations',

@@ -128,13 +128,13 @@ consultations. page
                       Open Prescription
                     </button>
 
-                    <button type="button" class="px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition" @click="joinConsultation(consultation)">
+                    <button type="button" class="px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition" @click="joinConsultation(consultation, true)">
                       Continue
                     </button>
                   </template>
 
                   <template v-else>
-                    <button type="button" class="px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition" @click="joinConsultation(consultation)">
+                    <button type="button" class="px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition" @click="joinConsultation(consultation, false)">
                       Start Call
                     </button>
                   </template>
@@ -461,7 +461,7 @@ function openPrescription(consultation) {
   selectedConsultation.value = consultation;
   showPatientDetails.value = true;
 }
-async function joinConsultation(consultation) {
+async function joinConsultation(consultation, isResume = false) {
   try {
     const response = await startConsultationResource.submit({
       appointmentId: consultation.id,
@@ -477,6 +477,7 @@ async function joinConsultation(consultation) {
         uid: response.uid,
         rtcToken: response.rtcToken,
         appId: response.appId,
+        resume: isResume ? '1' : '0',
       },
     });
   } catch (error) {
