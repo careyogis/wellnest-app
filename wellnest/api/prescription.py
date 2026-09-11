@@ -5,11 +5,21 @@ from wellnest.services.prescription.processor import process_prescription
 
 @frappe.whitelist()
 def parse_and_create_prescription(
-    patient,
-    file_url,
+    patient=None,
+    file_url=None,
     patient_appointment=None,
 ):
     print(">>> PRESCRIPTION API START")
+
+    if patient_appointment:
+        patient = frappe.get_value(
+            "Patient Appointment",
+            patient_appointment,
+            "patient",
+        )
+
+    if not patient:
+        frappe.throw("Patient is required.")
 
     file_name=None
 
@@ -51,6 +61,13 @@ def parse_and_create_prescription(
         patient,
         patient_appointment,
     )
+
+    if not doc_name:
+        frappe.logger().info(
+            f"Patient: {patient} uploaded a non-prescription doc "
+            f"for processing. The file is located at: {file_path}"
+    )
+        return
 
     print(f">>> Prescription created: {doc_name}")
 
@@ -377,6 +394,17 @@ def get_consultation_prescription(appointment):
     )
 
     if not prescription_name:
+        prescription_name = frappe.db.get_value(
+            "Smart Prescription",
+            {
+                "patient": appointment_doc.patient,
+                "patient_appointment": ["is", "not set"],
+            },
+            "name",
+            order_by="creation desc",
+        )
+
+    if not prescription_name:
         return None
 
     doc = frappe.get_doc(
@@ -389,6 +417,7 @@ def get_consultation_prescription(appointment):
         {
             "attached_to_doctype": "Smart Prescription",
             "attached_to_name": doc.name,
+            "file_url": ["like", "/files/%"],
         },
         "file_url",
     )

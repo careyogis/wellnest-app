@@ -82,4 +82,7 @@ def parse_prescription(image_bytes: bytes):
 
     result = response.parsed.model_dump(exclude_none=True)
 
-    return clean_response(result)
+    return {
+        "parsed": clean_response(result),
+        "raw_response": response.text,
+    }
