@@ -172,7 +172,7 @@
     <div class="prac-footer">
       <div class="left">
         {% if doc.practicing_from %}
-          <strong>{{ frappe.utils.getdate().year - frappe.utils.getdate(doc.practicing_from).year }} yrs</strong>
+          <strong>Exp: {{ frappe.utils.getdate().year - frappe.utils.getdate(doc.practicing_from).year }} yrs</strong>
         {% endif %}
         {% if doc.average_rating %}
           <span>★ {{ "%.1f"|format(doc.average_rating) }} ({{ doc.total_reviews or 0 }})</span>
@@ -187,17 +187,17 @@
       <div class="right">
         {% if doc.online_charge %}
           <span class="prac-charge-bubble">
-            {{ doc.currency or "₹" }} {{ "%.0f"|format(doc.online_charge) }} Online
+            ₹{{ "%.0f"|format(doc.online_charge) }} : Online
           </span>
         {% endif %}
         {% if doc.clinic_charge and doc.clinic_charge > 0 %}
           <span class="prac-charge-bubble">
-            {{ doc.currency or "₹" }} {{ "%.0f"|format(doc.clinic_charge) }} Clinic
+            ₹{{ "%.0f"|format(doc.clinic_charge) }} : In-Clinic
           </span>
         {% endif %}
         {% if doc.available_for_home_visits and doc.home_visit_charge and doc.home_visit_charge > 0 %}
           <span class="prac-charge-bubble">
-            {{ doc.currency or "₹" }} {{ "%.0f"|format(doc.home_visit_charge) }} Home Visit
+            ₹{{ "%.0f"|format(doc.home_visit_charge) }} : Home Visit
           </span>
         {% endif %}
       </div>

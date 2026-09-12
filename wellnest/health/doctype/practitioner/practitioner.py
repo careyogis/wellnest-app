@@ -61,7 +61,7 @@ def get_list_context(context):
 
 def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length=20, order_by=None):
     # 1. Fetch the default fields for the rows
-    fields = ["name", "title", "route", "modified", "full_name", "designation", "specialty", "super_specialty", "gender", "telemedicine_certified", "photo", "first_name", "available_for_home_visits", "practicing_from", "average_rating", "total_reviews", "city", "state", "currency", "online_charge", "clinic_charge"]
+    fields = ["name", "title", "route", "modified", "full_name", "designation", "specialty", "super_specialty", "gender", "telemedicine_certified", "photo", "first_name", "available_for_home_visits", "practicing_from", "average_rating", "total_reviews", "city", "state", "currency", "online_charge", "clinic_charge", "home_visit_charge"]
     
     # You can also use frappe.qb or frappe.get_all
     practitioners = frappe.get_list(
