@@ -195,7 +195,7 @@
             {{ doc.currency or "₹" }} {{ "%.0f"|format(doc.clinic_charge) }} Clinic
           </span>
         {% endif %}
-        {% if doc.available_for_home_visits and doc.home_visit_charge > 0 %}
+        {% if doc.available_for_home_visits and doc.home_visit_charge and doc.home_visit_charge > 0 %}
           <span class="prac-charge-bubble">
             {{ doc.currency or "₹" }} {{ "%.0f"|format(doc.home_visit_charge) }} Home Visit
           </span>
