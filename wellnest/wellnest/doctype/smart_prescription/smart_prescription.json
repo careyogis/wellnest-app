@@ -80,9 +80,14 @@
    "label": "Exercise Advice"
   },
   {
-   "fieldname": "response_data",
-   "fieldtype": "Long Text",
-   "label": "Response Data"
+  "fieldname": "gemini_response",
+  "fieldtype": "Attach",
+  "label": "Gemini Response"
+  },
+  {
+  "fieldname": "original_prescription",
+  "fieldtype": "Attach",
+  "label": "Original Prescription"
   },
   {
    "fieldname": "patient_appointment",
