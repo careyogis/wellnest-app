@@ -86,8 +86,9 @@ def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length=2
 
         if practitioner.clinic_charge and practitioner.clinic_charge > 0:
             practitioner.clinic_charge = math.ceil(practitioner.clinic_charge * 1.25 / 25) * 25
-        else:
-            practitioner.clinic_charge = 25
+
+        if practitioner.available_for_home_visits and practitioner.home_visit_charge and practitioner.home_visit_charge > 0:
+            practitioner.home_visit_charge = math.ceil(practitioner.home_visit_charge * 1.25 / 25) * 25
 
         practitioner.education_history = frappe.get_all(
             "Practitioner Education", 

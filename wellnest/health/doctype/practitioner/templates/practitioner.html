@@ -564,7 +564,7 @@
           <p class="charge-label">Emergency</p>
         </div>
         {% endif %}
-        {% if doc.home_visit_charge and doc.available_for_home_visits %}
+        {% doc.available_for_home_visits and if doc.home_visit_charge %}
         <div class="prac-charge home-visit">
           <p class="amount"><span class="currency">{{ doc.currency or "₹" }}</span> {{ "%.0f"|format(home_visit_charge) }}</p>
           <p class="charge-label">Home Visit</p>

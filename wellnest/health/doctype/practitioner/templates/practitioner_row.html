@@ -109,7 +109,7 @@
       </div>
       <div style="flex:1; min-width:0;">
         <h5 class="mb-1 font-weight-bold" style="line-height:1.2;">
-          {{ doc.title ~ " " if doc.title else "" }} {{ (doc.full_name or "") }}
+          {{ (doc.full_name or "") }}
         </h5>
         {% if doc.designation %}
           <div class="text-muted small mb-1">{{ doc.designation }}</div>
@@ -189,9 +189,15 @@
           <span class="prac-charge-bubble">
             {{ doc.currency or "₹" }} {{ "%.0f"|format(doc.online_charge) }} Online
           </span>
-        {% elif doc.clinic_charge %}
+        {% endif %}
+        {% if doc.clinic_charge and doc.clinic_charge > 0 %}
           <span class="prac-charge-bubble">
             {{ doc.currency or "₹" }} {{ "%.0f"|format(doc.clinic_charge) }} Clinic
+          </span>
+        {% endif %}
+        {% if doc.available_for_home_visits and doc.home_visit_charge > 0 %}
+          <span class="prac-charge-bubble">
+            {{ doc.currency or "₹" }} {{ "%.0f"|format(doc.home_visit_charge) }} Home Visit
           </span>
         {% endif %}
       </div>
