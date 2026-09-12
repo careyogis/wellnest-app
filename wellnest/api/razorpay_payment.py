@@ -68,46 +68,62 @@ def payment_verify(razorpay_payment_id, razorpay_order_id, razorpay_signature, a
 			
 			appointment = frappe.get_doc("Patient Appointment", appointment_id)
 			
-			# Find the linked customer (Assuming Patient links to Customer)
-			customer = frappe.db.get_value("Patient", appointment.patient, "customer") 
-			if not customer:
-				# Fallback if no direct customer link on Patient
-				customer = frappe.db.get_value("Customer", {"customer_name": appointment.patient})
-			
-			company = frappe.db.get_single_value('Global Defaults', 'default_company')
-			if not company:
-				company = frappe.get_all("Company", limit=1)[0].name
-			
-			# 2. Create the Sales Invoice directly
-			sales_invoice = frappe.get_doc({
-				"doctype": "Sales Invoice",
-				"customer": customer or appointment.patient, 
-				"company": company,
-				"items": [{
-					"item_code": "Teleconsultation",
-					"qty": 1,
-					"rate": float(appointment.consultation_fee or 0),
-				}]
-			})
-			sales_invoice.insert(ignore_permissions=True)
-			sales_invoice.submit()
-			
-			# 3. Create Payment Entry using ERPNext's helper so paid_from/paid_to
-			#    accounts, currencies, and exchange rates are resolved correctly.
-			payment = get_payment_entry("Sales Invoice", sales_invoice.name)
-			payment.reference_no = razorpay_payment_id
-			payment.reference_date = frappe.utils.today()
-			payment.insert(ignore_permissions=True)
-			payment.submit()
-			
-			# 4. Confirm the Appointment
+			# 1. If payment succesful, confirm the Appointment and commit. 
 			frappe.db.set_value("Patient Appointment", appointment.name, {
 				"status": "Scheduled",
 				"payment_status": "Paid",
-				"sales_invoice": sales_invoice.name,
-			})
-			
+			})			
 			frappe.db.commit()
+			frappe.logger().info(f"Razorpay Signature Verification Passed for Appointment: {appointment.name} with razorpay_payment_id: {razorpay_payment_id}")
+
+			try:
+				# Proceed to Sales Invoice creation on best effort basis. Shouldn't affect the appointment confirmation
+				# Find the linked customer (may be the patient is a Customer)
+				customer = frappe.db.get_value("Patient", appointment.patient, "customer")
+				if not customer:
+					# Possibly the booking is for one of the family members
+					parent_patient = frappe.db.get_value(
+						"Patient Family Member",
+						{"relative_patient": appointment.patient},
+						"parent"
+					)
+					# get the Customer from the parent patient
+					if parent_patient:
+						customer = frappe.db.get_value("Patient", parent_patient, "customer")
+
+				if customer:
+					company = frappe.db.get_single_value('Global Defaults', 'default_company')
+					if not company:
+						company = frappe.get_all("Company", limit=1)[0].name
+				
+					# 2. Create the Sales Invoice directly
+					sales_invoice = frappe.get_doc({
+						"doctype": "Sales Invoice",
+						"customer": customer, 
+						"company": company,
+						"items": [{
+							"item_code": "Teleconsultation",
+							"qty": 1,
+							"rate": float(appointment.consultation_fee or 0),
+						}]
+					})
+					sales_invoice.insert(ignore_permissions=True)
+					sales_invoice.submit()
+
+					# 3. Patch appointment with invoice link
+					frappe.db.set_value("Patient Appointment", appointment.name, "sales_invoice", sales_invoice.name)
+
+					# 4. Create Payment Entry using ERPNext's helper so paid_from/paid_to
+					#    accounts, currencies, and exchange rates are resolved correctly.
+					payment = get_payment_entry("Sales Invoice", sales_invoice.name)
+					payment.reference_no = razorpay_payment_id
+					payment.reference_date = frappe.utils.today()
+					payment.insert(ignore_permissions=True)
+					payment.submit()
+				else:
+					frappe.logger().warning(f"No Customer found for Patient {appointment.patient}. Skipping invoice creation.")
+			except Exception as exp:
+				frappe.log_error(frappe.get_traceback(), "Sales Invoice creation failed after payment verification completed.")
 		finally:
 			frappe.set_user(original_user)
 			frappe.flags.ignore_permissions = False
