@@ -60,6 +60,7 @@ def parse_and_create_prescription(
         image_bytes,
         patient,
         patient_appointment,
+        file_url,
     )
 
     if not doc_name:

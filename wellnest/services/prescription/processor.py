@@ -9,6 +9,7 @@ def process_prescription(
     image_bytes,
     patient,
     patient_appointment,
+    file_url,
 ):    
     practitioner = None
     if patient_appointment:
@@ -75,13 +76,17 @@ def process_prescription(
 
     doc.insert(ignore_permissions=True)
 
-    save_file(
+    gemini_file = save_file(
         f"{doc.name}-gemini-response.json",
         raw_response.encode("utf-8"),
         "Smart Prescription",
         doc.name,
         is_private=1,
     )
+
+    doc.gemini_response = gemini_file.file_url
+    doc.original_prescription = file_url
+    doc.save(ignore_permissions=True)
 
     return doc.name
 
