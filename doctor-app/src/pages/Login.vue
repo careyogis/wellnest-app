@@ -252,7 +252,7 @@ async function sendOtp() {
   message.value = '';
   messageType.value = '';
 
-  const cleanPhone = phone.value ? phone.value.trim() : '';
+  const cleanPhone = phone.value ? phone.value.replace(/\s+/g, '') : '';
   // Allow spaces in the mobile. Permits using firebase test numbers.
   if (!cleanPhone || !/^\d(?:\s?\d){9}$/.test(cleanPhone)) {
     message.value = 'Please enter a valid 10-digit mobile number.';
@@ -271,7 +271,7 @@ async function sendOtp() {
     const recaptchaToken = await getRecaptchaToken();
 
     const response = await sendOtpResource.submit({
-      phone: '+91' + phone.value,
+      phone: '+91' + cleanPhone,
       recaptcha_token: recaptchaToken,
     });
 
@@ -308,7 +308,7 @@ async function verifyOtp() {
   try {
     await verifyOtpResource.submit({
       session_info: sessionInfo.value,
-      phone: phone.value,
+      phone: phone.value.replace(/\s+/g, ''),
       otp: otpEntry.value,
     });
 
