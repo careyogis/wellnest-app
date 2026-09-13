@@ -216,7 +216,7 @@ async function register() {
   message.value = '';
   messageType.value = '';
 
-  const mobile = form.mobile.replace(/\s+/g, '');
+  const mobile = form.mobile.trim();
 
   // Allow spaces in the mobile. Permits using firebase test numbers.
   if (!/^\d(?:\s?\d){9}$/.test(mobile)) {
@@ -284,7 +284,7 @@ async function verifyOtp() {
       first_name,
       last_name,
       email: form.email.trim(),
-      mobile: form.mobile.replace(/\s+/g, ''),
+      mobile: form.mobile.trim(),
     });
 
     session.user = response.user;
