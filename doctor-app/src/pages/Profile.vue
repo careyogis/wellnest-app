@@ -913,10 +913,6 @@
               <label for="hpr-verified" class="text-sm font-medium text-gray-700"> HPR Verified </label>
             </div>
 
-            <div class="flex items-center gap-3">
-              <input id="is-published" v-model="editForm.is_published" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500" />
-              <label for="is-published" class="text-sm font-medium text-gray-700"> Is Published </label>
-            </div>
           </div>
         </div>
 

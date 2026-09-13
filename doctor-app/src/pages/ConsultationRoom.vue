@@ -590,69 +590,84 @@ function onRxImageSelected(event) {
   event.target.value = '';
 }
 
-async function submitRxImage() {
+function submitRxImage() {
   if (!rxSelectedFile.value) return;
+
   rxParseLoading.value = true;
   rxParseStatus.value = null;
 
-  try {
-    // 1. Upload image to Frappe file store
-    const formData = new FormData();
-    formData.append('file', rxSelectedFile.value);
+  const formData = new FormData();
+  formData.append('file', rxSelectedFile.value);
 
-    const uploadResponse = await fetch('/api/method/upload_file', {
-      method: 'POST',
-      headers: {
-        'X-Frappe-CSRF-Token': window.csrf_token,
-      },
-      body: formData,
+  fetch('/api/method/upload_file', {
+    method: 'POST',
+    headers: {
+      'X-Frappe-CSRF-Token': window.csrf_token,
+    },
+    body: formData,
+  })
+    .then(async (uploadResponse) => {
+      if (!uploadResponse.ok) {
+        const errorText = await uploadResponse.text();
+        throw new Error(
+          `Prescription image upload failed (${uploadResponse.status})`
+        );
+      }
+
+      return uploadResponse.json();
+    })
+    .then((uploadResult) => {
+
+      const fileUrl = uploadResult.message?.file_url;
+
+      if (!fileUrl) {
+        throw new Error('Failed to upload prescription image.');
+      }
+
+      return parseRxResource.submit({
+        patient: patient.value.name,
+        file_url: fileUrl,
+        patient_appointment: bookingId.value,
+      });
+    })
+    .then((response) => {
+      const prescription = response?.message || response;
+
+      prescriptionName.value = prescription?.name || null;
+      prescriptionWorkflowState.value =
+        prescription?.workflow_state || 'Draft';
+
+      medicines.value = (prescription?.medicines || []).map((medicine) => ({
+        name: medicine.name || '',
+        dosage: medicine.dosage || '',
+        timing: medicine.timing || '',
+        duration: medicine.duration || '',
+      }));
+
+      adviceNotes.value = prescription?.advice || '';
+
+      rxSubmitted.value = true;
+
+      rxParseStatus.value = {
+        type: 'success',
+        message:
+          'Prescription parsed successfully. Please review and edit before publishing.',
+      };
+
+      clearRxImage();
+    })
+    .catch((err) => {
+      console.error('Prescription upload/parse failed:', err);
+
+      rxParseStatus.value = {
+        type: 'error',
+        message:
+          err?.message || 'Failed to submit Rx image. Please try again.',
+      };
+    })
+    .finally(() => {
+      rxParseLoading.value = false;
     });
-
-    const uploadResult = await uploadResponse.json();
-    console.log('UPLOAD RESULT:', uploadResult);
-    const fileUrl = uploadResult.message?.file_url;
-    const fileName = uploadResult.message?.name;
-
-    if (!fileUrl) {
-      throw new Error('Failed to upload prescription image.');
-    }
-
-    // 2. Call parse_and_create_prescription
-    const response = await parseRxResource.submit({
-      patient: patient.value.name,
-      file_url: fileUrl,
-      patient_appointment: bookingId.value,
-    });
-
-    const prescription = response?.message || response;
-    prescriptionName.value = prescription?.name || null;
-    prescriptionWorkflowState.value = prescription?.workflow_state || 'Draft';
-
-    medicines.value = (prescription?.medicines || []).map((medicine) => ({
-      name: medicine.name || '',
-      dosage: medicine.dosage || '',
-      timing: medicine.timing || '',
-      duration: medicine.duration || '',
-    }));
-
-    adviceNotes.value = prescription?.advice || '';
-
-    rxSubmitted.value = true;
-
-    rxParseStatus.value = {
-      type: 'success',
-      message: 'Prescription parsed successfully. Please review and edit before publishing.',
-    };
-
-    clearRxImage();
-  } catch (err) {
-    rxParseStatus.value = {
-      type: 'error',
-      message: err?.message || 'Failed to submit Rx image. Please try again.',
-    };
-  } finally {
-    rxParseLoading.value = false;
-  }
 }
 
 function clearRxImage() {
