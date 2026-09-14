@@ -38,6 +38,28 @@ def get_app_notifications(patient_id):
 	
 	return all_notifs[:30]
 
+@frappe.whitelist()
+def notify_doctor_of_new_booking(patient_appointmentId, practitioner_name, practitioner_mobile, scheduled_datetime, consultation_type):
+	# from frappe.utils import now_datetime
+	# from datetime import timedelta
+	try:
+		_logInfo(f"Sending WhatsApp alert to the doctor: {practitioner_name} for the appointment: {patient_appointmentId}")
+
+		if not practitioner_mobile:
+			frappe.log_error(f"Doctor: {practitioner_name} does not have a mobile number. Cannot send WhatsApp alert.", "Doctor WhatsApp Alert Error")
+			return
+
+		if not practitioner_mobile.startswith("+91"):
+			practitioner_mobile = "+91" + practitioner_mobile
+						
+		_send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patient_appointmentId, scheduled_datetime, consultation_type)
+	except Exception as exp:
+		frappe.log_error(frappe.get_traceback(), "WhatsApp Alert Error")
+		_logInfo(f"Check the error: {str(exp)}")
+
+
+	_logInfo(f"Finished sending WhatsApp alerts")
+
 
 def send_doctor_whatsapp_alert():
 	from frappe.utils import now_datetime
@@ -123,6 +145,53 @@ def _send_whatsapp_message(doctor_phone, doctor_name, patient_name, age, reason,
                         {"type": "text", "text": reason},
                         {"type": "text", "text": time},
                         {"type": "text", "text": mode},
+                        {"type": "text", "text": f"{site_url}/doctor-app/consultations"}
+                    ]
+                }
+            ]
+        }
+	}
+
+	response = requests.post(url, json=payload, headers=headers)
+	return response.json()
+
+def _send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patient_appointId, scheduled_datetime, consultation_type):	
+	import requests
+
+	_logInfo(f"Sending WhatsApp message to {practitioner_name} ({practitioner_mobile}) for appointment {patient_appointId}, Time: {scheduled_datetime}, Mode: {consultation_type}")
+
+	access_token = frappe.conf.get('ACCESS_TOKEN')
+	phone_number_id = frappe.conf.get('PHONE_NUMBER_ID')
+	version = frappe.conf.get('VERSION')
+	site_url = frappe.utils.get_url()
+
+
+	url = f"https://graph.facebook.com/{version}/{phone_number_id}/messages"
+
+	headers = {
+		"Authorization": f"Bearer {access_token}",
+		"Content-Type": "application/json"
+	}
+
+	payload = {
+        "messaging_product": "whatsapp",
+        "to": practitioner_mobile,
+        "type": "template",
+        "template": {
+            "name": "doctor_new_video_consultation_booking",
+            "language": {
+                "code": "en"
+            },
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": [
+                        {"type": "text", "text": practitioner_name},
+                        {"type": "text", "text": "n/a"},
+                        {"type": "text", "text": "n/a"},
+                        {"type": "text", "text": consultation_type},
+                        {"type": "text", "text": scheduled_datetime},
+                        {"type": "text", "text": scheduled_datetime},
                         {"type": "text", "text": f"{site_url}/doctor-app/consultations"}
                     ]
                 }

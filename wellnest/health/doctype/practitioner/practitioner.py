@@ -70,7 +70,7 @@ def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length=2
         fields=fields,
         limit_start=limit_start,
         limit_page_length=limit_page_length,
-        order_by=order_by or "practicing_from, online_charge",
+        order_by="practicing_from, online_charge",
         ignore_permissions=True
     )
 
