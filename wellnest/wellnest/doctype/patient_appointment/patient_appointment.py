@@ -18,7 +18,7 @@ class PatientAppointment(Document):
             frappe.sendmail(recipients=[practitioner.email], message=f"A new booking has been made with you at CareYogi, on: {self.scheduled_time}. Please ensure you login to the doctor-app at or before the scheduled time.")
         
         if practitioner and practitioner.mobile:
-            notify_doctor_of_new_booking(patient_appointmentId=[self.name], practitioner_name=[practitioner.full_name], practitioner_mobile=[practitioner.mobile], scheduled_datetime=[self.scheduled_time], consultation_type=[self.consultation_type])
+            notify_doctor_of_new_booking(patient_appointmentId=self.name, practitioner_name=practitioner.full_name, practitioner_mobile=practitioner.mobile, scheduled_datetime=self.scheduled_time, consultation_type=self.consultation_type)
 
 
 @frappe.whitelist()
