@@ -351,7 +351,7 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 			let meta_html = `
 				<div style="font-size: 12px; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
 					<div><b>${__('Patient')}:</b> ${frappe.utils.escape_html(data.patient_name || data.patient || __('Not Specified'))} (${frappe.utils.escape_html(data.patient || '')})</div>
-					${data.practitioner ? `<div><b>${__('Practitioner')}:</b> ${frappe.utils.escape_html(data.patient_name || data.patient || __('Not Specified'))} (${frappe.utils.escape_html(data.practitioner)})</div>` : ''}
+					${data.practitioner ? `<div><b>${__('Practitioner')}:</b> ${frappe.utils.escape_html(data.practitioner_name || data.practitioner || __('Not Specified'))} (${frappe.utils.escape_html(data.practitioner)})</div>` : ''}
 					${data.appointment_time ? `<div><b>${__('Appointment Date & Time')}:</b> ${frappe.utils.escape_html(data.appointment_time)}</div>` : ''}
 				</div>
 			`;

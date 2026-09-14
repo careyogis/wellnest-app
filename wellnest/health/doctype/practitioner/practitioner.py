@@ -537,6 +537,7 @@ def search_doctors(query=None, specialty=None):
 			"city",
 			"practicing_from",
 		],
+		order_by="practicing_from, online_charge",
 		limit=50,
 	)
 	if or_filters:
