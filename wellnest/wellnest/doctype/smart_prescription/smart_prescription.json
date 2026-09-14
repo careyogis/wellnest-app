@@ -17,7 +17,8 @@
   "follow_up_advice",
   "diet_advice",
   "exercise_advice",
-  "response_data"
+  "original_uploaded_prescription",
+  "raw_ai_response"
  ],
  "fields": [
   {
@@ -80,25 +81,25 @@
    "label": "Exercise Advice"
   },
   {
-  "fieldname": "gemini_response",
-  "fieldtype": "Attach",
-  "label": "Gemini Response"
-  },
-  {
-  "fieldname": "original_prescription",
-  "fieldtype": "Attach",
-  "label": "Original Prescription"
-  },
-  {
    "fieldname": "patient_appointment",
    "fieldtype": "Link",
    "label": "Patient Appointment",
    "options": "Patient Appointment"
+  },
+  {
+   "fieldname": "original_uploaded_prescription",
+   "fieldtype": "Attach",
+   "label": "Original Uploaded Prescription"
+  },
+  {
+   "fieldname": "raw_ai_response",
+   "fieldtype": "Attach",
+   "label": "Raw AI Response"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-06 16:42:50.450738",
+ "modified": "2026-09-14 15:04:31.181098",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Smart Prescription",

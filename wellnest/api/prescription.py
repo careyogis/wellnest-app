@@ -70,12 +70,14 @@ def parse_and_create_prescription(
     )
         return
 
-    print(f">>> Prescription created: {doc_name}")
+    print(f">>> Prescription created: {doc_name}, file_path: {file_path}")
 
-    if file_name:
-        file_doc = frappe.get_doc("File", file_name)
+    file_doc_name = frappe.db.get_value("File", {"file_url": file_url})
+    if file_doc_name:
+        file_doc = frappe.get_doc("File", file_doc_name)
         file_doc.attached_to_doctype = "Smart Prescription"
         file_doc.attached_to_name = doc_name
+        file_doc.attached_to_field = "original_uploaded_prescription"
         file_doc.save(ignore_permissions=True)
 
     doc = frappe.get_doc("Smart Prescription", doc_name)

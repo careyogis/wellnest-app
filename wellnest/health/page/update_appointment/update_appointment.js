@@ -13,7 +13,6 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 	// Internal state
 	let selected_appointment = null;
 	let appointment_control = null;
-	let attach_control = null;
 	let is_submitting = false;
 
 	// Page Container Styles
@@ -37,7 +36,7 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 		}
 		.upload-rx-header-sub {
 			font-size: 13px;
-			color: var(--text-muted, #718096);
+			color: var(--text-muted, #0f3b7c);
 			margin-bottom: 20px;
 		}
 		.field-section-grid {
@@ -112,7 +111,7 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 			padding: 10px 14px;
 			font-size: 12px;
 			text-transform: uppercase;
-			color: var(--text-muted, #718096);
+			color: var(--text-muted, #0f3b7c);
 			border-bottom: 1px solid var(--border-color, #e2e8f0);
 			text-align: left;
 		}
@@ -229,35 +228,10 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 	});
 	appointment_control.refresh();
 
-	// 2. Create Attach Image File Control
-	attach_control = frappe.ui.form.make_control({
-		df: {
-			fieldtype: 'Attach Image',
-			fieldname: 'prescription_image',
-			label: __('Attach Prescription File'),
-			placeholder: __('No prescription file attached'),
-			read_only: 1,
-			change: function () {
-				const file_url = attach_control.get_value();
-				if (file_url && selected_appointment && !is_submitting) {
-					on_file_attached(file_url);
-				}
-			},
-		},
-		parent: $attach_mount[0],
-		render_input: true,
-	});
-	attach_control.refresh();
-
-	// Ensure attach control uses selected appointment if applicable
-	attach_control.frm = {
-		doctype: 'Patient Appointment',
-		docname: null,
-	};
 
 	// Wire up upload button
 	$btn_open_uploader.on('click', function () {
-		if (!selected_appointment || attach_control.df.read_only) {
+		if (!selected_appointment) {
 			frappe.msgprint(__('Please select an appointment without an existing Smart Prescription first.'));
 			return;
 		}
@@ -270,14 +244,12 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 	 */
 	function handle_appointment_selection(appointment_name) {
 		selected_appointment = appointment_name;
-		attach_control.frm.docname = appointment_name;
 
 		// Clear previous status & response
 		$appointment_meta.empty();
 		$status_area.empty();
 		$response_card.hide();
 		$response_content.empty();
-		attach_control.set_value('');
 
 		if (!appointment_name) {
 			lock_attachment_input(__('Select a Patient Appointment first.'));
@@ -377,7 +349,7 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 
 			// Display Appointment info
 			let meta_html = `
-				<div style="font-size: 12px; color: var(--text-muted); background: #fff; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
+				<div style="font-size: 12px; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
 					<div><b>${__('Patient')}:</b> ${frappe.utils.escape_html(data.patient_name || data.patient || __('Not Specified'))} (${frappe.utils.escape_html(data.patient || '')})</div>
 					${data.practitioner ? `<div><b>${__('Practitioner')}:</b> ${frappe.utils.escape_html(data.patient_name || data.patient || __('Not Specified'))} (${frappe.utils.escape_html(data.practitioner)})</div>` : ''}
 					${data.appointment_time ? `<div><b>${__('Appointment Date & Time')}:</b> ${frappe.utils.escape_html(data.appointment_time)}</div>` : ''}
@@ -395,15 +367,11 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 	}
 
 	function lock_attachment_input(reason) {
-		attach_control.df.read_only = 1;
-		attach_control.refresh();
 		$btn_open_uploader.prop('disabled', true);
 		$attach_indicator.removeClass('green blue').addClass('red');
 	}
 
 	function unlock_attachment_input() {
-		attach_control.df.read_only = 0;
-		attach_control.refresh();
 		$btn_open_uploader.prop('disabled', false);
 		$attach_indicator.removeClass('red gray').addClass('green');
 	}
@@ -421,7 +389,6 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 			},
 			on_success: function (file_doc) {
 				const file_url = file_doc.file_url;
-				attach_control.set_value(file_url);
 				on_file_attached(file_url);
 			},
 		});
@@ -675,10 +642,6 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 		is_submitting = false;
 		if (appointment_control) {
 			appointment_control.set_value('');
-		}
-		if (attach_control) {
-			attach_control.set_value('');
-			lock_attachment_input();
 		}
 		$appointment_meta.empty();
 		$status_area.empty();

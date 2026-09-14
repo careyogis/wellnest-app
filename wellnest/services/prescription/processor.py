@@ -82,6 +82,7 @@ def process_prescription(
         "Smart Prescription",
         doc.name,
         is_private=1,
+        df="raw_ai_response"
     )
 
     doc.gemini_response = gemini_file.file_url
