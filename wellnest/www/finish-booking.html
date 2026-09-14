@@ -124,7 +124,7 @@
       <div class="view active" id="review-view">
         <div class="service-banner">
           <span class="service-icon"><i class="fas fa-video"></i></span>
-          <div><h2>Online consultation with Dr. {{ practitioner.full_name if practitioner else 'Doctor' }}</h2><p>{{ appointment.consultation_type or 'Teleconsultation' }} · {{ appointment.duration or '15' }} minutes · {{ formatted_date }}</p></div>
+          <div><h2>Online consultation with {{ practitioner.full_name if practitioner else 'Doctor' }}</h2><p>{{ appointment.consultation_type or 'Teleconsultation' }} · {{ appointment.duration or '15' }} minutes · {{ formatted_date }}</p></div>
         </div>
         <div class="section-title"><h3>Customer details</h3></div>
         <div class="detail-grid">
@@ -146,7 +146,7 @@
 
       <div class="view" id="payment-view">
         <button class="back" type="button" data-go="review"><i class="fas fa-arrow-left"></i> Back to review</button>
-        <div class="service-banner" style="margin-top:18px"><span class="service-icon"><i class="fas fa-video"></i></span><div><h2>Teleconsultation with Dr. {{ practitioner.full_name if practitioner else 'Doctor' }}</h2><p>Booking #{{ appointment.name }} · ₹{{ amount }} payable</p></div></div>
+        <div class="service-banner" style="margin-top:18px"><span class="service-icon"><i class="fas fa-video"></i></span><div><h2>Teleconsultation with {{ practitioner.full_name if practitioner else 'Doctor' }}</h2><p>Booking #{{ appointment.name }} · ₹{{ amount }} payable</p></div></div>
         <div class="section-title"><h3>Choose a payment method</h3></div>
         <div class="method-list" role="radiogroup" aria-label="Payment methods">
           <button class="method selected" type="button" role="radio" aria-checked="true"><span class="method-icon"><i class="fas fa-mobile-screen-button"></i></span><span><b>UPI</b><small>Google Pay, PhonePe, Paytm and more</small></span><i class="fas fa-circle-check method-check"></i></button>
@@ -176,7 +176,7 @@
         <div class="confirmation-card">
           <div class="success-icon"><i class="fas fa-check"></i></div>
           <h2>Payment received</h2>
-          <p>Thank you, {{ patient.full_name.split(' ')[0] if patient else 'Patient' }}. Your teleconsultation with Dr. {{ practitioner.full_name if practitioner else 'Doctor' }} is confirmed for {{ formatted_date }}.</p>
+          <p>Thank you, {{ patient.full_name.split(' ')[0] if patient else 'Patient' }}. Your teleconsultation with {{ practitioner.full_name if practitioner else 'Doctor' }} is confirmed for {{ formatted_date }}.</p>
           <div class="receipt"><div class="invoice-row"><span>Transaction ID</span><strong>Payment Processed</strong></div><div class="invoice-row"><span>Paid with</span><strong id="receipt-method">UPI</strong></div><div class="invoice-row"><span>Invoice number</span><strong>{{ appointment.name }}</strong></div><div class="invoice-row total"><span>Paid</span><strong>₹{{ amount }}</strong></div></div>
           <div class="button-row"><button class="secondary-button" type="button" data-open-invoice><i class="fas fa-download"></i> Download invoice</button></div>
         </div>
@@ -186,7 +186,7 @@
   </main>
 
   <dialog id="invoice-dialog" aria-labelledby="invoice-heading">
-    <div class="modal-content"><div class="modal-head"><div><p class="eyebrow">Invoice preview</p><h2 id="invoice-heading">CareYogi Digital Hospital</h2></div><button class="close-modal" type="button" data-close-invoice aria-label="Close invoice"><i class="fas fa-times"></i></button></div><div class="invoice-preview"><div class="invoice-top"><div><strong>Booking #{{ appointment.name }}</strong><br><span>Issued {{ issue_date }}</span></div><span>Paid by {{ patient.full_name if patient else 'Patient' }}</span></div><div class="invoice-row"><span>{{ appointment.consultation_type or 'Teleconsultation' }}<br><small>Dr. {{ practitioner.full_name if practitioner else 'Doctor' }} · {{ appointment.duration or '15' }} minutes</small></span><strong>₹{{ amount }}</strong></div><div class="invoice-row total"><span>Total payable</span><strong>₹{{ amount }}</strong></div></div></div>
+    <div class="modal-content"><div class="modal-head"><div><p class="eyebrow">Invoice preview</p><h2 id="invoice-heading">CareYogi Digital Hospital</h2></div><button class="close-modal" type="button" data-close-invoice aria-label="Close invoice"><i class="fas fa-times"></i></button></div><div class="invoice-preview"><div class="invoice-top"><div><strong>Booking #{{ appointment.name }}</strong><br><span>Issued {{ issue_date }}</span></div><span>Paid by {{ patient.full_name if patient else 'Patient' }}</span></div><div class="invoice-row"><span>{{ appointment.consultation_type or 'Teleconsultation' }}<br><small>{{ practitioner.full_name if practitioner else 'Doctor' }} · {{ appointment.duration or '15' }} minutes</small></span><strong>₹{{ amount }}</strong></div><div class="invoice-row total"><span>Total payable</span><strong>₹{{ amount }}</strong></div></div></div>
   </dialog>
 
   <script>
