@@ -223,7 +223,7 @@
         <input type="text" id="pracSearchInput"
                class="form-control form-control-lg flex-grow-1 shadow-sm"
                style="border-radius:8px; max-width:480px;"
-               placeholder="Search by name, specialty, city, or language…">
+               placeholder="Search by doctor name, specialty or city…">
         <select id="pracGenderFilter" class="form-control shadow-sm" style="max-width:140px; border-radius:8px;">
           <option value="">All Genders</option>
           <option value="male">Male</option>
@@ -241,8 +241,60 @@
       countEl.style.cssText = 'font-size:13px;color:#64748b;margin-bottom:12px;';
       firstCard.parentNode.insertBefore(countEl, firstCard);
 
+      // ── Pagination variables ────────────────────────────────
+      let currentPage = 1;
+      const pageSize = 2;
+      let matchingCards = [];
+
+      // ── Pagination container ────────────────────────────────
+      const paginationContainer = document.createElement('div');
+      paginationContainer.className = 'd-flex justify-content-center mt-4 mb-5 gap-2';
+      paginationContainer.id = 'pracPagination';
+      firstCard.parentNode.appendChild(paginationContainer);
+
+      function renderPaginationControls() {
+        paginationContainer.innerHTML = '';
+        const totalPages = Math.ceil(matchingCards.length / pageSize);
+        
+        if (totalPages <= 1) return;
+
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'btn btn-sm btn-outline-secondary';
+        prevBtn.textContent = 'Previous';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => { if (currentPage > 1) { currentPage--; renderPage(); window.scrollTo(0, 0); } };
+        paginationContainer.appendChild(prevBtn);
+
+        const info = document.createElement('span');
+        info.className = 'align-self-center mx-2 text-muted';
+        info.style.fontSize = '14px';
+        info.textContent = `Page ${currentPage} of ${totalPages}`;
+        paginationContainer.appendChild(info);
+
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'btn btn-sm btn-outline-secondary';
+        nextBtn.textContent = 'Next';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => { if (currentPage < totalPages) { currentPage++; renderPage(); window.scrollTo(0, 0); } };
+        paginationContainer.appendChild(nextBtn);
+      }
+
+      function renderPage() {
+        // Hide all cards first
+        document.querySelectorAll('.prac-card').forEach(c => c.style.display = 'none');
+        
+        // Show only the current page cards
+        const start = (currentPage - 1) * pageSize;
+        const end = start + pageSize;
+        const pageCards = matchingCards.slice(start, end);
+        
+        pageCards.forEach(c => c.style.display = '');
+        
+        renderPaginationControls();
+      }
+
       function updateCount() {
-        const visible = document.querySelectorAll('.prac-card:not([style*="none"])').length;
+        const visible = matchingCards.length;
         countEl.textContent = visible + ' practitioner' + (visible !== 1 ? 's' : '') + ' found';
       }
 
@@ -251,6 +303,7 @@
         const gender = document.getElementById('pracGenderFilter').value.toLowerCase();
         const teleOnly = document.getElementById('pracTeleFilter').checked;
 
+        matchingCards = [];
         document.querySelectorAll('.prac-card').forEach(function (card) {
           const search = (card.getAttribute('data-search') || '').toLowerCase();
           const isTele = card.getAttribute('data-tele') === '1';
@@ -259,17 +312,24 @@
           const matchGender = !gender || search.includes(gender);
           const matchTele   = !teleOnly || isTele;
 
-          card.style.display = (matchTerm && matchGender && matchTele) ? '' : 'none';
+          if (matchTerm && matchGender && matchTele) {
+             matchingCards.push(card);
+          } else {
+             card.style.display = 'none';
+          }
         });
+        
+        currentPage = 1;
         updateCount();
+        renderPage();
       }
 
       document.getElementById('pracSearchInput').addEventListener('input', applyFilters);
       document.getElementById('pracGenderFilter').addEventListener('change', applyFilters);
       document.getElementById('pracTeleFilter').addEventListener('change', applyFilters);
 
-      // Initial count
-      updateCount();
+      // Initial count & render
+      applyFilters();
     });
   }
 </script>
