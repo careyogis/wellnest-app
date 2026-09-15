@@ -265,65 +265,237 @@
               </div>
             </div>
 
-            <div class="flex items-center justify-between">
-              <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider">Prescribed Medicines</h4>
-              <button v-if="isEditingPrescription" @click="addMedicine" type="button" class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
-                <FeatherIcon name="plus" class="w-3 h-3" /> Add Drug
-              </button>
-            </div>
+<!-- Prescription Details -->
+<div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2.5">
+  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">
+    Prescription Details
+  </h4>
 
-            <!-- Medicine List -->
-            <div class="space-y-2.5">
-              <div v-for="(med, idx) in medicines" :key="idx" class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-                <div class="flex items-center justify-between gap-2">
-                  <input
-                    v-model="med.name"
-                    :disabled="!isEditingPrescription"
-                    type="text"
-                    placeholder="Medicine Name (e.g. Metformin 500mg)"
-                    class="flex-1 bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500 font-medium"
-                  />
-                  <button v-if="isEditingPrescription" @click="removeMedicine(idx)" class="p-1 text-gray-500 hover:text-red-400 flex-shrink-0" title="Remove Medicine">
-                    <FeatherIcon name="trash-2" class="w-3.5 h-3.5" />
-                  </button>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5 text-xs sm:text-[11px]">
-                  <input
-                    v-model="med.dosage"
-                    :disabled="!isEditingPrescription"
-                    type="text"
-                    placeholder="Dosage (e.g. 1 tab)"
-                    class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-white focus:outline-none focus:border-amber-500"
-                  />
-                  <input
-                    v-model="med.timing"
-                    :disabled="!isEditingPrescription"
-                    type="text"
-                    placeholder="Timing (e.g. After Meals)"
-                    class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-white focus:outline-none focus:border-amber-500"
-                  />
-                  <input
-                    v-model="med.duration"
-                    :disabled="!isEditingPrescription"
-                    type="text"
-                    placeholder="Duration (e.g. 30 Days)"
-                    class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-white focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-              </div>
-            </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+    <input
+      v-model="patientAge"
+      :disabled="!isEditingPrescription"
+      type="text"
+      placeholder="Patient Age"
+      class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+    />
 
-            <!-- Advice / Lifestyle -->
-            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800">
-              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Doctor's Advice / Diet</h4>
-              <textarea
-                v-model="adviceNotes"
-                :disabled="!isEditingPrescription"
-                rows="3"
-                placeholder="e.g. 45 mins brisk walk daily. Avoid sugar and refined carbs. Re-check fasting sugar in 2 weeks."
-                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-              ></textarea>
-            </div>
+    <input
+      v-model="patientGender"
+      :disabled="!isEditingPrescription"
+      type="text"
+      placeholder="Patient Gender"
+      class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+    />
+
+    <input
+      v-model="doctorName"
+      :disabled="!isEditingPrescription"
+      type="text"
+      placeholder="Doctor Name"
+      class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+    />
+
+    <input
+      v-model="hospital"
+      :disabled="!isEditingPrescription"
+      type="text"
+      placeholder="Hospital / Clinic"
+      class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+    />
+
+    <input
+      v-model="prescriptionDate"
+      :disabled="!isEditingPrescription"
+      type="text"
+      placeholder="Prescription Date"
+      class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+    />
+  </div>
+
+  <textarea
+    v-model="diagnosis"
+    :disabled="!isEditingPrescription"
+    rows="2"
+    placeholder="Diagnosis"
+    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+  ></textarea>
+
+  <textarea
+    v-model="investigations"
+    :disabled="!isEditingPrescription"
+    rows="2"
+    placeholder="Investigations"
+    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+  ></textarea>
+
+  <textarea
+    v-model="generalInstructions"
+    :disabled="!isEditingPrescription"
+    rows="2"
+    placeholder="General Instructions"
+    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+  ></textarea>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+    <input
+      v-model="followUpDuration"
+      :disabled="!isEditingPrescription"
+      type="text"
+      placeholder="Follow-up Duration"
+      class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+    />
+
+    <input
+      v-model="followUpDurationOriginal"
+      :disabled="!isEditingPrescription"
+      type="text"
+      placeholder="Follow-up Duration (Original)"
+      class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+    />
+  </div>
+</div>
+
+<!-- Prescribed Medicines -->
+<div class="flex items-center justify-between">
+  <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider">
+    Prescribed Medicines
+  </h4>
+
+  <button
+    v-if="isEditingPrescription"
+    @click="addMedicine"
+    type="button"
+    class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1"
+  >
+    <FeatherIcon name="plus" class="w-3 h-3" /> Add Drug
+  </button>
+</div>
+
+<!-- Medicine List -->
+<div class="space-y-2.5">
+  <div
+    v-for="(med, idx) in medicines"
+    :key="idx"
+    class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2"
+  >
+    <div class="flex items-center justify-between gap-2">
+      <input
+        v-model="med.name"
+        :disabled="!isEditingPrescription"
+        type="text"
+        placeholder="Medicine Name"
+        class="flex-1 bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500 font-medium"
+      />
+
+      <button
+        v-if="isEditingPrescription"
+        @click="removeMedicine(idx)"
+        class="p-1 text-gray-500 hover:text-red-400 flex-shrink-0"
+        title="Remove Medicine"
+      >
+        <FeatherIcon name="trash-2" class="w-3.5 h-3.5" />
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+      <input
+        v-model="med.originalName"
+        :disabled="!isEditingPrescription"
+        type="text"
+        placeholder="Original Medicine Name"
+        class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+      />
+
+      <input
+        v-model="med.genericNames"
+        :disabled="!isEditingPrescription"
+        type="text"
+        placeholder="Generic Names"
+        class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+      />
+
+      <input
+        v-model="med.dosage"
+        :disabled="!isEditingPrescription"
+        type="text"
+        placeholder="Strength / Dosage"
+        class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+      />
+
+      <input
+        v-model="med.dosageForm"
+        :disabled="!isEditingPrescription"
+        type="text"
+        placeholder="Dosage Form"
+        class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+      />
+
+      <input
+        v-model="med.timing"
+        :disabled="!isEditingPrescription"
+        type="text"
+        placeholder="Frequency / Timing"
+        class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+      />
+
+      <input
+        v-model="med.duration"
+        :disabled="!isEditingPrescription"
+        type="text"
+        placeholder="Duration"
+        class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+      />
+    </div>
+
+    <textarea
+      v-model="med.instructions"
+      :disabled="!isEditingPrescription"
+      rows="2"
+      placeholder="Instructions"
+      class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+    ></textarea>
+
+    <textarea
+      v-model="med.instructionTranslation"
+      :disabled="!isEditingPrescription"
+      rows="2"
+      placeholder="Instruction Translation"
+      class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+    ></textarea>
+  </div>
+</div>
+
+<!-- Advice / Lifestyle -->
+<div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
+  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">
+    Doctor's Advice / Diet
+  </h4>
+
+  <textarea
+    v-model="adviceNotes"
+    :disabled="!isEditingPrescription"
+    rows="2"
+    placeholder="Follow-up Advice"
+    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+  ></textarea>
+
+  <textarea
+    v-model="dietAdvice"
+    :disabled="!isEditingPrescription"
+    rows="2"
+    placeholder="Diet Advice"
+    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+  ></textarea>
+
+  <textarea
+    v-model="exerciseAdvice"
+    :disabled="!isEditingPrescription"
+    rows="2"
+    placeholder="Exercise Advice"
+    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+  ></textarea>
+</div>
           </div>
 
           <!-- Bottom Action: Sign & Dispatch Rx -->
@@ -637,14 +809,37 @@ function submitRxImage() {
       prescriptionWorkflowState.value =
         prescription?.workflow_state || 'Draft';
 
-      medicines.value = (prescription?.medicines || []).map((medicine) => ({
-        name: medicine.name || '',
-        dosage: medicine.dosage || '',
-        timing: medicine.timing || '',
-        duration: medicine.duration || '',
-      }));
+      patientAge.value = prescription?.patient_age || '';
+      patientGender.value = prescription?.patient_gender || '';
+      doctorName.value = prescription?.doctor_name || '';
+      hospital.value = prescription?.hospital || '';
+      prescriptionDate.value = prescription?.prescription_date || '';
+      diagnosis.value = prescription?.diagnosis || '';
+     investigations.value = prescription?.investigations || '';
+     generalInstructions.value =
+  prescription?.general_instructions || '';
 
-      adviceNotes.value = prescription?.advice || '';
+followUpDuration.value =
+  prescription?.follow_up_duration || '';
+followUpDurationOriginal.value =
+  prescription?.follow_up_duration_original || '';
+
+adviceNotes.value = prescription?.follow_up_advice || '';
+dietAdvice.value = prescription?.diet_advice || '';
+exerciseAdvice.value = prescription?.exercise_advice || '';
+
+medicines.value = (prescription?.medicines || []).map((medicine) => ({
+  name: medicine.medicine_name || '',
+  originalName: medicine.original_name || '',
+  genericNames: medicine.generic_names || '',
+  dosage: medicine.dosage || '',
+  dosageForm: medicine.dosage_form || '',
+  timing: medicine.timing || '',
+  duration: medicine.duration || '',
+  instructions: medicine.instructions || '',
+  instructionTranslation:
+    medicine.instruction_translation || '',
+}));
 
       rxSubmitted.value = true;
 
@@ -685,33 +880,82 @@ async function loadExistingPrescription() {
     const prescription = response?.message || response;
 
     if (!prescription) {
+      // No prescription yet — show the complete form in edit mode.
+      prescriptionName.value = null;
+      prescriptionWorkflowState.value = 'Draft';
+      isEditingPrescription.value = true;
+      rxSubmitted.value = false;
       return;
     }
+
     prescriptionName.value = prescription.name || null;
 
     rxPersistedImage.value = prescription.file_url || null;
-    prescriptionWorkflowState.value = prescription.workflow_state || null;
+    prescriptionWorkflowState.value =
+      prescription.workflow_state || 'Draft';
+
     isEditingPrescription.value = false;
+
+    patientAge.value = prescription.patient_age || '';
+    patientGender.value = prescription.patient_gender || '';
+    doctorName.value = prescription.doctor_name || '';
+    hospital.value = prescription.hospital || '';
+    prescriptionDate.value = prescription.prescription_date || '';
+    diagnosis.value = prescription.diagnosis || '';
+    investigations.value = prescription.investigations || '';
+    generalInstructions.value =
+      prescription.general_instructions || '';
+
+    followUpDuration.value =
+      prescription.follow_up_duration || '';
+    followUpDurationOriginal.value =
+      prescription.follow_up_duration_original || '';
+
+    adviceNotes.value = prescription.follow_up_advice || '';
+    dietAdvice.value = prescription.diet_advice || '';
+    exerciseAdvice.value = prescription.exercise_advice || '';
 
     medicines.value = (prescription.medicines || []).map((medicine) => ({
       name: medicine.medicine_name || '',
+      originalName: medicine.original_name || '',
+      genericNames: medicine.generic_names || '',
       dosage: medicine.dosage || '',
+      dosageForm: medicine.dosage_form || '',
       timing: medicine.timing || '',
       duration: medicine.duration || '',
+      instructions: medicine.instructions || '',
+      instructionTranslation:
+        medicine.instruction_translation || '',
     }));
 
-    adviceNotes.value = prescription.follow_up_advice || prescription.diet_advice || '';
+    rxSubmitted.value =
+      prescription.workflow_state === 'Complete';
 
-    rxSubmitted.value = prescription.workflow_state === 'Confirmed';
   } catch (error) {
-    console.error('Failed to load existing prescription:', error);
+    console.error(
+      'Failed to load existing prescription:',
+      error
+    );
   }
 }
 
 // Smart Rx Data
 const medicines = ref([]);
 
+const patientAge = ref('');
+const patientGender = ref('');
+const doctorName = ref('');
+const hospital = ref('');
+const prescriptionDate = ref('');
+const diagnosis = ref('');
+const investigations = ref('');
+const generalInstructions = ref('');
+const followUpDuration = ref('');
+const followUpDurationOriginal = ref('');
+
 const adviceNotes = ref('');
+const dietAdvice = ref('');
+const exerciseAdvice = ref('');
 
 const prescriptionFilled = computed(() => {
   const hasMedicine = medicines.value.some((medicine) => medicine.name?.trim());
@@ -845,7 +1089,17 @@ function sendChatMessage() {
 }
 
 function addMedicine() {
-  medicines.value.push({ name: '', dosage: '1 tablet', timing: 'After Meals', duration: '15 Days' });
+  medicines.value.push({
+    name: '',
+    originalName: '',
+    genericNames: '',
+    dosage: '',
+    dosageForm: '',
+    timing: '',
+    duration: '',
+    instructions: '',
+    instructionTranslation: '',
+  });
 }
 
 function removeMedicine(index) {
@@ -853,26 +1107,56 @@ function removeMedicine(index) {
 }
 
 async function savePrescriptionDraft() {
-  if (!prescriptionName.value) {
-    alert('Prescription not found. Please process the prescription first.');
-    return;
-  }
-
   rxSaving.value = true;
 
   try {
-    await savePrescriptionDraftResource.submit({
-      name: prescriptionName.value,
-      medicines: JSON.stringify(
-        medicines.value.map((medicine) => ({
-          medicine_name: medicine.name,
-          dosage: medicine.dosage,
-          timing: medicine.timing,
-          duration: medicine.duration,
-        }))
-      ),
-      follow_up_advice: adviceNotes.value,
-    });
+    const response =
+      await savePrescriptionDraftResource.submit({
+        name: prescriptionName.value || undefined,
+        appointment: bookingId.value,
+        prescription_date: prescriptionDate.value || undefined,
+
+        patient_age: patientAge.value,
+        patient_gender: patientGender.value,
+        doctor_name: doctorName.value,
+        hospital: hospital.value,
+
+        diagnosis: diagnosis.value,
+        investigations: investigations.value,
+        general_instructions: generalInstructions.value,
+
+        follow_up_duration: followUpDuration.value,
+        follow_up_duration_original:
+          followUpDurationOriginal.value,
+
+        follow_up_advice: adviceNotes.value,
+        diet_advice: dietAdvice.value,
+        exercise_advice: exerciseAdvice.value,
+
+        medicines: JSON.stringify(
+          medicines.value.map((medicine) => ({
+            medicine_name: medicine.name,
+            original_name: medicine.originalName,
+            generic_names: medicine.genericNames,
+            dosage: medicine.dosage,
+            dosage_form: medicine.dosageForm,
+            timing: medicine.timing,
+            duration: medicine.duration,
+            instructions: medicine.instructions,
+            instruction_translation:
+              medicine.instructionTranslation,
+          }))
+        ),
+      });
+
+    const saved = response?.message || response;
+
+    if (saved?.name) {
+      prescriptionName.value = saved.name;
+    }
+
+    prescriptionWorkflowState.value =
+      saved?.workflow_state || 'Draft';
 
     isEditingPrescription.value = false;
 
@@ -880,12 +1164,18 @@ async function savePrescriptionDraft() {
       type: 'success',
       message: 'Prescription draft saved successfully.',
     };
+
   } catch (error) {
-    console.error('Failed to save prescription draft:', error);
+    console.error(
+      'Failed to save prescription draft:',
+      error
+    );
 
     rxParseStatus.value = {
       type: 'error',
-      message: error?.message || 'Failed to save prescription draft.',
+      message:
+        error?.message ||
+        'Failed to save prescription draft.',
     };
   } finally {
     rxSaving.value = false;
