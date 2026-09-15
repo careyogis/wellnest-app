@@ -10,10 +10,15 @@ def process_prescription(
     patient,
     patient_appointment,
     file_url,
-):    
+):
     practitioner = None
+
     if patient_appointment:
-        practitioner = frappe.get_value("Patient Appointment", patient_appointment, "practitioner")
+        practitioner = frappe.get_value(
+            "Patient Appointment",
+            patient_appointment,
+            "practitioner",
+        )
 
     result = parse_prescription(image_bytes)
 
@@ -31,8 +36,7 @@ def process_prescription(
     doc = frappe.new_doc("Smart Prescription")
 
     doc.patient = patient
-    # If this is written by our Doctor, we wait for him/her to review
-    # If this was done by some other doctor, there's no one to review - so we save it as final
+
     if practitioner:
         doc.practitioner = practitioner
         doc.workflow_state = "Draft"
@@ -42,25 +46,51 @@ def process_prescription(
     if patient_appointment:
         doc.patient_appointment = patient_appointment
 
+    # Patient details
+    patient_data = prescription.get("patient") or {}
+    doc.patient_age = patient_data.get("age") or ""
+    doc.patient_gender = patient_data.get("gender") or ""
+
+    # Doctor / hospital
+    doctor_data = prescription.get("doctor") or {}
+    doc.doctor_name = doctor_data.get("name") or ""
+    doc.hospital = prescription.get("hospital") or ""
+
+    # Prescription date
     doc.prescription_date = _parse_date(
         prescription.get("date")
     )
-    advice = []
 
-    for instruction in prescription.get("general_instructions") or []:
-        if isinstance(instruction, dict):
-            text = instruction.get("instruction")
-            translation = instruction.get("instruction_translation")
+    # Diagnosis
+    diagnoses = prescription.get("diagnosis") or []
+    doc.diagnosis = "\n".join(
+        str(diagnosis)
+        for diagnosis in diagnoses
+        if diagnosis
+    )
 
-            if text:
-                advice.append(
-                    f"{text} ({translation})"
-                    if translation else text
-                )
+    # Investigations
+    investigations = prescription.get("investigations") or []
+    doc.investigations = _format_structured_items(
+        investigations,
+        "name",
+    )
 
-    if advice:
-        doc.advice = "\n".join(advice)
+    # General instructions
+    general_instructions = prescription.get("general_instructions") or []
+    doc.general_instructions = _format_structured_items(
+        general_instructions,
+        "instruction",
+    )
 
+    # Follow-up
+    follow_up = prescription.get("follow_up") or {}
+    doc.follow_up_duration = follow_up.get("duration") or ""
+    doc.follow_up_duration_original = (
+        follow_up.get("duration_original") or ""
+    )
+
+    # Medicines
     for medicine in prescription.get("medicines") or []:
         item = doc.append("medicines", {})
 
@@ -69,27 +99,71 @@ def process_prescription(
             or medicine.get("original_name")
             or ""
         )
+
+        item.original_name = medicine.get("original_name") or ""
+
+        generic_names = medicine.get("generic_names") or []
+        item.generic_names = ", ".join(
+            str(name)
+            for name in generic_names
+            if name
+        )
+
         item.dosage = medicine.get("strength") or ""
+        item.dosage_form = medicine.get("dosage_form") or ""
         item.timing = medicine.get("frequency") or ""
         item.duration = medicine.get("duration") or ""
         item.instructions = medicine.get("instruction") or ""
+        item.instruction_translation = (
+            medicine.get("instruction_translation") or ""
+        )
 
     doc.insert(ignore_permissions=True)
 
+    # Save raw Gemini response
     gemini_file = save_file(
         f"{doc.name}-gemini-response.json",
         raw_response.encode("utf-8"),
         "Smart Prescription",
         doc.name,
         is_private=1,
-        df="raw_ai_response"
+        df="raw_ai_response",
     )
 
-    doc.gemini_response = gemini_file.file_url
-    doc.original_prescription = file_url
+    doc.raw_ai_response = gemini_file.file_url
+    doc.original_uploaded_prescription = file_url
+
     doc.save(ignore_permissions=True)
 
     return doc.name
+
+
+def _format_structured_items(items, primary_key):
+    formatted = []
+
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+
+        primary = item.get(primary_key)
+        instruction = item.get("instruction")
+        translation = item.get("instruction_translation")
+
+        parts = []
+
+        if primary:
+            parts.append(str(primary))
+
+        if instruction:
+            parts.append(str(instruction))
+
+        if translation:
+            parts.append(str(translation))
+
+        if parts:
+            formatted.append(" | ".join(parts))
+
+    return "\n".join(formatted)
 
 
 def _parse_date(value):
@@ -100,7 +174,7 @@ def _parse_date(value):
         try:
             return datetime.strptime(
                 str(value).strip(),
-                fmt
+                fmt,
             ).date()
         except ValueError:
             continue
