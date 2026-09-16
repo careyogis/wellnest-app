@@ -8,13 +8,22 @@
  "field_order": [
   "patient_appointment",
   "patient",
+  "patient_age",
+  "patient_gender",
   "practitioner",
+  "doctor_name",
+  "hospital",
   "prescription_date",
+  "diagnosis",
+  "investigations",
+  "general_instructions",
   "followup_expiry_date",
   "workflow_state",
   "section_break_meds",
   "medicines",
   "follow_up_advice",
+  "follow_up_duration",
+  "follow_up_duration_original",
   "diet_advice",
   "exercise_advice",
   "original_uploaded_prescription",
@@ -95,6 +104,51 @@
    "fieldname": "raw_ai_response",
    "fieldtype": "Attach",
    "label": "Raw AI Response"
+  },
+  {
+   "fieldname": "patient_age",
+   "fieldtype": "Data",
+   "label": "Patient Age"
+  },
+  {
+   "fieldname": "patient_gender",
+   "fieldtype": "Data",
+   "label": "Patient Gender"
+  },
+  {
+   "fieldname": "doctor_name",
+   "fieldtype": "Data",
+   "label": "Doctor Name"
+  },
+  {
+   "fieldname": "hospital",
+   "fieldtype": "Data",
+   "label": "Hospital"
+  },
+  {
+   "fieldname": "diagnosis",
+   "fieldtype": "Small Text",
+   "label": "Diagnosis"
+  },
+  {
+   "fieldname": "investigations",
+   "fieldtype": "Small Text",
+   "label": "Investigations"
+  },
+  {
+   "fieldname": "general_instructions",
+   "fieldtype": "Small Text",
+   "label": "General Instructions"
+  },
+  {
+   "fieldname": "follow_up_duration",
+   "fieldtype": "Data",
+   "label": "Follow-up Duration"
+  },
+  {
+   "fieldname": "follow_up_duration_original",
+   "fieldtype": "Data",
+   "label": "Follow-up Duration Original"
   }
  ],
  "index_web_pages_for_search": 1,
