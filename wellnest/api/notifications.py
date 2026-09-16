@@ -39,7 +39,7 @@ def get_app_notifications(patient_id):
 	return all_notifs[:30]
 
 @frappe.whitelist()
-def notify_doctor_of_new_booking(patient_appointmentId, practitioner_name, practitioner_mobile, scheduled_datetime, consultation_type):
+def notify_doctor_of_new_booking(patient_appointmentId, practitioner_name, practitioner_mobile, scheduled_datetime, consultation_type, patient_name, patient_dob, reason):
 	# from frappe.utils import now_datetime
 	# from datetime import timedelta
 	try:
@@ -49,10 +49,12 @@ def notify_doctor_of_new_booking(patient_appointmentId, practitioner_name, pract
 			frappe.log_error(f"Doctor: {practitioner_name} does not have a mobile number. Cannot send WhatsApp alert.", "Doctor WhatsApp Alert Error")
 			return
 
+		age = now_datetime().year - patient_dob.year if patient_dob else "N/A"
+
 		if not practitioner_mobile.startswith("+91"):
 			practitioner_mobile = "+91" + practitioner_mobile
-						
-		_send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patient_appointmentId, scheduled_datetime, consultation_type)
+
+		_send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patient_appointmentId, scheduled_datetime, consultation_type, patient_name, age, reason)
 	except Exception as exp:
 		frappe.log_error(frappe.get_traceback(), "WhatsApp Alert Error")
 		_logInfo(f"Check the error: {str(exp)}")
@@ -155,7 +157,7 @@ def _send_whatsapp_message(doctor_phone, doctor_name, patient_name, age, reason,
 	response = requests.post(url, json=payload, headers=headers)
 	return response.json()
 
-def _send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patient_appointId, scheduled_datetime, consultation_type):	
+def _send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patient_appointId, scheduled_datetime, consultation_type, patient_name, age, reason):	
 	import requests
 
 	_logInfo(f"Sending WhatsApp message to {practitioner_name} ({practitioner_mobile}) for appointment {patient_appointId}, Time: {scheduled_datetime}, Mode: {consultation_type}")
@@ -178,7 +180,7 @@ def _send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patie
         "to": practitioner_mobile,
         "type": "template",
         "template": {
-            "name": "doctor_new_video_consultation_booking",
+            "name": "doctor_new_consultation_booking",
             "language": {
                 "code": "en"
             },
@@ -187,11 +189,11 @@ def _send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patie
                     "type": "body",
                     "parameters": [
                         {"type": "text", "text": practitioner_name},
-                        {"type": "text", "text": "n/a"},
-                        {"type": "text", "text": "n/a"},
+                        {"type": "text", "text": patient_name},
+                        {"type": "text", "text": age},
+                        {"type": "text", "text": reason or "Not Provided"},
+                        {"type": "text", "text": scheduled_datetime},
                         {"type": "text", "text": consultation_type},
-                        {"type": "text", "text": scheduled_datetime},
-                        {"type": "text", "text": scheduled_datetime},
                         {"type": "text", "text": f"{site_url}/doctor-app/consultations"}
                     ]
                 }

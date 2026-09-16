@@ -512,12 +512,13 @@ def search_doctors(query=None, specialty=None):
 
 	active_discount_pct = active_discount_rule[0].discount_percentage if active_discount_rule else 0
 
+	"""
 	filters = [["is_active", "=", 1]]
 
 	or_filters = []
 	if query:
-		or_filters.append(["full_name", "like", f"%{query}%"])
-		or_filters.append(["specialty", "like", f"%{query}%"])
+		or_filters.append(["full_name", "like", f"{query}%"])
+		or_filters.append(["specialty", "like", f"{query}%"])
 	if specialty:
 		or_filters.append(["specialty", "=", specialty])
 
@@ -531,7 +532,6 @@ def search_doctors(query=None, specialty=None):
 			"super_specialty",
 			"designation",
 			"professional_summary",
-            # "CEIL(online_charge * 1.25 * 25) / 25 AS original_online_charge",
             "online_charge AS original_online_charge",
 			"photo",
 			"city",
@@ -544,6 +544,37 @@ def search_doctors(query=None, specialty=None):
 		get_all_kwargs["or_filters"] = or_filters
 
 	practitioners = frappe.db.get_all(**get_all_kwargs)
+    """
+
+    # Build WHERE clause manually
+	query = f"""
+        SELECT
+            name,
+            full_name,
+            specialty,
+            super_specialty,
+            designation,
+            professional_summary,
+            online_charge AS original_online_charge,
+            photo,
+            city,
+            practicing_from
+        FROM `tabPractitioner`
+        WHERE is_active = 1
+        ORDER BY
+            CASE 
+                WHEN online_charge IS NULL OR practicing_from IS NULL THEN 1 
+                ELSE 0 
+            END ASC,
+            CASE 
+                WHEN TIMESTAMPDIFF(YEAR, practicing_from, NOW()) = 0 THEN 1 
+                ELSE 0 
+            END ASC,
+            (online_charge / NULLIF(TIMESTAMPDIFF(YEAR, practicing_from, NOW()), 0)) ASC
+        LIMIT 50
+    """
+
+	practitioners = frappe.db.sql(query, as_dict=True)
 
 	if not practitioners:
 		return []
