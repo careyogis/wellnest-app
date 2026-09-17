@@ -1,308 +1,386 @@
-consultations. page
 <template>
-  <div class="p-6 md:p-8">
+  <div class="p-4 md:p-6 lg:p-8">
     <!-- Page Header -->
-    <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4 mb-6">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
       <div>
         <h1 class="text-3xl font-bold text-gray-900">Consultations</h1>
-        <p class="text-gray-500 mt-1">Each booked row opens its own patient-specific prescription workspace, whether the doctor writes digitally or validates an uploaded paper prescription.</p>
+        <p class="text-gray-500 mt-1">Select a consultation to open the patient workspace.</p>
       </div>
     </div>
 
-    <!-- Summary Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
-      <div v-for="card in summaryCards" :key="card.title" class="bg-white border border-gray-200 rounded-2xl p-5">
-        <div class="flex items-start justify-between">
-          <div>
-            <p class="text-sm text-gray-500">{{ card.title }}</p>
+    <!-- Blade workspace -->
+    <div class="grid grid-cols-1 xl:grid-cols-[360px_minmax(0,1fr)] gap-4 xl:gap-6 items-stretch min-h-[calc(100vh-180px)]">
+      <!-- LEFT: CONSULTATION LIST -->
+      <aside class="bg-white border border-gray-200 rounded-2xl overflow-hidden xl:sticky xl:top-4 h-full">
+        <!-- List header -->
+        <div class="px-5 py-5 border-b border-gray-200">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <h2 class="text-lg font-bold text-gray-900">Consultations</h2>
+              <p class="text-sm text-gray-500 mt-1">{{ filteredConsultations.length }} consultation<span v-if="filteredConsultations.length !== 1">s</span></p>
+            </div>
 
-            <p class="text-3xl font-bold text-gray-900 mt-4" :class="{ 'text-2xl': card.value.length > 8 }">
-              {{ card.value }}
-            </p>
-
-            <p class="text-sm text-gray-500 mt-2">
-              {{ card.description }}
-            </p>
+            <button type="button" class="text-sm font-semibold text-amber-600 hover:underline" @click="router.push({ name: 'Schedule' })">Manage slots</button>
           </div>
 
-          <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-            <FeatherIcon :name="card.icon" class="w-5 h-5" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Main Workspace -->
-    <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,2fr)_380px] gap-6 items-start">
-      <!-- Waiting Room / Upcoming -->
-      <section class="bg-white border border-gray-200 rounded-2xl overflow-y-auto overflow-x-hidden max-h-[600px]">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-6 py-5 border-b border-gray-200">
-          <div>
-            <h2 class="text-xl font-bold text-gray-900">Consultations</h2>
-            <p class="text-sm text-gray-500 mt-1">View and manage your patient consultations.</p>
-          </div>
-
-          <div class="flex items-center gap-3">
-            <select v-model="statusFilter" class="px-3 py-2 rounded-lg border border-gray-300 bg-white text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-200">
-              <option value="All">All</option>
+          <!-- Filter -->
+          <div class="mt-4">
+            <select v-model="statusFilter" class="w-full px-3 py-2.5 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-200">
+              <option value="All">All consultations</option>
               <option value="Upcoming">Upcoming</option>
               <option value="Completed">Completed</option>
               <option value="Payment Pending">Payment Pending</option>
             </select>
-
-            <button type="button" class="text-sm font-semibold text-amber-600 hover:underline whitespace-nowrap" @click="router.push({ name: 'Schedule' })">Manage slots</button>
           </div>
         </div>
-        <div class="w-full overflow-x-auto">
-          <div class="min-w-full">
-            <!-- Desktop table header -->
-            <div class="hidden lg:grid w-max min-w-full grid-cols-[140px_150px_100px_150px_300px] gap-4 px-6 py-3 bg-gray-50 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              <div>Time</div>
-              <div>Patient</div>
-              <div>Mode</div>
-              <div>Reason</div>
 
-              <div>Actions</div>
+        <!-- Consultation list -->
+        <div class="flex-1 min-h-0 overflow-y-auto">
+          <div v-if="!filteredConsultations.length" class="px-5 py-10 text-center">
+            <div class="mx-auto w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500">
+              <FeatherIcon name="calendar" class="w-5 h-5" />
             </div>
 
-            <!-- Consultation rows -->
-            <div
-              v-for="consultation in filteredConsultations"
-              :key="consultation.id"
-              class="w-max min-w-full border-t border-gray-100 transition-colors"
-              :class="{
-                'bg-amber-50/60': selectedConsultation?.id === consultation.id,
-              }"
-            >
-              <div class="w-full min-w-0 grid grid-cols-1 lg:grid-cols-[140px_150px_100px_150px_300px] gap-4 px-6 py-5 items-center">
-                <!-- Time -->
-                <div class="text-sm font-semibold text-gray-900">
+            <p class="mt-4 text-sm font-semibold text-gray-900">No consultations found</p>
+
+            <p class="mt-1 text-sm text-gray-500">Try changing the filter.</p>
+          </div>
+
+          <button
+            v-for="consultation in filteredConsultations"
+            :key="consultation.id"
+            type="button"
+            class="w-full text-left px-5 py-4 border-b border-gray-100 transition-colors hover:bg-gray-50"
+            :class="{
+              'bg-amber-50 border-l-4 border-l-amber-500': selectedConsultation?.id === consultation.id,
+              'border-l-4 border-l-transparent': selectedConsultation?.id !== consultation.id,
+            }"
+            @click="selectConsultation(consultation)"
+          >
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <p class="font-bold text-gray-900 truncate">
+                  {{ consultation.patient }}
+                </p>
+
+                <p class="text-sm text-gray-600 mt-1">
                   {{ consultation.time }}
-                </div>
-
-                <!-- Patient -->
-                <div>
-                  <p class="font-bold text-gray-900 truncate max-w-[180px]" :title="consultation.patient">
-                    {{ consultation.patient }}
-                  </p>
-
-                  <p class="text-sm text-gray-500">
-                    {{ consultation.bookingStatus }}
-                  </p>
-                </div>
-
-                <!-- Mode -->
-                <div class="text-sm text-gray-700">
-                  {{ consultation.mode }}
-                </div>
-
-                <!-- Reason -->
-                <div class="text-sm text-gray-700">
-                  {{ consultation.reason }}
-                </div>
-
-                <!-- Actions -->
-                <div class="flex items-center gap-3 whitespace-nowrap min-w-max">
-                  <template v-if="consultation.bookingStatus === 'Completed'">
-                    <button
-                      type="button"
-                      class="px-3 py-2 rounded-lg border border-amber-400 text-amber-700 text-sm font-semibold bg-white hover:bg-amber-50 transition-colors"
-                      @click="openPrescription(consultation)"
-                    >
-                      Open Prescription
-                    </button>
-
-                    <span class="inline-flex items-center px-3 py-2 rounded-lg bg-emerald-100 text-emerald-700 text-sm font-semibold"> Completed </span>
-                  </template>
-
-                  <template v-else-if="consultation.paymentStatus !== 'Paid'">
-                    <span class="inline-flex items-center px-3 py-2 rounded-lg bg-amber-100 text-amber-700 text-sm font-semibold"> Payment Pending </span>
-                  </template>
-
-                  <template v-else-if="consultation.bookingStatus === 'In-Progress'">
-                    <button
-                      type="button"
-                      class="px-3 py-2 rounded-lg border border-amber-400 text-amber-700 text-sm font-semibold bg-white hover:bg-amber-50 transition-colors"
-                      @click="openPrescription(consultation)"
-                    >
-                      Open Prescription
-                    </button>
-
-                    <button type="button" class="px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition" @click="joinConsultation(consultation, true)">
-                      Continue
-                    </button>
-                  </template>
-
-                  <template v-else>
-                    <button type="button" class="px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition" @click="joinConsultation(consultation, false)">
-                      Start Call
-                    </button>
-                  </template>
-                </div>
+                </p>
               </div>
+
+              <span class="shrink-0 inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold" :class="statusClass(consultation)">
+                {{ consultation.bookingStatus }}
+              </span>
             </div>
-          </div>
-        </div>
-      </section>
 
-      <!-- Template Preview -->
-      <aside v-if="showPatientDetails" class="bg-white border border-gray-200 rounded-2xl overflow-y-auto max-h-[600px]">
-        <div class="flex items-center justify-between px-5 py-5 border-b border-gray-200">
-          <h2 class="text-xl font-bold text-gray-900">Template preview</h2>
+            <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span class="inline-flex items-center gap-1.5 text-xs text-gray-500">
+                <FeatherIcon name="video" class="w-3.5 h-3.5" />
+                {{ consultation.mode }}
+              </span>
 
-          <button type="button" class="px-3 py-2 rounded-lg border border-amber-400 text-amber-700 text-sm font-semibold hover:bg-amber-50" @click="consultationRef?.previewTemplate()">
-            Open full preview
+              <span class="text-gray-300">•</span>
+
+              <span class="text-xs text-gray-500 truncate">
+                {{ consultation.reason }}
+              </span>
+            </div>
+
+            <div v-if="consultation.prescriptionWorkflowState" class="mt-3">
+              <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">
+                {{ consultation.prescriptionWorkflowState }}
+              </span>
+            </div>
           </button>
         </div>
+      </aside>
 
-        <div class="p-5">
-          <!-- Doctor details -->
+      <!-- RIGHT: SELECTED CONSULTATION WORKSPACE -->
+      <main v-if="selectedConsultation?.id" class="min-w-0">
+        <!-- Consultation header -->
+        <section class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+          <!-- Patient / appointment information -->
+          <div class="p-5 md:p-6 border-b border-gray-200">
+            <div class="flex flex-col 2xl:flex-row 2xl:items-start 2xl:justify-between gap-5">
+              <!-- Patient information -->
+              <div class="min-w-0">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                    <FeatherIcon name="user" class="w-6 h-6" />
+                  </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-            <div v-for="doctor in consultationRef?.doctorDetails || []" :key="doctor.label" class="border border-gray-200 rounded-xl p-4">
-              <p class="text-xs text-gray-500">
-                {{ doctor.label }}
-              </p>
+                  <div class="min-w-0">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">Patient</p>
 
-              <p class="font-bold text-gray-900 mt-2">
-                {{ doctor.value }}
-              </p>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 truncate">
+                      {{ selectedConsultation.patient }}
+                    </h2>
+                  </div>
+                </div>
 
-              <p v-if="doctor.description" class="text-xs text-gray-500 mt-2">
-                {{ doctor.description }}
-              </p>
-            </div>
-          </div>
+                <!-- Appointment metadata -->
+                <div class="mt-5 flex flex-wrap gap-3">
+                  <div class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 border border-gray-200">
+                    <FeatherIcon name="calendar" class="w-4 h-4 text-gray-500" />
 
-          <!-- Selected patient -->
-          <div class="mt-6">
-            <p class="text-xs text-gray-500">Selected patient</p>
+                    <span class="text-sm text-gray-700">
+                      {{ selectedConsultation.time }}
+                    </span>
+                  </div>
 
-            <p class="text-2xl sm:text-3xl font-bold text-gray-900 mt-1 break-words">
-              {{ selectedConsultation.patient }}
-            </p>
+                  <div class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 border border-gray-200">
+                    <FeatherIcon name="video" class="w-4 h-4 text-gray-500" />
 
-            <p class="text-sm text-gray-500">
-              {{ selectedConsultation.mode }} consult /
-              {{ selectedConsultation.time }}
-            </p>
-          </div>
+                    <span class="text-sm text-gray-700">
+                      {{ selectedConsultation.mode }}
+                    </span>
+                  </div>
 
-          <!-- Chief Complaints -->
-          <div class="mt-6">
-            <h3 class="text-lg font-bold text-gray-900">Chief Complaints (with duration)</h3>
-
-            <ul class="list-disc pl-5 mt-2 space-y-1 text-sm text-gray-700">
-              <li v-for="complaint in consultationRef?.complaints || []" :key="complaint.id">
-                {{ complaint.text }}
-                <span v-if="complaint.duration"> ({{ complaint.duration }}) </span>
-              </li>
-
-              <li v-if="!(consultationRef?.complaints || []).length" class="list-none text-gray-500">No complaints entered.</li>
-            </ul>
-          </div>
-
-          <!-- History -->
-          <div class="mt-6">
-            <h3 class="text-lg font-bold text-gray-900">History (brief)</h3>
-
-            <p class="text-sm text-gray-700 mt-2 leading-6">
-              {{ consultationRef?.history || 'No history entered.' }}
-            </p>
-          </div>
-
-          <!-- Vitals -->
-          <div class="mt-6">
-            <div class="flex items-center justify-between">
-              <h3 class="text-lg font-bold text-gray-900">Vitals</h3>
-
-              <span class="text-xs text-gray-500"> Optional </span>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3 mt-3">
-              <div v-for="vital in (consultationRef?.vitals || []).filter((item) => item.value)" :key="vital.label" class="border border-gray-200 rounded-xl p-3">
-                <p class="text-xs text-gray-500">
-                  {{ vital.label }}
-                </p>
-
-                <p class="font-bold text-gray-900 mt-1">
-                  {{ vital.value }}
-                  <span v-if="vital.unit">
-                    {{ vital.unit }}
+                  <span class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-semibold" :class="statusClass(selectedConsultation)">
+                    {{ selectedConsultation.bookingStatus }}
                   </span>
-                </p>
+                </div>
+              </div>
+
+              <!-- Action buttons -->
+              <div class="flex flex-wrap items-center gap-2 2xl:justify-end shrink-0">
+                <!-- Join -->
+                <template v-if="selectedConsultation.bookingStatus === 'Completed'">
+                  <span class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-100 text-emerald-700 font-semibold">
+                    <FeatherIcon name="check-circle" class="w-4 h-4" />
+                    Completed
+                  </span>
+                </template>
+
+                <template v-else-if="selectedConsultation.paymentStatus !== 'Paid'">
+                  <span class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-amber-100 text-amber-700 font-semibold"> Payment Pending </span>
+                </template>
+
+                <template v-else>
+                  <button
+                    type="button"
+                    class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-teal-600 text-white font-semibold hover:bg-teal-700 transition"
+                    :disabled="joiningConsultation"
+                    @click="joinConsultation(selectedConsultation, selectedConsultation.bookingStatus === 'In-Progress')"
+                  >
+                    <FeatherIcon :name="selectedConsultation.bookingStatus === 'In-Progress' ? 'play' : 'video'" class="w-4 h-4" />
+
+                    {{ selectedConsultation.bookingStatus === 'In-Progress' ? 'Continue Call' : 'Join Call' }}
+                  </button>
+                </template>
+
+                <!-- Preview -->
+                <button
+                  type="button"
+                  class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition"
+                  @click="previewPrescription"
+                >
+                  <FeatherIcon name="eye" class="w-4 h-4" />
+                  Preview Prescription
+                </button>
+
+                <!-- Upload -->
+                <button
+                  type="button"
+                  class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition"
+                  @click="uploadPrescription"
+                >
+                  <FeatherIcon name="upload" class="w-4 h-4" />
+                  Upload Prescription
+                </button>
+
+                <!-- Save -->
+                <button
+                  type="button"
+                  class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-amber-400 bg-white text-amber-700 font-semibold hover:bg-amber-50 transition"
+                  @click="saveConsultation"
+                >
+                  <FeatherIcon name="save" class="w-4 h-4" />
+                  Save
+                </button>
+
+                <!-- Submitted status -->
+                <div v-if="prescriptionSubmitted" class="rounded-xl border border-green-200 bg-green-50 px-4 py-2.5 text-sm font-semibold text-green-700">
+                  Prescription already submitted for this patient.
+                </div>
+                <!-- Publish -->
+                <button
+                  v-if="!prescriptionSubmitted"
+                  type="button"
+                  class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-amber-500 text-white font-semibold hover:bg-amber-600 transition"
+                  @click="publishPrescription"
+                >
+                  <FeatherIcon name="send" class="w-4 h-4" />
+                  Publish
+                </button>
               </div>
             </div>
           </div>
-        </div>
-      </aside>
-    </div>
-    <!-- Full consultation workspace -->
-    <section class="mt-4">
-      <Consultation ref="consultationRef" :selected-consultation="selectedConsultation" />
-    </section>
 
-    <!-- Join consultation modal -->
-    <div v-if="showJoinModal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" @click.self="closeJoinModal">
-      <div class="w-full max-w-3xl h-[88vh] bg-white rounded-xl shadow-xl overflow-hidden flex flex-col">
-        <!-- Modal header -->
-        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-          <h2 class="text-2xl font-bold text-gray-900">Join consultation</h2>
+          <!-- Context strip -->
+          <div class="px-5 md:px-6 py-4 bg-gray-50 border-b border-gray-200">
+            <!-- Reason -->
+            <div class="w-full">
+              <div class="flex items-start gap-2">
+                <span class="text-xs font-semibold uppercase tracking-wide text-gray-400 shrink-0 pt-0.5"> Reason </span>
 
-          <button type="button" class="text-gray-500 hover:text-gray-900 text-2xl" @click="closeJoinModal">×</button>
-        </div>
+                <div class="min-w-0 flex-1">
+                  <p
+                    class="text-sm font-medium text-gray-700 leading-5 break-words whitespace-normal"
+                    :class="{
+                      'line-clamp-2': !isReasonExpanded(selectedConsultation.id),
+                    }"
+                  >
+                    {{ selectedConsultation.reason }}
+                  </p>
 
-        <!-- Waiting room -->
-        <div class="p-5">
-          <div class="rounded-2xl min-h-[420px] bg-gradient-to-br from-teal-500 to-teal-700 text-white p-7 flex flex-col">
-            <!-- Patient details -->
-            <div>
-              <span class="inline-flex px-3 py-1 rounded-lg bg-white/90 text-gray-800 text-xs font-semibold"> Waiting room </span>
-
-              <h2 class="text-4xl font-bold mt-4">
-                {{ selectedConsultation.patient }}
-              </h2>
-
-              <p class="text-lg mt-2">
-                {{ selectedConsultation.reason }}
-              </p>
-
-              <p class="mt-4 text-base">
-                {{ selectedConsultation.mode }} consult /
-                {{ selectedConsultation.time }}
-              </p>
+                  <button
+                    v-if="selectedConsultation.reason && selectedConsultation.reason.length > 80"
+                    type="button"
+                    class="mt-1 text-xs font-semibold text-amber-600 hover:text-amber-700"
+                    @click="toggleReason(selectedConsultation.id)"
+                  >
+                    {{ isReasonExpanded(selectedConsultation.id) ? 'Show less' : 'Show more' }}
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <!-- Controls -->
-            <div class="flex-1 flex items-end justify-center gap-3">
-              <button type="button" class="w-12 h-12 rounded-xl border border-white/40 bg-white/10 flex items-center justify-center">
-                <FeatherIcon name="mic" class="w-5 h-5" />
-              </button>
+            <!-- Other metadata -->
+            <div class="mt-3 pt-3 border-t border-gray-200 flex flex-wrap items-center gap-x-5 gap-y-2">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold uppercase tracking-wide text-gray-400"> Mode </span>
+                <span class="text-sm font-medium text-gray-700">
+                  {{ selectedConsultation.mode }}
+                </span>
+              </div>
 
-              <button type="button" class="w-12 h-12 rounded-xl border border-white/40 bg-white/10 flex items-center justify-center">
-                <FeatherIcon name="video" class="w-5 h-5" />
-              </button>
+              <span class="hidden sm:block text-gray-300">•</span>
 
-              <button type="button" class="w-12 h-12 rounded-xl border border-white/40 bg-white/10 flex items-center justify-center">
-                <FeatherIcon name="monitor" class="w-5 h-5" />
-              </button>
-
-              <button type="button" class="ml-3 px-5 py-3 rounded-xl bg-red-500 text-white font-semibold hover:bg-red-600" @click="closeJoinModal">End consultation</button>
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="text-xs font-semibold uppercase tracking-wide text-gray-400 shrink-0"> Appointment </span>
+                <span class="text-sm font-medium text-gray-700 break-all">
+                  {{ selectedConsultation.appointment }}
+                </span>
+              </div>
             </div>
           </div>
+        </section>
+
+        <!-- Prescription upload -->
+        <section v-if="uploadedPrescriptionVisible" class="mt-4 bg-white border border-gray-200 rounded-2xl overflow-hidden">
+          <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between gap-4">
+            <div>
+              <h3 class="text-lg font-bold text-gray-900">Upload Prescription</h3>
+
+              <p class="text-sm text-gray-500 mt-1">Review the existing prescription or upload a new one.</p>
+            </div>
+
+            <button type="button" class="text-sm font-semibold text-gray-500 hover:text-gray-900" @click="uploadedPrescriptionVisible = false">Close</button>
+          </div>
+
+          <div class="p-5">
+            <div class="rounded-xl border border-gray-200 bg-gray-50 p-6">
+              <!-- Existing prescription -->
+              <div v-if="prescriptionUploadCompleted" class="flex flex-col gap-4">
+                <div class="w-20 h-20 rounded-xl bg-gray-100 border border-gray-200 overflow-hidden flex items-center justify-center shrink-0">
+                  <img v-if="consultationRef?.prescriptionImagePreview" :src="consultationRef.prescriptionImagePreview" alt="Uploaded prescription" class="w-full h-full object-cover" />
+
+                  <FeatherIcon v-else name="check-circle" class="w-8 h-8 text-emerald-600" />
+                </div>
+
+                <div class="flex-1 min-w-0">
+                  <p class="font-semibold text-gray-900 truncate">
+                    {{ prescriptionUploadFileName || 'Prescription already uploaded' }}
+                  </p>
+
+                  <p class="text-sm text-gray-500 mt-1">Prescription already uploaded and processed.</p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-2 w-full">
+                  <button
+                    type="button"
+                    class="px-4 py-3 rounded-xl border border-amber-400 text-amber-700 font-semibold hover:bg-amber-50 whitespace-nowrap w-full sm:w-auto"
+                    @click="consultationRef?.openOcrModal"
+                  >
+                    View Extracted Prescription
+                  </button>
+
+                  <button
+                    type="button"
+                    class="px-4 py-3 rounded-xl bg-amber-500 text-white font-semibold hover:bg-amber-600 whitespace-nowrap w-full sm:w-auto"
+                    @click="consultationRef?.triggerUpload"
+                  >
+                    Upload New Prescription
+                  </button>
+                </div>
+              </div>
+
+              <!-- Uploading / extracting -->
+              <div v-else-if="prescriptionUploadProcessing" class="flex items-center gap-5">
+                <div class="w-16 h-16 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                  <FeatherIcon name="loader" class="w-8 h-8 animate-spin" />
+                </div>
+
+                <div class="flex-1 min-w-0 lg:min-w-0">
+                  <p class="font-semibold text-gray-900 truncate">
+                    {{ prescriptionUploadFileName }}
+                  </p>
+
+                  <p class="text-sm text-gray-500 mt-1">Uploading and extracting prescription…</p>
+                </div>
+              </div>
+
+              <!-- No existing prescription -->
+              <div v-else class="border-2 border-dashed border-gray-300 rounded-xl bg-white p-8 text-center">
+                <FeatherIcon name="upload-cloud" class="w-10 h-10 mx-auto text-gray-400" />
+
+                <p class="mt-4 text-base font-semibold text-gray-800">Upload prescription image</p>
+
+                <p class="mt-1 text-sm text-gray-500">Please upload the patient's prescription here.</p>
+
+                <p class="mt-1 text-xs text-gray-400">JPG or PNG</p>
+
+                <button type="button" class="mt-5 px-5 py-3 rounded-xl bg-amber-500 text-white font-semibold hover:bg-amber-600" @click="consultationRef?.triggerUpload">Upload Prescription</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="mt-4">
+          <Consultation
+            ref="consultationRef"
+            :selected-consultation="selectedConsultation"
+            @prescription-loaded="handlePrescriptionLoaded"
+            @prescription-upload-processing="handlePrescriptionUploadProcessing"
+          />
         </div>
-      </div>
+      </main>
+
+      <!-- Empty state -->
+      <main v-else class="h-full min-h-full bg-white border border-gray-200 rounded-2xl flex items-center justify-center p-8">
+        <div class="text-center max-w-md">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <FeatherIcon name="clipboard" class="w-7 h-7" />
+          </div>
+
+          <h2 class="mt-5 text-xl font-bold text-gray-900">Select a consultation</h2>
+
+          <p class="mt-2 text-sm text-gray-500">Choose a consultation from the left to open the patient workspace.</p>
+        </div>
+      </main>
     </div>
   </div>
 </template>
+
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { FeatherIcon, createResource } from 'frappe-ui';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import Consultation from './Consultation.vue';
-import logoUrl from '@/assets/images/logo-01.png';
 
 const router = useRouter();
+const route = useRoute();
 
 const consultationsResource = createResource({
   url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.get_teleconsultation_appointments',
@@ -312,6 +390,46 @@ const consultationsResource = createResource({
 const startConsultationResource = createResource({
   url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.start_consultation',
 });
+
+const consultationRef = ref(null);
+
+const statusFilter = ref('Upcoming');
+const selectedConsultation = ref(null);
+const expandedReasons = ref(new Set());
+const joiningConsultation = ref(false);
+
+const uploadedPrescriptionVisible = ref(false);
+
+const prescriptionUploadProcessing = ref(false);
+const prescriptionUploadCompleted = ref(false);
+const prescriptionUploadFileName = ref('');
+const prescriptionSubmitted = ref(false);
+
+function handlePrescriptionLoaded(prescription) {
+  if (!prescription) {
+    uploadedPrescriptionVisible.value = false;
+    prescriptionUploadProcessing.value = false;
+    prescriptionUploadCompleted.value = false;
+    prescriptionUploadFileName.value = '';
+    prescriptionSubmitted.value = false;
+    return;
+  }
+
+  uploadedPrescriptionVisible.value = true;
+  prescriptionUploadProcessing.value = false;
+  prescriptionUploadCompleted.value = true;
+
+  prescriptionUploadFileName.value = prescription.file_url?.split('/').pop() || 'Prescription already uploaded';
+
+  prescriptionSubmitted.value = prescription.workflow_state === 'Confirmed' || prescription.workflow_state === 'Complete';
+}
+
+function handlePrescriptionUploadProcessing(payload) {
+  uploadedPrescriptionVisible.value = true;
+  prescriptionUploadProcessing.value = true;
+  prescriptionUploadCompleted.value = false;
+  prescriptionUploadFileName.value = payload?.fileName || 'Prescription';
+}
 
 function formatAppointmentTime(value) {
   if (!value) return '';
@@ -331,7 +449,7 @@ function formatAppointmentTime(value) {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
-    hour: '2-digit',
+    hour: 'numeric',
     minute: '2-digit',
     hour12: true,
   });
@@ -347,19 +465,11 @@ const consultations = computed(() => {
     paymentStatus: appointment.payment_status,
     prescriptionWorkflowState: appointment.prescription_workflow_state,
     mode: 'Video',
-    reason: 'Teleconsultation',
+    reason: appointment.main_complaints || 'No reason provided',
     workflow: 'Clinical consultation',
     appointment: appointment.name,
   }));
 });
-
-const digitalDraftCount = computed(() =>
-  consultations.value.filter(
-    (consultation) => consultation.prescriptionWorkflowState === 'Draft'
-  ).length
-);
-
-const statusFilter = ref('Upcoming');
 
 const filteredConsultations = computed(() => {
   if (statusFilter.value === 'All') {
@@ -381,87 +491,56 @@ const filteredConsultations = computed(() => {
   return consultations.value;
 });
 
-const consultationRef = ref(null);
+function selectConsultation(consultation) {
+  selectedConsultation.value = consultation;
 
-const selectedConsultation = ref({
-  id: null,
-  time: '',
-  patient: '',
-  practitioner: '',
-  bookingStatus: '',
-  mode: 'Video',
-  reason: 'Teleconsultation',
-  workflow: 'Clinical consultation',
-  appointment: null,
-});
-const showPatientDetails = ref(false);
+  showPrescriptionPreview.value = false;
+  uploadedPrescriptionVisible.value = false;
 
-// const selectedConsultation = ref(consultations.value[0])
+  prescriptionUploadProcessing.value = false;
+  prescriptionUploadCompleted.value = false;
+  prescriptionUploadFileName.value = '';
+}
 
-const showJoinModal = ref(false);
-const showTemplatePreview = ref(false);
+function isReasonExpanded(id) {
+  return expandedReasons.value.has(id);
+}
 
-const summaryCards = computed(() => [
-  {
-    title: 'Digital drafts',
-    value: digitalDraftCount.value,
-    description: 'Written during or after consultation',
-    icon: 'edit-3',
-  },
-  {
-    title: 'In review',
-    value: '0',
-    description: 'Paper uploads being processed asynchronously',
-    icon: 'loader',
-  },
-  {
-    title: 'Ready for validation',
-    value: '0',
-    description: 'OCR output awaiting doctor confirmation',
-    icon: 'check-square',
-  },
-  {
-    title: 'Selected patient',
-    value: selectedConsultation.value.patient,
-    description: `${selectedConsultation.value.mode} consult at ${selectedConsultation.value.time}`,
-    icon: 'user',
-  },
-]);
+function toggleReason(id) {
+  const next = new Set(expandedReasons.value);
 
-const vitals = [
-  { label: 'Weight', value: '74 kg' },
-  { label: 'Height', value: '162 cm' },
-  { label: 'Pulse', value: '76 /min' },
-  { label: 'BP', value: '128/78 mmHg' },
-  { label: 'SpO2', value: '98%' },
-  { label: 'Temperature', value: '98.4 F' },
-];
-
-function workflowClass(workflow) {
-  if (workflow === 'Ready for validation') {
-    return 'bg-cyan-100 text-cyan-700';
+  if (next.has(id)) {
+    next.delete(id);
+  } else {
+    next.add(id);
   }
 
-  if (workflow === 'In review') {
+  expandedReasons.value = next;
+}
+
+function statusClass(consultation) {
+  if (consultation.bookingStatus === 'Completed') {
+    return 'bg-emerald-100 text-emerald-700';
+  }
+
+  if (consultation.paymentStatus !== 'Paid') {
     return 'bg-amber-100 text-amber-700';
   }
 
-  return 'bg-emerald-100 text-emerald-700';
+  if (consultation.bookingStatus === 'In-Progress') {
+    return 'bg-blue-100 text-blue-700';
+  }
+
+  return 'bg-gray-100 text-gray-700';
 }
 
-function openPrescription(consultation) {
-  if (
-    selectedConsultation.value?.id === consultation.id &&
-    showPatientDetails.value
-  ) {
-    showPatientDetails.value = false;
+async function joinConsultation(consultation, isResume = false) {
+  if (!consultation?.id || joiningConsultation.value) {
     return;
   }
 
-  selectedConsultation.value = consultation;
-  showPatientDetails.value = true;
-}
-async function joinConsultation(consultation, isResume = false) {
+  joiningConsultation.value = true;
+
   try {
     const response = await startConsultationResource.submit({
       appointmentId: consultation.id,
@@ -482,10 +561,106 @@ async function joinConsultation(consultation, isResume = false) {
     });
   } catch (error) {
     console.error('Failed to start consultation:', error);
+  } finally {
+    joiningConsultation.value = false;
   }
 }
 
-function closeJoinModal() {
-  showJoinModal.value = false;
+function previewPrescription() {
+  uploadedPrescriptionVisible.value = false;
+
+  if (consultationRef.value?.previewTemplate) {
+    consultationRef.value.previewTemplate();
+    return;
+  }
+
+  console.warn('Prescription preview is not available.');
 }
+
+function openExistingPreview() {
+  if (consultationRef.value?.previewTemplate) {
+    consultationRef.value.previewTemplate();
+    return;
+  }
+
+  showPrescriptionPreview.value = true;
+}
+
+function uploadPrescription() {
+  uploadedPrescriptionVisible.value = true;
+}
+
+async function handlePrescriptionUpload(event) {
+  const file = event.target.files?.[0];
+
+  if (!file) {
+    return;
+  }
+
+  prescriptionUploadFileName.value = file.name;
+  prescriptionUploadProcessing.value = true;
+  prescriptionUploadCompleted.value = false;
+  uploadedPrescriptionVisible.value = true;
+
+  try {
+    await consultationRef.value?.handlePrescriptionFile(event);
+  } catch (error) {
+    console.error('Prescription upload failed:', error);
+    prescriptionUploadProcessing.value = false;
+    prescriptionUploadCompleted.value = false;
+  } finally {
+    event.target.value = '';
+  }
+}
+
+function saveConsultation() {
+  if (consultationRef.value?.saveConsultation) {
+    consultationRef.value.saveConsultation();
+    return;
+  }
+
+  if (consultationRef.value?.savePrescription) {
+    consultationRef.value.savePrescription();
+    return;
+  }
+
+  console.warn('Save action is not exposed by Consultation.vue yet.');
+}
+
+async function publishPrescription() {
+  if (consultationRef.value?.finalizePrescription) {
+    await consultationRef.value.finalizePrescription();
+    return;
+  }
+
+  console.warn('Publish action is not exposed by Consultation.vue.');
+}
+
+watch(
+  filteredConsultations,
+  (items) => {
+    if (!items.length) {
+      selectedConsultation.value = null;
+      return;
+    }
+
+    const appointmentIdFromUrl = route.query.appointment;
+
+    if (appointmentIdFromUrl) {
+      const matchingConsultation = items.find((item) => item.id === appointmentIdFromUrl);
+
+      if (matchingConsultation) {
+        selectedConsultation.value = matchingConsultation;
+        return;
+      }
+    }
+
+    const selectedStillExists = items.some((item) => item.id === selectedConsultation.value?.id);
+
+    if (!selectedStillExists) {
+      selectedConsultation.value = items[0];
+    }
+  },
+  { immediate: true }
+);
 </script>

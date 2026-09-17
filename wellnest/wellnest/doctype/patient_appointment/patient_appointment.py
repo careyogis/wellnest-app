@@ -65,6 +65,7 @@ def get_teleconsultation_appointments():
             "status",
             "consultation_fee",
             "payment_status",
+            "main_complaints",
         ],
         order_by="scheduled_time asc",
     )
