@@ -54,7 +54,7 @@ def notify_doctor_of_new_booking(patient_appointmentId, practitioner_name, pract
 		if not practitioner_mobile.startswith("+91"):
 			practitioner_mobile = "+91" + practitioner_mobile
 
-		_send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patient_appointmentId, scheduled_datetime.strftime('%d-%m-%Y %I:%M %p'), consultation_type, patient_name, age, reason)
+		_send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patient_appointmentId, scheduled_datetime, consultation_type, patient_name, age, reason)
 	except Exception as exp:
 		frappe.log_error(frappe.get_traceback(), "WhatsApp Alert Error")
 		_logInfo(f"Check the error: {str(exp)}")

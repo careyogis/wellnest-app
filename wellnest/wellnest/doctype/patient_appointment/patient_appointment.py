@@ -5,6 +5,7 @@ import hashlib
 
 import frappe
 from frappe.model.document import Document
+from frappe.utils import get_datetime
 
 from wellnest.api.teleconsult import get_agora_token
 from wellnest.api.notifications import notify_doctor_of_new_booking
@@ -17,6 +18,11 @@ class PatientAppointment(Document):
             practitioner = frappe.get_value("Practitioner", self.practitioner, ["full_name", "email", "mobile"], as_dict=True)
             patient = frappe.get_value("Patient", self.patient, ["full_name", "date_of_birth"], as_dict=True)
             site_url = frappe.utils.get_url()
+
+            # Convert the string to a datetime object, then format it
+            scheduled_time_obj = get_datetime(self.scheduled_time)
+            formatted_date_time = scheduled_time_obj.strftime('%d-%m-%Y %I:%M %p')
+
             if practitioner and practitioner.email:
                 frappe.sendmail(
                     recipients=[practitioner.email],
@@ -29,7 +35,7 @@ class PatientAppointment(Document):
                 <b>Age</b>: {patient.date_of_birth}<br/>
                 <b>Reason</b>: {self.main_complaints}<br/>
                 # show time in Indian Standard Time (IST) format
-                <b>Date/Time</b>: {self.scheduled_time.strftime('%d-%m-%Y %I:%M %p')}.<br/>
+                <b>Date/Time</b>: {formatted_date_time}.<br/>
                 <b>Consultation Mode</b>: {self.consultation_type}.<br/>
 
                 Please ensure you login to the <a href='{site_url}/doctor-app/consultations'>doctor-app</a> at or before the scheduled time.<br/><br/>
@@ -41,7 +47,7 @@ class PatientAppointment(Document):
             
             if practitioner and practitioner.mobile:
                 notify_doctor_of_new_booking(patient_appointmentId=self.name, practitioner_name=practitioner.full_name, practitioner_mobile=practitioner.mobile,
-                                            scheduled_datetime=self.scheduled_time, consultation_type=self.consultation_type,
+                                            scheduled_datetime=formatted_date_time, consultation_type=self.consultation_type,
                                             patient_name=patient.full_name, patient_dob=patient.date_of_birth, reason=self.main_complaints  
                                             )
         except:
