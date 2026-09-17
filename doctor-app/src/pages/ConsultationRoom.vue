@@ -57,9 +57,9 @@
 -->
 
         <!-- EHR / Notes Button (Mobile quick open) -->
-        <button @click="openDrawerTab('summary')" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors lg:hidden" title="Patient EHR & Notes">
+        <!-- <button @click="openDrawerTab('summary')" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors lg:hidden" title="Patient EHR & Notes">
           <FeatherIcon name="clipboard" class="w-4 h-4 sm:w-5 sm:h-5" />
-        </button>
+        </button> -->
 
         <!-- Write Rx Button -->
         <button
@@ -112,7 +112,7 @@
             class="lg:hidden absolute bottom-3 left-3 px-3 py-1.5 rounded-full bg-gray-900/90 hover:bg-gray-800 text-amber-300 border border-amber-500/30 text-xs font-semibold backdrop-blur shadow-lg flex items-center gap-1.5 z-10"
           >
             <FeatherIcon name="sidebar" class="w-3.5 h-3.5" />
-            <span>Copilot & Rx</span>
+            <span>Prescription</span>
           </button>
         </div>
 
@@ -187,15 +187,15 @@
             :class="activeTab === 'rx' ? 'bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30' : 'text-gray-400 hover:text-white'"
             class="flex-1 py-2 text-xs rounded-lg transition-colors text-center truncate px-1"
           >
-            Smart Rx
+            Prescription
           </button>
-          <button
+          <!-- <button
             @click="activeTab = 'summary'"
             :class="activeTab === 'summary' ? 'bg-gray-800 text-white font-bold' : 'text-gray-400 hover:text-white'"
             class="flex-1 py-2 text-xs rounded-lg transition-colors text-center truncate px-1"
           >
             Summary & EHR
-          </button>
+          </button> -->
           <!--
 <button
   @click="activeTab = 'chat'"
@@ -213,12 +213,12 @@
         <!-- Tab 1: Smart Prescription Generator -->
         <div v-show="activeTab === 'rx'" class="flex-1 flex flex-col overflow-hidden">
           <div class="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
-            <!-- Scan Physical Rx -->
+            <!-- Scan Physical Prescription -->
             <div class="bg-gray-950 rounded-xl border border-gray-800 overflow-hidden">
               <div class="flex items-center justify-between px-3 py-2.5 border-b border-gray-800">
                 <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider flex items-center gap-1.5">
                   <FeatherIcon name="camera" class="w-3.5 h-3.5 text-amber-400" />
-                  Scan Physical Rx
+                  Scan Physical Prescription
                 </h4>
                 <button @click="triggerRxImageCapture" type="button" class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
                   <FeatherIcon name="camera" class="w-3 h-3" /> Take Photo
@@ -240,7 +240,7 @@
                     class="flex-1 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold text-xs flex items-center justify-center gap-1.5 transition-all"
                   >
                     <FeatherIcon :name="rxParseLoading ? 'loader' : 'upload-cloud'" class="w-3.5 h-3.5" :class="rxParseLoading ? 'animate-spin' : ''" />
-                    {{ rxParseLoading ? 'Sending...' : 'Parse & Create Rx' }}
+                    {{ rxParseLoading ? 'Sending...' : 'Submit' }}
                   </button>
                   <button @click="clearRxImage" v-if="rxImagePreview" type="button" class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs font-bold transition-all">
                     Clear
@@ -1204,7 +1204,6 @@ async function submitPrescription() {
       message: 'Prescription submitted successfully.',
     };
 
-    activeTab.value = 'summary';
   } catch (error) {
     console.error('Failed to submit prescription:', error);
 
