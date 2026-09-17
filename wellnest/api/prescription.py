@@ -83,46 +83,33 @@ def parse_and_create_prescription(
     doc = frappe.get_doc("Smart Prescription", doc_name)
 
     return {
-        "name": doc.name,
-        "file_url": file_url,
-        "workflow_state": doc.workflow_state,
+    "name": doc.name,
+    "file_url": file_url,
+    "workflow_state": doc.workflow_state,
 
-        "patient": doc.patient,
-        "patient_age": doc.patient_age,
-        "patient_gender": doc.patient_gender,
+    "patient": doc.patient,
+    "practitioner": doc.practitioner,
 
-        "practitioner": doc.practitioner,
-        "doctor_name": doc.doctor_name,
-        "hospital": doc.hospital,
+    "diagnosis": doc.diagnosis,
+    "investigations": doc.investigations,
+    "general_instructions": doc.general_instructions,
 
-        "prescription_date": doc.prescription_date,
-        "diagnosis": doc.diagnosis,
+    "examination": doc.examination,
+    "provisional_diagnosis": doc.provisional_diagnosis,
 
-        "investigations": doc.investigations,
-        "general_instructions": doc.general_instructions,
+    "follow_up_duration": doc.follow_up_duration,
+    "follow_up_advice": doc.follow_up_advice,
 
-        "follow_up_duration": doc.follow_up_duration,
-        "follow_up_duration_original": doc.follow_up_duration_original,
-
-        "follow_up_advice": doc.follow_up_advice,
-        "diet_advice": doc.diet_advice,
-        "exercise_advice": doc.exercise_advice,
-
-        "medicines": [
-            {
-                "medicine_name": medicine.medicine_name or "",
-                "original_name": medicine.original_name or "",
-                "generic_names": medicine.generic_names or "",
-                "dosage": medicine.dosage or "",
-                "dosage_form": medicine.dosage_form or "",
-                "timing": medicine.timing or "",
-                "duration": medicine.duration or "",
-                "instructions": medicine.instructions or "",
-                "instruction_translation": medicine.instruction_translation or "",
-            }
-            for medicine in doc.medicines
-        ],
-    }
+    "medicines": [
+        {
+            "medicine_name": medicine.medicine_name or "",
+            "dosage": medicine.dosage or "",
+            "timing": medicine.timing or "",
+            "instructions": medicine.instructions or "",
+        }
+        for medicine in doc.medicines
+    ],
+}
 
 @frappe.whitelist()
 def save_ocr_prescription(name, response_data):
@@ -170,12 +157,15 @@ def save_ocr_prescription(name, response_data):
 @frappe.whitelist()
 def create_consultation_prescription(
     appointment,
-    prescription_date=None,
     followup_expiry_date=None,
+    diagnosis=None,
+    investigations=None,
+    general_instructions=None,
+    examination=None,
+    provisional_diagnosis=None,
+    follow_up_duration=None,
+    follow_up_advice=None,
     medicines=None,
-    followup_advice=None,
-    diet_advice=None,
-    exercise_advice=None,
 ):
     if not appointment:
         frappe.throw("Appointment is required.")
@@ -222,34 +212,26 @@ def create_consultation_prescription(
     doc.patient_appointment = appointment
     doc.patient = appointment_doc.patient
     doc.practitioner = appointment_doc.practitioner
-    doc.prescription_date = (
-        prescription_date or frappe.utils.today()
-    )
     doc.followup_expiry_date = followup_expiry_date
+    doc.diagnosis = diagnosis or ""
+    doc.investigations = investigations or ""
+    doc.general_instructions = general_instructions or ""
+    doc.examination = examination or ""
+    doc.provisional_diagnosis = provisional_diagnosis or ""
+    doc.follow_up_duration = follow_up_duration or ""
+    doc.follow_up_advice = follow_up_advice or ""
     doc.workflow_state = "Draft"
-    doc.followup_advice = followup_advice
-    doc.diet_advice = diet_advice
-    doc.exercise_advice = exercise_advice
 
     for medicine in medicines:
-        for field in (
-            "medicine_name",
-            "dosage",
-            "timing",
-            "duration",
-        ):
-            if not medicine.get(field):
-                frappe.throw(
-                    f"{field.replace('_', ' ').title()} is required."
-                )
+        if not medicine.get("medicine_name"):
+            continue
 
         item = doc.append("medicines", {})
 
-        item.medicine_name = medicine["medicine_name"]
-        item.dosage = medicine["dosage"]
-        item.timing = medicine["timing"]
-        item.duration = medicine["duration"]
-        item.instructions = medicine.get("instructions")
+        item.medicine_name = medicine.get("medicine_name") or ""
+        item.dosage = medicine.get("dosage") or ""
+        item.timing = medicine.get("timing") or ""
+        item.instructions = medicine.get("instructions") or ""
 
     doc.insert(
         ignore_permissions=True,
@@ -260,19 +242,21 @@ def create_consultation_prescription(
         "patient_appointment": doc.patient_appointment,
         "patient": doc.patient,
         "practitioner": doc.practitioner,
-        "prescription_date": doc.prescription_date,
         "followup_expiry_date": doc.followup_expiry_date,
         "workflow_state": doc.workflow_state,
-        "followup_advice": doc.followup_advice,
-        "diet_advice": doc.diet_advice,
-        "exercise_advice": doc.exercise_advice,
+        "diagnosis": doc.diagnosis,
+        "investigations": doc.investigations,
+        "general_instructions": doc.general_instructions,
+        "examination": doc.examination,
+        "provisional_diagnosis": doc.provisional_diagnosis,
+        "follow_up_duration": doc.follow_up_duration,
+        "follow_up_advice": doc.follow_up_advice,
         "medicines": [
             {
                 "name": item.name,
                 "medicine_name": item.medicine_name,
                 "dosage": item.dosage,
                 "timing": item.timing,
-                "duration": item.duration,
                 "instructions": item.instructions,
             }
             for item in doc.medicines
@@ -286,18 +270,13 @@ def save_consultation_prescription_draft(
     appointment=None,
     prescription_date=None,
     followup_expiry_date=None,
-    patient_age=None,
-    patient_gender=None,
-    doctor_name=None,
-    hospital=None,
     diagnosis=None,
     investigations=None,
     general_instructions=None,
     follow_up_duration=None,
-    follow_up_duration_original=None,
     follow_up_advice=None,
-    diet_advice=None,
-    exercise_advice=None,
+    examination=None,
+    provisional_diagnosis=None,
     medicines=None,
 ):
     practitioner = frappe.db.get_value(
@@ -339,27 +318,16 @@ def save_consultation_prescription_draft(
 
     medicines = frappe.parse_json(medicines or "[]")
 
-    doc.prescription_date = (
-        prescription_date or frappe.utils.today()
-    )
     doc.followup_expiry_date = followup_expiry_date
 
-    doc.patient_age = patient_age or ""
-    doc.patient_gender = patient_gender or ""
-    doc.doctor_name = doctor_name or ""
-    doc.hospital = hospital or ""
     doc.diagnosis = diagnosis or ""
     doc.investigations = investigations or ""
     doc.general_instructions = general_instructions or ""
+    doc.examination = examination or ""
+    doc.provisional_diagnosis = provisional_diagnosis or ""
 
     doc.follow_up_duration = follow_up_duration or ""
-    doc.follow_up_duration_original = (
-        follow_up_duration_original or ""
-    )
-
     doc.follow_up_advice = follow_up_advice or ""
-    doc.diet_advice = diet_advice or ""
-    doc.exercise_advice = exercise_advice or ""
 
     doc.set("medicines", [])
 
@@ -370,50 +338,28 @@ def save_consultation_prescription_draft(
         item = doc.append("medicines", {})
 
         item.medicine_name = medicine.get("medicine_name") or ""
-        item.original_name = medicine.get("original_name") or ""
-        item.generic_names = medicine.get("generic_names") or ""
         item.dosage = medicine.get("dosage") or ""
-        item.dosage_form = medicine.get("dosage_form") or ""
         item.timing = medicine.get("timing") or ""
-        item.duration = medicine.get("duration") or ""
         item.instructions = medicine.get("instructions") or ""
-        item.instruction_translation = (
-            medicine.get("instruction_translation") or ""
-        )
+
 
     doc.save(ignore_permissions=True)
 
     return {
-        "name": doc.name,
-        "workflow_state": doc.workflow_state,
-        "patient": doc.patient,
-        "patient_age": doc.patient_age,
-        "patient_gender": doc.patient_gender,
-        "practitioner": doc.practitioner,
-        "doctor_name": doc.doctor_name,
-        "hospital": doc.hospital,
-        "prescription_date": doc.prescription_date,
-        "followup_expiry_date": doc.followup_expiry_date,
         "diagnosis": doc.diagnosis,
         "investigations": doc.investigations,
         "general_instructions": doc.general_instructions,
+        "examination": doc.examination,
+        "provisional_diagnosis": doc.provisional_diagnosis,
         "follow_up_duration": doc.follow_up_duration,
-        "follow_up_duration_original": doc.follow_up_duration_original,
         "follow_up_advice": doc.follow_up_advice,
-        "diet_advice": doc.diet_advice,
-        "exercise_advice": doc.exercise_advice,
         "medicines": [
             {
                 "name": item.name,
                 "medicine_name": item.medicine_name,
-                "original_name": item.original_name,
-                "generic_names": item.generic_names,
                 "dosage": item.dosage,
-                "dosage_form": item.dosage_form,
                 "timing": item.timing,
-                "duration": item.duration,
                 "instructions": item.instructions,
-                "instruction_translation": item.instruction_translation,
             }
             for item in doc.medicines
         ],
@@ -519,35 +465,24 @@ def get_consultation_prescription(appointment):
         "name": doc.name,
         "patient_appointment": doc.patient_appointment,
         "patient": doc.patient,
-        "patient_age": doc.patient_age,
-        "patient_gender": doc.patient_gender,
         "practitioner": doc.practitioner,
-        "doctor_name": doc.doctor_name,
-        "hospital": doc.hospital,
-        "prescription_date": doc.prescription_date,
         "followup_expiry_date": doc.followup_expiry_date,
         "workflow_state": doc.workflow_state,
         "diagnosis": doc.diagnosis,
         "investigations": doc.investigations,
         "general_instructions": doc.general_instructions,
+        "examination": doc.examination,
+        "provisional_diagnosis": doc.provisional_diagnosis,
         "follow_up_duration": doc.follow_up_duration,
-        "follow_up_duration_original": doc.follow_up_duration_original,
         "follow_up_advice": doc.follow_up_advice,
-        "diet_advice": doc.diet_advice,
-        "exercise_advice": doc.exercise_advice,
         "file_url": file_url,
         "medicines": [
             {
                 "name": item.name,
                 "medicine_name": item.medicine_name,
-                "original_name": item.original_name,
-                "generic_names": item.generic_names,
                 "dosage": item.dosage,
-                "dosage_form": item.dosage_form,
                 "timing": item.timing,
-                "duration": item.duration,
                 "instructions": item.instructions,
-                "instruction_translation": item.instruction_translation,
             }
             for item in doc.medicines
         ],

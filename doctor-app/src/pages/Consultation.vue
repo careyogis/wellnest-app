@@ -190,62 +190,31 @@
             </div>
           </div>
         </section>
-        <!-- Follow-up and lifestyle advice -->
-        <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
-          <!-- Header -->
-          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
-            <div>
-              <h2 class="text-xl font-bold text-gray-900">Follow-up and lifestyle advice</h2>
+        <!-- Follow-up Advice -->
+<section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
+  <div class="mb-5">
+    <h2 class="text-xl font-bold text-gray-900">
+      Follow-up Advice
+    </h2>
 
-              <p class="text-gray-500 mt-1">Optional lifestyle sections remain visible in the final prescription only when filled.</p>
-            </div>
-          </div>
+    <p class="text-gray-500 mt-1">
+      Add follow-up instructions for the patient.
+    </p>
+  </div>
 
-          <!-- Follow-up -->
-          <div class="mb-5">
-            <label class="block text-sm font-medium text-gray-900 mb-2"> Follow-up Advise </label>
+  <div>
+    <label class="block text-sm font-medium text-gray-900 mb-2">
+      Follow-up Advice
+    </label>
 
-            <textarea
-              v-model="followUpAdvice"
-              rows="3"
-              placeholder="Enter follow-up advice"
-              class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-            ></textarea>
-          </div>
-
-          <!-- Diet + Exercise -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <!-- Diet -->
-            <div>
-              <label class="block text-sm font-medium text-gray-900 mb-2">
-                Diet Advice
-                <span class="text-gray-400 font-normal"> Optional </span>
-              </label>
-
-              <textarea
-                v-model="dietAdvice"
-                rows="3"
-                placeholder="Enter diet advice"
-                class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-              ></textarea>
-            </div>
-
-            <!-- Exercise -->
-            <div>
-              <label class="block text-sm font-medium text-gray-900 mb-2">
-                Exercise Advice
-                <span class="text-gray-400 font-normal"> Optional </span>
-              </label>
-
-              <textarea
-                v-model="exerciseAdvice"
-                rows="3"
-                placeholder="Enter exercise advice"
-                class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-              ></textarea>
-            </div>
-          </div>
-        </section>
+    <textarea
+      v-model="followUpAdvice"
+      rows="3"
+      placeholder="Enter follow-up advice"
+      class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
+    ></textarea>
+  </div>
+</section>
       </main>
     </div>
 
@@ -429,24 +398,6 @@
               </p>
             </div>
 
-            <!-- Diet -->
-            <div class="mt-5">
-              <h3 class="font-bold text-gray-900">Diet Advice</h3>
-
-              <p class="text-sm text-gray-700 mt-2">
-                {{ dietAdvice || 'No diet advice entered.' }}
-              </p>
-            </div>
-
-            <!-- Exercise -->
-            <div class="mt-5">
-              <h3 class="font-bold text-gray-900">Exercise Advice</h3>
-
-              <p class="text-sm text-gray-700 mt-2">
-                {{ exerciseAdvice || 'No exercise advice entered.' }}
-              </p>
-            </div>
-
             <!-- Digitally signed -->
             <div class="mt-6 pt-5 border-t border-amber-200">
               <h3 class="font-bold text-gray-900">Digitally Signed</h3>
@@ -582,8 +533,6 @@ const examination = ref('');
 const provisionalDiagnosis = ref('');
 
 const followUpAdvice = ref('');
-const dietAdvice = ref('');
-const exerciseAdvice = ref('');
 
 // Existing prescription data - KEEP FOR NOW
 const medicines = ref([]);
@@ -684,33 +633,65 @@ async function loadClinicalRecord() {
       appointment,
     });
 
-    if (!response) {
-      complaints.value = [];
-      investigations.value = [];
-      history.value = '';
-      examination.value = '';
-      provisionalDiagnosis.value = '';
-      followUpAdvice.value = '';
-      dietAdvice.value = '';
-      exerciseAdvice.value = '';
-    } else {
-      complaints.value = (response.chief_complaints || []).map((complaint, index) => ({
-        id: index + 1,
-        text: complaint.complaint || '',
-      }));
+  if (!response) {
+  complaints.value = [];
+  history.value = '';
+} else {
+  complaints.value = (response.chief_complaints || []).map((complaint, index) => ({
+    id: index + 1,
+    text: complaint.complaint || '',
+  }));
 
-      investigations.value = (response.investigations || []).map((item) => item.investigation || '');
+  history.value = response.history || '';
+}
 
-      history.value = response.history || '';
-      examination.value = response.examination || '';
-      provisionalDiagnosis.value = response.provisional_diagnosis || '';
+// Load prescription data from Smart Prescription
+const prescriptionResponse =
+  await getPrescriptionResource.submit({
+    appointment,
+  });
 
-      followUpAdvice.value = response.follow_up_advice || '';
+const prescription =
+  prescriptionResponse?.message || prescriptionResponse;
 
-      dietAdvice.value = response.diet_advice || '';
+if (prescription) {
+  examination.value =
+    prescription.examination || '';
 
-      exerciseAdvice.value = response.exercise_advice || '';
-    }
+  provisionalDiagnosis.value =
+    prescription.provisional_diagnosis || '';
+
+  investigations.value = prescription.investigations
+    ? prescription.investigations
+        .split('\n')
+        .filter((item) => item.trim())
+    : [];
+
+  followUpAdvice.value =
+    prescription.follow_up_advice || '';
+
+  medicines.value =
+    (prescription.medicines || []).map((medicine) => ({
+      medicine: medicine.medicine_name || '',
+      dose: medicine.dosage || '',
+      frequency: medicine.timing || '',
+      instruction: medicine.instructions || '',
+    }));
+
+  prescriptionName.value =
+    prescription.name || null;
+
+  prescriptionWorkflowState.value =
+    prescription.workflow_state || null;
+} else {
+  examination.value = '';
+  provisionalDiagnosis.value = '';
+  investigations.value = [];
+  followUpAdvice.value = '';
+  medicines.value = [];
+  prescriptionName.value = null;
+  prescriptionWorkflowState.value = null;
+}
 
     // Load vitals
     const vitalsResponse = await vitalsResource.submit({
@@ -770,24 +751,22 @@ async function loadPrescription() {
 
     ocrPrescriptionName.value = response.name;
     ocrExtractedText.value = JSON.stringify(
-      {
-        medicines: response.medicines || [],
-        advice: response.advice || '',
-      },
-      null,
-      2
-    );
+  {
+    medicines: response.medicines || [],
+    follow_up_advice: response.follow_up_advice || '',
+  },
+  null,
+  2
+);
 
-    medicines.value = (response.medicines || []).map((medicine) => ({
-      medicine: medicine.medicine_name || '',
-      dose: medicine.dosage || '',
-      frequency: medicine.timing || '',
-      instruction: medicine.instructions || '',
-    }));
+medicines.value = (response.medicines || []).map((medicine) => ({
+  medicine: medicine.medicine_name || '',
+  dose: medicine.dosage || '',
+  frequency: medicine.timing || '',
+  instruction: medicine.instructions || '',
+}));
 
-    followUpAdvice.value = response.advice || response.follow_up_advice || '';
-    dietAdvice.value = response.diet_advice || '';
-    exerciseAdvice.value = response.exercise_advice || '';
+followUpAdvice.value = response.follow_up_advice || '';
   } catch (error) {
     console.error('Failed to load prescription:', error);
   }
@@ -919,74 +898,88 @@ async function finalizePrescription() {
     return;
   }
 
-  try {
-    const medicinesPayload = medicines.value
-      .filter((medicine) => medicine.medicine?.trim())
-      .map((medicine) => ({
-        medicine_name: medicine.medicine.trim(),
-        dosage: medicine.dose?.trim() || '',
-        timing: medicine.frequency?.trim() || '',
-        duration: 'Not specified',
-        instructions: medicine.instruction?.trim() || '',
-      }));
+try {
+  const medicinesPayload = medicines.value
+    .filter((medicine) => medicine.medicine?.trim())
+    .map((medicine) => ({
+      medicine_name: medicine.medicine.trim(),
+      dosage: medicine.dose?.trim() || '',
+      timing: medicine.frequency?.trim() || '',
+      instructions: medicine.instruction?.trim() || '',
+    }));
 
-    let response;
+  let response;
 
-    // If no prescription exists yet, create it as Draft first.
-    if (!prescriptionName.value) {
-      response = await createPrescriptionResource.submit({
-        appointment,
-        prescription_date: new Date().toISOString().split('T')[0],
-        medicines: JSON.stringify(medicinesPayload),
-        follow_up_advice: followUpAdvice.value || '',
-        diet_advice: dietAdvice.value || '',
-        exercise_advice: exerciseAdvice.value || '',
-      });
-
-      prescriptionName.value = response.name;
-      prescriptionWorkflowState.value = response.workflow_state;
-      emit('prescription-loaded', {
-        name: response.name,
-        workflow_state: response.workflow_state,
-        file_url: response.file_url || '',
-      });
-    } else {
-      // Existing Draft: save the latest changes before submitting.
-      if (prescriptionWorkflowState.value === 'Draft') {
-        response = await savePrescriptionDraftResource.submit({
-          name: prescriptionName.value,
-          prescription_date: new Date().toISOString().split('T')[0],
-          medicines: JSON.stringify(medicinesPayload),
-          follow_up_advice: followUpAdvice.value || '',
-          diet_advice: dietAdvice.value || '',
-          exercise_advice: exerciseAdvice.value || '',
-        });
-
-        prescriptionWorkflowState.value = response.workflow_state;
-      }
-    }
-
-    response = await completePrescriptionResource.submit({
-      name: prescriptionName.value,
+  // If no prescription exists yet, create it as Draft first.
+  if (!prescriptionName.value) {
+    response = await createPrescriptionResource.submit({
+      appointment,
+      investigations: investigations.value
+        .filter((investigation) => investigation?.trim())
+        .join('\n'),
+      examination: examination.value || '',
+      provisional_diagnosis: provisionalDiagnosis.value || '',
+      follow_up_advice: followUpAdvice.value || '',
+      medicines: JSON.stringify(medicinesPayload),
     });
 
+    prescriptionName.value = response.name;
     prescriptionWorkflowState.value = response.workflow_state;
 
-    emit('prescription-submitted', {
+    emit('prescription-loaded', {
+      name: response.name,
       workflow_state: response.workflow_state,
+      file_url: response.file_url || '',
+    });
+  } else if (prescriptionWorkflowState.value === 'Draft') {
+    // Existing Draft: save the latest changes before submitting.
+    response = await savePrescriptionDraftResource.submit({
+      name: prescriptionName.value,
+      appointment,
+
+      investigations: investigations.value
+        .filter((investigation) => investigation?.trim())
+        .join('\n'),
+
+      examination: examination.value || '',
+      provisional_diagnosis: provisionalDiagnosis.value || '',
+      follow_up_advice: followUpAdvice.value || '',
+
+      medicines: JSON.stringify(medicinesPayload),
     });
 
-    console.log('Prescription submitted:', response);
-    alert('Prescription submitted successfully.');
-  } catch (error) {
-    console.error('Failed to submit prescription:', error);
-    alert('Failed to submit prescription.');
+    prescriptionWorkflowState.value =
+      response?.workflow_state || 'Draft';
+  }
+
+  response = await completePrescriptionResource.submit({
+    name: prescriptionName.value,
+  });
+
+  prescriptionWorkflowState.value = response.workflow_state;
+
+  emit('prescription-submitted', {
+    workflow_state: response.workflow_state,
+  });
+
+  console.log('Prescription submitted:', response);
+  alert('Prescription submitted successfully.');
+} catch (error) {
+  console.error('Failed to submit prescription:', error);
+  alert('Failed to submit prescription.');
   }
 }
 
 async function savePrescriptionDraft(showMessage = true) {
-  console.log('Current prescription workflow state:', prescriptionWorkflowState.value);
-  if (prescriptionWorkflowState.value === 'Confirmed' || prescriptionWorkflowState.value === 'Complete') {
+  console.log(
+    'Current prescription workflow state:',
+    prescriptionWorkflowState.value
+  );
+
+  if (
+    prescriptionWorkflowState.value === 'Confirmed' ||
+    prescriptionWorkflowState.value === 'Complete'
+  ) {
     alert('This prescription has already been submitted for this patient.');
     return;
   }
@@ -1005,42 +998,33 @@ async function savePrescriptionDraft(showMessage = true) {
         medicine_name: medicine.medicine.trim(),
         dosage: medicine.dose?.trim() || '',
         timing: medicine.frequency?.trim() || '',
-        duration: 'Not specified',
         instructions: medicine.instruction?.trim() || '',
       }));
 
-    let response;
+    const response = await savePrescriptionDraftResource.submit({
+      name: prescriptionName.value || undefined,
+      appointment,
 
-    if (prescriptionName.value) {
-      response = await savePrescriptionDraftResource.submit({
-        name: prescriptionName.value,
-        prescription_date: new Date().toISOString().split('T')[0],
-        medicines: JSON.stringify(medicinesPayload),
-        follow_up_advice: followUpAdvice.value || '',
-        diet_advice: dietAdvice.value || '',
-        exercise_advice: exerciseAdvice.value || '',
-      });
-    } else {
-      response = await createPrescriptionResource.submit({
-        appointment,
-        medicines: JSON.stringify(medicinesPayload),
-        follow_up_advice: followUpAdvice.value || '',
-        diet_advice: dietAdvice.value || '',
-        exercise_advice: exerciseAdvice.value || '',
-      });
-    }
+      investigations: investigations.value
+        .filter((investigation) => investigation?.trim())
+        .join('\n'),
+
+      examination: examination.value || '',
+      provisional_diagnosis: provisionalDiagnosis.value || '',
+      follow_up_advice: followUpAdvice.value || '',
+
+      medicines: JSON.stringify(medicinesPayload),
+    });
 
     if (response?.name) {
       prescriptionName.value = response.name;
     }
 
-    if (response?.workflow_state) {
-      prescriptionWorkflowState.value = response.workflow_state;
-    } else {
-      prescriptionWorkflowState.value = 'Draft';
-    }
+    prescriptionWorkflowState.value =
+      response?.workflow_state || 'Draft';
 
     console.log('Prescription draft saved:', response);
+
     if (showMessage) {
       alert('Prescription saved as draft.');
     }
@@ -1064,30 +1048,14 @@ async function saveClinicalRecord(showMessage = true) {
   }
 
   const data = {
-    chief_complaints: complaints.value
-      .filter((complaint) => complaint.text?.trim())
-      .map((complaint) => ({
-        complaint: complaint.text.trim(),
-      })),
+  chief_complaints: complaints.value
+    .filter((complaint) => complaint.text?.trim())
+    .map((complaint) => ({
+      complaint: complaint.text.trim(),
+    })),
 
-    history: history.value,
-
-    examination: examination.value,
-
-    provisional_diagnosis: provisionalDiagnosis.value,
-
-    investigations: investigations.value
-      .filter((investigation) => investigation?.trim())
-      .map((investigation) => ({
-        investigation: investigation.trim(),
-      })),
-
-    follow_up_advice: followUpAdvice.value,
-
-    diet_advice: dietAdvice.value,
-
-    exercise_advice: exerciseAdvice.value,
-  };
+  history: history.value,
+};
 
   try {
     const response = await saveClinicalRecordResource.submit({
@@ -1337,8 +1305,6 @@ defineExpose({
   vitals,
   medicines,
   followUpAdvice,
-  dietAdvice,
-  exerciseAdvice,
   provisionalDiagnosis,
   investigations,
   previewDetails,
