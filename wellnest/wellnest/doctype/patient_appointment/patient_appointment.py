@@ -21,17 +21,22 @@ class PatientAppointment(Document):
                 frappe.sendmail(
                     recipients=[practitioner.email],
                     subject="A new consultation has booked for you at CareYogi",
-                    message=f"""Hello {practitioner.full_name},
+                    message=f"""Hello <b>{practitioner.full_name}</b>,<br/>
 
-                A new consultation has been booked for you.
+                A new consultation has been booked for you at CareYogi.<br/><br/>
 
-                <b>Patient</b>: {patient.full_name}
-                <b>Age</b>: {patient.date_of_birth}
-                <b>Reason</b>: {self.main_complaints}
-                <b>Date/Time</b>: {self.scheduled_time}.
-                <b>Consultation Mode</b>: {self.consultation_type}.
+                <b>Patient</b>: {patient.full_name}<br/>
+                <b>Age</b>: {patient.date_of_birth}<br/>
+                <b>Reason</b>: {self.main_complaints}<br/>
+                # show time in Indian Standard Time (IST) format
+                <b>Date/Time</b>: {self.scheduled_time.strftime('%d-%m-%Y %I:%M %p')}.<br/>
+                <b>Consultation Mode</b>: {self.consultation_type}.<br/>
 
-                Please ensure you login to the <a href='{site_url}/doctor-app/consultations'>doctor-app</a> at or before the scheduled time."""
+                Please ensure you login to the <a href='{site_url}/doctor-app/consultations'>doctor-app</a> at or before the scheduled time.<br/><br/>
+                
+                With regards,<br/>
+                CareYogi Digital Hospital<br/>
+                """
                 )
             
             if practitioner and practitioner.mobile:
