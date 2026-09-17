@@ -34,7 +34,6 @@ class PatientAppointment(Document):
                 <b>Patient</b>: {patient.full_name}<br/>
                 <b>Age</b>: {patient.date_of_birth}<br/>
                 <b>Reason</b>: {self.main_complaints}<br/>
-                # show time in Indian Standard Time (IST) format
                 <b>Date/Time</b>: {formatted_date_time}.<br/>
                 <b>Consultation Mode</b>: {self.consultation_type}.<br/>
 
