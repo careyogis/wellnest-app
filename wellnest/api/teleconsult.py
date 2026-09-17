@@ -42,12 +42,13 @@ def book_appointment(practitioner, patient, scheduled_time, consultation_type, c
 	appointment.insert(ignore_permissions=True)                                                                                                       
 
 	doctor_full_name = frappe.get_value("Practitioner", practitioner, "full_name")
+	scheduled_time_obj = frappe.utils.get_datetime(scheduled_time)
 
 	# 2. Schedule an App Notification
 	app_notification = frappe.get_doc({                                                                                                                 
 		"doctype": "App Notification",
 		"title": "Upcoming doctor appointment",
-		"body": f"You have an upcoming appointment with {doctor_full_name} at {appointment.scheduled_time}.",
+		"body": f"You have an upcoming appointment with {doctor_full_name} at {scheduled_time_obj.strftime('%d-%m-%Y %I:%M %p')}.",
 		"target_audience": "Specific Patient",
 		"patient": patient,
 		"scheduled_time": (frappe.utils.add_to_date(scheduled_time, minutes=-15)),
