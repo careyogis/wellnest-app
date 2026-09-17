@@ -147,7 +147,7 @@ def _send_whatsapp_message(doctor_phone, doctor_name, patient_name, age, reason,
                         {"type": "text", "text": reason},
                         {"type": "text", "text": time},
                         {"type": "text", "text": mode},
-                        {"type": "text", "text": f"{site_url}/doctor-app/consultations"}
+                        {"type": "text", "text": f"{site_url}/doctor-app/consultations?appointment={appointment_id}"}
                     ]
                 }
             ]
@@ -194,7 +194,8 @@ def _send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patie
                         {"type": "text", "text": reason or "Not Provided"},
                         {"type": "text", "text": scheduled_datetime},
                         {"type": "text", "text": consultation_type},
-                        {"type": "text", "text": f"{site_url}/doctor-app/consultations"}
+                        {"type": "text", "text": f"{site_url}/doctor-app/consultations?appointment={patient_appointId}"}
+
                     ]
                 }
             ]
