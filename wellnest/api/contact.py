@@ -31,25 +31,28 @@ def contactUs():
 
 @frappe.whitelist()
 def get_customer_for_user(user):
+	customer_name = None
 	# Checks if supplied user is an email or mobile number
 	if "@" in user:
-		customer_name = frappe.db.get_value(
+		contact_name = frappe.db.get_value(
 			"Contact Email", {"email_id": user}, "parent"
 		)
 	else:
-		if user.startswith("+91"):
-			user = user[3:]
-		customer_name = frappe.db.get_value(
+		# fix phone number for proper 'Contact Phone' lookup
+		if not user.startswith("+91"):
+			user = "+91" + user
+		contact_name = frappe.db.get_value(
 			"Contact Phone", {"phone": user}, "parent"
 		)
 		
-	if customer_name:
-		customer = frappe.get_doc("Contact", customer_name)
-		for link in customer.links:
-			if link.link_doctype == "Customer":
-				return link.link_name
+	if contact_name:
+		customer_name = frappe.db.get_value(
+			"Dynamic Link",
+			{"link_doctype": "Customer", "parenttype": "Contact", "parent": contact_name},
+			"link_name"
+		)
 
-	return None
+	return customer_name
 
 
 @frappe.whitelist()

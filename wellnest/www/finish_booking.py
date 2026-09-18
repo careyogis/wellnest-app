@@ -10,9 +10,9 @@ def get_context(context):
         return
 
     frappe.flags.ignore_permissions = True
-    appointment = frappe.get_doc("Patient Appointment", service_id)
-    practitioner = frappe.get_doc("Practitioner", appointment.practitioner) if appointment.practitioner else None
-    patient = frappe.get_doc("Patient", appointment.patient) if appointment.patient else None
+    appointment = frappe.get_value("Patient Appointment", service_id, ["name", "practitioner", "patient", "scheduled_time", "consultation_type", "consultation_fee"], as_dict=True)
+    practitioner = frappe.get_value("Practitioner", appointment.practitioner, ["full_name"], as_dict=True) if appointment.practitioner else None
+    patient = frappe.get_value("Patient", appointment.patient, ["full_name", "mobile", "customer"], as_dict=True) if appointment.patient else None
     frappe.flags.ignore_permissions = False
 
     # Determine amount
@@ -22,9 +22,18 @@ def get_context(context):
     patient_mobile = ""
     if patient:
         patient_mobile = patient.get("mobile") or ""
+        if patient_mobile and (not patient_mobile.startswith("+91")):
+            patient_mobile = "+91" + patient_mobile
+
         customer = patient.get("customer")
         if customer:
-            patient_email = frappe.db.get_value("Customer", customer, "email_id") or ""
+            # Get the email from Contact where the customer is linked, as the email is not directly on the Customer doctype
+            contact_name = frappe.db.get_value(
+                "Dynamic Link",
+                {"link_doctype": "Customer", "parenttype": "Contact", "link_name": customer},
+                "parent"
+            )
+            patient_email = frappe.db.get_value("Contact", contact_name, "email_ids.email_id") or ""
         
         if not patient_email and frappe.session.user != "Guest":
             patient_email = frappe.session.user

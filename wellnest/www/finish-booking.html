@@ -125,6 +125,7 @@
         <div class="detail-grid">
           <div class="detail"><label>Patient name</label><strong>{{ patient.full_name if patient else 'Patient' }}</strong></div>
           <div class="detail"><label>Mobile number</label><strong>{{ patient_mobile }}</strong></div>
+          <div class="detail full"><label>Email address</label><strong>{{ patient_email }}</strong></div>
         </div>
         
         <div class="payment-divider"></div>
@@ -237,7 +238,8 @@
             "prefill": {
               "name": "{{ patient.full_name if patient else 'Patient' }}",
               "contact": "{{ patient_mobile }}",
-              // "contact": "9876543210"
+              "email": "{{ patient_email }}",
+              "method": selectedMethod
             },
             "theme": { "color": "#5bb286" }
           };
