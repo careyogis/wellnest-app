@@ -38,14 +38,17 @@ def get_available_slots(practitioner, date, consult_type):
     # Convert to datetime objects for easy math
     current_dt = datetime.combine(date_obj, get_time(start_time))
     end_dt = datetime.combine(date_obj, get_time(end_time))
-    
+
+    # Add 12 hrs lead time for consultations
     now_dt = frappe.utils.now_datetime()
+    min_dt = now_dt + timedelta(hours=12)
+    
     while current_dt < end_dt:
         slot_end_dt = current_dt + timedelta(minutes=15)
         if slot_end_dt > end_dt:
             break
         
-        if current_dt >= now_dt:
+        if current_dt >= min_dt:
             slots.append({
                 "from_time": current_dt.time().strftime("%H:%M:%S"),
                 "to_time": slot_end_dt.time().strftime("%H:%M:%S")
