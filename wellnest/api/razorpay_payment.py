@@ -105,6 +105,7 @@ def payment_verify(razorpay_payment_id, razorpay_order_id, razorpay_signature, a
 							"item_code": "Teleconsultation",
 							"qty": 1,
 							"rate": float(appointment.consultation_fee or 0),
+							"price_list_rate": float(appointment.consultation_fee or 0),
 						}]
 					})
 					sales_invoice.insert(ignore_permissions=True)
