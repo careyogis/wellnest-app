@@ -46,21 +46,6 @@ def process_prescription(
     if patient_appointment:
         doc.patient_appointment = patient_appointment
 
-    # Patient details
-    patient_data = prescription.get("patient") or {}
-    doc.patient_age = patient_data.get("age") or ""
-    doc.patient_gender = patient_data.get("gender") or ""
-
-    # Doctor / hospital
-    doctor_data = prescription.get("doctor") or {}
-    doc.doctor_name = doctor_data.get("name") or ""
-    doc.hospital = prescription.get("hospital") or ""
-
-    # Prescription date
-    doc.prescription_date = _parse_date(
-        prescription.get("date")
-    )
-
     # Diagnosis
     diagnoses = prescription.get("diagnosis") or []
     doc.diagnosis = "\n".join(
@@ -86,9 +71,6 @@ def process_prescription(
     # Follow-up
     follow_up = prescription.get("follow_up") or {}
     doc.follow_up_duration = follow_up.get("duration") or ""
-    doc.follow_up_duration_original = (
-        follow_up.get("duration_original") or ""
-    )
 
     # Medicines
     for medicine in prescription.get("medicines") or []:
