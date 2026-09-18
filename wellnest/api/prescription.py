@@ -346,6 +346,8 @@ def save_consultation_prescription_draft(
     doc.save(ignore_permissions=True)
 
     return {
+        "name": doc.name,
+        "workflow_state": doc.workflow_state,
         "diagnosis": doc.diagnosis,
         "investigations": doc.investigations,
         "general_instructions": doc.general_instructions,
