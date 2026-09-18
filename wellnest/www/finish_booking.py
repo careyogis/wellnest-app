@@ -6,7 +6,8 @@ no_cache = 1
 def get_context(context):
     service_id = frappe.form_dict.get("service_id")
     if not service_id:
-        frappe.throw("Invalid Appointment ID")
+        # improperly called, so return
+        return
 
     frappe.flags.ignore_permissions = True
     appointment = frappe.get_doc("Patient Appointment", service_id)

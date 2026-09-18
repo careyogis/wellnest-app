@@ -114,62 +114,39 @@
       <p>Review your consultation and complete payment securely.</p>
     </section>
 
-    <div class="steps" aria-label="Payment progress">
-      <div class="step active" data-step="1"><span class="step-number">1</span><span>Review</span></div>
-      <div class="step" data-step="2"><span class="step-number">2</span><span>Payment</span></div>
-      <div class="step" data-step="3"><span class="step-number">3</span><span>Confirmation</span></div>
-    </div>
-
     <section class="card" aria-live="polite">
-      <div class="view active" id="review-view">
+      <div class="view active" id="checkout-view">
         <div class="service-banner">
           <span class="service-icon"><i class="fas fa-video"></i></span>
           <div><h2>Online consultation with {{ practitioner.full_name if practitioner else 'Doctor' }}</h2><p>{{ appointment.consultation_type or 'Teleconsultation' }} · {{ appointment.duration or '15' }} minutes · {{ formatted_date }}</p></div>
         </div>
+        
         <div class="section-title"><h3>Customer details</h3></div>
         <div class="detail-grid">
           <div class="detail"><label>Patient name</label><strong>{{ patient.full_name if patient else 'Patient' }}</strong></div>
           <div class="detail"><label>Mobile number</label><strong>{{ patient_mobile }}</strong></div>
-          <!-- <div class="detail full"><label>Email address</label><strong>{{ patient_email }}</strong></div> -->
         </div>
+        
         <div class="payment-divider"></div>
-        <div class="section-title"><h3>Invoice preview</h3><button class="view-invoice" type="button" data-open-invoice>View invoice <i class="fas fa-arrow-up-right-from-square"></i></button></div>
+        
+        <div class="section-title"><h3>Invoice preview</h3><button class="view-invoice" type="button" data-open-invoice>View full invoice <i class="fas fa-arrow-up-right-from-square"></i></button></div>
         <div class="invoice-preview">
           <div class="invoice-top"><div><strong>Booking #{{ appointment.name }}</strong><br><span>Issued {{ issue_date }}</span></div><span>CareYogi Digital Hospital</span></div>
           <div class="invoice-row"><span>Teleconsultation fee</span><strong>₹{{ amount }}</strong></div>
-          
           <div class="invoice-row total"><span>Total payable</span><strong>₹{{ amount }}</strong></div>
         </div>
-        <div class="button-row"><button class="pay-button" type="button" data-go="payment"><i class="fas fa-arrow-right"></i> Continue to payment</button></div>
-        <p class="payment-note"><i class="fas fa-shield-alt"></i><span>You will review the payment method before payment is submitted.</span></p>
-      </div>
 
-      <div class="view" id="payment-view">
-        <button class="back" type="button" data-go="review"><i class="fas fa-arrow-left"></i> Back to review</button>
-        <div class="service-banner" style="margin-top:18px"><span class="service-icon"><i class="fas fa-video"></i></span><div><h2>Teleconsultation with {{ practitioner.full_name if practitioner else 'Doctor' }}</h2><p>Booking #{{ appointment.name }} · ₹{{ amount }} payable</p></div></div>
+        <div class="payment-divider"></div>
+
         <div class="section-title"><h3>Choose a payment method</h3></div>
         <div class="method-list" role="radiogroup" aria-label="Payment methods">
-          <button class="method selected" type="button" role="radio" aria-checked="true"><span class="method-icon"><i class="fas fa-mobile-screen-button"></i></span><span><b>UPI</b><small>Google Pay, PhonePe, Paytm and more</small></span><i class="fas fa-circle-check method-check"></i></button>
+          <button class="method selected" type="button" role="radio" aria-checked="true"><span class="method-icon"><i class="fas fa-mobile-alt"></i></span><span><b>UPI</b><small>Google Pay, PhonePe, Paytm and more</small></span><i class="fas fa-circle-check method-check"></i></button>
           <button class="method" type="button" role="radio" aria-checked="false"><span class="method-icon"><i class="far fa-credit-card"></i></span><span><b>Card</b><small>Credit, debit or RuPay card</small></span><i class="fas fa-circle-check method-check"></i></button>
-          <button class="method" type="button" role="radio" aria-checked="false"><span class="method-icon"><i class="fas fa-building-columns"></i></span><span><b>Net banking</b><small>Pay securely from your bank account</small></span><i class="fas fa-circle-check method-check"></i></button>
+          <button class="method" type="button" role="radio" aria-checked="false"><span class="method-icon"><i class="fas fa-university"></i></span><span><b>Net banking</b><small>Pay securely from your bank account</small></span><i class="fas fa-circle-check method-check"></i></button>
         </div>
-        <div class="payment-divider"></div>
-        <div class="confirm-summary"><div class="invoice-row"><span>Payment for</span><strong>Teleconsultation</strong></div><div class="invoice-row total"><span>Amount to pay</span><strong>₹{{ amount }}</strong></div></div>
-        <div class="button-row two"><button class="secondary-button" type="button" data-open-invoice>Invoice</button><button class="pay-button" type="button" data-go="confirm"><i class="fas fa-lock"></i> Review &amp; pay ₹{{ amount }}</button></div>
-        <p class="payment-note"><i class="fas fa-lock"></i><span>Payments are processed through our secure payment partner. CareYogi does not store your card or UPI details.</span></p>
-      </div>
-
-      <div class="view" id="confirm-view">
-        <button class="back" type="button" data-go="payment"><i class="fas fa-arrow-left"></i> Change payment method</button>
-        <div class="service-banner" style="margin-top:18px"><span class="service-icon"><i class="fas fa-circle-check"></i></span><div><h2>One final check</h2><p>Please confirm the details below before paying.</p></div></div>
-        <div class="confirm-summary">
-          <div class="invoice-row"><span>Patient</span><strong>{{ patient.full_name if patient else 'Patient' }}</strong></div>
-          <div class="invoice-row"><span>Service</span><strong>Teleconsultation</strong></div>
-          <div class="invoice-row"><span>Payment method</span><strong id="chosen-method">UPI</strong></div>
-          <div class="invoice-row total"><span>Total payable</span><strong>₹{{ amount }}</strong></div>
-        </div>
+        
         <div class="button-row"><button class="pay-button" type="button" id="make-payment"><i class="fas fa-lock"></i> Pay ₹{{ amount }} securely</button></div>
-        <p class="payment-note"><i class="fas fa-circle-info"></i><span>By continuing, you agree to CareYogi’s payment terms. Your confirmation will be sent to your mobile number.</span></p>
+        <p class="payment-note"><i class="fas fa-shield-alt"></i><span>Payments are processed through our secure payment partner. CareYogi does not store your card or UPI details.</span></p>
       </div>
 
       <div class="view" id="success-view">
@@ -190,23 +167,16 @@
   </dialog>
 
   <script>
-    const views = { review: 'review-view', payment: 'payment-view', confirm: 'confirm-view', success: 'success-view' };
-    const stepNodes = [...document.querySelectorAll('.step')];
-    const methodLabel = document.getElementById('chosen-method');
     const receiptMethod = document.getElementById('receipt-method');
     let selectedMethod = 'UPI';
-    function showView(name) {
-      document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
-      document.getElementById(views[name]).classList.add('active');
-      const current = Object.keys(views).indexOf(name) + 1;
-      stepNodes.forEach((step, index) => { step.classList.toggle('active', index + 1 === current); step.classList.toggle('complete', index + 1 < current); });
-      if (name === 'success') { stepNodes.forEach(step => step.classList.add('complete')); }
+    function showSuccessView() {
+      document.getElementById('checkout-view').classList.remove('active');
+      document.getElementById('success-view').classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', () => showView(button.dataset.go)));
     document.querySelectorAll('.method').forEach(method => method.addEventListener('click', () => {
       document.querySelectorAll('.method').forEach(item => { item.classList.remove('selected'); item.setAttribute('aria-checked', 'false'); });
-      method.classList.add('selected'); method.setAttribute('aria-checked', 'true'); selectedMethod = method.querySelector('b').textContent; methodLabel.textContent = selectedMethod; receiptMethod.textContent = selectedMethod;
+      method.classList.add('selected'); method.setAttribute('aria-checked', 'true'); selectedMethod = method.querySelector('b').textContent; if(receiptMethod) receiptMethod.textContent = selectedMethod;
     }));
     document.getElementById('make-payment').addEventListener('click', async () => {
       const btn = document.getElementById('make-payment');
@@ -254,7 +224,7 @@
               if (verifyData.message && verifyData.message.success) {
                 // Document receipt 
                 document.getElementById('receipt-method').textContent = 'Razorpay / ' + selectedMethod;
-                showView('success');
+                showSuccessView();
                 
                 // Redirect back to Flutter app after 2 seconds
                 setTimeout(() => {
