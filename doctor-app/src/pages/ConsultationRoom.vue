@@ -20,7 +20,7 @@
         <div class="min-w-0 max-w-[38vw] md:max-w-none">
           <div class="flex items-center gap-1.5 sm:gap-2">
             <h1 class="font-bold text-xs sm:text-base text-white truncate max-w-[90px] sm:max-w-none">
-              {{ patient.name }}
+              {{ patient.full_name }}
             </h1>
 
             <span class="hidden sm:inline-flex px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/30 flex-shrink-0">
@@ -88,7 +88,7 @@
               <FeatherIcon name="user" class="w-8 h-8 sm:w-12 sm:h-12 text-gray-500" />
             </div>
             <h3 class="text-base sm:text-lg font-bold text-white mb-1">Waiting for Patient</h3>
-            <p class="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4 px-2">{{ patient.name }} has been notified. Live video stream will start automatically when they connect.</p>
+            <p class="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4 px-2">{{ patient.full_name }} has been notified. Live video stream will start automatically when they connect.</p>
             <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 text-amber-300 text-xs border border-amber-500/20">
               <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
               Room: {{ channelName }}
@@ -620,7 +620,8 @@ const formattedTime = computed(() => {
 
 // Patient EHR Data
 const patient = ref({
-  name: 'Randhir',
+  patient_id: 'PAT-00001',
+  full_name: 'Randhir',
   age: 42,
   gender: 'Male',
   concern: 'Follow-up for Blood Sugar Control & Routine Health Check',
@@ -703,18 +704,17 @@ function submitRxImage() {
       return uploadResponse.json();
     })
     .then((uploadResult) => {
+        const fileUrl = uploadResult.message?.file_url;
 
-      const fileUrl = uploadResult.message?.file_url;
+        if (!fileUrl) {
+          throw new Error('Failed to upload prescription image.');
+        }
 
-      if (!fileUrl) {
-        throw new Error('Failed to upload prescription image.');
-      }
-
-            return parseRxResource.submit({
-        patient: patient.value.name,
-        file_url: fileUrl,
-        patient_appointment: bookingId.value,
-      });
+        return parseRxResource.submit({
+          patient: patient.value.patient_id,
+          file_url: fileUrl,
+          patient_appointment: bookingId.value,
+        });
     })
     .then((response) => {
       const prescription = response?.message || response;
@@ -869,6 +869,7 @@ onMounted(async () => {
   window.addEventListener('resize', handleResize);
 
   await loadExistingPrescription();
+  await getPatient();
   await joinRoom();
 });
 
@@ -1151,5 +1152,31 @@ async function leaveRoom() {
   router.push({
     name: 'Consultations',
   });
+}
+
+const getPatientResource = createResource({
+  url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.get_appointment_details',
+});
+
+async function getPatient() {
+  try {
+    const res = await getPatientResource.submit({
+      appointment: bookingId.value
+    });
+    
+    const result = res?.message || res || {};
+        
+    patient.value = { 
+      patient_id: result.patient || "Unknown Patient Id", 
+      full_name: result.full_name || "Unknown Patient Name", 
+      age: result.date_of_birth 
+            ? Math.floor((new Date() - new Date(result.date_of_birth)) / (365.25 * 24 * 60 * 60 * 1000)) 
+            : "n/a", 
+      gender: result.gender || "n/a", 
+      concern: result.main_complaints || ""
+    };
+  } catch (error) {
+    console.error('Failed to get appointment details: ', error);
+  }
 }
 </script>

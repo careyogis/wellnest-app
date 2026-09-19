@@ -120,6 +120,26 @@ def get_teleconsultation_appointments():
 
     return appointments
 
+
+@frappe.whitelist()
+def get_appointment_details(appointment):
+    doc = _get_appointment_for_current_practitioner(appointment)
+    
+    patient_data = frappe.db.get_value(
+        "Patient", 
+        doc.patient, 
+        ["full_name", "date_of_birth", "gender"], 
+        as_dict=True
+    ) or {}
+    
+    return {
+        "patient": doc.patient,
+        "full_name": patient_data.get("full_name"),
+        "date_of_birth": patient_data.get("date_of_birth"),
+        "gender": patient_data.get("gender"),
+        "main_complaints": doc.main_complaints
+    }
+
 def _get_agora_uid(user):
     """Return a stable numeric Agora UID for a user."""
     digest = hashlib.sha256(user.encode("utf-8")).digest()
