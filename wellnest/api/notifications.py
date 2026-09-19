@@ -12,7 +12,8 @@ def get_app_notifications(patient_id):
 		"App Notification",
 		filters={
 			"target_audience": "Global Broadcast",
-			"scheduled_time": ["<=", now]
+			"scheduled_time": ["<=", now],
+			"push_sent": 0
 		},
 		fields=["name", "title", "body", "action_type", "action_url", "creation"],
 		order_by="creation desc",
@@ -25,7 +26,8 @@ def get_app_notifications(patient_id):
 		filters={
 			"target_audience": "Specific Patient",
 			"patient": patient_id,
-			"scheduled_time": ["<=", now]
+			"scheduled_time": ["<=", now],
+			"push_sent": 0
 		},
 		fields=["name", "title", "body", "action_type", "action_url", "creation"],
 		order_by="creation desc",
