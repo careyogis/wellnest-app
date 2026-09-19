@@ -147,7 +147,7 @@ def _send_whatsapp_message(doctor_phone, doctor_name, patient_name, age, reason,
                         {"type": "text", "text": reason},
                         {"type": "text", "text": time},
                         {"type": "text", "text": mode},
-                        {"type": "text", "text": f"{site_url}/doctor-app/consultations?appointment={appointment_id}"}
+                        {"type": "text", "text": f"{site_url}/doctor-app/consultations/{appointment_id}"}
                     ]
                 }
             ]
@@ -157,10 +157,10 @@ def _send_whatsapp_message(doctor_phone, doctor_name, patient_name, age, reason,
 	response = requests.post(url, json=payload, headers=headers)
 	return response.json()
 
-def _send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patient_appointId, scheduled_datetime, consultation_type, patient_name, age, reason):	
+def _send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patient_appointmentId, scheduled_datetime, consultation_type, patient_name, age, reason):	
 	import requests
 
-	_logInfo(f"Sending WhatsApp message to {practitioner_name} ({practitioner_mobile}) for appointment {patient_appointId}, Time: {scheduled_datetime}, Mode: {consultation_type}")
+	_logInfo(f"Sending WhatsApp message to {practitioner_name} ({practitioner_mobile}) for appointment {patient_appointmentId}, Time: {scheduled_datetime}, Mode: {consultation_type}")
 
 	access_token = frappe.conf.get('ACCESS_TOKEN')
 	phone_number_id = frappe.conf.get('PHONE_NUMBER_ID')
@@ -194,7 +194,7 @@ def _send_booking_whatsapp_message(practitioner_name, practitioner_mobile, patie
                         {"type": "text", "text": reason or "Not Provided"},
                         {"type": "text", "text": scheduled_datetime},
                         {"type": "text", "text": consultation_type},
-                        {"type": "text", "text": f"{site_url}/doctor-app/consultations?appointment={patient_appointId}"}
+                        {"type": "text", "text": f"{site_url}/doctor-app/consultations/{patient_appointmentId}"}
 
                     ]
                 }

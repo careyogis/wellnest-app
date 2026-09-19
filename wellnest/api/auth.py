@@ -4,22 +4,16 @@ import json
 from datetime import datetime
 import firebase_admin
 from firebase_admin import credentials, auth as firebase_auth
-
+import re
 
 IDENTITY_TOOLKIT_BASE = "https://identitytoolkit.googleapis.com/v1"
 
 @frappe.whitelist(allow_guest=True)
-def send_otp(phone: str, recaptcha_token: str):
+def send_practitioner_otp(phone: str, recaptcha_token: str):
 	if not phone or not recaptcha_token:
 		frappe.throw("phone and recaptcha_token are required")
 
-	lookup_phone = phone
-	if lookup_phone.startswith("+91"):
-		lookup_phone = lookup_phone[3:]
-
-	practitioner = frappe.db.get_value(
-		"Practitioner", {"mobile": lookup_phone}, "name"
-	)
+	phone, practitioner = _lookup_practitioner_by_phone(phone)
 
 	if not practitioner:
 		frappe.throw("No doctor found with this number")
@@ -27,18 +21,12 @@ def send_otp(phone: str, recaptcha_token: str):
 	return _send_firebase_otp(phone, recaptcha_token)
 
 @frappe.whitelist(allow_guest=True)
-def send_registration_otp(phone: str, recaptcha_token: str):
+def send_practitioner_registration_otp(phone: str, recaptcha_token: str):
 	if not phone or not recaptcha_token:
 		frappe.throw("phone and recaptcha_token are required")
 
 	# Check if the phone number is already registered
-	lookup_phone = phone
-	if lookup_phone.startswith("+91"):
-		lookup_phone = lookup_phone[3:]
-
-	practitioner = frappe.db.get_value(
-		"Practitioner", {"mobile": lookup_phone}, "name"
-	)
+	phone, practitioner = _lookup_practitioner_by_phone(phone)
 
 	if practitioner:
 		frappe.throw("This phone is already registered.", frappe.DuplicateEntryError)
@@ -46,30 +34,14 @@ def send_registration_otp(phone: str, recaptcha_token: str):
 	return _send_firebase_otp(phone, recaptcha_token)
 
 @frappe.whitelist(allow_guest=True)
-def verify_otp_and_login(session_info: str, phone: str, otp: str):
+def verify_practitioner_otp_and_login(session_info: str, phone: str, otp: str):
 	firebase_data = _verify_firebase_otp(session_info, otp)
 
 	uid = firebase_data["uid"]
-	phone_number = phone
 	is_new_user = firebase_data["is_new_user"]
 
-	lookup_phone = phone_number
-
-	if lookup_phone and lookup_phone.startswith("+91"):
-		lookup_phone = lookup_phone[3:]
-
-	user = frappe.db.get_value(
-		"User",
-		{"mobile_no": phone_number},
-		"name"
-	)
-
-	if not user and lookup_phone:
-		user = frappe.db.get_value(
-			"User",
-			{"mobile_no": lookup_phone},
-			"name"
-		)
+	# get cleaned up phone any user found
+	phone, user = _lookup_user_by_phone(phone)
 
 	if not user:
 		frappe.throw("User not found for this mobile number")
@@ -90,7 +62,7 @@ def verify_otp_and_login(session_info: str, phone: str, otp: str):
 		"user": user,
 		"custom_token": custom_token.decode("utf-8"),
 		"uid": uid,
-		"phone_number": phone_number,
+		"phone_number": phone,
 		"is_new_user": is_new_user,
 	}
 
@@ -140,7 +112,7 @@ def verify_customer_firebase_token(id_token: str):
 	}
 
 @frappe.whitelist(allow_guest=True)
-def verify_practitioner_registration_otp(
+def verify_practitioner_registration_otp_and_register(
 	session_info: str,
 	code: str,
 	first_name: str,
@@ -153,18 +125,19 @@ def verify_practitioner_registration_otp(
 	uid = firebase_data["uid"]
 	phone_number = firebase_data["phone_number"]
 
+	if not first_name or not last_name or not email or not mobile:
+		frappe.throw("Registration details are incomplete")
+
 	first_name = first_name.strip()
 	last_name = last_name.strip()
 	email = email.strip().lower()
 	mobile = mobile.strip()
 
-	if not first_name or not last_name or not email or not mobile:
-		frappe.throw("Registration details are incomplete")
+	# Check if the phone number is already registered
+	mobile, practitioner = _lookup_practitioner_by_phone(mobile)
 
-	lookup_mobile = mobile
-
-	if lookup_mobile.startswith("+91"):
-		lookup_mobile = lookup_mobile[3:]
+	if practitioner:
+		frappe.throw("A Practitioner already exists with this mobile number.")
 
 	try:
 		# manually starting transaction for multi-doctype updates 
@@ -175,7 +148,7 @@ def verify_practitioner_registration_otp(
 				"first_name": first_name,
 				"last_name": last_name,
 				"email": email,
-				"mobile_no": lookup_mobile,
+				"mobile_no": mobile,
 				"user_type": "Website User",
 				"username": email,
 				"roles": [{"role": "Doctor"}],
@@ -189,7 +162,7 @@ def verify_practitioner_registration_otp(
 				"first_name": first_name,
 				"last_name": last_name,
 				"email": email,
-				"mobile": lookup_mobile,
+				"mobile": mobile,
 				"user_id": user.name,
 				"title": "Dr.",
 			}
@@ -197,7 +170,7 @@ def verify_practitioner_registration_otp(
 	except frappe.ValidationError as e:
 		frappe.db.rollback()
 		frappe.log_error(
-			title="Duplicate entry error while creating Practitioner/User account",
+			title="Duplicate entry error while creating User account",
 			message=frappe.as_json({"error": str(e), "email": email, "mobile": mobile}),
 		)
 		frappe.throw("Practitioner/user account with this email/mobile already exists. Please login instead.", frappe.DuplicateEntryError)
@@ -353,36 +326,6 @@ def register_customer(id_token: str, full_name: str):
 		"patient": patient_doc.name
 	}
 
-@frappe.whitelist(allow_guest=True)
-def register_doctor(
-	first_name: str,
-	last_name: str,
-	email: str,
-	mobile: str,
-):
-	if not first_name or not last_name or not email or not mobile:
-		frappe.throw("First name, last name, email and mobile number are required")
-
-	first_name = first_name.strip()
-	last_name = last_name.strip()
-	email = email.strip().lower()
-	mobile = mobile.strip()
-
-	if not first_name or not last_name or not email or not mobile:
-		frappe.throw("All registration fields are required")
-
-	lookup_mobile = mobile
-	if lookup_mobile.startswith("+91"):
-		lookup_mobile = lookup_mobile[3:]
-
-	return {
-		"success": True,
-		"first_name": first_name,
-		"last_name": last_name,
-		"email": email,
-		"mobile": lookup_mobile,
-	}
-
 
 # Helper/private functions area
 def _get_firebase_app():
@@ -476,3 +419,41 @@ def _verify_firebase_otp(session_info: str, code: str):
 		"phone_number": data.get("phoneNumber"),
 		"is_new_user": data.get("isNewUser", False),
 	}
+
+def _lookup_practitioner_by_phone(phone):
+    # Remove everything except digits and + sign.
+    phone = re.sub(r"[^\d+]", "", phone)
+    
+	# Strip the +91 prefix for the clean lookup number
+    lookup_phone = phone[3:] if phone.startswith("+91") else phone
+
+	# unique string set
+    phone_variants = list(set([phone, lookup_phone]))
+
+	# one single query checks for phone with country code and without it
+    practitioner = frappe.db.get_value(
+		"Practitioner", 
+		{"mobile": ["in", phone_variants]}, 
+		"name"
+	)	 
+    return phone, practitioner
+
+def _lookup_user_by_phone(phone):
+	# Remove everything except digits and + sign.
+	phone = re.sub(r"[^\d+]", "", phone)
+
+	lookup_phone = phone
+    
+	# Strip the +91 prefix for the clean lookup number
+	lookup_phone = phone[3:] if phone.startswith("+91") else phone
+
+	# unique string set
+	phone_variants = list(set([phone, lookup_phone]))
+
+	# one single query checks for phone with country code and without it
+	user = frappe.db.get_value(
+		"User", 
+		{"mobile_no": ["in", phone_variants]}, 
+		"name"
+	)
+	return phone, user

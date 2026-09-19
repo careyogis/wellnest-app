@@ -151,11 +151,11 @@ const verifyingOtp = ref(false);
 let recaptchaWidgetId: number | null = null;
 
 const sendOtpResource = createResource({
-  url: 'wellnest.api.auth.send_registration_otp',
+  url: 'wellnest.api.auth.send_practitioner_registration_otp',
 });
 
 const verifyOtpResource = createResource({
-  url: 'wellnest.api.auth.verify_practitioner_registration_otp',
+  url: 'wellnest.api.auth.verify_practitioner_registration_otp_and_register',
 });
 
 onMounted(() => {

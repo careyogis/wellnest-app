@@ -1,0 +1,84 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "HV-.######",
+ "creation": "2026-09-19 19:18:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "patient",
+  "batch_number",
+  "document_type",
+  "document"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1
+  },
+  {
+   "fieldname": "batch_number",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Batch Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "document_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Document Type",
+   "options": "Prescription\nDischarge Summary\nLab Report\nOther",
+   "reqd": 1
+  },
+  {
+   "fieldname": "document",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Document",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-19 19:18:00.000000",
+ "modified_by": "Administrator",
+ "module": "WellNest",
+ "name": "Health Vault",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "role": "Customer",
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "select": 1,
+   "share": 0,
+   "write": 1
+  }
+],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
