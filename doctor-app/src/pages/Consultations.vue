@@ -398,6 +398,7 @@ const selectedConsultation = ref(null);
 const expandedReasons = ref(new Set());
 const joiningConsultation = ref(false);
 
+const showPrescriptionPreview = ref(false);
 const uploadedPrescriptionVisible = ref(false);
 
 const prescriptionUploadProcessing = ref(false);
@@ -468,6 +469,7 @@ const consultations = computed(() => {
     reason: appointment.main_complaints || 'No reason provided',
     workflow: 'Clinical consultation',
     appointment: appointment.name,
+    scheduledTime: appointment.scheduled_time,
   }));
 });
 
@@ -477,7 +479,23 @@ const filteredConsultations = computed(() => {
   }
 
   if (statusFilter.value === 'Upcoming') {
-    return consultations.value.filter((consultation) => consultation.bookingStatus !== 'Completed' && consultation.paymentStatus === 'Paid');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return consultations.value.filter((consultation) => {
+      const isUpcomingStatus = consultation.bookingStatus !== 'Completed';
+      if (!isUpcomingStatus) return false;
+
+      if (consultation.scheduledTime) {
+        const dateStr = String(consultation.scheduledTime).trim().split(' ')[0];
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+          const appointmentDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+          return appointmentDate >= today;
+        }
+      }
+      return true;
+    });
   }
 
   if (statusFilter.value === 'Completed') {
@@ -500,6 +518,11 @@ function selectConsultation(consultation) {
   prescriptionUploadProcessing.value = false;
   prescriptionUploadCompleted.value = false;
   prescriptionUploadFileName.value = '';
+
+  const currentId = route.params.bookingId || route.query.bookingId || route.query.appointment;
+  if (currentId !== consultation.id) {
+    router.replace({ name: 'ConsultationDetails', params: { bookingId: consultation.id } });
+  }
 }
 
 function isReasonExpanded(id) {
@@ -644,13 +667,14 @@ watch(
       return;
     }
 
-    const appointmentIdFromUrl = route.query.appointment;
+    const appointmentIdFromUrl = route.query.bookingId || route.params.bookingId || route.query.appointment;
 
     if (appointmentIdFromUrl) {
-      const matchingConsultation = items.find((item) => item.id === appointmentIdFromUrl);
+      const searchId = String(appointmentIdFromUrl).toLowerCase();
+      const matchingConsultation = items.find((item) => String(item.id).toLowerCase() === searchId);
 
       if (matchingConsultation) {
-        selectedConsultation.value = matchingConsultation;
+        selectConsultation(matchingConsultation);
         return;
       }
     }
@@ -658,7 +682,7 @@ watch(
     const selectedStillExists = items.some((item) => item.id === selectedConsultation.value?.id);
 
     if (!selectedStillExists) {
-      selectedConsultation.value = items[0];
+      selectConsultation(items[0]);
     }
   },
   { immediate: true }

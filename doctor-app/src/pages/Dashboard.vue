@@ -34,12 +34,12 @@
           </div>
         </div>
     <div class="text-3xl font-bold text-gray-900 mb-1">
-  {{ consultationsResource.data?.length || 0 }}
+  {{ todaysConsultations.length }}
 </div>
 
 <div class="text-xs text-gray-400">
   {{
-    consultationsResource.data?.length
+    todaysConsultations.length
       ? 'Consultations scheduled'
       : 'No consultations yet'
   }}
@@ -87,9 +87,9 @@
           <RouterLink :to="{ name: 'Consultations' }" class="text-sm font-semibold text-amber-600 hover:underline">View consultations</RouterLink>
         </div>
 
-       <div class="space-y-3">
+        <div class="space-y-3">
   <div
-    v-for="consultation in consultationsResource.data || []"
+    v-for="consultation in todaysConsultations"
     :key="consultation.name"
    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border border-gray-200 rounded-xl p-4"
   >
@@ -119,14 +119,14 @@
              bg-amber-500 text-white
              text-sm font-semibold
              hover:bg-amber-600"
-      @click="router.push({ name: 'Consultations' })"
+      @click="router.push({ name: 'ConsultationDetails', params: { bookingId: consultation.name } })"
     >
       Open consultation
     </button>
   </div>
 
   <div
-    v-if="!consultationsResource.data?.length"
+    v-if="!todaysConsultations.length"
     class="text-center py-10 text-gray-400 text-sm"
   >
     Nothing needs your attention right now.
@@ -186,12 +186,27 @@
 <script setup>
 import { FeatherIcon, createResource } from 'frappe-ui';
 import { RouterLink, useRouter } from 'vue-router';
+import { computed } from 'vue';
 
 const router = useRouter();
 
 const consultationsResource = createResource({
   url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.get_teleconsultation_appointments',
   auto: true,
+});
+
+const todaysConsultations = computed(() => {
+  const data = consultationsResource.data || [];
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  
+  return data.filter((appointment) => {
+    if (appointment.scheduled_time) {
+      const datePart = String(appointment.scheduled_time).trim().split(' ')[0];
+      return datePart === todayStr;
+    }
+    return false;
+  });
 });
 
 const quickActions = [

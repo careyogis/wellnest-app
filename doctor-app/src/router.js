@@ -19,7 +19,7 @@ const routes = [
   },
   {
     name: 'ConsultationRoom',
-    path: '/consultations/:bookingId',
+    path: '/consultation-room/:bookingId',
     component: () => import('@/pages/ConsultationRoom.vue'),
   },
   {
@@ -50,6 +50,11 @@ const routes = [
       {
         name: 'Consultations',
         path: 'consultations',
+        component: () => import('@/pages/Consultations.vue'),
+      },
+      {
+        name: 'ConsultationDetails',
+        path: 'consultations/:bookingId',
         component: () => import('@/pages/Consultations.vue'),
       },
       {
