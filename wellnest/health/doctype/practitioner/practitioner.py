@@ -9,6 +9,7 @@ import frappe
 from frappe.website.website_generator import WebsiteGenerator
 from collections.abc import Iterable
 from frappe.utils.data import comma_and
+import re
 
 
 class Practitioner(WebsiteGenerator):
@@ -30,6 +31,9 @@ class Practitioner(WebsiteGenerator):
 
 	def before_save(self):		
 		self.full_name = f"{self.title} {self.first_name} {self.last_name}";
+		self.mobile = self.mobile
+		# Remove everything except digits and + sign.
+		self.mobile = re.sub(r"[^\d+]", "", self.mobile)
 
 	def validate(self):
 		super().validate()
@@ -63,6 +67,13 @@ def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length=2
     # 1. Fetch the default fields for the rows
     fields = ["name", "title", "route", "modified", "full_name", "designation", "specialty", "super_specialty", "gender", "telemedicine_certified", "photo", "first_name", "available_for_home_visits", "practicing_from", "average_rating", "total_reviews", "city", "state", "currency", "online_charge", "clinic_charge", "home_visit_charge"]
     
+    if not filters:
+        filters = {"is_active": 1}
+    elif isinstance(filters, dict):
+        filters["is_active"] = 1
+    elif isinstance(filters, list):
+        filters.append(["is_active", "=", 1])
+
     # You can also use frappe.qb or frappe.get_all
     practitioners = frappe.get_list(
         doctype,
@@ -70,7 +81,7 @@ def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length=2
         fields=fields,
         limit_start=limit_start,
         limit_page_length=limit_page_length,
-        order_by="practicing_from, online_charge",
+        order_by="isnull(practicing_from) asc, ifnull(online_charge, 9999999) div greatest(1, ifnull(timestampdiff(year, practicing_from, now()), 0)) asc",
         ignore_permissions=True
     )
 
