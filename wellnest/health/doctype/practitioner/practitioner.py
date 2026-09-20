@@ -67,23 +67,54 @@ def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length=2
     # 1. Fetch the default fields for the rows
     fields = ["name", "title", "route", "modified", "full_name", "designation", "specialty", "super_specialty", "gender", "telemedicine_certified", "photo", "first_name", "available_for_home_visits", "practicing_from", "average_rating", "total_reviews", "city", "state", "currency", "online_charge", "clinic_charge", "home_visit_charge"]
     
-    if not filters:
-        filters = {"is_active": 1}
-    elif isinstance(filters, dict):
-        filters["is_active"] = 1
-    elif isinstance(filters, list):
-        filters.append(["is_active", "=", 1])
-
-    # You can also use frappe.qb or frappe.get_all
-    practitioners = frappe.get_list(
-        doctype,
-        filters=filters,
-        fields=fields,
-        limit_start=limit_start,
-        limit_page_length=limit_page_length,
-        order_by="isnull(practicing_from) asc, ifnull(online_charge, 9999999) div greatest(1, ifnull(timestampdiff(year, practicing_from, now()), 0)) asc",
-        ignore_permissions=True
-    )
+    conditions = ["is_active = 1"]
+    values = {}
+    
+    if filters:
+        if isinstance(filters, dict):
+            for k, v in filters.items():
+                if k == "is_active": continue
+                conditions.append(f"`{k}` = %({k})s")
+                values[k] = v
+        elif isinstance(filters, list):
+            for f in filters:
+                if len(f) == 3:
+                    field, op, val = f
+                elif len(f) == 4:
+                    _, field, op, val = f
+                else:
+                    continue
+                
+                if field == "is_active": continue
+                
+                if op.lower() in ("=", "!=", ">", "<", ">=", "<=", "like"):
+                    # Use a unique key for values dict in case of multiple filters on same field
+                    val_key = f"{field}_{len(values)}"
+                    conditions.append(f"`{field}` {op} %({val_key})s")
+                    values[val_key] = val
+                    
+    if txt:
+        conditions.append("(`full_name` LIKE %(txt)s OR `specialty` LIKE %(txt)s)")
+        values["txt"] = f"%{txt}%"
+        
+    where_clause = " AND ".join(conditions)
+    fields_str = ", ".join([f"`{f}`" for f in fields])
+    
+    limit_clause = ""
+    if limit_page_length:
+        limit_clause = f" LIMIT {frappe.utils.cint(limit_page_length)} OFFSET {frappe.utils.cint(limit_start or 0)} "
+        
+    query = f"""
+        SELECT {fields_str}
+        FROM `tab{doctype}`
+        WHERE {where_clause}
+        ORDER BY 
+            isnull(practicing_from) asc, 
+            ifnull(online_charge, 9999999) div greatest(1, ifnull(timestampdiff(year, practicing_from, now()), 0)) asc
+        {limit_clause}
+    """
+    
+    practitioners = frappe.db.sql(query, values, as_dict=True)
 
     # "education_history", "languages_known", 
 
