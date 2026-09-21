@@ -64,38 +64,75 @@ frappe.ui.form.on("Practitioner", {
         frm.refresh_field('availability_days');		
 	},
 
-	setup_availability_days_buttons: function (frm) {
-		const labels = ["Weekends", "Weekdays", "All Days"];
-		let get_days = (label) => {
-			const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-			const weekends = ["Saturday", "Sunday"];
-			return {
-				"All Days": weekdays.concat(weekends),
-				Weekdays: weekdays,
-				Weekends: weekends,
-			}[label];
-		};
+setup_availability_days_buttons: function (frm) {
+        const grid = frm.fields_dict["availability_days"].grid;
 
-		let set_days = (e) => {
-			frm.clear_table("availability_days");
-			const label = $(e.currentTarget).text();
-			get_days(label).forEach((day) => frm.add_child("availability_days", { day: day }));
-			frm.refresh_field("availability_days");
-		};
+        const labels = ["Weekends", "Weekdays", "All Days"];
 
-		labels.forEach((label) =>
-			frm.fields_dict["availability_days"].grid.add_custom_button(label, set_days, "top")
-		);
-	},
+        let get_days = (label) => {
+                const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+                const weekends = ["Saturday", "Sunday"];
 
-	copy_to_all_days: function(frm) {
-		// Ease of use feature
-		(frm.doc.availability_days || []).forEach(row => {
-			row.online_from = row.emergency_from = row.clinic_from = frm.doc.from_time;
-			row.online_to = row.emergency_to = row.clinic_to = frm.doc.to_time;
-		});
+                return {
+                        "All Days": weekdays.concat(weekends),
+                        Weekdays: weekdays,
+                        Weekends: weekends,
+                }[label];
+        };
 
-		frm.refresh_field('availability_days');		
-	},
+        let set_days = (e) => {
+                frm.clear_table("availability_days");
+
+                const label = $(e.currentTarget).text();
+
+                get_days(label).forEach((day) =>
+                        frm.add_child("availability_days", { day: day })
+                );
+
+                frm.refresh_field("availability_days");
+        };
+
+        labels.forEach((label) =>
+                grid.add_custom_button(label, set_days, "top")
+        );
+
+        grid.add_custom_button(
+                __("Copy to All Days"),
+                function () {
+                        const selected_days = grid.get_selected_children();
+
+                        if (selected_days.length !== 1) {
+                                frappe.msgprint(
+                                        __("Please select exactly one day to copy.")
+                                );
+                                return;
+                        }
+
+                        const source_day = selected_days[0];
+
+                        (frm.doc.availability_days || []).forEach((day) => {
+                                if (day.name === source_day.name) {
+                                        return;
+                                }
+
+                                day.online_from = source_day.online_from || "";
+                                day.online_to = source_day.online_to || "";
+                                day.emergency_from = source_day.emergency_from || "";
+                                day.emergency_to = source_day.emergency_to || "";
+                                day.clinic_from = source_day.clinic_from || "";
+                                day.clinic_to = source_day.clinic_to || "";
+                        });
+
+                        frm.refresh_field("availability_days");
+
+                        frappe.show_alert({
+                                message: __("Availability timings copied to all days."),
+                                indicator: "green",
+                        });
+                },
+                "top"
+        );
+},
+
 },
 );

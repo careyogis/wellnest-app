@@ -61,11 +61,6 @@
   "is_active",
   "is_published",
   "route",
-  "availability_slots_section",
-  "from_time",
-  "column_break_xrii",
-  "to_time",
-  "copy_to_all_days",
   "availability_days_section",
   "availability_days",
   "feedback_section",
@@ -290,11 +285,6 @@
    "options": "currency"
   },
   {
-   "fieldname": "availability_slots_section",
-   "fieldtype": "Section Break",
-   "label": "Availability Slots"
-  },
-  {
    "fieldname": "availability_days",
    "fieldtype": "Table",
    "label": "Availability Days",
@@ -350,28 +340,6 @@
    "fieldname": "additional_information",
    "fieldtype": "Data",
    "label": "Additional Infomation"
-  },
-  {
-   "fieldname": "from_time",
-   "fieldtype": "Time",
-   "label": "From Time",
-   "placeholder": "Time in HH:MM:SS"
-  },
-  {
-   "fieldname": "to_time",
-   "fieldtype": "Time",
-   "label": "To Time",
-   "mandatory_depends_on": "eval: doc.available_from",
-   "placeholder": "Time in HH:MM:SS"
-  },
-  {
-   "fieldname": "copy_to_all_days",
-   "fieldtype": "Button",
-   "label": "Copy to All Days"
-  },
-  {
-   "fieldname": "column_break_xrii",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "availability_days_section",
@@ -446,13 +414,12 @@
    "read_only": 1
   }
  ],
- "grid_page_length": 50,
  "has_web_view": 1,
  "image_field": "photo",
  "index_web_pages_for_search": 1,
  "is_published_field": "is_published",
  "links": [],
- "modified": "2026-09-03 08:58:24.826867",
+ "modified": "2026-09-21 14:04:08.672420",
  "modified_by": "Administrator",
  "module": "Health",
  "name": "Practitioner",
@@ -506,8 +473,6 @@
   }
  ],
  "route": "practitioners",
- "row_format": "Dynamic",
- "rows_threshold_for_grid_search": 20,
  "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
