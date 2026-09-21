@@ -207,6 +207,16 @@
               placeholder="Enter follow-up advice"
               class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
             ></textarea>
+            <label class="block text-sm font-medium text-gray-900 mb-2 mt-4">
+  Follow-up Duration
+</label>
+
+<input
+  v-model="followUpDuration"
+  type="text"
+  placeholder="e.g. 7 days"
+  class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+/>
           </div>
         </section>
       </main>

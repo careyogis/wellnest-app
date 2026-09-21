@@ -271,10 +271,10 @@
               <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Prescription Details</h4>
 
               <textarea
-                v-model="diagnosis"
+                v-model="provisionalDiagnosis"
                 :disabled="!isEditingPrescription"
                 rows="2"
-                placeholder="Diagnosis"
+                placeholder="Provisional Diagnosis"
                 class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
               ></textarea>
 
@@ -287,10 +287,10 @@
               ></textarea>
 
               <textarea
-                v-model="generalInstructions"
+                v-model="adviceNotes"
                 :disabled="!isEditingPrescription"
                 rows="2"
-                placeholder="General Instructions"
+                placeholder="Follow-up Advice"
                 class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
               ></textarea>
 
@@ -666,9 +666,7 @@ function onRxImageSelected(event) {
 }
 
 function populatePrescription(prescription) {
-  diagnosis.value = prescription?.diagnosis || '';
   investigations.value = prescription?.investigations || '';
-  generalInstructions.value = prescription?.general_instructions || '';
   followUpDuration.value = prescription?.follow_up_duration || '';
   adviceNotes.value = prescription?.follow_up_advice || '';
   examination.value = prescription?.examination || '';
@@ -925,11 +923,7 @@ async function loadExistingPrescription() {
 
     rxSubmitted.value = prescription.workflow_state === 'Complete';
 
-    diagnosis.value = prescription.diagnosis || '';
-
     investigations.value = prescription.investigations || '';
-
-    generalInstructions.value = prescription.general_instructions || '';
 
     followUpDuration.value = prescription.follow_up_duration || '';
 
@@ -955,9 +949,7 @@ async function loadExistingPrescription() {
 // Smart Rx Data
 const medicines = ref([]);
 const prescriptionParsed = ref(false);
-const diagnosis = ref('');
 const investigations = ref('');
-const generalInstructions = ref('');
 const followUpDuration = ref('');
 const adviceNotes = ref('');
 const examination = ref('');
@@ -1143,9 +1135,7 @@ async function savePrescriptionDraft() {
       name: prescriptionName.value || undefined,
       appointment: bookingId.value,
 
-      diagnosis: diagnosis.value,
       investigations: investigations.value,
-      general_instructions: generalInstructions.value,
 
       follow_up_duration: followUpDuration.value,
       follow_up_advice: adviceNotes.value,

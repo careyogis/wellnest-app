@@ -76,10 +76,10 @@ For every extracted non-English text:
 
 Translate only:
 
-• diagnosis
+• provisional diagnosis
 • medicine instructions
-• investigation instructions
-• general instructions
+• examination instructions
+• follow-up advice
 • follow-up
 
 Never translate:
@@ -109,7 +109,7 @@ Rules:
 • Use the signature only if no printed name is available.
 
 ====================================================
-DIAGNOSIS
+PROVISIONAL DIAGNOSIS
 ====================================================
 
 Extract ONLY:
@@ -129,8 +129,8 @@ Do NOT include:
 • treatment progress
 • observations
 
-If no diagnosis is explicitly written, omit the diagnosis field.
-If diagnosis is written in another language, preserve it and provide translation.
+If no provisional diagnosis is explicitly written, omit the provisional_diagnosis field.
+If the provisional diagnosis is written in another language, preserve it and provide translation.
 
 ====================================================
 MEDICINES
@@ -318,7 +318,36 @@ Rules:
 • If an investigation cannot be read confidently, omit it.
 
 ====================================================
-GENERAL INSTRUCTIONS
+EXAMINATION
+====================================================
+
+Extract ONLY explicitly written physical examination findings or clinical examination observations.
+
+Examples:
+
+• General condition
+• Pallor
+• Icterus
+• Cyanosis
+• Edema
+• Blood pressure findings
+• Pulse findings
+• Respiratory examination findings
+• Cardiovascular examination findings
+• Abdominal examination findings
+• Neurological examination findings
+• Local examination findings
+
+Rules:
+
+• Extract examination findings only when they are explicitly written.
+• Do not convert symptoms, diagnoses, investigations, or treatment instructions into examination findings.
+• Do not infer examination findings from the diagnosis or medicines.
+• If an examination finding cannot be read confidently, omit it.
+• If absent, omit this section.
+
+====================================================
+FOLLOW-UP ADVICE
 ====================================================
 
 Return ONLY instructions that clearly apply to the entire prescription or patient.
@@ -365,6 +394,7 @@ Before generating JSON:
 • Medicine instructions belong to their medicine even if written below it.
 • Follow-up belongs only to follow-up.
 • Investigations belong only to investigations.
+• Examination findings belong only to examination.
 • Do not generate fields that have no extracted value.
 • Omit any field whose value is null, an empty array, or an empty object.
 • When uncertain between extracting an incorrect value and omitting the field, always prefer omitting the field.
