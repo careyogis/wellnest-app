@@ -9,6 +9,7 @@
   "patient_appointment",
   "patient",
   "practitioner",
+  "prescription_date",
   "diagnosis",
   "investigations",
   "general_instructions",
@@ -38,6 +39,11 @@
    "in_list_view": 1,
    "label": "Practitioner",
    "options": "Practitioner"
+  },
+  {
+   "fieldname": "prescription_date",
+   "fieldtype": "Date",
+   "label": "Prescription Date"
   },
   {
    "fieldname": "followup_expiry_date",

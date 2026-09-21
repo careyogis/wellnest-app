@@ -46,6 +46,8 @@ def process_prescription(
     if patient_appointment:
         doc.patient_appointment = patient_appointment
 
+    doc.prescription_date = prescription.get("date") or ""
+
     # Diagnosis
     diagnoses = prescription.get("diagnosis") or []
     doc.diagnosis = "\n".join(
