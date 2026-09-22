@@ -538,6 +538,8 @@ const provisionalDiagnosis = ref('');
 
 const followUpAdvice = ref('');
 
+const followUpDuration = ref('');
+
 // Existing prescription data - KEEP FOR NOW
 const medicines = ref([]);
 const prescriptionName = ref(null);
@@ -663,6 +665,8 @@ async function loadClinicalRecord() {
       investigations.value = prescription.investigations ? prescription.investigations.split('\n').filter((item) => item.trim()) : [];
 
       followUpAdvice.value = prescription.follow_up_advice || '';
+
+      followUpDuration.value = prescription.follow_up_duration || '';
 
       medicines.value = (prescription.medicines || []).map((medicine) => ({
         medicine: medicine.medicine_name || '',
@@ -1286,6 +1290,7 @@ defineExpose({
   vitals,
   medicines,
   followUpAdvice,
+  followUpDuration,
   provisionalDiagnosis,
   investigations,
   previewDetails,
