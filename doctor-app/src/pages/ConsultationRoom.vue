@@ -233,14 +233,15 @@
                 <img :src="rxImagePreview || rxPersistedImage" alt="Rx preview" class="w-full rounded-lg border border-gray-700 object-contain max-h-48" />
                 <div class="flex gap-2">
                   <button
-                    v-if="rxImagePreview"
+                    v-if="rxImagePreview && !rxProcessingStarted"
                     @click="submitRxImage"
                     :disabled="rxParseLoading"
                     type="button"
                     class="flex-1 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold text-xs flex items-center justify-center gap-1.5 transition-all"
                   >
-                    <FeatherIcon :name="rxParseLoading ? 'loader' : 'upload-cloud'" class="w-3.5 h-3.5" :class="rxParseLoading ? 'animate-spin' : ''" />
-                    {{ rxParseLoading ? 'Sending...' : 'Submit' }}
+                    <FeatherIcon name="upload-cloud" class="w-3.5 h-3.5" />
+
+                    Submit
                   </button>
                   <button @click="clearRxImage" v-if="rxImagePreview" type="button" class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs font-bold transition-all">
                     Clear
@@ -265,151 +266,134 @@
               </div>
             </div>
 
-<!-- Prescription Details -->
-<div
-  v-if="prescriptionParsed"
-  class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2.5"
->
-  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">
-    Prescription Details
-  </h4>
+            <!-- Prescription Details -->
+            <div v-if="prescriptionParsed" class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2.5">
+              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Prescription Details</h4>
 
-  <textarea
-    v-model="diagnosis"
-    :disabled="!isEditingPrescription"
-    rows="2"
-    placeholder="Diagnosis"
-    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-  ></textarea>
+              <textarea
+                v-model="diagnosis"
+                :disabled="!isEditingPrescription"
+                rows="2"
+                placeholder="Diagnosis"
+                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+              ></textarea>
 
-  <textarea
-    v-model="investigations"
-    :disabled="!isEditingPrescription"
-    rows="2"
-    placeholder="Investigations"
-    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-  ></textarea>
+              <textarea
+                v-model="investigations"
+                :disabled="!isEditingPrescription"
+                rows="2"
+                placeholder="Investigations"
+                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+              ></textarea>
 
-  <textarea
-    v-model="generalInstructions"
-    :disabled="!isEditingPrescription"
-    rows="2"
-    placeholder="General Instructions"
-    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-  ></textarea>
+              <textarea
+                v-model="generalInstructions"
+                :disabled="!isEditingPrescription"
+                rows="2"
+                placeholder="General Instructions"
+                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+              ></textarea>
 
-  <input
-    v-model="followUpDuration"
-    :disabled="!isEditingPrescription"
-    type="text"
-    placeholder="Follow-up Duration"
-    class="w-full bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
-  />
-</div>
+              <input
+                v-model="followUpDuration"
+                :disabled="!isEditingPrescription"
+                type="text"
+                placeholder="Follow-up Duration"
+                class="w-full bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+              />
+            </div>
 
-<!-- Prescribed Medicines -->
-<div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2.5">
-  <div class="flex items-center justify-between">
-    <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider">
-      Prescribed Medicines
-    </h4>
+            <!-- Prescribed Medicines -->
+            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2.5">
+              <div class="flex items-center justify-between">
+                <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider">Prescribed Medicines</h4>
 
-    <button
-      v-if="isEditingPrescription"
-      @click="addMedicine"
-      type="button"
-      class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1"
-    >
-      <FeatherIcon name="plus" class="w-3 h-3" /> Add Drug
-    </button>
-  </div>
+                <button
+                  v-if="isEditingPrescription"
+                  @click="addMedicine"
+                  type="button"
+                  class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1"
+                >
+                  <FeatherIcon name="plus" class="w-3 h-3" /> Add Drug
+                </button>
+              </div>
 
-  <!-- Medicine Fields -->
-  <div
-    v-for="(med, index) in medicines"
-    :key="med.id || index"
-    class="space-y-1.5"
-  >
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-      <input
-        v-model="med.name"
-        :disabled="!isEditingPrescription"
-        type="text"
-        placeholder="Medicine Name"
-        class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
-      />
+              <!-- Medicine Fields -->
+              <div v-for="(med, index) in medicines" :key="med.id || index" class="space-y-1.5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                  <input
+                    v-model="med.name"
+                    :disabled="!isEditingPrescription"
+                    type="text"
+                    placeholder="Medicine Name"
+                    class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+                  />
 
-      <input
-        v-model="med.dosage"
-        :disabled="!isEditingPrescription"
-        type="text"
-        placeholder="Dose"
-        class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
-      />
+                  <input
+                    v-model="med.dosage"
+                    :disabled="!isEditingPrescription"
+                    type="text"
+                    placeholder="Dose"
+                    class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+                  />
 
-      <input
-        v-model="med.timing"
-        :disabled="!isEditingPrescription"
-        type="text"
-        placeholder="Frequency"
-        class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
-      />
-    </div>
+                  <input
+                    v-model="med.timing"
+                    :disabled="!isEditingPrescription"
+                    type="text"
+                    placeholder="Frequency"
+                    class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+                  />
+                </div>
 
-    <textarea
-      v-model="med.instructions"
-      :disabled="!isEditingPrescription"
-      rows="2"
-      placeholder="Instruction"
-      class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-    ></textarea>
-  </div>
-</div>
+                <textarea
+                  v-model="med.instructions"
+                  :disabled="!isEditingPrescription"
+                  rows="2"
+                  placeholder="Instruction"
+                  class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+                ></textarea>
+              </div>
+            </div>
 
-<!-- Doctor's Advice -->
-<div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">
-    Doctor's Advice
-  </h4>
+            <!-- Doctor's Advice -->
+            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
+              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Doctor's Advice</h4>
 
-  <textarea
-    v-model="adviceNotes"
-    :disabled="!isEditingPrescription"
-    rows="2"
-    placeholder="Follow-up Advice"
-    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-  ></textarea>
-</div>
+              <textarea
+                v-model="adviceNotes"
+                :disabled="!isEditingPrescription"
+                rows="2"
+                placeholder="Follow-up Advice"
+                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+              ></textarea>
+            </div>
 
-<!-- Examination -->
-<div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">
-    Examination
-  </h4>
+            <!-- Examination -->
+            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
+              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Examination</h4>
 
-  <textarea
-    v-model="examination"
-    :disabled="!isEditingPrescription"
-    rows="2"
-    placeholder="Examination"
-    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-  ></textarea>
-</div>
+              <textarea
+                v-model="examination"
+                :disabled="!isEditingPrescription"
+                rows="2"
+                placeholder="Examination"
+                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+              ></textarea>
+            </div>
 
-<!-- Provisional Diagnosis -->
-<div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">
-    Provisional Diagnosis
-  </h4>
+            <!-- Provisional Diagnosis -->
+            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
+              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Provisional Diagnosis</h4>
 
-  <textarea
-    v-model="provisionalDiagnosis"
-    :disabled="!isEditingPrescription"
-    rows="2"
-    placeholder="Provisional Diagnosis"
-    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-  ></textarea>
-</div>
+              <textarea
+                v-model="provisionalDiagnosis"
+                :disabled="!isEditingPrescription"
+                rows="2"
+                placeholder="Provisional Diagnosis"
+                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+              ></textarea>
+            </div>
           </div>
 
           <!-- Bottom Action: Sign & Dispatch Rx -->
@@ -556,9 +540,12 @@ import { useRoute, useRouter } from 'vue-router';
 import { FeatherIcon, createResource } from 'frappe-ui';
 import { AgoraService } from '@/utils/agora';
 import logoUrl from '@/assets/images/logo-01.png';
+import { io } from 'socket.io-client';
 
 const route = useRoute();
 const router = useRouter();
+
+let frappeSocket = null;
 
 const endConsultationResource = createResource({
   url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.end_consultation',
@@ -639,6 +626,7 @@ const rxSelectedFile = ref(null);
 const rxParseLoading = ref(false);
 const rxParseStatus = ref(null);
 const rxSubmitted = ref(false);
+const rxProcessingStarted = ref(false);
 const showPrescriptionPrompt = ref(false);
 const prescriptionName = ref(null);
 const rxPersistedImage = ref(null);
@@ -677,106 +665,152 @@ function onRxImageSelected(event) {
   event.target.value = '';
 }
 
-function submitRxImage() {
+function populatePrescription(prescription) {
+  diagnosis.value = prescription?.diagnosis || '';
+  investigations.value = prescription?.investigations || '';
+  generalInstructions.value = prescription?.general_instructions || '';
+  followUpDuration.value = prescription?.follow_up_duration || '';
+  adviceNotes.value = prescription?.follow_up_advice || '';
+  examination.value = prescription?.examination || '';
+  provisionalDiagnosis.value = prescription?.provisional_diagnosis || '';
+
+  medicines.value = (prescription?.medicines || []).map((medicine) => ({
+    name: medicine.medicine_name || '',
+    dosage: medicine.dosage || '',
+    timing: medicine.timing || '',
+    instructions: medicine.instructions || '',
+  }));
+
+  prescriptionName.value = prescription?.name || null;
+  prescriptionWorkflowState.value = prescription?.workflow_state || 'Draft';
+
+  prescriptionParsed.value = true;
+  isEditingPrescription.value = true;
+  rxSubmitted.value = true;
+}
+
+async function submitRxImage() {
   if (!rxSelectedFile.value) return;
 
   rxParseLoading.value = true;
+  rxProcessingStarted.value = false;
   rxParseStatus.value = null;
 
-  const formData = new FormData();
-  formData.append('file', rxSelectedFile.value);
+  try {
+    const formData = new FormData();
 
-  fetch('/api/method/upload_file', {
-    method: 'POST',
-    headers: {
-      'X-Frappe-CSRF-Token': window.csrf_token,
-    },
-    body: formData,
-  })
-    .then(async (uploadResponse) => {
-      if (!uploadResponse.ok) {
-        const errorText = await uploadResponse.text();
-        throw new Error(
-          `Prescription image upload failed (${uploadResponse.status})`
-        );
+    formData.append('file', rxSelectedFile.value);
+    // formData.append('is_private', '1');
+
+    console.log('>>> PRESCRIPTION UPLOAD START');
+
+    const uploadResponse = await fetch('/api/method/upload_file', {
+      method: 'POST',
+      headers: {
+        'X-Frappe-CSRF-Token': window.csrf_token,
+      },
+      body: formData,
+    });
+
+    if (!uploadResponse.ok) {
+      throw new Error(`Prescription image upload failed (${uploadResponse.status})`);
+    }
+
+    const uploadResult = await uploadResponse.json();
+
+    const fileUrl = uploadResult?.message?.file_url;
+
+    if (!fileUrl) {
+      throw new Error('Prescription image upload succeeded, but no file URL was returned.');
+    }
+
+    console.log('>>> PRESCRIPTION UPLOAD SUCCESS:', fileUrl);
+
+    console.log('>>> PRESCRIPTION OCR QUEUE REQUEST START');
+
+    const parseResponse = await fetch('/api/method/wellnest.api.prescription.parse_and_create_prescription', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Frappe-CSRF-Token': window.csrf_token,
+      },
+      body: JSON.stringify({
+        file_url: fileUrl,
+        patient_appointment: bookingId.value,
+      }),
+    });
+
+    const parseResult = await parseResponse.json();
+
+    if (!parseResponse.ok) {
+      throw new Error(parseResult?.exception || parseResult?.message || 'Failed to start prescription processing.');
+    }
+
+    const result = parseResult?.message || parseResult;
+
+    console.log('>>> PRESCRIPTION OCR QUEUE RESPONSE:', result);
+
+    if (result?.status === 'already_exists') {
+      prescriptionName.value = result.name || null;
+      prescriptionWorkflowState.value = result.workflow_state || null;
+
+      console.log('>>> Existing prescription returned:', prescriptionName.value, prescriptionWorkflowState.value);
+
+      // Reload persisted state from backend.
+      await loadExistingPrescription();
+
+      if (prescriptionWorkflowState.value === 'Processing') {
+        rxProcessingStarted.value = true;
+
+        rxParseStatus.value = {
+          type: 'success',
+          message: 'Prescription submitted earlier. Processing is still running in the background.',
+        };
       }
 
-      return uploadResponse.json();
-    })
-    .then((uploadResult) => {
-        const fileUrl = uploadResult.message?.file_url;
+      return;
+    }
 
-        if (!fileUrl) {
-          throw new Error('Failed to upload prescription image.');
-        }
+    if (result?.status !== 'queued') {
+      throw new Error(result?.message || 'Prescription processing could not be started.');
+    }
 
-        return parseRxResource.submit({
-          patient: patient.value.patient_id,
-          file_url: fileUrl,
-          patient_appointment: bookingId.value,
-        });
-    })
-    .then((response) => {
-      const prescription = response?.message || response;
+    prescriptionName.value = result.name || null;
 
-      diagnosis.value = prescription?.diagnosis || '';
+    prescriptionWorkflowState.value = result.workflow_state || 'Processing';
 
-      investigations.value =
-        prescription?.investigations || '';
+    rxProcessingStarted.value = true;
+    rxSubmitted.value = false;
 
-      generalInstructions.value =
-        prescription?.general_instructions || '';
+    rxPersistedImage.value = fileUrl;
 
-      followUpDuration.value =
-        prescription?.follow_up_duration || '';
+    if (rxImagePreview.value) {
+      URL.revokeObjectURL(rxImagePreview.value);
+    }
 
-      adviceNotes.value =
-        prescription?.follow_up_advice || '';
+    rxImagePreview.value = null;
+    rxSelectedFile.value = null;
 
-      examination.value =
-        prescription?.examination || '';
+    rxParseStatus.value = {
+      type: 'success',
+      message: 'Prescription submitted. Processing has started in the background. You can continue with the consultation.',
+    };
 
-      provisionalDiagnosis.value =
-        prescription?.provisional_diagnosis || '';
+    console.log('>>> PRESCRIPTION OCR JOB ACCEPTED');
+    console.log('>>> Smart Prescription:', prescriptionName.value);
+    console.log('>>> Workflow state:', prescriptionWorkflowState.value);
+  } catch (error) {
+    console.error('>>> PRESCRIPTION SUBMISSION FAILED:', error);
 
-      medicines.value =
-        (prescription?.medicines || []).map((medicine) => ({
-          name: medicine.medicine_name || '',
-          dosage: medicine.dosage || '',
-          timing: medicine.timing || '',
-          instructions: medicine.instructions || '',
-        }));
+    rxProcessingStarted.value = false;
 
-      prescriptionName.value =
-        prescription?.name || null;
-
-      prescriptionWorkflowState.value =
-        prescription?.workflow_state || 'Draft';
-
-      prescriptionParsed.value = true;
-      isEditingPrescription.value = true;
-      rxSubmitted.value = true;
-
-      rxParseStatus.value = {
-        type: 'success',
-        message:
-          'Prescription parsed successfully. Please review and edit before publishing.',
-      };
-
-      clearRxImage();
-    })
-    .catch((err) => {
-      console.error('Prescription upload/parse failed:', err);
-
-      rxParseStatus.value = {
-        type: 'error',
-        message:
-          err?.message || 'Failed to submit Rx image. Please try again.',
-      };
-    })
-    .finally(() => {
-      rxParseLoading.value = false;
-    });
+    rxParseStatus.value = {
+      type: 'error',
+      message: error?.message || 'Failed to submit prescription. Please try again.',
+    };
+  } finally {
+    rxParseLoading.value = false;
+  }
 }
 
 function clearRxImage() {
@@ -785,64 +819,136 @@ function clearRxImage() {
   rxSelectedFile.value = null;
 }
 
+async function handlePrescriptionOcrCompleted(data) {
+  if (data?.patient_appointment !== bookingId.value) {
+    return;
+  }
+
+  console.log('>>> Prescription OCR event received:', data);
+
+  await loadExistingPrescription();
+
+  if (data.status === 'failed') {
+    rxProcessingStarted.value = false;
+
+    rxParseStatus.value = {
+      type: 'error',
+      message: data.message || 'Prescription processing failed. Please try again.',
+    };
+
+    return;
+  }
+
+  if (data.status === 'completed') {
+    rxProcessingStarted.value = false;
+
+    rxParseStatus.value = {
+      type: 'success',
+      message: data.message || 'Prescription processed successfully. Please review and edit before publishing.',
+    };
+  }
+}
+
 async function loadExistingPrescription() {
   try {
+    console.log('>>> Loading existing prescription:', bookingId.value);
+
     const response = await getPrescriptionResource.submit({
       appointment: bookingId.value,
     });
 
     const prescription = response?.message || response;
 
-  if (!prescription) {
-  prescriptionName.value = null;
-  prescriptionWorkflowState.value = 'Draft';
-  isEditingPrescription.value = true;
-  rxSubmitted.value = false;
-  prescriptionParsed.value = false;
-  return;
-}
+    // No prescription exists
+    if (!prescription) {
+      console.log('>>> No prescription found for appointment');
 
-    prescriptionParsed.value = !!prescription.file_url;
+      prescriptionName.value = null;
+      prescriptionWorkflowState.value = null;
+
+      rxPersistedImage.value = null;
+      rxProcessingStarted.value = false;
+      rxSubmitted.value = false;
+
+      prescriptionParsed.value = false;
+      isEditingPrescription.value = true;
+
+      return;
+    }
+
+    console.log('>>> Existing prescription loaded:', prescription);
 
     prescriptionName.value = prescription.name || null;
 
-    rxPersistedImage.value = prescription.file_url || null;
-    prescriptionWorkflowState.value =
-      prescription.workflow_state || 'Draft';
+    prescriptionWorkflowState.value = prescription.workflow_state || null;
 
-    isEditingPrescription.value =
-  prescription.workflow_state === 'Draft';
+    rxPersistedImage.value = prescription.file_url || null;
+
+    // Processing state
+    if (prescription.workflow_state === 'Processing') {
+      console.log('>>> Prescription is still processing');
+
+      prescriptionParsed.value = false;
+      isEditingPrescription.value = false;
+      rxProcessingStarted.value = true;
+      rxSubmitted.value = false;
+
+      rxParseStatus.value = {
+        type: 'success',
+        message: 'Prescription submitted earlier. Processing is still running in the background.',
+      };
+
+      return;
+    }
+
+    if (prescription.workflow_state === 'Failed') {
+      console.log('>>> Previous prescription processing failed');
+
+      prescriptionParsed.value = false;
+      isEditingPrescription.value = false;
+      rxProcessingStarted.value = false;
+      rxSubmitted.value = false;
+
+      rxParseStatus.value = {
+        type: 'error',
+        message: 'Previous prescription processing failed. Please re-upload the prescription.',
+      };
+
+      return;
+    }
+
+    prescriptionParsed.value = true;
+
+    isEditingPrescription.value = prescription.workflow_state === 'Draft';
+
+    rxProcessingStarted.value = false;
+
+    rxSubmitted.value = prescription.workflow_state === 'Complete';
 
     diagnosis.value = prescription.diagnosis || '';
+
     investigations.value = prescription.investigations || '';
-    generalInstructions.value =
-      prescription.general_instructions || '';
 
-    followUpDuration.value =
-      prescription.follow_up_duration || '';
+    generalInstructions.value = prescription.general_instructions || '';
 
+    followUpDuration.value = prescription.follow_up_duration || '';
 
     adviceNotes.value = prescription.follow_up_advice || '';
+
     examination.value = prescription.examination || '';
-    provisionalDiagnosis.value =
-    prescription.provisional_diagnosis || '';
 
+    provisionalDiagnosis.value = prescription.provisional_diagnosis || '';
 
-medicines.value = (prescription.medicines || []).map((medicine) => ({
-  name: medicine.medicine_name || '',
-  dosage: medicine.dosage || '',
-  timing: medicine.timing || '',
-  instructions: medicine.instructions || '',
-}));
+    medicines.value = (prescription.medicines || []).map((medicine) => ({
+      name: medicine.medicine_name || '',
+      dosage: medicine.dosage || '',
+      timing: medicine.timing || '',
+      instructions: medicine.instructions || '',
+    }));
 
-    rxSubmitted.value =
-      prescription.workflow_state === 'Complete';
-
+    console.log('>>> Prescription state restored:', prescription.workflow_state);
   } catch (error) {
-    console.error(
-      'Failed to load existing prescription:',
-      error
-    );
+    console.error('>>> Failed to load existing prescription:', error);
   }
 }
 
@@ -868,6 +974,21 @@ onMounted(async () => {
   handleResize();
   window.addEventListener('resize', handleResize);
 
+  frappeSocket = io({
+    path: '/socket.io',
+    transports: ['websocket', 'polling'],
+  });
+
+  frappeSocket.on('connect', () => {
+    console.log('>>> Frappe Socket.IO connected:', frappeSocket.id);
+  });
+
+  frappeSocket.on('connect_error', (error) => {
+    console.error('>>> Frappe Socket.IO connection error:', error);
+  });
+
+  frappeSocket.on('prescription_ocr_completed', handlePrescriptionOcrCompleted);
+
   await loadExistingPrescription();
   await getPatient();
   await joinRoom();
@@ -875,6 +996,13 @@ onMounted(async () => {
 
 onUnmounted(async () => {
   window.removeEventListener('resize', handleResize);
+
+  if (frappeSocket) {
+    frappeSocket.off('prescription_ocr_completed', handlePrescriptionOcrCompleted);
+    frappeSocket.disconnect();
+    frappeSocket = null;
+  }
+
   clearInterval(timerInterval);
   await agora.leave();
 });
@@ -1011,29 +1139,29 @@ async function savePrescriptionDraft() {
   rxSaving.value = true;
 
   try {
-const response = await savePrescriptionDraftResource.submit({
-  name: prescriptionName.value || undefined,
-  appointment: bookingId.value,
+    const response = await savePrescriptionDraftResource.submit({
+      name: prescriptionName.value || undefined,
+      appointment: bookingId.value,
 
-  diagnosis: diagnosis.value,
-  investigations: investigations.value,
-  general_instructions: generalInstructions.value,
+      diagnosis: diagnosis.value,
+      investigations: investigations.value,
+      general_instructions: generalInstructions.value,
 
-  follow_up_duration: followUpDuration.value,
-  follow_up_advice: adviceNotes.value,
+      follow_up_duration: followUpDuration.value,
+      follow_up_advice: adviceNotes.value,
 
-  examination: examination.value,
-  provisional_diagnosis: provisionalDiagnosis.value,
+      examination: examination.value,
+      provisional_diagnosis: provisionalDiagnosis.value,
 
-  medicines: JSON.stringify(
-    medicines.value.map((medicine) => ({
-      medicine_name: medicine.name,
-      dosage: medicine.dosage,
-      timing: medicine.timing,
-      instructions: medicine.instructions,
-    }))
-  ),
-});
+      medicines: JSON.stringify(
+        medicines.value.map((medicine) => ({
+          medicine_name: medicine.name,
+          dosage: medicine.dosage,
+          timing: medicine.timing,
+          instructions: medicine.instructions,
+        }))
+      ),
+    });
 
     const saved = response?.message || response;
 
@@ -1041,8 +1169,7 @@ const response = await savePrescriptionDraftResource.submit({
       prescriptionName.value = saved.name;
     }
 
-    prescriptionWorkflowState.value =
-      saved?.workflow_state || 'Draft';
+    prescriptionWorkflowState.value = saved?.workflow_state || 'Draft';
 
     isEditingPrescription.value = false;
 
@@ -1050,18 +1177,12 @@ const response = await savePrescriptionDraftResource.submit({
       type: 'success',
       message: 'Prescription draft saved successfully.',
     };
-
   } catch (error) {
-    console.error(
-      'Failed to save prescription draft:',
-      error
-    );
+    console.error('Failed to save prescription draft:', error);
 
     rxParseStatus.value = {
       type: 'error',
-      message:
-        error?.message ||
-        'Failed to save prescription draft.',
+      message: error?.message || 'Failed to save prescription draft.',
     };
   } finally {
     rxSaving.value = false;
@@ -1089,7 +1210,6 @@ async function submitPrescription() {
       type: 'success',
       message: 'Prescription submitted successfully.',
     };
-
   } catch (error) {
     console.error('Failed to submit prescription:', error);
 
@@ -1103,7 +1223,7 @@ async function submitPrescription() {
 }
 
 async function confirmEndCall() {
-  if (!prescriptionFilled.value && !rxSubmitted.value) {
+  if (!prescriptionFilled.value && !rxSubmitted.value && !rxProcessingStarted.value) {
     showPrescriptionPrompt.value = true;
     return;
   }
@@ -1161,19 +1281,17 @@ const getPatientResource = createResource({
 async function getPatient() {
   try {
     const res = await getPatientResource.submit({
-      appointment: bookingId.value
+      appointment: bookingId.value,
     });
-    
+
     const result = res?.message || res || {};
-        
-    patient.value = { 
-      patient_id: result.patient || "Unknown Patient Id", 
-      full_name: result.full_name || "Unknown Patient Name", 
-      age: result.date_of_birth 
-            ? Math.floor((new Date() - new Date(result.date_of_birth)) / (365.25 * 24 * 60 * 60 * 1000)) 
-            : "n/a", 
-      gender: result.gender || "n/a", 
-      concern: result.main_complaints || ""
+
+    patient.value = {
+      patient_id: result.patient || 'Unknown Patient Id',
+      full_name: result.full_name || 'Unknown Patient Name',
+      age: result.date_of_birth ? Math.floor((new Date() - new Date(result.date_of_birth)) / (365.25 * 24 * 60 * 60 * 1000)) : 'n/a',
+      gender: result.gender || 'n/a',
+      concern: result.main_complaints || '',
     };
   } catch (error) {
     console.error('Failed to get appointment details: ', error);
