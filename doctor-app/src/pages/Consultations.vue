@@ -479,24 +479,12 @@ const filteredConsultations = computed(() => {
   }
 
   if (statusFilter.value === 'Upcoming') {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    return consultations.value.filter((consultation) => {
-      const isUpcomingStatus = consultation.bookingStatus !== 'Completed';
-      if (!isUpcomingStatus) return false;
-
-      if (consultation.scheduledTime) {
-        const dateStr = String(consultation.scheduledTime).trim().split(' ')[0];
-        const parts = dateStr.split('-');
-        if (parts.length === 3) {
-          const appointmentDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
-          return appointmentDate >= today;
-        }
-      }
-      return true;
-    });
-  }
+  return consultations.value.filter(
+    (consultation) =>
+      consultation.bookingStatus !== 'Completed' &&
+      consultation.paymentStatus === 'Paid'
+  );
+}
 
   if (statusFilter.value === 'Completed') {
     return consultations.value.filter((consultation) => consultation.bookingStatus === 'Completed');

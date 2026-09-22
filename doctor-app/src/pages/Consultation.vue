@@ -191,30 +191,24 @@
           </div>
         </section>
         <!-- Follow-up Advice -->
-<section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
-  <div class="mb-5">
-    <h2 class="text-xl font-bold text-gray-900">
-      Follow-up Advice
-    </h2>
+        <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
+          <div class="mb-5">
+            <h2 class="text-xl font-bold text-gray-900">Follow-up Advice</h2>
 
-    <p class="text-gray-500 mt-1">
-      Add follow-up instructions for the patient.
-    </p>
-  </div>
+            <p class="text-gray-500 mt-1">Add follow-up instructions for the patient.</p>
+          </div>
 
-  <div>
-    <label class="block text-sm font-medium text-gray-900 mb-2">
-      Follow-up Advice
-    </label>
+          <div>
+            <label class="block text-sm font-medium text-gray-900 mb-2"> Follow-up Advice </label>
 
-    <textarea
-      v-model="followUpAdvice"
-      rows="3"
-      placeholder="Enter follow-up advice"
-      class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-    ></textarea>
-  </div>
-</section>
+            <textarea
+              v-model="followUpAdvice"
+              rows="3"
+              placeholder="Enter follow-up advice"
+              class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
+            ></textarea>
+          </div>
+        </section>
       </main>
     </div>
 
@@ -633,65 +627,52 @@ async function loadClinicalRecord() {
       appointment,
     });
 
-  if (!response) {
-  complaints.value = [];
-  history.value = '';
-} else {
-  complaints.value = (response.chief_complaints || []).map((complaint, index) => ({
-    id: index + 1,
-    text: complaint.complaint || '',
-  }));
+    if (!response) {
+      complaints.value = [];
+      history.value = '';
+    } else {
+      complaints.value = (response.chief_complaints || []).map((complaint, index) => ({
+        id: index + 1,
+        text: complaint.complaint || '',
+      }));
 
-  history.value = response.history || '';
-}
+      history.value = response.history || '';
+    }
 
-// Load prescription data from Smart Prescription
-const prescriptionResponse =
-  await getPrescriptionResource.submit({
-    appointment,
-  });
+    const prescriptionResponse = await getPrescriptionResource.submit({
+      appointment,
+    });
 
-const prescription =
-  prescriptionResponse?.message || prescriptionResponse;
+    const prescription = prescriptionResponse?.message || prescriptionResponse;
 
-if (prescription) {
-  examination.value =
-    prescription.examination || '';
+    if (prescription) {
+      examination.value = prescription.examination || '';
 
-  provisionalDiagnosis.value =
-    prescription.provisional_diagnosis || '';
+      provisionalDiagnosis.value = prescription.provisional_diagnosis || '';
 
-  investigations.value = prescription.investigations
-    ? prescription.investigations
-        .split('\n')
-        .filter((item) => item.trim())
-    : [];
+      investigations.value = prescription.investigations ? prescription.investigations.split('\n').filter((item) => item.trim()) : [];
 
-  followUpAdvice.value =
-    prescription.follow_up_advice || '';
+      followUpAdvice.value = prescription.follow_up_advice || '';
 
-  medicines.value =
-    (prescription.medicines || []).map((medicine) => ({
-      medicine: medicine.medicine_name || '',
-      dose: medicine.dosage || '',
-      frequency: medicine.timing || '',
-      instruction: medicine.instructions || '',
-    }));
+      medicines.value = (prescription.medicines || []).map((medicine) => ({
+        medicine: medicine.medicine_name || '',
+        dose: medicine.dosage || '',
+        frequency: medicine.timing || '',
+        instruction: medicine.instructions || '',
+      }));
 
-  prescriptionName.value =
-    prescription.name || null;
+      prescriptionName.value = prescription.name || null;
 
-  prescriptionWorkflowState.value =
-    prescription.workflow_state || null;
-} else {
-  examination.value = '';
-  provisionalDiagnosis.value = '';
-  investigations.value = [];
-  followUpAdvice.value = '';
-  medicines.value = [];
-  prescriptionName.value = null;
-  prescriptionWorkflowState.value = null;
-}
+      prescriptionWorkflowState.value = prescription.workflow_state || null;
+    } else {
+      examination.value = '';
+      provisionalDiagnosis.value = '';
+      investigations.value = [];
+      followUpAdvice.value = '';
+      medicines.value = [];
+      prescriptionName.value = null;
+      prescriptionWorkflowState.value = null;
+    }
 
     // Load vitals
     const vitalsResponse = await vitalsResource.submit({
@@ -751,22 +732,22 @@ async function loadPrescription() {
 
     ocrPrescriptionName.value = response.name;
     ocrExtractedText.value = JSON.stringify(
-  {
-    medicines: response.medicines || [],
-    follow_up_advice: response.follow_up_advice || '',
-  },
-  null,
-  2
-);
+      {
+        medicines: response.medicines || [],
+        follow_up_advice: response.follow_up_advice || '',
+      },
+      null,
+      2
+    );
 
-medicines.value = (response.medicines || []).map((medicine) => ({
-  medicine: medicine.medicine_name || '',
-  dose: medicine.dosage || '',
-  frequency: medicine.timing || '',
-  instruction: medicine.instructions || '',
-}));
+    medicines.value = (response.medicines || []).map((medicine) => ({
+      medicine: medicine.medicine_name || '',
+      dose: medicine.dosage || '',
+      frequency: medicine.timing || '',
+      instruction: medicine.instructions || '',
+    }));
 
-followUpAdvice.value = response.follow_up_advice || '';
+    followUpAdvice.value = response.follow_up_advice || '';
   } catch (error) {
     console.error('Failed to load prescription:', error);
   }
@@ -870,7 +851,6 @@ async function finalizePrescription() {
     return;
   }
 
-  // Validate mandatory clinical findings before submitting prescription.
   const hasChiefComplaint = complaints.value.some((complaint) => complaint.text?.trim());
 
   if (!hasChiefComplaint) {
@@ -898,88 +878,77 @@ async function finalizePrescription() {
     return;
   }
 
-try {
-  const medicinesPayload = medicines.value
-    .filter((medicine) => medicine.medicine?.trim())
-    .map((medicine) => ({
-      medicine_name: medicine.medicine.trim(),
-      dosage: medicine.dose?.trim() || '',
-      timing: medicine.frequency?.trim() || '',
-      instructions: medicine.instruction?.trim() || '',
-    }));
+  try {
+    const medicinesPayload = medicines.value
+      .filter((medicine) => medicine.medicine?.trim())
+      .map((medicine) => ({
+        medicine_name: medicine.medicine.trim(),
+        dosage: medicine.dose?.trim() || '',
+        timing: medicine.frequency?.trim() || '',
+        instructions: medicine.instruction?.trim() || '',
+      }));
 
-  let response;
+    let response;
 
-  // If no prescription exists yet, create it as Draft first.
-  if (!prescriptionName.value) {
-    response = await createPrescriptionResource.submit({
-      appointment,
-      investigations: investigations.value
-        .filter((investigation) => investigation?.trim())
-        .join('\n'),
-      examination: examination.value || '',
-      provisional_diagnosis: provisionalDiagnosis.value || '',
-      follow_up_advice: followUpAdvice.value || '',
-      medicines: JSON.stringify(medicinesPayload),
+    // If no prescription exists yet, create it as Draft first.
+    if (!prescriptionName.value) {
+      response = await createPrescriptionResource.submit({
+        appointment,
+        investigations: investigations.value.filter((investigation) => investigation?.trim()).join('\n'),
+        examination: examination.value || '',
+        provisional_diagnosis: provisionalDiagnosis.value || '',
+        follow_up_advice: followUpAdvice.value || '',
+        medicines: JSON.stringify(medicinesPayload),
+      });
+
+      prescriptionName.value = response.name;
+      prescriptionWorkflowState.value = response.workflow_state;
+
+      emit('prescription-loaded', {
+        name: response.name,
+        workflow_state: response.workflow_state,
+        file_url: response.file_url || '',
+      });
+    } else if (prescriptionWorkflowState.value === 'Draft') {
+      // Existing Draft: save the latest changes before submitting.
+      response = await savePrescriptionDraftResource.submit({
+        name: prescriptionName.value,
+        appointment,
+
+        investigations: investigations.value.filter((investigation) => investigation?.trim()).join('\n'),
+
+        examination: examination.value || '',
+        provisional_diagnosis: provisionalDiagnosis.value || '',
+        follow_up_advice: followUpAdvice.value || '',
+
+        medicines: JSON.stringify(medicinesPayload),
+      });
+
+      prescriptionWorkflowState.value = response?.workflow_state || 'Draft';
+    }
+
+    response = await completePrescriptionResource.submit({
+      name: prescriptionName.value,
     });
 
-    prescriptionName.value = response.name;
     prescriptionWorkflowState.value = response.workflow_state;
 
-    emit('prescription-loaded', {
-      name: response.name,
+    emit('prescription-submitted', {
       workflow_state: response.workflow_state,
-      file_url: response.file_url || '',
-    });
-  } else if (prescriptionWorkflowState.value === 'Draft') {
-    // Existing Draft: save the latest changes before submitting.
-    response = await savePrescriptionDraftResource.submit({
-      name: prescriptionName.value,
-      appointment,
-
-      investigations: investigations.value
-        .filter((investigation) => investigation?.trim())
-        .join('\n'),
-
-      examination: examination.value || '',
-      provisional_diagnosis: provisionalDiagnosis.value || '',
-      follow_up_advice: followUpAdvice.value || '',
-
-      medicines: JSON.stringify(medicinesPayload),
     });
 
-    prescriptionWorkflowState.value =
-      response?.workflow_state || 'Draft';
-  }
-
-  response = await completePrescriptionResource.submit({
-    name: prescriptionName.value,
-  });
-
-  prescriptionWorkflowState.value = response.workflow_state;
-
-  emit('prescription-submitted', {
-    workflow_state: response.workflow_state,
-  });
-
-  console.log('Prescription submitted:', response);
-  alert('Prescription submitted successfully.');
-} catch (error) {
-  console.error('Failed to submit prescription:', error);
-  alert('Failed to submit prescription.');
+    console.log('Prescription submitted:', response);
+    alert('Prescription submitted successfully.');
+  } catch (error) {
+    console.error('Failed to submit prescription:', error);
+    alert('Failed to submit prescription.');
   }
 }
 
 async function savePrescriptionDraft(showMessage = true) {
-  console.log(
-    'Current prescription workflow state:',
-    prescriptionWorkflowState.value
-  );
+  console.log('Current prescription workflow state:', prescriptionWorkflowState.value);
 
-  if (
-    prescriptionWorkflowState.value === 'Confirmed' ||
-    prescriptionWorkflowState.value === 'Complete'
-  ) {
+  if (prescriptionWorkflowState.value === 'Confirmed' || prescriptionWorkflowState.value === 'Complete') {
     alert('This prescription has already been submitted for this patient.');
     return;
   }
@@ -1005,9 +974,7 @@ async function savePrescriptionDraft(showMessage = true) {
       name: prescriptionName.value || undefined,
       appointment,
 
-      investigations: investigations.value
-        .filter((investigation) => investigation?.trim())
-        .join('\n'),
+      investigations: investigations.value.filter((investigation) => investigation?.trim()).join('\n'),
 
       examination: examination.value || '',
       provisional_diagnosis: provisionalDiagnosis.value || '',
@@ -1020,8 +987,7 @@ async function savePrescriptionDraft(showMessage = true) {
       prescriptionName.value = response.name;
     }
 
-    prescriptionWorkflowState.value =
-      response?.workflow_state || 'Draft';
+    prescriptionWorkflowState.value = response?.workflow_state || 'Draft';
 
     console.log('Prescription draft saved:', response);
 
@@ -1048,14 +1014,14 @@ async function saveClinicalRecord(showMessage = true) {
   }
 
   const data = {
-  chief_complaints: complaints.value
-    .filter((complaint) => complaint.text?.trim())
-    .map((complaint) => ({
-      complaint: complaint.text.trim(),
-    })),
+    chief_complaints: complaints.value
+      .filter((complaint) => complaint.text?.trim())
+      .map((complaint) => ({
+        complaint: complaint.text.trim(),
+      })),
 
-  history: history.value,
-};
+    history: history.value,
+  };
 
   try {
     const response = await saveClinicalRecordResource.submit({
@@ -1142,43 +1108,48 @@ async function handlePrescriptionFile(event) {
       throw new Error('Failed to upload prescription image.');
     }
 
-    // Send uploaded file to OCR/Gemini backend
-    const response = await ocrPrescriptionResource.submit({
-      file_url: fileUrl,
-      patient: props.selectedConsultation?.patient || null,
-      patient_appointment: props.selectedConsultation?.appointment || null,
-    });
-
-    ocrPrescriptionName.value = response?.name || '';
-
+    // Show processing status immediately
     if (fileUrl) {
       prescriptionImagePreview.value = fileUrl;
     }
 
-    // Show complete Gemini response in the UI
-    if (ocrPrescriptionName.value) {
-      ocrExtractedText.value = JSON.stringify(
-        {
-          medicines: response?.medicines || [],
-          advice: response?.advice || '',
-        },
-        null,
-        2
-      );
+    ocrExtractedText.value = 'Prescription processing has started. You will be notified once it is ready for review.';
 
-      emit('prescription-loaded', {
-        name: response.name,
-        workflow_state: response.workflow_state,
-        file_url: response.file_url || fileUrl,
+    // OCR will continue in the background.
+    ocrLoading.value = false;
+
+    fetch('/api/method/wellnest.api.prescription.parse_and_create_prescription', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Frappe-CSRF-Token': window.csrf_token,
+      },
+      body: JSON.stringify({
+        file_url: fileUrl,
+        patient: props.selectedConsultation?.patient || null,
+        patient_appointment: props.selectedConsultation?.appointment || null,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`OCR request failed with status ${response.status}`);
+        }
+
+        return response.json();
+      })
+      .then((response) => {
+        console.log('Prescription OCR processing completed:', response);
+      })
+      .catch((error) => {
+        // Keep backend/OCR failures out of the doctor's UI.
+        console.error('Prescription OCR processing failed:', error);
       });
-    } else {
-      ocrExtractedText.value = 'This document was identified as not being a prescription. No Smart Prescription was created.';
-    }
+
     return true;
   } catch (error) {
     console.error('Prescription OCR failed:', error);
 
-    ocrExtractedText.value = 'Failed to process the prescription. Please try again.';
+    ocrExtractedText.value = 'Prescription processing is temporarily unavailable. Please try again in a moment.';
 
     return false;
   } finally {

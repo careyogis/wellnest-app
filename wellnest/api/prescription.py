@@ -5,111 +5,213 @@ from wellnest.services.prescription.processor import process_prescription
 
 @frappe.whitelist()
 def parse_and_create_prescription(
-    patient=None,
     file_url=None,
     patient_appointment=None,
 ):
+    print("\n" + "=" * 80)
     print(">>> PRESCRIPTION API START")
+    print(f">>> Logged-in user: {frappe.session.user}")
+    print(f">>> Appointment: {patient_appointment}")
+    print(f">>> File URL: {file_url}")
+    print("=" * 80)
 
-    if patient_appointment:
-        patient = frappe.get_value(
-            "Patient Appointment",
-            patient_appointment,
-            "patient",
-        )
-
-    if not patient:
-        frappe.throw("Patient is required.")
-
-    file_name=None
+    if not patient_appointment:
+        print(">>> ERROR: Patient appointment is missing")
+        frappe.throw("Patient appointment is required.")
 
     if not file_url:
+        print(">>> ERROR: Prescription file is missing")
         frappe.throw("Prescription file is required.")
 
-    print(f">>> Appointment: {patient_appointment or 'n/a'}")
-    print(f">>> File URL: {file_url}")
+    print(">>> Basic validation passed")
 
-    if file_url.startswith("/files/"):
-        file_path = frappe.get_site_path(
-            "public",
-            file_url.lstrip("/")
+    appointment_doc = frappe.get_doc(
+        "Patient Appointment",
+        patient_appointment,
+    )
+
+    print(
+        f">>> Appointment loaded successfully: "
+        f"{appointment_doc.name}"
+    )
+    print(f">>> Appointment patient: {appointment_doc.patient}")
+    print(
+        f">>> Appointment practitioner: "
+        f"{appointment_doc.practitioner}"
+    )
+
+    practitioner = frappe.db.get_value(
+        "Practitioner",
+        {"user_id": frappe.session.user},
+        "name",
+    )
+
+    print(f">>> Logged-in practitioner: {practitioner}")
+
+    if not practitioner:
+        print(">>> ERROR: No practitioner found for logged-in user")
+        frappe.throw("Practitioner not found.")
+
+    if appointment_doc.practitioner != practitioner:
+        print(">>> AUTHORIZATION FAILED")
+        print(
+            f">>> Appointment practitioner: "
+            f"{appointment_doc.practitioner}"
         )
-    elif file_url.startswith("/private/files/"):
-        file_name = file_url.split(
-            "/private/files/",
-            1
-        )[1]
+        print(
+            f">>> Logged-in practitioner: "
+            f"{practitioner}"
+        )
 
-        file_path = frappe.get_site_path(
-            "private",
-            "files",
-            file_name
+        frappe.throw(
+            "You are not authorized to upload a prescription for this appointment.",
+            frappe.PermissionError,
+        )
+
+    print(">>> Practitioner authorization passed")
+
+    existing = frappe.db.get_value(
+        "Smart Prescription",
+        {
+            "patient_appointment": patient_appointment,
+        },
+        ["name", "workflow_state"],
+        as_dict=True,
+    )
+
+    if existing:
+        print(
+            f">>> Existing Smart Prescription found: "
+            f"{existing.name}"
+        )
+        print(
+            f">>> Existing workflow state: "
+            f"{existing.workflow_state}"
         )
     else:
-        frappe.throw(f"Unsupported file path: {file_url}")
+        print(">>> No existing Smart Prescription found")
 
-    print(f">>> Reading file: {file_path}")
+    if existing and existing.workflow_state in (
+        "Processing",
+        "Draft",
+        "Complete",
+    ):
+        print(">>> Existing prescription is already active")
+        print(
+            f">>> Returning existing prescription: "
+            f"{existing.name}"
+        )
+        print(
+            f">>> Existing state: "
+            f"{existing.workflow_state}"
+        )
+        print(">>> PRESCRIPTION API END - ALREADY EXISTS")
+        print("=" * 80 + "\n")
 
-    with open(file_path, "rb") as file:
-        image_bytes = file.read()
+        return {
+            "status": "already_exists",
+            "name": existing.name,
+            "workflow_state": existing.workflow_state,
+            "message": (
+                "A prescription already exists or is being "
+                "processed for this consultation."
+            ),
+        }
 
-    print(f">>> Image loaded: {len(image_bytes)} bytes")
-    print(">>> Calling process_prescription")
+    if existing and existing.workflow_state == "Failed":
+        print(
+            f">>> Reusing previously failed prescription: "
+            f"{existing.name}"
+        )
 
-    doc_name = process_prescription(
-        image_bytes,
-        patient,
-        patient_appointment,
-        file_url,
+        doc = frappe.get_doc(
+            "Smart Prescription",
+            existing.name,
+        )
+
+    else:
+        print(">>> Creating new Smart Prescription")
+
+        doc = frappe.new_doc("Smart Prescription")
+
+        doc.patient = appointment_doc.patient
+        doc.practitioner = practitioner
+        doc.patient_appointment = patient_appointment
+
+        print(
+            f">>> New prescription prepared for patient: "
+            f"{appointment_doc.patient}"
+        )
+
+    doc.workflow_state = "Processing"
+    doc.original_uploaded_prescription = file_url
+
+    print(
+        f">>> Setting prescription workflow state: "
+        f"{doc.workflow_state}"
+    )
+    print(
+        f">>> Original prescription file: "
+        f"{doc.original_uploaded_prescription}"
     )
 
-    if not doc_name:
-        frappe.logger().info(
-            f"Patient: {patient} uploaded a non-prescription doc "
-            f"for processing. The file is located at: {file_path}"
+    if doc.is_new():
+        doc.insert(ignore_permissions=True)
+        print(
+            f">>> Smart Prescription CREATED: "
+            f"{doc.name}"
+        )
+    else:
+        doc.save(ignore_permissions=True)
+        print(
+            f">>> Smart Prescription UPDATED: "
+            f"{doc.name}"
+        )
+
+    frappe.db.commit()
+
+    print(
+        f">>> Smart Prescription persisted successfully: "
+        f"{doc.name}"
     )
-        return
+    print(
+        f">>> Current workflow state in DB: "
+        f"{doc.workflow_state}"
+    )
 
-    print(f">>> Prescription created: {doc_name}, file_path: {file_path}")
+    print(">>> Enqueuing prescription OCR background job...")
+    print(f">>> Queue: long")
+    print(f">>> Prescription: {doc.name}")
+    print(f">>> Appointment: {patient_appointment}")
+    print(f">>> Attempt: 1")
 
-    file_doc_name = frappe.db.get_value("File", {"file_url": file_url})
-    if file_doc_name:
-        file_doc = frappe.get_doc("File", file_doc_name)
-        file_doc.attached_to_doctype = "Smart Prescription"
-        file_doc.attached_to_name = doc_name
-        file_doc.attached_to_field = "original_uploaded_prescription"
-        file_doc.save(ignore_permissions=True)
+    frappe.enqueue(
+        "wellnest.services.prescription.processor.process_prescription_job",
+        queue="long",
+        timeout=1800,
+        prescription=doc.name,
+        file_url=file_url,
+        attempt=1,
+    )
 
-    doc = frappe.get_doc("Smart Prescription", doc_name)
+    print(">>> PRESCRIPTION OCR JOB QUEUED SUCCESSFULLY")
+    print(f">>> Prescription: {doc.name}")
+    print(f">>> Queue: long")
+    print(f">>> Attempt: 1")
+    print(">>> PRESCRIPTION API END")
+    print("=" * 80 + "\n")
 
     return {
-    "name": doc.name,
-    "file_url": file_url,
-    "workflow_state": doc.workflow_state,
+        "status": "queued",
+        "name": doc.name,
+        "workflow_state": doc.workflow_state,
+        "message": (
+            "Prescription submitted. "
+            "Processing has started in the background. "
+            "You can continue with the consultation."
+        ),
+    }
 
-    "patient": doc.patient,
-    "practitioner": doc.practitioner,
-
-    "diagnosis": doc.diagnosis,
-    "investigations": doc.investigations,
-    "general_instructions": doc.general_instructions,
-
-    "examination": doc.examination,
-    "provisional_diagnosis": doc.provisional_diagnosis,
-
-    "follow_up_duration": doc.follow_up_duration,
-    "follow_up_advice": doc.follow_up_advice,
-
-    "medicines": [
-        {
-            "medicine_name": medicine.medicine_name or "",
-            "dosage": medicine.dosage or "",
-            "timing": medicine.timing or "",
-            "instructions": medicine.instructions or "",
-        }
-        for medicine in doc.medicines
-    ],
-}
 
 @frappe.whitelist()
 def save_ocr_prescription(name, response_data):
@@ -292,18 +394,57 @@ def save_consultation_prescription_draft(
         if not appointment:
             frappe.throw("Patient appointment is required.")
 
+        print(
+            f">>> Creating prescription draft for appointment: "
+            f"{appointment}"
+        )
+        print(
+            f">>> Logged-in practitioner: "
+            f"{practitioner}"
+        )
+
         appointment_doc = frappe.get_doc(
             "Patient Appointment",
             appointment,
         )
 
+        print(
+            f">>> Appointment practitioner: "
+            f"{appointment_doc.practitioner}"
+        )
+
+        if appointment_doc.practitioner != practitioner:
+            print(
+                ">>> DRAFT CREATION AUTHORIZATION FAILED"
+            )
+
+            frappe.throw(
+                "You are not authorized to create a prescription "
+                "for this appointment.",
+                frappe.PermissionError,
+            )
+
+        print(
+            ">>> Draft creation authorization passed"
+        )
+
         doc = frappe.new_doc("Smart Prescription")
+
         doc.patient_appointment = appointment
         doc.patient = appointment_doc.patient
-        doc.practitioner = appointment_doc.practitioner or practitioner
+        doc.practitioner = practitioner
         doc.workflow_state = "Draft"
+
+        print(
+            f">>> New Smart Prescription draft prepared "
+            f"for patient: {appointment_doc.patient}"
+        )
+
     else:
-        doc = frappe.get_doc("Smart Prescription", name)
+        doc = frappe.get_doc(
+            "Smart Prescription",
+            name,
+        )
 
         if doc.practitioner != practitioner:
             frappe.throw(
@@ -316,7 +457,9 @@ def save_consultation_prescription_draft(
                 "Prescription can only be saved as draft while in Draft state."
             )
 
-    medicines = frappe.parse_json(medicines or "[]")
+    medicines = frappe.parse_json(
+        medicines or "[]"
+    )
 
     doc.followup_expiry_date = followup_expiry_date
 
@@ -335,15 +478,35 @@ def save_consultation_prescription_draft(
         if not medicine.get("medicine_name"):
             continue
 
-        item = doc.append("medicines", {})
+        item = doc.append(
+            "medicines",
+            {},
+        )
 
-        item.medicine_name = medicine.get("medicine_name") or ""
-        item.dosage = medicine.get("dosage") or ""
-        item.timing = medicine.get("timing") or ""
-        item.instructions = medicine.get("instructions") or ""
-
+        item.medicine_name = (
+            medicine.get("medicine_name") or ""
+        )
+        item.dosage = (
+            medicine.get("dosage") or ""
+        )
+        item.timing = (
+            medicine.get("timing") or ""
+        )
+        item.instructions = (
+            medicine.get("instructions") or ""
+        )
 
     doc.save(ignore_permissions=True)
+
+    print(
+        f">>> Smart Prescription draft saved: "
+        f"{doc.name}"
+    )
+
+    print(
+        f">>> Workflow state: "
+        f"{doc.workflow_state}"
+    )
 
     return {
         "name": doc.name,
@@ -453,15 +616,12 @@ def get_consultation_prescription(appointment):
         prescription_name,
     )
 
-    file_url = frappe.db.get_value(
-        "File",
-        {
-            "attached_to_doctype": "Smart Prescription",
-            "attached_to_name": doc.name,
-            "file_url": ["like", "/files/%"],
-        },
-        "file_url",
-    )
+    file_url = doc.original_uploaded_prescription
+
+    print(
+        f">>> Prescription original uploaded file: "
+        f"{file_url}"
+    ) 
 
     return {
         "name": doc.name,
