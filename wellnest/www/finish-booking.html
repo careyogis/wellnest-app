@@ -202,6 +202,10 @@
           const apiMessage = orderData.message;
           
           // 2. Open Razorpay Checkout
+          // Map UI labels to Razorpay method keys
+          const methodMap = { 'UPI': 'upi', 'Card': 'card', 'Net banking': 'netbanking' };
+          const rzpMethod = methodMap[selectedMethod] || 'upi';
+
           const options = {
             "key": apiMessage.key_id,
             "amount": "{{ amount_paise }}", // Will be overridden by the order on the backend side, but safe to set 
@@ -238,8 +242,20 @@
             "prefill": {
               "name": "{{ patient.full_name if patient else 'Patient' }}",
               "contact": "{{ patient_mobile }}",
-              "email": "{{ patient_email }}",
-              "method": selectedMethod
+              "email": "{{ patient_email }}"
+              // NOTE: `method` is NOT a valid prefill key – moved to config.display below
+            },
+            // Pre-select the payment method chosen on our UI
+            "config": {
+              "display": {
+                "sequence": ["block." + rzpMethod],
+                "preferences": [{ "show_default_blocks": true }, { "show_recommended_block": false}],
+                "blocks": {
+                  "upi":        { "name": "UPI",         "instruments": [{ "method": "upi" }] },
+                  "card":       { "name": "Card",        "instruments": [{ "method": "card" }] },
+                  "netbanking": { "name": "Net Banking", "instruments": [{ "method": "netbanking" }] }
+                }
+              }
             },
             "theme": { "color": "#5bb286" }
           };
