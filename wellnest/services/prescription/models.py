@@ -70,12 +70,14 @@ class Prescription(BaseModel):
     hospital: Optional[str] = None
     date: Optional[str] = None
 
-    diagnosis: Optional[List[str]] = None
+    provisional_diagnosis: Optional[List[str]] = None
 
     medicines: Optional[List[Medicine]] = None
 
     investigations: Optional[List[Investigation]] = None
 
-    general_instructions: Optional[List[GeneralInstruction]] = None
+    examination: Optional[List[Investigation]] = None
+
+    follow_up_advice: Optional[List[GeneralInstruction]] = None
 
     follow_up: Optional[FollowUp] = None

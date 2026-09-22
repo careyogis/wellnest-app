@@ -67,33 +67,35 @@ def process_prescription(
 
     doc.set("medicines", [])
 
+        # Map Gemini prescription data to the single set of UI fields
     doc.prescription_date = prescription.get("date") or ""
 
-    # Diagnosis
-    diagnoses = prescription.get("diagnosis") or []
-
-    doc.diagnosis = "\n".join(
+    diagnoses = prescription.get("provisional_diagnosis") or []
+    doc.provisional_diagnosis = "\n".join(
         str(diagnosis)
         for diagnosis in diagnoses
         if diagnosis
     )
 
     investigations = prescription.get("investigations") or []
-
     doc.investigations = _format_structured_items(
         investigations,
         "name",
     )
 
-    general_instructions = (
-        prescription.get("general_instructions") or []
+    examination = prescription.get("examination") or []
+    doc.examination = _format_structured_items(
+        examination,
+        "name",
     )
 
-    doc.general_instructions = _format_structured_items(
-        general_instructions,
+    follow_up_advice = prescription.get("follow_up_advice") or []
+    doc.follow_up_advice = _format_structured_items(
+        follow_up_advice,
         "instruction",
     )
 
+    # Follow-up in X days
     follow_up = prescription.get("follow_up") or {}
 
     doc.follow_up_duration = (

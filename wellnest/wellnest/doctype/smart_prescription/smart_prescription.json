@@ -10,9 +10,7 @@
   "patient",
   "practitioner",
   "prescription_date",
-  "diagnosis",
   "investigations",
-  "general_instructions",
   "examination",
   "provisional_diagnosis",
   "followup_expiry_date",
@@ -90,19 +88,9 @@
    "label": "Raw AI Response"
   },
   {
-   "fieldname": "diagnosis",
-   "fieldtype": "Small Text",
-   "label": "Diagnosis"
-  },
-  {
    "fieldname": "investigations",
    "fieldtype": "Small Text",
    "label": "Investigations"
-  },
-  {
-   "fieldname": "general_instructions",
-   "fieldtype": "Small Text",
-   "label": "General Instructions"
   },
   {
    "fieldname": "examination",

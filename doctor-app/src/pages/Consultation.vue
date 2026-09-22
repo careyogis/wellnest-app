@@ -207,6 +207,16 @@
               placeholder="Enter follow-up advice"
               class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
             ></textarea>
+            <label class="block text-sm font-medium text-gray-900 mb-2 mt-4">
+  Follow-up Duration
+</label>
+
+<input
+  v-model="followUpDuration"
+  type="text"
+  placeholder="e.g. 7 days"
+  class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+/>
           </div>
         </section>
       </main>
@@ -528,6 +538,8 @@ const provisionalDiagnosis = ref('');
 
 const followUpAdvice = ref('');
 
+const followUpDuration = ref('');
+
 // Existing prescription data - KEEP FOR NOW
 const medicines = ref([]);
 const prescriptionName = ref(null);
@@ -653,6 +665,8 @@ async function loadClinicalRecord() {
       investigations.value = prescription.investigations ? prescription.investigations.split('\n').filter((item) => item.trim()) : [];
 
       followUpAdvice.value = prescription.follow_up_advice || '';
+
+      followUpDuration.value = prescription.follow_up_duration || '';
 
       medicines.value = (prescription.medicines || []).map((medicine) => ({
         medicine: medicine.medicine_name || '',
@@ -1276,6 +1290,7 @@ defineExpose({
   vitals,
   medicines,
   followUpAdvice,
+  followUpDuration,
   provisionalDiagnosis,
   investigations,
   previewDetails,

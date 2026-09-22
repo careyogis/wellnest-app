@@ -266,43 +266,6 @@
               </div>
             </div>
 
-            <!-- Prescription Details -->
-            <div v-if="prescriptionParsed" class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2.5">
-              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Prescription Details</h4>
-
-              <textarea
-                v-model="diagnosis"
-                :disabled="!isEditingPrescription"
-                rows="2"
-                placeholder="Diagnosis"
-                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-              ></textarea>
-
-              <textarea
-                v-model="investigations"
-                :disabled="!isEditingPrescription"
-                rows="2"
-                placeholder="Investigations"
-                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-              ></textarea>
-
-              <textarea
-                v-model="generalInstructions"
-                :disabled="!isEditingPrescription"
-                rows="2"
-                placeholder="General Instructions"
-                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-              ></textarea>
-
-              <input
-                v-model="followUpDuration"
-                :disabled="!isEditingPrescription"
-                type="text"
-                placeholder="Follow-up Duration"
-                class="w-full bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
-              />
-            </div>
-
             <!-- Prescribed Medicines -->
             <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2.5">
               <div class="flex items-center justify-between">
@@ -368,6 +331,32 @@
                 class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
               ></textarea>
             </div>
+
+            <!-- Follow-up Duration -->
+<div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
+  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Follow-up Duration</h4>
+
+  <input
+    v-model="followUpDuration"
+    :disabled="!isEditingPrescription"
+    type="text"
+    placeholder="Follow-up Duration"
+    class="w-full bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
+  />
+</div>
+
+<!-- Investigations -->
+<div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
+  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Investigations</h4>
+
+  <textarea
+    v-model="investigations"
+    :disabled="!isEditingPrescription"
+    rows="2"
+    placeholder="Investigations"
+    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+  ></textarea>
+</div>
 
             <!-- Examination -->
             <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
@@ -666,9 +655,7 @@ function onRxImageSelected(event) {
 }
 
 function populatePrescription(prescription) {
-  diagnosis.value = prescription?.diagnosis || '';
   investigations.value = prescription?.investigations || '';
-  generalInstructions.value = prescription?.general_instructions || '';
   followUpDuration.value = prescription?.follow_up_duration || '';
   adviceNotes.value = prescription?.follow_up_advice || '';
   examination.value = prescription?.examination || '';
@@ -925,11 +912,7 @@ async function loadExistingPrescription() {
 
     rxSubmitted.value = prescription.workflow_state === 'Complete';
 
-    diagnosis.value = prescription.diagnosis || '';
-
     investigations.value = prescription.investigations || '';
-
-    generalInstructions.value = prescription.general_instructions || '';
 
     followUpDuration.value = prescription.follow_up_duration || '';
 
@@ -955,9 +938,7 @@ async function loadExistingPrescription() {
 // Smart Rx Data
 const medicines = ref([]);
 const prescriptionParsed = ref(false);
-const diagnosis = ref('');
 const investigations = ref('');
-const generalInstructions = ref('');
 const followUpDuration = ref('');
 const adviceNotes = ref('');
 const examination = ref('');
@@ -1143,9 +1124,7 @@ async function savePrescriptionDraft() {
       name: prescriptionName.value || undefined,
       appointment: bookingId.value,
 
-      diagnosis: diagnosis.value,
       investigations: investigations.value,
-      general_instructions: generalInstructions.value,
 
       follow_up_duration: followUpDuration.value,
       follow_up_advice: adviceNotes.value,

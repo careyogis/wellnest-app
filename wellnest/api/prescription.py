@@ -260,9 +260,7 @@ def save_ocr_prescription(name, response_data):
 def create_consultation_prescription(
     appointment,
     followup_expiry_date=None,
-    diagnosis=None,
     investigations=None,
-    general_instructions=None,
     examination=None,
     provisional_diagnosis=None,
     follow_up_duration=None,
@@ -315,9 +313,7 @@ def create_consultation_prescription(
     doc.patient = appointment_doc.patient
     doc.practitioner = appointment_doc.practitioner
     doc.followup_expiry_date = followup_expiry_date
-    doc.diagnosis = diagnosis or ""
     doc.investigations = investigations or ""
-    doc.general_instructions = general_instructions or ""
     doc.examination = examination or ""
     doc.provisional_diagnosis = provisional_diagnosis or ""
     doc.follow_up_duration = follow_up_duration or ""
@@ -346,9 +342,7 @@ def create_consultation_prescription(
         "practitioner": doc.practitioner,
         "followup_expiry_date": doc.followup_expiry_date,
         "workflow_state": doc.workflow_state,
-        "diagnosis": doc.diagnosis,
         "investigations": doc.investigations,
-        "general_instructions": doc.general_instructions,
         "examination": doc.examination,
         "provisional_diagnosis": doc.provisional_diagnosis,
         "follow_up_duration": doc.follow_up_duration,
@@ -372,9 +366,7 @@ def save_consultation_prescription_draft(
     appointment=None,
     prescription_date=None,
     followup_expiry_date=None,
-    diagnosis=None,
     investigations=None,
-    general_instructions=None,
     follow_up_duration=None,
     follow_up_advice=None,
     examination=None,
@@ -463,9 +455,7 @@ def save_consultation_prescription_draft(
 
     doc.followup_expiry_date = followup_expiry_date
 
-    doc.diagnosis = diagnosis or ""
     doc.investigations = investigations or ""
-    doc.general_instructions = general_instructions or ""
     doc.examination = examination or ""
     doc.provisional_diagnosis = provisional_diagnosis or ""
 
@@ -511,9 +501,7 @@ def save_consultation_prescription_draft(
     return {
         "name": doc.name,
         "workflow_state": doc.workflow_state,
-        "diagnosis": doc.diagnosis,
         "investigations": doc.investigations,
-        "general_instructions": doc.general_instructions,
         "examination": doc.examination,
         "provisional_diagnosis": doc.provisional_diagnosis,
         "follow_up_duration": doc.follow_up_duration,
@@ -630,9 +618,7 @@ def get_consultation_prescription(appointment):
         "practitioner": doc.practitioner,
         "followup_expiry_date": doc.followup_expiry_date,
         "workflow_state": doc.workflow_state,
-        "diagnosis": doc.diagnosis,
         "investigations": doc.investigations,
-        "general_instructions": doc.general_instructions,
         "examination": doc.examination,
         "provisional_diagnosis": doc.provisional_diagnosis,
         "follow_up_duration": doc.follow_up_duration,
