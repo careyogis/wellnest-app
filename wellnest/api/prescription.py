@@ -91,12 +91,8 @@ def parse_and_create_prescription(
     else:
         print(">>> No existing Smart Prescription found")
 
-    if existing and existing.workflow_state in (
-        "Processing",
-        "Draft",
-        "Complete",
-    ):
-        print(">>> Existing prescription is already active")
+    if existing and existing.workflow_state == "Processing":
+        print(">>> Existing prescription is currently processing")
         print(
             f">>> Returning existing prescription: "
             f"{existing.name}"
@@ -105,7 +101,7 @@ def parse_and_create_prescription(
             f">>> Existing state: "
             f"{existing.workflow_state}"
         )
-        print(">>> PRESCRIPTION API END - ALREADY EXISTS")
+        print(">>> PRESCRIPTION API END - ALREADY PROCESSING")
         print("=" * 80 + "\n")
 
         return {
@@ -113,12 +109,12 @@ def parse_and_create_prescription(
             "name": existing.name,
             "workflow_state": existing.workflow_state,
             "message": (
-                "A prescription already exists or is being "
+                "A prescription is already being "
                 "processed for this consultation."
             ),
         }
 
-    if existing and existing.workflow_state == "Failed":
+    if existing and existing.workflow_state in ("Draft", "Failed"):
         print(
             f">>> Reusing previously failed prescription: "
             f"{existing.name}"
