@@ -242,7 +242,8 @@ fixtures = ["State", "City", "Specialization", "Attendant Service", "Nursing Ser
         {"doctype": "Role", "filters": [["name", "in", ["Caregiver", "Doctor"]]]},
             # export only those records that match the filter from Custom Field table
         {"doctype": "Custom Field", "filters": [["module", "in", ["WellNest", "Health"]]]},
-        { "doctype": "Client Script", "filters": [["module", "in", ["WellNest", "Health"]]]}
+        {"doctype": "Client Script", "filters": [["module", "in", ["WellNest", "Health"]]]},
+        {"doctype": "Property Setter", "filters": [["name", "=", "Smart Prescription-workflow_state-options"]]}
         ]
 
 website_route_rules = [
