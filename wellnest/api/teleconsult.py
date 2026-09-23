@@ -1,7 +1,8 @@
 import time                                                                                                                                          
 import frappe
 import frappe.utils
-from agora_token_builder import RtcTokenBuilder                                                                                                      
+from agora_token_builder import RtcTokenBuilder
+from logger import log_call_event                                                                                                      
 																																						
 @frappe.whitelist()                                                                                                                                  
 def get_agora_token(channel_name, uid=1001, role="publisher"):                                                                                       
@@ -88,5 +89,5 @@ def report_doctor_noshow(appointment_id):
 		"issue_type": "Service",
 	})
 	issue.insert(ignore_permissions=True)
-																																					
+	log_call_event("patient_reported_noshow", appointment_id)																																					
 	return {"message": "Appointment marked as 'No Show' and the support team have been notified."}

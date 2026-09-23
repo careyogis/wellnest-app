@@ -16,12 +16,15 @@ def log_call_event(event, appointment_id, **kwargs):
 	  - doctor_joined_rtc_channel
 	  - call_ended            (includes duration_seconds, doctor_joined)
 	  - network_quality_degraded (includes quality level)
+	  - patient_reported_noshow
+	  - patient_exiting_call
 
 	Logs are written to <site>/logs/call_events.log via frappe.logger().
 	"""
 	import json
 
 	logger = frappe.logger("call_events", allow_site=True, max_size=5, file_count=20)
+	logger.setLevel(20)
 
 	payload = {
 		"event": event,

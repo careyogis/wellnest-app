@@ -1055,14 +1055,14 @@ async function toggleAudio() {
   isMuted.value = !isMuted.value;
   await agora.toggleAudio(!isMuted.value);
 
-  logCallEvent(isMuted.value ? 'doctor_muted' : 'doctor_unmuted');
+  // logCallEvent(isMuted.value ? 'doctor_muted' : 'doctor_unmuted');
 }
 
 async function toggleVideo() {
   isVideoOff.value = !isVideoOff.value;
   await agora.toggleVideo(!isVideoOff.value);
 
-  logCallEvent(isVideoOff.value ? 'doctor_video_disabled' : 'doctor_video_enabled');
+  // logCallEvent(isVideoOff.value ? 'doctor_video_disabled' : 'doctor_video_enabled');
 }
 
 async function toggleScreenShare() {
@@ -1070,7 +1070,7 @@ async function toggleScreenShare() {
     await agora.stopScreenShare();
     isScreenSharing.value = false;
 
-    logCallEvent('screen_share_stopped');
+    // logCallEvent('screen_share_stopped');
 
     // Replay local camera in local player
     if (agora.localVideoTrack) {
@@ -1082,7 +1082,7 @@ async function toggleScreenShare() {
     if (screenTrack) {
       isScreenSharing.value = true;
 
-      logCallEvent('screen_share_started');
+      // logCallEvent('screen_share_started');
     }
   }
 }
