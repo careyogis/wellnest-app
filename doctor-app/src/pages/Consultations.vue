@@ -1,12 +1,21 @@
 <template>
   <div class="p-4 md:p-6 lg:p-8">
     <!-- Page Header -->
-    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
-      <div>
-        <h1 class="text-3xl font-bold text-gray-900">Consultations</h1>
-        <p class="text-gray-500 mt-1">Select a consultation to open the patient workspace.</p>
-      </div>
-    </div>
+   <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
+  <div>
+    <h1 class="text-3xl font-bold text-gray-900">Consultations</h1>
+    <p class="text-gray-500 mt-1">Select a consultation to open the patient workspace.</p>
+  </div>
+
+  <button
+    type="button"
+    class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 transition"
+     @click="showCancelAllModal = true"
+  >
+    <FeatherIcon name="x-circle" class="w-4 h-4" />
+    Cancel All Consultations
+  </button>
+</div>
 
     <!-- Blade workspace -->
     <div class="grid grid-cols-1 xl:grid-cols-[360px_minmax(0,1fr)] gap-4 xl:gap-6 items-stretch min-h-[calc(100vh-180px)]">
@@ -156,18 +165,43 @@
                   <span class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-amber-100 text-amber-700 font-semibold"> Payment Pending </span>
                 </template>
 
-                <template v-else>
-                  <button
-                    type="button"
-                    class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-teal-600 text-white font-semibold hover:bg-teal-700 transition"
-                    :disabled="joiningConsultation"
-                    @click="joinConsultation(selectedConsultation, selectedConsultation.bookingStatus === 'In-Progress')"
-                  >
-                    <FeatherIcon :name="selectedConsultation.bookingStatus === 'In-Progress' ? 'play' : 'video'" class="w-4 h-4" />
+              <template v-else>
+  <template
+    v-if="
+      selectedConsultation.bookingStatus === 'Cancelled by Doctor' ||
+      selectedConsultation.bookingStatus === 'Cancelled'
+    "
+  >
+    <span
+      class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gray-100 text-gray-600 font-semibold"
+    >
+      <FeatherIcon name="x-circle" class="w-4 h-4" />
+      Cancelled
+    </span>
+  </template>
 
-                    {{ selectedConsultation.bookingStatus === 'In-Progress' ? 'Continue Call' : 'Join Call' }}
-                  </button>
-                </template>
+  <button
+    v-else
+    type="button"
+    class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-teal-600 text-white font-semibold hover:bg-teal-700 transition"
+    :disabled="joiningConsultation"
+    @click="joinConsultation(selectedConsultation, selectedConsultation.bookingStatus === 'In-Progress')"
+  >
+    <FeatherIcon :name="selectedConsultation.bookingStatus === 'In-Progress' ? 'play' : 'video'" class="w-4 h-4" />
+
+    {{ selectedConsultation.bookingStatus === 'In-Progress' ? 'Continue Call' : 'Join Call' }}
+  </button>
+</template>
+                <!-- Cancel Consultation -->
+                    <button
+                     v-if="selectedConsultation.bookingStatus === 'Scheduled'"
+                          type="button"
+                     class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-red-300 bg-white text-red-600 font-semibold hover:bg-red-50 transition"
+                         @click="showCancelModal = true"
+                             >
+                         <FeatherIcon name="x-circle" class="w-4 h-4" />
+                         Cancel Consultation
+                          </button>
 
                 <!-- Preview -->
                 <button
@@ -371,6 +405,258 @@
       </main>
     </div>
   </div>
+
+<!-- Cancel Consultation Modal -->
+<div
+  v-if="showCancelModal"
+  class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+  @click.self="showCancelModal = false"
+>
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+      <h2 class="text-xl font-bold text-gray-900">
+        Cancel Consultation
+      </h2>
+
+      <button
+        type="button"
+        class="text-gray-500 hover:text-gray-900 text-2xl"
+        @click="showCancelModal = false"
+      >
+        ×
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 py-5">
+      <p class="text-sm text-gray-600 mb-4">
+        Please select a reason for cancelling this consultation.
+      </p>
+
+      <div class="space-y-3">
+        <label
+         v-for="reason in [
+  'Emergency',
+  'Health Issues',
+  'Personal Commitment',
+  'Technical Issues',
+  'Others'
+]"
+          :key="reason"
+          class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50"
+        >
+          <input
+            v-model="cancelReason"
+            type="radio"
+            name="cancelReason"
+            :value="reason"
+            class="w-4 h-4"
+          />
+
+          <span class="text-sm font-medium text-gray-700">
+            {{ reason }}
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex justify-end gap-3 px-6 py-4 border-t border-gray-200">
+      <button
+        type="button"
+        class="px-5 py-3 rounded-xl bg-gray-100 text-gray-800 font-semibold hover:bg-gray-200"
+        @click="showCancelModal = false"
+      >
+        Close
+      </button>
+
+      <button
+        type="button"
+        class="px-5 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        :disabled="!cancelReason"
+         @click="cancelConsultation"
+      >
+        Confirm Cancellation
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Cancel All Consultations Modal -->
+<div
+  v-if="showCancelAllModal"
+  class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+  @click.self="showCancelAllModal = false"
+>
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+      <h2 class="text-xl font-bold text-gray-900">
+        Cancel All Consultations
+      </h2>
+
+      <button
+        type="button"
+        class="text-gray-500 hover:text-gray-900 text-2xl"
+        @click="showCancelAllModal = false"
+      >
+        ×
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 py-5">
+      <p class="text-sm text-gray-600 mb-5">
+        Select the date and reason for cancelling the consultations.
+      </p>
+
+      <!-- Date -->
+      <div class="mb-5">
+        <label class="block text-sm font-semibold text-gray-700 mb-2">
+          Consultation Date
+        </label>
+
+        <input
+          v-model="cancelAllDate"
+          type="date"
+          class="w-full px-3 py-3 rounded-xl border border-gray-300 bg-white text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-200"
+        />
+      </div>
+
+      <!-- Reason -->
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 mb-3">
+          Cancellation Reason
+        </label>
+
+        <div class="space-y-3">
+          <label
+            v-for="reason in [
+              'Emergency',
+              'Health Issues',
+              'Personal Commitment',
+              'Technical Issues',
+
+              'Others'
+            ]"
+            :key="reason"
+            class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50"
+          >
+            <input
+              v-model="cancelAllReason"
+              type="radio"
+              name="cancelAllReason"
+              :value="reason"
+              class="w-4 h-4"
+            />
+
+            <span class="text-sm font-medium text-gray-700">
+              {{ reason }}
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex justify-end gap-3 px-6 py-4 border-t border-gray-200">
+      <button
+        type="button"
+        class="px-5 py-3 rounded-xl bg-gray-100 text-gray-800 font-semibold hover:bg-gray-200"
+        @click="showCancelAllModal = false"
+      >
+        Close
+      </button>
+
+      <button
+        type="button"
+        class="px-5 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        :disabled="!cancelAllDate || !cancelAllReason"
+      @click="showCancelAllModal = false; showCancelAllConfirmation = true"
+      >
+        Continue
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Cancel All Confirmation Modal -->
+<div
+  v-if="showCancelAllConfirmation"
+  class="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4"
+  @click.self="showCancelAllConfirmation = false"
+>
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+      <h2 class="text-xl font-bold text-gray-900">
+        Confirm Cancellation
+      </h2>
+
+      <button
+        type="button"
+        class="text-gray-500 hover:text-gray-900 text-2xl"
+        @click="showCancelAllConfirmation = false"
+      >
+        ×
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="px-6 py-6">
+      <div class="flex items-start gap-3">
+        <div
+          class="flex-shrink-0 w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center"
+        >
+          <FeatherIcon name="alert-triangle" class="w-5 h-5" />
+        </div>
+
+        <div>
+          <p class="text-base font-semibold text-gray-900">
+            Are you sure you want to cancel all consultations?
+          </p>
+
+          <p class="mt-2 text-sm text-gray-600">
+            This will cancel all scheduled consultations for
+            <span class="font-semibold">
+  {{ cancelAllDate.split('-').reverse().join('-') }}
+</span>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex justify-end gap-3 px-6 py-4 border-t border-gray-200">
+      <button
+        type="button"
+        class="px-5 py-3 rounded-xl bg-gray-100 text-gray-800 font-semibold hover:bg-gray-200"
+        @click="
+          showCancelAllConfirmation = false;
+          showCancelAllModal = true;
+        "
+      >
+        No, Go Back
+      </button>
+
+      <button
+        type="button"
+        class="px-5 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700"
+        @click="cancelAllConsultations"
+      >
+        Yes, Cancel All
+      </button>
+    </div>
+
+  </div>
+</div>
+
 </template>
 
 <script setup>
@@ -391,12 +677,28 @@ const startConsultationResource = createResource({
   url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.start_consultation',
 });
 
+const cancelConsultationResource = createResource({
+  url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.cancel_consultation',
+});
+
+const cancelAllConsultationsResource = createResource({
+  url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.cancel_all_consultations',
+});
+
 const consultationRef = ref(null);
 
 const statusFilter = ref('Upcoming');
 const selectedConsultation = ref(null);
 const expandedReasons = ref(new Set());
 const joiningConsultation = ref(false);
+
+const showCancelModal = ref(false)
+const cancelReason = ref('')
+
+const showCancelAllModal = ref(false)
+const cancelAllReason = ref('')
+const showCancelAllConfirmation = ref(false)
+const cancelAllDate = ref('')
 
 const showPrescriptionPreview = ref(false);
 const uploadedPrescriptionVisible = ref(false);
@@ -478,13 +780,41 @@ const filteredConsultations = computed(() => {
     return consultations.value;
   }
 
-  if (statusFilter.value === 'Upcoming') {
-  return consultations.value.filter(
-    (consultation) =>
-      consultation.bookingStatus !== 'Completed' &&
-      consultation.paymentStatus === 'Paid'
-  );
-}
+    if (statusFilter.value === 'Upcoming') {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return consultations.value.filter((consultation) => {
+      const isUpcomingStatus =
+        consultation.bookingStatus !== 'Completed' &&
+        consultation.bookingStatus !== 'Cancelled' &&
+        consultation.bookingStatus !== 'Cancelled by Doctor' &&
+        consultation.bookingStatus !== 'No Show';
+
+      if (!isUpcomingStatus) return false;
+
+      // Preserve the existing develop behavior:
+      // Upcoming consultations must be paid.
+      if (consultation.paymentStatus !== 'Paid') return false;
+
+      if (consultation.scheduledTime) {
+        const dateStr = String(consultation.scheduledTime).trim().split(' ')[0];
+        const parts = dateStr.split('-');
+
+        if (parts.length === 3) {
+          const appointmentDate = new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            Number(parts[2])
+          );
+
+          return appointmentDate >= today;
+        }
+      }
+
+      return true;
+    });
+  }
 
   if (statusFilter.value === 'Completed') {
     return consultations.value.filter((consultation) => consultation.bookingStatus === 'Completed');
@@ -574,6 +904,47 @@ async function joinConsultation(consultation, isResume = false) {
     console.error('Failed to start consultation:', error);
   } finally {
     joiningConsultation.value = false;
+  }
+}
+
+async function cancelConsultation() {
+  if (!selectedConsultation.value?.id || !cancelReason.value) {
+    return;
+  }
+
+  try {
+    await cancelConsultationResource.submit({
+      appointment: selectedConsultation.value.id,
+      reason: cancelReason.value,
+    });
+
+    showCancelModal.value = false;
+    cancelReason.value = '';
+
+    await consultationsResource.reload();
+  } catch (error) {
+    console.error('Failed to cancel consultation:', error);
+  }
+}
+
+async function cancelAllConsultations() {
+  if (!cancelAllDate.value || !cancelAllReason.value) {
+    return;
+  }
+
+  try {
+    await cancelAllConsultationsResource.submit({
+      date: cancelAllDate.value,
+      reason: cancelAllReason.value,
+    });
+
+    showCancelAllConfirmation.value = false;
+    cancelAllReason.value = '';
+    cancelAllDate.value = '';
+
+    await consultationsResource.reload();
+  } catch (error) {
+    console.error('Failed to cancel all consultations:', error);
   }
 }
 

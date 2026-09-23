@@ -18,6 +18,8 @@
   "section_break_meds",
   "medicines",
   "follow_up_advice",
+  "diet_advice",
+  "exercise_advice",
   "follow_up_duration",
   "original_uploaded_prescription",
   "raw_ai_response"
@@ -70,6 +72,16 @@
    "fieldname": "follow_up_advice",
    "fieldtype": "Small Text",
    "label": "Follow-up Advice"
+  },
+  {
+   "fieldname": "diet_advice",
+   "fieldtype": "Small Text",
+   "label": "Diet Advice"
+  },
+  {
+   "fieldname": "exercise_advice",
+   "fieldtype": "Small Text",
+   "label": "Exercise Advice"
   },
   {
    "fieldname": "patient_appointment",

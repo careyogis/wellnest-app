@@ -15,10 +15,7 @@
                 <span class="text-sm text-gray-500">Optional</span>
               </div>
 
-              <!-- Arrow -->
-              <svg class="w-5 h-5 text-gray-500 transition-transform duration-200" :class="{ 'rotate-90': vitalsExpanded }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
+
             </button>
 
             <!-- Vitals fields -->
@@ -191,34 +188,28 @@
           </div>
         </section>
         <!-- Follow-up Advice -->
-        <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
-          <div class="mb-5">
-            <h2 class="text-xl font-bold text-gray-900">Follow-up Advice</h2>
+<section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
+  <div class="mb-5">
+    <h2 class="text-xl font-bold text-gray-900">
+      Follow-up Advice
+    </h2>
 
             <p class="text-gray-500 mt-1">Add follow-up instructions for the patient.</p>
           </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-900 mb-2"> Follow-up Advice </label>
+  <div>
+    <label class="block text-sm font-medium text-gray-900 mb-2">
+      Follow-up Advice
+    </label>
 
-            <textarea
-              v-model="followUpAdvice"
-              rows="3"
-              placeholder="Enter follow-up advice"
-              class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-            ></textarea>
-            <label class="block text-sm font-medium text-gray-900 mb-2 mt-4">
-  Follow-up Duration
-</label>
-
-<input
-  v-model="followUpDuration"
-  type="text"
-  placeholder="e.g. 7 days"
-  class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
-/>
-          </div>
-        </section>
+    <textarea
+      v-model="followUpAdvice"
+      rows="3"
+      placeholder="Enter follow-up advice"
+      class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
+    ></textarea>
+  </div>
+</section>
       </main>
     </div>
 

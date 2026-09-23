@@ -33,6 +33,25 @@ class AppNotification(Document):
 					notification_name=self.name,
 				)
 
+def create_consultation_cancellation_notification(appointment, doctor_name):
+    scheduled_time = get_datetime(appointment.scheduled_time)
+
+    app_notification = frappe.get_doc({
+        "doctype": "App Notification",
+        "title": "Consultation Cancelled",
+        "body": (
+            f"Your consultation with {doctor_name} scheduled for "
+            f"{scheduled_time.strftime('%d-%m-%Y %I:%M %p')} "
+            f"has been cancelled by the doctor."
+        ),
+        "target_audience": "Specific Patient",
+        "patient": appointment.patient,
+        "scheduled_time": now_datetime(),
+        "send_push_notification": 1,
+    })
+
+    app_notification.insert(ignore_permissions=True)
+
 @frappe.whitelist()
 def send_fcm_push(notification_name):
 	doc = frappe.get_doc("App Notification", notification_name)

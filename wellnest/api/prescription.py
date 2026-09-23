@@ -261,6 +261,8 @@ def create_consultation_prescription(
     provisional_diagnosis=None,
     follow_up_duration=None,
     follow_up_advice=None,
+    diet_advice=None,
+    exercise_advice=None,
     medicines=None,
 ):
     if not appointment:
@@ -314,6 +316,8 @@ def create_consultation_prescription(
     doc.provisional_diagnosis = provisional_diagnosis or ""
     doc.follow_up_duration = follow_up_duration or ""
     doc.follow_up_advice = follow_up_advice or ""
+    doc.diet_advice = diet_advice or ""
+    doc.exercise_advice = exercise_advice or ""
     doc.workflow_state = "Draft"
 
     for medicine in medicines:
