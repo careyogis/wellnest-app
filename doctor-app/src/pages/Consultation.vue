@@ -209,6 +209,18 @@
       class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
     ></textarea>
   </div>
+  <div class="mt-5">
+  <label class="block text-sm font-medium text-gray-900 mb-2">
+    Follow-up Duration
+  </label>
+
+  <input
+    v-model="followUpDuration"
+    type="text"
+    placeholder="e.g. 7 days, 2 weeks"
+    class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+  />
+</div>
 </section>
       </main>
     </div>
@@ -903,6 +915,7 @@ async function finalizePrescription() {
         examination: examination.value || '',
         provisional_diagnosis: provisionalDiagnosis.value || '',
         follow_up_advice: followUpAdvice.value || '',
+        follow_up_duration: followUpDuration.value || '',
         medicines: JSON.stringify(medicinesPayload),
       });
 
@@ -925,6 +938,7 @@ async function finalizePrescription() {
         examination: examination.value || '',
         provisional_diagnosis: provisionalDiagnosis.value || '',
         follow_up_advice: followUpAdvice.value || '',
+        follow_up_duration: followUpDuration.value || '',
 
         medicines: JSON.stringify(medicinesPayload),
       });
@@ -984,6 +998,7 @@ async function savePrescriptionDraft(showMessage = true) {
       examination: examination.value || '',
       provisional_diagnosis: provisionalDiagnosis.value || '',
       follow_up_advice: followUpAdvice.value || '',
+      follow_up_duration: followUpDuration.value || '',
 
       medicines: JSON.stringify(medicinesPayload),
     });
