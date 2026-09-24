@@ -48,8 +48,29 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "Unverified\nScheduled\nIn-Progress\nCompleted\nCancelled\nNo Show"
+  "options": "Unverified\nScheduled\nIn-Progress\nCompleted\nCancelled\nCancelled by Doctor\nNo Show"
   },
+
+  {
+   "fieldname": "cancel_reason",
+   "fieldtype": "Select",
+   "label": "Cancellation Reason",
+   "options": "Emergency\nHealth Issues\nPersonal Commitment\nTechnical Issues\nChoose not to say\nOthers"
+  },
+  {
+   "fieldname": "cancelled_by",
+   "fieldtype": "Link",
+   "label": "Cancelled By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cancelled_at",
+   "fieldtype": "Datetime",
+   "label": "Cancelled At",
+   "read_only": 1
+  },
+
   {
    "fieldname": "column_break_tele",
    "fieldtype": "Column Break"

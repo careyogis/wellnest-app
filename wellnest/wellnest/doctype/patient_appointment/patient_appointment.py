@@ -5,11 +5,14 @@ import hashlib
 
 import frappe
 from frappe.model.document import Document
-from frappe.utils import get_datetime
+from frappe.utils import get_datetime, now_datetime, getdate, add_days
 
 from wellnest.api.teleconsult import get_agora_token
 from wellnest.api.notifications import notify_doctor_of_new_booking
 
+from wellnest.health.doctype.app_notification.app_notification import (
+    create_consultation_cancellation_notification,
+)
 
 class PatientAppointment(Document):
     def after_insert(self):
@@ -217,4 +220,80 @@ def end_consultation(appointment):
     return {
         "appointment": appointment.name,
         "status": "Completed",
+    }
+
+@frappe.whitelist()
+def cancel_consultation(appointment, reason):
+    appointment = _get_appointment_for_current_practitioner(appointment)
+
+    if appointment.status != "Scheduled":
+        frappe.throw(
+            f"Consultation cannot be cancelled from {appointment.status} status"
+        )
+
+    if not reason:
+        frappe.throw("Cancellation reason is required")
+
+    appointment.status = "Cancelled by Doctor"
+    appointment.cancel_reason = reason
+    appointment.cancelled_by = frappe.session.user
+    appointment.cancelled_at = now_datetime()
+
+    appointment.save(ignore_permissions=True)
+
+    doctor_name = frappe.db.get_value(
+        "Practitioner",
+        appointment.practitioner,
+        "full_name",
+    ) or "your doctor"
+
+    create_consultation_cancellation_notification(
+        appointment,
+        doctor_name,
+    )
+    return {
+        "appointment": appointment.name,
+        "status": appointment.status,
+        "reason": appointment.cancel_reason,
+    }
+@frappe.whitelist()
+def cancel_all_consultations(date, reason):
+    if not date:
+        frappe.throw("Cancellation date is required")
+
+    if not reason:
+        frappe.throw("Cancellation reason is required")
+
+    practitioner = _get_current_practitioner()
+
+    selected_date = getdate(date)
+    start_datetime = get_datetime(selected_date)
+    end_datetime = add_days(start_datetime, 1)
+
+    appointments = frappe.get_all(
+        "Patient Appointment",
+        filters=[
+            ["practitioner", "=", practitioner],
+            ["status", "=", "Scheduled"],
+            ["scheduled_time", ">=", max(start_datetime, now_datetime())],
+            ["scheduled_time", "<", end_datetime],
+        ],
+        fields=["name"],
+        order_by="scheduled_time asc",
+    )
+
+    cancelled_appointments = []
+
+    for appointment in appointments:
+        cancel_consultation(
+            appointment=appointment.name,
+            reason=reason,
+        )
+
+        cancelled_appointments.append(appointment.name)
+
+    return {
+        "date": str(selected_date),
+        "cancelled_count": len(cancelled_appointments),
+        "appointments": cancelled_appointments,
     }
