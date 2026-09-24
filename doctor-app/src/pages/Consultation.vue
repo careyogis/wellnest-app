@@ -14,8 +14,6 @@
                 <h2 class="text-xl font-bold text-gray-900">Vitals</h2>
                 <span class="text-sm text-gray-500">Optional</span>
               </div>
-
-
             </button>
 
             <!-- Vitals fields -->
@@ -188,19 +186,15 @@
           </div>
         </section>
         <!-- Follow-up Advice -->
-<section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
-  <div class="mb-5">
-    <h2 class="text-xl font-bold text-gray-900">
-      Follow-up Advice
-    </h2>
+        <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
+          <div class="mb-5">
+            <h2 class="text-xl font-bold text-gray-900">Follow-up Advice</h2>
 
             <p class="text-gray-500 mt-1">Add follow-up instructions for the patient.</p>
           </div>
 
-  <div>
-    <label class="block text-sm font-medium text-gray-900 mb-2">
-      Follow-up Advice
-    </label>
+          <div>
+            <label class="block text-sm font-medium text-gray-900 mb-2"> Follow-up Advice </label>
 
             <textarea
               v-model="followUpAdvice"
@@ -208,43 +202,14 @@
               placeholder="Enter follow-up advice"
               class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
             ></textarea>
-            <label class="block text-sm font-medium text-gray-900 mb-2 mt-4">
-  Follow-up In
-</label>
+            <label class="block text-sm font-medium text-gray-900 mb-2 mt-4"> Follow-up Duration </label>
 
-<input
-  v-model="followUpDuration"
-  type="text"
-  placeholder="in days"
-  class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
-/>
-           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <div>
-           <label class="block text-sm font-medium text-gray-900 mb-2">
-            Diet Advice <span class="text-gray-500 font-normal">(Optional)</span>
-        </label>
-
-        <textarea
-             v-model="dietAdvice"
-              rows="3"
-             placeholder="Enter diet advice"
-            class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-    ></textarea>
-  </div>
-
-  <div>
-      <label class="block text-sm font-medium text-gray-900 mb-2">
-      Exercise Advice <span class="text-gray-500 font-normal">(Optional)</span>
-    </label>
-
-    <textarea
-      v-model="exerciseAdvice"
-      rows="3"
-      placeholder="Enter exercise advice"
-      class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-    ></textarea>
-  </div>
-</div>
+            <input
+              v-model="followUpDuration"
+              type="text"
+              placeholder="e.g. 7 days"
+              class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+            />
           </div>
         </section>
       </main>
@@ -476,6 +441,46 @@
         </div>
       </div>
 
+      <!-- OCR Status -->
+      <div
+        v-if="ocrStatusMessage"
+        class="mx-5 mb-4 rounded-xl border p-4"
+        :class="{
+          'bg-amber-50 border-amber-200 text-amber-800': ocrStatusType === 'processing',
+          'bg-emerald-50 border-emerald-200 text-emerald-800': ocrStatusType === 'success',
+          'bg-red-50 border-red-200 text-red-800': ocrStatusType === 'error',
+        }"
+      >
+        <div class="flex items-start gap-3">
+          <FeatherIcon
+            :name="ocrStatusType === 'processing' ? 'loader' : ocrStatusType === 'success' ? 'check-circle' : 'alert-circle'"
+            :class="ocrStatusType === 'processing' ? 'animate-spin' : ''"
+            class="w-5 h-5 shrink-0 mt-0.5"
+          />
+
+          <div class="text-sm">
+            <div v-if="ocrStatusType === 'processing'" class="font-semibold">Prescription is being processed.</div>
+
+            <div v-else-if="ocrStatusType === 'error'" class="font-semibold">Prescription processing failed.</div>
+
+            <div v-else-if="ocrStatusType === 'success'" class="font-semibold">Prescription processed successfully.</div>
+
+            <p class="mt-1">
+              {{ ocrStatusMessage }}
+            </p>
+          </div>
+        </div>
+
+        <button
+          v-if="ocrStatusType === 'error' && prescriptionWorkflowState === 'Failed'"
+          type="button"
+          class="mt-4 w-full px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold text-sm"
+          @click="triggerUpload"
+        >
+          Upload Prescription Again
+        </button>
+      </div>
+
       <!-- Modal footer -->
       <div class="flex justify-end px-5 py-4 border-t border-gray-200 bg-white shrink-0">
         <button type="button" class="px-5 py-3 rounded-xl bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200" @click="showOcrModal = false">Close</button>
@@ -484,7 +489,7 @@
   </div>
 </template>
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, onUnmounted } from 'vue';
 import { FeatherIcon, createResource } from 'frappe-ui';
 import careyogiLogo from '@/assets/images/logo-01.png';
 
@@ -650,6 +655,11 @@ const ocrExtractedText = ref('');
 const ocrPrescriptionName = ref('');
 const ocrLoading = ref(false);
 
+const ocrStatusType = ref(null);
+const ocrStatusMessage = ref('');
+const ocrProcessingStarted = ref(false);
+let prescriptionStatusPollTimer = null;
+
 const prescriptionFileInput = ref(null);
 const uploadWorkflowSection = ref(null);
 const selectedPrescriptionFile = ref(null);
@@ -746,6 +756,26 @@ async function loadClinicalRecord() {
   }
 }
 
+function startPrescriptionStatusPolling() {
+  if (prescriptionStatusPollTimer) return;
+
+  prescriptionStatusPollTimer = window.setInterval(async () => {
+    if (prescriptionWorkflowState.value !== 'Processing') {
+      stopPrescriptionStatusPolling();
+      return;
+    }
+
+    await loadPrescription();
+  }, 10000);
+}
+
+function stopPrescriptionStatusPolling() {
+  if (prescriptionStatusPollTimer) {
+    clearInterval(prescriptionStatusPollTimer);
+    prescriptionStatusPollTimer = null;
+  }
+}
+
 async function loadPrescription() {
   const appointment = props.selectedConsultation?.appointment;
 
@@ -761,11 +791,17 @@ async function loadPrescription() {
     });
 
     if (!response) {
+      prescriptionName.value = null;
+      prescriptionWorkflowState.value = null;
+      stopPrescriptionStatusPolling();
       emit('prescription-loaded', null);
       return;
     }
-    prescriptionName.value = response.name;
-    prescriptionWorkflowState.value = response.workflow_state;
+
+    const previousState = prescriptionWorkflowState.value;
+
+    prescriptionName.value = response.name || null;
+    prescriptionWorkflowState.value = response.workflow_state || null;
 
     if (response.file_url) {
       prescriptionImagePreview.value = response.file_url;
@@ -777,15 +813,7 @@ async function loadPrescription() {
       file_url: response.file_url || '',
     });
 
-    ocrPrescriptionName.value = response.name;
-    ocrExtractedText.value = JSON.stringify(
-      {
-        medicines: response.medicines || [],
-        follow_up_advice: response.follow_up_advice || '',
-      },
-      null,
-      2
-    );
+    ocrPrescriptionName.value = response.name || '';
 
     medicines.value = (response.medicines || []).map((medicine) => ({
       medicine: medicine.medicine_name || '',
@@ -795,6 +823,51 @@ async function loadPrescription() {
     }));
 
     followUpAdvice.value = response.follow_up_advice || '';
+
+    if (response.workflow_state === 'Processing') {
+      ocrProcessingStarted.value = true;
+      ocrLoading.value = true;
+
+      ocrStatusType.value = 'processing';
+      ocrStatusMessage.value = 'Prescription is being processed. Please wait while we extract the prescription details. You cannot edit or save the prescription while processing is in progress.';
+
+      startPrescriptionStatusPolling();
+
+      return;
+    }
+
+    if (response.workflow_state === 'Failed') {
+      ocrLoading.value = false;
+
+      ocrStatusType.value = 'error';
+      ocrStatusMessage.value = "We couldn't extract the prescription after multiple attempts. Please upload the prescription again to retry.";
+
+      stopPrescriptionStatusPolling();
+
+      return;
+    }
+
+    if (ocrProcessingStarted.value && previousState === 'Processing' && response.workflow_state === 'Draft') {
+      ocrProcessingStarted.value = false;
+      ocrLoading.value = false;
+
+      ocrStatusType.value = 'success';
+      ocrStatusMessage.value = 'Prescription processed successfully. Please review and edit before publishing.';
+
+      stopPrescriptionStatusPolling();
+    } else if (response.workflow_state !== 'Processing') {
+      stopPrescriptionStatusPolling();
+      ocrLoading.value = false;
+    }
+
+    ocrExtractedText.value = JSON.stringify(
+      {
+        medicines: response.medicines || [],
+        follow_up_advice: response.follow_up_advice || '',
+      },
+      null,
+      2
+    );
   } catch (error) {
     console.error('Failed to load prescription:', error);
   }
@@ -803,6 +876,8 @@ async function loadPrescription() {
 watch(
   () => props.selectedConsultation?.appointment,
   () => {
+    stopPrescriptionStatusPolling();
+
     if (prescriptionImagePreview.value) {
       URL.revokeObjectURL(prescriptionImagePreview.value);
     }
@@ -810,6 +885,9 @@ watch(
     selectedPrescriptionFile.value = null;
     prescriptionImagePreview.value = '';
     ocrLoading.value = false;
+    ocrProcessingStarted.value = false;
+    ocrStatusType.value = null;
+    ocrStatusMessage.value = '';
     showOcrModal.value = false;
 
     loadClinicalRecord();
@@ -857,6 +935,7 @@ const doctorDetails = computed(() => [
     description: 'Digitally signed draft',
   },
 ]);
+
 function addComplaint() {
   complaints.value.push({
     id: Date.now(),
@@ -882,6 +961,12 @@ function addMedicine() {
 }
 
 async function finalizePrescription() {
+  if (prescriptionWorkflowState.value === 'Processing') {
+    ocrStatusType.value = 'processing';
+    ocrStatusMessage.value = 'You cannot publish the prescription while processing is in progress. Please wait for prescription processing to finish.';
+    return;
+  }
+
   if (prescriptionWorkflowState.value === 'Confirmed' || prescriptionWorkflowState.value === 'Complete') {
     alert('This prescription has already been submitted for this patient.');
     return;
@@ -996,6 +1081,12 @@ async function finalizePrescription() {
 
 async function savePrescriptionDraft(showMessage = true) {
   console.log('Current prescription workflow state:', prescriptionWorkflowState.value);
+
+  if (prescriptionWorkflowState.value === 'Processing') {
+    ocrStatusType.value = 'processing';
+    ocrStatusMessage.value = 'You cannot edit or save the prescription while processing is in progress. Please wait for prescription processing to finish.';
+    return;
+  }
 
   if (prescriptionWorkflowState.value === 'Confirmed' || prescriptionWorkflowState.value === 'Complete') {
     alert('This prescription has already been submitted for this patient.');
@@ -1117,6 +1208,25 @@ async function handlePrescriptionFile(event) {
 
   if (!file) return false;
 
+  if (prescriptionWorkflowState.value === 'Processing') {
+    ocrStatusType.value = 'processing';
+    ocrStatusMessage.value = 'Prescription is being processed. Please wait while we extract the prescription details. You cannot edit or save the prescription while processing is in progress.';
+
+    event.target.value = '';
+    return false;
+  }
+
+  if (prescriptionName.value && ['Draft', 'Failed'].includes(prescriptionWorkflowState.value)) {
+    const confirmed = window.confirm(
+      'Uploading a new prescription will replace the current prescription details with the information extracted from the newly uploaded document. Do you want to continue?'
+    );
+
+    if (!confirmed) {
+      event.target.value = '';
+      return false;
+    }
+  }
+
   const allowedTypes = ['image/jpeg', 'image/png'];
 
   if (!allowedTypes.includes(file.type)) {
@@ -1138,12 +1248,17 @@ async function handlePrescriptionFile(event) {
   prescriptionImagePreview.value = URL.createObjectURL(file);
 
   ocrLoading.value = true;
-  ocrExtractedText.value = 'Processing prescription...';
+  ocrProcessingStarted.value = true;
+
+  ocrStatusType.value = 'processing';
+  ocrStatusMessage.value = 'Prescription is being processed. Please wait while we extract the prescription details. You cannot edit or save the prescription while processing is in progress.';
+
+  ocrExtractedText.value = '';
 
   try {
-    // Upload image to Frappe
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('is_private', '1');
 
     const uploadResponse = await fetch('/api/method/upload_file', {
       method: 'POST',
@@ -1153,24 +1268,20 @@ async function handlePrescriptionFile(event) {
       body: formData,
     });
 
+    if (!uploadResponse.ok) {
+      throw new Error(`Prescription image upload failed (${uploadResponse.status})`);
+    }
+
     const uploadResult = await uploadResponse.json();
-    const fileUrl = uploadResult.message?.file_url;
+    const fileUrl = uploadResult?.message?.file_url;
 
     if (!fileUrl) {
       throw new Error('Failed to upload prescription image.');
     }
 
-    // Show processing status immediately
-    if (fileUrl) {
-      prescriptionImagePreview.value = fileUrl;
-    }
+    prescriptionImagePreview.value = fileUrl;
 
-    ocrExtractedText.value = 'Prescription processing has started. You will be notified once it is ready for review.';
-
-    // OCR will continue in the background.
-    ocrLoading.value = false;
-
-    fetch('/api/method/wellnest.api.prescription.parse_and_create_prescription', {
+    const parseResponse = await fetch('/api/method/wellnest.api.prescription.parse_and_create_prescription', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1181,31 +1292,70 @@ async function handlePrescriptionFile(event) {
         patient: props.selectedConsultation?.patient || null,
         patient_appointment: props.selectedConsultation?.appointment || null,
       }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`OCR request failed with status ${response.status}`);
-        }
+    });
 
-        return response.json();
-      })
-      .then((response) => {
-        console.log('Prescription OCR processing completed:', response);
-      })
-      .catch((error) => {
-        // Keep backend/OCR failures out of the doctor's UI.
-        console.error('Prescription OCR processing failed:', error);
+    const parseResult = await parseResponse.json();
+
+    if (!parseResponse.ok) {
+      throw new Error(parseResult?.exception || parseResult?.message || 'Failed to start prescription processing.');
+    }
+
+    const result = parseResult?.message || parseResult;
+
+    console.log('>>> Prescription OCR queue response:', result);
+
+    if (result?.status === 'already_exists') {
+      prescriptionName.value = result.name || prescriptionName.value;
+      prescriptionWorkflowState.value = result.workflow_state || 'Processing';
+
+      ocrProcessingStarted.value = prescriptionWorkflowState.value === 'Processing';
+
+      if (prescriptionWorkflowState.value === 'Processing') {
+        ocrStatusType.value = 'processing';
+        ocrStatusMessage.value = 'Prescription is being processed. Please wait while we extract the prescription details. You cannot edit or save the prescription while processing is in progress.';
+
+        startPrescriptionStatusPolling();
+      }
+
+      await loadPrescription();
+
+      return true;
+    }
+
+    if (result?.status === 'queued') {
+      prescriptionName.value = result.name || null;
+      prescriptionWorkflowState.value = result.workflow_state || 'Processing';
+
+      ocrProcessingStarted.value = true;
+      ocrLoading.value = true;
+
+      ocrStatusType.value = 'processing';
+      ocrStatusMessage.value = 'Prescription is being processed. Please wait while we extract the prescription details. You cannot edit or save the prescription while processing is in progress.';
+
+      startPrescriptionStatusPolling();
+
+      emit('prescription-loaded', {
+        name: prescriptionName.value,
+        workflow_state: prescriptionWorkflowState.value,
+        file_url: fileUrl,
       });
 
-    return true;
+      return true;
+    }
+
+    throw new Error(result?.message || 'Prescription processing could not be started.');
   } catch (error) {
     console.error('Prescription OCR failed:', error);
 
-    ocrExtractedText.value = 'Prescription processing is temporarily unavailable. Please try again in a moment.';
+    ocrLoading.value = false;
+    ocrProcessingStarted.value = false;
+
+    ocrStatusType.value = 'error';
+    ocrStatusMessage.value = error?.message || 'Failed to start prescription processing. Please try again.';
+
+    stopPrescriptionStatusPolling();
 
     return false;
-  } finally {
-    ocrLoading.value = false;
   }
 }
 
@@ -1275,6 +1425,13 @@ function insertDiagnosisSuggestion() {
 async function saveConsultation() {
   try {
     await saveClinicalRecord(false);
+
+    if (prescriptionWorkflowState.value === 'Processing') {
+      ocrStatusType.value = 'processing';
+      ocrStatusMessage.value = 'Prescription is being processed. Please wait while we extract the prescription details. You cannot edit or save the prescription while processing is in progress.';
+      return;
+    }
+
     await savePrescriptionDraft(false);
 
     alert('Consultation saved as draft.');
@@ -1300,6 +1457,12 @@ function previewTemplate() {
 }
 
 function triggerUpload() {
+  if (prescriptionWorkflowState.value === 'Processing') {
+    ocrStatusType.value = 'processing';
+    ocrStatusMessage.value = 'Prescription is being processed. Please wait while we extract the prescription details. You cannot edit or save the prescription while processing is in progress.';
+    return;
+  }
+
   prescriptionFileInput.value?.click();
 }
 
@@ -1310,6 +1473,14 @@ async function saveAll() {
     await savePrescriptionDraft(false);
   }
 }
+
+onUnmounted(() => {
+  stopPrescriptionStatusPolling();
+
+  if (prescriptionImagePreview.value) {
+    URL.revokeObjectURL(prescriptionImagePreview.value);
+  }
+});
 
 defineExpose({
   previewTemplate,
@@ -1336,6 +1507,12 @@ defineExpose({
 });
 
 async function finalizeDraft() {
+  if (prescriptionWorkflowState.value === 'Processing') {
+    ocrStatusType.value = 'processing';
+    ocrStatusMessage.value = 'You cannot publish the prescription while processing is in progress. Please wait for prescription processing to finish.';
+    return;
+  }
+
   if (!prescriptionName.value) {
     alert('No prescription found.');
     return;
