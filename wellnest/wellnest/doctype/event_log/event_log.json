@@ -29,7 +29,7 @@
    "fieldname": "event_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Event Type",
+   "label": "Event Name",
    "reqd": 1
   },
   {
