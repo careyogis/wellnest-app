@@ -6,14 +6,14 @@ from frappe import db
 
 def execute():
     """
-    Alter the storage engine of tabEvent Log to Aria (or MyISAM
-    on MySQL) so that INSERT operations use table-level locking instead of
+    Alter the storage engine of tabEvent Log to MyISAM (or Aria
+    on MariaDB) so that INSERT operations use table-level locking instead of
     InnoDB row-level locking, eliminating lock-wait contention during peak
     concurrent teleconsultation sessions.
 
     Run directly via:
         bench --site <site> execute \
-            wellnest.patches.v1_0.switch_event_log_to_aria.execute
+            wellnest.patches.v1_0.switch_event_log_to_myisam.execute
 
     MyISAM / Aria do not support ACID transactions or foreign keys.
     This trade-off is intentional for an append-only event-log table where
@@ -26,5 +26,5 @@ def execute():
     engine = "Aria" if is_mariadb else "MyISAM"
 
     db.sql(f"ALTER TABLE `{table}` ENGINE={engine};")
-    frappe.db.commit()
+    db.commit()
     print(f"[patch] {table} engine switched to {engine}.")
