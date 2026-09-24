@@ -208,15 +208,42 @@
               class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
             ></textarea>
             <label class="block text-sm font-medium text-gray-900 mb-2 mt-4">
-  Follow-up Duration
+  Follow-up In
 </label>
 
 <input
   v-model="followUpDuration"
   type="text"
-  placeholder="e.g. 7 days"
+  placeholder="in days"
   class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
 />
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div>
+           <label class="block text-sm font-medium text-gray-900 mb-2">
+            Diet Advice <span class="text-gray-500 font-normal">(Optional)</span>
+        </label>
+
+        <textarea
+             v-model="dietAdvice"
+              rows="3"
+             placeholder="Enter diet advice"
+            class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
+    ></textarea>
+  </div>
+
+  <div>
+      <label class="block text-sm font-medium text-gray-900 mb-2">
+      Exercise Advice <span class="text-gray-500 font-normal">(Optional)</span>
+    </label>
+
+    <textarea
+      v-model="exerciseAdvice"
+      rows="3"
+      placeholder="Enter exercise advice"
+      class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
+    ></textarea>
+  </div>
+</div>
           </div>
         </section>
       </main>
@@ -537,8 +564,9 @@ const examination = ref('');
 const provisionalDiagnosis = ref('');
 
 const followUpAdvice = ref('');
-
 const followUpDuration = ref('');
+const dietAdvice = ref('');
+const exerciseAdvice = ref('');
 
 // Existing prescription data - KEEP FOR NOW
 const medicines = ref([]);
@@ -642,6 +670,8 @@ async function loadClinicalRecord() {
     if (!response) {
       complaints.value = [];
       history.value = '';
+      dietAdvice.value = '';
+      exerciseAdvice.value = '';
     } else {
       complaints.value = (response.chief_complaints || []).map((complaint, index) => ({
         id: index + 1,
@@ -649,6 +679,8 @@ async function loadClinicalRecord() {
       }));
 
       history.value = response.history || '';
+      dietAdvice.value = response.diet_advice || '';
+      exerciseAdvice.value = response.exercise_advice || '';
     }
 
     const prescriptionResponse = await getPrescriptionResource.submit({
@@ -1035,6 +1067,8 @@ async function saveClinicalRecord(showMessage = true) {
       })),
 
     history: history.value,
+    diet_advice: dietAdvice.value,
+    exercise_advice: exerciseAdvice.value,
   };
 
   try {
