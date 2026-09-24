@@ -266,6 +266,44 @@
               </div>
             </div>
 
+            <!-- Examination -->
+            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
+              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Examination</h4>
+
+              <textarea
+                v-model="examination"
+                :disabled="!isEditingPrescription"
+                rows="2"
+                placeholder="Examination"
+                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+              ></textarea>
+            </div>
+
+              <!-- Provisional Diagnosis -->
+            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
+              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Provisional Diagnosis</h4>
+
+              <textarea
+                v-model="provisionalDiagnosis"
+                :disabled="!isEditingPrescription"
+                rows="2"
+                placeholder="Provisional Diagnosis"
+                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+              ></textarea>
+            </div>
+
+            <!-- Investigations Advised -->
+<div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
+  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Investigations Advised</h4>
+
+  <textarea
+    v-model="investigations"
+    :disabled="!isEditingPrescription"
+    rows="2"
+    placeholder="Investigations"
+    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+  ></textarea>
+</div>
             <!-- Prescribed Medicines -->
             <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2.5">
               <div class="flex items-center justify-between">
@@ -319,9 +357,9 @@
               </div>
             </div>
 
-            <!-- Doctor's Advice -->
+            <!-- Follow-up Advice -->
             <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Doctor's Advice</h4>
+              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Follow-up Advice</h4>
 
               <textarea
                 v-model="adviceNotes"
@@ -330,60 +368,21 @@
                 placeholder="Follow-up Advice"
                 class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
               ></textarea>
-            </div>
 
-            <!-- Follow-up Duration -->
-<div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Follow-up Duration</h4>
-
-  <input
-    v-model="followUpDuration"
-    :disabled="!isEditingPrescription"
-    type="text"
-    placeholder="Follow-up Duration"
-    class="w-full bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
-  />
-</div>
-
-<!-- Investigations -->
-<div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Investigations</h4>
-
-  <textarea
-    v-model="investigations"
-    :disabled="!isEditingPrescription"
-    rows="2"
-    placeholder="Investigations"
-    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-  ></textarea>
-</div>
-
-            <!-- Examination -->
-            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Examination</h4>
-
-              <textarea
-                v-model="examination"
-                :disabled="!isEditingPrescription"
-                rows="2"
-                placeholder="Examination"
-                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-              ></textarea>
-            </div>
-
-            <!-- Provisional Diagnosis -->
-            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Provisional Diagnosis</h4>
-
-              <textarea
-                v-model="provisionalDiagnosis"
-                :disabled="!isEditingPrescription"
-                rows="2"
-                placeholder="Provisional Diagnosis"
-                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-              ></textarea>
-            </div>
-          </div>
+          <div>
+        <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">
+         Follow-up In
+        </label>
+        <input
+            v-model="followUpDuration"
+            :disabled="!isEditingPrescription"
+            type="text"
+            placeholder="in days"
+            class="w-full bg-gray-900 border border-gray-800 rounded px-2 py-3 text-xs text-white focus:outline-none focus:border-amber-500"
+        />
+      </div>
+    </div>
+   </div>
 
           <!-- Bottom Action: Sign & Dispatch Rx -->
           <div class="p-2.5 sm:p-3 bg-gray-950 border-t border-gray-800 flex-shrink-0">
