@@ -193,23 +193,52 @@
             <p class="text-gray-500 mt-1">Add follow-up instructions for the patient.</p>
           </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-900 mb-2"> Follow-up Advice </label>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-900 mb-2"> Follow-up Advice </label>
 
-            <textarea
-              v-model="followUpAdvice"
-              rows="3"
-              placeholder="Enter follow-up advice"
-              class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-            ></textarea>
-            <label class="block text-sm font-medium text-gray-900 mb-2 mt-4"> Follow-up Duration </label>
+              <textarea
+                v-model="followUpAdvice"
+                rows="3"
+                placeholder="Enter follow-up advice"
+                class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
+              ></textarea>
+            </div>
 
-            <input
-              v-model="followUpDuration"
-              type="text"
-              placeholder="e.g. 7 days"
-              class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
-            />
+            <div>
+              <label class="block text-sm font-medium text-gray-900 mb-2"> Follow-up In </label>
+
+              <input
+                v-model="followUpDuration"
+                type="text"
+                placeholder="In days"
+                class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+              />
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-900 mb-2"> Diet Advice <span class="text-gray-400">(Optional)</span> </label>
+
+                <textarea
+                  v-model="dietAdvice"
+                  rows="3"
+                  placeholder="Enter diet advice"
+                  class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
+                ></textarea>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-900 mb-2"> Exercise Advice <span class="text-gray-400">(Optional)</span> </label>
+
+                <textarea
+                  v-model="exerciseAdvice"
+                  rows="3"
+                  placeholder="Enter exercise advice"
+                  class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
+                ></textarea>
+              </div>
+            </div>
           </div>
         </section>
       </main>
