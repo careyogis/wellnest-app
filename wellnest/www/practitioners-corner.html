@@ -1,0 +1,118 @@
+{% extends "templates/wellnest_web.html" %}
+
+<title>
+    {% block title %}CareYogi - Practitioner's Corner{% endblock %}
+</title>    
+<body>
+{% block page_content %}
+<section class="page-header" style="background-image: url(/assets/wellnest/images/background/page-header-about-1.jpg);">
+  <div class="container">
+      <h2>Practitioner's Corner</h2>
+      <ul class="list-unstyled thm-breadcrumb">
+          <li><a href="index">Home</a></li>
+          <li><span>Practitioner's Corner</span></li>
+      </ul><!-- /.list-unstyled -->
+  </div><!-- /.container -->
+</section><!-- /.page-header -->
+
+<style>
+  body, html, .page-wrapper, .wellnest-page-container {
+    overflow: visible !important;
+    overflow-x: clip !important;
+  }
+  
+  @media (min-width: 992px) {
+    .sticky-sidebar {
+      position: sticky;
+      top: 120px;
+      align-self: flex-start;
+      z-index: 10;
+    }
+  }
+</style>
+
+<section class="practitioner-content" style="padding-top: 60px; padding-bottom: 80px; background-color: #f7f9fa;">
+  <div class="container">
+    <div class="row">
+      <!-- Left Sidebar Menu -->
+      <div class="col-lg-4 col-md-12 mb-5 sticky-sidebar">
+        <div class="sidebar" style="background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+          <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 25px; border-bottom: 2px solid #f7a900; padding-bottom: 10px; display: inline-block;">Tools & Links</h3>
+          
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+              <a href="#walkthrough-videos" style="color: #2d2929; font-size: 18px; font-weight: 600; text-decoration: none; display: block; transition: color 0.3s;" onmouseover="this.style.color='#f7a900'" onmouseout="this.style.color='#2d2929'">
+                <i class="fa fa-play-circle" style="color: #f7a900; margin-right: 10px; font-size: 20px; vertical-align: middle;"></i> Doctor-App Walkthrough
+              </a>
+            </li>
+            <li style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+              <a href="/doctor-app" style="color: #2d2929; font-size: 18px; font-weight: 600; text-decoration: none; display: block; transition: color 0.3s;" onmouseover="this.style.color='#f7a900'" onmouseout="this.style.color='#2d2929'">
+                <i class="oberlin-icon-doctor" style="color: #f7a900; margin-right: 10px; font-size: 20px; vertical-align: middle;"></i> Doctor App
+              </a>
+            </li>
+            <li style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+              <a href="#reference-materials" style="color: #2d2929; font-size: 18px; font-weight: 600; text-decoration: none; display: block; transition: color 0.3s;" onmouseover="this.style.color='#f7a900'" onmouseout="this.style.color='#2d2929'">
+                <i class="oberlin-icon-stethoscope" style="color: #f7a900; margin-right: 10px; font-size: 20px; vertical-align: middle;"></i> Reference Materials
+              </a>
+            </li>
+            <li>
+              <a href="mailto:info@careyogis.com" style="color: #2d2929; font-size: 18px; font-weight: 600; text-decoration: none; display: block; transition: color 0.3s;" onmouseover="this.style.color='#f7a900'" onmouseout="this.style.color='#2d2929'">
+                <i class="oberlin-icon-phone" style="color: #f7a900; margin-right: 10px; font-size: 20px; vertical-align: middle;"></i> Send Feedback
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right Content Area -->
+      <div class="col-lg-8 col-md-12">
+        <!-- Training Videos Section -->
+        <div id="walkthrough-videos" style="background-color: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 40px;">
+          <div class="block-title text-left" style="margin-bottom: 30px;">
+            <p>Training</p>
+            <h3>CareYogi Doctor App Walkthrough Videos</h3>
+          </div>
+          <div class="video-box" style="border-radius: 10px; overflow: hidden; background-color: #000;">
+            <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+              <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/KPqKV8hiVv0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div style="margin-top: 25px;">
+            <h4 style="font-weight: 700; color: #2d2929;">Doctor Self-Onboarding</h4>
+            <p style="margin-bottom: 0;">Watch this comprehensive guide covering the self-onboarding process for the CareYogi Doctor App.</p>
+          </div>
+        </div>
+
+        <!-- Reference Materials Section -->
+        <div id="reference-materials" style="background-color: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+          <div class="block-title text-left" style="margin-bottom: 30px;">
+            <p>Documentation</p>
+            <h3>Reference Materials</h3>
+          </div>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 20px; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+              <i class="fa fa-file-pdf" style="color: #f7a900; margin-right: 15px; font-size: 24px; vertical-align: middle;"></i> 
+              <a href="#" style="color: #2d2929; font-weight: 600; text-decoration: none; vertical-align: middle; transition: color 0.3s;" onmouseover="this.style.color='#f7a900'" onmouseout="this.style.color='#2d2929'">Standard Operating Procedures (SOPs)</a>
+            </li>
+            <li style="margin-bottom: 20px; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+              <i class="fa fa-file-video" style="color: #f7a900; margin-right: 15px; font-size: 24px; vertical-align: middle;"></i> 
+              <a href="#" style="color: #2d2929; font-weight: 600; text-decoration: none; vertical-align: middle; transition: color 0.3s;" onmouseover="this.style.color='#f7a900'" onmouseout="this.style.color='#2d2929'">App Usage Manuals</a>
+            </li>
+            <li style="margin-bottom: 20px; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+              <i class="fa fa-file-pdf" style="color: #f7a900; margin-right: 15px; font-size: 24px; vertical-align: middle;"></i> 
+              <a href="#" style="color: #2d2929; font-weight: 600; text-decoration: none; vertical-align: middle; transition: color 0.3s;" onmouseover="this.style.color='#f7a900'" onmouseout="this.style.color='#2d2929'">Consultation Guidelines & Protocols</a>
+            </li>
+          </ul>
+          <div style="margin-top: 30px; padding-top: 20px; border-top: 2px dashed #eee;">
+            <p style="margin-bottom: 0; color: #666; font-style: italic;">
+              <i class="fa fa-info-circle" style="margin-right: 5px;"></i> More reference materials will be updated in this section regularly.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+</body>

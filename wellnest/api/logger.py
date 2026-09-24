@@ -33,10 +33,6 @@ def log_call_event(event, appointment_id, **kwargs):
       all other kwargs  → data              (Code/JSON blob)
     """
     import json
-
-    now = frappe.utils.now()
-    caller = frappe.session.user
-
     # Strip private kwargs (keys prefixed with "_") then collect all
     # teleconsult-specific metadata into the `data` JSON blob.
     # The Event Log DocType has no individual columns for these fields
@@ -48,13 +44,6 @@ def log_call_event(event, appointment_id, **kwargs):
     # `name` is intentionally omitted — the autoname expression
     # "EVLOG-{YYYY}{MM}{DD}-{######}" generates it inside the DB layer.
     row = {
-        # ── Frappe standard meta ──────────────────────────────────────────
-        "creation": now,
-        "modified": now,
-        "modified_by": caller,
-        "owner": caller,
-        "docstatus": 0,
-        "idx": 0,
         # ── Event Log DocType fields ──────────────────────────────────────
         "event_category": "Teleconsultation",
         "event_name": event,                         # e.g. "patient_entered_waiting_room"
@@ -67,7 +56,9 @@ def log_call_event(event, appointment_id, **kwargs):
     try:
         # Low-level insert: no ORM hooks, no validate(), no before_insert(),
         # no InnoDB gap locks from a full document save cycle.
-        frappe.db.insert("Event Log", row)
+        doc = frappe.get_doc({"doctype": "Event Log", **row})
+        doc.set_new_name()
+        doc.db_insert()
         # Explicit commit so the row is visible immediately even if the outer
         # request does not commit (e.g., a GET whitelisted endpoint).
         frappe.db.commit()
