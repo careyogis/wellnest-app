@@ -1,4 +1,5 @@
 import frappe
+from rq import get_current_job
 from datetime import datetime
 
 from .gemini_provider import parse_prescription
@@ -420,10 +421,53 @@ def process_prescription_job(
         print("\n" + "!" * 80)
         print(">>> PRESCRIPTION OCR ATTEMPT FAILED")
         print(f">>> Smart Prescription: {prescription}")
-        print(
-            ">>> RQ will retry this job according to "
-            "the configured retry policy."
-        )
+
+        job = get_current_job()
+        retries_left = getattr(job, "retries_left", None)
+
+        print(f">>> RQ retries left: {retries_left}")
+
+        if retries_left == 0:
+            print(">>> NO RQ RETRIES LEFT")
+            print(">>> Marking Smart Prescription as Failed")
+
+            try:
+                doc = frappe.get_doc(
+                    "Smart Prescription",
+                    prescription,
+                )
+
+                if doc.workflow_state == "Processing":
+                    doc.workflow_state = "Failed"
+                    doc.save(ignore_permissions=True)
+                    frappe.db.commit()
+
+                    print(
+                        f">>> Smart Prescription marked as Failed: "
+                        f"{doc.name}"
+                    )
+
+                _publish_prescription_event(
+                    patient_appointment,
+                    "failed",
+                    (
+                        "Prescription processing failed after multiple "
+                        "attempts. Please upload the prescription again."
+                    ),
+                )
+
+            except Exception:
+               frappe.log_error(
+                   frappe.get_traceback(),
+                   "Failed to mark prescription OCR as Failed",
+                )
+
+        else:
+            print(
+                ">>> RQ will retry this job according to "
+                "the configured retry policy."
+            )
+
         print("!" * 80)
 
         raise
@@ -478,6 +522,15 @@ def handle_prescription_ocr_failure(
     Called by RQ only when the OCR job reaches its final failure
     after all configured retries.
     """
+
+    retries_left = getattr(job, "retries_left", None)
+
+    if retries_left is not None and retries_left > 0:
+        print(
+            f">>> OCR job failed, but {retries_left} "
+            f"retries remain. Leaving prescription as Processing."
+        )
+        return
 
     kwargs = job.kwargs.get("kwargs", {})
     prescription = kwargs.get("prescription")
