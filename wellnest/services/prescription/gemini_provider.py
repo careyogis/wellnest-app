@@ -80,6 +80,20 @@ def parse_prescription(image_bytes: bytes):
     print(f"Total Tokens    : {usage.total_token_count:,}")
     print("==========================================\n")
 
+    if response.parsed is None:
+        frappe.log_error(
+            title="Prescription OCR Parsing Failed",
+            message=(
+                f"Gemini returned no parsed prescription.\n\n"
+                f"Raw response:\n{response.text}\n\n"
+                f"Candidates:\n{response.candidates}"
+            ),
+        )
+
+        frappe.throw(
+            "Prescription could not be processed. Please try uploading it again."
+        )
+
     result = response.parsed.model_dump(exclude_none=True)
 
     return {
