@@ -55,7 +55,7 @@
    "fieldname": "workflow_state",
    "fieldtype": "Select",
    "label": "Workflow State",
-   "options": "Draft\nComplete"
+   "options": "Draft\nProcessing\nFailed\nComplete"
   },
   {
    "fieldname": "section_break_meds",
