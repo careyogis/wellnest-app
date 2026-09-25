@@ -1337,6 +1337,17 @@ async function handlePrescriptionFile(event) {
     return false;
   }
 
+  if (prescriptionName.value && ['Draft', 'Failed'].includes(prescriptionWorkflowState.value)) {
+    const confirmed = window.confirm(
+      'Uploading a new prescription will replace the current prescription details with the information extracted from the newly uploaded document. Do you want to continue?'
+    );
+
+    if (!confirmed) {
+      event.target.value = '';
+      return false;
+    }
+  }
+
   const allowedTypes = ['image/jpeg', 'image/png'];
 
   if (!allowedTypes.includes(file.type)) {
