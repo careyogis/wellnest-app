@@ -578,6 +578,14 @@ const ocrPrescriptionResource = createResource({
   url: 'wellnest.api.prescription.parse_and_create_prescription',
 });
 
+const patientHistoryResource = createResource({
+  url: 'wellnest.api.patient_history.get_patient_history',
+});
+
+const historicalPrescriptionResource = createResource({
+  url: 'wellnest.api.patient_history.get_historical_prescription',
+});
+
 const patient = computed(() => ({
   name: props.selectedConsultation?.patient || 'Not Available',
 }));
@@ -680,6 +688,18 @@ const showPreview = ref(false);
 const showJoinModal = ref(false);
 const showOcrModal = ref(false);
 const ocrExtractedText = ref('');
+
+const showPatientHistoryModal = ref(false);
+const showHistoricalPrescriptionModal = ref(false);
+
+const patientHistory = ref({
+  smart_prescriptions: [],
+  health_vault: [],
+});
+
+const selectedHistoricalPrescription = ref(null);
+const patientHistoryLoading = ref(false);
+const historicalPrescriptionLoading = ref(false);
 
 const ocrPrescriptionName = ref('');
 const ocrLoading = ref(false);
@@ -900,6 +920,78 @@ async function loadPrescription() {
   } catch (error) {
     console.error('Failed to load prescription:', error);
   }
+}
+
+async function loadPatientHistory() {
+  const appointment = props.selectedConsultation?.appointment;
+
+  if (!appointment) {
+    return;
+  }
+
+  patientHistoryLoading.value = true;
+
+  try {
+    const response = await patientHistoryResource.submit({
+      patient_appointment: appointment,
+    });
+
+    const history = response?.message || response || {};
+
+    patientHistory.value = {
+      smart_prescriptions: history.smart_prescriptions || [],
+      health_vault: history.health_vault || [],
+    };
+  } catch (error) {
+    console.error('Failed to load patient history:', error);
+
+    patientHistory.value = {
+      smart_prescriptions: [],
+      health_vault: [],
+    };
+  } finally {
+    patientHistoryLoading.value = false;
+  }
+}
+
+async function openPatientHistory() {
+  showPatientHistoryModal.value = true;
+
+  await loadPatientHistory();
+}
+
+async function viewHistoricalPrescription(prescription) {
+  const appointment = props.selectedConsultation?.appointment;
+
+  if (!appointment || !prescription?.name) {
+    return;
+  }
+
+  historicalPrescriptionLoading.value = true;
+  selectedHistoricalPrescription.value = null;
+  showHistoricalPrescriptionModal.value = true;
+
+  try {
+    const response = await historicalPrescriptionResource.submit({
+      patient_appointment: appointment,
+      prescription_name: prescription.name,
+    });
+
+    selectedHistoricalPrescription.value =
+      response?.message || response || null;
+  } catch (error) {
+    console.error('Failed to load historical prescription:', error);
+
+    showHistoricalPrescriptionModal.value = false;
+    alert('Failed to load historical prescription.');
+  } finally {
+    historicalPrescriptionLoading.value = false;
+  }
+}
+
+function closeHistoricalPrescription() {
+  showHistoricalPrescriptionModal.value = false;
+  selectedHistoricalPrescription.value = null;
 }
 
 watch(
