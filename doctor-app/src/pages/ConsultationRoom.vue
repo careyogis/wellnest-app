@@ -266,19 +266,6 @@
               </div>
             </div>
 
-            <!-- Examination -->
-            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Examination</h4>
-
-              <textarea
-                v-model="examination"
-                :disabled="!isEditingPrescription"
-                rows="2"
-                placeholder="Examination"
-                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-              ></textarea>
-            </div>
-
               <!-- Provisional Diagnosis -->
             <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
               <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Provisional Diagnosis</h4>
@@ -357,15 +344,15 @@
               </div>
             </div>
 
-            <!-- Follow-up Advice -->
+            <!-- Doctor Advice -->
             <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Follow-up Advice</h4>
+              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Doctor Advice</h4>
 
               <textarea
-                v-model="adviceNotes"
+                v-model="doctorAdvice"
                 :disabled="!isEditingPrescription"
-                rows="2"
-                placeholder="Follow-up Advice"
+                rows="4"
+                placeholder="Enter general, diet, and exercise advice"
                 class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
               ></textarea>
 
@@ -374,11 +361,10 @@
          Follow-up In
         </label>
         <input
-            v-model="followUpDuration"
+            v-model="followUpIn"
             :disabled="!isEditingPrescription"
-            type="text"
-            placeholder="in days"
-            class="w-full bg-gray-900 border border-gray-800 rounded px-2 py-3 text-xs text-white focus:outline-none focus:border-amber-500"
+            type="date"
+            class="w-full bg-gray-900 border border-gray-800 rounded px-2 py-3 text-xs text-white focus:outline-none focus:border-amber-500 date-input"
         />
       </div>
     </div>
@@ -655,8 +641,8 @@ function onRxImageSelected(event) {
 
 function populatePrescription(prescription) {
   investigations.value = prescription?.investigations || '';
-  followUpDuration.value = prescription?.follow_up_duration || '';
-  adviceNotes.value = prescription?.follow_up_advice || '';
+ doctorAdvice.value = prescription?.doctor_advice || '';
+followUpIn.value = prescription?.follow_up_in || '';
   examination.value = prescription?.examination || '';
   provisionalDiagnosis.value = prescription?.provisional_diagnosis || '';
 
@@ -913,9 +899,8 @@ async function loadExistingPrescription() {
 
     investigations.value = prescription.investigations || '';
 
-    followUpDuration.value = prescription.follow_up_duration || '';
-
-    adviceNotes.value = prescription.follow_up_advice || '';
+    doctorAdvice.value = prescription.doctor_advice || '';
+followUpIn.value = prescription.follow_up_in || '';
 
     examination.value = prescription.examination || '';
 
@@ -938,14 +923,14 @@ async function loadExistingPrescription() {
 const medicines = ref([]);
 const prescriptionParsed = ref(false);
 const investigations = ref('');
-const followUpDuration = ref('');
-const adviceNotes = ref('');
+const doctorAdvice = ref('');
+const followUpIn = ref('');
 const examination = ref('');
 const provisionalDiagnosis = ref('');
 
 const prescriptionFilled = computed(() => {
   const hasMedicine = medicines.value.some((medicine) => medicine.name?.trim());
-  const hasAdvice = adviceNotes.value.trim();
+  const hasAdvice = doctorAdvice.value.trim();
 
   return hasMedicine || hasAdvice;
 });
@@ -1125,8 +1110,8 @@ async function savePrescriptionDraft() {
 
       investigations: investigations.value,
 
-      follow_up_duration: followUpDuration.value,
-      follow_up_advice: adviceNotes.value,
+     doctor_advice: doctorAdvice.value,
+follow_up_in: followUpIn.value,
 
       examination: examination.value,
       provisional_diagnosis: provisionalDiagnosis.value,
@@ -1276,3 +1261,9 @@ async function getPatient() {
   }
 }
 </script>
+
+<style scoped>
+.date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+</style>

@@ -11,16 +11,13 @@
   "practitioner",
   "prescription_date",
   "investigations",
-  "examination",
   "provisional_diagnosis",
   "followup_expiry_date",
   "workflow_state",
   "section_break_meds",
   "medicines",
-  "follow_up_advice",
-  "diet_advice",
-  "exercise_advice",
-  "follow_up_duration",
+  "doctor_advice",
+  "follow_up_in",
   "original_uploaded_prescription",
   "raw_ai_response"
  ],
@@ -69,21 +66,6 @@
    "options": "Prescription Item"
   },
   {
-   "fieldname": "follow_up_advice",
-   "fieldtype": "Small Text",
-   "label": "Follow-up Advice"
-  },
-  {
-   "fieldname": "diet_advice",
-   "fieldtype": "Small Text",
-   "label": "Diet Advice"
-  },
-  {
-   "fieldname": "exercise_advice",
-   "fieldtype": "Small Text",
-   "label": "Exercise Advice"
-  },
-  {
    "fieldname": "patient_appointment",
    "fieldtype": "Link",
    "label": "Patient Appointment",
@@ -100,30 +82,30 @@
    "label": "Raw AI Response"
   },
   {
-   "fieldname": "investigations",
-   "fieldtype": "Small Text",
-   "label": "Investigations"
-  },
-  {
-   "fieldname": "examination",
-   "fieldtype": "Small Text",
-   "label": "Examination"
-  },
-  {
    "fieldname": "provisional_diagnosis",
    "fieldtype": "Small Text",
    "label": "Provisional Diagnosis"
   },
   {
-   "fieldname": "follow_up_duration",
-   "fieldtype": "Data",
-   "label": "Follow-up Duration"
+   "fieldname": "doctor_advice",
+   "fieldtype": "Small Text",
+   "label": "Doctor Advice"
+  },
+  {
+   "fieldname": "follow_up_in",
+   "fieldtype": "Date",
+   "label": "Follow-up In"
+  },
+  {
+   "fieldname": "investigations",
+   "fieldtype": "Small Text",
+   "label": "Investigations Advised"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-14 15:04:31.181098",
- "modified_by": "Administrator",
+ "modified": "2026-09-25 13:32:58.332940",
+ "modified_by": "nikhilsinha789@gmail.com",
  "module": "WellNest",
  "name": "Smart Prescription",
  "naming_rule": "Expression",
