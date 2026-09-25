@@ -70,10 +70,30 @@ def process_prescription(
     doc.prescription_date = prescription.get("date") or ""
 
     diagnoses = prescription.get("provisional_diagnosis") or []
+    examinations = prescription.get("examination") or []
+
+    provisional_diagnosis_items = []
+
+    for diagnosis in diagnoses:
+        if diagnosis:
+            provisional_diagnosis_items.append(
+                str(diagnosis)
+        )
+
+    for examination in examinations:
+        if isinstance(examination, dict):
+            examination_name = examination.get("name")
+            if examination_name:
+                provisional_diagnosis_items.append(
+                    str(examination_name)
+                )
+        elif examination:
+            provisional_diagnosis_items.append(
+                str(examination)
+            )
+
     doc.provisional_diagnosis = "\n".join(
-        str(diagnosis)
-        for diagnosis in diagnoses
-        if diagnosis
+        provisional_diagnosis_items
     )
 
     investigations = prescription.get("investigations") or []
@@ -82,24 +102,9 @@ def process_prescription(
         "name",
     )
 
-    examination = prescription.get("examination") or []
-    doc.examination = _format_structured_items(
-        examination,
-        "name",
-    )
-
-    follow_up_advice = prescription.get("follow_up_advice") or []
-    doc.follow_up_advice = _format_structured_items(
-        follow_up_advice,
-        "instruction",
-    )
-
     # Follow-up in X days
     follow_up = prescription.get("follow_up") or {}
-
-    doc.follow_up_duration = (
-        follow_up.get("duration") or ""
-    )
+    follow_up_duration = follow_up.get("duration") or ""
 
     medicines = prescription.get("medicines") or []
 

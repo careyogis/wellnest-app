@@ -287,12 +287,9 @@ def create_consultation_prescription(
     appointment,
     followup_expiry_date=None,
     investigations=None,
-    examination=None,
     provisional_diagnosis=None,
-    follow_up_duration=None,
-    follow_up_advice=None,
-    diet_advice=None,
-    exercise_advice=None,
+    follow_up_in=None,
+    doctor_advice=None,
     medicines=None,
 ):
     if not appointment:
@@ -342,12 +339,9 @@ def create_consultation_prescription(
     doc.practitioner = appointment_doc.practitioner
     doc.followup_expiry_date = followup_expiry_date
     doc.investigations = investigations or ""
-    doc.examination = examination or ""
     doc.provisional_diagnosis = provisional_diagnosis or ""
-    doc.follow_up_duration = follow_up_duration or ""
-    doc.follow_up_advice = follow_up_advice or ""
-    doc.diet_advice = diet_advice or ""
-    doc.exercise_advice = exercise_advice or ""
+    doc.follow_up_in = follow_up_in or ""
+    doc.doctor_advice = doctor_advice or ""
     doc.workflow_state = "Draft"
 
     for medicine in medicines:
@@ -373,10 +367,10 @@ def create_consultation_prescription(
         "followup_expiry_date": doc.followup_expiry_date,
         "workflow_state": doc.workflow_state,
         "investigations": doc.investigations,
-        "examination": doc.examination,
         "provisional_diagnosis": doc.provisional_diagnosis,
-        "follow_up_duration": doc.follow_up_duration,
-        "follow_up_advice": doc.follow_up_advice,
+        "doctor_advice": doc.doctor_advice,
+        "follow_up_in": doc.follow_up_in,
+        "file_url": file_url,
         "medicines": [
             {
                 "name": item.name,
@@ -397,10 +391,9 @@ def save_consultation_prescription_draft(
     prescription_date=None,
     followup_expiry_date=None,
     investigations=None,
-    follow_up_duration=None,
-    follow_up_advice=None,
-    examination=None,
     provisional_diagnosis=None,
+    doctor_advice=None,
+    follow_up_in=None,
     medicines=None,
 ):
     practitioner = frappe.db.get_value(
@@ -486,11 +479,10 @@ def save_consultation_prescription_draft(
     doc.followup_expiry_date = followup_expiry_date
 
     doc.investigations = investigations or ""
-    doc.examination = examination or ""
     doc.provisional_diagnosis = provisional_diagnosis or ""
 
-    doc.follow_up_duration = follow_up_duration or ""
-    doc.follow_up_advice = follow_up_advice or ""
+    doc.follow_up_in = follow_up_in or ""
+    doc.doctor_advice = doctor_advice or ""
 
     doc.set("medicines", [])
 
@@ -532,10 +524,9 @@ def save_consultation_prescription_draft(
         "name": doc.name,
         "workflow_state": doc.workflow_state,
         "investigations": doc.investigations,
-        "examination": doc.examination,
         "provisional_diagnosis": doc.provisional_diagnosis,
-        "follow_up_duration": doc.follow_up_duration,
-        "follow_up_advice": doc.follow_up_advice,
+        "follow_up_in": doc.follow_up_in,
+        "doctor_advice": doc.doctor_advice,
         "medicines": [
             {
                 "name": item.name,
@@ -649,10 +640,9 @@ def get_consultation_prescription(appointment):
         "followup_expiry_date": doc.followup_expiry_date,
         "workflow_state": doc.workflow_state,
         "investigations": doc.investigations,
-        "examination": doc.examination,
         "provisional_diagnosis": doc.provisional_diagnosis,
-        "follow_up_duration": doc.follow_up_duration,
-        "follow_up_advice": doc.follow_up_advice,
+        "follow_up_in": doc.follow_up_in,
+        "doctor_advice": doc.doctor_advice,
         "file_url": file_url,
         "medicines": [
             {
