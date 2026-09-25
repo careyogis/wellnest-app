@@ -1001,11 +1001,10 @@ const prescriptionFilled = computed(() => {
 
 function hasManualPrescriptionDetails() {
   return (
-    examination.value.trim() ||
     provisionalDiagnosis.value.trim() ||
     investigations.value.trim() ||
-    followUpDuration.value.trim() ||
-    adviceNotes.value.trim() ||
+    doctorAdvice.value.trim() ||
+    followUpIn.value.trim() ||
     medicines.value.some(
       (medicine) =>
         medicine.name?.trim() ||
