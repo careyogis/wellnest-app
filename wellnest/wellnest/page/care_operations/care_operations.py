@@ -1,6 +1,6 @@
 import frappe
 import json
-from frappe.utils import now_datetime, add_days
+from frappe.utils import now_datetime, add_days, add_to_date
 
 
 @frappe.whitelist()
@@ -377,6 +377,7 @@ def get_doctor_onboarding_alerts():
             "practicing_from",
             "online_charge",
             "is_active",
+            "creation",
         ],
     )
 
@@ -425,32 +426,74 @@ def get_doctor_onboarding_alerts():
                 "reference": practitioner.name,
             })
 
-        # Scenario: Doctor Never Activated
-        if practitioner.is_active:
-            completed = frappe.db.exists(
-                "Patient Appointment",
-                {
-                    "practitioner": practitioner.name,
-                    "status": "Completed",
-                },
-            )
-
-            if not completed:
-                alerts.append({
-                    "priority": "Medium",
-                    "category": "Doctor Onboarding",
-                    "alert": "Doctor Never Activated",
-                    "doctor": doctor_name or practitioner.name,
-                    "details": "No completed consultation yet.",
-                    "action": "Contact doctor",
-                    "reference": practitioner.name,
-                })
+ # Scenario: Doctor Never Activated (30+ days and still inactive)
+    if not practitioner.is_active and practitioner.creation <= add_days(now_datetime(), -30):
+        alerts.append({
+        "priority": "Medium",
+        "category": "Doctor Onboarding",
+        "alert": "Doctor Never Activated",
+        "doctor": doctor_name or practitioner.name,
+        "details": "Doctor has not been activated for more than 30 days.",
+        "action": "Contact doctor",
+        "reference": practitioner.name,
+    })
 
     return alerts
 
 
 def get_customer_journey_alerts():
     alerts = []
+
+    # Scenario 1: Abandoned Booking
+    threshold = add_to_date(now_datetime(), minutes=-30)
+
+    abandoned_bookings = frappe.get_all(
+        "Patient Appointment",
+        filters={
+            "payment_status": "Unpaid",
+            "status": ["in", ["Scheduled", "Unverified"]],
+            "modified": ["<=", threshold],
+        },
+        fields=["name", "patient", "practitioner", "modified"],
+        order_by="modified desc",
+    )
+
+    for appointment in abandoned_bookings:
+        customer_name = "-"
+        doctor_name = "-"
+
+        if appointment.get("patient"):
+            customer_name = (
+                frappe.db.get_value("Patient", appointment.patient, "full_name")
+                or appointment.patient
+            )
+
+        if appointment.get("practitioner"):
+            practitioner = frappe.db.get_value(
+                "Practitioner",
+                appointment.practitioner,
+                ["first_name", "last_name"],
+                as_dict=True,
+            )
+
+            if practitioner:
+                doctor_name = f"{practitioner.first_name or ''} {practitioner.last_name or ''}".strip()
+            else:
+                doctor_name = appointment.practitioner
+
+        alerts.append(
+            {
+                "priority": "Medium",
+                "category": "Customer Journey",
+                "alert": "Abandoned Booking",
+                "doctor": doctor_name,
+                "customer": customer_name,
+                "time": str(appointment.modified),
+                "details": "Payment pending for 30+ minutes",
+                "action": "Contact customer",
+                "reference": appointment.name,
+            }
+        )
 
     events = frappe.get_all(
         "Event Log",
