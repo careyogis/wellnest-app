@@ -241,14 +241,53 @@ def _parse_date(value):
 
     return None
 
+
+def _get_ocr_attempt():
+    job = get_current_job()
+
+    if not job:
+        print(
+            ">>> WARNING: No RQ job found. "
+            "Defaulting OCR attempt to 1."
+        )
+        return 1, None
+
+    attempt = int(
+        job.meta.get("ocr_attempt", 0)
+    ) + 1
+
+    job.meta["ocr_attempt"] = attempt
+    job.save_meta()
+
+    retries_left = getattr(
+        job,
+        "retries_left",
+        None,
+    )
+
+    print(
+        f">>> OCR ATTEMPT: {attempt}/5"
+    )
+    print(
+        f">>> RQ retries remaining: "
+        f"{retries_left}"
+    )
+
+    return attempt, retries_left
+
 def process_prescription_job(
     prescription,
     file_url,
 ):
+    attempt, retries_left = _get_ocr_attempt()
+    patient_appointment = None
+
     print("\n" + "=" * 80)
     print(">>> PRESCRIPTION OCR JOB START")
     print(f">>> Smart Prescription: {prescription}")
     print(f">>> File URL: {file_url}")
+    print(f">>> OCR ATTEMPT: {attempt}/5")
+    print(f">>> RQ retries remaining: {retries_left}")
     print("=" * 80)
 
     try:
@@ -418,64 +457,97 @@ def process_prescription_job(
         print("=" * 80 + "\n")
 
     except Exception:
-        frappe.log_error(
-            frappe.get_traceback(),
-            "Prescription OCR Attempt Failed",
-        )
+            error_traceback = frappe.get_traceback()
 
-        print("\n" + "!" * 80)
-        print(">>> PRESCRIPTION OCR ATTEMPT FAILED")
-        print(f">>> Smart Prescription: {prescription}")
+            print("\n" + "!" * 80)
+            print(">>> PRESCRIPTION OCR ATTEMPT FAILED")
+            print(f">>> Smart Prescription: {prescription}")
+            print(f">>> OCR Attempt: {attempt}/5")
+            print(f">>> RQ retries remaining: {retries_left}")
+            print("!" * 80)
 
-        job = get_current_job()
-        retries_left = getattr(job, "retries_left", None)
+            frappe.log_error(
+               (
+                    f"Smart Prescription: {prescription}\n"
+                    f"Patient Appointment: {patient_appointment}\n"
+                    f"OCR Attempt: {attempt}/5\n"
+                    f"RQ retries remaining: {retries_left}\n\n"
+                    f"{error_traceback}"
+                ),
+                f"Prescription OCR Attempt Failed ({attempt}/5)",
+            )
 
-        print(f">>> RQ retries left: {retries_left}")
+            if retries_left == 0:
+                print("\n" + "#" * 80)
+                print(">>> FINAL OCR ATTEMPT FAILED")
+                print(f">>> Smart Prescription: {prescription}")
+                print(">>> Marking Smart Prescription as Failed")
+                print("#" * 80)
 
-        if retries_left == 0:
-            print(">>> NO RQ RETRIES LEFT")
-            print(">>> Marking Smart Prescription as Failed")
+                try:
+                    frappe.db.set_value(
+                        "Smart Prescription",
+                        prescription,
+                        "workflow_state",
+                        "Failed",
+                    )
 
-            try:
-                doc = frappe.get_doc(
-                    "Smart Prescription",
-                    prescription,
-                )
-
-                if doc.workflow_state == "Processing":
-                    doc.workflow_state = "Failed"
-                    doc.save(ignore_permissions=True)
                     frappe.db.commit()
 
                     print(
-                        f">>> Smart Prescription marked as Failed: "
-                        f"{doc.name}"
+                        ">>> Smart Prescription marked as Failed: "
+                        f"{prescription}"
                     )
 
-                _publish_prescription_event(
-                    patient_appointment,
-                    "failed",
-                    (
-                        "Prescription processing failed after multiple "
-                        "attempts. Please upload the prescription again."
-                    ),
-                )
+                    _publish_prescription_event(
+                        patient_appointment,
+                        "failed",
+                        (
+                            "Prescription extraction failed after "
+                            "multiple attempts. Please upload the "
+                            "prescription again."
+                        ),
+                    )
 
-            except Exception:
-               frappe.log_error(
-                   frappe.get_traceback(),
-                   "Failed to mark prescription OCR as Failed",
-                )
+                    frappe.log_error(
+                        (
+                            f"Smart Prescription: {prescription}\n"
+                            f"Patient Appointment: "
+                            f"{patient_appointment}\n"
+                            f"Final OCR attempt: {attempt}/5\n"
+                            f"Final error:\n\n"
+                            f"{error_traceback}"
+                        ),
+                        "Prescription OCR Job Failed",
+                    )
 
-        else:
-            print(
+                    print(
+                        ">>> FINAL OCR FAILURE HANDLED SUCCESSFULLY"
+                    )
+
+                except Exception:
+                    frappe.log_error(
+                        frappe.get_traceback(),
+                        "Failed to mark prescription OCR as Failed",
+                    )
+
+                    print(
+                        ">>> CRITICAL: Could not mark "
+                        "Smart Prescription as Failed"
+                    )
+
+            else:
+                print(
+                    f">>> OCR attempt {attempt}/5 failed."
+                )
+                print(
                 ">>> RQ will retry this job according to "
                 "the configured retry policy."
-            )
+                )
 
-        print("!" * 80)
+            print("!" * 80)
 
-        raise
+            raise
 
 
 def _publish_prescription_event(
