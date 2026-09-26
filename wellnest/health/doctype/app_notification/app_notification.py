@@ -34,9 +34,9 @@ class AppNotification(Document):
 				)
 
 def create_consultation_cancellation_notification(appointment, doctor_name):
-    scheduled_time = get_datetime(appointment.scheduled_time)
+	scheduled_time = get_datetime(appointment.scheduled_time)
 
-    app_notification = frappe.get_doc({
+	app_notification = frappe.get_doc({
         "doctype": "App Notification",
         "title": "Consultation Cancelled",
         "body": (
@@ -48,11 +48,10 @@ def create_consultation_cancellation_notification(appointment, doctor_name):
         "patient": appointment.patient,
         "scheduled_time": now_datetime(),
         "send_push_notification": 1,
-    })
+	})
 
-    app_notification.insert(ignore_permissions=True)
+	app_notification.insert(ignore_permissions=True)
 
-@frappe.whitelist()
 def send_fcm_push(notification_name):
 	doc = frappe.get_doc("App Notification", notification_name)
 	if doc.push_sent:
@@ -61,26 +60,46 @@ def send_fcm_push(notification_name):
 	try:
 		from wellnest.api.auth import _get_customer_firebase_app
 		from firebase_admin import messaging
+		from firebase_admin.exceptions import NotFoundError as FCMNotFoundError
 
 		app = _get_customer_firebase_app()
 
 		notification = messaging.Notification(
 			title=doc.title,
-			body=doc.body
+			body=doc.body,
+			image=doc.image if doc.image else None,
 		)
 
 		data = {
+			"notification_name": str(doc.name),
 			"action_type": str(doc.action_type or "None"),
-			"action_url": str(doc.action_url or "")
+			"action_url": str(doc.action_url or ""),
 		}
+
+		# Platform-specific sound configuration
+		android_config = messaging.AndroidConfig(
+			notification=messaging.AndroidNotification(
+				default_sound=True,
+			)
+		)
+		apns_config = messaging.APNSConfig(
+			payload=messaging.APNSPayload(
+				aps=messaging.Aps(sound="default")
+			)
+		)
 
 		if doc.target_audience == "Global Broadcast":
 			message = messaging.Message(
 				notification=notification,
 				data=data,
-				topic="all_users"
+				topic="all_users",
+				android=android_config,
+				apns=apns_config,
 			)
 			messaging.send(message, app=app)
+
+			# Mark as sent
+			frappe.db.set_value("App Notification", doc.name, "push_sent", 1)
 
 		elif doc.target_audience == "Specific Patient" and doc.patient:
 			customer = frappe.db.get_value("Patient", doc.patient, "customer")
@@ -96,14 +115,26 @@ def send_fcm_push(notification_name):
 						message = messaging.Message(
 							notification=notification,
 							data=data,
-							token=token
+							token=token,
+							android=android_config,
+							apns=apns_config,
 						)
-						messaging.send(message, app=app)
+						try:
+							messaging.send(message, app=app)
+						except FCMNotFoundError:
+							# Token is no longer registered on the device; clear it so
+							# future sends aren't wasted on a dead registration.
+							frappe.db.set_value("Contact", contact_name, "custom_fcm_token", None)
+							frappe.logger().warning(
+								f"Cleared stale FCM token for contact {contact_name} (patient {doc.patient})"
+							)
+							return
+
+						# Mark as sent
+						frappe.db.set_value("App Notification", doc.name, "push_sent", 1)
 					else:
 						frappe.logger().info(f"No FCM token for patient {doc.patient}")
 
-		# Mark as sent
-		frappe.db.set_value("App Notification", doc.name, "push_sent", 1)
 	except Exception as e:
 		frappe.log_error(f"FCM Push failed: {str(e)}", "App Notification Push")
 
