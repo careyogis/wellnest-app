@@ -330,6 +330,70 @@ def get_not_started_consultation_alerts():
 def get_payment_alerts():
     alerts = []
 
+    # Scenario 1: Payment Failure (from existing Razorpay Error Logs)
+    failed_logs = frappe.get_all(
+    "Error Log",
+    filters={
+        "error": ["like", "%Razorpay Signature Verification Failed%"]
+    },
+    fields=["method", "error", "creation"],
+    order_by="creation desc",
+    limit=20,
+)
+
+    for log in failed_logs:
+        customer_name = "-"
+        appointment_name = "-"
+
+        if log.get("method"):
+            import re
+
+            match = re.search(
+                r"Appointment:\s*([A-Z0-9\-]+)",
+                log.method,
+            )
+
+            if match:
+                appointment_name = match.group(1)
+
+                # skip resolved payment failures
+                payment_status = frappe.db.get_value(
+                    "Patient Appointment",
+                    appointment_name,
+                    "payment_status",
+                )
+
+                if payment_status == "Paid":
+                    continue
+
+                patient = frappe.db.get_value(
+                    "Patient Appointment",
+                    appointment_name,
+                    "patient",
+                )
+
+                if patient:
+                    customer_name = (
+                        frappe.db.get_value(
+                            "Patient",
+                            patient,
+                            "full_name",
+                        )
+                        or patient
+                    )
+
+        alerts.append({
+            "priority": "High",
+            "category": "Payment",
+            "alert": "Payment Failure",
+            "customer": customer_name,
+            "doctor": "-",
+            "time": str(log.creation),
+            "action": "Retry payment • Contact customer",
+            "reference": appointment_name,
+        })
+
+    # Scenario 2: Payment Pending
     unpaid_appointments = frappe.get_all(
         "Patient Appointment",
         filters={"payment_status": "Unpaid"},
