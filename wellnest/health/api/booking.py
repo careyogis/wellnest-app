@@ -39,9 +39,10 @@ def get_available_slots(practitioner, date, consult_type):
     current_dt = datetime.combine(date_obj, get_time(start_time))
     end_dt = datetime.combine(date_obj, get_time(end_time))
 
-    # Add 12 hrs lead time for consultations
+    # Add lead time for consultations (configurable via System Settings Extended, default 12 hrs)
+    lead_time_hours = frappe.db.get_single_value("System Settings Extended", "booking_lead_time_hours") or 12
     now_dt = frappe.utils.now_datetime()
-    min_dt = now_dt + timedelta(hours=12)
+    min_dt = now_dt + timedelta(hours=int(lead_time_hours))
     
     while current_dt < end_dt:
         slot_end_dt = current_dt + timedelta(minutes=15)

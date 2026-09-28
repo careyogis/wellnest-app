@@ -14,7 +14,8 @@
   "access_token",
   "gemini_api_key",
   "razorpay_key_id",
-  "razorpay_key_secret"
+  "razorpay_key_secret",
+  "booking_lead_time_hours"
  ],
  "fields": [
   {
@@ -66,6 +67,12 @@
    "fieldname": "razorpay_key_secret",
    "fieldtype": "Data",
    "label": "Razorpay Key Secret"
+  },
+  {
+   "default": "12",
+   "fieldname": "booking_lead_time_hours",
+   "fieldtype": "Int",
+   "label": "Booking Lead Time (Hours)"
   }
  ],
  "grid_page_length": 50,

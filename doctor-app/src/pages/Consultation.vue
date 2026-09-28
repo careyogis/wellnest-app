@@ -72,20 +72,6 @@
             ></textarea>
           </div>
 
-          <div class="h-6"></div>
-
-          <!-- Examination -->
-          <div class="mb-3">
-            <h2 class="text-xl font-bold text-gray-900">Examination <span class="text-red-500">*</span></h2>
-          </div>
-
-          <textarea
-            v-model="examination"
-            rows="3"
-            placeholder="Enter examination findings"
-            class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-          ></textarea>
-
           <!-- Provisional Diagnosis -->
           <div class="mt-6">
             <h2 class="text-xl font-bold text-gray-900">Provisional Diagnosis <span class="text-red-500">*</span></h2>
@@ -97,11 +83,12 @@
               class="w-full mt-3 rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
             ></textarea>
           </div>
-          <!-- Investigations advised -->
-          <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
+
+          <!-- Investigations Advised -->
+          <div class="mt-6">
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
               <div>
-                <h2 class="text-xl font-bold text-gray-900">Investigations advised</h2>
+                <h2 class="text-xl font-bold text-gray-900">Investigations Advised</h2>
 
                 <p class="text-gray-500 mt-1">Optional field, with autosuggest support for common advisories.</p>
               </div>
@@ -121,8 +108,9 @@
                 <button type="button" class="shrink-0 px-3 py-2 rounded-lg text-red-600 bg-red-50 hover:bg-red-100 font-semibold text-sm" @click="removeInvestigation(index)">Remove</button>
               </div>
             </div>
-          </section>
+          </div>
         </section>
+
         <!-- Treatment / Medication -->
         <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
           <!-- Header -->
@@ -185,61 +173,31 @@
             </div>
           </div>
         </section>
-        <!-- Follow-up Advice -->
+
+        <!-- Doctor Advice -->
         <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
           <div class="mb-5">
-            <h2 class="text-xl font-bold text-gray-900">Follow-up Advice</h2>
-
-            <p class="text-gray-500 mt-1">Add follow-up instructions for the patient.</p>
+            <h2 class="text-xl font-bold text-gray-900">Doctor Advice</h2>
+            <p class="text-gray-500 mt-1"> Add general advice, diet, and exercise recommendations for the patient.</p>
           </div>
-
-          <div class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-900 mb-2"> Follow-up Advice </label>
-
               <textarea
-                v-model="followUpAdvice"
-                rows="3"
-                placeholder="Enter follow-up advice"
-                class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-              ></textarea>
-            </div>
+              v-model="doctorAdvice"
+              rows="4"
+              placeholder="Enter general, diet, and exercise advice"
+        class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
+      ></textarea>
+    </section>
 
-            <div>
-              <label class="block text-sm font-medium text-gray-900 mb-2"> Follow-up In </label>
-
-              <input
-                v-model="followUpDuration"
-                type="text"
-                placeholder="In days"
-                class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
-              />
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-900 mb-2"> Diet Advice <span class="text-gray-400">(Optional)</span> </label>
-
-                <textarea
-                  v-model="dietAdvice"
-                  rows="3"
-                  placeholder="Enter diet advice"
-                  class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-                ></textarea>
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-900 mb-2"> Exercise Advice <span class="text-gray-400">(Optional)</span> </label>
-
-                <textarea
-                  v-model="exerciseAdvice"
-                  rows="3"
-                  placeholder="Enter exercise advice"
-                  class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-                ></textarea>
-              </div>
-            </div>
-          </div>
+    <!-- Follow-up In -->
+      <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
+  <h2 class="text-xl font-bold text-gray-900 mb-3">
+    Follow-up In
+  </h2>
+      <input
+       v-model="followUpIn"
+      type="date"
+      class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+     />
         </section>
       </main>
     </div>
@@ -345,15 +303,6 @@
               </div>
             </div>
 
-            <!-- Examination -->
-            <div class="mt-5">
-              <h3 class="font-bold text-gray-900">Examination <span class="text-red-500">*</span></h3>
-
-              <p class="text-sm text-gray-700 mt-2">
-                {{ examination || 'No examination findings entered.' }}
-              </p>
-            </div>
-
             <!-- Provisional Diagnosis -->
             <div class="mt-5">
               <h3 class="font-bold text-gray-900">Provisional Diagnosis <span class="text-red-500">*</span></h3>
@@ -415,14 +364,23 @@
               </div>
             </div>
 
-            <!-- Follow-up -->
+            <!-- Doctor Advice -->
             <div class="mt-6">
-              <h3 class="font-bold text-gray-900">Follow-up Advise</h3>
+              <h3 class="font-bold text-gray-900">Doctor Advice</h3>
 
               <p class="text-sm text-gray-700 mt-2">
-                {{ followUpAdvice || 'No follow-up advice entered.' }}
+                {{ doctorAdvice || 'No doctor advice entered.' }}
               </p>
             </div>
+
+            <!-- Follow-up In -->
+<div class="mt-6">
+  <h3 class="font-bold text-gray-900">Follow-up In</h3>
+
+  <p class="text-sm text-gray-700 mt-2">
+    {{ followUpIn || 'No follow-up date entered.' }}
+  </p>
+</div>
 
             <!-- Digitally signed -->
             <div class="mt-6 pt-5 border-t border-amber-200">
@@ -606,8 +564,8 @@ const history = ref('');
 const examination = ref('');
 const provisionalDiagnosis = ref('');
 
-const followUpAdvice = ref('');
-const followUpDuration = ref('');
+const doctorAdvice = ref('');
+const followUpIn = ref('');
 const dietAdvice = ref('');
 const exerciseAdvice = ref('');
 
@@ -756,9 +714,9 @@ async function loadClinicalRecord() {
 
       investigations.value = prescription.investigations ? prescription.investigations.split('\n').filter((item) => item.trim()) : [];
 
-      followUpAdvice.value = prescription.follow_up_advice || '';
+doctorAdvice.value = prescription.doctor_advice || '';
 
-      followUpDuration.value = prescription.follow_up_duration || '';
+followUpIn.value = prescription.follow_up_in || '';
 
       medicines.value = (prescription.medicines || []).map((medicine) => ({
         medicine: medicine.medicine_name || '',
@@ -774,7 +732,8 @@ async function loadClinicalRecord() {
       examination.value = '';
       provisionalDiagnosis.value = '';
       investigations.value = [];
-      followUpAdvice.value = '';
+      doctorAdvice.value = '';
+followUpIn.value = '';
       medicines.value = [];
       prescriptionName.value = null;
       prescriptionWorkflowState.value = null;
@@ -871,7 +830,8 @@ async function loadPrescription() {
       instruction: medicine.instructions || '',
     }));
 
-    followUpAdvice.value = response.follow_up_advice || '';
+    doctorAdvice.value = response.doctor_advice || '';
+followUpIn.value = response.follow_up_in || '';
 
     if (response.workflow_state === 'Processing') {
       ocrProcessingStarted.value = true;
@@ -912,7 +872,8 @@ async function loadPrescription() {
     ocrExtractedText.value = JSON.stringify(
       {
         medicines: response.medicines || [],
-        follow_up_advice: response.follow_up_advice || '',
+        doctor_advice: response.doctor_advice || '',
+        follow_up_in: response.follow_up_in || '',
       },
       null,
       2
@@ -1116,11 +1077,6 @@ async function finalizePrescription() {
     return;
   }
 
-  if (!examination.value?.trim()) {
-    alert('Examination is required before submitting the prescription.');
-    return;
-  }
-
   if (!provisionalDiagnosis.value?.trim()) {
     alert('Provisional Diagnosis is required before submitting the prescription.');
     return;
@@ -1148,10 +1104,9 @@ async function finalizePrescription() {
       response = await createPrescriptionResource.submit({
         appointment,
         investigations: investigations.value.filter((investigation) => investigation?.trim()).join('\n'),
-        examination: examination.value || '',
         provisional_diagnosis: provisionalDiagnosis.value || '',
-        follow_up_advice: followUpAdvice.value || '',
-        follow_up_duration: followUpDuration.value || '',
+        doctor_advice: doctorAdvice.value || '',
+        follow_up_in: followUpIn.value || '',
         medicines: JSON.stringify(medicinesPayload),
       });
 
@@ -1171,10 +1126,9 @@ async function finalizePrescription() {
 
         investigations: investigations.value.filter((investigation) => investigation?.trim()).join('\n'),
 
-        examination: examination.value || '',
         provisional_diagnosis: provisionalDiagnosis.value || '',
-        follow_up_advice: followUpAdvice.value || '',
-        follow_up_duration: followUpDuration.value || '',
+        doctor_advice: doctorAdvice.value || '',
+follow_up_in: followUpIn.value || '',
 
         medicines: JSON.stringify(medicinesPayload),
       });
@@ -1237,10 +1191,9 @@ async function savePrescriptionDraft(showMessage = true) {
 
       investigations: investigations.value.filter((investigation) => investigation?.trim()).join('\n'),
 
-      examination: examination.value || '',
       provisional_diagnosis: provisionalDiagnosis.value || '',
-      follow_up_advice: followUpAdvice.value || '',
-      follow_up_duration: followUpDuration.value || '',
+      doctor_advice: doctorAdvice.value || '',
+      follow_up_in: followUpIn.value || '',
 
       medicines: JSON.stringify(medicinesPayload),
     });
@@ -1619,8 +1572,8 @@ defineExpose({
   history,
   vitals,
   medicines,
-  followUpAdvice,
-  followUpDuration,
+  doctorAdvice,
+  followUpIn,
   provisionalDiagnosis,
   investigations,
   previewDetails,

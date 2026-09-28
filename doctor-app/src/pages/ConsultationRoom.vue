@@ -220,7 +220,7 @@
                   <FeatherIcon name="camera" class="w-3.5 h-3.5 text-amber-400" />
                   Scan Physical Prescription
                 </h4>
-                <button @click="triggerRxImageCapture" type="button" class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
+                <button @click="requestRxImageCapture" type="button" class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
                   <FeatherIcon name="camera" class="w-3 h-3" /> Take Photo
                 </button>
               </div>
@@ -264,19 +264,6 @@
                 <FeatherIcon :name="rxParseStatus.type === 'success' ? 'check-circle' : 'alert-circle'" class="w-3.5 h-3.5 flex-shrink-0" />
                 {{ rxParseStatus.message }}
               </div>
-            </div>
-
-            <!-- Examination -->
-            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Examination</h4>
-
-              <textarea
-                v-model="examination"
-                :disabled="!isEditingPrescription"
-                rows="2"
-                placeholder="Examination"
-                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-              ></textarea>
             </div>
 
               <!-- Provisional Diagnosis -->
@@ -357,15 +344,15 @@
               </div>
             </div>
 
-            <!-- Follow-up Advice -->
+            <!-- Doctor Advice -->
             <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Follow-up Advice</h4>
+              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Doctor Advice</h4>
 
               <textarea
-                v-model="adviceNotes"
+                v-model="doctorAdvice"
                 :disabled="!isEditingPrescription"
-                rows="2"
-                placeholder="Follow-up Advice"
+                rows="4"
+                placeholder="Enter general, diet, and exercise advice"
                 class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
               ></textarea>
 
@@ -374,11 +361,10 @@
          Follow-up In
         </label>
         <input
-            v-model="followUpDuration"
+            v-model="followUpIn"
             :disabled="!isEditingPrescription"
-            type="text"
-            placeholder="in days"
-            class="w-full bg-gray-900 border border-gray-800 rounded px-2 py-3 text-xs text-white focus:outline-none focus:border-amber-500"
+            type="date"
+            class="w-full bg-gray-900 border border-gray-800 rounded px-2 py-3 text-xs text-white focus:outline-none focus:border-amber-500 date-input"
         />
       </div>
     </div>
@@ -520,6 +506,51 @@
       </div>
     </div>
   </div>
+  <!-- Confirm Prescription Upload Modal -->
+<div
+  v-if="showUploadConfirmation"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4"
+  @click.self="cancelUploadConfirmation"
+>
+  <div class="w-full max-w-md rounded-2xl bg-gray-900 border border-gray-700 shadow-2xl p-5 sm:p-6">
+    <div class="flex items-start gap-3">
+      <div
+        class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0"
+      >
+        <FeatherIcon name="alert-triangle" class="w-5 h-5 text-amber-400" />
+      </div>
+
+      <div>
+        <h3 class="text-base sm:text-lg font-bold text-white">
+          Confirm Prescription Upload
+        </h3>
+
+        <p class="mt-2 text-sm text-gray-400 leading-relaxed">
+          The prescription details you entered manually will be replaced
+          with the details from the uploaded prescription.
+        </p>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-6">
+      <button
+        @click="cancelUploadConfirmation"
+        type="button"
+        class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 text-sm font-semibold"
+      >
+        Cancel
+      </button>
+
+      <button
+        @click="confirmPrescriptionUpload"
+        type="button"
+        class="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-gray-950 text-sm font-bold"
+      >
+        Yes, Continue
+      </button>
+    </div>
+  </div>
+</div>
 </template>
 
 <script setup>
@@ -616,6 +647,7 @@ const rxParseStatus = ref(null);
 const rxSubmitted = ref(false);
 const rxProcessingStarted = ref(false);
 const showPrescriptionPrompt = ref(false);
+const showUploadConfirmation = ref(false);
 const prescriptionName = ref(null);
 const rxPersistedImage = ref(null);
 const isEditingPrescription = ref(false);
@@ -644,6 +676,24 @@ function triggerRxImageCapture() {
   rxImageInput.value?.click();
 }
 
+function requestRxImageCapture() {
+  if (hasManualPrescriptionDetails()) {
+    showUploadConfirmation.value = true;
+    return;
+  }
+
+  triggerRxImageCapture();
+}
+
+function cancelUploadConfirmation() {
+  showUploadConfirmation.value = false;
+}
+
+function confirmPrescriptionUpload() {
+  showUploadConfirmation.value = false;
+  triggerRxImageCapture();
+}
+
 function onRxImageSelected(event) {
   const file = event.target.files?.[0];
   if (!file) return;
@@ -655,8 +705,8 @@ function onRxImageSelected(event) {
 
 function populatePrescription(prescription) {
   investigations.value = prescription?.investigations || '';
-  followUpDuration.value = prescription?.follow_up_duration || '';
-  adviceNotes.value = prescription?.follow_up_advice || '';
+ doctorAdvice.value = prescription?.doctor_advice || '';
+followUpIn.value = prescription?.follow_up_in || '';
   examination.value = prescription?.examination || '';
   provisionalDiagnosis.value = prescription?.provisional_diagnosis || '';
 
@@ -913,9 +963,8 @@ async function loadExistingPrescription() {
 
     investigations.value = prescription.investigations || '';
 
-    followUpDuration.value = prescription.follow_up_duration || '';
-
-    adviceNotes.value = prescription.follow_up_advice || '';
+    doctorAdvice.value = prescription.doctor_advice || '';
+followUpIn.value = prescription.follow_up_in || '';
 
     examination.value = prescription.examination || '';
 
@@ -938,17 +987,33 @@ async function loadExistingPrescription() {
 const medicines = ref([]);
 const prescriptionParsed = ref(false);
 const investigations = ref('');
-const followUpDuration = ref('');
-const adviceNotes = ref('');
+const doctorAdvice = ref('');
+const followUpIn = ref('');
 const examination = ref('');
 const provisionalDiagnosis = ref('');
 
 const prescriptionFilled = computed(() => {
   const hasMedicine = medicines.value.some((medicine) => medicine.name?.trim());
-  const hasAdvice = adviceNotes.value.trim();
+  const hasAdvice = doctorAdvice.value.trim();
 
   return hasMedicine || hasAdvice;
 });
+
+function hasManualPrescriptionDetails() {
+  return (
+    provisionalDiagnosis.value.trim() ||
+    investigations.value.trim() ||
+    doctorAdvice.value.trim() ||
+    followUpIn.value.trim() ||
+    medicines.value.some(
+      (medicine) =>
+        medicine.name?.trim() ||
+        medicine.dosage?.trim() ||
+        medicine.timing?.trim() ||
+        medicine.instructions?.trim()
+    )
+  );
+}
 
 onMounted(async () => {
   handleResize();
@@ -1125,8 +1190,8 @@ async function savePrescriptionDraft() {
 
       investigations: investigations.value,
 
-      follow_up_duration: followUpDuration.value,
-      follow_up_advice: adviceNotes.value,
+     doctor_advice: doctorAdvice.value,
+follow_up_in: followUpIn.value,
 
       examination: examination.value,
       provisional_diagnosis: provisionalDiagnosis.value,
@@ -1276,3 +1341,9 @@ async function getPatient() {
   }
 }
 </script>
+
+<style scoped>
+.date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+</style>
