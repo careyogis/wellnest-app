@@ -401,7 +401,7 @@
   </div>
   <!-- OCR handwritten prescription modal -->
   <!-- Uploaded prescription modal -->
-  <div v-if="showOcrModal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" @click.self="showOcrModal = false">
+  <div v-if="showOcrModal" class="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" @click.self="showOcrModal = false">
     <div class="w-full max-w-5xl max-h-[90vh] bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col">
       <!-- Modal header -->
       <div class="flex items-center justify-between px-5 py-4 border-b border-gray-200 shrink-0">
