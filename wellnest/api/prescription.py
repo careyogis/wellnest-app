@@ -1,10 +1,7 @@
 import frappe
-from rq import Retry, Callback
-from frappe.utils.background_jobs import get_queue
 
 from wellnest.services.prescription.processor import (
     handle_prescription_ocr_failure,
-    process_prescription,
 )
 
 
@@ -186,38 +183,17 @@ def parse_and_create_prescription(
     print(f">>> Appointment: {patient_appointment}")
     print(f">>> Attempt: 1")
 
-    queue = get_queue("long")
-
-    queue_args = {
-        "site": frappe.local.site,
-        "user": frappe.session.user,
-        "method": (
-            "wellnest.services.prescription.processor."
-            "process_prescription_job"
-        ),
-        "event": None,
-        "job_name": (
-            "wellnest.services.prescription.processor."
-            "process_prescription_job"
-        ),
-        "is_async": True,
-        "kwargs": {
-            "prescription": doc.name,
-            "file_url": file_url,
-        },
-    }
-
-    queue.enqueue_call(
-        "frappe.utils.background_jobs.execute_job",
-        kwargs=queue_args,
+    frappe.enqueue(
+        "wellnest.services.prescription.processor."
+        "process_prescription_job",
+        queue="long",
         timeout=1800,
-        retry=Retry(
-            max=4,
-            interval=[60, 120, 240, 480],
-        ),
-        on_failure=Callback(
-            func=handle_prescription_ocr_failure
-        ),
+        on_failure=handle_prescription_ocr_failure,
+        prescription=doc.name,
+        file_url=file_url,
+        max_retries=4,
+        retry_intervals=[60, 120, 240, 480],
+        attempt=1,
     )
 
     print(">>> PRESCRIPTION OCR JOB QUEUED SUCCESSFULLY")

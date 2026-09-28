@@ -1,5 +1,5 @@
 import frappe
-from rq import get_current_job
+import time
 from datetime import datetime
 
 from .gemini_provider import parse_prescription
@@ -263,52 +263,25 @@ def _parse_date(value):
     return None
 
 
-def _get_ocr_attempt():
-    job = get_current_job()
-
-    if not job:
-        print(
-            ">>> WARNING: No RQ job found. "
-            "Defaulting OCR attempt to 1."
-        )
-        return 1, None
-
-    attempt = int(
-        job.meta.get("ocr_attempt", 0)
-    ) + 1
-
-    job.meta["ocr_attempt"] = attempt
-    job.save_meta()
-
-    retries_left = getattr(
-        job,
-        "retries_left",
-        None,
-    )
-
-    print(
-        f">>> OCR ATTEMPT: {attempt}/5"
-    )
-    print(
-        f">>> RQ retries remaining: "
-        f"{retries_left}"
-    )
-
-    return attempt, retries_left
-
 def process_prescription_job(
     prescription,
     file_url,
+    attempt=1,
+    max_retries=4,
+    retry_intervals=None,
 ):
-    attempt, retries_left = _get_ocr_attempt()
+    if retry_intervals is None:
+        retry_intervals = [60, 120, 240, 480]
+
+    max_attempts = max_retries + 1
     patient_appointment = None
 
     print("\n" + "=" * 80)
     print(">>> PRESCRIPTION OCR JOB START")
     print(f">>> Smart Prescription: {prescription}")
     print(f">>> File URL: {file_url}")
-    print(f">>> OCR ATTEMPT: {attempt}/5")
-    print(f">>> RQ retries remaining: {retries_left}")
+    print(f">>> OCR ATTEMPT: {attempt}/{max_attempts}")
+    print(f">>> Retries remaining: {max_retries - (attempt - 1)}")
     print("=" * 80)
 
     try:
@@ -478,97 +451,124 @@ def process_prescription_job(
         print("=" * 80 + "\n")
 
     except Exception:
-            error_traceback = frappe.get_traceback()
+        error_traceback = frappe.get_traceback()
 
-            print("\n" + "!" * 80)
-            print(">>> PRESCRIPTION OCR ATTEMPT FAILED")
-            print(f">>> Smart Prescription: {prescription}")
-            print(f">>> OCR Attempt: {attempt}/5")
-            print(f">>> RQ retries remaining: {retries_left}")
-            print("!" * 80)
+        print("\n" + "!" * 80)
+        print(">>> PRESCRIPTION OCR ATTEMPT FAILED")
+        print(f">>> Smart Prescription: {prescription}")
+        print(f">>> OCR Attempt: {attempt}/{max_attempts}")
+        print("!" * 80)
 
-            frappe.log_error(
-               (
-                    f"Smart Prescription: {prescription}\n"
-                    f"Patient Appointment: {patient_appointment}\n"
-                    f"OCR Attempt: {attempt}/5\n"
-                    f"RQ retries remaining: {retries_left}\n\n"
-                    f"{error_traceback}"
-                ),
-                f"Prescription OCR Attempt Failed ({attempt}/5)",
+        frappe.log_error(
+            (
+                f"Smart Prescription: {prescription}\n"
+                f"Patient Appointment: {patient_appointment}\n"
+                f"OCR Attempt: {attempt}/{max_attempts}\n\n"
+                f"{error_traceback}"
+            ),
+            f"Prescription OCR Attempt Failed ({attempt}/{max_attempts})",
+        )
+
+        if attempt < max_attempts:
+            interval_index = min(
+                attempt - 1,
+                len(retry_intervals) - 1,
+            )
+            delay = retry_intervals[interval_index]
+
+            print(
+                f">>> Scheduling retry {attempt + 1}/{max_attempts} "
+                f"in {delay} seconds..."
             )
 
-            if retries_left == 0:
-                print("\n" + "#" * 80)
-                print(">>> FINAL OCR ATTEMPT FAILED")
-                print(f">>> Smart Prescription: {prescription}")
-                print(">>> Marking Smart Prescription as Failed")
-                print("#" * 80)
+            print(
+                f">>> Waiting {delay} seconds before retry..."
+            )
 
-                try:
-                    frappe.db.set_value(
-                        "Smart Prescription",
-                        prescription,
-                        "workflow_state",
-                        "Failed",
-                    )
+            time.sleep(delay)
 
-                    frappe.db.commit()
+            frappe.enqueue(
+                "wellnest.services.prescription.processor."
+                "process_prescription_job",
+                queue="long",
+                timeout=1800,
+                on_failure=(
+                    "wellnest.services.prescription.processor."
+                    "handle_prescription_ocr_failure"
+                ),
+                enqueue_after_commit=True,
+                at_front=True,
+                prescription=prescription,
+                file_url=file_url,
+                attempt=attempt + 1,
+                max_retries=max_retries,
+                retry_intervals=retry_intervals,
+            )
 
-                    print(
-                        ">>> Smart Prescription marked as Failed: "
-                        f"{prescription}"
-                    )
+            print(
+                f">>> Retry {attempt + 1}/{max_attempts} "
+                f"enqueued successfully"
+            )
+        else:
+            print("\n" + "#" * 80)
+            print(">>> FINAL OCR ATTEMPT FAILED")
+            print(f">>> Smart Prescription: {prescription}")
+            print(">>> Marking Smart Prescription as Failed")
+            print("#" * 80)
 
-                    _publish_prescription_event(
-                        patient_appointment,
-                        "failed",
-                        (
-                            "Prescription extraction failed after "
-                            "multiple attempts. Please upload the "
-                            "prescription again."
-                        ),
-                    )
-
-                    frappe.log_error(
-                        (
-                            f"Smart Prescription: {prescription}\n"
-                            f"Patient Appointment: "
-                            f"{patient_appointment}\n"
-                            f"Final OCR attempt: {attempt}/5\n"
-                            f"Final error:\n\n"
-                            f"{error_traceback}"
-                        ),
-                        "Prescription OCR Job Failed",
-                    )
-
-                    print(
-                        ">>> FINAL OCR FAILURE HANDLED SUCCESSFULLY"
-                    )
-
-                except Exception:
-                    frappe.log_error(
-                        frappe.get_traceback(),
-                        "Failed to mark prescription OCR as Failed",
-                    )
-
-                    print(
-                        ">>> CRITICAL: Could not mark "
-                        "Smart Prescription as Failed"
-                    )
-
-            else:
-                print(
-                    f">>> OCR attempt {attempt}/5 failed."
-                )
-                print(
-                ">>> RQ will retry this job according to "
-                "the configured retry policy."
+            try:
+                frappe.db.set_value(
+                    "Smart Prescription",
+                    prescription,
+                    "workflow_state",
+                    "Failed",
                 )
 
-            print("!" * 80)
+                frappe.db.commit()
 
-            raise
+                print(
+                    ">>> Smart Prescription marked as Failed: "
+                    f"{prescription}"
+                )
+
+                _publish_prescription_event(
+                    patient_appointment,
+                    "failed",
+                    (
+                        "Prescription extraction failed after "
+                        "multiple attempts. Please upload the "
+                        "prescription again."
+                    ),
+                )
+
+                frappe.log_error(
+                    (
+                        f"Smart Prescription: {prescription}\n"
+                        f"Patient Appointment: "
+                        f"{patient_appointment}\n"
+                        f"Final OCR attempt: {attempt}/{max_attempts}\n"
+                        f"Final error:\n\n"
+                        f"{error_traceback}"
+                    ),
+                    "Prescription OCR Job Failed",
+                )
+
+                print(
+                    ">>> FINAL OCR FAILURE HANDLED SUCCESSFULLY"
+                )
+
+            except Exception:
+                frappe.log_error(
+                    frappe.get_traceback(),
+                    "Failed to mark prescription OCR as Failed",
+                )
+
+                print(
+                    ">>> CRITICAL: Could not mark "
+                    "Smart Prescription as Failed"
+                )
+
+        print("!" * 80)
 
 
 def _publish_prescription_event(
@@ -617,18 +617,10 @@ def handle_prescription_ocr_failure(
     traceback,
 ):
     """
-    Called by RQ only when the OCR job reaches its final failure
-    after all configured retries.
+    Called by RQ when the OCR job fails without being
+    handled by the job's own retry logic. Acts as a
+    safety net to mark the prescription as Failed.
     """
-
-    retries_left = getattr(job, "retries_left", None)
-
-    if retries_left is not None and retries_left > 0:
-        print(
-            f">>> OCR job failed, but {retries_left} "
-            f"retries remain. Leaving prescription as Processing."
-        )
-        return
 
     kwargs = job.kwargs.get("kwargs", {})
     prescription = kwargs.get("prescription")
@@ -663,8 +655,8 @@ def handle_prescription_ocr_failure(
                 patient_appointment,
                 "failed",
                 (
-                    "Prescription processing failed after multiple "
-                    "attempts. Please upload the prescription again."
+                    "Prescription processing failed. "
+                    "Please upload the prescription again."
                 ),
             )
 
