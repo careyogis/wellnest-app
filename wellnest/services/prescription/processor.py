@@ -67,7 +67,28 @@ def process_prescription(
     doc.set("medicines", [])
 
         # Map Gemini prescription data to the single set of UI fields
-    doc.prescription_date = prescription.get("date") or ""
+    prescription_date = prescription.get("date") or ""
+
+    if prescription_date:
+        try:
+            prescription_date = datetime.strptime(
+                prescription_date,
+                "%d-%m-%Y",
+            ).strftime("%Y-%m-%d")
+        except ValueError:
+            try:
+                prescription_date = datetime.strptime(
+                    prescription_date,
+                    "%Y-%m-%d",
+                ).strftime("%Y-%m-%d")
+            except ValueError:
+                frappe.logger().warning(
+                    f"Invalid prescription date from OCR: "
+                    f"{prescription_date}"
+                )
+                prescription_date = ""
+
+    doc.prescription_date = prescription_date
 
     diagnoses = prescription.get("provisional_diagnosis") or []
     examinations = prescription.get("examination") or []
