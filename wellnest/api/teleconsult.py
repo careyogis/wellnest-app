@@ -3,6 +3,8 @@ import frappe
 import frappe.utils
 from agora_token_builder import RtcTokenBuilder
 from wellnest.api.logger import log_call_event
+from frappe import _
+from frappe.utils import now_datetime
 
 @frappe.whitelist()
 def get_agora_token(channel_name, uid=1001, role="publisher"):
@@ -91,3 +93,97 @@ def report_doctor_noshow(appointment_id):
 	issue.insert(ignore_permissions=True)
 	log_call_event("patient_reported_noshow", appointment_id)
 	return {"message": "Appointment marked as 'No Show' and the support team have been notified."}
+
+
+@frappe.whitelist()
+def cancel_appointment(appointment_id: str, cancel_reason: str) -> dict:
+    """Cancel a Patient Appointment on behalf of the logged-in user.
+
+    Args:
+        appointment_id: The name (PK) of the Patient Appointment document.
+        cancel_reason:  One of the valid cancellation reasons.
+
+    Returns:
+        {"success": True, "appointment": appointment_id}
+    """
+    VALID_CANCEL_REASONS = [
+		"Emergency",
+		"Health Issues",
+		"Personal Commitment",
+		"Technical Issues",
+		"Choose not to say",
+		"Others",
+	]
+
+    if cancel_reason not in VALID_CANCEL_REASONS:
+        frappe.throw(
+            _("Invalid cancel reason. Must be one of: {0}").format(
+                ", ".join(VALID_CANCEL_REASONS)
+            ),
+            frappe.ValidationError,
+        )
+
+    doc = frappe.get_doc("Patient Appointment", appointment_id)
+
+    # Security: the caller must own the appointment (be the linked patient's user).
+    patient = frappe.get_value("Patient", doc.patient, "patient_primary_contact")
+    if patient and patient != frappe.session.user and not frappe.has_permission(
+        "Patient Appointment", "write", doc
+    ):
+        frappe.throw(_("You are not authorised to cancel this appointment."), frappe.PermissionError)
+
+    if doc.status == "Cancelled":
+        frappe.throw(_("This appointment is already cancelled."), frappe.ValidationError)
+
+    doc.status = "Cancelled"
+    doc.cancel_reason = cancel_reason
+    doc.cancelled_by = frappe.session.user
+    doc.cancelled_at = now_datetime()
+    doc.save(ignore_permissions=True)
+
+    return {"success": True, "appointment": appointment_id}
+
+@frappe.whitelist()
+def reschedule_appointment(
+    old_appointment_id: str,
+    practitioner: str,
+    patient: str,
+    scheduled_time: str,
+    consultation_type: str,
+    consultation_fee: float = 0,
+    main_complaints: str = "",
+) -> dict:
+    """Reschedule a Patient Appointment by cancelling the old one and
+    creating a new one at the requested time.
+
+    Args:
+        old_appointment_id: The appointment to cancel.
+        practitioner:       Practitioner docname for the new appointment.
+        patient:            Patient docname.
+        scheduled_time:     New datetime string ("YYYY-MM-DD HH:MM:SS").
+        consultation_type:  e.g. "Online".
+        consultation_fee:   Fee for the new appointment.
+        main_complaints:    Optional patient complaint text.
+
+    Returns:
+        {"success": True, "new_appointment": <new_appointment_name>}
+    """
+    # Cancel the old appointment with a neutral reason.
+    cancel_appointment(
+        appointment_id=old_appointment_id,
+        cancel_reason="Personal Commitment",
+    )
+
+    # Create the new appointment by reusing the existing book_appointment logic.
+    result = book_appointment(
+        practitioner=practitioner,
+        patient=patient,
+        scheduled_time=scheduled_time,
+        consultation_type=consultation_type,
+        consultation_fee=consultation_fee,
+        main_complaints=main_complaints if main_complaints else None,
+	)
+
+    new_name = result.get("name") if isinstance(result, dict) else str(result)
+
+    return {"success": True, "new_appointment": new_name}
