@@ -88,7 +88,8 @@ def process_prescription(
                 )
                 prescription_date = ""
 
-    doc.prescription_date = prescription_date
+    if prescription_date:
+        doc.prescription_date = prescription_date
 
     diagnoses = prescription.get("provisional_diagnosis") or []
     examinations = prescription.get("examination") or []
@@ -125,7 +126,8 @@ def process_prescription(
 
     # Follow-up in X days
     follow_up = prescription.get("follow_up") or {}
-    follow_up_duration = follow_up.get("duration") or ""
+    if follow_up:
+        doc.follow_up_duration = follow_up.get("duration") or ""
 
     medicines = prescription.get("medicines") or []
 

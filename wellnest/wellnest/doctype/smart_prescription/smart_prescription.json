@@ -38,6 +38,7 @@
    "options": "Practitioner"
   },
   {
+   "default": "Today",
    "fieldname": "prescription_date",
    "fieldtype": "Date",
    "label": "Prescription Date"
@@ -93,7 +94,7 @@
   },
   {
    "fieldname": "follow_up_in",
-   "fieldtype": "Date",
+   "fieldtype": "Int",
    "label": "Follow-up In"
   },
   {
@@ -104,8 +105,8 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-25 13:32:58.332940",
- "modified_by": "nikhilsinha789@gmail.com",
+ "modified": "2026-09-30 01:00:10.092519",
+ "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Smart Prescription",
  "naming_rule": "Expression",
