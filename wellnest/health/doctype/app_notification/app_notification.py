@@ -67,7 +67,7 @@ def send_fcm_push(notification_name):
 		notification = messaging.Notification(
 			title=doc.title,
 			body=doc.body,
-			image=doc.image if doc.image else None,
+			image=doc.get("image"),
 		)
 
 		data = {
@@ -135,8 +135,8 @@ def send_fcm_push(notification_name):
 					else:
 						frappe.logger().info(f"No FCM token for patient {doc.patient}")
 
-	except Exception as e:
-		frappe.log_error(f"FCM Push failed: {str(e)}", "App Notification Push")
+	except Exception:
+		frappe.log_error(frappe.get_traceback(), f"App Notification Push Failed: {notification_name}")
 
 def send_scheduled_pushes():
 	"""Called by Frappe Scheduler (every ~5 min) to dispatch pending notifications.
