@@ -685,22 +685,30 @@ async function loadClinicalRecord() {
       appointment,
     });
 
-    if (!response) {
+     if (!response) {
       complaints.value = [];
       history.value = '';
       dietAdvice.value = '';
       exerciseAdvice.value = '';
     } else {
-      complaints.value = (response.chief_complaints || []).map((complaint, index) => ({
-        id: index + 1,
-        text: complaint.complaint || '',
-      }));
+      complaints.value = (response.chief_complaints || [])
+        .filter((complaint) => complaint.complaint?.trim())
+        .map((complaint, index) => ({
+          id: index + 1,
+          text: complaint.complaint.trim(),
+        }));
 
       history.value = response.history || '';
       dietAdvice.value = response.diet_advice || '';
       exerciseAdvice.value = response.exercise_advice || '';
     }
 
+    if (!complaints.value.length) {
+      const reason = consultation.value.reason || '';
+      complaints.value = reason
+        ? [{ id: 1, text: reason }]
+        : [];
+    }
     const prescriptionResponse = await getPrescriptionResource.submit({
       appointment,
     });
