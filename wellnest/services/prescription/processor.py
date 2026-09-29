@@ -127,7 +127,7 @@ def process_prescription(
     # Follow-up in X days
     follow_up = prescription.get("follow_up") or {}
     if follow_up:
-        doc.follow_up_duration = follow_up.get("duration") or ""
+        doc.follow_up_in_days = follow_up.get("duration") or ""
 
     medicines = prescription.get("medicines") or []
 

@@ -18,6 +18,7 @@
   "medicines",
   "doctor_advice",
   "follow_up_in",
+  "follow_up_in_days",
   "original_uploaded_prescription",
   "raw_ai_response"
  ],
@@ -96,6 +97,11 @@
    "fieldname": "follow_up_in",
    "fieldtype": "Date",
    "label": "Follow-up In"
+  },
+  {
+   "fieldname": "follow_up_in_days",
+   "fieldtype": "Int",
+   "label": "Follow-up In (days)"
   },
   {
    "fieldname": "investigations",
