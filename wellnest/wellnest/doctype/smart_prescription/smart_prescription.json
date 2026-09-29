@@ -94,7 +94,7 @@
   },
   {
    "fieldname": "follow_up_in",
-   "fieldtype": "Int",
+   "fieldtype": "Date",
    "label": "Follow-up In"
   },
   {
