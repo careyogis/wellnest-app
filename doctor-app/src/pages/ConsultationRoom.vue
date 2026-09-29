@@ -225,8 +225,82 @@
                 </button>
               </div>
 
-              <!-- Hidden file input -->
-              <input ref="rxImageInput" type="file" accept="image/*" capture="environment" class="hidden" @change="onRxImageSelected" />
+              <input
+  ref="rxDesktopGalleryInput"
+  type="file"
+  accept="image/*"
+  class="hidden"
+  @change="onRxImageSelected"
+/>
+
+             <!-- Image source selection -->
+<div
+  v-if="showImageSourceChoice"
+  class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 p-4"
+  @click.self="cancelRxImageSourceChoice"
+>
+  <div class="w-full max-w-md rounded-2xl bg-gray-900 border border-gray-700 p-5 shadow-xl">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="text-lg font-bold text-white">
+        Select Prescription Image
+      </h3>
+
+      <button
+        type="button"
+        @click="cancelRxImageSourceChoice"
+        class="text-gray-400 hover:text-white text-xl"
+      >
+        ×
+      </button>
+    </div>
+
+    <div class="flex flex-col gap-3">
+
+      <!-- Camera -->
+      <label
+        class="relative w-full rounded-xl bg-gray-800 hover:bg-gray-700 px-4 py-4 text-amber-400 font-bold flex items-center gap-3 cursor-pointer"
+      >
+        <FeatherIcon name="camera" class="w-5 h-5" />
+        <span>Camera</span>
+
+        <input
+          ref="rxCameraInput"
+          type="file"
+          accept="image/*"
+          capture="environment"
+          class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          @change="onRxImageSelected"
+        />
+      </label>
+
+      <!-- Gallery -->
+      <label
+        class="relative w-full rounded-xl bg-gray-800 hover:bg-gray-700 px-4 py-4 text-amber-400 font-bold flex items-center gap-3 cursor-pointer"
+      >
+        <FeatherIcon name="image" class="w-5 h-5" />
+        <span>Gallery</span>
+
+        <input
+          ref="rxGalleryInput"
+          type="file"
+          accept="image/*"
+          class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          @change="onRxImageSelected"
+        />
+      </label>
+
+      <!-- Cancel -->
+      <button
+        type="button"
+        @click="cancelRxImageSourceChoice"
+        class="w-full rounded-xl bg-gray-800 hover:bg-gray-700 px-4 py-3 text-gray-300 font-medium"
+      >
+        Cancel
+      </button>
+
+    </div>
+  </div>
+</div>
 
               <!-- Preview & submit -->
               <div v-if="rxImagePreview || rxPersistedImage" class="p-3 space-y-2.5">
@@ -639,7 +713,9 @@ const newChatMessage = ref('');
 const chatMessages = ref([{ sender: 'System', text: 'Encrypted channel active.', time: 'Just now' }]);
 
 // Rx Image Capture
-const rxImageInput = ref(null);
+const rxCameraInput = ref(null);
+const rxGalleryInput = ref(null);
+const rxDesktopGalleryInput = ref(null);
 const rxImagePreview = ref(null);
 const rxSelectedFile = ref(null);
 const rxParseLoading = ref(false);
@@ -648,6 +724,7 @@ const rxSubmitted = ref(false);
 const rxProcessingStarted = ref(false);
 const showPrescriptionPrompt = ref(false);
 const showUploadConfirmation = ref(false);
+const showImageSourceChoice = ref(false);
 const prescriptionName = ref(null);
 const rxPersistedImage = ref(null);
 const isEditingPrescription = ref(false);
@@ -671,9 +748,14 @@ const completePrescriptionResource = createResource({
   url: 'wellnest.api.prescription.complete_consultation_prescription',
 });
 
-function triggerRxImageCapture() {
-  rxParseStatus.value = null;
-  rxImageInput.value?.click();
+function triggerRxCamera() {
+  rxPasteStatus.value = null;
+  rxCameraInput.value?.click();
+}
+
+function triggerRxGallery() {
+  rxPasteStatus.value = null;
+  rxGalleryInput.value?.click();
 }
 
 function requestRxImageCapture() {
@@ -682,7 +764,31 @@ function requestRxImageCapture() {
     return;
   }
 
-  triggerRxImageCapture();
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+   if (isMobile) {
+  showImageSourceChoice.value = true;
+  } else {
+    rxDesktopGalleryInput.value?.click();
+  }
+}
+
+function selectRxCamera() {
+  rxPasteStatus.value = null;
+  rxCameraInput.value?.click();
+  showImageSourceChoice.value = false;
+  triggerRxCamera();
+}
+
+function selectRxGallery() {
+  rxPasteStatus.value = null;
+  rxGalleryInput.value?.click();
+  showImageSourceChoice.value = false;
+  triggerRxGallery();
+}
+
+function cancelRxImageSourceChoice() {
+  showImageSourceChoice.value = false;
 }
 
 function cancelUploadConfirmation() {
@@ -697,8 +803,11 @@ function confirmPrescriptionUpload() {
 function onRxImageSelected(event) {
   const file = event.target.files?.[0];
   if (!file) return;
+  showImageSourceChoice.value = false;
   rxSelectedFile.value = file;
-  if (rxImagePreview.value) URL.revokeObjectURL(rxImagePreview.value);
+  if (rxImagePreview.value) {
+   URL.revokeObjectURL(rxImagePreview.value);
+  }
   rxImagePreview.value = URL.createObjectURL(file);
   event.target.value = '';
 }

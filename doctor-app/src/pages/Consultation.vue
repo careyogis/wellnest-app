@@ -1498,14 +1498,12 @@ function insertDiagnosisSuggestion() {
 
 async function saveConsultation() {
   try {
-    await saveClinicalRecord(false);
-
-    if (prescriptionWorkflowState.value === 'Processing') {
-      ocrStatusType.value = 'processing';
-      ocrStatusMessage.value = 'Prescription is being processed. Please wait while we extract the prescription details. You cannot edit or save the prescription while processing is in progress.';
+     if (prescriptionWorkflowState.value === 'Processing') {
+      alert('You cannot edit/save a prescription during a processing state, pls wait to finish the processing.');
       return;
     }
 
+     await saveClinicalRecord(false);
     await savePrescriptionDraft(false);
 
     alert('Consultation saved as draft.');
