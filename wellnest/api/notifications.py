@@ -126,7 +126,7 @@ def notify_doctor_of_prescription_review(patient_appointment):
             f"{patient_appointment}"
         )
 
-        _send_prescription_review_whatsapp_message(
+        return _send_prescription_review_whatsapp_message(
             doctor_phone,
             doctor_name,
             patient_name,
@@ -138,6 +138,7 @@ def notify_doctor_of_prescription_review(patient_appointment):
             frappe.get_traceback(),
             "Prescription WhatsApp Notification Error",
         )
+
         _logInfo(
             f"Failed to send prescription review WhatsApp alert "
             f"for appointment {patient_appointment}"
@@ -150,11 +151,18 @@ def _send_prescription_review_whatsapp_message(
     patient_name,
     patient_appointment,
 ):
-    site_url = frappe.utils.get_url()
+    import requests
+
+    _logInfo(
+        f"Sending prescription WhatsApp message to "
+        f"{doctor_name} ({doctor_phone}) for appointment "
+        f"{patient_appointment}"
+    )
 
     access_token = frappe.conf.get("ACCESS_TOKEN")
     phone_number_id = frappe.conf.get("PHONE_NUMBER_ID")
     version = frappe.conf.get("VERSION")
+    site_url = frappe.utils.get_url()
 
     url = (
         f"https://graph.facebook.com/"
@@ -213,9 +221,20 @@ def _send_prescription_review_whatsapp_message(
     )
 
     _logInfo(
-        f"Prescription review WhatsApp response for "
-        f"{patient_appointment}: {response.text}"
+        f"Prescription WhatsApp response "
+        f"for {patient_appointment}: "
+        f"HTTP {response.status_code} - {response.text}"
     )
+
+    if not response.ok:
+        frappe.log_error(
+            (
+                f"HTTP Status: {response.status_code}\n"
+                f"Response: {response.text}\n"
+                f"Appointment: {patient_appointment}"
+            ),
+            "Prescription WhatsApp API Error",
+        )
 
     return response.json()
 
