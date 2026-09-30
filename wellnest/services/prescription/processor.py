@@ -446,6 +446,20 @@ def process_prescription_job(
             ),
         )
 
+        try:
+            from wellnest.api.notifications import (
+               notify_doctor_of_prescription_review
+            )
+
+            notify_doctor_of_prescription_review(
+                patient_appointment
+            )
+        except Exception:
+           frappe.log_error(
+               frappe.get_traceback(),
+               "Failed to send prescription review WhatsApp notification",
+           )
+
         print(
             ">>> PRESCRIPTION OCR JOB COMPLETED SUCCESSFULLY"
         )
@@ -533,13 +547,21 @@ def process_prescription_job(
                     f"{prescription}"
                 )
 
+                issue_name = _create_prescription_ocr_issue(
+                    prescription=prescription,
+                    patient_appointment=patient_appointment,
+                    file_url=file_url,
+                    attempt=attempt,
+                    error_traceback=error_traceback,
+                )
+
                 _publish_prescription_event(
                     patient_appointment,
                     "failed",
                     (
                         "Prescription extraction failed after "
-                        "multiple attempts. Please upload the "
-                        "prescription again."
+                        "multiple attempts. Our Operation team"
+                        "will review it."
                     ),
                 )
 
@@ -572,6 +594,49 @@ def process_prescription_job(
 
         print("!" * 80)
 
+def _create_prescription_ocr_issue(
+    prescription,
+    patient_appointment,
+    file_url,
+    attempt,
+    error_traceback,
+):
+    try:
+        issue = frappe.get_doc(
+            {
+                "doctype": "Issue",
+                "subject": f"Prescription OCR Failed - {prescription}",
+                "description": (
+                    f"Prescription extraction failed after "
+                    f"{attempt} attempts.\n\n"
+                    f"Smart Prescription: {prescription}\n"
+                    f"Patient Appointment: {patient_appointment}\n"
+                    f"Final OCR Error:\n{error_traceback}"
+                ),
+                "attachment": file_url,
+            }
+        )
+
+        issue.insert(ignore_permissions=True)
+        frappe.db.commit()
+
+        print(
+            f">>> Issue created successfully: {issue.name}"
+        )
+
+        return issue.name
+
+    except Exception:
+        frappe.log_error(
+            frappe.get_traceback(),
+            "Failed to create Prescription OCR Issue",
+        )
+
+        print(
+            ">>> ERROR: Failed to create Issue for prescription OCR"
+        )
+
+        return None
 
 def _publish_prescription_event(
     patient_appointment,
@@ -658,7 +723,7 @@ def handle_prescription_ocr_failure(
                 "failed",
                 (
                     "Prescription processing failed. "
-                    "Please upload the prescription again."
+                    "Our Operations team will review it."
                 ),
             )
 
