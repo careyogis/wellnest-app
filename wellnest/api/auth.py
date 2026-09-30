@@ -40,11 +40,15 @@ def verify_practitioner_otp_and_login(session_info: str, phone: str, otp: str):
 	uid = firebase_data["uid"]
 	is_new_user = firebase_data["is_new_user"]
 
-	# get cleaned up phone any user found
-	phone, user = _lookup_user_by_phone(phone)
+	phone, practitioner_name = _lookup_practitioner_by_phone(phone)
+
+	if not practitioner_name:
+		frappe.throw("Practitioner not found for this mobile number")
+
+	user = frappe.db.get_value("Practitioner", practitioner_name, "user_id")
 
 	if not user:
-		frappe.throw("User not found for this mobile number")
+		frappe.throw("User not linked to this Practitioner")
 
 	frappe.set_user(user)
 
