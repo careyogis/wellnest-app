@@ -191,11 +191,12 @@
     <!-- Follow-up In -->
       <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
   <h2 class="text-xl font-bold text-gray-900 mb-3">
-    Follow-up In
+    Follow-up In (days)
   </h2>
       <input
-       v-model="followUpIn"
-      type="date"
+       v-model="followUpInDays"
+      type="number"
+      min="0"
       class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
      />
         </section>
@@ -375,10 +376,10 @@
 
             <!-- Follow-up In -->
 <div class="mt-6">
-  <h3 class="font-bold text-gray-900">Follow-up In</h3>
+  <h3 class="font-bold text-gray-900">Follow-up In (days)</h3>
 
   <p class="text-sm text-gray-700 mt-2">
-    {{ followUpIn || 'No follow-up date entered.' }}
+    {{ followUpInDays || 'No follow-up duration entered.' }}
   </p>
 </div>
 
@@ -565,7 +566,7 @@ const examination = ref('');
 const provisionalDiagnosis = ref('');
 
 const doctorAdvice = ref('');
-const followUpIn = ref('');
+const followUpInDays = ref('');
 const dietAdvice = ref('');
 const exerciseAdvice = ref('');
 
@@ -724,7 +725,7 @@ async function loadClinicalRecord() {
 
 doctorAdvice.value = prescription.doctor_advice || '';
 
-followUpIn.value = prescription.follow_up_in || '';
+followUpInDays.value = prescription.follow_up_in_days || '';
 
       medicines.value = (prescription.medicines || []).map((medicine) => ({
         medicine: medicine.medicine_name || '',
@@ -741,7 +742,7 @@ followUpIn.value = prescription.follow_up_in || '';
       provisionalDiagnosis.value = '';
       investigations.value = [];
       doctorAdvice.value = '';
-followUpIn.value = '';
+      followUpInDays.value = '';
       medicines.value = [];
       prescriptionName.value = null;
       prescriptionWorkflowState.value = null;
@@ -839,7 +840,7 @@ async function loadPrescription() {
     }));
 
     doctorAdvice.value = response.doctor_advice || '';
-followUpIn.value = response.follow_up_in || '';
+    followUpInDays.value = response.follow_up_in_days || '';
 
     if (response.workflow_state === 'Processing') {
       ocrProcessingStarted.value = true;
@@ -881,7 +882,7 @@ followUpIn.value = response.follow_up_in || '';
       {
         medicines: response.medicines || [],
         doctor_advice: response.doctor_advice || '',
-        follow_up_in: response.follow_up_in || '',
+        follow_up_in_days: response.follow_up_in_days || '',
       },
       null,
       2
@@ -1114,7 +1115,7 @@ async function finalizePrescription() {
         investigations: investigations.value.filter((investigation) => investigation?.trim()).join('\n'),
         provisional_diagnosis: provisionalDiagnosis.value || '',
         doctor_advice: doctorAdvice.value || '',
-        follow_up_in: followUpIn.value || '',
+        follow_up_in_days: followUpInDays.value || '',
         medicines: JSON.stringify(medicinesPayload),
       });
 
@@ -1136,7 +1137,7 @@ async function finalizePrescription() {
 
         provisional_diagnosis: provisionalDiagnosis.value || '',
         doctor_advice: doctorAdvice.value || '',
-follow_up_in: followUpIn.value || '',
+        follow_up_in_days: followUpInDays.value || '',
 
         medicines: JSON.stringify(medicinesPayload),
       });
@@ -1201,7 +1202,7 @@ async function savePrescriptionDraft(showMessage = true) {
 
       provisional_diagnosis: provisionalDiagnosis.value || '',
       doctor_advice: doctorAdvice.value || '',
-      follow_up_in: followUpIn.value || '',
+      follow_up_in_days: followUpInDays.value || '',
 
       medicines: JSON.stringify(medicinesPayload),
     });
@@ -1579,7 +1580,7 @@ defineExpose({
   vitals,
   medicines,
   doctorAdvice,
-  followUpIn,
+  followUpInDays,
   provisionalDiagnosis,
   investigations,
   previewDetails,

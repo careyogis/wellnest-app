@@ -186,6 +186,35 @@ Return the active ingredient(s) of the prescribed medicine as a separate field.
 • If original_name or normalized_name is already an internationally recognized generic medicine name, return that same name in generic_names.
 • Only omit generic_names when the prescribed medicine is a brand or proprietary product whose active ingredient(s) cannot be determined confidently.
 
+Alternative brand names / equivalent medicines
+
+• A prescription may list multiple brand names as alternatives for the same medicine, for example:
+Brand A / Brand B / Brand C
+• If multiple brand names are explicitly presented as alternatives and they have the same generic active ingredient(s) and the same strength or percentage composition, treat them as ONE medicine entry.
+• Do NOT create separate medicine entries for each alternative brand in this situation.
+• Preserve all clearly readable alternative brand names in the single medicine entry. Use the brand names together in original_name, separated by " / ".
+• The shared generic active ingredient(s) must be returned once in generic_names.
+• The shared strength or percentage composition must be returned once in strength.
+• Apply the same frequency, duration, and medicine-specific instruction to the grouped medicine when the prescription clearly associates those details with all the alternatives.
+• Only group medicines when the prescription clearly indicates they are alternatives and their generic composition and strength match.
+• If the generic composition or strength differs, or it is unclear whether the names are alternatives, keep them as separate medicine entries.
+• When alternative brand names are written together using "/", "or", commas, or similar notation, first identify and preserve ALL clearly readable brand names before grouping them.
+• Do not discard an alternative brand name merely because another brand in the group is easier to recognize.
+• If one or more names are partially unreadable, include only the names that can be read confidently. Do not replace missing names by guessing.
+Example:
+
+Duofilm / Salactin / Ulsinard
+Salicylic acid 16.7% + Lactic acid 16.7%
+Once daily
+
+→ ONE medicine entry:
+original_name: "Duofilm / Salactin / Ulsinard"
+generic_names: ["Salicylic acid", "Lactic acid"]
+strength: "16.7% + 16.7%"
+frequency: "Once daily"
+
+NOT three separate medicine entries.
+
 Strength
 
 • Extract exactly as written.

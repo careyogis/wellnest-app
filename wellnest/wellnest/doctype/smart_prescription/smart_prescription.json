@@ -12,12 +12,10 @@
   "prescription_date",
   "investigations",
   "provisional_diagnosis",
-  "followup_expiry_date",
   "workflow_state",
   "section_break_meds",
   "medicines",
   "doctor_advice",
-  "follow_up_in",
   "follow_up_in_days",
   "original_uploaded_prescription",
   "raw_ai_response"
@@ -43,11 +41,6 @@
    "fieldname": "prescription_date",
    "fieldtype": "Date",
    "label": "Prescription Date"
-  },
-  {
-   "fieldname": "followup_expiry_date",
-   "fieldtype": "Date",
-   "label": "Followup Expiry Date"
   },
   {
    "default": "Draft",
@@ -92,11 +85,6 @@
    "fieldname": "doctor_advice",
    "fieldtype": "Small Text",
    "label": "Doctor Advice"
-  },
-  {
-   "fieldname": "follow_up_in",
-   "fieldtype": "Date",
-   "label": "Follow-up In"
   },
   {
    "fieldname": "follow_up_in_days",

@@ -261,10 +261,9 @@ def save_ocr_prescription(name, response_data):
 @frappe.whitelist()
 def create_consultation_prescription(
     appointment,
-    followup_expiry_date=None,
     investigations=None,
     provisional_diagnosis=None,
-    follow_up_in=None,
+    follow_up_in_days=None,
     doctor_advice=None,
     medicines=None,
 ):
@@ -313,10 +312,9 @@ def create_consultation_prescription(
     doc.patient_appointment = appointment
     doc.patient = appointment_doc.patient
     doc.practitioner = appointment_doc.practitioner
-    doc.followup_expiry_date = followup_expiry_date
     doc.investigations = investigations or ""
     doc.provisional_diagnosis = provisional_diagnosis or ""
-    doc.follow_up_in = follow_up_in or ""
+    doc.follow_up_in_days = follow_up_in_days or None
     doc.doctor_advice = doctor_advice or ""
     doc.workflow_state = "Draft"
 
@@ -340,12 +338,11 @@ def create_consultation_prescription(
         "patient_appointment": doc.patient_appointment,
         "patient": doc.patient,
         "practitioner": doc.practitioner,
-        "followup_expiry_date": doc.followup_expiry_date,
         "workflow_state": doc.workflow_state,
         "investigations": doc.investigations,
         "provisional_diagnosis": doc.provisional_diagnosis,
         "doctor_advice": doc.doctor_advice,
-        "follow_up_in": doc.follow_up_in,
+        "follow_up_in_days": doc.follow_up_in_days,
         "file_url": file_url,
         "medicines": [
             {
@@ -365,11 +362,10 @@ def save_consultation_prescription_draft(
     name=None,
     appointment=None,
     prescription_date=None,
-    followup_expiry_date=None,
     investigations=None,
     provisional_diagnosis=None,
     doctor_advice=None,
-    follow_up_in=None,
+    follow_up_in_days=None,
     medicines=None,
 ):
     practitioner = frappe.db.get_value(
@@ -452,12 +448,10 @@ def save_consultation_prescription_draft(
         medicines or "[]"
     )
 
-    doc.followup_expiry_date = followup_expiry_date
-
     doc.investigations = investigations or ""
     doc.provisional_diagnosis = provisional_diagnosis or ""
 
-    doc.follow_up_in = follow_up_in or ""
+    doc.follow_up_in_days = follow_up_in_days or None
     doc.doctor_advice = doctor_advice or ""
 
     doc.set("medicines", [])
@@ -501,7 +495,7 @@ def save_consultation_prescription_draft(
         "workflow_state": doc.workflow_state,
         "investigations": doc.investigations,
         "provisional_diagnosis": doc.provisional_diagnosis,
-        "follow_up_in": doc.follow_up_in,
+        "follow_up_in_days": doc.follow_up_in_days,
         "doctor_advice": doc.doctor_advice,
         "medicines": [
             {
@@ -613,11 +607,10 @@ def get_consultation_prescription(appointment):
         "patient_appointment": doc.patient_appointment,
         "patient": doc.patient,
         "practitioner": doc.practitioner,
-        "followup_expiry_date": doc.followup_expiry_date,
         "workflow_state": doc.workflow_state,
         "investigations": doc.investigations,
         "provisional_diagnosis": doc.provisional_diagnosis,
-        "follow_up_in": doc.follow_up_in,
+        "follow_up_in_days": doc.follow_up_in_days,
         "doctor_advice": doc.doctor_advice,
         "file_url": file_url,
         "medicines": [
