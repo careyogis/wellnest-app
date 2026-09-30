@@ -9,6 +9,7 @@ from wellnest.services.prescription.processor import (
 def parse_and_create_prescription(
     file_url=None,
     patient_appointment=None,
+    admin_mode=False,
 ):
     print("\n" + "=" * 80)
     print(">>> PRESCRIPTION API START")
@@ -42,35 +43,42 @@ def parse_and_create_prescription(
         f"{appointment_doc.practitioner}"
     )
 
-    practitioner = frappe.db.get_value(
-        "Practitioner",
-        {"user_id": frappe.session.user},
-        "name",
-    )
+    # Do not check for authorization if invoked from the Desk
+    if admin_mode:
+        practitioner = appointment_doc.practitioner
 
-    print(f">>> Logged-in practitioner: {practitioner}")
-
-    if not practitioner:
-        print(">>> ERROR: No practitioner found for logged-in user")
-        frappe.throw("Practitioner not found.")
-
-    if appointment_doc.practitioner != practitioner:
-        print(">>> AUTHORIZATION FAILED")
-        print(
-            f">>> Appointment practitioner: "
-            f"{appointment_doc.practitioner}"
-        )
-        print(
-            f">>> Logged-in practitioner: "
-            f"{practitioner}"
+    else:
+        practitioner = frappe.db.get_value(
+            "Practitioner",
+            {"user_id": frappe.session.user},
+            "name",
         )
 
-        frappe.throw(
-            "You are not authorized to upload a prescription for this appointment.",
-            frappe.PermissionError,
-        )
+        print(f">>> Logged-in practitioner: {practitioner}")
 
-    print(">>> Practitioner authorization passed")
+        if not practitioner:
+            print(">>> ERROR: No practitioner found for logged-in user")
+            frappe.throw("Practitioner not found.")
+
+        if appointment_doc.practitioner != practitioner:
+            print(">>> AUTHORIZATION FAILED")
+            print(
+                f">>> Appointment practitioner: "
+                f"{appointment_doc.practitioner}"
+            )
+            print(
+                f">>> Logged-in practitioner: "
+                f"{practitioner}"
+            )
+
+            frappe.throw(
+                "You are not authorized to upload a prescription for this appointment.",
+                frappe.PermissionError,
+            )
+
+            print(">>> Practitioner authorization passed")
+        else:
+            practitioner = appointment_doc.practitioner
 
     existing = frappe.db.get_value(
         "Smart Prescription",
