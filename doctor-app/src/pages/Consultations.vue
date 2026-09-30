@@ -757,14 +757,10 @@
                 </div>
 
                 <div class="mt-2 space-y-1 text-sm text-gray-500">
-                  <p v-if="document.document" class="flex min-w-0">
-                    <span class="font-medium text-gray-700 shrink-0 mr-1"> Document: </span>
-
-                    <span class="truncate" :title="document.document.split('/').pop()">
-                      {{ document.document.split('/').pop() }}
-                    </span>
+                  <p v-if="document.document">
+                    <span class="font-medium text-gray-700">Type:</span>
+                    {{ getDocumentType(document.document) }}
                   </p>
-
                   <p v-if="document.creation">
                     <span class="font-medium text-gray-700">Date:</span>
                     {{ formatPrescriptionDate(document.creation) }}
@@ -1116,6 +1112,27 @@ function formatPrescriptionDate(value) {
     minute: '2-digit',
     hour12: true,
   });
+}
+
+function getDocumentType(documentUrl) {
+  if (!documentUrl) return 'File';
+
+  const cleanUrl = documentUrl.split('?')[0];
+  const extension = cleanUrl.split('.').pop()?.toLowerCase();
+
+  if (extension === 'pdf') {
+    return 'PDF';
+  }
+
+  if (['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(extension)) {
+    return 'Image';
+  }
+
+  if (['doc', 'docx'].includes(extension)) {
+    return 'Document';
+  }
+
+  return 'File';
 }
 
 const consultations = computed(() => {
