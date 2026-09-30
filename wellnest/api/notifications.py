@@ -175,7 +175,7 @@ def _send_prescription_review_whatsapp_message(
     }
 
     deep_link = (
-        f"{site_url}/doctor-app/prescriptions/"
+        f"{site_url}/doctor-app/consultations/"
         f"{patient_appointment}"
     )
 
