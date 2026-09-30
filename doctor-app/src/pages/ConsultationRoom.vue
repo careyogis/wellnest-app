@@ -220,7 +220,7 @@
                   <FeatherIcon name="camera" class="w-3.5 h-3.5 text-amber-400" />
                   Scan Physical Prescription
                 </h4>
-                <button @click="requestRxImageCapture" type="button" class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
+                <button @click="requestRxImageCapture()" type="button" class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
                   <FeatherIcon name="camera" class="w-3 h-3" /> Take Photo
                 </button>
               </div>
@@ -758,8 +758,8 @@ function triggerRxGallery() {
   rxGalleryInput.value?.click();
 }
 
-function requestRxImageCapture() {
-  if (hasManualPrescriptionDetails()) {
+function requestRxImageCapture(skipConfirmation = false) {
+  if (!skipConfirmation && hasManualPrescriptionDetails()) {
     showUploadConfirmation.value = true;
     return;
   }
@@ -797,7 +797,7 @@ function cancelUploadConfirmation() {
 
 function confirmPrescriptionUpload() {
   showUploadConfirmation.value = false;
-  triggerRxImageCapture();
+  requestRxImageCapture(true);
 }
 
 function onRxImageSelected(event) {
