@@ -45,10 +45,16 @@ def verify_practitioner_otp_and_login(session_info: str, phone: str, otp: str):
 	if not practitioner_name:
 		frappe.throw("Practitioner not found for this mobile number")
 
-	user = frappe.db.get_value("Practitioner", practitioner_name, "user_id")
+	practitioner_user_id = frappe.db.get_value("Practitioner", practitioner_name, "user_id")
 
-	if not user:
+	if not practitioner_user_id:
 		frappe.throw("User not linked to this Practitioner")
+		
+	# Ensure we use the exact name from the User table (fixes case mismatch and trailing spaces)
+	user = frappe.db.get_value("User", practitioner_user_id.strip(), "name")
+	
+	if not user:
+		frappe.throw(f"The linked user account ({practitioner_user_id}) does not exist in the system.")
 
 	frappe.set_user(user)
 

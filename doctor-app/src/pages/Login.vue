@@ -103,13 +103,13 @@
                 <button type="button" class="ml-1 text-sm font-medium text-blue-600 hover:underline" @click="goToRegister(phone)">Register</button>
               </div>
               <div v-if="otpSent">
-                <Input class="mt-4 doctor-input" v-model="otpEntry" label="OTP" placeholder="Enter OTP" @input="(val) => (otpEntry = val)" />
-                <Button class="w-full mt-4 doctor-btn" variant="solid" @click="verifyOtp" :disabled="verifyingOtp.value">
+                <Input class="mt-4 doctor-input" v-model="otpEntry" label="OTP" placeholder="Enter OTP" />
+                <Button class="w-full mt-4 doctor-btn" variant="solid" @click="verifyOtp" :disabled="verifyingOtp">
                   <svg v-if="isLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  {{ verifyingOtp.value ? 'Verifying OTP...' : 'Verify OTP' }}
+                  {{ verifyingOtp ? 'Verifying OTP...' : 'Verify OTP' }}
                 </Button>
               </div>
             </div>
@@ -301,6 +301,7 @@ async function sendOtp() {
 }
 
 async function verifyOtp() {
+  if (verifyingOtp.value) return;  // guard against double-invoke (watcher + button)
   message.value = '';
   messageType.value = '';
   verifyingOtp.value = true;
@@ -322,10 +323,16 @@ async function verifyOtp() {
   } catch (err: any) {
     messageType.value = 'error';
 
-    if (err.messages && err.messages.length > 0) {
-      message.value = err.messages[0];
+    const errMsg: string = (err.messages && err.messages.length > 0) ? err.messages[0] : '';
+
+    if (errMsg.includes('SESSION_EXPIRED')) {
+      // Firebase sessionInfo token expired (~5 min). Reset so user can resend.
+      otpSent.value = false;
+      otpEntry.value = '';
+      sessionInfo.value = '';
+      message.value = 'OTP session expired. Please request a new OTP.';
     } else {
-      message.value = 'Invalid OTP.';
+      message.value = errMsg || 'Invalid OTP.';
     }
     verifyingOtp.value = false;
   }
