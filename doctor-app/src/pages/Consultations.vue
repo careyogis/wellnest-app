@@ -227,15 +227,18 @@
                 </button>
 
                 <!-- Save -->
-                <button
-                  type="button"
-                  class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-amber-400 bg-white text-amber-700 font-semibold hover:bg-amber-50 transition"
-                  @click="saveConsultation"
+               <button
+               type="button"
+                :disabled="prescriptionSubmitted"
+                :class="prescriptionSubmitted
+                ? 'border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed'
+                : 'border-amber-400 bg-white text-amber-700 hover:bg-amber-50'"
+                class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border font-semibold transition"
+                @click="saveConsultation"
                 >
-                  <FeatherIcon name="save" class="w-4 h-4" />
-                  Save
-                </button>
-
+                 <FeatherIcon name="save" class="w-4 h-4" />
+                    Save
+                 </button>
                 <!-- Submitted status -->
                 <div v-if="prescriptionSubmitted" class="rounded-xl border border-green-200 bg-green-50 px-4 py-2.5 text-sm font-semibold text-green-700">
                   Prescription already submitted for this patient.
@@ -310,6 +313,7 @@
             :selected-consultation="selectedConsultation"
             @prescription-loaded="handlePrescriptionLoaded"
             @prescription-upload-processing="handlePrescriptionUploadProcessing"
+            @prescription-submitted="prescriptionSubmitted = true"
           />
         </div>
 

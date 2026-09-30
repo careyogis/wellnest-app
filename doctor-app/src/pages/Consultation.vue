@@ -452,14 +452,16 @@
           </div>
         </div>
 
-        <button
-          v-if="ocrStatusType === 'error' && prescriptionWorkflowState === 'Failed'"
-          type="button"
-          class="mt-4 w-full px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold text-sm"
-          @click="triggerUpload"
-        >
-          Upload Prescription Again
-        </button>
+        <!--
+<button
+  v-if="ocrStatusType === 'error' && prescriptionWorkflowState === 'Failed'"
+  type="button"
+  class="mt-4 w-full px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold text-sm"
+  @click="triggerUpload"
+>
+  Upload Prescription Again
+</button>
+-->
       </div>
 
       <!-- Modal footer -->
@@ -849,7 +851,7 @@ async function loadPrescription() {
       ocrLoading.value = false;
 
       ocrStatusType.value = 'error';
-      ocrStatusMessage.value = "We couldn't extract the prescription after multiple attempts. Please upload the prescription again to retry.";
+      ocrStatusMessage.value = "Prescription extraction has failed due to a temporary server overload. The Ops team will take over and process the prescription. You will be notified via WhatsApp once it is ready for you to review/submit.";
 
       stopPrescriptionStatusPolling();
 
