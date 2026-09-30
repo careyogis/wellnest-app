@@ -178,26 +178,20 @@
         <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
           <div class="mb-5">
             <h2 class="text-xl font-bold text-gray-900">Doctor Advice</h2>
-            <p class="text-gray-500 mt-1"> Add general advice, diet, and exercise recommendations for the patient.</p>
+            <p class="text-gray-500 mt-1">Add general advice, diet, and exercise recommendations for the patient.</p>
           </div>
-              <textarea
-              v-model="doctorAdvice"
-              rows="4"
-              placeholder="Enter general, diet, and exercise advice"
-        class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
-      ></textarea>
-    </section>
+          <textarea
+            v-model="doctorAdvice"
+            rows="4"
+            placeholder="Enter general, diet, and exercise advice"
+            class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 resize-y focus:outline-none focus:ring-2 focus:ring-amber-200"
+          ></textarea>
+        </section>
 
-    <!-- Follow-up In -->
-      <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
-  <h2 class="text-xl font-bold text-gray-900 mb-3">
-    Follow-up In
-  </h2>
-      <input
-       v-model="followUpIn"
-      type="date"
-      class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
-     />
+        <!-- Follow-up In -->
+        <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
+          <h2 class="text-xl font-bold text-gray-900 mb-3">Follow-up In</h2>
+          <input v-model="followUpIn" type="date" class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200" />
         </section>
       </main>
     </div>
@@ -374,13 +368,13 @@
             </div>
 
             <!-- Follow-up In -->
-<div class="mt-6">
-  <h3 class="font-bold text-gray-900">Follow-up In</h3>
+            <div class="mt-6">
+              <h3 class="font-bold text-gray-900">Follow-up In</h3>
 
-  <p class="text-sm text-gray-700 mt-2">
-    {{ followUpIn || 'No follow-up date entered.' }}
-  </p>
-</div>
+              <p class="text-sm text-gray-700 mt-2">
+                {{ followUpIn || 'No follow-up date entered.' }}
+              </p>
+            </div>
 
             <!-- Digitally signed -->
             <div class="mt-6 pt-5 border-t border-amber-200">
@@ -399,7 +393,7 @@
       </div>
     </div>
   </div>
-  <!-- OCR handwritten prescription modal -->
+
   <!-- Uploaded prescription modal -->
   <div v-if="showOcrModal" class="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4" @click.self="showOcrModal = false">
     <div class="w-full max-w-5xl max-h-[90vh] bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col">
@@ -685,7 +679,7 @@ async function loadClinicalRecord() {
       appointment,
     });
 
-     if (!response) {
+    if (!response) {
       complaints.value = [];
       history.value = '';
       dietAdvice.value = '';
@@ -705,9 +699,7 @@ async function loadClinicalRecord() {
 
     if (!complaints.value.length) {
       const reason = consultation.value.reason || '';
-      complaints.value = reason
-        ? [{ id: 1, text: reason }]
-        : [];
+      complaints.value = reason ? [{ id: 1, text: reason }] : [];
     }
     const prescriptionResponse = await getPrescriptionResource.submit({
       appointment,
@@ -722,9 +714,9 @@ async function loadClinicalRecord() {
 
       investigations.value = prescription.investigations ? prescription.investigations.split('\n').filter((item) => item.trim()) : [];
 
-doctorAdvice.value = prescription.doctor_advice || '';
+      doctorAdvice.value = prescription.doctor_advice || '';
 
-followUpIn.value = prescription.follow_up_in || '';
+      followUpIn.value = prescription.follow_up_in || '';
 
       medicines.value = (prescription.medicines || []).map((medicine) => ({
         medicine: medicine.medicine_name || '',
@@ -741,7 +733,7 @@ followUpIn.value = prescription.follow_up_in || '';
       provisionalDiagnosis.value = '';
       investigations.value = [];
       doctorAdvice.value = '';
-followUpIn.value = '';
+      followUpIn.value = '';
       medicines.value = [];
       prescriptionName.value = null;
       prescriptionWorkflowState.value = null;
@@ -839,7 +831,7 @@ async function loadPrescription() {
     }));
 
     doctorAdvice.value = response.doctor_advice || '';
-followUpIn.value = response.follow_up_in || '';
+    followUpIn.value = response.follow_up_in || '';
 
     if (response.workflow_state === 'Processing') {
       ocrProcessingStarted.value = true;
@@ -946,8 +938,7 @@ async function viewHistoricalPrescription(prescription) {
       prescription_name: prescription.name,
     });
 
-    selectedHistoricalPrescription.value =
-      response?.message || response || null;
+    selectedHistoricalPrescription.value = response?.message || response || null;
   } catch (error) {
     console.error('Failed to load historical prescription:', error);
 
@@ -1136,7 +1127,7 @@ async function finalizePrescription() {
 
         provisional_diagnosis: provisionalDiagnosis.value || '',
         doctor_advice: doctorAdvice.value || '',
-follow_up_in: followUpIn.value || '',
+        follow_up_in: followUpIn.value || '',
 
         medicines: JSON.stringify(medicinesPayload),
       });
@@ -1506,12 +1497,12 @@ function insertDiagnosisSuggestion() {
 
 async function saveConsultation() {
   try {
-     if (prescriptionWorkflowState.value === 'Processing') {
+    if (prescriptionWorkflowState.value === 'Processing') {
       alert('You cannot edit/save a prescription during a processing state, pls wait to finish the processing.');
       return;
     }
 
-     await saveClinicalRecord(false);
+    await saveClinicalRecord(false);
     await savePrescriptionDraft(false);
 
     alert('Consultation saved as draft.');
