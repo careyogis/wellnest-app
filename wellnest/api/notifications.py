@@ -64,6 +64,161 @@ def notify_doctor_of_new_booking(patient_appointmentId, practitioner_name, pract
 
 	_logInfo(f"Finished sending WhatsApp alerts")
 
+def notify_doctor_of_prescription_review(patient_appointment):
+    try:
+        if not patient_appointment:
+            _logInfo(
+                "Prescription WhatsApp notification skipped: "
+                "no patient appointment."
+            )
+            return
+
+        appointment = frappe.get_doc(
+            "Patient Appointment",
+            patient_appointment,
+        )
+
+        if not appointment.practitioner:
+            frappe.log_error(
+                f"Patient Appointment {patient_appointment} "
+                f"does not have a practitioner.",
+                "Prescription WhatsApp Notification Error",
+            )
+            return
+
+        if not appointment.patient:
+            frappe.log_error(
+                f"Patient Appointment {patient_appointment} "
+                f"does not have a patient.",
+                "Prescription WhatsApp Notification Error",
+            )
+            return
+
+        doctor = frappe.get_doc(
+            "Practitioner",
+            appointment.practitioner,
+        )
+
+        patient = frappe.get_doc(
+            "Patient",
+            appointment.patient,
+        )
+
+        doctor_phone = doctor.mobile
+
+        if not doctor_phone:
+            frappe.log_error(
+                f"Doctor {doctor.name} does not have a mobile number. "
+                f"Cannot send prescription review WhatsApp alert.",
+                "Prescription WhatsApp Notification Error",
+            )
+            return
+
+        if not doctor_phone.startswith("+91"):
+            doctor_phone = "+91" + doctor_phone
+
+        doctor_name = doctor.full_name or doctor.name
+        patient_name = patient.full_name or patient.name
+
+        _logInfo(
+            f"Sending prescription review WhatsApp alert to "
+            f"{doctor_name} ({doctor_phone}) for appointment "
+            f"{patient_appointment}"
+        )
+
+        _send_prescription_review_whatsapp_message(
+            doctor_phone,
+            doctor_name,
+            patient_name,
+            patient_appointment,
+        )
+
+    except Exception:
+        frappe.log_error(
+            frappe.get_traceback(),
+            "Prescription WhatsApp Notification Error",
+        )
+        _logInfo(
+            f"Failed to send prescription review WhatsApp alert "
+            f"for appointment {patient_appointment}"
+        )
+
+
+def _send_prescription_review_whatsapp_message(
+    doctor_phone,
+    doctor_name,
+    patient_name,
+    patient_appointment,
+):
+    site_url = frappe.utils.get_url()
+
+    access_token = frappe.conf.get("ACCESS_TOKEN")
+    phone_number_id = frappe.conf.get("PHONE_NUMBER_ID")
+    version = frappe.conf.get("VERSION")
+
+    url = (
+        f"https://graph.facebook.com/"
+        f"{version}/{phone_number_id}/messages"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
+
+    deep_link = (
+        f"{site_url}/doctor-app/prescriptions/"
+        f"{patient_appointment}"
+    )
+
+    payload = {
+        "messaging_product": "whatsapp",
+        "to": doctor_phone,
+        "type": "template",
+        "template": {
+            "name": "doctor_prescription_ready_for_review",
+            "language": {
+                "code": "en"
+            },
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": [
+                        {
+                            "type": "text",
+                            "text": doctor_name,
+                        },
+                        {
+                            "type": "text",
+                            "text": patient_name,
+                        },
+                        {
+                            "type": "text",
+                            "text": patient_appointment,
+                        },
+                        {
+                            "type": "text",
+                            "text": deep_link,
+                        },
+                    ],
+                },
+            ],
+        },
+    }
+
+    response = requests.post(
+        url,
+        json=payload,
+        headers=headers,
+    )
+
+    _logInfo(
+        f"Prescription review WhatsApp response for "
+        f"{patient_appointment}: {response.text}"
+    )
+
+    return response.json()
+
 
 def send_doctor_whatsapp_alert():
 	from frappe.utils import now_datetime
