@@ -289,7 +289,7 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 	function fallback_check_prescription(appointment_name) {
 		frappe.db.get_list('Smart Prescription', {
 			filters: { patient_appointment: appointment_name },
-			fields: ['name', 'workflow_state', 'prescription_date', 'patient', 'practitioner'],
+			fields: ['name', 'workflow_state', 'prescription_date', 'patient', 'practitioner', 'original_uploaded_prescription'],
 			order_by: 'creation desc',
 		}).then(function (records) {
 			if (records && records.length > 0) {
@@ -322,27 +322,53 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 	 */
 	function process_appointment_check_result(data) {
 		if (data.has_smart_prescription) {
-			// 1. Associated Smart Prescription EXISTS: Block upload
-			lock_attachment_input(__('Blocked: Associated Smart Prescription already exists'));
-
 			const existing = data.smart_prescriptions[0];
-			const rx_link = `<a href="/app/smart-prescription/${frappe.utils.escape_html(existing.name)}" target="_blank" style="text-decoration: underline; font-weight: 600;">${frappe.utils.escape_html(existing.name)}</a>`;
 
-			$status_area.html(`
-				<div class="alert alert-warning py-3" style="font-size: 13px; line-height: 1.5;">
-					<div class="d-flex align-items-center mb-1">
-						<i class="fa fa-exclamation-triangle text-warning mr-2" style="font-size: 16px;"></i>
-						<strong style="color: #975a16;">${__('Smart Prescription Already Exists')}</strong>
+			if (existing.original_uploaded_prescription) {
+				lock_attachment_input(__('Blocked: Associated Smart Prescription already exists'));
+
+				frappe.confirm(
+					__('An uploaded prescription already exists for this appointment. Do you want to re-process the existing image?<br><br>Click <b>Yes</b> to re-process.<br>Click <b>No</b> to attach a new image.'),
+					function () {
+						// Re-process existing image
+						on_file_attached(existing.original_uploaded_prescription);
+					},
+					function () {
+						// Attach new image: clear existing attachment and unlock input
+						frappe.db.set_value('Smart Prescription', existing.name, 'original_uploaded_prescription', null)
+							.then(() => {
+								unlock_attachment_input();
+								$status_area.html(`
+									<div class="alert alert-success py-2" style="font-size: 13px;">
+										<i class="fa fa-check-circle text-success mr-2"></i>
+										<b>${__('Ready')}:</b> ${__('Previous attachment cleared. You can now attach a new prescription image.')}
+									</div>
+								`);
+							});
+					}
+				);
+			} else {
+				// 1. Associated Smart Prescription EXISTS: Block upload
+				lock_attachment_input(__('Blocked: Associated Smart Prescription already exists'));
+
+				const rx_link = `<a href="/app/smart-prescription/${frappe.utils.escape_html(existing.name)}" target="_blank" style="text-decoration: underline; font-weight: 600;">${frappe.utils.escape_html(existing.name)}</a>`;
+
+				$status_area.html(`
+					<div class="alert alert-warning py-3" style="font-size: 13px; line-height: 1.5;">
+						<div class="d-flex align-items-center mb-1">
+							<i class="fa fa-exclamation-triangle text-warning mr-2" style="font-size: 16px;"></i>
+							<strong style="color: #975a16;">${__('Smart Prescription Already Exists')}</strong>
+						</div>
+						<div>
+							${__('Appointment')} <b>${frappe.utils.escape_html(selected_appointment)}</b> ${__('already has an associated Smart Prescription:')}
+							${rx_link} (${__('Workflow State')}: <b>${frappe.utils.escape_html(existing.workflow_state || 'Draft')}</b>).
+						</div>
+						<div class="text-muted mt-1" style="font-size: 12px;">
+							${__('New prescription attachment is disabled because each appointment can only have one Smart Prescription.')}
+						</div>
 					</div>
-					<div>
-						${__('Appointment')} <b>${frappe.utils.escape_html(selected_appointment)}</b> ${__('already has an associated Smart Prescription:')}
-						${rx_link} (${__('Workflow State')}: <b>${frappe.utils.escape_html(existing.workflow_state || 'Draft')}</b>).
-					</div>
-					<div class="text-muted mt-1" style="font-size: 12px;">
-						${__('New prescription attachment is disabled because each appointment can only have one Smart Prescription.')}
-					</div>
-				</div>
-			`);
+				`);
+			}
 		} else {
 			// 2. NO Associated Smart Prescription: Allow upload
 			unlock_attachment_input();
@@ -441,8 +467,9 @@ frappe.pages['update-appointment'].on_page_load = function(wrapper) {
 		frappe.call({
 			method: api_method,
 			args: {
-				patient_appointment: appointment,
 				file_url: file_url,
+				patient_appointment: appointment,
+				admin_mode: true,
 			},
 			freeze: true,
 			freeze_message: __('Analyzing prescription image and generating Smart Prescription...'),

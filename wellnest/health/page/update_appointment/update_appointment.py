@@ -20,7 +20,7 @@ def check_patient_appointment(patient_appointment):
 	existing_prescriptions = frappe.get_all(
 		"Smart Prescription",
 		filters={"patient_appointment": patient_appointment},
-		fields=["name", "workflow_state", "prescription_date", "patient", "practitioner"],
+		fields=["name", "workflow_state", "prescription_date", "patient", "practitioner", "original_uploaded_prescription"],
 		order_by="creation desc",
 	)
 
