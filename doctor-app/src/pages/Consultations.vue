@@ -471,11 +471,6 @@
                     <span class="font-medium text-gray-700">Doctor:</span>
                     {{ prescription.practitioner_name || prescription.practitioner || 'Not Available' }}
                   </p>
-
-                  <p v-if="prescription.workflow_state">
-                    <span class="font-medium text-gray-700">Status:</span>
-                    {{ prescription.workflow_state }}
-                  </p>
                 </div>
               </div>
 
@@ -522,7 +517,7 @@
           <p v-if="selectedHistoricalPrescription" class="text-sm text-gray-500 mt-1">
             {{ selectedHistoricalPrescription.practitioner_name || 'Doctor not available' }}
             <span class="mx-1">•</span>
-            {{ formatPrescriptionDate(selectedHistoricalPrescription.prescription_date) }}
+            {{ formatPrescriptionDate(selectedHistoricalPrescription.prescription_date || selectedHistoricalPrescription.creation) }}
           </p>
         </div>
 
@@ -559,14 +554,7 @@
           <div class="border border-gray-200 rounded-xl p-4 bg-gray-50">
             <p class="text-xs text-gray-500">Prescription Date</p>
             <p class="font-semibold text-gray-900 mt-1">
-              {{ selectedHistoricalPrescription.prescription_date || 'Not Available' }}
-            </p>
-          </div>
-
-          <div class="border border-gray-200 rounded-xl p-4 bg-gray-50">
-            <p class="text-xs text-gray-500">Status</p>
-            <p class="font-semibold text-gray-900 mt-1">
-              {{ selectedHistoricalPrescription.workflow_state || 'Not Available' }}
+              {{ selectedHistoricalPrescription.prescription_date || selectedHistoricalPrescription.creation || 'Not Available' }}
             </p>
           </div>
         </div>

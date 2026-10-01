@@ -409,6 +409,15 @@ If written in another language, also provide translation.
 
 Do NOT copy follow-up duration into medicine duration.
 
+Rules for duration:
+
+• duration_original must preserve the follow-up duration exactly as written.
+• duration must contain ONLY the numeric number of days.
+• If the prescription says "30 days", return duration as 30, not "30 days".
+• If the prescription says "after 7 days", return duration as 7.
+• Do not include words such as "day" or "days" in duration.
+• If the duration cannot be determined confidently, omit duration.
+
 ====================================================
 FINAL VALIDATION
 ====================================================
