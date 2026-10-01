@@ -432,12 +432,13 @@
 
           <div>
         <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">
-         Follow-up In
+         Follow-up In (days)
         </label>
         <input
-            v-model="followUpIn"
+            v-model="followUpInDays"
             :disabled="!isEditingPrescription"
-            type="date"
+            type="number"
+             min="0"
             class="w-full bg-gray-900 border border-gray-800 rounded px-2 py-3 text-xs text-white focus:outline-none focus:border-amber-500 date-input"
         />
       </div>
@@ -815,9 +816,9 @@ function onRxImageSelected(event) {
 function populatePrescription(prescription) {
   investigations.value = prescription?.investigations || '';
  doctorAdvice.value = prescription?.doctor_advice || '';
-followUpIn.value = prescription?.follow_up_in || '';
-  examination.value = prescription?.examination || '';
-  provisionalDiagnosis.value = prescription?.provisional_diagnosis || '';
+ followUpInDays.value = prescription?.follow_up_in_days || '';
+ examination.value = prescription?.examination || '';
+ provisionalDiagnosis.value = prescription?.provisional_diagnosis || '';
 
   medicines.value = (prescription?.medicines || []).map((medicine) => ({
     name: medicine.medicine_name || '',
@@ -1073,7 +1074,7 @@ async function loadExistingPrescription() {
     investigations.value = prescription.investigations || '';
 
     doctorAdvice.value = prescription.doctor_advice || '';
-followUpIn.value = prescription.follow_up_in || '';
+    followUpInDays.value = prescription.follow_up_in_days || '';
 
     examination.value = prescription.examination || '';
 
@@ -1097,7 +1098,7 @@ const medicines = ref([]);
 const prescriptionParsed = ref(false);
 const investigations = ref('');
 const doctorAdvice = ref('');
-const followUpIn = ref('');
+const followUpInDays = ref('');
 const examination = ref('');
 const provisionalDiagnosis = ref('');
 
@@ -1113,7 +1114,7 @@ function hasManualPrescriptionDetails() {
     provisionalDiagnosis.value.trim() ||
     investigations.value.trim() ||
     doctorAdvice.value.trim() ||
-    followUpIn.value.trim() ||
+    String(followUpInDays.value || '').trim() ||
     medicines.value.some(
       (medicine) =>
         medicine.name?.trim() ||
@@ -1300,7 +1301,7 @@ async function savePrescriptionDraft() {
       investigations: investigations.value,
 
      doctor_advice: doctorAdvice.value,
-follow_up_in: followUpIn.value,
+     follow_up_in_days: followUpInDays.value || '',
 
       examination: examination.value,
       provisional_diagnosis: provisionalDiagnosis.value,
