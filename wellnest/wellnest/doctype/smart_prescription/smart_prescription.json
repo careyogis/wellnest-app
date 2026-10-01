@@ -10,6 +10,8 @@
   "patient",
   "practitioner",
   "prescription_date",
+  "chief_complaints",
+  "history",
   "investigations",
   "provisional_diagnosis",
   "workflow_state",
@@ -41,6 +43,11 @@
    "fieldname": "prescription_date",
    "fieldtype": "Date",
    "label": "Prescription Date"
+  },
+  {
+   "fieldname": "history",
+   "fieldtype": "Small Text",
+   "label": "History"
   },
   {
    "default": "Draft",
@@ -95,11 +102,17 @@
    "fieldname": "investigations",
    "fieldtype": "Small Text",
    "label": "Investigations Advised"
+  },
+  {
+   "fieldname": "chief_complaints",
+   "fieldtype": "Table",
+   "label": "Chief Complaints",
+   "options": "Teleconsultation Chief Complaint"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-30 01:00:10.092519",
+ "modified": "2026-10-01 16:28:00.583404",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Smart Prescription",

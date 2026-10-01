@@ -188,17 +188,10 @@
           ></textarea>
         </section>
 
-    <!-- Follow-up In -->
-      <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
-  <h2 class="text-xl font-bold text-gray-900 mb-3">
-    Follow-up In (days)
-  </h2>
-      <input
-       v-model="followUpInDays"
-      type="number"
-      min="0"
-      class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
-     />
+        <!-- Follow-up In -->
+        <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
+          <h2 class="text-xl font-bold text-gray-900 mb-3">Follow-up In (days)</h2>
+          <input v-model="followUpInDays" type="number" min="0" class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200" />
         </section>
       </main>
     </div>
@@ -375,13 +368,13 @@
             </div>
 
             <!-- Follow-up In -->
-<div class="mt-6">
-  <h3 class="font-bold text-gray-900">Follow-up In (days)</h3>
+            <div class="mt-6">
+              <h3 class="font-bold text-gray-900">Follow-up In (days)</h3>
 
-  <p class="text-sm text-gray-700 mt-2">
-    {{ followUpInDays || 'No follow-up duration entered.' }}
-  </p>
-</div>
+              <p class="text-sm text-gray-700 mt-2">
+                {{ followUpInDays || 'No follow-up duration entered.' }}
+              </p>
+            </div>
 
             <!-- Digitally signed -->
             <div class="mt-6 pt-5 border-t border-amber-200">
@@ -483,7 +476,7 @@ import { computed, ref, watch, onUnmounted } from 'vue';
 import { FeatherIcon, createResource } from 'frappe-ui';
 import careyogiLogo from '@/assets/images/logo-01.png';
 
-const emit = defineEmits(['prescription-loaded', 'prescription-upload-processing']);
+const emit = defineEmits(['prescription-loaded', 'prescription-upload-processing', 'prescription-submitted']);
 
 const props = defineProps({
   selectedConsultation: {
@@ -725,7 +718,7 @@ async function loadClinicalRecord() {
 
       doctorAdvice.value = prescription.doctor_advice || '';
 
-followUpInDays.value = prescription.follow_up_in_days || '';
+      followUpInDays.value = prescription.follow_up_in_days || '';
 
       medicines.value = (prescription.medicines || []).map((medicine) => ({
         medicine: medicine.medicine_name || '',
@@ -832,6 +825,20 @@ async function loadPrescription() {
 
     ocrPrescriptionName.value = response.name || '';
 
+    // Load History and Chief Complaints from Smart Prescription
+    if (response.history?.trim()) {
+      history.value = response.history;
+    }
+
+    if (Array.isArray(response.chief_complaints) && response.chief_complaints.length) {
+      complaints.value = response.chief_complaints
+        .filter((complaint) => complaint.complaint?.trim())
+        .map((complaint, index) => ({
+          id: index + 1,
+          text: complaint.complaint.trim(),
+        }));
+    }
+
     medicines.value = (response.medicines || []).map((medicine) => ({
       medicine: medicine.medicine_name || '',
       dose: medicine.dosage || '',
@@ -858,7 +865,8 @@ async function loadPrescription() {
       ocrLoading.value = false;
 
       ocrStatusType.value = 'error';
-      ocrStatusMessage.value = "Prescription extraction has failed due to a temporary server overload. The Ops team will take over and process the prescription. You will be notified via WhatsApp once it is ready for you to review/submit.";
+      ocrStatusMessage.value =
+        'Prescription extraction has failed due to a temporary server overload. The Ops team will take over and process the prescription. You will be notified via WhatsApp once it is ready for you to review/submit.';
 
       stopPrescriptionStatusPolling();
 
@@ -1105,16 +1113,28 @@ async function finalizePrescription() {
         instructions: medicine.instruction?.trim() || '',
       }));
 
+    const chiefComplaintsPayload = complaints.value
+      .filter((complaint) => complaint.text?.trim())
+      .map((complaint) => ({
+        complaint: complaint.text.trim(),
+      }));
+
     let response;
 
     // If no prescription exists yet, create it as Draft first.
     if (!prescriptionName.value) {
       response = await createPrescriptionResource.submit({
         appointment,
+
+        history: history.value || '',
+        chief_complaints: JSON.stringify(chiefComplaintsPayload),
+
         investigations: investigations.value.filter((investigation) => investigation?.trim()).join('\n'),
+
         provisional_diagnosis: provisionalDiagnosis.value || '',
         doctor_advice: doctorAdvice.value || '',
         follow_up_in_days: followUpInDays.value || '',
+
         medicines: JSON.stringify(medicinesPayload),
       });
 
@@ -1131,6 +1151,9 @@ async function finalizePrescription() {
       response = await savePrescriptionDraftResource.submit({
         name: prescriptionName.value,
         appointment,
+
+        history: history.value || '',
+        chief_complaints: JSON.stringify(chiefComplaintsPayload),
 
         investigations: investigations.value.filter((investigation) => investigation?.trim()).join('\n'),
 
@@ -1193,9 +1216,18 @@ async function savePrescriptionDraft(showMessage = true) {
         instructions: medicine.instruction?.trim() || '',
       }));
 
+    const chiefComplaintsPayload = complaints.value
+      .filter((complaint) => complaint.text?.trim())
+      .map((complaint) => ({
+        complaint: complaint.text.trim(),
+      }));
+
     const response = await savePrescriptionDraftResource.submit({
       name: prescriptionName.value || undefined,
       appointment,
+
+      history: history.value || '',
+      chief_complaints: JSON.stringify(chiefComplaintsPayload),
 
       investigations: investigations.value.filter((investigation) => investigation?.trim()).join('\n'),
 
