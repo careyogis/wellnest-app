@@ -70,6 +70,7 @@ def verify_practitioner_otp_and_login(session_info: str, phone: str, otp: str):
 	return {
 		"success": True,
 		"user": user,
+		"csrf_token": frappe.session.csrf_token,
 		"custom_token": custom_token.decode("utf-8"),
 		"uid": uid,
 		"phone_number": phone,

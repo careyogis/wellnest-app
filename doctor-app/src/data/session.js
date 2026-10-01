@@ -23,6 +23,13 @@ export const session = reactive({
       }
     },
     onSuccess(data) {
+      // Frappe's /api/method/login always returns csrf_token in the response
+      // body. frappeRequest returns the full data object for this URL, so
+      // data.csrf_token is always populated. Update window.csrf_token so
+      // subsequent POSTs don't carry the stale Guest token.
+      if (data?.csrf_token) {
+        window.csrf_token = data.csrf_token
+      }
       userResource.reload()
       session.user = sessionUser()
       session.login.reset()

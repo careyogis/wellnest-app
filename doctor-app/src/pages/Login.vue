@@ -307,11 +307,17 @@ async function verifyOtp() {
   verifyingOtp.value = true;
 
   try {
-    await verifyOtpResource.submit({
+    const result = await verifyOtpResource.submit({
       session_info: sessionInfo.value,
       phone: phone.value.replace(/\s+/g, ''),
       otp: otpEntry.value,
     });
+
+    // The backend now returns the new session's CSRF token so we can update
+    // window.csrf_token in a single round-trip instead of a second fetch.
+    if (result?.csrf_token) {
+      window.csrf_token = result.csrf_token;
+    }
 
     await userResource.reload();
     session.user = sessionUser();
