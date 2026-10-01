@@ -67,10 +67,15 @@ def verify_practitioner_otp_and_login(session_info: str, phone: str, otp: str):
 	_get_firebase_app()
 	custom_token = firebase_auth.create_custom_token(uid)
 
+	# The CSRF token for a fresh session is not set during Session.start() — it
+	# is generated lazily. Call get_csrf_token() to force its creation so the
+	# client can store the correct token without an extra round-trip.
+	from frappe.sessions import get_csrf_token
+
 	return {
 		"success": True,
 		"user": user,
-		"csrf_token": frappe.session.csrf_token,
+		"csrf_token": get_csrf_token(),
 		"custom_token": custom_token.decode("utf-8"),
 		"uid": uid,
 		"phone_number": phone,
