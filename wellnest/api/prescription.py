@@ -269,6 +269,8 @@ def save_ocr_prescription(name, response_data):
 @frappe.whitelist()
 def create_consultation_prescription(
     appointment,
+    history=None,
+    chief_complaints=None,
     investigations=None,
     provisional_diagnosis=None,
     follow_up_in_days=None,
@@ -314,6 +316,10 @@ def create_consultation_prescription(
         )
 
     medicines = frappe.parse_json(medicines or "[]")
+    
+    chief_complaints = frappe.parse_json(
+        chief_complaints or "[]"
+    )
 
     doc = frappe.new_doc("Smart Prescription")
 
@@ -324,6 +330,18 @@ def create_consultation_prescription(
     doc.provisional_diagnosis = provisional_diagnosis or ""
     doc.follow_up_in_days = follow_up_in_days or None
     doc.doctor_advice = doctor_advice or ""
+    
+    doc.history = history or ""
+
+    doc.set("chief_complaints", [])
+
+    for complaint in chief_complaints:
+        if not complaint.get("complaint"):
+            continue
+
+        item = doc.append("chief_complaints", {})
+        item.complaint = complaint.get("complaint") or ""
+        item.duration = complaint.get("duration") or None
     doc.workflow_state = "Draft"
 
     for medicine in medicines:
@@ -351,7 +369,15 @@ def create_consultation_prescription(
         "provisional_diagnosis": doc.provisional_diagnosis,
         "doctor_advice": doc.doctor_advice,
         "follow_up_in_days": doc.follow_up_in_days,
-        "file_url": file_url,
+        "history": doc.history,
+        "chief_complaints": [
+            {
+                "name": item.name,
+                "complaint": item.complaint,
+                "duration": item.duration,
+            }
+            for item in doc.chief_complaints
+        ],
         "medicines": [
             {
                 "name": item.name,
@@ -370,6 +396,8 @@ def save_consultation_prescription_draft(
     name=None,
     appointment=None,
     prescription_date=None,
+    history=None,
+    chief_complaints=None,
     investigations=None,
     provisional_diagnosis=None,
     doctor_advice=None,
@@ -456,11 +484,26 @@ def save_consultation_prescription_draft(
         medicines or "[]"
     )
 
+    chief_complaints = frappe.parse_json(
+        chief_complaints or "[]"
+    )
+
+    doc.history = history or ""
     doc.investigations = investigations or ""
     doc.provisional_diagnosis = provisional_diagnosis or ""
 
     doc.follow_up_in_days = follow_up_in_days or None
     doc.doctor_advice = doctor_advice or ""
+
+    doc.set("chief_complaints", [])
+
+    for complaint in chief_complaints:
+        if not complaint.get("complaint"):
+            continue
+
+        item = doc.append("chief_complaints", {})
+        item.complaint = complaint.get("complaint") or ""
+        item.duration = complaint.get("duration") or None
 
     doc.set("medicines", [])
 
@@ -501,6 +544,15 @@ def save_consultation_prescription_draft(
     return {
         "name": doc.name,
         "workflow_state": doc.workflow_state,
+        "history": doc.history,
+        "chief_complaints": [
+            {
+                "name": item.name,
+                "complaint": item.complaint,
+                "duration": item.duration,
+            }
+            for item in doc.chief_complaints
+        ],
         "investigations": doc.investigations,
         "provisional_diagnosis": doc.provisional_diagnosis,
         "follow_up_in_days": doc.follow_up_in_days,
@@ -616,6 +668,15 @@ def get_consultation_prescription(appointment):
         "patient": doc.patient,
         "practitioner": doc.practitioner,
         "workflow_state": doc.workflow_state,
+        "history": doc.history,
+        "chief_complaints": [
+            {
+                "name": item.name,
+                "complaint": item.complaint,
+                "duration": item.duration,
+            }
+            for item in doc.chief_complaints
+        ],
         "investigations": doc.investigations,
         "provisional_diagnosis": doc.provisional_diagnosis,
         "follow_up_in_days": doc.follow_up_in_days,
