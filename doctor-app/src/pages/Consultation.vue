@@ -800,6 +800,8 @@ async function loadPrescription() {
       appointment,
     });
 
+    console.log('>>> loadPrescription response:', response);
+
     if (!response) {
       prescriptionName.value = null;
       prescriptionWorkflowState.value = null;
@@ -1543,7 +1545,7 @@ async function saveConsultation() {
       return;
     }
 
-    await saveClinicalRecord(false);
+    //await saveClinicalRecord(false);  --> no more needed
     await savePrescriptionDraft(false);
 
     alert('Consultation saved as draft.');
@@ -1579,7 +1581,6 @@ function triggerUpload() {
 }
 
 async function saveAll() {
-  await saveClinicalRecord(false);
 
   if (prescriptionWorkflowState.value !== 'Confirmed' && prescriptionWorkflowState.value !== 'Complete') {
     await savePrescriptionDraft(false);
