@@ -32,6 +32,7 @@
    "in_list_view": 1,
    "label": "Practitioner",
    "options": "Practitioner",
+   "search_index": 1,
    "reqd": 1
   },
   {

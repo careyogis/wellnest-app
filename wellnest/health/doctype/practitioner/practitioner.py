@@ -591,28 +591,54 @@ def search_doctors(query=None, specialty=None):
     # Build WHERE clause manually
 	query = f"""
         SELECT
-            name,
-            full_name,
-            specialty,
-            super_specialty,
-            designation,
-            professional_summary,
-            online_charge AS original_online_charge,
-            photo,
-            city,
-            practicing_from
-        FROM `tabPractitioner`
-        WHERE is_active = 1
+            p.name,
+            p.full_name,
+            p.specialty,
+            p.super_specialty,
+            p.designation,
+            p.professional_summary,
+            p.online_charge AS original_online_charge,
+            p.photo,
+            p.city,
+            p.practicing_from,
+
+            COALESCE(AVG(pf.average_rating), 0) AS average_rating,
+            COUNT(pf.average_rating) AS rating_count
+
+        FROM `tabPractitioner` p
+
+        LEFT JOIN `tabPractitioner Feedback` pf
+            ON pf.practitioner = p.name
+
+        WHERE p.is_active = 1
+
+        GROUP BY
+            p.name,
+            p.full_name,
+            p.specialty,
+            p.super_specialty,
+            p.designation,
+            p.professional_summary,
+            p.online_charge,
+            p.photo,
+            p.city,
+            p.practicing_from
+
         ORDER BY
-            CASE 
-                WHEN online_charge IS NULL OR practicing_from IS NULL THEN 1 
-                ELSE 0 
+            CASE
+                WHEN p.online_charge IS NULL OR p.practicing_from IS NULL THEN 1
+                ELSE 0
             END ASC,
-            CASE 
-                WHEN TIMESTAMPDIFF(YEAR, practicing_from, NOW()) = 0 THEN 1 
-                ELSE 0 
+
+            CASE
+                WHEN TIMESTAMPDIFF(YEAR, p.practicing_from, NOW()) = 0 THEN 1
+                ELSE 0
             END ASC,
-            (online_charge / NULLIF(TIMESTAMPDIFF(YEAR, practicing_from, NOW()), 0)) ASC
+
+            (p.online_charge /
+                NULLIF(TIMESTAMPDIFF(YEAR, p.practicing_from, NOW()), 0)
+            ) ASC
+
         LIMIT 50
     """
 
