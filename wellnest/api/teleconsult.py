@@ -17,7 +17,7 @@ def get_agora_token(channel_name, uid=1001, role="publisher"):
 		return {"rtcToken": "", "appId": app_id}
 
 	# 15 mins expiry
-	privilege_expired_ts = int(time.time()) + 900
+	privilege_expired_ts = int(time.time()) + 1800
 	role_type = 1 if role == "publisher" else 2
 																																						
 	token = RtcTokenBuilder.buildTokenWithUid(
