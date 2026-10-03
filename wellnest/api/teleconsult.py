@@ -96,7 +96,7 @@ def report_doctor_noshow(appointment_id):
 
 
 @frappe.whitelist()
-def cancel_appointment(appointment_id: str, cancel_reason: str) -> dict:
+def cancel_appointment(appointment_id: str, cancel_reason: str, patient: str = None) -> dict:
     """Cancel a Patient Appointment on behalf of the logged-in user.
 
     Args:
@@ -126,7 +126,9 @@ def cancel_appointment(appointment_id: str, cancel_reason: str) -> dict:
     doc = frappe.get_doc("Patient Appointment", appointment_id)
 
     # Security: the caller must own the appointment (be the linked patient's user).
-    patient = frappe.get_value("Patient", doc.patient, "patient_primary_contact")
+    if not patient:
+        patient = frappe.get_value("Patient", doc.patient, "customer")
+        
     if patient and patient != frappe.session.user and not frappe.has_permission(
         "Patient Appointment", "write", doc
     ):
