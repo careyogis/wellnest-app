@@ -268,15 +268,15 @@ website_redirects = [
 
 
 scheduler_events = {
-	"all": [
-		"wellnest.health.doctype.app_notification.app_notification.send_scheduled_pushes"
-	],
-	"cron": {
-		"*/10 * * * *": [
-			"wellnest.api.notifications.send_doctor_whatsapp_alert"
-		]
-	},
-     "hourly": [
-        "wellnest.api.notifications.send_prescription_sla_reminders"
-    ]    
+    "all": [
+        "wellnest.health.doctype.app_notification.app_notification.send_scheduled_pushes"
+    ],
+    "cron": {
+        "*/30 * * * *": [
+            "wellnest.api.notifications.send_prescription_sla_reminders"
+        ],
+        "*/10 * * * *": [
+            "wellnest.api.notifications.send_doctor_whatsapp_alert"
+        ]
+    }
 }
