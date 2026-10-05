@@ -1401,7 +1401,6 @@ watch(
       route.query.bookingId ||
       route.query.appointment;
 
-    // Handle a consultation coming from a direct/deep link only once.
     if (!initialRouteSelectionHandled && appointmentIdFromUrl) {
       const searchId = String(appointmentIdFromUrl).toLowerCase();
 
