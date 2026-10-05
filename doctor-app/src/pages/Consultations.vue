@@ -1371,26 +1371,46 @@ async function publishPrescription() {
 }
 
 watch(
-  filteredConsultations,
-  (items) => {
+  [filteredConsultations, consultations],
+  ([items, allConsultations]) => {
+    const appointmentIdFromUrl =
+      route.params.bookingId ||
+      route.query.bookingId ||
+      route.query.appointment;
+
+    if (appointmentIdFromUrl) {
+      const searchId = String(appointmentIdFromUrl).toLowerCase();
+
+      const matchingConsultation = allConsultations.find(
+        (item) => String(item.id).toLowerCase() === searchId
+      );
+
+      if (matchingConsultation) {
+
+        if (
+          matchingConsultation.bookingStatus === 'Completed' &&
+          statusFilter.value !== 'Completed'
+        ) {
+          statusFilter.value = 'Completed';
+          return;
+        }
+
+        if (selectedConsultation.value?.id !== matchingConsultation.id) {
+          selectConsultation(matchingConsultation);
+        }
+
+        return;
+      }
+    }
+
     if (!items.length) {
       selectedConsultation.value = null;
       return;
     }
 
-    const appointmentIdFromUrl = route.query.bookingId || route.params.bookingId || route.query.appointment;
-
-    if (appointmentIdFromUrl) {
-      const searchId = String(appointmentIdFromUrl).toLowerCase();
-      const matchingConsultation = items.find((item) => String(item.id).toLowerCase() === searchId);
-
-      if (matchingConsultation) {
-        selectConsultation(matchingConsultation);
-        return;
-      }
-    }
-
-    const selectedStillExists = items.some((item) => item.id === selectedConsultation.value?.id);
+    const selectedStillExists = items.some(
+      (item) => item.id === selectedConsultation.value?.id
+    );
 
     if (!selectedStillExists) {
       selectConsultation(items[0]);
