@@ -1391,6 +1391,8 @@ async function publishPrescription() {
   console.warn('Publish action is not exposed by Consultation.vue.');
 }
 
+let initialRouteSelectionHandled = false;
+
 watch(
   [filteredConsultations, consultations],
   ([items, allConsultations]) => {
@@ -1399,7 +1401,8 @@ watch(
       route.query.bookingId ||
       route.query.appointment;
 
-    if (appointmentIdFromUrl) {
+    // Handle a consultation coming from a direct/deep link only once.
+    if (!initialRouteSelectionHandled && appointmentIdFromUrl) {
       const searchId = String(appointmentIdFromUrl).toLowerCase();
 
       const matchingConsultation = allConsultations.find(
@@ -1407,19 +1410,13 @@ watch(
       );
 
       if (matchingConsultation) {
+        initialRouteSelectionHandled = true;
 
-        if (
-          matchingConsultation.bookingStatus === 'Completed' &&
-          statusFilter.value !== 'Completed'
-        ) {
+        if (matchingConsultation.bookingStatus === 'Completed') {
           statusFilter.value = 'Completed';
-          return;
         }
 
-        if (selectedConsultation.value?.id !== matchingConsultation.id) {
-          selectConsultation(matchingConsultation);
-        }
-
+        selectConsultation(matchingConsultation);
         return;
       }
     }
