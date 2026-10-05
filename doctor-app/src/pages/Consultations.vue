@@ -55,14 +55,16 @@
             <p class="mt-1 text-sm text-gray-500">Try changing the filter.</p>
           </div>
 
-          <button
-            v-for="consultation in filteredConsultations"
-            :key="consultation.id"
+            
+                <button
+              v-for="(consultation, index) in filteredConsultations"
+              :key="consultation.id"
             type="button"
             class="w-full text-left px-5 py-4 border-b border-gray-100 transition-colors hover:bg-gray-50"
             :class="{
               'bg-amber-50 border-l-4 border-l-amber-500': selectedConsultation?.id === consultation.id,
               'border-l-4 border-l-transparent': selectedConsultation?.id !== consultation.id,
+              'hidden md:block': index >= mobileVisibleCount,
             }"
             @click="selectConsultation(consultation)"
           >
@@ -101,6 +103,19 @@
               </span>
             </div>
           </button>
+               <!-- Show More - Mobile only -->
+          <div
+         v-if="filteredConsultations.length > mobileVisibleCount"
+         class="md:hidden px-5 py-4"
+          >
+             <button
+              type="button"
+          class="w-full py-2.5 rounded-xl bg-amber-500 text-white text-sm font-semibold hover:bg-amber-600 transition"
+              @click="mobileVisibleCount += 3"
+              >
+              Show More
+              </button>
+             </div>
         </div>
       </aside>
 
@@ -237,7 +252,7 @@
                 @click="saveConsultation"
                 >
                  <FeatherIcon name="save" class="w-4 h-4" />
-                    Save
+                    Save as Draft
                  </button>
                 <!-- Submitted status -->
                 <div v-if="prescriptionSubmitted" class="rounded-xl border border-green-200 bg-green-50 px-4 py-2.5 text-sm font-semibold text-green-700">
@@ -251,7 +266,7 @@
                   @click="publishPrescription"
                 >
                   <FeatherIcon name="send" class="w-4 h-4" />
-                  Publish
+                  Final Submit
                 </button>
               </div>
             </div>
@@ -904,6 +919,7 @@ const historicalPrescriptionResource = createResource({
 const consultationRef = ref(null);
 
 const statusFilter = ref(route.query.status === 'Completed' ? 'Completed' : 'Upcoming');
+const mobileVisibleCount = ref(3);
 const selectedConsultation = ref(null);
 const expandedReasons = ref(new Set());
 const joiningConsultation = ref(false);
@@ -1055,9 +1071,10 @@ const consultations = computed(() => {
 
 const filteredConsultations = computed(() => {
   if (statusFilter.value === 'All') {
-    return consultations.value;
-  }
-
+  return [...consultations.value].sort(
+    (a, b) => new Date(b.scheduledTime) - new Date(a.scheduledTime)
+  );
+}
   if (statusFilter.value === 'Upcoming') {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -1087,11 +1104,15 @@ const filteredConsultations = computed(() => {
     });
   }
 
-  if (statusFilter.value === 'Completed') {
-    return consultations.value.filter((consultation) => consultation.bookingStatus === 'Completed');
+   if (statusFilter.value === 'Completed') {
+   return consultations.value
+    .filter((consultation) => consultation.bookingStatus === 'Completed')
+    .sort(
+      (a, b) => new Date(b.scheduledTime) - new Date(a.scheduledTime)
+    );
   }
 
-  if (statusFilter.value === 'Payment Pending') {
+   if (statusFilter.value === 'Payment Pending') {
     return consultations.value.filter((consultation) => consultation.paymentStatus !== 'Paid');
   }
 
