@@ -485,14 +485,6 @@ const props = defineProps({
   },
 });
 
-const clinicalRecordResource = createResource({
-  url: 'wellnest.wellnest.doctype.teleconsultation_clinical_record.teleconsultation_clinical_record.get_clinical_record',
-});
-
-const saveClinicalRecordResource = createResource({
-  url: 'wellnest.wellnest.doctype.teleconsultation_clinical_record.teleconsultation_clinical_record.save_clinical_record',
-});
-
 const vitalsResource = createResource({
   url: 'wellnest.wellnest.doctype.vitals.vitals.get_consultation_vitals',
 });
@@ -668,7 +660,7 @@ const uploadWorkflowSection = ref(null);
 const selectedPrescriptionFile = ref(null);
 const prescriptionImagePreview = ref('');
 
-async function loadClinicalRecord() {
+async function loadConsultationData() {
   const appointment = props.selectedConsultation?.appointment;
 
   if (!appointment) {
@@ -676,33 +668,6 @@ async function loadClinicalRecord() {
   }
 
   try {
-    // Load clinical record
-    const response = await clinicalRecordResource.submit({
-      appointment,
-    });
-
-    if (!response) {
-      complaints.value = [];
-      history.value = '';
-      dietAdvice.value = '';
-      exerciseAdvice.value = '';
-    } else {
-      complaints.value = (response.chief_complaints || [])
-        .filter((complaint) => complaint.complaint?.trim())
-        .map((complaint, index) => ({
-          id: index + 1,
-          text: complaint.complaint.trim(),
-        }));
-
-      history.value = response.history || '';
-      dietAdvice.value = response.diet_advice || '';
-      exerciseAdvice.value = response.exercise_advice || '';
-    }
-
-    if (!complaints.value.length) {
-      const reason = consultation.value.reason || '';
-      complaints.value = reason ? [{ id: 1, text: reason }] : [];
-    }
     const prescriptionResponse = await getPrescriptionResource.submit({
       appointment,
     });
@@ -990,7 +955,7 @@ watch(
     ocrStatusMessage.value = '';
     showOcrModal.value = false;
 
-    loadClinicalRecord();
+    loadConsultationData();
     loadPrescription();
   },
   { immediate: true }
@@ -1262,63 +1227,6 @@ async function savePrescriptionDraft(showMessage = true) {
   }
 }
 
-async function saveClinicalRecord(showMessage = true) {
-  const appointment = props.selectedConsultation?.appointment;
-
-  if (!appointment) {
-    console.error('No consultation appointment selected.');
-    return;
-  }
-
-  const data = {
-    chief_complaints: complaints.value
-      .filter((complaint) => complaint.text?.trim())
-      .map((complaint) => ({
-        complaint: complaint.text.trim(),
-      })),
-
-    history: history.value,
-    diet_advice: dietAdvice.value,
-    exercise_advice: exerciseAdvice.value,
-  };
-
-  try {
-    const response = await saveClinicalRecordResource.submit({
-      appointment,
-      data: JSON.stringify(data),
-    });
-
-    console.log('Clinical record saved:', response);
-
-    const vitalReadings = vitals.value
-      .filter((vital) => vital.value?.trim())
-      .map((vital) => ({
-        vital_type: vital.vitalType,
-        unit: vital.unit,
-        value: vital.value.trim(),
-      }));
-
-    const vitalsResponse = await saveVitalsResource.submit({
-      appointment,
-      readings: JSON.stringify(vitalReadings),
-    });
-
-    console.log('Vitals saved:', vitalsResponse);
-
-    if (showMessage) {
-      alert('Clinical record saved successfully.');
-    }
-  } catch (error) {
-    console.error('Failed to save clinical record:', error);
-
-    if (showMessage) {
-      alert('Failed to save clinical record.');
-    }
-
-    throw error;
-  }
-}
-
 async function handlePrescriptionFile(event) {
   const file = event.target.files?.[0];
 
@@ -1545,7 +1453,6 @@ async function saveConsultation() {
       return;
     }
 
-    //await saveClinicalRecord(false);  --> no more needed
     await savePrescriptionDraft(false);
 
     alert('Consultation saved as draft.');

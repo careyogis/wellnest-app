@@ -903,7 +903,7 @@ const historicalPrescriptionResource = createResource({
 
 const consultationRef = ref(null);
 
-const statusFilter = ref('Upcoming');
+const statusFilter = ref(route.query.status === 'Completed' ? 'Completed' : 'Upcoming');
 const selectedConsultation = ref(null);
 const expandedReasons = ref(new Set());
 const joiningConsultation = ref(false);
