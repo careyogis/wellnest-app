@@ -10,6 +10,8 @@
   "practitioner",
   "scheduled_time",
   "status",
+  "consultation_ended_at",
+  "prescription_sla_last_reminder_at",
   "column_break_tele",
   "consultation_fee",
   "sales_invoice",
@@ -50,7 +52,18 @@
    "label": "Status",
   "options": "Unverified\nScheduled\nIn-Progress\nCompleted\nCancelled\nCancelled by Doctor\nNo Show"
   },
-
+  {
+  "fieldname": "consultation_ended_at",
+  "fieldtype": "Datetime",
+  "label": "Consultation Ended At",
+  "read_only": 1
+  },
+  {
+    "fieldname": "prescription_sla_last_reminder_at",
+    "fieldtype": "Datetime",
+    "label": "Prescription SLA Last Reminder At",
+    "read_only": 1
+  },
   {
    "fieldname": "cancel_reason",
    "fieldtype": "Select",

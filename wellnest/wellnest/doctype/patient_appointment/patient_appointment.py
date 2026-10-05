@@ -216,6 +216,7 @@ def end_consultation(appointment):
         )
 
     appointment.db_set("status", "Completed")
+    appointment.db_set("consultation_ended_at", now_datetime())
 
     return {
         "appointment": appointment.name,

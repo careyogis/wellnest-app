@@ -144,6 +144,211 @@ def notify_doctor_of_prescription_review(patient_appointment):
             f"for appointment {patient_appointment}"
         )
 
+def notify_doctor_of_prescription_sla_reminder(patient_appointment):
+    try:
+        appointment = frappe.get_doc(
+            "Patient Appointment",
+            patient_appointment,
+        )
+
+        if not appointment.practitioner or not appointment.patient:
+            return
+
+        doctor = frappe.get_doc(
+            "Practitioner",
+            appointment.practitioner,
+        )
+
+        patient = frappe.get_doc(
+            "Patient",
+            appointment.patient,
+        )
+
+        doctor_phone = doctor.mobile
+
+        if not doctor_phone:
+            frappe.log_error(
+                f"Doctor {doctor.name} does not have a mobile number.",
+                "Prescription SLA WhatsApp Notification Error",
+            )
+            return
+
+        if not doctor_phone.startswith("+91"):
+            doctor_phone = "+91" + doctor_phone
+
+        doctor_name = doctor.full_name or doctor.name
+        patient_name = patient.full_name or patient.name
+
+        _send_prescription_sla_whatsapp_message(
+            doctor_phone,
+            doctor_name,
+            patient_name,
+            patient_appointment,
+        )
+
+    except Exception:
+        frappe.log_error(
+            frappe.get_traceback(),
+            "Prescription SLA WhatsApp Notification Error",
+        )
+
+
+def _send_prescription_sla_whatsapp_message(
+    doctor_phone,
+    doctor_name,
+    patient_name,
+    patient_appointment,
+):
+    import requests
+
+    access_token = frappe.conf.get("ACCESS_TOKEN")
+    phone_number_id = frappe.conf.get("PHONE_NUMBER_ID")
+    version = frappe.conf.get("VERSION")
+    site_url = frappe.utils.get_url()
+
+    url = (
+        f"https://graph.facebook.com/"
+        f"{version}/{phone_number_id}/messages"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
+
+    deep_link = (
+        f"{site_url}/doctor-app/consultations/"
+        f"{patient_appointment}"
+    )
+
+    payload = {
+        "messaging_product": "whatsapp",
+        "to": doctor_phone,
+        "type": "template",
+        "template": {
+            "name": "doctor_pending_prescription_reminder",
+            "language": {
+                "code": "en"
+            },
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": [
+                        {
+                            "type": "text",
+                            "text": doctor_name,
+                        },
+                        {
+                            "type": "text",
+                            "text": patient_name,
+                        },
+                        {
+                            "type": "text",
+                            "text": deep_link,
+                        },
+                    ],
+                }
+            ],
+        },
+    }
+
+    response = requests.post(
+        url,
+        json=payload,
+        headers=headers,
+    )
+
+    _logInfo(
+        f"Prescription SLA WhatsApp response for "
+        f"{patient_appointment}: "
+        f"HTTP {response.status_code} - {response.text}"
+    )
+
+    if not response.ok:
+        frappe.log_error(
+            (
+                f"HTTP Status: {response.status_code}\n"
+                f"Response: {response.text}\n"
+                f"Appointment: {patient_appointment}"
+            ),
+            "Prescription SLA WhatsApp API Error",
+        )
+
+    return response.json()
+
+
+def send_prescription_sla_reminders():
+    from datetime import timedelta
+
+    now = now_datetime()
+    sla_deadline = now - timedelta(hours=5)
+
+    try:
+        appointments = frappe.get_all(
+            "Patient Appointment",
+            filters=[
+                ["status", "=", "Completed"],
+                ["consultation_ended_at", "is", "set"],
+                ["consultation_ended_at", ">", sla_deadline],
+            ],
+            fields=[
+                "name",
+                "practitioner",
+                "patient",
+                "consultation_ended_at",
+                "prescription_sla_last_reminder_at",
+            ],
+            ignore_permissions=True,
+        )
+
+        for appointment in appointments:
+            if appointment.prescription_sla_last_reminder_at:
+                hours_since_last_reminder = (
+                    now - appointment.prescription_sla_last_reminder_at
+                ).total_seconds() / 3600
+
+                if hours_since_last_reminder < 1:
+                    continue
+
+            prescription_name = frappe.db.get_value(
+                "Smart Prescription",
+                {
+                    "patient_appointment": appointment.name,
+                },
+                "name",
+            )
+
+            if not prescription_name:
+                should_remind = True
+            else:
+                workflow_state = frappe.db.get_value(
+                    "Smart Prescription",
+                    prescription_name,
+                    "workflow_state",
+                )
+
+                should_remind = workflow_state != "Complete"
+
+            if not should_remind:
+                continue
+
+            notify_doctor_of_prescription_sla_reminder(
+                appointment.name
+            )
+
+            frappe.db.set_value(
+                "Patient Appointment",
+                appointment.name,
+                "prescription_sla_last_reminder_at",
+                now,
+            )
+
+    except Exception:
+        frappe.log_error(
+            frappe.get_traceback(),
+            "Prescription SLA Reminder Error",
+        )
+
 
 def _send_prescription_review_whatsapp_message(
     doctor_phone,

@@ -60,16 +60,6 @@
         <!-- <button @click="openDrawerTab('summary')" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors lg:hidden" title="Patient EHR & Notes">
           <FeatherIcon name="clipboard" class="w-4 h-4 sm:w-5 sm:h-5" />
         </button> -->
-
-        <!-- Write Rx Button -->
-        <button
-          @click="openDrawerTab('rx')"
-          type="button"
-          class="px-2 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] sm:text-xs font-bold transition-colors flex items-center gap-1 sm:gap-1.5"
-        >
-          <FeatherIcon name="file-plus" class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          <span class="hidden sm:inline">Write </span>Rx
-        </button>
       </div>
     </header>
 
@@ -103,17 +93,6 @@
             <div v-if="isVideoOff" class="w-full h-full flex items-center justify-center bg-gray-900 text-gray-400 text-[10px] sm:text-xs font-medium">Camera Off</div>
             <div class="absolute bottom-1 left-1 sm:bottom-2 sm:left-2 px-1 sm:px-1.5 py-0.5 rounded bg-black/70 text-[9px] sm:text-[10px] font-medium text-white truncate max-w-[90%]">You</div>
           </div>
-
-          <!-- Mobile floating drawer shortcut badge -->
-          <button
-            v-if="!isMobileDrawerOpen"
-            @click="isMobileDrawerOpen = true"
-            type="button"
-            class="lg:hidden absolute bottom-3 left-3 px-3 py-1.5 rounded-full bg-gray-900/90 hover:bg-gray-800 text-amber-300 border border-amber-500/30 text-xs font-semibold backdrop-blur shadow-lg flex items-center gap-1.5 z-10"
-          >
-            <FeatherIcon name="sidebar" class="w-3.5 h-3.5" />
-            <span>Prescription</span>
-          </button>
         </div>
 
         <!-- In-Call Controls Floating Dock -->
@@ -156,476 +135,8 @@
 
       <!-- Backdrop overlay for mobile drawer -->
       <div v-if="isMobileDrawerOpen" @click="isMobileDrawerOpen = false" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 transition-opacity"></div>
-
-      <!-- Right: Clinical Copilot & Smart Rx Drawer -->
-      <div
-        :class="[
-          'bg-gray-900 border-l border-gray-800 flex flex-col transition-all duration-300 ease-in-out',
-          // Desktop sizing: standard sidebar
-          'lg:relative lg:translate-x-0 lg:w-[380px] xl:w-[420px] lg:flex-shrink-0 lg:z-auto',
-          // Mobile sizing: full slide-over overlay
-          'fixed inset-y-0 right-0 z-40 w-full max-w-[420px] shadow-2xl lg:shadow-none',
-          isMobileDrawerOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0',
-        ]"
-      >
-        <!-- Mobile Drawer Header Bar with Close Button -->
-        <div class="lg:hidden flex items-center justify-between px-4 py-3 bg-gray-950 border-b border-gray-800">
-          <div class="flex items-center gap-2">
-            <FeatherIcon name="activity" class="w-4 h-4 text-amber-400" />
-            <span class="font-bold text-sm text-white">Clinical Workspace</span>
-          </div>
-          <button @click="isMobileDrawerOpen = false" type="button" class="p-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 flex items-center gap-1 text-xs">
-            <FeatherIcon name="x" class="w-4 h-4" />
-            <span>Return to Call</span>
-          </button>
-        </div>
-
-        <!-- Drawer Tabs -->
-        <div class="flex border-b border-gray-800 bg-gray-950/60 p-1.5 gap-1 flex-shrink-0">
-          <button
-            @click="activeTab = 'rx'"
-            :class="activeTab === 'rx' ? 'bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30' : 'text-gray-400 hover:text-white'"
-            class="flex-1 py-2 text-xs rounded-lg transition-colors text-center truncate px-1"
-          >
-            Prescription
-          </button>
-          <!-- <button
-            @click="activeTab = 'summary'"
-            :class="activeTab === 'summary' ? 'bg-gray-800 text-white font-bold' : 'text-gray-400 hover:text-white'"
-            class="flex-1 py-2 text-xs rounded-lg transition-colors text-center truncate px-1"
-          >
-            Summary & EHR
-          </button> -->
-          <!--
-<button
-  @click="activeTab = 'chat'"
-  :class="activeTab === 'chat' ? 'bg-gray-800 text-white font-bold' : 'text-gray-400 hover:text-white'"
-  class="flex-1 py-2 text-xs rounded-lg transition-colors text-center relative truncate px-1"
->
-  Chat
-  <span v-if="unreadChatCount > 0" class="ml-1 px-1.5 py-0.2 rounded-full bg-amber-500 text-black text-[9px] font-bold">
-    {{ unreadChatCount }}
-  </span>
-</button>
--->
-        </div>
-
-        <!-- Tab 1: Smart Prescription Generator -->
-        <div v-show="activeTab === 'rx'" class="flex-1 flex flex-col overflow-hidden">
-          <div class="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
-            <!-- Scan Physical Prescription -->
-            <div class="bg-gray-950 rounded-xl border border-gray-800 overflow-hidden">
-              <div class="flex items-center justify-between px-3 py-2.5 border-b border-gray-800">
-                <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <FeatherIcon name="camera" class="w-3.5 h-3.5 text-amber-400" />
-                  Scan Physical Prescription
-                </h4>
-                <button @click="requestRxImageCapture()" type="button" class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1">
-                  <FeatherIcon name="camera" class="w-3 h-3" /> Take Photo
-                </button>
-              </div>
-
-              <input
-  ref="rxDesktopGalleryInput"
-  type="file"
-  accept="image/*"
-  class="hidden"
-  @change="onRxImageSelected"
-/>
-
-             <!-- Image source selection -->
-<div
-  v-if="showImageSourceChoice"
-  class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 p-4"
-  @click.self="cancelRxImageSourceChoice"
->
-  <div class="w-full max-w-md rounded-2xl bg-gray-900 border border-gray-700 p-5 shadow-xl">
-    <div class="flex items-center justify-between mb-5">
-      <h3 class="text-lg font-bold text-white">
-        Select Prescription Image
-      </h3>
-
-      <button
-        type="button"
-        @click="cancelRxImageSourceChoice"
-        class="text-gray-400 hover:text-white text-xl"
-      >
-        ×
-      </button>
-    </div>
-
-    <div class="flex flex-col gap-3">
-
-      <!-- Camera -->
-      <label
-        class="relative w-full rounded-xl bg-gray-800 hover:bg-gray-700 px-4 py-4 text-amber-400 font-bold flex items-center gap-3 cursor-pointer"
-      >
-        <FeatherIcon name="camera" class="w-5 h-5" />
-        <span>Camera</span>
-
-        <input
-          ref="rxCameraInput"
-          type="file"
-          accept="image/*"
-          capture="environment"
-          class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          @change="onRxImageSelected"
-        />
-      </label>
-
-      <!-- Gallery -->
-      <label
-        class="relative w-full rounded-xl bg-gray-800 hover:bg-gray-700 px-4 py-4 text-amber-400 font-bold flex items-center gap-3 cursor-pointer"
-      >
-        <FeatherIcon name="image" class="w-5 h-5" />
-        <span>Gallery</span>
-
-        <input
-          ref="rxGalleryInput"
-          type="file"
-          accept="image/*"
-          class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          @change="onRxImageSelected"
-        />
-      </label>
-
-      <!-- Cancel -->
-      <button
-        type="button"
-        @click="cancelRxImageSourceChoice"
-        class="w-full rounded-xl bg-gray-800 hover:bg-gray-700 px-4 py-3 text-gray-300 font-medium"
-      >
-        Cancel
-      </button>
-
     </div>
   </div>
-</div>
-
-              <!-- Preview & submit -->
-              <div v-if="rxImagePreview || rxPersistedImage" class="p-3 space-y-2.5">
-                <img :src="rxImagePreview || rxPersistedImage" alt="Rx preview" class="w-full rounded-lg border border-gray-700 object-contain max-h-48" />
-                <div class="flex gap-2">
-                  <button
-                    v-if="rxImagePreview && !rxProcessingStarted"
-                    @click="submitRxImage"
-                    :disabled="rxParseLoading"
-                    type="button"
-                    class="flex-1 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold text-xs flex items-center justify-center gap-1.5 transition-all"
-                  >
-                    <FeatherIcon name="upload-cloud" class="w-3.5 h-3.5" />
-
-                    Submit
-                  </button>
-                  <button @click="clearRxImage" v-if="rxImagePreview" type="button" class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 text-xs font-bold transition-all">
-                    Clear
-                  </button>
-                </div>
-              </div>
-
-              <!-- Empty state -->
-              <div v-else class="p-4 flex flex-col items-center gap-2 text-center">
-                <FeatherIcon name="image" class="w-8 h-8 text-gray-700" />
-                <p class="text-xs text-gray-500">Capture or upload a photo of a physical prescription.<br />It will be parsed and created asynchronously.</p>
-              </div>
-
-              <!-- Status message -->
-              <div
-                v-if="rxParseStatus"
-                :class="rxParseStatus.type === 'success' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-red-500/10 text-red-400 border-red-500/30'"
-                class="mx-3 mb-3 px-3 py-2 rounded-lg border text-xs flex items-center gap-1.5"
-              >
-                <FeatherIcon :name="rxParseStatus.type === 'success' ? 'check-circle' : 'alert-circle'" class="w-3.5 h-3.5 flex-shrink-0" />
-                {{ rxParseStatus.message }}
-              </div>
-            </div>
-
-              <!-- Provisional Diagnosis -->
-            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Provisional Diagnosis</h4>
-
-              <textarea
-                v-model="provisionalDiagnosis"
-                :disabled="!isEditingPrescription"
-                rows="2"
-                placeholder="Provisional Diagnosis"
-                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-              ></textarea>
-            </div>
-
-            <!-- Investigations Advised -->
-<div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Investigations Advised</h4>
-
-  <textarea
-    v-model="investigations"
-    :disabled="!isEditingPrescription"
-    rows="2"
-    placeholder="Investigations"
-    class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-  ></textarea>
-</div>
-            <!-- Prescribed Medicines -->
-            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2.5">
-              <div class="flex items-center justify-between">
-                <h4 class="text-xs font-bold text-gray-300 uppercase tracking-wider">Prescribed Medicines</h4>
-
-                <button
-                  v-if="isEditingPrescription"
-                  @click="addMedicine"
-                  type="button"
-                  class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 text-amber-400 text-xs font-bold flex items-center gap-1"
-                >
-                  <FeatherIcon name="plus" class="w-3 h-3" /> Add Drug
-                </button>
-              </div>
-
-              <!-- Medicine Fields -->
-              <div v-for="(med, index) in medicines" :key="med.id || index" class="space-y-1.5">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                  <input
-                    v-model="med.name"
-                    :disabled="!isEditingPrescription"
-                    type="text"
-                    placeholder="Medicine Name"
-                    class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
-                  />
-
-                  <input
-                    v-model="med.dosage"
-                    :disabled="!isEditingPrescription"
-                    type="text"
-                    placeholder="Dose"
-                    class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
-                  />
-
-                  <input
-                    v-model="med.timing"
-                    :disabled="!isEditingPrescription"
-                    type="text"
-                    placeholder="Frequency"
-                    class="bg-gray-900 border border-gray-800 rounded px-2 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
-                <textarea
-                  v-model="med.instructions"
-                  :disabled="!isEditingPrescription"
-                  rows="2"
-                  placeholder="Instruction"
-                  class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-                ></textarea>
-              </div>
-            </div>
-
-            <!-- Doctor Advice -->
-            <div class="bg-gray-950 p-2.5 sm:p-3 rounded-xl border border-gray-800 space-y-2">
-              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Doctor Advice</h4>
-
-              <textarea
-                v-model="doctorAdvice"
-                :disabled="!isEditingPrescription"
-                rows="4"
-                placeholder="Enter general, diet, and exercise advice"
-                class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-              ></textarea>
-
-          <div>
-        <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">
-         Follow-up In (days)
-        </label>
-        <input
-            v-model="followUpInDays"
-            :disabled="!isEditingPrescription"
-            type="number"
-             min="0"
-            class="w-full bg-gray-900 border border-gray-800 rounded px-2 py-3 text-xs text-white focus:outline-none focus:border-amber-500 date-input"
-        />
-      </div>
-    </div>
-   </div>
-
-          <!-- Bottom Action: Sign & Dispatch Rx -->
-          <div class="p-2.5 sm:p-3 bg-gray-950 border-t border-gray-800 flex-shrink-0">
-            <div class="flex gap-2">
-              <button
-                v-if="!isEditingPrescription && prescriptionWorkflowState === 'Draft'"
-                @click="isEditingPrescription = true"
-                type="button"
-                class="flex-1 py-2.5 sm:py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2"
-              >
-                <FeatherIcon name="edit-2" class="w-4 h-4" />
-                Edit
-              </button>
-
-              <button
-                v-if="isEditingPrescription"
-                @click="savePrescriptionDraft"
-                :disabled="rxSaving"
-                type="button"
-                class="flex-1 py-2.5 sm:py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                <FeatherIcon name="save" class="w-4 h-4" />
-                {{ rxSaving ? 'Saving...' : 'Save Draft' }}
-              </button>
-
-              <button
-                v-if="!isEditingPrescription && prescriptionWorkflowState === 'Draft'"
-                @click="submitPrescription"
-                :disabled="rxSubmitting"
-                type="button"
-                class="flex-1 py-2.5 sm:py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm sm:text-base flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                <FeatherIcon name="check-circle" class="w-4 h-4" />
-                {{ rxSubmitting ? 'Submitting...' : 'Submit Final' }}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab 2: Summary & Patient EHR -->
-        <div v-show="activeTab === 'summary'" class="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 text-sm">
-          <!-- Vitals Card -->
-          <div class="bg-gray-950 rounded-xl p-3 sm:p-3.5 border border-gray-800">
-            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 sm:mb-2.5">Recorded Vitals</h4>
-            <div class="grid grid-cols-3 gap-1.5 sm:gap-2 text-center">
-              <div class="bg-gray-900 p-2 rounded-lg border border-gray-800">
-                <span class="text-[10px] text-gray-400">BP</span>
-                <p class="font-bold text-xs sm:text-sm text-emerald-400">122/80</p>
-              </div>
-              <div class="bg-gray-900 p-2 rounded-lg border border-gray-800">
-                <span class="text-[10px] text-gray-400">Heart Rate</span>
-                <p class="font-bold text-xs sm:text-sm text-amber-400">74 bpm</p>
-              </div>
-              <div class="bg-gray-900 p-2 rounded-lg border border-gray-800">
-                <span class="text-[10px] text-gray-400">SpO2</span>
-                <p class="font-bold text-xs sm:text-sm text-blue-400">98%</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Medical History -->
-          <div class="bg-gray-950 rounded-xl p-3 sm:p-3.5 border border-gray-800">
-            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Conditions & Allergies</h4>
-            <div class="space-y-1.5 text-xs text-gray-300">
-              <p><span class="text-gray-500">Known Conditions:</span> Type 2 Diabetes (5 yrs), Hypertension</p>
-              <p><span class="text-gray-500">Allergies:</span> Penicillin (Mild skin rash)</p>
-              <p><span class="text-gray-500">Ongoing Meds:</span> Metformin 500mg, Telmisartan 40mg</p>
-            </div>
-          </div>
-
-          <!-- Consultation Notes -->
-          <div class="bg-gray-950 rounded-xl p-3 sm:p-3.5 border border-gray-800">
-            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Doctor's Private Notes</h4>
-            <textarea
-              v-model="doctorNotes"
-              rows="4"
-              placeholder="Type clinical observations, patient reported symptoms, differential diagnosis..."
-              class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-            ></textarea>
-          </div>
-        </div>
-
-        <!-- Tab 3: In-Call Live Chat -->
-        <div v-show="activeTab === 'chat'" class="flex-1 flex flex-col overflow-hidden">
-          <div class="flex-1 overflow-y-auto p-3 sm:p-4 space-y-2.5 sm:space-y-3">
-            <div
-              v-for="(msg, idx) in chatMessages"
-              :key="idx"
-              :class="msg.sender === 'Doctor' ? 'ml-auto bg-amber-500/20 text-amber-200 border-amber-500/30' : 'mr-auto bg-gray-800 text-gray-200 border-gray-700'"
-              class="max-w-[85%] sm:max-w-[80%] rounded-xl p-2.5 border text-xs"
-            >
-              <div class="font-bold text-[10px] text-gray-400 mb-0.5">{{ msg.sender }} • {{ msg.time }}</div>
-              <p class="break-words">{{ msg.text }}</p>
-            </div>
-          </div>
-
-          <div class="p-2.5 sm:p-3 bg-gray-950 border-t border-gray-800 flex gap-2 flex-shrink-0">
-            <input
-              v-model="newChatMessage"
-              @keyup.enter="sendChatMessage"
-              type="text"
-              placeholder="Type message to patient..."
-              class="flex-1 bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
-            />
-            <button @click="sendChatMessage" type="button" class="p-2 rounded-lg bg-amber-500 text-black font-bold hover:bg-amber-400 flex-shrink-0">
-              <FeatherIcon name="send" class="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Prescription Upload Prompt -->
-  <div v-if="showPrescriptionPrompt" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
-    <div class="w-full max-w-md rounded-2xl bg-gray-900 border border-gray-700 shadow-2xl p-5 sm:p-6">
-      <div class="flex items-start gap-3">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0">
-          <FeatherIcon name="file-text" class="w-5 h-5 text-amber-400" />
-        </div>
-
-        <div>
-          <h3 class="text-base sm:text-lg font-bold text-white">Prescription Not Uploaded</h3>
-
-          <p class="mt-2 text-sm text-gray-400 leading-relaxed">Please upload or scan the handwritten prescription before ending the consultation.</p>
-        </div>
-      </div>
-
-      <div class="flex justify-end gap-2 mt-6">
-        <button @click="cancelPrescriptionPrompt" type="button" class="px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold transition-colors">Cancel</button>
-
-        <button @click="uploadPrescriptionBeforeEnd" type="button" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-sm font-bold transition-colors">
-          Upload Prescription
-        </button>
-      </div>
-    </div>
-  </div>
-  <!-- Confirm Prescription Upload Modal -->
-<div
-  v-if="showUploadConfirmation"
-  class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4"
-  @click.self="cancelUploadConfirmation"
->
-  <div class="w-full max-w-md rounded-2xl bg-gray-900 border border-gray-700 shadow-2xl p-5 sm:p-6">
-    <div class="flex items-start gap-3">
-      <div
-        class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0"
-      >
-        <FeatherIcon name="alert-triangle" class="w-5 h-5 text-amber-400" />
-      </div>
-
-      <div>
-        <h3 class="text-base sm:text-lg font-bold text-white">
-          Confirm Prescription Upload
-        </h3>
-
-        <p class="mt-2 text-sm text-gray-400 leading-relaxed">
-          The prescription details you entered manually will be replaced
-          with the details from the uploaded prescription.
-        </p>
-      </div>
-    </div>
-
-    <div class="flex justify-end gap-2 mt-6">
-      <button
-        @click="cancelUploadConfirmation"
-        type="button"
-        class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 text-sm font-semibold"
-      >
-        Cancel
-      </button>
-
-      <button
-        @click="confirmPrescriptionUpload"
-        type="button"
-        class="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-gray-950 text-sm font-bold"
-      >
-        Yes, Continue
-      </button>
-    </div>
-  </div>
-</div>
 </template>
 
 <script setup>
@@ -671,20 +182,12 @@ const isMuted = ref(false);
 const isVideoOff = ref(false);
 const isScreenSharing = ref(false);
 const remoteUserConnected = ref(false);
-const activeTab = ref('rx');
-const unreadChatCount = ref(0);
-const isMobileDrawerOpen = ref(false);
 const isMobileScreen = ref(false);
 
 function handleResize() {
   if (typeof window !== 'undefined') {
     isMobileScreen.value = window.innerWidth < 1024;
   }
-}
-
-function openDrawerTab(tab) {
-  activeTab.value = tab;
-  isMobileDrawerOpen.value = true;
 }
 
 // Timer
@@ -713,41 +216,6 @@ const doctorNotes = ref('');
 const newChatMessage = ref('');
 const chatMessages = ref([{ sender: 'System', text: 'Encrypted channel active.', time: 'Just now' }]);
 
-// Rx Image Capture
-const rxCameraInput = ref(null);
-const rxGalleryInput = ref(null);
-const rxDesktopGalleryInput = ref(null);
-const rxImagePreview = ref(null);
-const rxSelectedFile = ref(null);
-const rxParseLoading = ref(false);
-const rxParseStatus = ref(null);
-const rxSubmitted = ref(false);
-const rxProcessingStarted = ref(false);
-const showPrescriptionPrompt = ref(false);
-const showUploadConfirmation = ref(false);
-const showImageSourceChoice = ref(false);
-const prescriptionName = ref(null);
-const rxPersistedImage = ref(null);
-const isEditingPrescription = ref(false);
-const prescriptionWorkflowState = ref(null);
-const rxSaving = ref(false);
-const rxSubmitting = ref(false);
-
-const parseRxResource = createResource({
-  url: 'wellnest.api.prescription.parse_and_create_prescription',
-});
-
-const getPrescriptionResource = createResource({
-  url: 'wellnest.api.prescription.get_consultation_prescription',
-});
-
-const savePrescriptionDraftResource = createResource({
-  url: 'wellnest.api.prescription.save_consultation_prescription_draft',
-});
-
-const completePrescriptionResource = createResource({
-  url: 'wellnest.api.prescription.complete_consultation_prescription',
-});
 
 function triggerRxCamera() {
   rxPasteStatus.value = null;
@@ -765,10 +233,10 @@ function requestRxImageCapture(skipConfirmation = false) {
     return;
   }
 
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-   if (isMobile) {
-  showImageSourceChoice.value = true;
+  if (isMobile) {
+    showImageSourceChoice.value = true;
   } else {
     rxDesktopGalleryInput.value?.click();
   }
@@ -807,7 +275,7 @@ function onRxImageSelected(event) {
   showImageSourceChoice.value = false;
   rxSelectedFile.value = file;
   if (rxImagePreview.value) {
-   URL.revokeObjectURL(rxImagePreview.value);
+    URL.revokeObjectURL(rxImagePreview.value);
   }
   rxImagePreview.value = URL.createObjectURL(file);
   event.target.value = '';
@@ -815,10 +283,10 @@ function onRxImageSelected(event) {
 
 function populatePrescription(prescription) {
   investigations.value = prescription?.investigations || '';
- doctorAdvice.value = prescription?.doctor_advice || '';
- followUpInDays.value = prescription?.follow_up_in_days || '';
- examination.value = prescription?.examination || '';
- provisionalDiagnosis.value = prescription?.provisional_diagnosis || '';
+  doctorAdvice.value = prescription?.doctor_advice || '';
+  followUpInDays.value = prescription?.follow_up_in_days || '';
+  examination.value = prescription?.examination || '';
+  provisionalDiagnosis.value = prescription?.provisional_diagnosis || '';
 
   medicines.value = (prescription?.medicines || []).map((medicine) => ({
     name: medicine.medicine_name || '',
@@ -965,166 +433,6 @@ function clearRxImage() {
   rxSelectedFile.value = null;
 }
 
-async function handlePrescriptionOcrCompleted(data) {
-  if (data?.patient_appointment !== bookingId.value) {
-    return;
-  }
-
-  console.log('>>> Prescription OCR event received:', data);
-
-  await loadExistingPrescription();
-
-  if (data.status === 'failed') {
-    rxProcessingStarted.value = false;
-
-    rxParseStatus.value = {
-      type: 'error',
-      message: data.message || 'Prescription processing failed. Please try again.',
-    };
-
-    return;
-  }
-
-  if (data.status === 'completed') {
-    rxProcessingStarted.value = false;
-
-    rxParseStatus.value = {
-      type: 'success',
-      message: data.message || 'Prescription processed successfully. Please review and edit before publishing.',
-    };
-  }
-}
-
-async function loadExistingPrescription() {
-  try {
-    console.log('>>> Loading existing prescription:', bookingId.value);
-
-    const response = await getPrescriptionResource.submit({
-      appointment: bookingId.value,
-    });
-
-    const prescription = response?.message || response;
-
-    // No prescription exists
-    if (!prescription) {
-      console.log('>>> No prescription found for appointment');
-
-      prescriptionName.value = null;
-      prescriptionWorkflowState.value = null;
-
-      rxPersistedImage.value = null;
-      rxProcessingStarted.value = false;
-      rxSubmitted.value = false;
-
-      prescriptionParsed.value = false;
-      isEditingPrescription.value = true;
-
-      return;
-    }
-
-    console.log('>>> Existing prescription loaded:', prescription);
-
-    prescriptionName.value = prescription.name || null;
-
-    prescriptionWorkflowState.value = prescription.workflow_state || null;
-
-    rxPersistedImage.value = prescription.file_url || null;
-
-    // Processing state
-    if (prescription.workflow_state === 'Processing') {
-      console.log('>>> Prescription is still processing');
-
-      prescriptionParsed.value = false;
-      isEditingPrescription.value = false;
-      rxProcessingStarted.value = true;
-      rxSubmitted.value = false;
-
-      rxParseStatus.value = {
-        type: 'success',
-        message: 'Prescription submitted earlier. Processing is still running in the background.',
-      };
-
-      return;
-    }
-
-    if (prescription.workflow_state === 'Failed') {
-      console.log('>>> Previous prescription processing failed');
-
-      prescriptionParsed.value = false;
-      isEditingPrescription.value = false;
-      rxProcessingStarted.value = false;
-      rxSubmitted.value = false;
-
-      rxParseStatus.value = {
-        type: 'error',
-        message: 'Previous prescription processing failed. Please re-upload the prescription.',
-      };
-
-      return;
-    }
-
-    prescriptionParsed.value = true;
-
-    isEditingPrescription.value = prescription.workflow_state === 'Draft';
-
-    rxProcessingStarted.value = false;
-
-    rxSubmitted.value = prescription.workflow_state === 'Complete';
-
-    investigations.value = prescription.investigations || '';
-
-    doctorAdvice.value = prescription.doctor_advice || '';
-    followUpInDays.value = prescription.follow_up_in_days || '';
-
-    examination.value = prescription.examination || '';
-
-    provisionalDiagnosis.value = prescription.provisional_diagnosis || '';
-
-    medicines.value = (prescription.medicines || []).map((medicine) => ({
-      name: medicine.medicine_name || '',
-      dosage: medicine.dosage || '',
-      timing: medicine.timing || '',
-      instructions: medicine.instructions || '',
-    }));
-
-    console.log('>>> Prescription state restored:', prescription.workflow_state);
-  } catch (error) {
-    console.error('>>> Failed to load existing prescription:', error);
-  }
-}
-
-// Smart Rx Data
-const medicines = ref([]);
-const prescriptionParsed = ref(false);
-const investigations = ref('');
-const doctorAdvice = ref('');
-const followUpInDays = ref('');
-const examination = ref('');
-const provisionalDiagnosis = ref('');
-
-const prescriptionFilled = computed(() => {
-  const hasMedicine = medicines.value.some((medicine) => medicine.name?.trim());
-  const hasAdvice = doctorAdvice.value.trim();
-
-  return hasMedicine || hasAdvice;
-});
-
-function hasManualPrescriptionDetails() {
-  return (
-    provisionalDiagnosis.value.trim() ||
-    investigations.value.trim() ||
-    doctorAdvice.value.trim() ||
-    String(followUpInDays.value || '').trim() ||
-    medicines.value.some(
-      (medicine) =>
-        medicine.name?.trim() ||
-        medicine.dosage?.trim() ||
-        medicine.timing?.trim() ||
-        medicine.instructions?.trim()
-    )
-  );
-}
-
 onMounted(async () => {
   handleResize();
   window.addEventListener('resize', handleResize);
@@ -1142,9 +450,6 @@ onMounted(async () => {
     console.error('>>> Frappe Socket.IO connection error:', error);
   });
 
-  frappeSocket.on('prescription_ocr_completed', handlePrescriptionOcrCompleted);
-
-  await loadExistingPrescription();
   await getPatient();
   await joinRoom();
 });
@@ -1153,7 +458,6 @@ onUnmounted(async () => {
   window.removeEventListener('resize', handleResize);
 
   if (frappeSocket) {
-    frappeSocket.off('prescription_ocr_completed', handlePrescriptionOcrCompleted);
     frappeSocket.disconnect();
     frappeSocket = null;
   }
@@ -1272,115 +576,8 @@ function sendChatMessage() {
   newChatMessage.value = '';
 }
 
-function addMedicine() {
-  medicines.value.push({
-    name: '',
-    originalName: '',
-    genericNames: '',
-    dosage: '',
-    dosageForm: '',
-    timing: '',
-    duration: '',
-    instructions: '',
-    instructionTranslation: '',
-  });
-}
-
-function removeMedicine(index) {
-  medicines.value.splice(index, 1);
-}
-
-async function savePrescriptionDraft() {
-  rxSaving.value = true;
-
-  try {
-    const response = await savePrescriptionDraftResource.submit({
-      name: prescriptionName.value || undefined,
-      appointment: bookingId.value,
-
-      investigations: investigations.value,
-
-     doctor_advice: doctorAdvice.value,
-     follow_up_in_days: followUpInDays.value || '',
-
-      examination: examination.value,
-      provisional_diagnosis: provisionalDiagnosis.value,
-
-      medicines: JSON.stringify(
-        medicines.value.map((medicine) => ({
-          medicine_name: medicine.name,
-          dosage: medicine.dosage,
-          timing: medicine.timing,
-          instructions: medicine.instructions,
-        }))
-      ),
-    });
-
-    const saved = response?.message || response;
-
-    if (saved?.name) {
-      prescriptionName.value = saved.name;
-    }
-
-    prescriptionWorkflowState.value = saved?.workflow_state || 'Draft';
-
-    isEditingPrescription.value = false;
-
-    rxParseStatus.value = {
-      type: 'success',
-      message: 'Prescription draft saved successfully.',
-    };
-  } catch (error) {
-    console.error('Failed to save prescription draft:', error);
-
-    rxParseStatus.value = {
-      type: 'error',
-      message: error?.message || 'Failed to save prescription draft.',
-    };
-  } finally {
-    rxSaving.value = false;
-  }
-}
-
-async function submitPrescription() {
-  if (!prescriptionName.value) {
-    alert('Prescription not found. Please process the prescription first.');
-    return;
-  }
-
-  rxSubmitting.value = true;
-
-  try {
-    await completePrescriptionResource.submit({
-      name: prescriptionName.value,
-    });
-
-    prescriptionWorkflowState.value = 'Complete';
-    rxSubmitted.value = true;
-    isEditingPrescription.value = false;
-
-    rxParseStatus.value = {
-      type: 'success',
-      message: 'Prescription submitted successfully.',
-    };
-  } catch (error) {
-    console.error('Failed to submit prescription:', error);
-
-    rxParseStatus.value = {
-      type: 'error',
-      message: error?.message || 'Failed to submit prescription.',
-    };
-  } finally {
-    rxSubmitting.value = false;
-  }
-}
 
 async function confirmEndCall() {
-  if (!prescriptionFilled.value && !rxSubmitted.value && !rxProcessingStarted.value) {
-    showPrescriptionPrompt.value = true;
-    return;
-  }
-
   await endConsultation();
 }
 
@@ -1405,15 +602,6 @@ async function endConsultation() {
   }
 }
 
-function uploadPrescriptionBeforeEnd() {
-  showPrescriptionPrompt.value = false;
-  triggerRxImageCapture();
-}
-
-async function cancelPrescriptionPrompt() {
-  showPrescriptionPrompt.value = false;
-  await endConsultation();
-}
 async function leaveRoom() {
   clearInterval(timerInterval);
   await agora.leave();

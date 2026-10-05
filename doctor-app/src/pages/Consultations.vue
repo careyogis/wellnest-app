@@ -210,7 +210,7 @@
                 <button
                   type="button"
                   class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition"
-                  @click="openPrescriptionModal"
+                  @click="openPatientHistory"
                 >
                   <FeatherIcon name="file-text" class="w-4 h-4" />
                   Prescription
@@ -315,97 +315,6 @@
             @prescription-upload-processing="handlePrescriptionUploadProcessing"
             @prescription-submitted="prescriptionSubmitted = true"
           />
-        </div>
-
-        <!-- Prescription Modal -->
-        <div v-if="showPrescriptionModal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" @click.self="showPrescriptionModal = false">
-          <div class="w-full max-w-2xl max-h-[90vh] bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col">
-            <!-- Header -->
-            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 shrink-0">
-              <div>
-                <h2 class="text-xl font-bold text-gray-900">Prescription</h2>
-                <p class="text-sm text-gray-500 mt-1">Review the current prescription or view previous prescriptions.</p>
-              </div>
-
-              <button type="button" class="text-gray-500 hover:text-gray-900 text-2xl" @click="showPrescriptionModal = false">×</button>
-            </div>
-
-            <!-- Body -->
-            <div class="flex-1 overflow-y-auto p-6">
-              <!-- Existing prescription -->
-              <div v-if="prescriptionUploadCompleted" class="rounded-xl border border-gray-200 bg-gray-50 p-6">
-                <div class="flex flex-col gap-4">
-                  <!-- Prescription file -->
-                  <div class="flex items-center gap-4">
-                    <div class="w-20 h-20 rounded-xl bg-gray-100 border border-gray-200 overflow-hidden flex items-center justify-center shrink-0">
-                      <img v-if="consultationRef?.prescriptionImagePreview" :src="consultationRef.prescriptionImagePreview" alt="Uploaded prescription" class="w-full h-full object-cover" />
-
-                      <FeatherIcon v-else name="check-circle" class="w-8 h-8 text-emerald-600" />
-                    </div>
-
-                    <div class="min-w-0">
-                      <p class="font-semibold text-gray-900 truncate">
-                        {{ prescriptionUploadFileName || 'Prescription already uploaded' }}
-                      </p>
-
-                      <p class="text-sm text-gray-500 mt-1">Prescription already uploaded and processed.</p>
-                    </div>
-                  </div>
-
-                  <!-- Actions -->
-                  <div class="flex flex-col sm:flex-row gap-2 w-full">
-                    <!-- Previous Prescriptions -->
-                    <button type="button" class="px-5 py-3 rounded-xl border border-gray-300 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition" @click="openPatientHistory">
-                      Previous Prescriptions
-                    </button>
-
-                    <!-- View Extracted Prescription -->
-                    <button type="button" class="px-4 py-3 rounded-xl border border-amber-400 text-amber-700 font-semibold hover:bg-amber-50 whitespace-nowrap" @click="openExtractedPrescription">
-                      View Extracted Prescription
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Processing -->
-              <div v-else-if="prescriptionUploadProcessing" class="flex items-center gap-5 rounded-xl border border-gray-200 bg-gray-50 p-6">
-                <div class="w-16 h-16 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
-                  <FeatherIcon name="loader" class="w-8 h-8 animate-spin" />
-                </div>
-
-                <div class="flex-1 min-w-0">
-                  <p class="font-semibold text-gray-900 truncate">
-                    {{ prescriptionUploadFileName || 'Prescription' }}
-                  </p>
-
-                  <p class="text-sm text-gray-500 mt-1">Uploading and extracting prescription…</p>
-                </div>
-              </div>
-
-              <!-- No current prescription -->
-              <div v-else class="rounded-xl border border-gray-200 bg-gray-50 p-8 text-center">
-                <FeatherIcon name="file-text" class="w-10 h-10 mx-auto text-gray-400" />
-
-                <p class="mt-4 text-base font-semibold text-gray-800">No prescription for this consultation</p>
-
-                <p class="mt-1 text-sm text-gray-500">You can view previous prescriptions for this patient.</p>
-
-                <button
-                  v-if="hasPreviousPrescriptions"
-                  type="button"
-                  class="mt-5 px-5 py-3 rounded-xl border border-gray-300 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition"
-                  @click="openPatientHistory"
-                >
-                  Previous Prescriptions
-                </button>
-              </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="flex justify-end px-6 py-4 border-t border-gray-200 bg-white shrink-0">
-              <button type="button" class="px-5 py-3 rounded-xl bg-gray-100 text-gray-800 font-semibold hover:bg-gray-200" @click="showPrescriptionModal = false">Close</button>
-            </div>
-          </div>
         </div>
       </main>
 
@@ -1413,10 +1322,6 @@ function openExistingPreview() {
   }
 
   showPrescriptionPreview.value = true;
-}
-
-function openExtractedPrescription() {
-  consultationRef.value?.openOcrModal();
 }
 
 async function handlePrescriptionUpload(event) {
