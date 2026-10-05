@@ -612,6 +612,10 @@ async function leaveRoom() {
 
   router.push({
     name: 'Consultations',
+    query: {
+    status: 'Completed',
+    bookingId: bookingId.value,
+  },
   });
 }
 
