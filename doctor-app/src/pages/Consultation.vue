@@ -2,6 +2,7 @@
   <div class="w-full">
     <div class="space-y-6">
       <!-- Main consultation workspace -->
+      <fieldset :disabled="isPrescriptionSubmitted">
       <main class="space-y-6">
         <!-- Clinical findings -->
         <section class="bg-white border border-gray-200 rounded-2xl p-6">
@@ -194,6 +195,7 @@
           <input v-model="followUpInDays" type="number" min="0" class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200" />
         </section>
       </main>
+      </fieldset>
     </div>
 
     <!-- Template preview modal -->
@@ -561,6 +563,12 @@ const exerciseAdvice = ref('');
 const medicines = ref([]);
 const prescriptionName = ref(null);
 const prescriptionWorkflowState = ref(null);
+
+const isPrescriptionSubmitted = computed(
+  () =>
+    prescriptionWorkflowState.value === 'Confirmed' ||
+    prescriptionWorkflowState.value === 'Complete'
+);
 
 // Existing vitals data - KEEP FOR NOW
 const vitals = ref([
