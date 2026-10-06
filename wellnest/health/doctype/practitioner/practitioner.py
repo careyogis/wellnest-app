@@ -64,7 +64,7 @@ def get_list_context(context):
     context.get_list = _get_custom_row_data
 
 
-def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length=100, order_by=None):
+def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length, order_by=None):
     # 1. Fetch the default fields for the rows
     fields = [
         "name",
@@ -127,10 +127,12 @@ def _get_custom_row_data(doctype, txt, filters, limit_start, limit_page_length=1
     fields_str = ", ".join([f"`{f}`" for f in fields])
 
     limit_clause = ""
-    if limit_page_length:
-        limit_clause = (
-            f" LIMIT {frappe.utils.cint(limit_page_length)} OFFSET {frappe.utils.cint(limit_start or 0)} "
-        )
+
+    # Uncomment below when it's time to implement Paging
+    # if limit_page_length:
+    #     limit_clause = (
+    #         f" LIMIT {frappe.utils.cint(limit_page_length)} OFFSET {frappe.utils.cint(limit_start or 0)} "
+    #     )
 
     query = f"""
         SELECT {fields_str}
