@@ -734,6 +734,7 @@ async function loadConsultationData() {
         }
       });
     }
+
   } catch (error) {
     console.error('Failed to load consultation data:', error);
   }
@@ -962,6 +963,12 @@ watch(
     ocrStatusType.value = null;
     ocrStatusMessage.value = '';
     showOcrModal.value = false;
+
+    const reason = props.selectedConsultation?.reason || '';
+
+    complaints.value = reason
+      ? [{ id: 1, text: reason }]
+      : [];
 
     loadConsultationData();
     loadPrescription();
