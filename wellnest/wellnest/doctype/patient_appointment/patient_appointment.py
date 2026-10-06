@@ -15,7 +15,11 @@ from wellnest.health.doctype.app_notification.app_notification import (
 )
 
 class PatientAppointment(Document):
-    def after_insert(self):
+    def on_update(self):
+        # Only proceed if the status changed to "Scheduled"
+        if not (self.has_value_changed("status") and self.status == "Scheduled"):
+            return
+
         try:
             # Notify the doctor of the new booking
             practitioner = frappe.get_value(

@@ -4,142 +4,160 @@ import razorpay
 import time
 from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 
+
 def get_razorpay_client():
-	key_id = frappe.conf.get("razorpay_key_id")
-	key_secret = frappe.conf.get("razorpay_key_secret")
-	if not key_id or not key_secret:
-		frappe.throw(_("Razorpay credentials not configured in site config."))
-	return razorpay.Client(auth=(key_id, key_secret))
+    key_id = frappe.conf.get("razorpay_key_id")
+    key_secret = frappe.conf.get("razorpay_key_secret")
+    if not key_id or not key_secret:
+        frappe.throw(_("Razorpay credentials not configured in site config."))
+    return razorpay.Client(auth=(key_id, key_secret))
+
 
 @frappe.whitelist(allow_guest=True)
 def create_payment_order(service_id):
-	"""
-	Creates a Razorpay order and returns details to the frontend.
-	"""	
-	# Fetch invoice details 
-	frappe.flags.ignore_permissions = True
-	patient_appointment = frappe.get_doc("Patient Appointment", service_id)
-	frappe.flags.ignore_permissions = False
-	price_inr = patient_appointment.consultation_fee or 1
-	member_id = patient_appointment.patient
+    """
+    Creates a Razorpay order and returns details to the frontend.
+    """
+    # Fetch invoice details
+    frappe.flags.ignore_permissions = True
+    patient_appointment = frappe.get_doc("Patient Appointment", service_id)
+    frappe.flags.ignore_permissions = False
+    price_inr = patient_appointment.consultation_fee or 1
+    member_id = patient_appointment.patient
 
-	client = get_razorpay_client()
-	
-	order_data = {
-		'receipt': f'RCPT_{int(time.time())}',
-		'amount': int(price_inr * 100), # amount in paise
-		'currency': 'INR',
-		'payment_capture': 1,
-		'notes': {
-			'appointment_id': patient_appointment.name,
-			'patient_id': member_id
-		}
-	}
-	
-	order = client.order.create(data=order_data)
-	
-	return {
-		"success": True,
-		"order_id": order.get('id'),
-		"key_id": frappe.conf.get("razorpay_key_id")
-	}
+    client = get_razorpay_client()
+
+    order_data = {
+        "receipt": f"RCPT_{int(time.time())}",
+        "amount": int(price_inr * 100),  # amount in paise
+        "currency": "INR",
+        "payment_capture": 1,
+        "notes": {"appointment_id": patient_appointment.name, "patient_id": member_id},
+    }
+
+    order = client.order.create(data=order_data)
+
+    return {"success": True, "order_id": order.get("id"), "key_id": frappe.conf.get("razorpay_key_id")}
+
 
 @frappe.whitelist(allow_guest=True)
 def payment_verify(razorpay_payment_id, razorpay_order_id, razorpay_signature, appointment_id):
-	"""
-	Verifies the Razorpay signature, creates Sales Invoice and updates status.
-	"""
-	client = get_razorpay_client()
-	
-	try:
-		# 1. Verify Signature
-		client.utility.verify_payment_signature({
-			'razorpay_order_id': razorpay_order_id,
-			'razorpay_payment_id': razorpay_payment_id,
-			'razorpay_signature': razorpay_signature
-		})
-		
-		# Signature is valid. Elevate privileges to create accounting ledgers.
-		original_user = frappe.session.user
-		frappe.set_user("Administrator")
-		try:
-			frappe.flags.ignore_permissions = True
-			frappe.flags.ignore_account_permission = True
-			
-			appointment = frappe.get_doc("Patient Appointment", appointment_id)
-			
-			# 1. If payment succesful, confirm the Appointment and commit. 
-			frappe.db.set_value("Patient Appointment", appointment.name, {
-				"status": "Scheduled",
-				"payment_status": "Paid",
-			})			
-			frappe.db.commit()
-			frappe.logger().info(f"Razorpay Signature Verification Passed for Appointment: {appointment.name} with razorpay_payment_id: {razorpay_payment_id}")
+    """
+    Verifies the Razorpay signature, creates Sales Invoice and updates status.
+    """
+    client = get_razorpay_client()
 
-			try:
-				# Proceed to Sales Invoice creation on best effort basis. Shouldn't affect the appointment confirmation
-				# Find the linked customer (may be the patient is a Customer)
-				customer = frappe.db.get_value("Patient", appointment.patient, "customer")
-				if not customer:
-					# Possibly the booking is for one of the family members
-					parent_patient = frappe.db.get_value(
-						"Patient Family Member",
-						{"relative_patient": appointment.patient},
-						"parent"
-					)
-					# get the Customer from the parent patient
-					if parent_patient:
-						customer = frappe.db.get_value("Patient", parent_patient, "customer")
+    try:
+        # 1. Verify Signature
+        client.utility.verify_payment_signature(
+            {
+                "razorpay_order_id": razorpay_order_id,
+                "razorpay_payment_id": razorpay_payment_id,
+                "razorpay_signature": razorpay_signature,
+            }
+        )
 
-				if customer:
-					company = frappe.db.get_single_value('Global Defaults', 'default_company')
-					if not company:
-						company = frappe.get_all("Company", limit=1)[0].name
-				
-					# 2. Create the Sales Invoice directly
-					sales_invoice = frappe.get_doc({
-						"doctype": "Sales Invoice",
-						"customer": customer, 
-						"company": company,
-						"items": [{
-							"item_code": "Teleconsultation",
-							"qty": 1,
-							"rate": float(appointment.consultation_fee or 0),
-							"price_list_rate": float(appointment.consultation_fee or 0),
-						}]
-					})
-					sales_invoice.insert(ignore_permissions=True)
-					sales_invoice.submit()
+        # Signature is valid. Elevate privileges to create accounting ledgers.
+        original_user = frappe.session.user
+        frappe.set_user("Administrator")
+        try:
+            frappe.flags.ignore_permissions = True
+            frappe.flags.ignore_account_permission = True
 
-					# 3. Patch appointment with invoice link
-					frappe.db.set_value("Patient Appointment", appointment.name, "sales_invoice", sales_invoice.name)
+            appointment = frappe.get_doc("Patient Appointment", appointment_id)
 
-					# 4. Create Payment Entry using ERPNext's helper so paid_from/paid_to
-					#    accounts, currencies, and exchange rates are resolved correctly.
-					payment = get_payment_entry("Sales Invoice", sales_invoice.name)
-					payment.reference_no = razorpay_payment_id
-					payment.reference_date = frappe.utils.today()
-					payment.insert(ignore_permissions=True)
-					payment.submit()
-				else:
-					frappe.logger().warning(f"No Customer found for Patient {appointment.patient}. Skipping invoice creation.")
-			except Exception as exp:
-				frappe.log_error(frappe.get_traceback(), "Sales Invoice creation failed after payment verification completed.")
-		finally:
-			frappe.set_user(original_user)
-			frappe.flags.ignore_permissions = False
-			frappe.flags.ignore_account_permission = False
-		
-		return {"success": True, "message": "Payment verified successfully", "redirect_url": "/payment-success"}
-		
-	except Exception as e:
-		frappe.db.rollback()
-		frappe.log_error(frappe.get_traceback(), "Razorpay Signature Verification Failed")
-		return {"success": False, "message": "Payment verification failed", "redirect_url": "/payment-failure"}
+            # 1. If payment succesful, confirm the Appointment and commit.
+            appointment.status = "Scheduled"
+            appointment.payment_status = "Paid"
+            appointment.save(ignore_permissions=True)
+            frappe.db.commit()
+
+            frappe.logger().info(
+                f"Razorpay Signature Verification Passed for Appointment: {appointment.name} with razorpay_payment_id: {razorpay_payment_id}"
+            )
+
+            try:
+                # Proceed to Sales Invoice creation on best effort basis. Shouldn't affect the appointment confirmation
+                # Find the linked customer (may be the patient is a Customer)
+                customer = frappe.db.get_value("Patient", appointment.patient, "customer")
+                if not customer:
+                    # Possibly the booking is for one of the family members
+                    parent_patient = frappe.db.get_value(
+                        "Patient Family Member", {"relative_patient": appointment.patient}, "parent"
+                    )
+                    # get the Customer from the parent patient
+                    if parent_patient:
+                        customer = frappe.db.get_value("Patient", parent_patient, "customer")
+
+                if customer:
+                    company = frappe.db.get_single_value("Global Defaults", "default_company")
+                    if not company:
+                        company = frappe.get_all("Company", limit=1)[0].name
+
+                    # 2. Create the Sales Invoice directly
+                    sales_invoice = frappe.get_doc(
+                        {
+                            "doctype": "Sales Invoice",
+                            "customer": customer,
+                            "company": company,
+                            "items": [
+                                {
+                                    "item_code": "Teleconsultation",
+                                    "qty": 1,
+                                    "rate": float(appointment.consultation_fee or 0),
+                                    "price_list_rate": float(appointment.consultation_fee or 0),
+                                }
+                            ],
+                        }
+                    )
+                    sales_invoice.insert(ignore_permissions=True)
+                    sales_invoice.submit()
+
+                    # 3. Patch appointment with invoice link
+                    frappe.db.set_value(
+                        "Patient Appointment", appointment.name, "sales_invoice", sales_invoice.name
+                    )
+
+                    # 4. Create Payment Entry using ERPNext's helper so paid_from/paid_to
+                    #    accounts, currencies, and exchange rates are resolved correctly.
+                    payment = get_payment_entry("Sales Invoice", sales_invoice.name)
+                    payment.reference_no = razorpay_payment_id
+                    payment.reference_date = frappe.utils.today()
+                    payment.insert(ignore_permissions=True)
+                    payment.submit()
+                else:
+                    frappe.logger().warning(
+                        f"No Customer found for Patient {appointment.patient}. Skipping invoice creation."
+                    )
+            except Exception as exp:
+                frappe.log_error(
+                    frappe.get_traceback(),
+                    "Sales Invoice creation failed after payment verification completed.",
+                )
+        finally:
+            frappe.set_user(original_user)
+            frappe.flags.ignore_permissions = False
+            frappe.flags.ignore_account_permission = False
+
+        return {
+            "success": True,
+            "message": "Payment verified successfully",
+            "redirect_url": "/payment-success",
+        }
+
+    except Exception as e:
+        frappe.db.rollback()
+        frappe.log_error(frappe.get_traceback(), "Razorpay Signature Verification Failed")
+        return {
+            "success": False,
+            "message": "Payment verification failed",
+            "redirect_url": "/payment-failure",
+        }
+
 
 @frappe.whitelist(allow_guest=True)
 def create_payment_link(sales_order_id):
-	"""
-	Replaces create_payment_link()
-	"""
-	return f"/payment?sales_invoice={sales_order_id}"
+    """
+    Replaces create_payment_link()
+    """
+    return f"/payment?sales_invoice={sales_order_id}"
