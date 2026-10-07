@@ -278,6 +278,9 @@ scheduler_events = {
         "*/10 * * * *": [
             "wellnest.api.notifications.send_doctor_whatsapp_alert",
             "wellnest.api.utils.sweep_unverified_appointments"
+        ],
+        "0 2 * * 1": [
+            "wellnest.services.payout.generate_weekly_payouts"
         ]
     }
 }

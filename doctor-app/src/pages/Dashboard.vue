@@ -68,16 +68,18 @@
         <div class="text-xs text-gray-400">No reports yet</div>
       </div>
 
-      <div class="bg-white rounded-2xl border border-gray-200 p-5">
+      <RouterLink :to="{ name: 'Earnings' }" class="bg-white rounded-2xl border border-gray-200 p-5 hover:border-amber-300 transition block">
         <div class="flex items-center justify-between mb-3">
           <span class="text-sm text-gray-500">Monthly earnings</span>
           <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
             <FeatherIcon name="briefcase" class="w-4 h-4" />
           </div>
         </div>
-        <div class="text-3xl font-bold text-gray-900 mb-1">₹0</div>
-        <div class="text-xs text-gray-400">No earnings data yet</div>
-      </div>
+        <div class="text-3xl font-bold text-gray-900 mb-1">{{ formatCurrency(monthlyEarningsAmount) }}</div>
+        <div class="text-xs text-amber-600 font-medium">
+          {{ earningsResource.data?.accrued_count ? `${earningsResource.data.accrued_count} pending settlement` : 'View earnings & payouts →' }}
+        </div>
+      </RouterLink>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
@@ -208,6 +210,26 @@ const todaysConsultations = computed(() => {
     return false;
   });
 });
+
+const earningsResource = createResource({
+  url: 'wellnest.api.earnings.get_doctor_earnings_summary',
+  auto: true,
+});
+
+const monthlyEarningsAmount = computed(() => {
+  const data = earningsResource.data;
+  if (!data) return 0;
+  return (Number(data.accrued_amount) || 0) + (Number(data.last_payout?.net_payable_amount) || 0);
+});
+
+function formatCurrency(amount) {
+  const num = Number(amount) || 0;
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0,
+  }).format(num);
+}
 
 const quickActions = [
   { label: 'Join room', icon: 'video', to: { name: 'Consultations' } },

@@ -13,6 +13,22 @@ from wellnest.health.doctype.app_notification.app_notification import (
 )
 
 class PatientAppointment(Document):
+    def validate(self):
+        self.handle_payout_accrual()
+
+    def handle_payout_accrual(self):
+        if (
+            self.status == "Completed"
+            and self.consultation_type == "Online"
+            and self.payment_status == "Paid"
+        ):
+            if not self.practitioner_payout_rate and self.practitioner:
+                online_charge = frappe.db.get_value("Practitioner", self.practitioner, "online_charge") or 0.0
+                self.practitioner_payout_rate = online_charge
+
+            if not self.payout_status:
+                self.payout_status = "Accrued"
+
     def on_update(self):
         # Only proceed if the status changed to "Scheduled"
         if not (self.has_value_changed("status") and self.status == "Scheduled"):
@@ -234,6 +250,13 @@ def end_consultation(appointment):
 
     appointment.db_set("status", "Completed")
     appointment.db_set("consultation_ended_at", now_datetime())
+
+    if appointment.consultation_type == "Online" and appointment.payment_status == "Paid":
+        online_charge = frappe.db.get_value("Practitioner", appointment.practitioner, "online_charge") or 0.0
+        payout_updates = {"practitioner_payout_rate": online_charge}
+        if not appointment.payout_status:
+            payout_updates["payout_status"] = "Accrued"
+        appointment.db_set(payout_updates)
 
     return {
         "appointment": appointment.name,

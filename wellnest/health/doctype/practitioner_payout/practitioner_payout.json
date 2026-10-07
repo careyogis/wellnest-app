@@ -1,0 +1,240 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "PAY-.YYYY.-.MM.-.#####",
+ "creation": "2026-10-07 22:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_details",
+  "practitioner",
+  "practitioner_name",
+  "supplier",
+  "column_break_main",
+  "status",
+  "cycle_start_date",
+  "cycle_end_date",
+  "section_amounts",
+  "consultation_count",
+  "gross_amount",
+  "column_break_adjustments",
+  "adjustments",
+  "adjustment_reason",
+  "net_payable_amount",
+  "section_settlement",
+  "payout_date",
+  "payment_method",
+  "payment_reference",
+  "column_break_accounting",
+  "purchase_invoice",
+  "payment_entry",
+  "remarks",
+  "section_items",
+  "items"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Payout Details"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Practitioner",
+   "options": "Practitioner",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "practitioner.full_name",
+   "fieldname": "practitioner_name",
+   "fieldtype": "Data",
+   "label": "Practitioner Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "practitioner.supplier",
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nApproved\nPaid\nCancelled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cycle_start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Cycle Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cycle_end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Cycle End Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_amounts",
+   "fieldtype": "Section Break",
+   "label": "Amount & Calculation"
+  },
+  {
+   "fieldname": "consultation_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Consultation Count",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gross_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Gross Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_adjustments",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "adjustments",
+   "fieldtype": "Currency",
+   "label": "Deductions / Adjustments"
+  },
+  {
+   "fieldname": "adjustment_reason",
+   "fieldtype": "Small Text",
+   "label": "Adjustment Reason"
+  },
+  {
+   "fieldname": "net_payable_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Net Payable Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_settlement",
+   "fieldtype": "Section Break",
+   "label": "Settlement & Disbursement"
+  },
+  {
+   "fieldname": "payout_date",
+   "fieldtype": "Date",
+   "label": "Payout Date"
+  },
+  {
+   "default": "Bank Transfer (NEFT/IMPS)",
+   "fieldname": "payment_method",
+   "fieldtype": "Select",
+   "label": "Payment Method",
+   "options": "Bank Transfer (NEFT/IMPS)\nUPI\nCheque\nOther"
+  },
+  {
+   "fieldname": "payment_reference",
+   "fieldtype": "Data",
+   "label": "Payment Reference / UTR"
+  },
+  {
+   "fieldname": "column_break_accounting",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "purchase_invoice",
+   "fieldtype": "Link",
+   "label": "ERPNext Purchase Invoice",
+   "options": "Purchase Invoice",
+   "read_only": 1
+  },
+  {
+   "fieldname": "payment_entry",
+   "fieldtype": "Link",
+   "label": "ERPNext Payment Entry",
+   "options": "Payment Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "section_items",
+   "fieldtype": "Section Break",
+   "label": "Consultations"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Consultations",
+   "options": "Practitioner Payout Item"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-07 22:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Health",
+ "name": "Practitioner Payout",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Doctor",
+   "share": 0,
+   "write": 0
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

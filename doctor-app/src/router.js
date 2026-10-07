@@ -78,8 +78,7 @@ const routes = [
       {
         name: 'Earnings',
         path: 'earnings',
-        component: () => import('@/pages/ComingSoon.vue'),
-        props: { title: 'Earnings' },
+        component: () => import('@/pages/Earnings.vue'),
       },
       {
         name: 'Notifications',

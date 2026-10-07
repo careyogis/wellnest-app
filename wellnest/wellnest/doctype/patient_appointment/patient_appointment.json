@@ -14,6 +14,9 @@
   "prescription_sla_last_reminder_at",
   "column_break_tele",
   "consultation_fee",
+  "practitioner_payout_rate",
+  "payout_status",
+  "practitioner_payout",
   "sales_invoice",
   "payment_status",
   "main_complaints",
@@ -92,6 +95,26 @@
    "fieldname": "consultation_fee",
    "fieldtype": "Currency",
    "label": "Consultation Fee"
+  },
+  {
+   "fieldname": "practitioner_payout_rate",
+   "fieldtype": "Currency",
+   "label": "Practitioner Payout Rate",
+   "read_only": 1
+  },
+  {
+   "fieldname": "payout_status",
+   "fieldtype": "Select",
+   "label": "Payout Status",
+   "options": "\nAccrued\nIn Payout\nSettled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "practitioner_payout",
+   "fieldtype": "Link",
+   "label": "Practitioner Payout",
+   "options": "Practitioner Payout",
+   "read_only": 1
   },
   {
    "fieldname": "sales_invoice",

@@ -425,6 +425,33 @@ def get_payment_alerts():
             "reference": appointment.name,
         })
 
+    # Scenario 3: Doctor Payout - Supplier Unlinked
+    try:
+        accrued_doctors = frappe.db.sql("""
+            SELECT DISTINCT pa.practitioner, p.full_name
+            FROM `tabPatient Appointment` pa
+            JOIN `tabPractitioner` p ON pa.practitioner = p.name
+            WHERE pa.status = 'Completed'
+              AND pa.consultation_type = 'Online'
+              AND pa.payment_status = 'Paid'
+              AND (pa.payout_status = 'Accrued' OR pa.payout_status IS NULL OR pa.payout_status = '')
+              AND (p.supplier IS NULL OR p.supplier = '')
+        """, as_dict=True)
+
+        for doc_row in accrued_doctors:
+            alerts.append({
+                "priority": "High",
+                "category": "Payment",
+                "alert": "Doctor Payout: Supplier Unlinked",
+                "customer": "-",
+                "doctor": doc_row.full_name or doc_row.practitioner,
+                "time": str(now_datetime()),
+                "action": "Link ERPNext Supplier on Practitioner record",
+                "reference": doc_row.practitioner,
+            })
+    except Exception:
+        pass
+
     return alerts
 
 def get_doctor_onboarding_alerts():
