@@ -288,3 +288,74 @@ class TestPatientAppointment(FrappeTestCase):
                 {"name": other_user.name},
             )
             frappe.db.commit()
+
+    def test_sweep_unverified_appointments(self):
+        from datetime import timedelta
+        from wellnest.api.utils import sweep_unverified_appointments
+
+        now = frappe.utils.now_datetime()
+        older_than_30m = now - timedelta(minutes=35)
+
+        # 1. Create an Unverified appointment older than 30 mins
+        stale_unverified = frappe.get_doc({
+            "doctype": "Patient Appointment",
+            "patient": self.patient.name,
+            "practitioner": self.practitioner.name,
+            "scheduled_time": now,
+            "consultation_type": "Online",
+            "status": "Unverified",
+            "payment_status": "Unpaid",
+        })
+        stale_unverified.insert(ignore_permissions=True)
+        frappe.db.sql(
+            "UPDATE `tabPatient Appointment` SET creation = %s WHERE name = %s",
+            (older_than_30m, stale_unverified.name),
+        )
+
+        # 2. Create a recent Unverified appointment (< 30 mins old)
+        recent_unverified = frappe.get_doc({
+            "doctype": "Patient Appointment",
+            "patient": self.patient.name,
+            "practitioner": self.practitioner.name,
+            "scheduled_time": now,
+            "consultation_type": "Online",
+            "status": "Unverified",
+            "payment_status": "Unpaid",
+        })
+        recent_unverified.insert(ignore_permissions=True)
+
+        # 3. Create a Scheduled appointment older than 30 mins (should NOT be deleted)
+        stale_scheduled = frappe.get_doc({
+            "doctype": "Patient Appointment",
+            "patient": self.patient.name,
+            "practitioner": self.practitioner.name,
+            "scheduled_time": now,
+            "consultation_type": "Online",
+            "status": "Scheduled",
+            "payment_status": "Paid",
+        })
+        stale_scheduled.insert(ignore_permissions=True)
+        frappe.db.sql(
+            "UPDATE `tabPatient Appointment` SET creation = %s WHERE name = %s",
+            (older_than_30m, stale_scheduled.name),
+        )
+        frappe.db.commit()
+
+        try:
+            # Run the sweep method
+            result = sweep_unverified_appointments(older_than_minutes=30)
+
+            self.assertTrue(result["success"])
+            self.assertIn(stale_unverified.name, result["deleted_appointments"])
+
+            # Verify DB state
+            self.assertFalse(frappe.db.exists("Patient Appointment", stale_unverified.name))
+            self.assertTrue(frappe.db.exists("Patient Appointment", recent_unverified.name))
+            self.assertTrue(frappe.db.exists("Patient Appointment", stale_scheduled.name))
+        finally:
+            # Cleanup any remaining test docs
+            for doc_name in [recent_unverified.name, stale_scheduled.name]:
+                if frappe.db.exists("Patient Appointment", doc_name):
+                    frappe.delete_doc("Patient Appointment", doc_name, ignore_permissions=True, force=True)
+            frappe.db.commit()
+

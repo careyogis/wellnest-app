@@ -276,7 +276,8 @@ scheduler_events = {
             "wellnest.api.notifications.send_prescription_sla_reminders"
         ],
         "*/10 * * * *": [
-            "wellnest.api.notifications.send_doctor_whatsapp_alert"
+            "wellnest.api.notifications.send_doctor_whatsapp_alert",
+            "wellnest.api.utils.sweep_unverified_appointments"
         ]
     }
 }
