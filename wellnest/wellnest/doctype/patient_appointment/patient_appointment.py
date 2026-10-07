@@ -6,10 +6,8 @@ import hashlib
 import frappe
 from frappe.model.document import Document
 from frappe.utils import get_datetime, now_datetime, getdate, add_days
-
 from wellnest.api.teleconsult import get_agora_token
 from wellnest.api.notifications import notify_doctor_of_new_booking
-
 from wellnest.health.doctype.app_notification.app_notification import (
     create_consultation_cancellation_notification,
 )
@@ -21,7 +19,7 @@ class PatientAppointment(Document):
             return
 
         try:
-            # Notify the doctor of the new booking
+            # 1. Notify the doctor of the new booking
             practitioner = frappe.get_value(
                 "Practitioner",
                 self.practitioner,
@@ -74,7 +72,22 @@ class PatientAppointment(Document):
                     patient_dob=patient.date_of_birth if patient else None,
                     reason=self.main_complaints,
                 )
-        except:
+
+            # 2. Schedule an App Notification to the Patient
+            app_notification = frappe.get_doc(
+                {
+                    "doctype": "App Notification",
+                    "title": "Upcoming doctor appointment",
+                    "body": f"You have an upcoming appointment with {practitioner.full_name} at {formatted_date_time}.",
+                    "target_audience": "Specific Patient",
+                    "patient": patient,
+                    "scheduled_time": (frappe.utils.add_to_date(self.scheduled_time, minutes=-15)),
+                }
+            )
+            app_notification.insert(ignore_permissions=True)
+            frappe.db.commit()
+
+        except Exception:
             frappe.log_error(
                 title="Failed to notify the doctor about the appointment",
                 message=frappe.get_traceback(),
@@ -131,14 +144,14 @@ def get_teleconsultation_appointments():
 @frappe.whitelist()
 def get_appointment_details(appointment):
     doc = _get_appointment_for_current_practitioner(appointment)
-    
+
     patient_data = frappe.db.get_value(
-        "Patient", 
-        doc.patient, 
-        ["full_name", "date_of_birth", "gender"], 
+        "Patient",
+        doc.patient,
+        ["full_name", "date_of_birth", "gender"],
         as_dict=True
     ) or {}
-    
+
     return {
         "patient": doc.patient,
         "full_name": patient_data.get("full_name"),
