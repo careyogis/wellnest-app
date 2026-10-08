@@ -95,17 +95,22 @@ def payment_verify(razorpay_payment_id, razorpay_order_id, razorpay_signature, a
                         company = frappe.get_all("Company", limit=1)[0].name
 
                     # 2. Create the Sales Invoice directly
+                    fee = float(appointment.consultation_fee or 0)
                     sales_invoice = frappe.get_doc(
                         {
                             "doctype": "Sales Invoice",
                             "customer": customer,
                             "company": company,
+                            "ignore_pricing_rule": 1,
                             "items": [
                                 {
                                     "item_code": "Teleconsultation",
                                     "qty": 1,
-                                    "rate": float(appointment.consultation_fee or 0),
-                                    "price_list_rate": float(appointment.consultation_fee or 0),
+                                    "rate": fee,
+                                    "price_list_rate": fee,
+                                    "discount_percentage": 0,
+                                    "discount_amount": 0,
+                                    "ignore_pricing_rule": 1,
                                 }
                             ],
                         }
