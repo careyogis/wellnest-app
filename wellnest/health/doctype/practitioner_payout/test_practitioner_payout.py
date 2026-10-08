@@ -26,14 +26,12 @@ class TestPractitionerPayout(FrappeTestCase):
             "items",
             {
                 "payout_rate": 500,
-                "consultation_fee": 800,
             },
         )
         payout.append(
             "items",
             {
                 "payout_rate": 600,
-                "consultation_fee": 900,
             },
         )
 

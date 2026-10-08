@@ -87,15 +87,11 @@ def create_payout_for_practitioner(practitioner, start_date, end_date, appointme
 
     items = []
     for appt in appointments:
-        patient_name = frappe.db.get_value("Patient", appt.patient, "full_name") or appt.patient
         rate = flt(appt.practitioner_payout_rate) if flt(appt.practitioner_payout_rate) > 0 else online_charge
 
         items.append(
             {
                 "patient_appointment": appt.name,
-                "patient_name": patient_name,
-                "scheduled_time": appt.scheduled_time,
-                "consultation_fee": flt(appt.consultation_fee),
                 "payout_rate": rate,
             }
         )

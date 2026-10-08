@@ -164,18 +164,24 @@ def get_payout_details(payout_name):
     if payout.practitioner != practitioner_id:
         frappe.throw("You are not authorized to view this payout", frappe.PermissionError)
 
-    items = []
-    for it in payout.items:
-        items.append(
-            {
-                "name": it.name,
-                "patient_appointment": it.patient_appointment,
-                "patient_name": it.patient_name,
-                "scheduled_time": it.scheduled_time,
-                "consultation_fee": flt(it.consultation_fee),
-                "payout_rate": flt(it.payout_rate),
-            }
-        )
+    items_query = """
+        SELECT
+            ppi.name,
+            ppi.patient_appointment,
+            ppi.payout_rate,
+            pa.scheduled_time,
+            pa.consultation_fee,
+            p.full_name AS patient_name
+        FROM `tabPractitioner Payout Item` ppi
+        JOIN `tabPatient Appointment` pa ON ppi.patient_appointment = pa.name
+        LEFT JOIN `tabPatient` p ON pa.patient = p.name
+        WHERE ppi.parent = %(payout_name)s
+        ORDER BY pa.scheduled_time ASC
+    """
+    items = frappe.db.sql(items_query, {"payout_name": payout_name}, as_dict=True)
+    for it in items:
+        it["consultation_fee"] = flt(it.get("consultation_fee") or 0.0)
+        it["payout_rate"] = flt(it.get("payout_rate") or 0.0)
 
     return {
         "name": payout.name,
@@ -273,8 +279,22 @@ def get_current_practitioner():
 
 def _render_payout_statement_html(payout):
     """Direct HTML fallback template for settlement advice PDF."""
+    items = frappe.db.sql("""
+        SELECT
+            ppi.patient_appointment,
+            ppi.payout_rate,
+            pa.scheduled_time,
+            pa.consultation_fee,
+            p.full_name AS patient_name
+        FROM `tabPractitioner Payout Item` ppi
+        JOIN `tabPatient Appointment` pa ON ppi.patient_appointment = pa.name
+        LEFT JOIN `tabPatient` p ON pa.patient = p.name
+        WHERE ppi.parent = %(payout_name)s
+        ORDER BY pa.scheduled_time ASC
+    """, {"payout_name": payout.name}, as_dict=True)
+
     items_rows = ""
-    for idx, it in enumerate(payout.items, 1):
+    for idx, it in enumerate(items, 1):
         items_rows += f"""
 			<tr style="border-bottom: 1px solid #e5e7eb;">
 				<td style="padding: 8px 10px; color: #6b7280;">{idx}</td>
