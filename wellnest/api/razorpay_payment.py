@@ -108,9 +108,6 @@ def payment_verify(razorpay_payment_id, razorpay_order_id, razorpay_signature, a
                                     "qty": 1,
                                     "rate": fee,
                                     "price_list_rate": fee,
-                                    "discount_percentage": 0,
-                                    "discount_amount": 0,
-                                    "ignore_pricing_rule": 1,
                                 }
                             ],
                         }
