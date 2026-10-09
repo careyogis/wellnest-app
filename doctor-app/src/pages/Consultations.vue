@@ -17,10 +17,88 @@
       </button>
     </div>
 
+    <!-- Consultation Stages -->
+    <div class="mt-5 mb-5 grid grid-cols-1 lg:grid-cols-5 gap-3">
+      <!-- All -->
+      <button
+        type="button"
+        class="h-14 px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+        :class="statusFilter === 'All' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
+        @click="statusFilter = 'All'"
+      >
+        <span>All</span>
+
+        <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" :class="statusFilter === 'All' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'">
+          {{ allCount }}
+        </span>
+      </button>
+
+      <!-- Upcoming -->
+      <button
+        type="button"
+        class="h-14 px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+        :class="statusFilter === 'Upcoming' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
+        @click="statusFilter = 'Upcoming'"
+      >
+        <span>Upcoming</span>
+
+        <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" :class="statusFilter === 'Upcoming' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'">
+          {{ upcomingCount }}
+        </span>
+      </button>
+
+      <!-- Prescription due -->
+      <button
+        type="button"
+        class="h-14 px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+        :class="statusFilter === 'Prescription due' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
+        @click="statusFilter = 'Prescription due'"
+      >
+        <span>Prescription due</span>
+
+        <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" :class="statusFilter === 'Prescription due' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'">
+          {{ prescriptionDueCount }}
+        </span>
+      </button>
+      <!-- Follow-up active -->
+      <button
+        type="button"
+        class="h-14 w-full px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+        :class="statusFilter === 'Follow-up active' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
+        @click="statusFilter = 'Follow-up active'"
+      >
+        <span class="truncate">Follow-up active</span>
+
+        <span
+          class="ml-3 w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-xs font-bold"
+          :class="statusFilter === 'Follow-up active' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'"
+        >
+          {{ followUpActiveCount }}
+        </span>
+      </button>
+
+      <!-- Complete -->
+      <button
+        type="button"
+        class="h-14 w-full px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+        :class="statusFilter === 'Complete' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
+        @click="statusFilter = 'Complete'"
+      >
+        <span class="truncate">Complete</span>
+
+        <span
+          class="ml-3 w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-xs font-bold"
+          :class="statusFilter === 'Complete' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'"
+        >
+          {{ completeCount }}
+        </span>
+      </button>
+    </div>
+
     <!-- Blade workspace -->
     <div class="grid grid-cols-1 xl:grid-cols-[360px_minmax(0,1fr)] gap-4 xl:gap-6 items-stretch min-h-[calc(100vh-180px)]">
       <!-- LEFT: CONSULTATION LIST -->
-      <aside class="bg-white border border-gray-200 rounded-2xl overflow-hidden xl:sticky xl:top-4 h-full">
+      <aside class="hidden xl:block bg-white border border-gray-200 rounded-2xl overflow-hidden xl:sticky xl:top-4 h-full">
         <!-- List header -->
         <div class="px-5 py-5 border-b border-gray-200">
           <div class="flex items-center justify-between gap-3">
@@ -33,14 +111,6 @@
           </div>
 
           <!-- Filter -->
-          <div class="mt-4">
-            <select v-model="statusFilter" class="w-full px-3 py-2.5 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-200">
-              <option value="All">All consultations</option>
-              <option value="Upcoming">Upcoming</option>
-              <option value="Completed">Completed</option>
-              <option value="Payment Pending">Payment Pending</option>
-            </select>
-          </div>
         </div>
 
         <!-- Consultation list -->
@@ -55,10 +125,9 @@
             <p class="mt-1 text-sm text-gray-500">Try changing the filter.</p>
           </div>
 
-            
-                <button
-              v-for="(consultation, index) in filteredConsultations"
-              :key="consultation.id"
+          <button
+            v-for="(consultation, index) in filteredConsultations"
+            :key="consultation.id"
             type="button"
             class="w-full text-left px-5 py-4 border-b border-gray-100 transition-colors hover:bg-gray-50"
             :class="{
@@ -97,27 +166,46 @@
               </span>
             </div>
 
-            <div v-if="consultation.prescriptionWorkflowState" class="mt-3">
-              <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">
+            <div v-if="statusFilter === 'Prescription due'" class="mt-2">
+              <span class="text-xs font-semibold text-amber-700"> Write prescription </span>
+            </div>
+
+            <div v-else-if="statusFilter === 'Follow-up active'" class="mt-2">
+              <span class="text-xs font-semibold text-blue-700"> Reply to patient </span>
+            </div>
+
+            <div v-else-if="statusFilter === 'Complete'" class="mt-2">
+              <span class="text-xs font-semibold text-amber-700"> View summary </span>
+            </div>
+
+            <div v-else-if="consultation.prescriptionWorkflowState" class="mt-3">
+              <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600">
                 {{ consultation.prescriptionWorkflowState }}
               </span>
             </div>
           </button>
-               <!-- Show More - Mobile only -->
-          <div
-         v-if="filteredConsultations.length > mobileVisibleCount"
-         class="md:hidden px-5 py-4"
-          >
-             <button
-              type="button"
-          class="w-full py-2.5 rounded-xl bg-amber-500 text-white text-sm font-semibold hover:bg-amber-600 transition"
-              @click="mobileVisibleCount += 3"
-              >
-              Show More
-              </button>
-             </div>
+          <!-- Show More - Mobile only -->
+          <div v-if="filteredConsultations.length > mobileVisibleCount" class="md:hidden px-5 py-4">
+            <button type="button" class="w-full py-2.5 rounded-xl bg-amber-500 text-white text-sm font-semibold hover:bg-amber-600 transition" @click="mobileVisibleCount += 3">Show More</button>
+          </div>
         </div>
       </aside>
+
+      <!-- MOBILE: PATIENT SELECTOR -->
+      <div class="xl:hidden w-full bg-white border border-gray-200 rounded-2xl p-4">
+        <div class="flex items-center gap-3">
+          <label for="mobile-patient-select" class="shrink-0 text-sm font-semibold text-gray-600"> Patient </label>
+
+          <select
+            id="mobile-patient-select"
+            class="min-w-0 flex-1 w-full rounded-xl border-2 border-gray-200 bg-white px-3 py-3 text-sm font-medium text-gray-700 focus:border-amber-400 focus:ring-2 focus:ring-amber-100"
+            :value="selectedConsultation?.id || ''"
+            @change="selectConsultation(filteredConsultations.find((consultation) => consultation.id === $event.target.value))"
+          >
+            <option v-for="consultation in filteredConsultations" :key="consultation.id" :value="consultation.id">{{ consultation.patient }} · {{ consultation.time }}</option>
+          </select>
+        </div>
+      </div>
 
       <!-- RIGHT: SELECTED CONSULTATION WORKSPACE -->
       <main v-if="selectedConsultation?.id" class="min-w-0">
@@ -125,23 +213,34 @@
         <section class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
           <!-- Patient / appointment information -->
           <div class="p-5 md:p-6 border-b border-gray-200">
-            <div class="flex flex-col 2xl:flex-row 2xl:items-start 2xl:justify-between gap-5">
+            <div class="relative flex flex-col 2xl:flex-row 2xl:items-start 2xl:justify-between gap-5">
               <!-- Patient information -->
               <div class="min-w-0">
                 <div class="flex items-center gap-3">
                   <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
                     <FeatherIcon name="user" class="w-6 h-6" />
                   </div>
-
-                  <div class="min-w-0">
+                  <div class="min-w-0 flex-1">
                     <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">Patient</p>
 
-                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 truncate">
-                      {{ selectedConsultation.patient }}
-                    </h2>
+                    <div class="flex items-center justify-between gap-4">
+                      <h2 class="text-2xl md:text-3xl font-bold text-gray-900 break-words">
+                        {{ selectedConsultation.patient }}
+                      </h2>
+
+                      <span
+                        v-if="
+                          selectedConsultation.bookingStatus === 'Completed' &&
+                          selectedConsultation.prescriptionWorkflowState !== 'Confirmed' &&
+                          selectedConsultation.prescriptionWorkflowState !== 'Complete'
+                        "
+                        class="shrink-0 inline-flex items-center rounded-lg bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800"
+                      >
+                        Prescription due
+                      </span>
+                    </div>
                   </div>
                 </div>
-
                 <!-- Appointment metadata -->
                 <div class="mt-5 flex flex-wrap gap-3">
                   <div class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 border border-gray-200">
@@ -166,8 +265,18 @@
                 </div>
               </div>
 
+              <!-- Follow-up Active badge -->
+              <span v-if="statusFilter === 'Follow-up active'" class="absolute top-0 right-0 inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                Follow-up active
+              </span>
+
+              <!-- Complete badge -->
+              <span v-if="statusFilter === 'Complete'" class="absolute top-0 right-0 inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700">
+                Complete
+              </span>
+
               <!-- Action buttons -->
-              <div class="flex flex-wrap items-center gap-2 2xl:justify-end shrink-0">
+              <div class="mt-4 flex flex-wrap items-center gap-2">
                 <!-- Join -->
                 <template v-if="selectedConsultation.bookingStatus === 'Completed'">
                   <span class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-100 text-emerald-700 font-semibold">
@@ -231,35 +340,18 @@
                   Prescription
                 </button>
 
-                <!-- Health Vault -->
+                <!-- Health Records -->
                 <button
                   type="button"
                   class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition"
                   @click="openHealthVault"
                 >
                   <FeatherIcon name="clipboard" class="w-4 h-4" />
-                  Health Vault
+                  Health Records
                 </button>
 
-                <!-- Save -->
-               <button
-               type="button"
-                :disabled="prescriptionSubmitted"
-                :class="prescriptionSubmitted
-                ? 'border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed'
-                : 'border-amber-400 bg-white text-amber-700 hover:bg-amber-50'"
-                class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border font-semibold transition"
-                @click="saveConsultation"
-                >
-                 <FeatherIcon name="save" class="w-4 h-4" />
-                    Save as Draft
-                 </button>
-                <!-- Submitted status -->
-                <div v-if="prescriptionSubmitted" class="rounded-xl border border-green-200 bg-green-50 px-4 py-2.5 text-sm font-semibold text-green-700">
-                  Prescription already submitted for this patient.
-                </div>
                 <!-- Publish -->
-                <button
+                <!--<button
                   v-if="!prescriptionSubmitted"
                   type="button"
                   class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-amber-500 text-white font-semibold hover:bg-amber-600 transition"
@@ -267,7 +359,7 @@
                 >
                   <FeatherIcon name="send" class="w-4 h-4" />
                   Final Submit
-                </button>
+                </button>         -->
               </div>
             </div>
           </div>
@@ -319,16 +411,108 @@
                 </span>
               </div>
             </div>
+
+            <!-- Submitted status -->
+            <div
+              v-if="prescriptionSubmitted && ['Follow-up active', 'Complete'].includes(statusFilter)"
+              class="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-700"
+            >
+              <template v-if="selectedFollowUpThroughDate">
+                Prescription already shared · Follow-up through
+                {{ formatFollowUpDate(selectedFollowUpThroughDate) }}
+              </template>
+
+              <template v-else> Prescription already submitted for this patient. </template>
+            </div>
+
+            <!-- Follow-up period active -->
+            <div v-if="statusFilter === 'Follow-up active'" class="mt-3 flex flex-col gap-3 rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h3 class="text-sm font-semibold text-gray-800">Follow-up period active</h3>
+                <p class="mt-1 text-xs text-gray-500">
+                  Patient can message or send files until
+                  {{ selectedFollowUpThroughDate ? formatFollowUpDate(selectedFollowUpThroughDate) : 'the follow-up period ends' }}.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-amber-500 bg-white px-4 py-2 text-sm font-semibold text-amber-700 transition-colors hover:bg-amber-500 hover:text-white"
+                @click="patientChatRef?.openChat()"
+              >
+                <FeatherIcon name="message-circle" class="h-4 w-4" />
+                Open patient chat
+              </button>
+            </div>
+
+            <!-- Prescription Due -->
+            <div
+              v-if="
+                selectedConsultation.bookingStatus === 'Completed' && selectedConsultation.prescriptionWorkflowState !== 'Confirmed' && selectedConsultation.prescriptionWorkflowState !== 'Complete'
+              "
+              class="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-3 py-4 sm:px-5 sm:py-5"
+            >
+              <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div class="min-w-0">
+                  <h3 class="text-base font-bold text-gray-900 sm:text-lg">Prescription is due</h3>
+
+                  <p class="mt-1 text-sm leading-5 text-gray-600">Complete the form below and share it with the patient.</p>
+                </div>
+
+                <button
+                  type="button"
+                  class="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-amber-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-amber-600 sm:w-auto sm:text-base"
+                  @click="consultationRef?.focusVitals()"
+                >
+                  <span class="text-lg leading-none">↓</span>
+                  Continue prescription
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
+        <!-- Patient Chat: only for follow-up states -->
+        <PatientChat
+          ref="patientChatRef"
+          v-if="['Follow-up active', 'Complete'].includes(statusFilter)"
+          :appointment-id="selectedConsultation?.appointment"
+          :chat-status="statusFilter === 'Follow-up active' ? 'Active' : 'Closed'"
+          :follow-up-text="statusFilter === 'Follow-up active' ? 'Follow-up period is active.' : 'Follow-up period ended. Chat is closed.'"
+        />
+
         <div class="mt-4">
+          <!-- Complete state -->
+          <div v-if="statusFilter === 'Complete'" class="rounded-xl border border-gray-200 bg-white px-4 py-4">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <h3 class="text-sm font-semibold text-gray-900">Consultation complete</h3>
+
+                <p class="mt-1 text-sm text-gray-500">Follow-up period ended. The shared prescription remains available.</p>
+              </div>
+
+              <button
+                type="button"
+                class="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-orange-300 bg-white text-orange-700 font-semibold hover:bg-orange-50 transition"
+                @click="previewPrescription"
+              >
+                <FeatherIcon name="file-text" class="w-4 h-4" />
+                View prescription
+              </button>
+            </div>
+          </div>
+
           <Consultation
             ref="consultationRef"
             :selected-consultation="selectedConsultation"
+            :is-follow-up-active="statusFilter === 'Follow-up active'"
+            :is-completed="statusFilter === 'Complete'"
+            :show-prescription-actions="['All', 'Upcoming', 'Prescription due'].includes(statusFilter)"
+            :prescription-submitted="prescriptionSubmitted"
             @prescription-loaded="handlePrescriptionLoaded"
             @prescription-upload-processing="handlePrescriptionUploadProcessing"
-            @prescription-submitted="prescriptionSubmitted = true"
+            @prescription-submitted="handlePrescriptionSubmitted"
+            @publish-prescription="publishPrescription"
           />
         </div>
       </main>
@@ -639,7 +823,7 @@
       <!-- Header -->
       <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 shrink-0">
         <div>
-          <h2 class="text-xl font-bold text-gray-900">Health Vault</h2>
+          <h2 class="text-xl font-bold text-gray-900">Records</h2>
 
           <p class="text-sm text-gray-500 mt-1">
             {{ selectedConsultation?.patient || 'Patient' }}
@@ -655,7 +839,7 @@
         <div v-if="patientHistoryLoading" class="py-12 text-center">
           <FeatherIcon name="loader" class="w-8 h-8 mx-auto text-amber-500 animate-spin" />
 
-          <p class="mt-3 text-sm text-gray-500">Loading Health Vault documents...</p>
+          <p class="mt-3 text-sm text-gray-500">Loading documents...</p>
         </div>
 
         <!-- Documents -->
@@ -717,7 +901,7 @@
             <FeatherIcon name="folder" class="w-6 h-6 text-gray-400" />
           </div>
 
-          <p class="mt-4 font-semibold text-gray-900">No Health Vault documents</p>
+          <p class="mt-4 font-semibold text-gray-900">No Records</p>
 
           <p class="mt-1 text-sm text-gray-500">No documents were found for this patient.</p>
         </div>
@@ -887,9 +1071,11 @@ import { computed, ref, watch } from 'vue';
 import { FeatherIcon, createResource } from 'frappe-ui';
 import { useRouter, useRoute } from 'vue-router';
 import Consultation from './Consultation.vue';
+import PatientChat from '@/components/PatientChat.vue';
 
 const router = useRouter();
 const route = useRoute();
+const patientChatRef = ref(null);
 
 const consultationsResource = createResource({
   url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.get_teleconsultation_appointments',
@@ -957,6 +1143,90 @@ const hasPreviousPrescriptions = computed(() => {
 const selectedHistoricalPrescription = ref(null);
 const patientHistoryLoading = ref(false);
 const historicalPrescriptionLoading = ref(false);
+const followUpThroughDate = ref(null);
+const followUpThroughDates = ref({});
+
+const selectedFollowUpThroughDate = computed(() => {
+  const consultationId = selectedConsultation.value?.id;
+
+  // Date received immediately after Final Submit
+  if (consultationId && followUpThroughDates.value[consultationId]) {
+    return followUpThroughDates.value[consultationId];
+  }
+
+  // Date reconstructed from backend data
+  const followUpDays = Number(selectedConsultation.value?.followUpInDays);
+  const completedAt = selectedConsultation.value?.prescriptionCompletedAt;
+
+  if (!followUpDays || !completedAt) {
+    return null;
+  }
+
+  const followUpDate = new Date(completedAt);
+
+  if (Number.isNaN(followUpDate.getTime())) {
+    return null;
+  }
+
+  followUpDate.setDate(followUpDate.getDate() + followUpDays);
+
+  return followUpDate;
+});
+
+function formatFollowUpDate(date) {
+  if (!date) return '';
+
+  return new Date(date).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+
+async function handlePrescriptionSubmitted(payload) {
+  prescriptionSubmitted.value = true;
+
+  const consultationId = selectedConsultation.value?.id;
+
+  // Fetch the latest appointment data saved by the backend.
+  try {
+    await consultationsResource.reload();
+  } catch (error) {
+    console.error('Failed to refresh consultations after prescription submission:', error);
+  }
+
+  const consultation = consultations.value.find(
+    (item) => item.id === consultationId
+  );
+
+  if (consultation) {
+    selectedConsultation.value = consultation;
+  }
+
+  const followUpDays = Number(
+    payload?.follow_up_in_days ??
+      consultation?.followUpInDays ??
+      selectedConsultation.value?.followUpInDays ??
+      0
+  );
+
+  if (consultationId && payload?.follow_up_through_date) {
+    followUpThroughDates.value = {
+      ...followUpThroughDates.value,
+      [consultationId]: payload.follow_up_through_date,
+    };
+
+    followUpThroughDate.value = payload.follow_up_through_date;
+  } else {
+    followUpThroughDate.value = null;
+  }
+
+  statusFilter.value = followUpDays > 0
+    ? 'Follow-up active'
+    : 'Complete';
+}
+
 
 function handlePrescriptionLoaded(prescription) {
   if (!prescription) {
@@ -1061,6 +1331,8 @@ const consultations = computed(() => {
     bookingStatus: appointment.status,
     paymentStatus: appointment.payment_status,
     prescriptionWorkflowState: appointment.prescription_workflow_state,
+    followUpInDays: appointment.follow_up_in_days,
+    prescriptionCompletedAt: appointment.prescription_completed_at,
     mode: 'Video',
     reason: appointment.main_complaints || 'No reason provided',
     workflow: 'Clinical consultation',
@@ -1069,50 +1341,140 @@ const consultations = computed(() => {
   }));
 });
 
-const filteredConsultations = computed(() => {
-  if (statusFilter.value === 'All') {
-  return [...consultations.value].sort(
-    (a, b) => new Date(b.scheduledTime) - new Date(a.scheduledTime)
-  );
-}
-  if (statusFilter.value === 'Upcoming') {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+const allCount = computed(() => {
+  return consultations.value.length;
+});
 
-    return consultations.value.filter((consultation) => {
-      const isUpcomingStatus =
-        consultation.bookingStatus !== 'Completed' && consultation.bookingStatus !== 'Cancelled' && consultation.bookingStatus !== 'Cancelled by Doctor' && consultation.bookingStatus !== 'No Show';
+const upcomingConsultations = computed(() => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
-      if (!isUpcomingStatus) return false;
+  return consultations.value.filter((consultation) => {
+    const isUpcomingStatus =
+      consultation.bookingStatus !== 'Completed' && consultation.bookingStatus !== 'Cancelled' && consultation.bookingStatus !== 'Cancelled by Doctor' && consultation.bookingStatus !== 'No Show';
 
-      // Preserve the existing develop behavior:
-      // Upcoming consultations must be paid.
-      if (consultation.paymentStatus !== 'Paid') return false;
+    if (!isUpcomingStatus) return false;
 
-      if (consultation.scheduledTime) {
-        const dateStr = String(consultation.scheduledTime).trim().split(' ')[0];
-        const parts = dateStr.split('-');
+    // Upcoming consultations must be paid.
+    if (consultation.paymentStatus !== 'Paid') return false;
 
-        if (parts.length === 3) {
-          const appointmentDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    if (consultation.scheduledTime) {
+      const dateStr = String(consultation.scheduledTime).trim().split(' ')[0];
+      const parts = dateStr.split('-');
 
-          return appointmentDate >= today;
-        }
+      if (parts.length === 3) {
+        const appointmentDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+
+        return appointmentDate >= today;
+      }
+    }
+
+    return true;
+  });
+});
+
+const upcomingCount = computed(() => {
+  return upcomingConsultations.value.length;
+});
+
+const prescriptionDueConsultations = computed(() => {
+  return consultations.value.filter((consultation) => {
+    if (consultation.bookingStatus !== 'Completed') {
+      return false;
+    }
+
+    return consultation.prescriptionWorkflowState !== 'Confirmed' && consultation.prescriptionWorkflowState !== 'Complete';
+  });
+});
+
+const prescriptionDueCount = computed(() => prescriptionDueConsultations.value.length);
+
+const completeConsultations = computed(() => {
+  const now = new Date();
+
+  return consultations.value
+    .filter((consultation) => {
+      if (consultation.prescriptionWorkflowState !== 'Complete') {
+        return false;
       }
 
-      return true;
-    });
+      const followUpDays = Number(consultation.followUpInDays ?? 0);
+
+      if (followUpDays <= 0) {
+        return true;
+      }
+
+      if (!consultation.prescriptionCompletedAt) {
+        return false;
+      }
+
+      const completedAt = new Date(consultation.prescriptionCompletedAt);
+
+      if (Number.isNaN(completedAt.getTime())) {
+        return false;
+      }
+
+      const followUpUntil = new Date(completedAt);
+      followUpUntil.setDate(followUpUntil.getDate() + followUpDays);
+
+      return now >= followUpUntil;
+    })
+    .sort((a, b) => new Date(b.scheduledTime) - new Date(a.scheduledTime));
+});
+
+const completeCount = computed(() => completeConsultations.value.length);
+
+const followUpActiveConsultations = computed(() => {
+  const now = new Date();
+
+  return consultations.value.filter((consultation) => {
+    if (consultation.prescriptionWorkflowState !== 'Complete') {
+      return false;
+    }
+
+    const followUpDays = Number(consultation.followUpInDays ?? 0);
+
+    if (followUpDays <= 0 || !consultation.prescriptionCompletedAt) {
+      return false;
+    }
+
+    const completedAt = new Date(consultation.prescriptionCompletedAt);
+
+    if (Number.isNaN(completedAt.getTime())) {
+      return false;
+    }
+
+    const followUpUntil = new Date(completedAt);
+    followUpUntil.setDate(followUpUntil.getDate() + followUpDays);
+
+    return now < followUpUntil;
+  });
+});
+
+const followUpActiveCount = computed(() => followUpActiveConsultations.value.length);
+
+const filteredConsultations = computed(() => {
+  if (statusFilter.value === 'All') {
+    return [...consultations.value].sort((a, b) => new Date(b.scheduledTime) - new Date(a.scheduledTime));
   }
 
-   if (statusFilter.value === 'Completed') {
-   return consultations.value
-    .filter((consultation) => consultation.bookingStatus === 'Completed')
-    .sort(
-      (a, b) => new Date(b.scheduledTime) - new Date(a.scheduledTime)
-    );
+  if (statusFilter.value === 'Upcoming') {
+    return upcomingConsultations.value;
   }
 
-   if (statusFilter.value === 'Payment Pending') {
+  if (statusFilter.value === 'Prescription due') {
+    return prescriptionDueConsultations.value;
+  }
+
+  if (statusFilter.value === 'Follow-up active') {
+    return followUpActiveConsultations.value;
+  }
+
+  if (statusFilter.value === 'Complete') {
+    return completeConsultations.value;
+  }
+
+  if (statusFilter.value === 'Payment Pending') {
     return consultations.value.filter((consultation) => consultation.paymentStatus !== 'Paid');
   }
 
@@ -1121,6 +1483,20 @@ const filteredConsultations = computed(() => {
 
 function selectConsultation(consultation) {
   selectedConsultation.value = consultation;
+
+  prescriptionSubmitted.value = consultation.prescriptionWorkflowState === 'Confirmed' || consultation.prescriptionWorkflowState === 'Complete';
+
+  if (prescriptionSubmitted.value && consultation.followUpInDays && consultation.prescriptionCompletedAt) {
+    const followUpDate = new Date(consultation.prescriptionCompletedAt);
+
+    if (!Number.isNaN(followUpDate.getTime())) {
+      followUpDate.setDate(followUpDate.getDate() + Number(consultation.followUpInDays));
+
+      followUpThroughDate.value = followUpDate;
+    }
+  } else {
+    followUpThroughDate.value = null;
+  }
 
   showPrescriptionPreview.value = false;
   uploadedPrescriptionVisible.value = false;
@@ -1396,22 +1772,19 @@ let initialRouteSelectionHandled = false;
 watch(
   [filteredConsultations, consultations],
   ([items, allConsultations]) => {
-    const appointmentIdFromUrl =
-      route.params.bookingId ||
-      route.query.bookingId ||
-      route.query.appointment;
+    const appointmentIdFromUrl = route.params.bookingId || route.query.bookingId || route.query.appointment;
 
     if (!initialRouteSelectionHandled && appointmentIdFromUrl) {
       const searchId = String(appointmentIdFromUrl).toLowerCase();
 
-      const matchingConsultation = allConsultations.find(
-        (item) => String(item.id).toLowerCase() === searchId
-      );
+      const matchingConsultation = allConsultations.find((item) => String(item.id).toLowerCase() === searchId);
 
       if (matchingConsultation) {
         initialRouteSelectionHandled = true;
 
-        if (matchingConsultation.bookingStatus === 'Completed') {
+        if (route.query.status === 'Prescription due') {
+          statusFilter.value = 'Prescription due';
+        } else if (matchingConsultation.bookingStatus === 'Completed') {
           statusFilter.value = 'Completed';
         }
 
@@ -1425,9 +1798,7 @@ watch(
       return;
     }
 
-    const selectedStillExists = items.some(
-      (item) => item.id === selectedConsultation.value?.id
-    );
+    const selectedStillExists = items.some((item) => item.id === selectedConsultation.value?.id);
 
     if (!selectedStillExists) {
       selectConsultation(items[0]);

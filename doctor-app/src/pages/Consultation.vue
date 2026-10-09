@@ -8,8 +8,9 @@
         <section class="bg-white border border-gray-200 rounded-2xl p-6">
           <input ref="prescriptionFileInput" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" class="hidden" @change="handlePrescriptionFile" />
 
+
           <!-- Vitals -->
-          <div class="mb-7">
+          <div ref="vitalsSection" class="mb-7">
             <button type="button" class="w-full flex items-center justify-between py-2 text-left" @click="vitalsExpanded = !vitalsExpanded">
               <div class="flex items-center gap-2">
                 <h2 class="text-xl font-bold text-gray-900">Vitals</h2>
@@ -192,12 +193,65 @@
         <!-- Follow-up In -->
         <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
           <h2 class="text-xl font-bold text-gray-900 mb-3">Follow-up In (days)</h2>
-          <input v-model="followUpInDays" type="number" min="0" class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200" />
+          <input
+          v-model="followUpInDays"
+          type="number"
+          min="0"
+          class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+          />
+           <div
+     v-if="(isFollowUpActive || isCompleted) && followUpThroughDate"
+    class="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800"
+  >
+    Prescription shared with the patient. Continue follow-up in chat until the follow-up period ends.
+  </div>
         </section>
       </main>
       </fieldset>
     </div>
 
+<!-- Prescription Actions -->
+<div
+  v-if="props.showPrescriptionActions"
+  class="mt-6 bg-white border border-gray-200 rounded-2xl p-4 sm:p-5"
+>
+  <div class="flex flex-col sm:flex-row gap-3">
+    <!-- Save draft -->
+    <button
+      type="button"
+      :disabled="props.prescriptionSubmitted"
+      :class="
+        props.prescriptionSubmitted
+          ? 'border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed'
+          : 'border-amber-400 bg-white text-amber-700 hover:bg-amber-50'
+      "
+      class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border font-semibold transition"
+      @click="saveConsultation"
+    >
+      <FeatherIcon name="save" class="w-5 h-5" />
+      Save draft
+    </button>
+
+    <!-- Review & share -->
+    <button
+      v-if="!props.prescriptionSubmitted"
+      type="button"
+      class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-amber-500 text-white font-semibold hover:bg-amber-600 transition"
+      @click="emit('publish-prescription')"
+    >
+      <FeatherIcon name="send" class="w-5 h-5" />
+      Review & share
+    </button>
+  </div>
+
+  <!-- Submitted status -->
+  <div
+    v-if="props.prescriptionSubmitted"
+    class="mt-3 rounded-xl border border-green-200 bg-green-50 px-4 py-2.5 text-sm font-semibold text-green-700"
+  >
+    Prescription already submitted for this patient.
+  </div>
+</div>
     <!-- Template preview modal -->
     <div v-if="showPreview" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" @click.self="showPreview = false">
       <div class="w-full max-w-6xl h-[90vh] bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col">
@@ -478,12 +532,33 @@ import { computed, ref, watch, onUnmounted } from 'vue';
 import { FeatherIcon, createResource } from 'frappe-ui';
 import careyogiLogo from '@/assets/images/logo-01.png';
 
-const emit = defineEmits(['prescription-loaded', 'prescription-upload-processing', 'prescription-submitted']);
+const emit = defineEmits([
+  'prescription-loaded',
+  'prescription-upload-processing',
+  'prescription-submitted',
+  'publish-prescription',
+]);
 
 const props = defineProps({
   selectedConsultation: {
     type: Object,
     default: null,
+  },
+ showPrescriptionActions: {
+    type: Boolean,
+    default: false,
+  },
+  prescriptionSubmitted: {
+    type: Boolean,
+    default: false,
+  },
+  isFollowUpActive: {
+    type: Boolean,
+    default: false,
+  },
+  isCompleted: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -550,12 +625,14 @@ const consultation = computed(() => ({
 const complaints = ref([]);
 const investigations = ref([]);
 const vitalsExpanded = ref(false);
+const vitalsSection = ref(null);
 const history = ref('');
 const examination = ref('');
 const provisionalDiagnosis = ref('');
 
 const doctorAdvice = ref('');
 const followUpInDays = ref('');
+const followUpThroughDate = ref(null);
 const dietAdvice = ref('');
 const exerciseAdvice = ref('');
 
@@ -566,6 +643,7 @@ const prescriptionWorkflowState = ref(null);
 
 const isPrescriptionSubmitted = computed(
   () =>
+  props.isFollowUpActive ||
     prescriptionWorkflowState.value === 'Confirmed' ||
     prescriptionWorkflowState.value === 'Complete'
 );
@@ -692,6 +770,22 @@ async function loadConsultationData() {
       doctorAdvice.value = prescription.doctor_advice || '';
 
       followUpInDays.value = prescription.follow_up_in_days || '';
+
+      if (
+  prescription.workflow_state === 'Complete' &&
+  Number(prescription.follow_up_in_days) > 0 &&
+  props.selectedConsultation?.prescriptionCompletedAt
+) {
+  const followUpDate = new Date(props.selectedConsultation.prescriptionCompletedAt);
+
+  followUpDate.setDate(
+    followUpDate.getDate() + Number(prescription.follow_up_in_days)
+  );
+
+  followUpThroughDate.value = followUpDate;
+} else {
+  followUpThroughDate.value = null;
+}
 
       medicines.value = (prescription.medicines || []).map((medicine) => ({
         medicine: medicine.medicine_name || '',
@@ -1155,8 +1249,21 @@ async function finalizePrescription() {
 
     prescriptionWorkflowState.value = response.workflow_state;
 
+    if (Number(followUpInDays.value) > 0) {
+  const followUpDate = new Date();
+  followUpDate.setDate(
+    followUpDate.getDate() + Number(followUpInDays.value)
+  );
+
+  followUpThroughDate.value = followUpDate;
+} else {
+  followUpThroughDate.value = null;
+}
+
     emit('prescription-submitted', {
       workflow_state: response.workflow_state,
+      follow_up_in_days: followUpInDays.value || 0,
+      follow_up_through_date: followUpThroughDate.value,
     });
 
     console.log('Prescription submitted:', response);
@@ -1488,6 +1595,19 @@ function focusUploadWorkflow() {
   });
 }
 
+function focusVitals() {
+  if (!vitalsExpanded.value) {
+    vitalsExpanded.value = true;
+  }
+
+  requestAnimationFrame(() => {
+    vitalsSection.value?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  });
+}
+
 function previewTemplate() {
   showPreview.value = true;
 }
@@ -1503,7 +1623,6 @@ function triggerUpload() {
 }
 
 async function saveAll() {
-
   if (prescriptionWorkflowState.value !== 'Confirmed' && prescriptionWorkflowState.value !== 'Complete') {
     await savePrescriptionDraft(false);
   }
@@ -1520,6 +1639,7 @@ onUnmounted(() => {
 defineExpose({
   previewTemplate,
   focusUploadWorkflow,
+    focusVitals,
   saveConsultation,
   finalizePrescription,
   openOcrModal,

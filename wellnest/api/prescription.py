@@ -214,6 +214,7 @@ def parse_and_create_prescription(
     return {
         "status": "queued",
         "name": doc.name,
+        "modified": doc.modified,
         "workflow_state": doc.workflow_state,
         "message": (
             "Prescription submitted. "

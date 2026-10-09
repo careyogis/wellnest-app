@@ -154,6 +154,18 @@ def get_teleconsultation_appointments():
             "workflow_state",
         )
 
+        appointment["follow_up_in_days"] = frappe.db.get_value(
+            "Smart Prescription",
+            {"patient_appointment": appointment["name"]},
+            "follow_up_in_days",
+        )
+
+        appointment["prescription_completed_at"] = frappe.db.get_value(
+            "Smart Prescription",
+            {"patient_appointment": appointment["name"]},
+            "modified",
+        )
+
     return appointments
 
 
