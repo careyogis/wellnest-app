@@ -20,7 +20,8 @@
   "sales_invoice",
   "payment_status",
   "main_complaints",
-  "consultation_type"
+  "consultation_type",
+  "patient_chat_messages"
  ],
  "fields": [
   {
@@ -140,6 +141,12 @@
    "label": "Consultation Type",
    "options": "Online\nIn Clinic\nEmergency",
    "reqd": 1
+  },
+  {
+  "fieldname": "patient_chat_messages",
+  "fieldtype": "Table",
+  "label": "Patient Chat Messages",
+  "options": "Patient Chat Message"
   }
  ],
  "index_web_pages_for_search": 1,

@@ -1623,7 +1623,6 @@ function triggerUpload() {
 }
 
 async function saveAll() {
-
   if (prescriptionWorkflowState.value !== 'Confirmed' && prescriptionWorkflowState.value !== 'Complete') {
     await savePrescriptionDraft(false);
   }
