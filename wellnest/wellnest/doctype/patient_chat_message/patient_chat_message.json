@@ -1,0 +1,111 @@
+{
+  "actions": [],
+  "allow_rename": 1,
+  "autoname": "PC-MSG-.#####",
+  "creation": "2026-10-07 00:00:00",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "patient_appointment",
+    "patient",
+    "practitioner",
+    "sender_type",
+    "sender",
+    "message",
+    "attachment",
+    "sent_at",
+    "read_by_doctor",
+    "read_by_patient"
+  ],
+  "fields": [
+    {
+      "fieldname": "patient_appointment",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Patient Appointment",
+      "options": "Patient Appointment",
+      "reqd": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "patient",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Patient",
+      "options": "Patient",
+      "reqd": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "practitioner",
+      "fieldtype": "Link",
+      "in_list_view": 1,
+      "label": "Practitioner",
+      "options": "Practitioner",
+      "reqd": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "sender_type",
+      "fieldtype": "Select",
+      "label": "Sender Type",
+      "options": "Patient\nDoctor",
+      "reqd": 1
+    },
+    {
+      "fieldname": "sender",
+      "fieldtype": "Link",
+      "label": "Sender",
+      "options": "User",
+      "reqd": 1
+    },
+    {
+      "fieldname": "message",
+      "fieldtype": "Small Text",
+      "label": "Message"
+    },
+    {
+      "fieldname": "attachment",
+      "fieldtype": "Attach",
+      "label": "Attachment"
+    },
+    {
+      "fieldname": "sent_at",
+      "fieldtype": "Datetime",
+      "label": "Sent At",
+      "read_only": 1
+    },
+    {
+      "default": "0",
+      "fieldname": "read_by_doctor",
+      "fieldtype": "Check",
+      "label": "Read By Doctor"
+    },
+    {
+      "default": "0",
+      "fieldname": "read_by_patient",
+      "fieldtype": "Check",
+      "label": "Read By Patient"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-10-07 00:00:00",
+  "modified_by": "Administrator",
+  "module": "WellNest",
+  "name": "Patient Chat Message",
+  "naming_rule": "Expression",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "read": 1,
+      "write": 1,
+      "role": "System Manager"
+    }
+  ],
+  "row_format": "Dynamic",
+  "sort_field": "sent_at",
+  "sort_order": "ASC",
+  "states": []
+}
