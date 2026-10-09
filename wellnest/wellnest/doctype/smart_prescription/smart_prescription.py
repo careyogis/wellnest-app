@@ -26,7 +26,7 @@ class SmartPrescription(Document):
         # Notify users that the prescription is ready
         self.create_new_notification(self.patient)
 
-    def create_new_notification(patient):
+    def create_new_notification(self, patient):
         # Notify users that the prescription is ready
         app_notification = frappe.get_doc(
             {

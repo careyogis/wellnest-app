@@ -193,7 +193,18 @@
         <!-- Follow-up In -->
         <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
           <h2 class="text-xl font-bold text-gray-900 mb-3">Follow-up In (days)</h2>
-          <input v-model="followUpInDays" type="number" min="0" class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200" />
+          <input
+          v-model="followUpInDays"
+          type="number"
+          min="0"
+          class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+          />
+           <div
+     v-if="(isFollowUpActive || isCompleted) && followUpThroughDate"
+    class="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800"
+  >
+    Prescription shared with the patient. Continue follow-up in chat until the follow-up period ends.
+  </div>
         </section>
       </main>
       </fieldset>
@@ -533,11 +544,19 @@ const props = defineProps({
     type: Object,
     default: null,
   },
-   showPrescriptionActions: {
+ showPrescriptionActions: {
     type: Boolean,
     default: false,
   },
-   prescriptionSubmitted: {
+  prescriptionSubmitted: {
+    type: Boolean,
+    default: false,
+  },
+  isFollowUpActive: {
+    type: Boolean,
+    default: false,
+  },
+  isCompleted: {
     type: Boolean,
     default: false,
   },
@@ -613,6 +632,7 @@ const provisionalDiagnosis = ref('');
 
 const doctorAdvice = ref('');
 const followUpInDays = ref('');
+const followUpThroughDate = ref(null);
 const dietAdvice = ref('');
 const exerciseAdvice = ref('');
 
@@ -623,6 +643,7 @@ const prescriptionWorkflowState = ref(null);
 
 const isPrescriptionSubmitted = computed(
   () =>
+  props.isFollowUpActive ||
     prescriptionWorkflowState.value === 'Confirmed' ||
     prescriptionWorkflowState.value === 'Complete'
 );
@@ -749,6 +770,22 @@ async function loadConsultationData() {
       doctorAdvice.value = prescription.doctor_advice || '';
 
       followUpInDays.value = prescription.follow_up_in_days || '';
+
+      if (
+  prescription.workflow_state === 'Complete' &&
+  Number(prescription.follow_up_in_days) > 0 &&
+  props.selectedConsultation?.prescriptionCompletedAt
+) {
+  const followUpDate = new Date(props.selectedConsultation.prescriptionCompletedAt);
+
+  followUpDate.setDate(
+    followUpDate.getDate() + Number(prescription.follow_up_in_days)
+  );
+
+  followUpThroughDate.value = followUpDate;
+} else {
+  followUpThroughDate.value = null;
+}
 
       medicines.value = (prescription.medicines || []).map((medicine) => ({
         medicine: medicine.medicine_name || '',
@@ -1212,8 +1249,21 @@ async function finalizePrescription() {
 
     prescriptionWorkflowState.value = response.workflow_state;
 
+    if (Number(followUpInDays.value) > 0) {
+  const followUpDate = new Date();
+  followUpDate.setDate(
+    followUpDate.getDate() + Number(followUpInDays.value)
+  );
+
+  followUpThroughDate.value = followUpDate;
+} else {
+  followUpThroughDate.value = null;
+}
+
     emit('prescription-submitted', {
       workflow_state: response.workflow_state,
+      follow_up_in_days: followUpInDays.value || 0,
+      follow_up_through_date: followUpThroughDate.value,
     });
 
     console.log('Prescription submitted:', response);
