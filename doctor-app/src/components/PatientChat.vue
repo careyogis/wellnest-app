@@ -358,10 +358,12 @@ async function sendMessage() {
       attachment: attachmentUrl,
     });
 
-    const sentMessage = response?.message || response;
+    const sentMessage = response?.message?.message || response?.message || response?.data?.message || response?.data || response;
 
     if (sentMessage?.name) {
       messages.value.push(sentMessage);
+    } else {
+      await loadMessages();
     }
 
     newMessage.value = '';
