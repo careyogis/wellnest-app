@@ -613,7 +613,7 @@ async function leaveRoom() {
   router.push({
     name: 'Consultations',
     query: {
-    status: 'Completed',
+    status: 'Prescription due',
     bookingId: bookingId.value,
   },
   });

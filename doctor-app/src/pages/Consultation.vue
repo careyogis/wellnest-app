@@ -8,8 +8,9 @@
         <section class="bg-white border border-gray-200 rounded-2xl p-6">
           <input ref="prescriptionFileInput" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" class="hidden" @change="handlePrescriptionFile" />
 
+
           <!-- Vitals -->
-          <div class="mb-7">
+          <div ref="vitalsSection" class="mb-7">
             <button type="button" class="w-full flex items-center justify-between py-2 text-left" @click="vitalsExpanded = !vitalsExpanded">
               <div class="flex items-center gap-2">
                 <h2 class="text-xl font-bold text-gray-900">Vitals</h2>
@@ -198,6 +199,48 @@
       </fieldset>
     </div>
 
+<!-- Prescription Actions -->
+<div
+  v-if="props.showPrescriptionActions"
+  class="mt-6 bg-white border border-gray-200 rounded-2xl p-4 sm:p-5"
+>
+  <div class="flex flex-col sm:flex-row gap-3">
+    <!-- Save draft -->
+    <button
+      type="button"
+      :disabled="props.prescriptionSubmitted"
+      :class="
+        props.prescriptionSubmitted
+          ? 'border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed'
+          : 'border-amber-400 bg-white text-amber-700 hover:bg-amber-50'
+      "
+      class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border font-semibold transition"
+      @click="saveConsultation"
+    >
+      <FeatherIcon name="save" class="w-5 h-5" />
+      Save draft
+    </button>
+
+    <!-- Review & share -->
+    <button
+      v-if="!props.prescriptionSubmitted"
+      type="button"
+      class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-amber-500 text-white font-semibold hover:bg-amber-600 transition"
+      @click="emit('publish-prescription')"
+    >
+      <FeatherIcon name="send" class="w-5 h-5" />
+      Review & share
+    </button>
+  </div>
+
+  <!-- Submitted status -->
+  <div
+    v-if="props.prescriptionSubmitted"
+    class="mt-3 rounded-xl border border-green-200 bg-green-50 px-4 py-2.5 text-sm font-semibold text-green-700"
+  >
+    Prescription already submitted for this patient.
+  </div>
+</div>
     <!-- Template preview modal -->
     <div v-if="showPreview" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" @click.self="showPreview = false">
       <div class="w-full max-w-6xl h-[90vh] bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col">
@@ -478,12 +521,25 @@ import { computed, ref, watch, onUnmounted } from 'vue';
 import { FeatherIcon, createResource } from 'frappe-ui';
 import careyogiLogo from '@/assets/images/logo-01.png';
 
-const emit = defineEmits(['prescription-loaded', 'prescription-upload-processing', 'prescription-submitted']);
+const emit = defineEmits([
+  'prescription-loaded',
+  'prescription-upload-processing',
+  'prescription-submitted',
+  'publish-prescription',
+]);
 
 const props = defineProps({
   selectedConsultation: {
     type: Object,
     default: null,
+  },
+   showPrescriptionActions: {
+    type: Boolean,
+    default: false,
+  },
+   prescriptionSubmitted: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -550,6 +606,7 @@ const consultation = computed(() => ({
 const complaints = ref([]);
 const investigations = ref([]);
 const vitalsExpanded = ref(false);
+const vitalsSection = ref(null);
 const history = ref('');
 const examination = ref('');
 const provisionalDiagnosis = ref('');
@@ -1488,6 +1545,19 @@ function focusUploadWorkflow() {
   });
 }
 
+function focusVitals() {
+  if (!vitalsExpanded.value) {
+    vitalsExpanded.value = true;
+  }
+
+  requestAnimationFrame(() => {
+    vitalsSection.value?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  });
+}
+
 function previewTemplate() {
   showPreview.value = true;
 }
@@ -1520,6 +1590,7 @@ onUnmounted(() => {
 defineExpose({
   previewTemplate,
   focusUploadWorkflow,
+    focusVitals,
   saveConsultation,
   finalizePrescription,
   openOcrModal,

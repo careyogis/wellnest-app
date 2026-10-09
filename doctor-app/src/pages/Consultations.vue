@@ -16,11 +16,139 @@
         Cancel All Consultations
       </button>
     </div>
+   
+   <!-- Consultation Stages -->
+<div class="mt-5 mb-5 grid grid-cols-1 lg:grid-cols-5 gap-3">
+  <!-- All -->
+  <button
+    type="button"
+    class="h-14 px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+    :class="
+      statusFilter === 'All'
+        ? 'border-amber-500 bg-amber-50 text-amber-800'
+        : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
+    "
+    @click="statusFilter = 'All'"
+  >
+    <span>All</span>
+
+    <span
+      class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+      :class="
+        statusFilter === 'All'
+          ? 'bg-amber-500 text-white'
+          : 'bg-gray-100 text-gray-700'
+      "
+    >
+            {{ allCount }}
+    </span>
+  </button>
+
+  <!-- Upcoming -->
+  <button
+    type="button"
+    class="h-14 px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+    :class="
+      statusFilter === 'Upcoming'
+        ? 'border-amber-500 bg-amber-50 text-amber-800'
+        : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
+    "
+    @click="statusFilter = 'Upcoming'"
+  >
+    <span>Upcoming</span>
+
+    <span
+      class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+      :class="
+        statusFilter === 'Upcoming'
+          ? 'bg-amber-500 text-white'
+          : 'bg-gray-100 text-gray-700'
+      "
+    >
+            {{ upcomingCount }}
+    </span>
+  </button>
+
+  <!-- Prescription due -->
+  <button
+    type="button"
+    class="h-14 px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+    :class="
+      statusFilter === 'Prescription due'
+        ? 'border-amber-500 bg-amber-50 text-amber-800'
+        : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
+    "
+    @click="statusFilter = 'Prescription due'"
+  >
+    <span>Prescription due</span>
+
+    <span
+      class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+      :class="
+        statusFilter === 'Prescription due'
+          ? 'bg-amber-500 text-white'
+          : 'bg-gray-100 text-gray-700'
+      "
+    >
+      {{ prescriptionDueCount }}
+    </span>
+  </button>
+  <!-- Follow-up active -->
+  <button
+    type="button"
+    class="h-14 w-full px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+    :class="
+      statusFilter === 'Follow-up active'
+        ? 'border-amber-500 bg-amber-50 text-amber-800'
+        : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
+    "
+    @click="statusFilter = 'Follow-up active'"
+  >
+    <span class="truncate">Follow-up active</span>
+
+    <span
+      class="ml-3 w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-xs font-bold"
+      :class="
+        statusFilter === 'Follow-up active'
+          ? 'bg-amber-500 text-white'
+          : 'bg-gray-100 text-gray-700'
+      "
+    >
+      {{ followUpActiveCount }}
+    </span>
+  </button>
+
+  <!-- Complete -->
+  <button
+    type="button"
+    class="h-14 w-full px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+    :class="
+      statusFilter === 'Complete'
+        ? 'border-amber-500 bg-amber-50 text-amber-800'
+        : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
+    "
+    @click="statusFilter = 'Complete'"
+  >
+    <span class="truncate">Complete</span>
+
+    <span
+      class="ml-3 w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-xs font-bold"
+      :class="
+        statusFilter === 'Complete'
+          ? 'bg-amber-500 text-white'
+          : 'bg-gray-100 text-gray-700'
+      "
+    >
+      {{ completeCount }}
+    </span>
+  </button>
+  
+</div>
 
     <!-- Blade workspace -->
     <div class="grid grid-cols-1 xl:grid-cols-[360px_minmax(0,1fr)] gap-4 xl:gap-6 items-stretch min-h-[calc(100vh-180px)]">
       <!-- LEFT: CONSULTATION LIST -->
-      <aside class="bg-white border border-gray-200 rounded-2xl overflow-hidden xl:sticky xl:top-4 h-full">
+      <aside class="hidden xl:block bg-white border border-gray-200 rounded-2xl overflow-hidden xl:sticky xl:top-4 h-full">
         <!-- List header -->
         <div class="px-5 py-5 border-b border-gray-200">
           <div class="flex items-center justify-between gap-3">
@@ -33,14 +161,7 @@
           </div>
 
           <!-- Filter -->
-          <div class="mt-4">
-            <select v-model="statusFilter" class="w-full px-3 py-2.5 rounded-xl border border-gray-300 bg-white text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-200">
-              <option value="All">All consultations</option>
-              <option value="Upcoming">Upcoming</option>
-              <option value="Completed">Completed</option>
-              <option value="Payment Pending">Payment Pending</option>
-            </select>
-          </div>
+          
         </div>
 
         <!-- Consultation list -->
@@ -96,12 +217,16 @@
                 {{ consultation.reason }}
               </span>
             </div>
-
-            <div v-if="consultation.prescriptionWorkflowState" class="mt-3">
-              <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">
-                {{ consultation.prescriptionWorkflowState }}
-              </span>
-            </div>
+            <div v-if="statusFilter === 'Prescription due'" class="mt-2">
+  <span class="text-xs font-semibold text-amber-700">
+    Write prescription
+  </span>
+</div>
+            <div v-else-if="consultation.prescriptionWorkflowState" class="mt-3">
+  <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">
+    {{ consultation.prescriptionWorkflowState }}
+  </span>
+</div>
           </button>
                <!-- Show More - Mobile only -->
           <div
@@ -118,6 +243,40 @@
              </div>
         </div>
       </aside>
+       
+       <!-- MOBILE: PATIENT SELECTOR -->
+<div class="xl:hidden w-full bg-white border border-gray-200 rounded-2xl p-4">
+  <div class="flex items-center gap-3">
+    <label
+      for="mobile-patient-select"
+      class="shrink-0 text-sm font-semibold text-gray-600"
+    >
+      Patient
+    </label>
+
+    <select
+      id="mobile-patient-select"
+      class="min-w-0 flex-1 w-full rounded-xl border-2 border-gray-200 bg-white px-3 py-3 text-sm font-medium text-gray-700 focus:border-amber-400 focus:ring-2 focus:ring-amber-100"
+      :value="selectedConsultation?.id || ''"
+      @change="
+        selectConsultation(
+          filteredConsultations.find(
+            (consultation) => consultation.id === $event.target.value
+          )
+        )
+      "
+    >
+      <option
+        v-for="consultation in filteredConsultations"
+        :key="consultation.id"
+        :value="consultation.id"
+      >
+        {{ consultation.patient }} · {{ consultation.time }}
+      </option>
+    </select>
+  </div>
+</div>
+
 
       <!-- RIGHT: SELECTED CONSULTATION WORKSPACE -->
       <main v-if="selectedConsultation?.id" class="min-w-0">
@@ -132,14 +291,28 @@
                   <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
                     <FeatherIcon name="user" class="w-6 h-6" />
                   </div>
+<div class="min-w-0 flex-1">
+  <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
+    Patient
+  </p>
 
-                  <div class="min-w-0">
-                    <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">Patient</p>
+  <div class="flex items-center justify-between gap-4">
+    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 break-words">
+      {{ selectedConsultation.patient }}
+    </h2>
 
-                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 truncate">
-                      {{ selectedConsultation.patient }}
-                    </h2>
-                  </div>
+    <span
+      v-if="
+        selectedConsultation.bookingStatus === 'Completed' &&
+        selectedConsultation.prescriptionWorkflowState !== 'Confirmed' &&
+        selectedConsultation.prescriptionWorkflowState !== 'Complete'
+      "
+      class="shrink-0 inline-flex items-center rounded-lg bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800"
+    >
+      Prescription due
+    </span>
+  </div>
+</div>
                 </div>
 
                 <!-- Appointment metadata -->
@@ -241,8 +414,8 @@
                   Health Vault
                 </button>
 
-                <!-- Save -->
-               <button
+                <!-- Save and submit is commented out -->
+                         <!--<button
                type="button"
                 :disabled="prescriptionSubmitted"
                 :class="prescriptionSubmitted
@@ -253,13 +426,13 @@
                 >
                  <FeatherIcon name="save" class="w-4 h-4" />
                     Save as Draft
-                 </button>
+                 </button>     -->
                 <!-- Submitted status -->
                 <div v-if="prescriptionSubmitted" class="rounded-xl border border-green-200 bg-green-50 px-4 py-2.5 text-sm font-semibold text-green-700">
                   Prescription already submitted for this patient.
                 </div>
                 <!-- Publish -->
-                <button
+                 <!--<button
                   v-if="!prescriptionSubmitted"
                   type="button"
                   class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-amber-500 text-white font-semibold hover:bg-amber-600 transition"
@@ -267,7 +440,7 @@
                 >
                   <FeatherIcon name="send" class="w-4 h-4" />
                   Final Submit
-                </button>
+                </button>         -->
               </div>
             </div>
           </div>
@@ -301,6 +474,8 @@
               </div>
             </div>
 
+
+           
             <!-- Other metadata -->
             <div class="mt-3 pt-3 border-t border-gray-200 flex flex-wrap items-center gap-x-5 gap-y-2">
               <div class="flex items-center gap-2">
@@ -319,17 +494,55 @@
                 </span>
               </div>
             </div>
+            <!-- Prescription Due -->
+<div
+  v-if="
+    selectedConsultation.bookingStatus === 'Completed' &&
+    selectedConsultation.prescriptionWorkflowState !== 'Confirmed' &&
+    selectedConsultation.prescriptionWorkflowState !== 'Complete'
+  "
+  class="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-3 py-4 sm:px-5 sm:py-5"
+>
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div class="min-w-0">
+      <h3 class="text-base font-bold text-gray-900 sm:text-lg">
+        Prescription is due
+      </h3>
+
+      <p class="mt-1 text-sm leading-5 text-gray-600">
+        Complete the form below and share it with the patient.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-amber-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-amber-600 sm:w-auto sm:text-base"
+      @click="consultationRef?.focusVitals()"
+    >
+      <span class="text-lg leading-none">↓</span>
+      Continue prescription
+    </button>
+  </div>
+</div>
+
+
           </div>
+          
         </section>
 
         <div class="mt-4">
-          <Consultation
-            ref="consultationRef"
-            :selected-consultation="selectedConsultation"
-            @prescription-loaded="handlePrescriptionLoaded"
-            @prescription-upload-processing="handlePrescriptionUploadProcessing"
-            @prescription-submitted="prescriptionSubmitted = true"
-          />
+      <Consultation
+  ref="consultationRef"
+  :selected-consultation="selectedConsultation"
+  :show-prescription-actions="
+    ['All', 'Upcoming', 'Prescription due'].includes(statusFilter)
+  "
+  :prescription-submitted="prescriptionSubmitted"
+  @prescription-loaded="handlePrescriptionLoaded"
+  @prescription-upload-processing="handlePrescriptionUploadProcessing"
+  @prescription-submitted="prescriptionSubmitted = true"
+  @publish-prescription="publishPrescription"
+/>
         </div>
       </main>
 
@@ -1069,6 +1282,66 @@ const consultations = computed(() => {
   }));
 });
 
+const allCount = computed(() => {
+  return consultations.value.length;
+});
+
+const upcomingConsultations = computed(() => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return consultations.value.filter((consultation) => {
+    const isUpcomingStatus =
+      consultation.bookingStatus !== 'Completed' &&
+      consultation.bookingStatus !== 'Cancelled' &&
+      consultation.bookingStatus !== 'Cancelled by Doctor' &&
+      consultation.bookingStatus !== 'No Show';
+
+    if (!isUpcomingStatus) return false;
+
+    // Upcoming consultations must be paid.
+    if (consultation.paymentStatus !== 'Paid') return false;
+
+    if (consultation.scheduledTime) {
+      const dateStr = String(consultation.scheduledTime).trim().split(' ')[0];
+      const parts = dateStr.split('-');
+
+      if (parts.length === 3) {
+        const appointmentDate = new Date(
+          Number(parts[0]),
+          Number(parts[1]) - 1,
+          Number(parts[2])
+        );
+
+        return appointmentDate >= today;
+      }
+    }
+
+    return true;
+  });
+});
+
+const upcomingCount = computed(() => {
+  return upcomingConsultations.value.length;
+});
+
+const prescriptionDueConsultations = computed(() => {
+  return consultations.value.filter((consultation) => {
+    if (consultation.bookingStatus !== 'Completed') {
+      return false;
+    }
+
+    return (
+      consultation.prescriptionWorkflowState !== 'Confirmed' &&
+      consultation.prescriptionWorkflowState !== 'Complete'
+    );
+  });
+});
+
+const prescriptionDueCount = computed(() => {
+  return prescriptionDueConsultations.value.length;
+});
+
 const filteredConsultations = computed(() => {
   if (statusFilter.value === 'All') {
   return [...consultations.value].sort(
@@ -1102,6 +1375,10 @@ const filteredConsultations = computed(() => {
 
       return true;
     });
+  }
+
+  if (statusFilter.value === 'Prescription due') {
+    return prescriptionDueConsultations.value;
   }
 
    if (statusFilter.value === 'Completed') {
@@ -1401,24 +1678,27 @@ watch(
       route.query.bookingId ||
       route.query.appointment;
 
-    if (!initialRouteSelectionHandled && appointmentIdFromUrl) {
-      const searchId = String(appointmentIdFromUrl).toLowerCase();
+if (!initialRouteSelectionHandled && appointmentIdFromUrl) {
+  const searchId = String(appointmentIdFromUrl).toLowerCase();
 
-      const matchingConsultation = allConsultations.find(
-        (item) => String(item.id).toLowerCase() === searchId
-      );
+  const matchingConsultation = allConsultations.find(
+    (item) => String(item.id).toLowerCase() === searchId
+  );
 
-      if (matchingConsultation) {
-        initialRouteSelectionHandled = true;
+  if (matchingConsultation) {
+    initialRouteSelectionHandled = true;
 
-        if (matchingConsultation.bookingStatus === 'Completed') {
-          statusFilter.value = 'Completed';
-        }
-
-        selectConsultation(matchingConsultation);
-        return;
-      }
+    if (route.query.status === 'Prescription due') {
+      statusFilter.value = 'Prescription due';
+    } else if (matchingConsultation.bookingStatus === 'Completed') {
+      statusFilter.value = 'Completed';
     }
+
+    selectConsultation(matchingConsultation);
+    return;
+  }
+}
+
 
     if (!items.length) {
       selectedConsultation.value = null;
