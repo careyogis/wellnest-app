@@ -1,11 +1,14 @@
 {
-  "name": "Wellnest Care",
-  "short_name": "Wellnest",
-  "description": "Wellnest Healthcare Platform",
-  "start_url": "/",
+  "name": "CareYogi Doctor App",
+  "short_name": "Doctor App",
+  "description": "Continuity of care doctor workspace",
+  "id": "/doctor-app",
+  "start_url": "/doctor-app/",
+  "scope": "/doctor-app/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "/assets/wellnest/images/favicon/android-chrome-192x192.png",

@@ -27,3 +27,15 @@ app.component('Input', Input)
 // app.component('star-rating', VueStarRating)
 
 app.mount('#app')
+
+// Register Service Worker for PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/sw.js', { scope: '/doctor-app/' })
+      .catch((error) => {
+        console.warn('PWA ServiceWorker registration failed:', error)
+      })
+  })
+}
+

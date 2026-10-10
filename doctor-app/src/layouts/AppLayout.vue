@@ -26,6 +26,18 @@
         </RouterLink>
       </nav>
 
+      <!-- PWA Install Button -->
+      <div v-if="canInstall" class="px-3 pb-2">
+        <button
+          type="button"
+          @click="installApp"
+          class="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-teal-600 text-white text-xs font-semibold hover:bg-teal-700 transition-colors shadow-sm"
+        >
+          <FeatherIcon name="download" class="w-4 h-4" />
+          <span>Install Doctor App</span>
+        </button>
+      </div>
+
       <div class="m-3 p-4 rounded-xl bg-amber-50 border border-amber-100">
         <div class="flex items-center gap-2 mb-1">
           <FeatherIcon name="zap" class="w-4 h-4 text-amber-600" />
@@ -75,7 +87,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useRoute, RouterLink } from 'vue-router';
 import { profileData } from '@/data/doctorProfile';
 import logoUrl from '@/assets/images/logo-01.png';
@@ -92,6 +104,31 @@ import { FeatherIcon } from 'frappe-ui';
 
 const route = useRoute();
 const sidebarOpen = ref(false);
+const deferredPrompt = ref(null);
+const canInstall = ref(false);
+
+onMounted(() => {
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt.value = e;
+    canInstall.value = true;
+  });
+
+  window.addEventListener('appinstalled', () => {
+    canInstall.value = false;
+    deferredPrompt.value = null;
+  });
+});
+
+async function installApp() {
+  if (!deferredPrompt.value) return;
+  deferredPrompt.value.prompt();
+  const choiceResult = await deferredPrompt.value.userChoice;
+  if (choiceResult?.outcome === 'accepted') {
+    canInstall.value = false;
+  }
+  deferredPrompt.value = null;
+}
 
 function toggleSidebar() {
   sidebarOpen.value = !sidebarOpen.value;

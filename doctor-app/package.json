@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build --base=/assets/wellnest/doctor-app/ && yarn copy-html-entry",
     "preview": "vite preview",
-    "copy-html-entry": "cp ../wellnest/public/doctor-app/index.html ../wellnest/www/doctor-app.html"
+    "copy-html-entry": "cp ../wellnest/public/doctor-app/index.html ../wellnest/www/doctor-app.html && cp ../wellnest/public/doctor-app/sw.js ../wellnest/www/sw.js"
   },
   "dependencies": {
     "agora-rtc-sdk-ng": "^4.24.7",
