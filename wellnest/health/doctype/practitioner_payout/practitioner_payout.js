@@ -7,7 +7,7 @@ frappe.ui.form.on('Practitioner Payout', {
 			if (!frm.doc.supplier) {
 				frm.dashboard.clear_headline();
 				frm.dashboard.set_headline_alert(
-					__('No Supplier linked to this Practitioner. Care Operations must link an ERPNext Supplier in Practitioner before accounting entries can be created.'),
+					__('No Supplier linked to this Practitioner. CY Operations must link an ERPNext Supplier in Practitioner before accounting entries can be created.'),
 					'yellow'
 				);
 			}

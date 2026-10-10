@@ -385,7 +385,7 @@ def _render_payout_statement_html(payout):
 		</div>
 
 		<div style="margin-top: 40px; border-top: 1px solid #e5e7eb; padding-top: 16px; font-size: 11px; color: #9ca3af; text-align: center;">
-			This is an official system-generated settlement advice from CareYogi. For any discrepancies, please reach out to Care Operations.
+			This is an official system-generated settlement advice from CareYogi. For any discrepancies, please reach out to CY Operations.
 		</div>
 	</body>
 	</html>
