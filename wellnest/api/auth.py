@@ -64,6 +64,13 @@ def verify_practitioner_otp_and_login(session_info: str, phone: str, otp: str):
 	login_manager.user = user
 	login_manager.post_login()
 
+	# Persist session cookies for 30 days so mobile PWA and native wrappers persist login
+	max_age = 30 * 24 * 60 * 60
+	frappe.local.cookie_manager.set_cookie("user_id", user, max_age=max_age)
+	sid = getattr(getattr(frappe.local, "session", None), "sid", None)
+	if sid:
+		frappe.local.cookie_manager.set_cookie("sid", sid, max_age=max_age, httponly=True)
+
 	_get_firebase_app()
 	custom_token = firebase_auth.create_custom_token(uid)
 

@@ -10,7 +10,10 @@ export function sessionUser() {
   if (_sessionUser === 'Guest') {
     _sessionUser = null
   }
-  return _sessionUser
+  if (!_sessionUser && typeof window !== 'undefined') {
+    _sessionUser = localStorage.getItem('user_id')
+  }
+  return _sessionUser || null
 }
 
 export const session = reactive({
@@ -20,6 +23,7 @@ export const session = reactive({
       return {
         usr: email,
         pwd: password,
+        device: 'mobile',
       }
     },
     onSuccess(data) {
@@ -30,20 +34,31 @@ export const session = reactive({
       if (data?.csrf_token) {
         window.csrf_token = data.csrf_token
       }
-      userResource.reload()
-      session.user = sessionUser()
+      userResource.reload().then(() => {
+        session.user = userResource.data || sessionUser() || data?.user
+        if (session.user && typeof window !== 'undefined') {
+          localStorage.setItem('user_id', session.user)
+        }
+      })
+      session.user = sessionUser() || data?.user
+      if (session.user && typeof window !== 'undefined') {
+        localStorage.setItem('user_id', session.user)
+      }
       session.login.reset()
-      router.replace({ name: 'Profile' })
+      router.replace({ name: 'Dashboard' })
     },
   }),
   logout: createResource({
     url: 'logout',
     onSuccess() {
       userResource.reset()
-      session.user = sessionUser()
+      session.user = null
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('user_id')
+      }
       router.replace({ name: 'Login' })
     },
   }),
   user: sessionUser(),
-  isLoggedIn: computed(() => !!session.user),
+  isLoggedIn: computed(() => Boolean(session.user && session.user !== 'Guest')),
 })

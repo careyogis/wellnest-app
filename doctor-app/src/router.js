@@ -5,7 +5,7 @@ import { userResource } from '@/data/user';
 const routes = [
   {
     path: '/',
-    redirect: { name: 'Login' },
+    redirect: { name: 'Dashboard' },
   },
   {
     name: 'Login',
@@ -106,12 +106,40 @@ let router = createRouter({
   routes,
 });
 
+let isInitialAuthChecked = false;
+
 router.beforeEach(async (to, from, next) => {
-  let isLoggedIn = session.isLoggedIn;
+  // On initial app launch / page load, verify session with Frappe backend
+  if (!isInitialAuthChecked) {
+    isInitialAuthChecked = true;
+    try {
+      await userResource.reload();
+      if (userResource.data && userResource.data !== 'Guest') {
+        session.user = userResource.data;
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user_id', userResource.data);
+        }
+      } else {
+        session.user = null;
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('user_id');
+        }
+      }
+    } catch (error) {
+      if (error && (error.exc_type === 'AuthenticationError' || error.httpStatus === 401 || error.httpStatus === 403)) {
+        session.user = null;
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('user_id');
+        }
+      }
+    }
+  }
+
+  const isLoggedIn = session.isLoggedIn;
 
   // Login and Register are public pages
   if (to.name === 'Login' || to.name === 'Register') {
-    if (to.name === 'Login' && isLoggedIn) {
+    if (isLoggedIn) {
       next({ name: 'Dashboard' });
     } else {
       next();
@@ -119,15 +147,7 @@ router.beforeEach(async (to, from, next) => {
     return;
   }
 
-  if (!isLoggedIn) {
-    try {
-      await userResource.reload();
-      isLoggedIn = session.isLoggedIn;
-    } catch (error) {
-      isLoggedIn = false;
-    }
-  }
-
+  // All other pages are protected
   if (!isLoggedIn) {
     next({ name: 'Login' });
   } else {
