@@ -18,11 +18,11 @@
     </div>
 
     <!-- Consultation Stages -->
-    <div class="mt-5 mb-5 grid grid-cols-1 lg:grid-cols-5 gap-3">
+   <div class="mt-5 mb-5 flex w-full min-w-0 gap-2 overflow-x-auto overscroll-x-contain pb-2 [-webkit-overflow-scrolling:touch] lg:grid lg:grid-cols-5 lg:gap-3 lg:overflow-visible">
       <!-- All -->
       <button
         type="button"
-        class="h-14 px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+        class="h-14 w-[180px] min-w-[180px] shrink-0 whitespace-nowrap px-4 rounded-xl border flex items-center justify-between gap-3 text-sm font-semibold transition lg:w-full lg:min-w-0 lg:shrink"
         :class="statusFilter === 'All' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'All'"
       >
@@ -36,7 +36,7 @@
       <!-- Upcoming -->
       <button
         type="button"
-        class="h-14 px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+       class="h-14 w-[180px] min-w-[180px] shrink-0 whitespace-nowrap px-4 rounded-xl border flex items-center justify-between gap-3 text-sm font-semibold transition lg:w-full lg:min-w-0 lg:shrink"
         :class="statusFilter === 'Upcoming' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'Upcoming'"
       >
@@ -50,11 +50,11 @@
       <!-- Prescription due -->
       <button
         type="button"
-        class="h-14 px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+       class="h-14 w-[180px] min-w-[180px] shrink-0 whitespace-nowrap px-4 rounded-xl border flex items-center justify-between gap-3 text-sm font-semibold transition lg:w-full lg:min-w-0 lg:shrink"
         :class="statusFilter === 'Prescription due' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'Prescription due'"
       >
-        <span>Prescription due</span>
+        <span class="flex-1">Prescription due</span>
 
         <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" :class="statusFilter === 'Prescription due' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'">
           {{ prescriptionDueCount }}
@@ -63,11 +63,11 @@
       <!-- Follow-up active -->
       <button
         type="button"
-        class="h-14 w-full px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+       class="h-14 w-[180px] min-w-[180px] shrink-0 whitespace-nowrap px-4 rounded-xl border flex items-center justify-between gap-3 text-sm font-semibold transition lg:w-full lg:min-w-0 lg:shrink"
         :class="statusFilter === 'Follow-up active' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'Follow-up active'"
       >
-        <span class="truncate">Follow-up active</span>
+        <span class="whitespace-nowrap">Follow-up active</span>
 
         <span
           class="ml-3 w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-xs font-bold"
@@ -80,7 +80,7 @@
       <!-- Complete -->
       <button
         type="button"
-        class="h-14 w-full px-4 rounded-xl border flex items-center justify-between text-sm font-semibold transition"
+      class="h-14 w-[180px] min-w-[180px] shrink-0 whitespace-nowrap px-4 rounded-xl border flex items-center justify-between gap-3 text-sm font-semibold transition lg:w-full lg:min-w-0 lg:shrink"
         :class="statusFilter === 'Complete' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'Complete'"
       >
@@ -468,6 +468,15 @@
               </button>
             </div>
 
+            <!-- Draft Saved Confirmation -->
+           <div
+             v-if="draftSaved"
+            class="mb-4 flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-4 text-green-700"
+            >
+               <FeatherIcon name="check-circle" class="h-5 w-5 shrink-0" />
+               <span class="font-bold">Draft saved</span>
+            </div>
+
             <!-- Prescription Due -->
             <div
               v-if="
@@ -515,6 +524,7 @@
             @prescription-upload-processing="handlePrescriptionUploadProcessing"
             @prescription-submitted="handlePrescriptionSubmitted"
             @publish-prescription="publishPrescription"
+            @draft-saved="handleDraftSaved"
           />
       </main>
 
@@ -1152,6 +1162,27 @@ const prescriptionUploadCompleted = ref(false);
 const prescriptionUploadFileName = ref('');
 const prescriptionSubmitted = ref(false);
 
+const draftSaved = ref(false);
+function getDraftSavedKey(consultationId) {
+  return `wellnest-draft-saved-${consultationId}`;
+}
+
+function restoreDraftSaved(consultation) {
+  draftSaved.value = consultation
+    ? sessionStorage.getItem(getDraftSavedKey(consultation.id)) === 'true'
+    : false;
+}
+
+function handleDraftSaved(consultationId) {
+  if (!consultationId) {
+    console.error('Cannot save draft status: consultation ID is missing.');
+    return;
+  }
+
+  draftSaved.value = true;
+  sessionStorage.setItem(getDraftSavedKey(consultationId), 'true');
+}
+
 const showPatientHistoryModal = ref(false);
 const showHistoricalPrescriptionModal = ref(false);
 const showHealthVaultModal = ref(false);
@@ -1359,6 +1390,10 @@ const allCount = computed(() => {
   return consultations.value.length;
 });
 
+const upcomingCount = computed(() => {
+  return upcomingConsultations.value.length;
+});
+
 const upcomingConsultations = computed(() => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -1387,18 +1422,22 @@ const upcomingConsultations = computed(() => {
   });
 });
 
-const upcomingCount = computed(() => {
-  return upcomingConsultations.value.length;
-});
-
 const prescriptionDueConsultations = computed(() => {
-  return consultations.value.filter((consultation) => {
-    if (consultation.bookingStatus !== 'Completed') {
-      return false;
-    }
+  return consultations.value
+    .filter((consultation) => {
+      if (consultation.bookingStatus !== 'Completed') {
+        return false;
+      }
 
-    return consultation.prescriptionWorkflowState !== 'Confirmed' && consultation.prescriptionWorkflowState !== 'Complete';
-  });
+      return (
+        consultation.prescriptionWorkflowState !== 'Confirmed' &&
+        consultation.prescriptionWorkflowState !== 'Complete'
+      );
+    })
+    .sort(
+      (a, b) =>
+        new Date(b.scheduledTime) - new Date(a.scheduledTime)
+    );
 });
 
 const prescriptionDueCount = computed(() => prescriptionDueConsultations.value.length);
@@ -1497,6 +1536,7 @@ const filteredConsultations = computed(() => {
 
 function selectConsultation(consultation) {
   selectedConsultation.value = consultation;
+    restoreDraftSaved(consultation);
 
   prescriptionSubmitted.value = consultation.prescriptionWorkflowState === 'Confirmed' || consultation.prescriptionWorkflowState === 'Complete';
 
@@ -1784,6 +1824,7 @@ function saveConsultation() {
 }
 
 async function publishPrescription() {
+draftSaved.value = false;
   if (consultationRef.value?.finalizePrescription) {
     await consultationRef.value.finalizePrescription();
     return;
