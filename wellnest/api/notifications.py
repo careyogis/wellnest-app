@@ -514,6 +514,108 @@ def send_doctor_whatsapp_alert():
     _logInfo(f"Finished sending WhatsApp alerts")
 
 
+
+def send_patient_waiting_reminders():
+    """Notify the doctor when a patient has been waiting 10+ minutes."""
+    import requests
+    from datetime import timedelta
+    from frappe.utils import now_datetime
+
+    now = now_datetime()
+    delay_minutes = int(
+        frappe.conf.get("DOCTOR_PATIENT_WAITING_DELAY_MINUTES") or 10
+    )
+    cutoff = now - timedelta(minutes=delay_minutes)
+
+    appointments = frappe.get_all(
+        "Patient Appointment",
+        filters=[
+            ["status", "=", "Scheduled"],
+            ["scheduled_time", "<=", cutoff],
+            ["patient_waiting_reminder_sent", "=", 0],
+        ],
+        fields=["name", "practitioner", "patient", "scheduled_time"],
+        ignore_permissions=True,
+    )
+
+    for appointment in appointments:
+        try:
+            doctor = frappe.get_doc("Practitioner", appointment.practitioner)
+            patient = frappe.get_doc("Patient", appointment.patient)
+
+            if not doctor.mobile:
+                frappe.log_error(
+                    f"Doctor {doctor.name} has no mobile number.",
+                    "Patient Waiting Reminder Error",
+                )
+                continue
+
+            doctor_phone = doctor.mobile.strip()
+            if not doctor_phone.startswith("+"):
+                doctor_phone = "+91" + doctor_phone
+
+            site_url = frappe.utils.get_url()
+            consultation_link = (
+                f"{site_url}/doctor-app/consultations/{appointment.name}"
+            )
+
+            payload = {
+                "messaging_product": "whatsapp",
+                "to": doctor_phone,
+                "type": "template",
+                "template": {
+                    "name": "doctor_patient_waiting_reminder",
+                    "language": {"code": "en"},
+                    "components": [
+                        {
+                            "type": "body",
+                            "parameters": [
+                                {"type": "text", "text": str(doctor.full_name or doctor.name)},
+                                {"type": "text", "text": str(patient.full_name or patient.name)},
+                                {"type": "text", "text": str(delay_minutes)},
+                                {"type": "text", "text": str(appointment.name)},
+                                {"type": "text", "text": consultation_link},
+                            ],
+                        }
+                    ],
+                },
+            }
+
+            url = (
+                f"https://graph.facebook.com/"
+                f"{frappe.conf.get('VERSION')}/"
+                f"{frappe.conf.get('PHONE_NUMBER_ID')}/messages"
+            )
+            headers = {
+                "Authorization": f"Bearer {frappe.conf.get('ACCESS_TOKEN')}",
+                "Content-Type": "application/json",
+            }
+
+            response = requests.post(
+                url, json=payload, headers=headers, timeout=15
+            )
+
+            if response.ok:
+                frappe.db.set_value(
+                    "Patient Appointment",
+                    appointment.name,
+                    "patient_waiting_reminder_sent",
+                    1,
+                )
+            else:
+                frappe.log_error(
+                    f"WhatsApp API returned HTTP {response.status_code}: "
+                    f"{response.text}\nAppointment: {appointment.name}",
+                    "Patient Waiting Reminder Error",
+                )
+
+        except Exception:
+            frappe.log_error(
+                frappe.get_traceback(),
+                f"Patient Waiting Reminder Error: {appointment.name}",
+            )
+
+
 def _send_whatsapp_message(doctor_phone, doctor_name, patient_name, age, reason, time, mode, appointment_id):
     import requests
 

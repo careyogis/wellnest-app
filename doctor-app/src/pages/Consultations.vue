@@ -96,9 +96,9 @@
     </div>
 
     <!-- Blade workspace -->
-    <div class="grid grid-cols-1 xl:grid-cols-[360px_minmax(0,1fr)] gap-4 xl:gap-6 items-stretch min-h-[calc(100vh-180px)]">
+    <div class="grid grid-cols-1 xl:grid-cols-[360px_minmax(0,1fr)] gap-4 xl:gap-6 items-start">
       <!-- LEFT: CONSULTATION LIST -->
-      <aside class="hidden xl:block bg-white border border-gray-200 rounded-2xl overflow-hidden xl:sticky xl:top-4 h-full">
+       <aside class="hidden xl:flex xl:flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden xl:sticky xl:top-4 h-[calc(100vh-180px)]">
         <!-- List header -->
         <div class="px-5 py-5 border-b border-gray-200">
           <div class="flex items-center justify-between gap-3">
@@ -208,7 +208,7 @@
       </div>
 
       <!-- RIGHT: SELECTED CONSULTATION WORKSPACE -->
-      <main v-if="selectedConsultation?.id" class="min-w-0">
+      <main v-if="selectedConsultation?.id" class="min-w-0 xl:h-[calc(100vh-180px)] xl:overflow-y-auto xl:pr-1">
         <!-- Consultation header -->
         <section class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
           <!-- Patient / appointment information -->
@@ -1183,7 +1183,6 @@ function formatFollowUpDate(date) {
   });
 }
 
-
 async function handlePrescriptionSubmitted(payload) {
   prescriptionSubmitted.value = true;
 
@@ -1196,20 +1195,13 @@ async function handlePrescriptionSubmitted(payload) {
     console.error('Failed to refresh consultations after prescription submission:', error);
   }
 
-  const consultation = consultations.value.find(
-    (item) => item.id === consultationId
-  );
+  const consultation = consultations.value.find((item) => item.id === consultationId);
 
   if (consultation) {
     selectedConsultation.value = consultation;
   }
 
-  const followUpDays = Number(
-    payload?.follow_up_in_days ??
-      consultation?.followUpInDays ??
-      selectedConsultation.value?.followUpInDays ??
-      0
-  );
+  const followUpDays = Number(payload?.follow_up_in_days ?? consultation?.followUpInDays ?? selectedConsultation.value?.followUpInDays ?? 0);
 
   if (consultationId && payload?.follow_up_through_date) {
     followUpThroughDates.value = {
@@ -1222,11 +1214,8 @@ async function handlePrescriptionSubmitted(payload) {
     followUpThroughDate.value = null;
   }
 
-  statusFilter.value = followUpDays > 0
-    ? 'Follow-up active'
-    : 'Complete';
+  statusFilter.value = followUpDays > 0 ? 'Follow-up active' : 'Complete';
 }
-
 
 function handlePrescriptionLoaded(prescription) {
   if (!prescription) {
