@@ -425,6 +425,29 @@
               <template v-else> Prescription already submitted for this patient. </template>
             </div>
 
+            <!-- Complete state -->
+<div
+  v-if="statusFilter === 'Complete'"
+  class="mt-4 rounded-xl border border-gray-200 bg-white px-4 py-4"
+>
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <h3 class="text-sm font-semibold text-gray-900">Consultation complete</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        Follow-up period ended. The shared prescription remains available.
+      </p>
+    </div>
+    <button
+      type="button"
+      class="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-orange-300 bg-white text-orange-700 font-semibold hover:bg-orange-50 transition"
+      @click="previewPrescription"
+    >
+      <FeatherIcon name="file-text" class="w-4 h-4" />
+      View prescription
+    </button>
+  </div>
+</div>
+
             <!-- Follow-up period active -->
             <div v-if="statusFilter === 'Follow-up active'" class="mt-3 flex flex-col gap-3 rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -481,27 +504,6 @@
           :follow-up-text="statusFilter === 'Follow-up active' ? 'Follow-up period is active.' : 'Follow-up period ended. Chat is closed.'"
         />
 
-        <div class="mt-4">
-          <!-- Complete state -->
-          <div v-if="statusFilter === 'Complete'" class="rounded-xl border border-gray-200 bg-white px-4 py-4">
-            <div class="flex items-center justify-between gap-4">
-              <div>
-                <h3 class="text-sm font-semibold text-gray-900">Consultation complete</h3>
-
-                <p class="mt-1 text-sm text-gray-500">Follow-up period ended. The shared prescription remains available.</p>
-              </div>
-
-              <button
-                type="button"
-                class="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-orange-300 bg-white text-orange-700 font-semibold hover:bg-orange-50 transition"
-                @click="previewPrescription"
-              >
-                <FeatherIcon name="file-text" class="w-4 h-4" />
-                View prescription
-              </button>
-            </div>
-          </div>
-
           <Consultation
             ref="consultationRef"
             :selected-consultation="selectedConsultation"
@@ -514,7 +516,6 @@
             @prescription-submitted="handlePrescriptionSubmitted"
             @publish-prescription="publishPrescription"
           />
-        </div>
       </main>
 
       <!-- Empty state -->
@@ -1104,7 +1105,31 @@ const historicalPrescriptionResource = createResource({
 
 const consultationRef = ref(null);
 
-const statusFilter = ref(route.query.status === 'Completed' ? 'Completed' : 'Upcoming');
+const consultationSections = [
+  'All',
+  'Upcoming',
+  'Prescription due',
+  'Follow-up active',
+  'Complete',
+];
+
+const statusFilter = ref(
+  consultationSections.includes(route.query.status)
+    ? route.query.status
+    : 'Upcoming'
+);
+
+watch(statusFilter, (status) => {
+  if (route.query.status !== status) {
+    router.replace({
+      query: {
+        ...route.query,
+        status,
+      },
+    });
+  }
+});
+
 const mobileVisibleCount = ref(3);
 const selectedConsultation = ref(null);
 const expandedReasons = ref(new Set());
@@ -1510,10 +1535,21 @@ function selectConsultation(consultation) {
     health_vault: [],
   };
 
-  const currentId = route.params.bookingId || route.query.bookingId || route.query.appointment;
-  if (currentId !== consultation.id) {
-    router.replace({ name: 'ConsultationDetails', params: { bookingId: consultation.id } });
-  }
+const currentId = route.params.bookingId || route.query.bookingId || route.query.appointment;
+
+if (
+  String(currentId || '') !== String(consultation.id) ||
+  route.query.status !== statusFilter.value
+) {
+  router.replace({
+    name: 'ConsultationDetails',
+    params: { bookingId: consultation.id },
+    query: {
+      ...route.query,
+      status: statusFilter.value,
+    },
+  });
+}
 }
 
 function isReasonExpanded(id) {
@@ -1782,11 +1818,15 @@ watch(
       if (matchingConsultation) {
         initialRouteSelectionHandled = true;
 
-        if (route.query.status === 'Prescription due') {
-          statusFilter.value = 'Prescription due';
-        } else if (matchingConsultation.bookingStatus === 'Completed') {
-          statusFilter.value = 'Completed';
-        }
+       if (consultationSections.includes(route.query.status)) {
+  statusFilter.value = route.query.status;
+} else if (matchingConsultation.bookingStatus === 'Completed') {
+  statusFilter.value =
+    matchingConsultation.prescriptionWorkflowState === 'Confirmed' ||
+    matchingConsultation.prescriptionWorkflowState === 'Complete'
+      ? 'Complete'
+      : 'Prescription due';
+}
 
         selectConsultation(matchingConsultation);
         return;
