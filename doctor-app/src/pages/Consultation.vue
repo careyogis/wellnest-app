@@ -537,6 +537,7 @@ const emit = defineEmits([
   'prescription-upload-processing',
   'prescription-submitted',
   'publish-prescription',
+   'draft-saved',
 ]);
 
 const props = defineProps({
@@ -1575,7 +1576,8 @@ async function saveConsultation() {
       return;
     }
 
-    await savePrescriptionDraft(false);
+     await savePrescriptionDraft(false);
+     emit('draft-saved', props.selectedConsultation?.id);
 
     alert('Consultation saved as draft.');
   } catch (error) {
