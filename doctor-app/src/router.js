@@ -39,8 +39,7 @@ const routes = [
       {
         name: 'Patients',
         path: 'patients',
-        component: () => import('@/pages/ComingSoon.vue'),
-        props: { title: 'Patients' },
+        component: () => import('@/pages/Patient.vue'),
       },
       {
         name: 'Schedule',
