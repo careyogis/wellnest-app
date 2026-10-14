@@ -350,3 +350,133 @@ def cancel_all_consultations(date, reason):
         "cancelled_count": len(cancelled_appointments),
         "appointments": cancelled_appointments,
     }
+
+@frappe.whitelist()
+def get_doctor_patients():
+    """List patients associated with the logged-in practitioner's appointments."""
+
+    practitioner = frappe.db.get_value(
+        "Practitioner",
+        {"user_id": frappe.session.user},
+        "name",
+    )
+
+    if not practitioner:
+        frappe.throw("Practitioner not found.")
+
+    appointments = frappe.get_all(
+        "Patient Appointment",
+        filters={"practitioner": practitioner},
+        fields=[
+            "name",
+            "patient",
+            "scheduled_time",
+            "status",
+            "main_complaints",
+        ],
+        order_by="scheduled_time desc",
+        limit_page_length=0,
+    )
+
+    appointments_by_patient = {}
+    for appointment in appointments:
+        if appointment.patient:
+            appointments_by_patient.setdefault(
+                appointment.patient, []
+            ).append(appointment)
+
+    if not appointments_by_patient:
+        return []
+
+    patients = frappe.get_all(
+        "Patient",
+        filters={
+            "name": ["in", list(appointments_by_patient.keys())]
+        },
+        fields=[
+            "name",
+            "full_name",
+            "date_of_birth",
+            "gender",
+            "mobile",
+        ],
+        limit_page_length=0,
+    )
+
+    now = frappe.utils.now_datetime()
+    today = frappe.utils.getdate(frappe.utils.nowdate())
+    result = []
+
+    for patient in patients:
+        patient_appointments = appointments_by_patient[patient.name]
+
+        valid_appointments = [
+            a for a in patient_appointments
+            if a.scheduled_time
+            and a.status not in (
+                "Cancelled", "Cancelled by Doctor", "No Show"
+            )
+        ]
+
+        past = [
+            a for a in valid_appointments
+            if frappe.utils.get_datetime(a.scheduled_time) < now
+        ]
+
+        upcoming = [
+            a for a in valid_appointments
+            if frappe.utils.get_datetime(a.scheduled_time) >= now
+            and a.status in ("Scheduled", "In-Progress")
+        ]
+
+        next_appointment = min(
+            upcoming,
+            key=lambda a: a.scheduled_time,
+            default=None,
+        )
+
+        last_visit = max(
+            past,
+            key=lambda a: a.scheduled_time,
+            default=None,
+        )
+
+        age = None
+        if patient.date_of_birth:
+            dob = frappe.utils.getdate(patient.date_of_birth)
+            age = today.year - dob.year - (
+                (today.month, today.day) < (dob.month, dob.day)
+            )
+
+        result.append({
+            "id": patient.name,
+            "name": patient.full_name or patient.name,
+            "age": age,
+            "gender": patient.gender,
+            "phone": patient.mobile,
+            "conditions": next(
+                (a.main_complaints for a in patient_appointments
+                 if a.main_complaints),
+                None,
+            ),
+            "lastVisit": (
+                frappe.utils.format_datetime(
+                    last_visit.scheduled_time, "dd MMM yyyy, hh:mm a"
+                ) if last_visit else None
+            ),
+            "nextVisit": (
+                frappe.utils.format_datetime(
+                    next_appointment.scheduled_time, "dd MMM yyyy, hh:mm a"
+                ) if next_appointment else None
+            ),
+            "nextVisitDate": (
+                str(next_appointment.scheduled_time)
+                if next_appointment else None
+            ),
+            "appointmentId": (
+                next_appointment.name if next_appointment
+                else patient_appointments[0].name
+            ),
+        })
+
+    return result

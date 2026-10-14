@@ -88,8 +88,18 @@
       </p>
     </div>
 
+    <!-- Loading state -->
+    <div
+       v-if="patientsResource.loading"
+      class="bg-white border border-gray-200 rounded-xl p-10 text-center text-sm text-gray-500"
+    >
+    Loading patients...
+    </div>
+
     <!-- Patient cards -->
-    <div v-if="filteredPatients.length" class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
+    <div  v-else-if="filteredPatients.length"
+          class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
+    >
       <article
         v-for="patient in filteredPatients"
         :key="patient.id"
@@ -187,7 +197,7 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import { FeatherIcon } from 'frappe-ui';
+import { FeatherIcon, createResource } from 'frappe-ui';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -200,7 +210,13 @@ const showMoreFilters = ref(false);
 
 // Temporary UI data only.
 // Replace this array with authorized backend patient data.
-const patients = ref([]);
+
+const patientsResource = createResource({
+  url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.get_doctor_patients',
+  auto: true,
+});
+
+const patients = computed(() => patientsResource.data || [])
 
 const filteredPatients = computed(() => {
   const query = searchQuery.value.trim().toLowerCase();
