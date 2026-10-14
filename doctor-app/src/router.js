@@ -62,12 +62,10 @@ const routes = [
         path: 'consultations/:id/waiting-room',
         component: () => import('@/pages/WaitingRoom.vue'),
       },
-      
       {
         name: 'Messages',
         path: 'messages',
-        component: () => import('@/pages/ComingSoon.vue'),
-        props: { title: 'Messages' },
+        component: () => import('@/pages/Messages.vue'),
       },
       {
         name: 'Referrals',

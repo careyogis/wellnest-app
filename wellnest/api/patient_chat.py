@@ -5,6 +5,114 @@ from frappe.utils import now_datetime
 # Public APIs
 
 @frappe.whitelist()
+def get_doctor_patient_chats():
+    """Return chat conversations belonging to the logged-in doctor."""
+
+    practitioner = _get_current_practitioner()
+
+    appointments = frappe.get_all(
+        "Patient Appointment",
+        filters={"practitioner": practitioner},
+        fields=[
+            "name",
+            "patient",
+            "scheduled_time",
+            "status",
+        ],
+        order_by="scheduled_time desc",
+    )
+
+    conversations = []
+
+    for appointment_data in appointments:
+        appointment = frappe.get_doc(
+            "Patient Appointment",
+            appointment_data.name,
+        )
+
+        messages = appointment.patient_chat_messages or []
+
+        # Show only appointments with an existing chat history.
+        if not messages:
+            continue
+
+        # Find the associated prescription and follow-up period.
+        prescription_name = frappe.db.get_value(
+            "Smart Prescription",
+            {"patient_appointment": appointment.name},
+            "name",
+        )
+
+        prescription = None
+        if prescription_name:
+            prescription = frappe.db.get_value(
+                "Smart Prescription",
+                prescription_name,
+                ["workflow_state", "follow_up_in_days", "modified"],
+                as_dict=True,
+            )
+
+        follow_up_days = int(
+            (prescription.follow_up_in_days if prescription else 0) or 0
+        )
+
+        completed_at = prescription.modified if prescription else None
+
+        follow_up_active = False
+
+        if (
+            prescription
+            and prescription.workflow_state == "Complete"
+            and follow_up_days > 0
+            and completed_at
+        ):
+            follow_up_active = (
+                now_datetime()
+                <= frappe.utils.add_days(completed_at, follow_up_days)
+            )
+
+        latest_message = messages[-1] if messages else None
+
+        unread_count = sum(
+            1
+            for message in messages
+            if message.sender_type == "Patient"
+            and not message.read_by_doctor
+        )
+
+        patient_name = frappe.db.get_value(
+            "Patient",
+            appointment.patient,
+            "full_name",
+        ) or appointment.patient
+
+        conversations.append({
+            "appointment": appointment.name,
+            "patient": appointment.patient,
+            "patient_name": patient_name,
+            "scheduled_time": appointment.scheduled_time,
+            "status": appointment.status,
+            "latest_message": (
+                latest_message.message or (
+                    "Attachment" if latest_message.attachment else ""
+                )
+            ) if latest_message else "",
+            "latest_message_at": (
+                latest_message.sent_at if latest_message else None
+            ),
+            "unread_count": unread_count,
+            "chat_status": "Active" if follow_up_active else "Closed",
+        })
+
+    conversations.sort(
+        key=lambda item: item["latest_message_at"] or item["scheduled_time"],
+        reverse=True,
+    )
+
+    return {"conversations": conversations}
+
+
+@frappe.whitelist()
 def get_patient_chat(patient_appointment):
     """Return all chat messages for the current doctor appointment."""
 
