@@ -278,18 +278,21 @@ function resetFilters() {
   sortBy.value = 'upcoming';
 }
 
+
 function openRecord(patient) {
-  // Connect this to Khushboo's confirmed Patient Details route.
-  // Keep the patient identifier available for the integration.
   router.push({
     name: 'PatientDetails',
-    query: { patient: patient.id },
+    query: {
+      patient: patient.id,
+      appointment: patient.appointmentId,
+    },
   }).catch((error) => {
     if (error?.name !== 'NavigationDuplicated') {
-      console.info('Patient Details route is not integrated yet.');
+      console.error('Unable to open patient details:', error);
     }
   });
 }
+
 
 function messagePatient(patient) {
   // Patient chat currently requires an appointment identifier.
