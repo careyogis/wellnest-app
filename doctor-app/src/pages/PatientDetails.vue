@@ -12,12 +12,19 @@
       </div>
 
       <div class="flex gap-2">
-        <button class="rounded-lg border border-amber-400 px-4 py-2 text-sm font-semibold text-amber-700">
+    
+       <button
+        @click="messagePatient"
+        class="rounded-lg border border-amber-400 px-4 py-2 text-sm font-semibold text-amber-700"
+         >
           Message
-        </button>
-        <button class="rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-white">
-          Open booked consult
-        </button>
+         </button>
+            <button
+            @click="returnToSelectedConsult"
+            class="rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-white"
+           >
+           Open booked consult
+          </button>
       </div>
     </div>
 
@@ -518,6 +525,9 @@ function returnToSelectedConsult() {
   });
 }
 
+function messagePatient() {
+  router.push({ name: 'Messages' });
+}
 
 function initials(name) {
   return String(name || 'P')
