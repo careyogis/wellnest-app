@@ -75,6 +75,30 @@ def get_family_profile(customer):
 
 @frappe.whitelist()
 def get_patient_timeline(patient):
+    if not frappe.session.user or frappe.session.user == "Guest":
+        frappe.throw("Please log in to access patient history.")
+
+    practitioner = frappe.db.get_value(
+        "Practitioner",
+        {"user_id": frappe.session.user},
+        "name",
+    )
+
+    if not practitioner:
+        frappe.throw("Practitioner not found.")
+
+    has_access = frappe.db.exists(
+        "Patient Appointment",
+        {
+            "patient": patient,
+            "practitioner": practitioner,
+        },
+    )
+
+    if not has_access:
+        frappe.throw(
+            "You are not authorized to access this patient's history."
+        )
 
     # -----------------------------------
     # Vitals
@@ -477,4 +501,74 @@ def get_vital_trend(patient, vital_type):
         "trend_data": trend_data,
         "normal_range": normal_ranges.get(vital_type, "-"),
         "observation": observation
+    }
+
+    
+@frappe.whitelist()
+def get_doctor_patient_details(patient, appointment=None):
+    """Return patient profile and consultation details for the logged-in doctor."""
+
+    if not frappe.session.user or frappe.session.user == "Guest":
+        frappe.throw("Please log in to access patient details.")
+
+    if not patient:
+        frappe.throw("Patient ID is required.")
+
+    # Identify the logged-in doctor's Practitioner record.
+    practitioner = frappe.db.get_value(
+        "Practitioner",
+        {"user_id": frappe.session.user},
+        "name",
+    )
+
+    if not practitioner:
+        frappe.throw("Practitioner not found.")
+
+    # Verify that this patient has an appointment with the logged-in doctor.
+    filters = {
+        "patient": patient,
+        "practitioner": practitioner,
+    }
+
+    if appointment:
+        filters["name"] = appointment
+
+    appointments = frappe.get_all(
+        "Patient Appointment",
+        filters=filters,
+        fields=[
+            "name",
+            "patient",
+            "scheduled_time",
+            "status",
+            "consultation_type",
+            "main_complaints",
+        ],
+        order_by="scheduled_time desc",
+        limit_page_length=1,
+    )
+
+    if not appointments:
+        frappe.throw(
+            "You are not authorized to access this patient's details."
+        )
+
+    patient_doc = frappe.get_doc("Patient", patient)
+
+    return {
+        "id": patient_doc.name,
+        "full_name": patient_doc.full_name,
+        "date_of_birth": patient_doc.date_of_birth,
+        "gender": patient_doc.gender,
+        "mobile": patient_doc.mobile,
+        "address": patient_doc.address,
+        "emergency_contacts": [
+            {
+                "contact_name": contact.contact_name,
+                "relationship": contact.relationship,
+                "phone_number": contact.phone_number,
+            }
+            for contact in patient_doc.get("emergency_contact", [])
+        ],
+        "appointment": appointments[0],
     }

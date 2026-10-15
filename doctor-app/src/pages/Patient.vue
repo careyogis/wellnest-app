@@ -186,15 +186,32 @@ function initials(name) {
     .toUpperCase();
 }
 
+function riskClass(risk) {
+  return {
+    High: 'bg-red-100 text-red-700',
+    Medium: 'bg-amber-100 text-amber-700',
+    Low: 'bg-emerald-100 text-emerald-700',
+  }[risk] || 'bg-gray-100 text-gray-600';
+}
+
+function resetFilters() {
+  searchQuery.value = '';
+  selectedRisk.value = 'All';
+  selectedGender.value = 'All';
+  sortBy.value = 'upcoming';
+}
+
+
 function openRecord(patient) {
-  // Connect this to Khushboo's confirmed Patient Details route.
-  // Keep the patient identifier available for the integration.
   router.push({
     name: 'PatientDetails',
-    query: { patient: patient.id },
+    query: {
+      patient: patient.id,
+      appointment: patient.appointmentId,
+    },
   }).catch((error) => {
     if (error?.name !== 'NavigationDuplicated') {
-      console.info('Patient Details route is not integrated yet.');
+      console.error('Unable to open patient details:', error);
     }
   });
 }
