@@ -240,7 +240,7 @@
       @click="emit('publish-prescription')"
     >
       <FeatherIcon name="send" class="w-5 h-5" />
-      Review & share
+      Submit & Publish
     </button>
   </div>
 

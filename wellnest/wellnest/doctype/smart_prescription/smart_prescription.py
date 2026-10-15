@@ -14,7 +14,7 @@ class SmartPrescription(Document):
         if not self.workflow_state == "Complete":
             return
 
-        self.create_new_notification(self.patient)
+        _create_new_notification(self.patient)
 
 
     # Push Notify upon prescription submit
@@ -24,19 +24,19 @@ class SmartPrescription(Document):
             return
 
         # Notify users that the prescription is ready
-        self.create_new_notification(self.patient)
+        _create_new_notification(self.patient)
 
-    def create_new_notification(patient):
-        # Notify users that the prescription is ready
-        app_notification = frappe.get_doc(
-            {
-                "doctype": "App Notification",
-                "title": "Your Prescription Is Ready",
-                "body": "You can view and download your Prescription from Smart Prescription screen",
-                "target_audience": "Specific Patient",
-                "patient": patient,
-                "scheduled_time": now(),
-            }
-        )
-        app_notification.insert(ignore_permissions=True)
-        frappe.db.commit()
+def _create_new_notification(patient):
+    # Notify users that the prescription is ready
+    app_notification = frappe.get_doc(
+        {
+            "doctype": "App Notification",
+            "title": "Your Prescription Is Ready",
+            "body": "You can view and download your Prescription from Smart Prescription screen",
+            "target_audience": "Specific Patient",
+            "patient": patient,
+            "scheduled_time": now(),
+        }
+    )
+    app_notification.insert(ignore_permissions=True)
+    frappe.db.commit()
