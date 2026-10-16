@@ -35,10 +35,6 @@ app.component('Dialog', Dialog)
 app.component('Popover', Popover)
 app.component('FeatherIcon', FeatherIcon)
 
-if (session?.isLoggedIn && !profileData?.data) {
-  profileData.reload()
-}
-
 app.provide('$session', session)
 app.provide('$user', userResource)
 app.provide('$profile', profileData)
@@ -59,9 +55,12 @@ const registerServiceWorker = () => {
   }
 }
 
-router.isReady().then(async () => {
-  if (import.meta.env.DEV) {
-    await frappeRequest({
+// In dev mode, fetch the CSRF token BEFORE mounting the app so it is
+// available when the router's beforeEach guard fires its first navigation
+// and calls userResource.reload() (a POST). Without this, csrf_token is
+// undefined at that point → Frappe returns 403 → redirect to Login.
+const initPromise = import.meta.env.DEV
+  ? frappeRequest({
       url: '/api/method/wellnest.www.doctor_app.get_context_for_dev',
     })
       .then((values) => {
@@ -74,8 +73,9 @@ router.isReady().then(async () => {
       .catch((err) => {
         console.warn('Could not load dev context:', err)
       })
-  }
+  : Promise.resolve()
 
+initPromise.then(() => {
   registerServiceWorker()
   app.mount('#app')
 })
