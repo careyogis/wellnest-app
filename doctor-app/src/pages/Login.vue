@@ -126,6 +126,7 @@ import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import { session } from '../data/session';
 import { userResource } from '../data/user';
 import { sessionUser } from '../data/session';
+import { profileData } from '../data/doctorProfile';
 import { createResource, FeatherIcon } from 'frappe-ui';
 import router from '../router';
 
@@ -321,6 +322,7 @@ async function verifyOtp() {
 
     await userResource.reload();
     session.user = sessionUser() || userResource.data || result?.user;
+    profileData.reload();
 
     message.value = 'OTP verified successfully.';
     messageType.value = 'success';

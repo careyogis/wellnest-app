@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { session } from './data/session';
 import { userResource } from '@/data/user';
+import { profileData } from '@/data/doctorProfile';
 
 const routes = [
   {
@@ -119,6 +120,10 @@ router.beforeEach(async (to, from, next) => {
         session.user = null
       } else {
         session.user = userResource.data
+        // Load profile data if not already available (e.g. returning user with existing cookie)
+        if (!profileData.data && !profileData.loading) {
+          profileData.reload()
+        }
       }
     }
   } catch (error) {
