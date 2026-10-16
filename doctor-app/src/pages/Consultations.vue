@@ -1093,6 +1093,10 @@ const consultationsResource = createResource({
   auto: true,
 });
 
+const updateConsultationWorkflowResource = createResource({
+  url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.update_consultation_workflow_state',
+});
+
 const startConsultationResource = createResource({
   url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.start_consultation',
 });
@@ -1270,7 +1274,33 @@ async function handlePrescriptionSubmitted(payload) {
     followUpThroughDate.value = null;
   }
 
-  statusFilter.value = followUpDays > 0 ? 'Follow-up active' : 'Complete';
+  const workflowState = followUpDays > 0 ? 'Follow-up active' : 'Complete';
+
+if (consultationId) {
+  try {
+    await updateConsultationWorkflowResource.submit({
+      appointment: consultationId,
+      workflow_state: workflowState,
+    });
+
+    await consultationsResource.reload();
+
+    const updatedConsultation = consultations.value.find(
+      (item) => item.id === consultationId,
+    );
+
+    if (updatedConsultation) {
+      selectedConsultation.value = updatedConsultation;
+    }
+  } catch (error) {
+    console.error(
+      'Failed to update consultation workflow state:',
+      error,
+    );
+  }
+}
+
+statusFilter.value = workflowState;
 }
 
 function handlePrescriptionLoaded(prescription) {
