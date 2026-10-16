@@ -62,7 +62,7 @@ const registerServiceWorker = () => {
 router.isReady().then(async () => {
   if (import.meta.env.DEV) {
     await frappeRequest({
-      url: '/api/method/wellnest.www.doctor-app.get_context_for_dev',
+      url: '/api/method/wellnest.www.doctor_app.get_context_for_dev',
     })
       .then((values) => {
         if (!window.frappe) window.frappe = {}
