@@ -11,8 +11,13 @@
   />
   <div>
     <router-view />
+    <InstallPrompt />
   </div>
 </template>
+
+<script setup>
+import InstallPrompt from '@/components/InstallPrompt.vue'
+</script>
 <style>
 body {
   font-family: 'Quicksand', sans-serif;

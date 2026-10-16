@@ -320,10 +320,7 @@ async function verifyOtp() {
     }
 
     await userResource.reload();
-    session.user = userResource.data || sessionUser() || result?.user;
-    if (session.user && typeof window !== 'undefined') {
-      localStorage.setItem('user_id', session.user);
-    }
+    session.user = sessionUser() || userResource.data || result?.user;
 
     message.value = 'OTP verified successfully.';
     messageType.value = 'success';

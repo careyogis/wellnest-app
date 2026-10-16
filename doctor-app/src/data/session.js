@@ -1,19 +1,16 @@
 import router from '@/router'
 import { computed, reactive } from 'vue'
 import { createResource } from 'frappe-ui'
-
 import { userResource } from './user'
+import { profileData } from './doctorProfile'
 
 export function sessionUser() {
-  const cookies = new URLSearchParams(document.cookie.split('; ').join('&'))
+  let cookies = new URLSearchParams(document.cookie.split('; ').join('&'))
   let _sessionUser = cookies.get('user_id')
   if (_sessionUser === 'Guest') {
     _sessionUser = null
   }
-  if (!_sessionUser && typeof window !== 'undefined') {
-    _sessionUser = localStorage.getItem('user_id')
-  }
-  return _sessionUser || null
+  return _sessionUser
 }
 
 export const session = reactive({
@@ -27,23 +24,14 @@ export const session = reactive({
       }
     },
     onSuccess(data) {
-      // Frappe's /api/method/login always returns csrf_token in the response
-      // body. frappeRequest returns the full data object for this URL, so
-      // data.csrf_token is always populated. Update window.csrf_token so
-      // subsequent POSTs don't carry the stale Guest token.
       if (data?.csrf_token) {
         window.csrf_token = data.csrf_token
       }
-      userResource.reload().then(() => {
-        session.user = userResource.data || sessionUser() || data?.user
-        if (session.user && typeof window !== 'undefined') {
-          localStorage.setItem('user_id', session.user)
-        }
-      })
       session.user = sessionUser() || data?.user
-      if (session.user && typeof window !== 'undefined') {
-        localStorage.setItem('user_id', session.user)
-      }
+      userResource.reload().then(() => {
+        session.user = sessionUser() || userResource.data || data?.user
+        profileData.reload()
+      })
       session.login.reset()
       router.replace({ name: 'Dashboard' })
     },
@@ -52,13 +40,12 @@ export const session = reactive({
     url: 'logout',
     onSuccess() {
       userResource.reset()
-      session.user = null
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('user_id')
-      }
+      profileData.reset()
+      session.user = sessionUser()
       router.replace({ name: 'Login' })
+      window.location.reload()
     },
   }),
   user: sessionUser(),
-  isLoggedIn: computed(() => Boolean(session.user && session.user !== 'Guest')),
+  isLoggedIn: computed(() => !!session.user),
 })

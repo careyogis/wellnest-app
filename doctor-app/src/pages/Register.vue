@@ -287,7 +287,11 @@ async function verifyOtp() {
       mobile: form.mobile.replace(/\s+/g, ''),
     });
 
-    session.user = response.user;
+    if (response?.csrf_token) {
+      window.csrf_token = response.csrf_token;
+    }
+    await userResource.reload();
+    session.user = sessionUser() || userResource.data || response.user;
 
     message.value = 'Registration successful.';
     messageType.value = 'success';

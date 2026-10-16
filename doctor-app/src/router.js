@@ -108,53 +108,37 @@ let router = createRouter({
   routes,
 });
 
-let isInitialAuthChecked = false;
-
 router.beforeEach(async (to, from, next) => {
-  // On initial app launch / page load, verify session with Frappe backend
-  if (!isInitialAuthChecked) {
-    isInitialAuthChecked = true;
-    try {
-      await userResource.reload();
-      if (userResource.data && userResource.data !== 'Guest') {
-        session.user = userResource.data;
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('user_id', userResource.data);
-        }
-      } else {
-        session.user = null;
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('user_id');
-        }
-      }
-    } catch (error) {
-      if (error && (error.exc_type === 'AuthenticationError' || error.httpStatus === 401 || error.httpStatus === 403)) {
-        session.user = null;
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('user_id');
-        }
-      }
-    }
-  }
+  let isLoggedIn = session.isLoggedIn
 
-  const isLoggedIn = session.isLoggedIn;
-
-  // Login and Register are public pages
-  if (to.name === 'Login' || to.name === 'Register') {
+  try {
     if (isLoggedIn) {
-      next({ name: 'Dashboard' });
-    } else {
-      next();
+      await userResource.reload()
+      if (!userResource.data || userResource.data === 'Guest') {
+        isLoggedIn = false
+        session.user = null
+      } else {
+        session.user = userResource.data
+      }
     }
-    return;
+  } catch (error) {
+    isLoggedIn = false
+    session.user = null
   }
 
-  // All other pages are protected
   if (!isLoggedIn) {
-    next({ name: 'Login' });
-  } else {
-    next();
+    if (!['Login', 'Register'].includes(to.name)) {
+      return next({ name: 'Login' })
+    }
   }
-});
 
-export default router;
+  if (isLoggedIn) {
+    if (['Login', 'Register'].includes(to.name)) {
+      return next({ name: 'Dashboard' })
+    }
+  }
+
+  next()
+})
+
+export default router
