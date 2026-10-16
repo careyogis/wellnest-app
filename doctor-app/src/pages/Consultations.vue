@@ -509,8 +509,8 @@
           ref="patientChatRef"
           v-if="['Follow-up active', 'Complete'].includes(statusFilter)"
           :appointment-id="selectedConsultation?.appointment"
-          :chat-status="statusFilter === 'Follow-up active' ? 'Active' : 'Closed'"
-          :follow-up-text="statusFilter === 'Follow-up active' ? 'Follow-up period is active.' : 'Follow-up period ended. Chat is closed.'"
+          :chat-status="'Active'"
+          :follow-up-text="statusFilter === 'Follow-up active' ? 'Follow-up period is active.' : 'Follow-up period ended. Chat option is available.'"
         />
 
           <Consultation

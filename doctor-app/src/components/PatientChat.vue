@@ -1,7 +1,7 @@
 <template>
   <section ref="chatSection" class="w-full overflow-hidden rounded-lg border border-gray-200 bg-white">
     <!-- HEADER -->
-    <button type="button" class="w-full flex items-center justify-between gap-3 px-4 py-3 border-b border-gray-200 text-left" @click="chatStatus === 'Active' && (chatExpanded = !chatExpanded)">
+    <button type="button" class="w-full flex items-center justify-between gap-3 px-4 py-3 border-b border-gray-200 text-left" @click="chatExpanded = !chatExpanded">
       <div class="flex items-center gap-3 min-w-0">
         <!-- Chat icon -->
         <div class="w-10 h-10 shrink-0 rounded-xl bg-teal-50 flex items-center justify-center">
@@ -30,7 +30,7 @@
     </button>
 
     <!-- === CHAT BODY ==== -->
-    <div v-if="chatExpanded && chatStatus === 'Active'">
+    <div v-if="chatExpanded">
       <!-- Messages -->
       <div ref="messagesContainer" class="bg-[#f8fafc] px-3 py-3 min-h-[200px] max-h-[300px] overflow-y-auto">
         <!-- Loading -->
@@ -221,7 +221,6 @@ const sendMessageResource = createResource({
 const chatSection = ref(null);
 
 async function openChat() {
-  if (props.chatStatus !== 'Active') return;
 
   chatExpanded.value = true;
   await nextTick();
