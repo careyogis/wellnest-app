@@ -67,7 +67,7 @@
             type="button"
             class="flex w-full items-start gap-3 border-b border-gray-100 px-4 py-4 text-left transition hover:bg-gray-50"
             :class="{
-               'bg-teal-50 hover:bg-teal-50 border-l-4 border-l-teal-600': selectedAppointmentId === conversation.appointment,
+              'bg-teal-50 hover:bg-teal-50 border-l-4 border-l-teal-600': selectedAppointmentId === conversation.appointment,
             }"
             @click="selectConversation(conversation)"
           >
@@ -90,13 +90,6 @@
               </p>
 
               <div class="mt-2 flex flex-wrap items-center gap-2">
-                <span
-                  class="inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold"
-                  :class="conversation.chat_status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-600'"
-                >
-                  {{ conversation.chat_status || 'Closed' }}
-                </span>
-
                 <span
                   v-if="Number(conversation.unread_count) > 0"
                   class="ml-auto inline-flex h-6 min-w-5 items-center justify-center rounded-md bg-red-500 px-1.5 py-0.5 text-[10px] font-bold text-white"
@@ -128,10 +121,6 @@
             </div>
 
             <div class="flex shrink-0 items-center gap-2">
-              <span class="rounded-full px-2.5 py-1 text-xs font-semibold" :class="selectedConversation.chat_status === 'Active' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-600'">
-                {{ selectedConversation.chat_status || 'Closed' }}
-              </span>
-
               <!-- <button
                 type="button"
                 class="hidden items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 sm:inline-flex"
@@ -143,13 +132,10 @@
             </div>
           </header>
 
-          <!-- Follow-up information -->
+          <!-- Messaging information -->
           <div class="flex items-start gap-2 border-b border-gray-100 bg-gray-50 px-5 py-3">
             <FeatherIcon name="info" class="mt-0.5 h-4 w-4 shrink-0 text-gray-400" />
-            <p class="text-xs leading-5 text-gray-600">
-              <template v-if="selectedConversation.chat_status === 'Active'"> Follow-up is active. You can view and send messages in this conversation. </template>
-              <template v-else> This conversation is closed. Message history is available for viewing, but new messages cannot be sent. </template>
-            </p>
+            <p class="text-xs leading-5 text-gray-600">You can view previous messages and continue communicating with this patient.</p>
           </div>
 
           <!-- Messages -->
@@ -201,7 +187,7 @@
               {{ sendError }}
             </div>
 
-            <template v-if="selectedConversation.chat_status === 'Active'">
+           
               <div v-if="selectedFile" class="mb-3 flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
                 <div class="flex min-w-0 items-center gap-2 text-xs text-gray-600">
                   <FeatherIcon name="paperclip" class="h-4 w-4 shrink-0" />
@@ -243,9 +229,7 @@
                   <span class="hidden sm:inline">{{ sending ? 'Sending' : 'Send' }}</span>
                 </button>
               </form>
-            </template>
-
-            <div v-else class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-center text-sm text-gray-500">This conversation is read-only because the follow-up period is closed.</div>
+            
           </div>
         </template>
 
@@ -411,11 +395,6 @@ async function sendMessage() {
   const conversation = selectedConversation.value;
 
   if (!appointmentId || sending.value || !conversation) return;
-
-  if (conversation.chat_status !== 'Active') {
-    sendError.value = 'This conversation is closed.';
-    return;
-  }
 
   const message = newMessage.value.trim();
   const file = selectedFile.value;

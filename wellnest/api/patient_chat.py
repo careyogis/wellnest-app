@@ -6,7 +6,7 @@ from frappe.utils import now_datetime
 
 @frappe.whitelist()
 def get_doctor_patient_chats():
-    """Return chat conversations belonging to the logged-in doctor."""
+    """Return all prescription-eligible patient conversations for the doctor."""
 
     practitioner = _get_current_practitioner()
 
@@ -25,52 +25,22 @@ def get_doctor_patient_chats():
     conversations = []
 
     for appointment_data in appointments:
+        prescription = frappe.db.get_value(
+            "Smart Prescription",
+            {"patient_appointment": appointment_data.name},
+            ["name", "workflow_state"],
+            as_dict=True,
+        )
+
+        if not prescription or prescription.workflow_state != "Complete":
+            continue
+
         appointment = frappe.get_doc(
             "Patient Appointment",
             appointment_data.name,
         )
 
         messages = appointment.patient_chat_messages or []
-
-        # Show only appointments with an existing chat history.
-        if not messages:
-            continue
-
-        # Find the associated prescription and follow-up period.
-        prescription_name = frappe.db.get_value(
-            "Smart Prescription",
-            {"patient_appointment": appointment.name},
-            "name",
-        )
-
-        prescription = None
-        if prescription_name:
-            prescription = frappe.db.get_value(
-                "Smart Prescription",
-                prescription_name,
-                ["workflow_state", "follow_up_in_days", "modified"],
-                as_dict=True,
-            )
-
-        follow_up_days = int(
-            (prescription.follow_up_in_days if prescription else 0) or 0
-        )
-
-        completed_at = prescription.modified if prescription else None
-
-        follow_up_active = False
-
-        if (
-            prescription
-            and prescription.workflow_state == "Complete"
-            and follow_up_days > 0
-            and completed_at
-        ):
-            follow_up_active = (
-                now_datetime()
-                <= frappe.utils.add_days(completed_at, follow_up_days)
-            )
-
         latest_message = messages[-1] if messages else None
 
         unread_count = sum(
@@ -101,7 +71,6 @@ def get_doctor_patient_chats():
                 latest_message.sent_at if latest_message else None
             ),
             "unread_count": unread_count,
-            "chat_status": "Active" if follow_up_active else "Closed",
         })
 
     conversations.sort(
