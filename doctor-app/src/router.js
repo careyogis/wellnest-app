@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { session } from './data/session';
+import { session, sessionUser } from './data/session';
 import { userResource } from '@/data/user';
 import { profileData } from '@/data/doctorProfile';
 
@@ -113,22 +113,36 @@ router.beforeEach(async (to, from, next) => {
   let isLoggedIn = session.isLoggedIn
 
   try {
-    if (isLoggedIn) {
+    // Only verify with the server when user data hasn't been fetched yet
+    // (i.e. on initial page load / browser refresh).  Subsequent in-app
+    // navigations already have a verified session — individual API calls
+    // will surface 401/403 if the session expires mid-use.
+    if (isLoggedIn && (!userResource.data || userResource.data === 'Guest')) {
       await userResource.reload()
       if (!userResource.data || userResource.data === 'Guest') {
         isLoggedIn = false
         session.user = null
       } else {
         session.user = userResource.data
-        // Load profile data if not already available (e.g. returning user with existing cookie)
         if (!profileData.data && !profileData.loading) {
           profileData.reload()
         }
       }
     }
   } catch (error) {
-    isLoggedIn = false
-    session.user = null
+    // Re-read the cookie before deciding — if the session cookie is still
+    // present the user is likely still authenticated; don't kick them out
+    // over a transient network / CSRF error.
+    const cookieUser = sessionUser()
+    if (cookieUser) {
+      console.warn(
+        'Session verification failed but session cookie is still present. Continuing.',
+        error,
+      )
+    } else {
+      isLoggedIn = false
+      session.user = null
+    }
   }
 
   if (!isLoggedIn) {
