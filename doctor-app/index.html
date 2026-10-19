@@ -23,10 +23,10 @@
     <div id="popovers"></div>
 
     <script>
-      window.csrf_token = '';
-      window.site_name = window.location.hostname;
-      window.frappe = window.frappe || {};
-      window.frappe.boot = window.frappe.boot || {};
+      window.csrf_token = "{{ csrf_token or frappe.session.csrf_token or '' }}";
+      window.site_name = "{{ site_name or frappe.local.site or '' }}";
+      if (!window.frappe) window.frappe = {};
+      frappe.boot = {{ boot or '{}' }};
     </script>
     <script type="module" src="/src/main.js"></script>
   </body>
