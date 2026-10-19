@@ -216,7 +216,12 @@ function openRecord(patient) {
   });
 }
 
-function messagePatient() {
-  router.push({ name: 'Messages' });
+function messagePatient(patient) {
+  router.push({
+    name: 'Messages',
+    query: {
+      patient: patient.id,
+    },
+  });
 }
 </script>

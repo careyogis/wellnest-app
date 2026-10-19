@@ -249,9 +249,10 @@
 <script setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { createResource, FeatherIcon } from 'frappe-ui';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 
 const conversations = ref([]);
 const selectedConversation = ref(null);
@@ -322,6 +323,18 @@ async function loadConversations() {
         messages.value = [];
       }
     }
+
+  const patientId = route.query.patient;
+
+if (patientId) {
+  const matchingConversation = conversations.value.find(
+    (item) => item.patient === patientId
+  );
+
+  if (matchingConversation) {
+    await selectConversation(matchingConversation);
+  }
+}
 
     if (!selectedConversation.value && conversations.value.length) {
       await selectConversation(conversations.value[0]);

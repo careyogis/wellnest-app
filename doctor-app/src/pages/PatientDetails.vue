@@ -118,23 +118,16 @@
           </div>
 
           
-          <!-- Conditions -->
-          <div v-else-if="activeTab === 'Conditions'" class="space-y-3">
-            <div
-              v-for="(condition, index) in timelineResource.data?.medical_history || []"
-              :key="index"
-              class="rounded-lg border p-3"
-            >
-              <p class="font-semibold">{{ condition.condition_name || 'Condition recorded' }}</p>
-              <p class="mt-1 text-sm text-gray-500">
-                {{ condition.notes || condition.status || 'No additional details' }}
-              </p>
-              <p class="mt-1 text-xs text-gray-400">{{ condition.onset_date || '' }}</p>
-            </div>
-            <p v-if="!timelineResource.data?.medical_history?.length" class="text-sm text-gray-500">
-              No conditions recorded.
-            </p>
-          </div>
+      <!-- Conditions -->
+<div v-else-if="activeTab === 'Conditions'" class="space-y-3">
+  <div class="rounded-lg border border-gray-200 bg-white p-4">
+    <h3 class="font-semibold text-gray-900">History</h3>
+
+    <p class="mt-2 whitespace-pre-wrap text-sm text-gray-600">
+      {{ prescriptionResource.data?.history || 'No history recorded for this appointment.' }}
+    </p>
+  </div>
+</div>
 
         <!-- Medications -->
          <div v-else-if="activeTab === 'Medications'" class="space-y-3">
@@ -191,30 +184,203 @@
     No vitals recorded for this appointment.
   </p>
 </div>
+        
 
-          <!-- Prescriptions -->
-          <div v-else-if="activeTab === 'Prescriptions'" class="space-y-3">
-            <div
-              v-if="prescriptionResource.data"
-              class="rounded-lg border p-3"
-            >
-              <p class="font-semibold">{{ prescriptionResource.data.name }}</p>
-              <p class="mt-1 text-sm text-gray-500">
-                Status: {{ prescriptionResource.data.workflow_state || 'Not available' }}
-              </p>
-              <p class="mt-1 text-sm text-gray-500">
-                {{ prescriptionResource.data.provisional_diagnosis || 'No diagnosis recorded' }}
-              </p>
+<!-- Prescriptions -->
+<div v-else-if="activeTab === 'Prescriptions'" class="space-y-3">
+  <div
+    v-if="prescriptionResource.data"
+    class="rounded-xl border border-gray-200 bg-white p-5"
+  >
+    <div class="flex items-center justify-between gap-4">
+     
+
+      <button
+        type="button"
+        class="rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-600"
+        @click="showPrescriptionPreview = true"
+      >
+        Preview prescription
+      </button>
+    </div>
+  </div>
+
+  <p v-else class="text-sm text-gray-500">
+    No prescription found for this appointment.
+  </p>
+
+  <!-- Prescription Preview Modal -->
+  <div
+    v-if="showPrescriptionPreview && prescriptionResource.data"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+    @click.self="showPrescriptionPreview = false"
+  >
+    <div class="flex max-h-[90vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-white shadow-xl">
+      <div class="flex shrink-0 items-center justify-between border-b border-gray-200 px-6 py-4">
+        <h2 class="text-2xl font-semibold text-gray-900">
+          {{ patient.name }} prescription preview
+        </h2>
+
+        <button
+          type="button"
+          class="text-3xl leading-none text-gray-500 hover:text-gray-900"
+          @click="showPrescriptionPreview = false"
+        >
+          ×
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto px-5 py-5">
+        <div class="rounded-xl border border-amber-200 bg-[#fffdf7] p-5">
+          <div class="flex flex-col gap-4 border-b border-amber-200 pb-5 md:flex-row md:items-start md:justify-between">
+            <div class="flex flex-col items-start gap-4 sm:flex-row">
+              <img
+                :src="careyogiLogo"
+                alt="CareYogi"
+                class="h-auto w-24 shrink-0 object-contain sm:w-32"
+              />
+
+              <div>
+                <h3 class="break-words text-lg font-bold text-gray-900 sm:text-xl">
+                  CAREYOGI DIGITAL CONSULTATION PRESCRIPTION
+                </h3>
+                <p class="mt-2 break-words text-sm text-gray-600">
+                  5th Floor, Adilakshmi Square, Plot No.137, Old Mumbai Highway,
+                  Gachibowli, Hyderabad, Telangana - 500032
+                </p>
+                <p class="mt-1 break-words text-sm text-gray-600">
+                  +91-9810918237 / info@careyogis.com
+                </p>
+              </div>
             </div>
-            <p v-else class="text-sm text-gray-500">
-              No prescription found for this appointment.
+
+            <span class="shrink-0 rounded-lg bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+              {{ prescriptionResource.data.workflow_state || 'Prescription' }}
+            </span>
+          </div>
+
+          <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
+            <div
+              v-for="item in prescriptionPreviewDetails"
+              :key="item.label"
+              class="rounded-xl border border-gray-200 bg-white p-4"
+            >
+              <p class="text-xs text-gray-500">{{ item.label }}</p>
+              <p class="mt-2 break-words font-bold text-gray-900">{{ item.value }}</p>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <h3 class="font-bold text-gray-900">Provisional Diagnosis</h3>
+            <p class="mt-2 whitespace-pre-wrap text-sm text-gray-700">
+              {{ prescriptionResource.data.provisional_diagnosis || 'No provisional diagnosis recorded.' }}
             </p>
           </div>
 
-          <!-- Other tabs remain out of scope -->
-          <p v-else class="text-sm text-gray-500">
-            {{ activeTab }} content will be added in a future implementation.
-          </p>
+          <div class="mt-5">
+            <h3 class="font-bold text-gray-900">Treatment / Medication</h3>
+
+            <div class="mt-3 overflow-x-auto">
+              <table class="w-full text-left text-sm">
+                <thead>
+                  <tr class="border-b border-amber-200 bg-amber-100">
+                    <th class="px-3 py-2">Medicine</th>
+                    <th class="px-3 py-2">Dose</th>
+                    <th class="px-3 py-2">Frequency</th>
+                    <th class="px-3 py-2">Instructions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(medicine, index) in prescriptionMedicines"
+                    :key="index"
+                    class="border-b border-gray-200"
+                  >
+                    <td class="px-3 py-2">{{ medicine.medicine_name || medicine.medicine || '—' }}</td>
+                    <td class="px-3 py-2">{{ medicine.dosage || medicine.dose || '—' }}</td>
+                    <td class="px-3 py-2">{{ medicine.timing || medicine.frequency || '—' }}</td>
+                    <td class="px-3 py-2">{{ medicine.instructions || medicine.duration || medicine.instruction || '—' }}</td>
+                  </tr>
+                  <tr v-if="!prescriptionMedicines.length">
+                    <td colspan="4" class="px-3 py-4 text-gray-500">
+                      No medicine details available.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="mt-5">
+            <h3 class="font-bold text-gray-900">Doctor Advice</h3>
+            <p class="mt-2 whitespace-pre-wrap text-sm text-gray-700">
+              {{ prescriptionResource.data.doctor_advice || prescriptionResource.data.advice || 'No doctor advice recorded.' }}
+            </p>
+          </div>
+
+          <div class="mt-5">
+            <h3 class="font-bold text-gray-900">Follow-up In (days)</h3>
+            <p class="mt-2 text-sm text-gray-700">
+              {{ prescriptionResource.data.follow_up_in_days || 'Not specified' }}
+            </p>
+          </div>
+
+          <div class="mt-6 border-t border-amber-200 pt-5">
+            <h3 class="font-bold text-gray-900">Digitally Signed</h3>
+            <p class="mt-2 text-sm text-gray-600">
+              This is a digitally generated CareYogi prescription and does not require a physical signature.
+            </p>
+            <p class="mt-2 text-sm text-gray-700">© CareYogi 2026</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex shrink-0 justify-end border-t border-gray-200 bg-white px-6 py-4">
+        <button
+          type="button"
+          class="rounded-xl bg-gray-100 px-5 py-3 font-semibold text-gray-800 hover:bg-gray-200"
+          @click="showPrescriptionPreview = false"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+        <!-- Lab Reports -->
+<div v-else-if="activeTab === 'Lab Reports'" class="space-y-3">
+  <div
+    v-for="document in healthVaultRecords"
+    :key="document.name"
+    class="rounded-xl border border-gray-200 p-4"
+  >
+    <p class="font-medium text-gray-900">
+      {{ document.document_type || 'Health Document' }}
+    </p>
+    <a
+      v-if="document.document_url"
+      :href="document.document_url"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-2 inline-block text-sm text-blue-600 hover:underline"
+    >
+      View document
+    </a>
+  </div>
+
+  <p
+    v-if="!patientHistoryResource.loading && !healthVaultRecords.length"
+    class="py-8 text-center text-sm text-gray-500"
+  >
+    No health records found for this patient.
+  </p>
+</div>
+
+<!-- Fallback for other tabs -->
+<p v-else class="text-sm text-gray-500">
+  {{ activeTab }} content will be added in a future implementation.
+</p>
 
         </section>
       </div>
@@ -226,10 +392,12 @@
 import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { createResource } from 'frappe-ui';
+import careyogiLogo from '@/assets/images/logo-01.png';
 
 const route = useRoute();
 const router = useRouter();
 const activeTab = ref('Timeline');
+const showPrescriptionPreview = ref(false);
 
 const tabs = [
   'Timeline',
@@ -238,9 +406,6 @@ const tabs = [
   'Vitals',
   'Lab Reports',
   'Prescriptions',
-  'Notes',
-  'Care Plans',
-  'Files',
 ];
 
 
@@ -344,6 +509,14 @@ const timelineResource = createResource({
   auto: false,
 });
 
+const patientHistoryResource = createResource({
+  url: 'wellnest.api.patient_history.get_patient_history',
+  auto: false,
+});
+
+const healthVaultRecords = computed(
+  () => patientHistoryResource.data?.health_vault || [],
+);
 
 const prescriptionResource = createResource({
   url: 'wellnest.api.prescription.get_consultation_prescription',
@@ -353,6 +526,49 @@ const prescriptionResource = createResource({
     };
   },
   auto: false,
+});
+
+const prescriptionPreviewDetails = computed(() => {
+  const appointment = patientResource.data?.appointment || {};
+
+  return [
+    { label: 'Patient', value: patient.value.name },
+    {
+      label: 'Consultation Type',
+      value: appointment.consultation_type || patient.value.consultationType,
+    },
+    {
+      label: 'Date',
+      value: patient.value.consultationDate,
+    },
+    {
+      label: 'Appointment ID',
+      value: route.query.appointment || 'Not available',
+    },
+  ];
+});
+
+const prescriptionMedicines = computed(() => {
+  const prescription = prescriptionResource.data;
+  if (!prescription) return [];
+
+  const medicines =
+    prescription.medicines ||
+    prescription.prescription_items ||
+    [];
+
+  if (Array.isArray(medicines)) return medicines;
+
+  if (typeof medicines === 'string') {
+    try {
+      const parsed = JSON.parse(medicines);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+
+  return [];
 });
 
 const vitalsResource = createResource({
@@ -369,12 +585,21 @@ watch(
       timelineResource.reset();
       prescriptionResource.reset();
       vitalsResource.reset();
+      patientHistoryResource.reset();
       return;
     }
 
     patientResource.reload();
     timelineResource.reload();
     prescriptionResource.reload();
+
+    if (route.query.appointment) {
+  patientHistoryResource.submit({
+    patient_appointment: route.query.appointment,
+  });
+} else {
+  patientHistoryResource.reset();
+}
 
     if (route.query.appointment) {
       vitalsResource.submit({
@@ -526,7 +751,12 @@ function returnToSelectedConsult() {
 }
 
 function messagePatient() {
-  router.push({ name: 'Messages' });
+  router.push({
+    name: 'Messages',
+    query: {
+      patient: route.query.patient,
+    },
+  });
 }
 
 function initials(name) {
