@@ -8,5 +8,7 @@ __pycache__
 wellnest/www/caregiver-app.html
 wellnest/public/caregiver-app/
 wellnest/www/doctor-app.html
+wellnest/www/sw.js
 wellnest/public/doctor-app/
+
 .vscode

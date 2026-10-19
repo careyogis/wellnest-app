@@ -11,13 +11,17 @@ def get_context(context):
 	context.csrf_token = csrf_token
 	context.boot = get_boot()
 	context.site_name = frappe.local.site
+	if frappe.session.user and frappe.session.user != "Guest":
+		context.session_user = frappe.session.user
 
 
 @frappe.whitelist(methods=["POST"], allow_guest=True)
 def get_context_for_dev():
 	if not frappe.conf.developer_mode:
 		frappe.throw(frappe._("This method is only meant for developer mode"))
-	return get_boot()
+	boot = get_boot()
+	boot["csrf_token"] = frappe.sessions.get_csrf_token()
+	return boot
 
 
 def get_boot():
@@ -29,6 +33,10 @@ def get_boot():
 			"default_route": get_default_route(),
 		}
 	)
+
+	if frappe.session.user and frappe.session.user != "Guest":
+		bootinfo.session_user = str(frappe.session.user)
+		bootinfo.user = str(frappe.session.user)
 
 	bootinfo.lang = str(frappe.local.lang or "en")
 	load_translations(bootinfo)

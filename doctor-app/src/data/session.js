@@ -5,6 +5,10 @@ import { userResource } from './user'
 import { profileData } from './doctorProfile'
 
 export function sessionUser() {
+  const bootUser = window.frappe?.boot?.session_user || window.frappe?.boot?.user
+  if (bootUser && bootUser !== 'Guest') {
+    return bootUser
+  }
   let cookies = new URLSearchParams(document.cookie.split('; ').join('&'))
   let _sessionUser = cookies.get('user_id')
   if (_sessionUser === 'Guest') {
@@ -41,7 +45,7 @@ export const session = reactive({
     onSuccess() {
       userResource.reset()
       profileData.reset()
-      session.user = sessionUser()
+      session.user = null
       router.replace({ name: 'Login' })
       window.location.reload()
     },

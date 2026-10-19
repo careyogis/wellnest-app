@@ -109,41 +109,43 @@ let router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from, next) => {
-  let isLoggedIn = session.isLoggedIn
+let isInitialAuthChecked = false
 
-  try {
-    // Only verify with the server when user data hasn't been fetched yet
-    // (i.e. on initial page load / browser refresh).  Subsequent in-app
-    // navigations already have a verified session — individual API calls
-    // will surface 401/403 if the session expires mid-use.
-    if (isLoggedIn && (!userResource.data || userResource.data === 'Guest')) {
+router.beforeEach(async (to, from, next) => {
+  // On initial page load / browser refresh, verify session with Frappe backend.
+  // We do not condition this on session.isLoggedIn because the HttpOnly `sid`
+  // cookie is the true auth credential; document.cookie['user_id'] may temporarily
+  // be missing or set to 'Guest' after a direct URL navigation.
+  if (!isInitialAuthChecked) {
+    isInitialAuthChecked = true
+    try {
       await userResource.reload()
-      if (!userResource.data || userResource.data === 'Guest') {
-        isLoggedIn = false
-        session.user = null
-      } else {
+      if (userResource.data && userResource.data !== 'Guest') {
         session.user = userResource.data
         if (!profileData.data && !profileData.loading) {
           profileData.reload()
         }
+      } else {
+        session.user = null
+      }
+    } catch (error) {
+      // Re-read the cookie / boot before deciding — if the session cookie is still
+      // present the user is likely still authenticated; don't kick them out
+      // over a transient network / CSRF error.
+      const cookieUser = sessionUser()
+      if (cookieUser) {
+        console.warn(
+          'Session verification failed but session cookie is still present. Continuing.',
+          error,
+        )
+        session.user = cookieUser
+      } else {
+        session.user = null
       }
     }
-  } catch (error) {
-    // Re-read the cookie before deciding — if the session cookie is still
-    // present the user is likely still authenticated; don't kick them out
-    // over a transient network / CSRF error.
-    const cookieUser = sessionUser()
-    if (cookieUser) {
-      console.warn(
-        'Session verification failed but session cookie is still present. Continuing.',
-        error,
-      )
-    } else {
-      isLoggedIn = false
-      session.user = null
-    }
   }
+
+  const isLoggedIn = !!session.user
 
   if (!isLoggedIn) {
     if (!['Login', 'Register'].includes(to.name)) {

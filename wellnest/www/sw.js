@@ -1,5 +1,5 @@
 // Service Worker for CareYogi Doctor App PWA
-const CACHE_NAME = 'doctor-app-v2';
+const CACHE_NAME = 'doctor-app-v3';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -29,12 +29,12 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
 
-  // Network-only for API, authentication, and HTML entry points to preserve session integrity
+  // Network-only for navigation/HTML, API, and authentication to preserve session integrity
   if (
+    event.request.mode === 'navigate' ||
     url.pathname.startsWith('/api/') ||
     url.pathname.includes('/method/') ||
-    url.pathname === '/doctor-app' ||
-    url.pathname === '/doctor-app/' ||
+    url.pathname.startsWith('/doctor-app') ||
     url.pathname.includes('login') ||
     url.pathname.includes('logout')
   ) {
