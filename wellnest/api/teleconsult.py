@@ -8,9 +8,9 @@ from frappe.utils import now_datetime
 
 
 @frappe.whitelist()
-def check_follow_up_eligibility(practitioner, patient):
+def check_free_follow_up_eligibility(practitioner, patient):
     """Return whether the patient qualifies for a free follow-up with the same doctor."""
-    return _is_follow_up_eligible(practitioner, patient)
+    return _is_free_follow_up_eligible(practitioner, patient)
 
 
 @frappe.whitelist()
@@ -54,7 +54,7 @@ def book_appointment(
     follow_up_reference = follow_up_of or None
 
     if follow_up_flag:
-        eligibility = _is_follow_up_eligible(practitioner, patient)
+        eligibility = _is_free_follow_up_eligible(practitioner, patient)
         if not eligibility["eligible"]:
             frappe.throw(
                 "Follow-up is only free when booked within 7 days of a paid consultation with the same doctor.",
@@ -230,7 +230,7 @@ def reschedule_appointment(
     return {"success": True, "new_appointment": new_name}
 
 
-def _is_follow_up_eligible(practitioner, patient):
+def _is_free_follow_up_eligible(practitioner, patient):
     """Return whether the patient is eligible for a free follow-up with the same doctor.
 
     Eligibility is based on the most recent paid appointment with this practitioner,
@@ -239,7 +239,6 @@ def _is_follow_up_eligible(practitioner, patient):
     if not practitioner or not patient:
         return {
             "eligible": False,
-            "is_free": False,
             "days_since_consultation": 0,
             "previous_appointment_id": None,
         }
@@ -261,7 +260,6 @@ def _is_follow_up_eligible(practitioner, patient):
     if not latest_paid:
         return {
             "eligible": False,
-            "is_free": False,
             "days_since_consultation": 0,
             "previous_appointment_id": None,
         }
@@ -273,7 +271,6 @@ def _is_follow_up_eligible(practitioner, patient):
 
     return {
         "eligible": eligible,
-        "is_free": eligible,
         "days_since_consultation": diff_days,
         "previous_appointment_id": last_appointment.name,
     }

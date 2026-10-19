@@ -3,7 +3,7 @@
 
 import frappe
 from frappe.tests.utils import FrappeTestCase
-from wellnest.api.teleconsult import check_follow_up_eligibility
+from wellnest.api.teleconsult import check_free_follow_up_eligibility
 from wellnest.wellnest.doctype.patient_appointment.patient_appointment import (
     _get_agora_uid,
     end_consultation,
@@ -236,7 +236,7 @@ class TestPatientAppointment(FrappeTestCase):
         prior_appointment.insert(ignore_permissions=True)
         frappe.db.commit()
 
-        result = check_follow_up_eligibility(self.practitioner.name, self.patient.name)
+        result = check_free_follow_up_eligibility(self.practitioner.name, self.patient.name)
 
         self.assertTrue(result["eligible"])
         self.assertTrue(result["is_free"])
