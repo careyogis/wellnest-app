@@ -23,6 +23,8 @@
   "payment_status",
   "main_complaints",
   "consultation_type",
+  "is_follow_up",
+  "follow_up_of",
   "patient_chat_messages"
  ],
  "fields": [
@@ -158,6 +160,17 @@
    "label": "Consultation Type",
    "options": "Online\nIn Clinic\nEmergency",
    "reqd": 1
+  },
+  {
+   "fieldname": "is_follow_up",
+   "fieldtype": "Check",
+   "label": "Is Follow Up"
+  },
+  {
+   "fieldname": "follow_up_of",
+   "fieldtype": "Link",
+   "label": "Follow Up Of",
+   "options": "Patient Appointment"
   },
   {
   "fieldname": "patient_chat_messages",

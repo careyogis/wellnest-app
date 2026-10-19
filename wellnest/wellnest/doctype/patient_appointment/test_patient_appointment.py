@@ -3,7 +3,7 @@
 
 import frappe
 from frappe.tests.utils import FrappeTestCase
-
+from wellnest.api.teleconsult import check_follow_up_eligibility
 from wellnest.wellnest.doctype.patient_appointment.patient_appointment import (
     _get_agora_uid,
     end_consultation,
@@ -221,6 +221,30 @@ class TestPatientAppointment(FrappeTestCase):
 
         with self.assertRaises(frappe.ValidationError):
             start_consultation(self.appointment.name)
+
+    def test_follow_up_eligibility_within_seven_days(self):
+        prior_appointment = frappe.get_doc({
+            "doctype": "Patient Appointment",
+            "patient": self.patient.name,
+            "practitioner": self.practitioner.name,
+            "scheduled_time": frappe.utils.add_days(frappe.utils.now_datetime(), -3),
+            "consultation_type": "Online",
+            "consultation_fee": 1000,
+            "payment_status": "Paid",
+            "status": "Completed",
+        })
+        prior_appointment.insert(ignore_permissions=True)
+        frappe.db.commit()
+
+        result = check_follow_up_eligibility(self.practitioner.name, self.patient.name)
+
+        self.assertTrue(result["eligible"])
+        self.assertTrue(result["is_free"])
+        self.assertEqual(result["previous_appointment_id"], prior_appointment.name)
+        self.assertLessEqual(result["days_since_consultation"], 7)
+
+        frappe.db.delete("Patient Appointment", {"name": prior_appointment.name})
+        frappe.db.commit()
 
     def test_cannot_start_completed_consultation(self):
         self.appointment.db_set(

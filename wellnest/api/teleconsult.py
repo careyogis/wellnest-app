@@ -8,6 +8,12 @@ from frappe.utils import now_datetime
 
 
 @frappe.whitelist()
+def check_follow_up_eligibility(practitioner, patient):
+    """Return whether the patient qualifies for a free follow-up with the same doctor."""
+    return _is_follow_up_eligible(practitioner, patient)
+
+
+@frappe.whitelist()
 def get_agora_token(channel_name, uid=1001, role="publisher"):
     # Store certificate in site_config.json
     app_id = frappe.conf.get("agora_app_id")
@@ -29,26 +35,55 @@ def get_agora_token(channel_name, uid=1001, role="publisher"):
 
 @frappe.whitelist()
 def book_appointment(
-    practitioner, patient, scheduled_time, consultation_type, consultation_fee, main_complaints="Not provided"
+    practitioner,
+    patient,
+    scheduled_time,
+    consultation_type,
+    consultation_fee,
+    main_complaints="Not provided",
+    is_follow_up=False,
+    follow_up_of=None,
 ):
     """
     Creates a Patient Appointment in Unverified status.
+
+    If the caller marks this as a follow-up, we validate that the patient had a
+    paid consultation with the same practitioner within the last 7 days.
     """
-    # 1. Create Patient Appointment
+    follow_up_flag = bool(is_follow_up)
+    follow_up_reference = follow_up_of or None
+
+    if follow_up_flag:
+        eligibility = _is_follow_up_eligible(practitioner, patient)
+        if not eligibility["eligible"]:
+            frappe.throw(
+                "Follow-up is only free when booked within 7 days of a paid consultation with the same doctor.",
+                frappe.ValidationError,
+            )
+
+        if not follow_up_reference:
+            follow_up_reference = eligibility.get("previous_appointment_id")
+
+        if not follow_up_reference:
+            frappe.throw("A prior paid consultation is required to book a free follow-up.", frappe.ValidationError)
+
+        consultation_fee = 0
+
     appointment = frappe.get_doc(
         {
             "doctype": "Patient Appointment",
             "practitioner": practitioner,
             "patient": patient,
             "scheduled_time": scheduled_time,
-            "appointment_type": consultation_type,
+            "consultation_type": consultation_type,
             "consultation_fee": consultation_fee,
             "main_complaints": main_complaints,
             "status": "Unverified",
+            "is_follow_up": 1 if follow_up_flag else 0,
+            "follow_up_of": follow_up_reference,
         }
     )
     appointment.insert(ignore_permissions=True)
-
 
     # 2. Return the appointment name
     return {"name": appointment.name}
@@ -154,6 +189,8 @@ def reschedule_appointment(
     consultation_type: str,
     consultation_fee: float = 0,
     main_complaints: str = "",
+    is_follow_up: bool = False,
+    follow_up_of: str = None,
 ) -> dict:
     """Reschedule a Patient Appointment by cancelling the old one and
     creating a new one at the requested time.
@@ -184,8 +221,60 @@ def reschedule_appointment(
         consultation_type=consultation_type,
         consultation_fee=consultation_fee,
         main_complaints=main_complaints if main_complaints else None,
+        is_follow_up=is_follow_up,
+        follow_up_of=follow_up_of,
     )
 
     new_name = result.get("name") if isinstance(result, dict) else str(result)
 
     return {"success": True, "new_appointment": new_name}
+
+
+def _is_follow_up_eligible(practitioner, patient):
+    """Return whether the patient is eligible for a free follow-up with the same doctor.
+
+    Eligibility is based on the most recent paid appointment with this practitioner,
+    within the last 7 days.
+    """
+    if not practitioner or not patient:
+        return {
+            "eligible": False,
+            "is_free": False,
+            "days_since_consultation": 0,
+            "previous_appointment_id": None,
+        }
+
+    latest_paid = frappe.get_all(
+        "Patient Appointment",
+        filters=[
+            ["patient", "=", patient],
+            ["practitioner", "=", practitioner],
+            ["payment_status", "=", "Paid"],
+            ["consultation_fee", ">", 0],
+            ["status", "in", ["Completed", "Scheduled", "In-Progress"]],
+        ],
+        fields=["name", "scheduled_time", "consultation_fee"],
+        order_by="scheduled_time desc",
+        limit=1,
+    )
+
+    if not latest_paid:
+        return {
+            "eligible": False,
+            "is_free": False,
+            "days_since_consultation": 0,
+            "previous_appointment_id": None,
+        }
+
+    last_appointment = latest_paid[0]
+    last_scheduled = frappe.utils.get_datetime(last_appointment.scheduled_time)
+    diff_days = max(0, (frappe.utils.now_datetime() - last_scheduled).days)
+    eligible = diff_days <= 7
+
+    return {
+        "eligible": eligible,
+        "is_free": eligible,
+        "days_since_consultation": diff_days,
+        "previous_appointment_id": last_appointment.name,
+    }
+
