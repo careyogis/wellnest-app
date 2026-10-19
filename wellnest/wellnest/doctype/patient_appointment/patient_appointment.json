@@ -14,6 +14,9 @@
   "consultation_ended_at",
   "prescription_sla_last_reminder_at",
   "patient_waiting_reminder_sent",
+  "patient_chat_messages",
+  "is_follow_up",
+  "follow_up_of",
   "column_break_tele",
   "consultation_fee",
   "practitioner_payout_rate",
@@ -23,9 +26,9 @@
   "payment_status",
   "main_complaints",
   "consultation_type",
-  "is_follow_up",
-  "follow_up_of",
-  "patient_chat_messages"
+  "cancelled_at",
+  "cancel_reason",
+  "cancelled_by"
  ],
  "fields": [
   {
@@ -58,7 +61,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-  "options": "Unverified\nScheduled\nIn-Progress\nCompleted\nCancelled\nCancelled by Doctor\nNo Show"
+   "options": "Unverified\nScheduled\nIn-Progress\nCompleted\nCancelled\nCancelled by Doctor\nNo Show"
   },
   {
    "default": "Upcoming",
@@ -69,29 +72,29 @@
    "read_only": 1
   },
   {
-  "fieldname": "consultation_ended_at",
-  "fieldtype": "Datetime",
-  "label": "Consultation Ended At",
-  "read_only": 1
+   "fieldname": "consultation_ended_at",
+   "fieldtype": "Datetime",
+   "label": "Consultation Ended At",
+   "read_only": 1
   },
   {
-    "fieldname": "prescription_sla_last_reminder_at",
-    "fieldtype": "Datetime",
-    "label": "Prescription SLA Last Reminder At",
-    "read_only": 1
+   "fieldname": "prescription_sla_last_reminder_at",
+   "fieldtype": "Datetime",
+   "label": "Prescription SLA Last Reminder At",
+   "read_only": 1
   },
   {
-  "fieldname": "patient_waiting_reminder_sent",
-  "fieldtype": "Check",
-  "label": "Patient Waiting Reminder Sent",
-  "default": "0",
-  "read_only": 1
+   "default": "0",
+   "fieldname": "patient_waiting_reminder_sent",
+   "fieldtype": "Check",
+   "label": "Patient Waiting Reminder Sent",
+   "read_only": 1
   },
   {
    "fieldname": "cancel_reason",
    "fieldtype": "Select",
    "label": "Cancellation Reason",
-   "options": "Emergency\nHealth Issues\nPersonal Commitment\nTechnical Issues\nChoose not to say\nOthers"
+   "options": "\nEmergency\nHealth Issues\nPersonal Commitment\nTechnical Issues\nChoose not to say\nOthers"
   },
   {
    "fieldname": "cancelled_by",
@@ -106,7 +109,6 @@
    "label": "Cancelled At",
    "read_only": 1
   },
-
   {
    "fieldname": "column_break_tele",
    "fieldtype": "Column Break"
@@ -162,6 +164,7 @@
    "reqd": 1
   },
   {
+   "default": "0",
    "fieldname": "is_follow_up",
    "fieldtype": "Check",
    "label": "Is Follow Up"
@@ -173,15 +176,15 @@
    "options": "Patient Appointment"
   },
   {
-  "fieldname": "patient_chat_messages",
-  "fieldtype": "Table",
-  "label": "Patient Chat Messages",
-  "options": "Patient Chat Message"
+   "fieldname": "patient_chat_messages",
+   "fieldtype": "Table",
+   "label": "Patient Chat Messages",
+   "options": "Patient Chat Message"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-08-27 01:44:51.226406",
+ "modified": "2026-10-19 13:16:02.883328",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Patient Appointment",
@@ -201,16 +204,12 @@
    "write": 1
   },
   {
-   "role": "Customer",
    "create": 1,
-   "delete": 0,
    "email": 1,
-   "export": 0,
    "print": 1,
    "read": 1,
    "report": 1,
-   "select": 0,
-   "share": 0,
+   "role": "Customer",
    "write": 1
   }
  ],
