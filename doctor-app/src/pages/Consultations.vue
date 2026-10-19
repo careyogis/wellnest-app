@@ -471,7 +471,7 @@
             <!-- Draft Saved Confirmation -->
            <div
              v-if="draftSaved"
-            class="mb-4 flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-4 text-green-700"
+            class="mt-4 mb-4 flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 px-5 py-4 text-green-700"
             >
                <FeatherIcon name="check-circle" class="h-5 w-5 shrink-0" />
                <span class="font-bold">Draft saved</span>
