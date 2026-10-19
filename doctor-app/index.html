@@ -1,21 +1,21 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-		<link rel="shortcut icon" href="/assets/wellnest/images/favicon/favicon.ico" type="image/x-icon" />
-		<link rel="apple-touch-icon" sizes="180x180" href="/assets/wellnest/images/favicon/apple-touch-icon.png" />
-		<link rel="icon" type="image/png" sizes="32x32" href="/assets/wellnest/images/favicon/favicon-32x32.png" />
-		<link rel="icon" type="image/png" sizes="16x16" href="/assets/wellnest/images/favicon/favicon-16x16.png" />
-		<link rel="manifest" href="/assets/wellnest/doctor-app/manifest.json" />
+    <link rel="shortcut icon" href="/assets/wellnest/images/favicon/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/wellnest/images/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/wellnest/images/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/wellnest/images/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="/manifest.json" />
 
-		<!-- PWA & Mobile native capabilities -->
-		<meta name="theme-color" content="#ffffff" />
-		<meta name="mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
-		<meta name="apple-mobile-web-app-title" content="Doctor App" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-		<title>CareYogi Doctor App</title>
+    <!-- PWA & Mobile native capabilities -->
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Doctor App" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>CareYogi Doctor App</title>
   </head>
   <body>
     <div id="app"></div>
@@ -23,10 +23,10 @@
     <div id="popovers"></div>
 
     <script>
-      window.csrf_token = "{{ csrf_token or frappe.session.csrf_token or '' }}";
-      window.site_name = "{{ site_name or frappe.local.site or '' }}";
-      if (!window.frappe) window.frappe = {};
-      frappe.boot = {{ boot or '{}' }};
+      window.csrf_token = '';
+      window.site_name = window.location.hostname;
+      window.frappe = window.frappe || {};
+      window.frappe.boot = window.frappe.boot || {};
     </script>
     <script type="module" src="/src/main.js"></script>
   </body>

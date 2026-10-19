@@ -25,7 +25,7 @@ let app = createApp(App)
 
 setConfig('resourceFetcher', frappeRequest)
 
-app.use(router)
+//app.use(router)
 app.use(resourcesPlugin)
 
 app.component('Button', Button)
@@ -62,6 +62,7 @@ const registerServiceWorker = () => {
 const initPromise = import.meta.env.DEV
   ? frappeRequest({
       url: '/api/method/wellnest.www.doctor_app.get_context_for_dev',
+      method: 'GET',
     })
       .then((values) => {
         if (!window.frappe) window.frappe = {}
@@ -77,5 +78,6 @@ const initPromise = import.meta.env.DEV
 
 initPromise.then(() => {
   registerServiceWorker()
+  app.use(router)
   app.mount('#app')
 })
