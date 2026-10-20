@@ -4,6 +4,53 @@ from frappe.utils import now_datetime
 from frappe.utils import get_site_name
 
 @frappe.whitelist(allow_guest=False)
+def get_doctor_appointment_notifications():
+    """Return scheduled appointments belonging to the logged-in doctor."""
+    from wellnest.health.doctype.practitioner.practitioner import (
+        get_current_practitioner,
+    )
+
+    practitioner = get_current_practitioner()
+
+    appointments = frappe.get_all(
+        "Patient Appointment",
+       filters={
+           "practitioner": practitioner.name,
+           "status": ["not in", [
+               "Completed",
+               "Cancelled",
+               "Cancelled by Doctor",
+               "No Show",
+           ]],
+           "payment_status": "Paid",
+           "scheduled_time": [">=", frappe.utils.get_datetime().replace(
+               hour=0, minute=0, second=0, microsecond=0
+           )],
+        },
+        fields=[
+            "name",
+            "patient",
+            "scheduled_time",
+            "creation",
+        ],
+        order_by="creation desc",
+        limit=20,
+    )
+
+    for appointment in appointments:
+        appointment["patient_name"] = (
+            frappe.db.get_value(
+                "Patient",
+                appointment["patient"],
+                "full_name",
+            )
+            or appointment["patient"]
+        )
+
+    return appointments
+
+
+@frappe.whitelist(allow_guest=False)
 def get_app_notifications(patient_id):
     now = now_datetime()
 

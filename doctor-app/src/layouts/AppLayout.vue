@@ -62,9 +62,80 @@
         </div>
 
         <div class="flex items-center gap-4">
-          <button type="button" class="relative p-2 rounded-lg hover:bg-gray-100 text-gray-500" aria-label="Notifications">
-            <FeatherIcon name="bell" class="w-5 h-5" />
-          </button>
+         <div class="relative">
+  <button
+    type="button"
+    class="relative p-2 rounded-lg hover:bg-gray-100 text-gray-500"
+    aria-label="Notifications"
+    aria-haspopup="true"
+    :aria-expanded="notificationsOpen"
+    @click="toggleNotifications"
+  >
+    <FeatherIcon name="bell" class="w-5 h-5" />
+    <span
+      v-if="notifications.length"
+      class="absolute -top-1 -right-1 min-w-4 h-4 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center"
+    >
+    {{ notifications.length > 99 ? '99+' : notifications.length }}
+    </span>
+  </button>
+
+  <div
+    v-if="notificationsOpen"
+    class="absolute right-0 top-full mt-2 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-xl border border-gray-200 shadow-lg z-50"
+  >
+    <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+      <h3 class="text-sm font-semibold text-gray-900">Notifications</h3>
+      <button
+        type="button"
+        class="text-xs text-gray-500 hover:text-gray-800"
+        @click="notificationsOpen = false"
+      >
+        Close
+      </button>
+    </div>
+
+    <div class="max-h-80 overflow-y-auto">
+      <div v-if="notificationsLoading" class="px-4 py-6 text-center text-sm text-gray-500">
+        Loading notifications...
+      </div>
+
+      <div v-else-if="notificationsError" class="px-4 py-6 text-center text-sm text-red-600">
+        {{ notificationsError }}
+        <button
+          type="button"
+          class="block mx-auto mt-2 text-teal-700 font-medium"
+          @click="loadNotifications"
+        >
+          Try again
+        </button>
+      </div>
+
+      <div v-else-if="!notifications.length" class="px-4 py-8 text-center">
+        <FeatherIcon name="bell" class="w-6 h-6 mx-auto mb-2 text-gray-300" />
+        <p class="text-sm text-gray-500">No new notifications</p>
+      </div>
+
+      <div
+        v-for="notification in notifications"
+        :key="notification.name"
+       type="button"
+  class="block w-full px-4 py-3 border-b border-gray-100 last:border-b-0 text-left hover:bg-gray-50 transition-colors"
+  @click="openAppointment(notification)"
+      >
+        <p class="text-sm font-medium text-gray-800">
+          New appointment
+        </p>
+        <p class="mt-1 text-sm text-gray-600">
+          {{ notification.patient_name }}
+        </p>
+        <p class="mt-1 text-xs text-gray-400">
+          {{ formatNotificationDate(notification.scheduled_time) }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 
           <RouterLink :to="{ name: 'Profile' }" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <div class="w-9 h-9 rounded-full bg-teal-100 text-teal-700 font-bold flex items-center justify-center text-sm overflow-hidden shrink-0">
@@ -87,8 +158,8 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue';
-import { useRoute, RouterLink } from 'vue-router';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { useRoute, useRouter, RouterLink } from 'vue-router';
 import { profileData } from '@/data/doctorProfile';
 import logoUrl from '@/assets/images/logo-01.png';
 
@@ -103,21 +174,113 @@ const doctorInitials = computed(() => {
 import { FeatherIcon } from 'frappe-ui';
 
 const route = useRoute();
+const router = useRouter();
 const sidebarOpen = ref(false);
 const deferredPrompt = ref(null);
 const canInstall = ref(false);
+const notificationsOpen = ref(false);
+const notifications = ref([]);
+const notificationsLoading = ref(false);
+const notificationsError = ref('');
+
+async function loadNotifications() {
+  notificationsLoading.value = true;
+  notificationsError.value = '';
+
+  try {
+    const response = await fetch(
+      '/api/method/wellnest.api.notifications.get_doctor_appointment_notifications',
+      {
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`Request failed (${response.status})`);
+    }
+
+    const result = await response.json();
+
+    if (result.exc) {
+      throw new Error('Unable to load notifications.');
+    }
+
+    notifications.value = Array.isArray(result.message)
+      ? result.message
+      : [];
+  } catch (error) {
+    console.error('Failed to load doctor notifications:', error);
+    notificationsError.value = 'Could not load notifications.';
+  } finally {
+    notificationsLoading.value = false;
+  }
+}
+
+function toggleNotifications() {
+  notificationsOpen.value = !notificationsOpen.value;
+
+  if (notificationsOpen.value) {
+    loadNotifications();
+  }
+}
+
+function formatNotificationDate(value) {
+  if (!value) return 'Appointment time unavailable';
+
+  const date = new Date(value.replace(' ', 'T'));
+
+  if (Number.isNaN(date.getTime())) return value;
+
+  return date.toLocaleString([], {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
+}
+
+function openAppointment(notification) {
+  notificationsOpen.value = false;
+
+  router.push({
+     name: 'Consultations',
+    query: {
+      status: 'Upcoming',
+      appointment: notification.name,
+       _notification: Date.now().toString(),
+    },
+  });
+}
+
+let notificationRefreshInterval;
 
 onMounted(() => {
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt.value = e;
-    canInstall.value = true;
-  });
+  loadNotifications();
 
-  window.addEventListener('appinstalled', () => {
-    canInstall.value = false;
-    deferredPrompt.value = null;
-  });
+  notificationRefreshInterval = window.setInterval(() => {
+    loadNotifications();
+  }, 30000);
+
+  window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+  window.addEventListener('appinstalled', handleAppInstalled);
+});
+
+function handleBeforeInstallPrompt(e) {
+  e.preventDefault();
+  deferredPrompt.value = e;
+  canInstall.value = true;
+}
+
+function handleAppInstalled() {
+  canInstall.value = false;
+  deferredPrompt.value = null;
+}
+
+onUnmounted(() => {
+  window.clearInterval(notificationRefreshInterval);
+  window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+  window.removeEventListener('appinstalled', handleAppInstalled);
 });
 
 async function installApp() {

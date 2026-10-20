@@ -1863,6 +1863,53 @@ draftSaved.value = false;
   console.warn('Publish action is not exposed by Consultation.vue.');
 }
 
+function selectNotificationAppointment() {
+  const appointmentId = route.query.appointment;
+
+  if (!appointmentId || !consultations.value.length) {
+    return;
+  }
+
+  const consultation = consultations.value.find(
+    (item) => String(item.id).toLowerCase() === String(appointmentId).toLowerCase()
+  );
+
+  if (!consultation) {
+    return;
+  }
+
+  statusFilter.value = 'Upcoming';
+  selectConsultation(consultation);
+}
+
+let handledNotificationToken = null;
+
+watch(
+  () => [
+    route.query._notification,
+    consultations.value,
+  ],
+  ([token, allConsultations]) => {
+    if (!token || token === handledNotificationToken) return;
+
+    const appointmentId = route.query.appointment;
+    if (!appointmentId || !allConsultations.length) return;
+
+    const consultation = allConsultations.find(
+      (item) =>
+        String(item.id).toLowerCase() ===
+        String(appointmentId).toLowerCase()
+    );
+
+    if (!consultation) return;
+
+    handledNotificationToken = token;
+    statusFilter.value = 'Upcoming';
+    selectConsultation(consultation);
+  },
+  { immediate: true }
+);
+
 let initialRouteSelectionHandled = false;
 
 watch(
