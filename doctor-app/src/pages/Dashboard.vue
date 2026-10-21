@@ -181,10 +181,17 @@ const patientChatsResource = createResource({
 });
 
 const totalUnreadMessages = computed(() => {
-  const conversations = patientChatsResource.data || [];
+  const response = patientChatsResource.data;
+
+  const conversations = Array.isArray(response)
+    ? response
+    : Array.isArray(response?.conversations)
+      ? response.conversations
+      : [];
 
   return conversations.reduce(
-    (total, conversation) => total + (Number(conversation.unread_count) || 0),
+    (total, conversation) =>
+      total + (Number(conversation.unread_count) || 0),
     0
   );
 });
