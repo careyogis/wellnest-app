@@ -62,80 +62,77 @@
         </div>
 
         <div class="flex items-center gap-4">
-         <div class="relative">
-  <button
-    type="button"
-    class="relative p-2 rounded-lg hover:bg-gray-100 text-gray-500"
-    aria-label="Notifications"
-    aria-haspopup="true"
-    :aria-expanded="notificationsOpen"
-    @click="toggleNotifications"
-  >
-    <FeatherIcon name="bell" class="w-5 h-5" />
-    <span
-      v-if="notifications.length"
-      class="absolute -top-1 -right-1 min-w-4 h-4 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center"
-    >
-    {{ notifications.length > 99 ? '99+' : notifications.length }}
-    </span>
-  </button>
+          <div class="relative">
+            <button
+              type="button"
+              class="relative p-2 rounded-lg hover:bg-gray-100 text-gray-500"
+              aria-label="Notifications"
+              aria-haspopup="true"
+              :aria-expanded="notificationsOpen"
+              @click="toggleNotifications"
+            >
+              <FeatherIcon name="bell" class="w-5 h-5" />
+              <span v-if="notificationCount > 0" class="absolute -top-1 -right-1 min-w-4 h-4 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">
+                {{ notificationCount > 99 ? '99+' : notificationCount }}
+              </span>
+            </button>
 
-  <div
-    v-if="notificationsOpen"
-    class="absolute right-0 top-full mt-2 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-xl border border-gray-200 shadow-lg z-50"
-  >
-    <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-      <h3 class="text-sm font-semibold text-gray-900">Notifications</h3>
-      <button
-        type="button"
-        class="text-xs text-gray-500 hover:text-gray-800"
-        @click="notificationsOpen = false"
-      >
-        Close
-      </button>
-    </div>
+            <div v-if="notificationsOpen" class="absolute right-0 top-full mt-2 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-xl border border-gray-200 shadow-lg z-50">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+                <h3 class="text-sm font-semibold text-gray-900">Notifications</h3>
+                <button type="button" class="text-xs text-gray-500 hover:text-gray-800" @click="notificationsOpen = false">Close</button>
+              </div>
 
-    <div class="max-h-80 overflow-y-auto">
-      <div v-if="notificationsLoading" class="px-4 py-6 text-center text-sm text-gray-500">
-        Loading notifications...
-      </div>
+              <div class="max-h-80 overflow-y-auto">
+                <div v-if="notificationsLoading" class="px-4 py-6 text-center text-sm text-gray-500">Loading notifications...</div>
 
-      <div v-else-if="notificationsError" class="px-4 py-6 text-center text-sm text-red-600">
-        {{ notificationsError }}
-        <button
-          type="button"
-          class="block mx-auto mt-2 text-teal-700 font-medium"
-          @click="loadNotifications"
-        >
-          Try again
-        </button>
-      </div>
+                <div v-else-if="notificationsError" class="px-4 py-6 text-center text-sm text-red-600">
+                  {{ notificationsError }}
+                  <button type="button" class="block mx-auto mt-2 text-teal-700 font-medium" @click="loadNotifications">Try again</button>
+                </div>
 
-      <div v-else-if="!notifications.length" class="px-4 py-8 text-center">
-        <FeatherIcon name="bell" class="w-6 h-6 mx-auto mb-2 text-gray-300" />
-        <p class="text-sm text-gray-500">No new notifications</p>
-      </div>
+                <div v-else-if="!allNotifications.length" class="px-4 py-8 text-center">
+                  <FeatherIcon name="bell" class="w-6 h-6 mx-auto mb-2 text-gray-300" />
+                  <p class="text-sm text-gray-500">No new notifications</p>
+                </div>
 
-      <div
-        v-for="notification in notifications"
-        :key="notification.name"
-       type="button"
-  class="block w-full px-4 py-3 border-b border-gray-100 last:border-b-0 text-left hover:bg-gray-50 transition-colors"
-  @click="openAppointment(notification)"
-      >
-        <p class="text-sm font-medium text-gray-800">
-          New appointment
-        </p>
-        <p class="mt-1 text-sm text-gray-600">
-          {{ notification.patient_name }}
-        </p>
-        <p class="mt-1 text-xs text-gray-400">
-          {{ formatNotificationDate(notification.scheduled_time) }}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+                <button
+                  v-for="notification in allNotifications"
+                  :key="notification.id"
+                  type="button"
+                  class="block w-full px-4 py-3 border-b border-gray-100 last:border-b-0 text-left hover:bg-gray-50 transition-colors"
+                  @click="openNotification(notification)"
+                >
+                  <template v-if="notification.type === 'message'">
+                    <div class="flex items-center justify-between gap-2">
+                      <p class="text-sm font-semibold text-teal-700">New message</p>
+                      <span class="rounded-full bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-700"> {{ notification.unread_count }} unread </span>
+                    </div>
+
+                    <p class="mt-1 text-sm font-medium text-gray-800">
+                      {{ notification.patient_name || notification.patient }}
+                    </p>
+                    <p class="mt-1 truncate text-xs text-gray-600">
+                      {{ notification.latest_message || 'Attachment received' }}
+                    </p>
+                    <p class="mt-1 text-xs text-gray-400">
+                      {{ formatNotificationDate(notification.latest_message_at) }}
+                    </p>
+                  </template>
+
+                  <template v-else>
+                    <p class="text-sm font-medium text-gray-800">New appointment</p>
+                    <p class="mt-1 text-sm text-gray-600">
+                      {{ notification.patient_name }}
+                    </p>
+                    <p class="mt-1 text-xs text-gray-400">
+                      {{ formatNotificationDate(notification.scheduled_time) }}
+                    </p>
+                  </template>
+                </button>
+              </div>
+            </div>
+          </div>
 
           <RouterLink :to="{ name: 'Profile' }" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <div class="w-9 h-9 rounded-full bg-teal-100 text-teal-700 font-bold flex items-center justify-center text-sm overflow-hidden shrink-0">
@@ -183,20 +180,35 @@ const notifications = ref([]);
 const notificationsLoading = ref(false);
 const notificationsError = ref('');
 
+const messageNotifications = ref([]);
+
+const allNotifications = computed(() => {
+  const appointments = notifications.value.map((item) => ({
+    ...item,
+    type: 'appointment',
+    id: `appointment-${item.name}`,
+  }));
+
+  const messages = messageNotifications.value.map((item) => ({
+    ...item,
+    type: 'message',
+    id: `message-${item.appointment}`,
+  }));
+
+  return [...messages, ...appointments];
+});
+
+const notificationCount = computed(() => notifications.value.length + messageNotifications.value.reduce((total, item) => total + Number(item.unread_count || 0), 0));
+
 async function loadNotifications() {
   notificationsLoading.value = true;
   notificationsError.value = '';
 
-  try {
-    const response = await fetch(
-      '/api/method/wellnest.api.notifications.get_doctor_appointment_notifications',
-      {
-        credentials: 'include',
-        headers: {
-          Accept: 'application/json',
-        },
-      },
-    );
+  const fetchJson = async (url) => {
+    const response = await fetch(url, {
+      credentials: 'include',
+      headers: { Accept: 'application/json' },
+    });
 
     if (!response.ok) {
       throw new Error(`Request failed (${response.status})`);
@@ -204,15 +216,40 @@ async function loadNotifications() {
 
     const result = await response.json();
 
-    if (result.exc) {
+    if (result.exc || result.exc_type) {
       throw new Error('Unable to load notifications.');
     }
 
-    notifications.value = Array.isArray(result.message)
-      ? result.message
-      : [];
+    return result.message;
+  };
+
+  try {
+    const results = await Promise.allSettled([
+      fetchJson('/api/method/wellnest.api.notifications.get_doctor_appointment_notifications'),
+      fetchJson('/api/method/wellnest.api.patient_chat.get_doctor_patient_chats'),
+    ]);
+
+    const [appointmentsResult, messagesResult] = results;
+
+    if (appointmentsResult.status === 'fulfilled') {
+      notifications.value = Array.isArray(appointmentsResult.value) ? appointmentsResult.value : [];
+    } else {
+      console.error('Appointment notification error:', appointmentsResult.reason);
+    }
+
+    if (messagesResult.status === 'fulfilled') {
+      const conversations = messagesResult.value?.conversations || [];
+
+      messageNotifications.value = conversations.filter((conversation) => Number(conversation.unread_count) > 0);
+    } else {
+      console.error('Message notification error:', messagesResult.reason);
+    }
+
+    if (appointmentsResult.status === 'rejected' && messagesResult.status === 'rejected') {
+      notificationsError.value = 'Could not load notifications.';
+    }
   } catch (error) {
-    console.error('Failed to load doctor notifications:', error);
+    console.error('Notification error:', error);
     notificationsError.value = 'Could not load notifications.';
   } finally {
     notificationsLoading.value = false;
@@ -244,19 +281,40 @@ function openAppointment(notification) {
   notificationsOpen.value = false;
 
   router.push({
-     name: 'Consultations',
+    name: 'Consultations',
     query: {
       status: 'Upcoming',
       appointment: notification.name,
-       _notification: Date.now().toString(),
+      _notification: Date.now().toString(),
     },
   });
+}
+
+function openMessage(notification) {
+  notificationsOpen.value = false;
+
+  router.push({
+    name: 'Messages',
+    query: {
+      patient: notification.patient,
+      appointment: notification.appointment,
+    },
+  });
+}
+
+function openNotification(notification) {
+  if (notification.type === 'message') {
+    openMessage(notification);
+  } else {
+    openAppointment(notification);
+  }
 }
 
 let notificationRefreshInterval;
 
 onMounted(() => {
   loadNotifications();
+  window.addEventListener('doctor-chat-read', loadNotifications);
 
   notificationRefreshInterval = window.setInterval(() => {
     loadNotifications();
@@ -279,6 +337,7 @@ function handleAppInstalled() {
 
 onUnmounted(() => {
   window.clearInterval(notificationRefreshInterval);
+  window.removeEventListener('doctor-chat-read', loadNotifications);
   window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
   window.removeEventListener('appinstalled', handleAppInstalled);
 });
