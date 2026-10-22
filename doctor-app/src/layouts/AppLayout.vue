@@ -38,14 +38,14 @@
         </button>
       </div>
 
-      <div class="m-3 p-4 rounded-xl bg-amber-50 border border-amber-100">
+      <!-- <div class="m-3 p-4 rounded-xl bg-amber-50 border border-amber-100">
         <div class="flex items-center gap-2 mb-1">
           <FeatherIcon name="zap" class="w-4 h-4 text-amber-600" />
           <span class="text-sm font-bold text-gray-900">CareYogi AI</span>
         </div>
         <p class="text-xs text-gray-500 mb-3">Summaries, OCR, follow-up drafts, and care nudges.</p>
         <button type="button" class="w-full text-center px-3 py-2 rounded-lg border border-amber-300 text-amber-700 text-xs font-semibold hover:bg-amber-100 transition-colors">Open AI panel</button>
-      </div>
+      </div> -->
     </aside>
 
     <!-- Main -->
