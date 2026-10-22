@@ -113,6 +113,7 @@
           </button>
 
           <button
+            v-if="patient.prescriptionWorkflowState === 'Complete'"
             type="button"
             @click="messagePatient(patient)"
             class="px-3 py-2 rounded-lg border border-amber-400 text-amber-700 text-sm font-semibold hover:bg-amber-50"
