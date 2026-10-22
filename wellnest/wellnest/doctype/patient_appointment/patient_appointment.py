@@ -59,7 +59,7 @@ class PatientAppointment(Document):
             if practitioner and practitioner.email:
                 frappe.sendmail(
                     recipients=[practitioner.email],
-                    subject="A new consultation has booked for you at CareYogi",
+                    subject="A new consultation has been booked for you at CareYogi",
                     message=f"""Hello <b>{practitioner.full_name}</b>,<br/>
 
                 A new consultation has been booked for you at CareYogi.<br/><br/>
