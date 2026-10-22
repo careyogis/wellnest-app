@@ -90,7 +90,16 @@
         </div>
 
         <div class="space-y-3">
-          <div v-for="consultation in todaysConsultations" :key="consultation.name" class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border border-gray-200 rounded-xl p-4">
+          <div
+         v-for="consultation in todaysConsultations.filter(
+        (item) =>
+         item.status !== 'Completed' &&
+         item.consultation_workflow_state !== 'Completed' &&
+         item.consultation_workflow_state !== 'Complete'
+         )"
+         :key="consultation.name"
+        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border border-gray-200 rounded-xl p-4"
+>
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
                 <FeatherIcon name="video" class="w-5 h-5" />

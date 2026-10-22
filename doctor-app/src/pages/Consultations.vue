@@ -1444,12 +1444,13 @@ const upcomingConsultations = computed(() => {
       if (parts.length === 3) {
         const appointmentDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
 
-        return appointmentDate >= today;
+        return true;
       }
     }
-
     return true;
-  });
+    }).sort(
+    (a, b) => new Date(b.scheduledTime) - new Date(a.scheduledTime)
+  );
 });
 
 const prescriptionDueConsultations = computed(() => {
