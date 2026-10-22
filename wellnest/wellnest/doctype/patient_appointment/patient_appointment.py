@@ -473,6 +473,18 @@ def get_doctor_patients():
                 (today.month, today.day) < (dob.month, dob.day)
             )
 
+        relevant_appointment = (
+            next_appointment
+            if next_appointment
+            else patient_appointments[0]
+        )
+
+        prescription_workflow_state = frappe.db.get_value(
+            "Smart Prescription",
+            {"patient_appointment": relevant_appointment.name},
+            "workflow_state",
+        )
+
         result.append({
             "id": patient.name,
             "name": patient.full_name or patient.name,
@@ -498,6 +510,7 @@ def get_doctor_patients():
                 str(next_appointment.scheduled_time)
                 if next_appointment else None
             ),
+            "prescriptionWorkflowState": prescription_workflow_state,
             "appointmentId": (
                 next_appointment.name if next_appointment
                 else patient_appointments[0].name
