@@ -187,49 +187,47 @@
               {{ sendError }}
             </div>
 
-           
-              <div v-if="selectedFile" class="mb-3 flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
-                <div class="flex min-w-0 items-center gap-2 text-xs text-gray-600">
-                  <FeatherIcon name="paperclip" class="h-4 w-4 shrink-0" />
-                  <span class="truncate">{{ selectedFile.name }}</span>
-                </div>
-                <button type="button" class="text-xs font-medium text-red-600 hover:text-red-700" :disabled="sending" @click="removeSelectedFile">Remove</button>
+            <div v-if="selectedFile" class="mb-3 flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
+              <div class="flex min-w-0 items-center gap-2 text-xs text-gray-600">
+                <FeatherIcon name="paperclip" class="h-4 w-4 shrink-0" />
+                <span class="truncate">{{ selectedFile.name }}</span>
               </div>
+              <button type="button" class="text-xs font-medium text-red-600 hover:text-red-700" :disabled="sending" @click="removeSelectedFile">Remove</button>
+            </div>
 
-              <form class="flex items-end gap-2" @submit.prevent="sendMessage">
-                <input ref="fileInput" type="file" class="hidden" @change="handleFileChange" />
+            <form class="flex items-end gap-2" @submit.prevent="sendMessage">
+              <input ref="fileInput" type="file" class="hidden" @change="handleFileChange" />
 
-                <button
-                  type="button"
-                  title="Attach file"
-                  aria-label="Attach file"
-                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                  :disabled="sending"
-                  @click="fileInput?.click()"
-                >
-                  <FeatherIcon name="paperclip" class="h-5 w-5" />
-                </button>
+              <button
+                type="button"
+                title="Attach file"
+                aria-label="Attach file"
+                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50"
+                :disabled="sending"
+                @click="fileInput?.click()"
+              >
+                <FeatherIcon name="paperclip" class="h-5 w-5" />
+              </button>
 
-                <textarea
-                  v-model="newMessage"
-                  rows="1"
-                  placeholder="Write a message..."
-                  class="max-h-32 min-h-11 min-w-0 flex-1 resize-y rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 disabled:bg-gray-50"
-                  :disabled="sending"
-                  @keydown.enter.exact.prevent="sendMessage"
-                />
+              <textarea
+                v-model="newMessage"
+                rows="1"
+                placeholder="Write a message..."
+                class="max-h-32 min-h-11 min-w-0 flex-1 resize-y rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 disabled:bg-gray-50"
+                :disabled="sending"
+                @keydown.enter.exact.prevent="sendMessage"
+              />
 
-                <button
-                  type="submit"
-                  class="flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-amber-500 px-4 text-sm font-semibold text-white hover:bg-amber-600 disabled:cursor-not-allowed disabled:opacity-50"
-                  :disabled="sending || (!newMessage.trim() && !selectedFile)"
-                >
-                  <FeatherIcon v-if="!sending" name="send" class="h-4 w-4" />
-                  <span v-else class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-                  <span class="hidden sm:inline">{{ sending ? 'Sending' : 'Send' }}</span>
-                </button>
-              </form>
-            
+              <button
+                type="submit"
+                class="flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-amber-500 px-4 text-sm font-semibold text-white hover:bg-amber-600 disabled:cursor-not-allowed disabled:opacity-50"
+                :disabled="sending || (!newMessage.trim() && !selectedFile)"
+              >
+                <FeatherIcon v-if="!sending" name="send" class="h-4 w-4" />
+                <span v-else class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                <span class="hidden sm:inline">{{ sending ? 'Sending' : 'Send' }}</span>
+              </button>
+            </form>
           </div>
         </template>
 
@@ -324,17 +322,22 @@ async function loadConversations() {
       }
     }
 
-  const patientId = route.query.patient;
+    const appointmentId = route.query.appointment;
+    const patientId = route.query.patient;
 
-if (patientId) {
-  const matchingConversation = conversations.value.find(
-    (item) => item.patient === patientId
-  );
+    if (appointmentId || patientId) {
+      const matchingConversation = conversations.value.find((item) => (appointmentId ? item.appointment === appointmentId : item.patient === patientId));
 
-  if (matchingConversation) {
-    await selectConversation(matchingConversation);
-  }
-}
+      if (matchingConversation) {
+        await selectConversation(matchingConversation);
+      } else {
+        selectedConversation.value = null;
+        selectedAppointmentId.value = '';
+        messages.value = [];
+        listError.value = 'The requested patient conversation could not be found.';
+        return;
+      }
+    }
 
     if (!selectedConversation.value && conversations.value.length) {
       await selectConversation(conversations.value[0]);
@@ -387,6 +390,8 @@ async function loadMessages() {
     await markReadResource.submit({
       patient_appointment: appointmentId,
     });
+
+    window.dispatchEvent(new Event('doctor-chat-read'));
 
     await scrollToBottom();
 
