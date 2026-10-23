@@ -182,6 +182,11 @@ const props = defineProps({
     default: null,
   },
 
+  patientId: {
+    type: String,
+    default: null,
+  },
+
   chatStatus: {
     type: String,
     default: 'Active',
@@ -234,7 +239,7 @@ async function openChat() {
 defineExpose({ openChat });
 
 async function loadMessages() {
-  if (!props.appointmentId) {
+  if (!props.patientId) {
     messages.value = [];
     return;
   }
@@ -244,33 +249,37 @@ async function loadMessages() {
 
   try {
     const response = await chatResource.submit({
-      patient_appointment: props.appointmentId,
+      patient: props.patientId,
     });
 
     const result = response?.message || response || {};
 
-    messages.value = Array.isArray(result.messages) ? result.messages : [];
+    messages.value = Array.isArray(result.messages)
+      ? result.messages
+      : [];
 
     await markMessagesAsRead();
     await scrollToBottom();
   } catch (error) {
     console.error('Failed to load patient chat:', error);
-
-    errorMessage.value = error?.message || 'Failed to load patient chat.';
+    errorMessage.value =
+      error?.message || 'Failed to load patient chat.';
   } finally {
     loading.value = false;
   }
 }
 
 async function markMessagesAsRead() {
-  if (!props.appointmentId) {
+  if (!props.patientId) {
     return;
   }
 
   try {
     await markReadResource.submit({
-      patient_appointment: props.appointmentId,
+      patient: props.patientId,
     });
+
+    window.dispatchEvent(new Event('doctor-chat-read'));
   } catch (error) {
     console.error('Failed to mark patient chat as read:', error);
   }
@@ -439,15 +448,20 @@ async function scrollToBottom() {
   messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
 }
 
+
 watch(
-  () => props.appointmentId,
-  async (newAppointment, oldAppointment) => {
-    if (newAppointment === oldAppointment) {
+  [() => props.patientId, () => props.appointmentId],
+  async ([newPatient, newAppointment], [oldPatient, oldAppointment] = []) => {
+    if (
+      newPatient === oldPatient &&
+      newAppointment === oldAppointment
+    ) {
       return;
     }
 
     messages.value = [];
     newMessage.value = '';
+    errorMessage.value = '';
 
     removeSelectedFile();
 
@@ -455,7 +469,7 @@ watch(
   },
   {
     immediate: true,
-  }
+  },
 );
 
 /*== CLEANUP ==*/

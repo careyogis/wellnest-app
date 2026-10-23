@@ -6,23 +6,18 @@ from frappe.utils import now_datetime
 
 @frappe.whitelist()
 def get_doctor_patient_chats():
-    """Return all prescription-eligible patient conversations for the doctor."""
+    """Return one conversation per patient across eligible appointments."""
 
     practitioner = _get_current_practitioner()
 
     appointments = frappe.get_all(
         "Patient Appointment",
         filters={"practitioner": practitioner},
-        fields=[
-            "name",
-            "patient",
-            "scheduled_time",
-            "status",
-        ],
+        fields=["name", "patient", "scheduled_time", "status"],
         order_by="scheduled_time desc",
     )
 
-    conversations = []
+    patient_conversations = {}
 
     for appointment_data in appointments:
         prescription = frappe.db.get_value(
@@ -40,41 +35,69 @@ def get_doctor_patient_chats():
             appointment_data.name,
         )
 
-        messages = appointment.patient_chat_messages or []
-        latest_message = messages[-1] if messages else None
+        patient_id = appointment.patient
 
-        unread_count = sum(
-            1
-            for message in messages
-            if message.sender_type == "Patient"
-            and not message.read_by_doctor
+        if patient_id not in patient_conversations:
+            patient_name = (
+                frappe.db.get_value("Patient", patient_id, "full_name")
+                or patient_id
+            )
+
+            patient_conversations[patient_id] = {
+                "patient": patient_id,
+                "patient_name": patient_name,
+                "appointment": appointment.name,
+                "scheduled_time": appointment.scheduled_time,
+                "status": appointment.status,
+                "messages": [],
+                "unread_count": 0,
+                "latest_message": "",
+                "latest_message_at": None,
+            }
+
+        conversation = patient_conversations[patient_id]
+
+        for message in appointment.patient_chat_messages or []:
+            serialized_message = _serialize_message(message)
+            serialized_message["appointment"] = appointment.name
+            conversation["messages"].append(serialized_message)
+
+            if (
+                message.sender_type == "Patient"
+                and not message.read_by_doctor
+            ):
+                conversation["unread_count"] += 1
+
+    conversations = list(patient_conversations.values())
+
+    for conversation in conversations:
+        conversation["messages"].sort(
+            key=lambda message: (
+                frappe.utils.get_datetime(
+                    message.get("sent_at") or "1900-01-01"
+                ),
+                message.get("name") or "",
+            )
         )
 
-        patient_name = frappe.db.get_value(
-            "Patient",
-            appointment.patient,
-            "full_name",
-        ) or appointment.patient
-
-        conversations.append({
-            "appointment": appointment.name,
-            "patient": appointment.patient,
-            "patient_name": patient_name,
-            "scheduled_time": appointment.scheduled_time,
-            "status": appointment.status,
-            "latest_message": (
-                latest_message.message or (
-                    "Attachment" if latest_message.attachment else ""
+        if conversation["messages"]:
+            latest_message = conversation["messages"][-1]
+            conversation["latest_message"] = (
+                latest_message.get("message")
+                or (
+                    "Attachment"
+                    if latest_message.get("attachment")
+                    else ""
                 )
-            ) if latest_message else "",
-            "latest_message_at": (
-                latest_message.sent_at if latest_message else None
-            ),
-            "unread_count": unread_count,
-        })
+            )
+            conversation["latest_message_at"] = latest_message.get("sent_at")
 
     conversations.sort(
-        key=lambda item: item["latest_message_at"] or item["scheduled_time"],
+        key=lambda item: frappe.utils.get_datetime(
+            item.get("latest_message_at")
+            or item.get("scheduled_time")
+            or "1900-01-01"
+        ),
         reverse=True,
     )
 
@@ -82,15 +105,59 @@ def get_doctor_patient_chats():
 
 
 @frappe.whitelist()
-def get_patient_chat(patient_appointment):
-    """Return all chat messages for the current doctor appointment."""
+def get_patient_chat(patient):
+    """Return combined messages across eligible appointments for one patient."""
 
-    appointment, practitioner = _get_authorized_appointment(patient_appointment)
+    practitioner = _get_current_practitioner()
+
+    if not patient:
+        frappe.throw("Patient is required.")
+
+    appointments = frappe.get_all(
+        "Patient Appointment",
+        filters={
+            "patient": patient,
+            "practitioner": practitioner,
+        },
+        fields=["name", "scheduled_time"],
+        order_by="scheduled_time desc",
+    )
+
+    messages = []
+
+    for appointment_data in appointments:
+        prescription = frappe.db.get_value(
+            "Smart Prescription",
+            {"patient_appointment": appointment_data.name},
+            "workflow_state",
+        )
+
+        if prescription != "Complete":
+            continue
+
+        appointment = frappe.get_doc(
+            "Patient Appointment",
+            appointment_data.name,
+        )
+
+        for row in appointment.patient_chat_messages or []:
+            message = _serialize_message(row)
+            message["appointment"] = appointment.name
+            messages.append(message)
+
+    messages.sort(
+        key=lambda item: (
+            frappe.utils.get_datetime(
+               item.get("sent_at") or "1900-01-01"
+            ),
+            item.get("name") or "",
+        )
+    )
 
     return {
-        "patient": appointment.patient,
+        "patient": patient,
         "practitioner": practitioner,
-        "messages": _serialize_messages(appointment.patient_chat_messages),
+        "messages": messages,
     }
 
 
@@ -129,23 +196,54 @@ def send_patient_chat_message(
 
 
 @frappe.whitelist()
-def mark_patient_chat_read(patient_appointment):
-    """Mark all patient messages as read by the doctor."""
+def mark_patient_chat_read(patient):
+    """Mark unread patient messages as read across eligible appointments."""
 
-    appointment, _ = _get_authorized_appointment(patient_appointment)
+    practitioner = _get_current_practitioner()
+
+    if not patient:
+        frappe.throw("Patient is required.")
+
+    appointments = frappe.get_all(
+        "Patient Appointment",
+        filters={
+            "patient": patient,
+            "practitioner": practitioner,
+        },
+        fields=["name"],
+    )
 
     changed = False
 
-    for row in appointment.patient_chat_messages:
-        if row.sender_type == "Patient" and not row.read_by_doctor:
-            row.read_by_doctor = 1
-            changed = True
+    for appointment_data in appointments:
+        prescription = frappe.db.get_value(
+            "Smart Prescription",
+            {"patient_appointment": appointment_data.name},
+            "workflow_state",
+        )
 
-    if changed:
-        appointment.save(ignore_permissions=True)
+        if prescription != "Complete":
+            continue
+
+        appointment = frappe.get_doc(
+            "Patient Appointment",
+            appointment_data.name,
+        )
+
+        appointment_changed = False
+
+        for row in appointment.patient_chat_messages or []:
+            if row.sender_type == "Patient" and not row.read_by_doctor:
+                row.read_by_doctor = 1
+                appointment_changed = True
+
+        if appointment_changed:
+            appointment.save(ignore_permissions=True)
+            changed = True
 
     return {
         "success": True,
+        "changed": changed,
     }
 
 

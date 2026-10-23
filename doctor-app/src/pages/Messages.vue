@@ -63,11 +63,11 @@
 
           <button
             v-for="conversation in filteredConversations"
-            :key="conversation.appointment"
+            :key="conversation.patient"
             type="button"
             class="flex w-full items-start gap-3 border-b border-gray-100 px-4 py-4 text-left transition hover:bg-gray-50"
             :class="{
-              'bg-teal-50 hover:bg-teal-50 border-l-4 border-l-teal-600': selectedAppointmentId === conversation.appointment,
+              'bg-teal-50 hover:bg-teal-50 border-l-4 border-l-teal-600': selectedPatientId === conversation.patient,
             }"
             @click="selectConversation(conversation)"
           >
@@ -254,7 +254,7 @@ const route = useRoute();
 
 const conversations = ref([]);
 const selectedConversation = ref(null);
-const selectedAppointmentId = ref('');
+const selectedPatientId = ref('');
 const messages = ref([]);
 
 const searchQuery = ref('');
@@ -308,31 +308,40 @@ async function loadConversations() {
     const response = await conversationsResource.submit({});
     const result = response?.message || response || {};
 
-    conversations.value = Array.isArray(result.conversations) ? result.conversations : [];
+    conversations.value = Array.isArray(result.conversations)
+      ? result.conversations
+      : [];
 
-    if (selectedAppointmentId.value) {
-      const updated = conversations.value.find((item) => item.appointment === selectedAppointmentId.value);
+    if (selectedPatientId.value) {
+      const updated = conversations.value.find(
+        (item) => item.patient === selectedPatientId.value,
+      );
 
       if (updated) {
         selectedConversation.value = updated;
       } else {
         selectedConversation.value = null;
-        selectedAppointmentId.value = '';
+        selectedPatientId.value = '';
         messages.value = [];
       }
     }
 
-    const appointmentId = route.query.appointment;
     const patientId = route.query.patient;
+    const appointmentId = route.query.appointment;
 
-    if (appointmentId || patientId) {
-      const matchingConversation = conversations.value.find((item) => (appointmentId ? item.appointment === appointmentId : item.patient === patientId));
+    if (patientId || appointmentId) {
+      
+      const matchingConversation = patientId
+        ? conversations.value.find((item) => item.patient === patientId)
+        : conversations.value.find(
+            (item) => item.appointment === appointmentId,
+          );
 
       if (matchingConversation) {
         await selectConversation(matchingConversation);
       } else {
         selectedConversation.value = null;
-        selectedAppointmentId.value = '';
+        selectedPatientId.value = '';
         messages.value = [];
         listError.value = 'The requested patient conversation could not be found.';
         return;
@@ -354,7 +363,7 @@ async function selectConversation(conversation) {
   if (!conversation?.appointment) return;
 
   selectedConversation.value = conversation;
-  selectedAppointmentId.value = conversation.appointment;
+  selectedPatientId.value = conversation.patient;
 
   messages.value = [];
   messagesError.value = '';
@@ -366,9 +375,9 @@ async function selectConversation(conversation) {
 }
 
 async function loadMessages() {
-  const appointmentId = selectedAppointmentId.value;
+  const patientId = selectedPatientId.value;
 
-  if (!appointmentId) {
+  if (!patientId) {
     messages.value = [];
     return;
   }
@@ -378,24 +387,26 @@ async function loadMessages() {
 
   try {
     const response = await chatResource.submit({
-      patient_appointment: appointmentId,
+      patient: patientId,
     });
 
-    if (selectedAppointmentId.value !== appointmentId) return;
+    if (selectedPatientId.value !== patientId) return;
 
     const result = response?.message || response || {};
 
     messages.value = Array.isArray(result.messages) ? result.messages : [];
 
     await markReadResource.submit({
-      patient_appointment: appointmentId,
+      patient: patientId,
     });
 
     window.dispatchEvent(new Event('doctor-chat-read'));
 
     await scrollToBottom();
 
-    const conversation = conversations.value.find((item) => item.appointment === appointmentId);
+    const conversation = conversations.value.find(
+      (item) => item.patient === patientId,
+    );
 
     if (conversation) {
       conversation.unread_count = 0;
@@ -409,10 +420,11 @@ async function loadMessages() {
 }
 
 async function sendMessage() {
-  const appointmentId = selectedAppointmentId.value;
   const conversation = selectedConversation.value;
+  const appointmentId = conversation?.appointment;
+  const patientId = selectedPatientId.value;
 
-  if (!appointmentId || sending.value || !conversation) return;
+  if (!appointmentId || !patientId || sending.value || !conversation) return;
 
   const message = newMessage.value.trim();
   const file = selectedFile.value;
@@ -435,12 +447,20 @@ async function sendMessage() {
       attachment: attachmentUrl,
     });
 
-    if (selectedAppointmentId.value !== appointmentId) return;
+    if (selectedPatientId.value !== patientId) return;
 
-    const result = response?.message?.message || response?.message || response?.data?.message || response?.data || response;
+    const result =
+      response?.message?.message ||
+      response?.message ||
+      response?.data?.message ||
+      response?.data ||
+      response;
 
     if (result?.name) {
-      messages.value.push(result);
+      messages.value.push({
+        ...result,
+        appointment: appointmentId,
+      });
     } else {
       await loadMessages();
     }
@@ -450,8 +470,7 @@ async function sendMessage() {
 
     await scrollToBottom();
 
-    // Refresh the preview and unread information without changing selection.
-    await refreshConversationPreview(appointmentId);
+    await refreshConversationPreview(patientId);
   } catch (error) {
     console.error('Failed to send patient chat message:', error);
     sendError.value = error?.message || 'Failed to send message.';
@@ -460,7 +479,7 @@ async function sendMessage() {
   }
 }
 
-async function refreshConversationPreview(appointmentId) {
+async function refreshConversationPreview(patientId) {
   try {
     const response = await conversationsResource.submit({});
     const result = response?.message || response || {};
@@ -468,9 +487,11 @@ async function refreshConversationPreview(appointmentId) {
     if (Array.isArray(result.conversations)) {
       conversations.value = result.conversations;
 
-      const updated = conversations.value.find((item) => item.appointment === appointmentId);
+      const updated = conversations.value.find(
+        (item) => item.patient === patientId,
+      );
 
-      if (updated) {
+      if (updated && selectedPatientId.value === patientId) {
         selectedConversation.value = updated;
       }
     }
@@ -598,7 +619,7 @@ async function scrollToBottom() {
   }
 }
 
-watch(selectedAppointmentId, () => {
+watch(selectedPatientId, () => {
   sendError.value = '';
 });
 
