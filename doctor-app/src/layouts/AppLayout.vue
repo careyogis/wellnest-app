@@ -192,7 +192,7 @@ const allNotifications = computed(() => {
   const messages = messageNotifications.value.map((item) => ({
     ...item,
     type: 'message',
-    id: `message-${item.appointment}`,
+    id: `message-${item.patient}`,
   }));
 
   return [...messages, ...appointments];
