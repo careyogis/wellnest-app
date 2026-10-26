@@ -1482,7 +1482,8 @@ const completeCount = computed(() => completeConsultations.value.length);
 const followUpActiveConsultations = computed(() => {
   const now = new Date();
 
-  return consultations.value.filter((consultation) => {
+   return consultations.value
+  .filter((consultation) => {
     if (consultation.prescriptionWorkflowState !== 'Complete') {
       return false;
     }
@@ -1502,8 +1503,11 @@ const followUpActiveConsultations = computed(() => {
     const followUpUntil = new Date(completedAt);
     followUpUntil.setDate(followUpUntil.getDate() + followUpDays);
 
-    return now < followUpUntil;
-  });
+        return now < followUpUntil;
+  })
+  .sort(
+    (a, b) => new Date(b.scheduledTime) - new Date(a.scheduledTime)
+  );
 });
 
 const followUpActiveCount = computed(() => followUpActiveConsultations.value.length);
