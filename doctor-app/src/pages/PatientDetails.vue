@@ -268,7 +268,89 @@
               <p class="text-xs text-gray-500">{{ item.label }}</p>
               <p class="mt-2 break-words font-bold text-gray-900">{{ item.value }}</p>
             </div>
-          </div>
+          </div> 
+          
+<!-- Chief Complaints -->
+<div class="mt-6">
+  <h3 class="font-bold text-gray-900">Chief Complaints</h3>
+
+  <div
+    v-if="prescriptionChiefComplaints.length"
+    class="mt-3 space-y-2"
+  >
+    <div
+      v-for="(complaint, index) in prescriptionChiefComplaints"
+      :key="index"
+      class="rounded-lg border border-gray-200 bg-white p-3"
+    >
+      <p class="font-medium text-gray-900">
+        {{ complaint.complaint || complaint.name || 'Complaint' }}
+      </p>
+      <p
+        v-if="complaint.duration"
+        class="mt-1 text-sm text-gray-600"
+      >
+        Duration: {{ complaint.duration }}
+      </p>
+    </div>
+  </div>
+
+  <p v-else class="mt-2 text-sm text-gray-500">
+    No chief complaints recorded.
+  </p>
+</div>
+
+<!-- History -->
+<div class="mt-5">
+  <h3 class="font-bold text-gray-900">History</h3>
+  <p class="mt-2 whitespace-pre-wrap break-words text-sm text-gray-700">
+    {{ prescriptionResource.data.history || 'No history recorded.' }}
+  </p>
+</div>
+
+<!-- Vitals -->
+<div class="mt-5">
+  <h3 class="font-bold text-gray-900">Vitals</h3>
+
+  <div
+    v-if="vitalsResource.data?.vital_reading?.length"
+    class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3"
+  >
+    <div
+      v-for="(reading, index) in vitalsResource.data.vital_reading"
+      :key="index"
+      class="rounded-lg border border-gray-200 bg-white p-3"
+    >
+      <p class="text-sm text-gray-500">
+        {{ reading.vital_type || 'Vital' }}
+      </p>
+      <p class="mt-1 break-words font-semibold text-gray-900">
+        {{ reading.value ?? '—' }}
+        <span class="text-sm font-normal text-gray-500">
+          {{ reading.unit }}
+        </span>
+      </p>
+      <p
+        v-if="reading.remarks"
+        class="mt-1 whitespace-pre-wrap text-sm text-gray-600"
+      >
+        {{ reading.remarks }}
+      </p>
+    </div>
+  </div>
+
+  <p v-else class="mt-2 text-sm text-gray-500">
+    No vitals recorded for this appointment.
+  </p>
+</div>
+
+<!-- Investigations -->
+<div class="mt-5">
+  <h3 class="font-bold text-gray-900">Investigations Advised</h3>
+  <p class="mt-2 whitespace-pre-wrap break-words text-sm text-gray-700">
+    {{ prescriptionResource.data.investigations || 'No investigations advised.' }}
+  </p>
+</div>
 
           <div class="mt-6">
             <h3 class="font-bold text-gray-900">Provisional Diagnosis</h3>
@@ -398,6 +480,7 @@ const route = useRoute();
 const router = useRouter();
 const activeTab = ref('Timeline');
 const showPrescriptionPreview = ref(false);
+
 
 const tabs = [
   'Timeline',
@@ -564,6 +647,26 @@ const prescriptionMedicines = computed(() => {
       const parsed = JSON.parse(medicines);
       return Array.isArray(parsed) ? parsed : [];
     } catch {
+      return [];
+    }
+  }
+
+  return [];
+});
+
+const prescriptionChiefComplaints = computed(() => {
+  const complaints = prescriptionResource.data?.chief_complaints || [];
+
+  if (Array.isArray(complaints)) {
+    return complaints;
+  }
+
+  if (typeof complaints === 'string') {
+    try {
+      const parsed = JSON.parse(complaints);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+      console.error('Failed to parse chief complaints:', error);
       return [];
     }
   }

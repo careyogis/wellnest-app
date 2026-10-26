@@ -896,19 +896,27 @@ async function loadPrescription() {
 
     ocrPrescriptionName.value = response.name || '';
 
-    // Load History and Chief Complaints from Smart Prescription
-    if (response.history?.trim()) {
-      history.value = response.history;
-    }
+    
+ // Load History and Chief Complaints from the selected Smart Prescription
+ 
+const savedHistory = (response.history || '').trim();
 
-    if (Array.isArray(response.chief_complaints) && response.chief_complaints.length) {
-      complaints.value = response.chief_complaints
-        .filter((complaint) => complaint.complaint?.trim())
-        .map((complaint, index) => ({
-          id: index + 1,
-          text: complaint.complaint.trim(),
-        }));
-    }
+history.value = savedHistory.toLowerCase() === 'history'
+  ? ''
+  : savedHistory;
+
+
+ const responseComplaints = Array.isArray(response.chief_complaints)
+   ? response.chief_complaints
+   : [];
+
+ complaints.value = responseComplaints
+   .filter((complaint) => complaint.complaint?.trim())
+   .map((complaint, index) => ({
+     id: index + 1,
+     text: complaint.complaint.trim(),
+   }));
+
 
     medicines.value = (response.medicines || []).map((medicine) => ({
       medicine: medicine.medicine_name || '',
@@ -1569,6 +1577,32 @@ function insertDiagnosisSuggestion() {
   console.log('Diagnosis suggestion selected.');
 }
 
+async function saveConsultationVitals() {
+  const appointment = props.selectedConsultation?.appointment;
+
+  if (!appointment) {
+    throw new Error('No appointment selected for saving vitals.');
+  }
+
+  const readings = vitals.value
+    .filter((vital) => vital.value !== '' && vital.value != null)
+    .map((vital) => ({
+      vital_type: vital.vitalType,
+      unit: vital.unit,
+      value: String(vital.value),
+      remarks: '',
+    }));
+
+  if (readings.length === 0) {
+    return;
+  }
+
+  return saveVitalsResource.submit({
+    appointment,
+    readings: JSON.stringify(readings),
+  });
+}
+
 async function saveConsultation() {
   try {
     if (prescriptionWorkflowState.value === 'Processing') {
@@ -1577,6 +1611,8 @@ async function saveConsultation() {
     }
 
      await savePrescriptionDraft(false);
+     await saveConsultationVitals();
+
      emit('draft-saved', props.selectedConsultation?.id);
 
     alert('Consultation saved as draft.');
