@@ -22,13 +22,31 @@
 
   <div class="sidebar__single sidebar__cta" style="background-color: {% if active_service == 'emergency-assistance' %}#e53935{% else %}#f7a900{% endif %}; padding: 30px; border-radius: 8px; color: #fff; margin-top: 30px;">
     <h3 style="color: #fff; font-size: 22px; font-weight: 700; margin-bottom: 15px;">
-      {% if active_service == 'emergency-assistance' %}Get Emergency Assist{% else %}Need Assistance?{% endif %}
+      {% if active_service == 'emergency-assistance' %}Get Emergency Assist{% else %}Download CareYogi App{% endif %}
     </h3>
-    <p style="color: #fff; margin-bottom: 20px;">
-      {% if active_service == 'emergency-assistance' %}One press emergency response package for complete family peace of mind.{% else %}Connect with our care team for personalized healthcare solutions.{% endif %}
-    </p>
-    <a href="/#contact-section" class="thm-btn" style="background: {% if active_service == 'emergency-assistance' %}#ffffff{% else %}#2d2929{% endif %}; color: {% if active_service == 'emergency-assistance' %}#e53935{% else %}#ffffff{% endif %}; border: none; font-weight: 700;">
-      {% if active_service == 'emergency-assistance' %}Get Emergency Assist{% else %}Contact Us{% endif %}
-    </a>
+    {% if active_service == 'emergency-assistance' %}
+      <p style="color: #fff; margin-bottom: 20px;">
+        One press emergency response package for complete family peace of mind.
+      </p>
+    {% endif %}
+    {% if active_service == 'emergency-assistance' %}
+      <a href="/#contact-section" class="thm-btn" style="background: #ffffff; color: #e53935; border: none; font-weight: 700;">
+        Get Emergency Assist
+      </a>
+    {% else %}
+      <p>
+        <a href="https://play.google.com/store/apps/details?id=com.careyogis.careyogi_customer_app"
+          class="main-nav-two__cta">
+          <img src="/assets/wellnest/images/resources/google-play-badge.png" width="230px"
+            alt="Get it on Google Play" class="store-badge">
+        </a>
+      </p>
+      <p>
+        <a href="https://apps.apple.com/in/app/careyogi-customer-app/id6743654792" class="main-nav-two__cta">
+          <img src="/assets/wellnest/images/resources/app-store-badge.png" width="230px"
+            alt="Download on the App Store" class="store-badge">
+        </a>
+      </p>
+    {% endif %}
   </div>
 </div>
