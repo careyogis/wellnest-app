@@ -212,3 +212,108 @@ def get_historical_prescription(
             for item in prescription.medicines
         ],
     }
+
+
+@frappe.whitelist()
+def get_patient_consultation_history(patient):
+    """Return consultation history and prescriptions accessible to the practitioner."""
+
+    if not patient:
+        frappe.throw("Patient ID is required.")
+
+    if not frappe.session.user or frappe.session.user == "Guest":
+        frappe.throw("Please log in to access patient history.")
+
+    practitioner = frappe.db.get_value(
+        "Practitioner",
+        {"user_id": frappe.session.user},
+        "name",
+    )
+
+    if not practitioner:
+        frappe.throw("Practitioner not found.")
+
+    appointments = frappe.get_all(
+        "Patient Appointment",
+        filters={
+            "patient": patient,
+            "practitioner": practitioner,
+        },
+        fields=["name", "scheduled_time", "main_complaints"],
+        order_by="scheduled_time desc",
+    )
+
+    if not appointments:
+        frappe.throw(
+            "You are not authorized to access this patient's history.",
+            frappe.PermissionError,
+        )
+
+    appointment_by_name = {
+        appointment.name: appointment
+        for appointment in appointments
+    }
+
+    prescriptions = frappe.get_all(
+        "Smart Prescription",
+        filters={
+            "patient": patient,
+            "patient_appointment": [
+                "in",
+                list(appointment_by_name.keys()),
+            ],
+        },
+        fields=["name", "patient_appointment"],
+        order_by="creation desc",
+    )
+
+    prescriptions_by_appointment = {
+        appointment_name: []
+        for appointment_name in appointment_by_name
+    }
+
+    for row in prescriptions:
+        doc = frappe.get_doc("Smart Prescription", row.name)
+        appointment_name = row.patient_appointment
+
+        if appointment_name not in prescriptions_by_appointment:
+            continue
+
+        prescriptions_by_appointment[appointment_name].append({
+            "name": doc.name,
+            "patient": doc.patient,
+            "patient_appointment": doc.patient_appointment,
+            "prescription_date": doc.prescription_date,
+            "creation": doc.creation,
+            "modified": doc.modified,
+            "workflow_state": doc.workflow_state,
+            "history": doc.history,
+            "provisional_diagnosis": doc.provisional_diagnosis,
+            "investigations": doc.investigations,
+            "doctor_advice": doc.doctor_advice,
+            "follow_up_in_days": doc.follow_up_in_days,
+            "medicines": [
+                {
+                    "name": item.name,
+                    "medicine_name": item.medicine_name,
+                    "dosage": item.dosage,
+                    "timing": item.timing,
+                    "instructions": item.instructions,
+                }
+                for item in doc.medicines
+            ],
+        })
+
+    history = []
+
+    for appointment in appointments:
+        history.append({
+            "patient_appointment": appointment.name,
+            "scheduled_time": appointment.scheduled_time,
+            "main_complaints": appointment.main_complaints,
+            "prescriptions": prescriptions_by_appointment[
+                appointment.name
+            ],
+        })
+
+    return history

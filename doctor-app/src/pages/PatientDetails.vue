@@ -12,7 +12,7 @@
       </div>
 
       <div class="flex gap-2">
-    
+
        <button
         @click="messagePatient"
         class="rounded-lg border border-amber-400 px-4 py-2 text-sm font-semibold text-amber-700"
@@ -105,113 +105,303 @@
         <section class="min-h-64 rounded-xl border border-gray-200 bg-white p-5 md:p-6">
           <h2 class="mb-5 text-lg font-semibold">{{ activeTab }}</h2>
 
-          <div v-if="activeTab === 'Timeline'" class="space-y-6">
-            <div
-              v-for="(item, index) in timeline"
-              :key="index"
-              class="relative border-l-2 border-gray-200 pb-1 pl-5"
-            >
-              <span class="absolute -left-[7px] top-1 h-3 w-3 rounded-full border-2 border-white bg-amber-400"></span>
-              <p class="font-semibold">{{ item.title }}</p>
-              <p class="mt-1 text-sm text-gray-500">{{ item.description }}</p>
-            </div>
-          </div>
+          <div v-if="activeTab === 'Timeline'" class="space-y-4">
+  <template v-for="item in timeline" :key="item.id">
+    <div
+      v-if="item.type === 'appointment'"
+      class="rounded-xl border border-gray-200 bg-white p-4"
+    >
+      <h3 class="font-semibold text-gray-900">
+        Appointment
+      </h3>
 
-          
-      <!-- Conditions -->
-<div v-else-if="activeTab === 'Conditions'" class="space-y-3">
-  <div class="rounded-lg border border-gray-200 bg-white p-4">
-    <h3 class="font-semibold text-gray-900">History</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        Scheduled:
+        {{ item.scheduledTime ? formatTimelineDate(item.scheduledTime) : 'Date not available' }}
+      </p>
 
-    <p class="mt-2 whitespace-pre-wrap text-sm text-gray-600">
-      {{ prescriptionResource.data?.history || 'No history recorded for this appointment.' }}
-    </p>
-  </div>
-</div>
+      <p class="mt-1 text-sm text-gray-500">
+        Appointment ID: {{ item.appointmentId || 'Not available' }}
+      </p>
 
-        <!-- Medications -->
-         <div v-else-if="activeTab === 'Medications'" class="space-y-3">
-            <div
-            v-for="(medicine, index) in prescriptionResource.data?.medicines || []"
-            :key="index"
-            class="rounded-lg border p-4"
-            >
-             <p class="font-semibold">
-             {{ medicine.medicine_name || 'Medicine' }}
-             </p>
+      <p
+        v-if="item.mainComplaints"
+        class="mt-2 text-sm text-gray-700"
+      >
+        Reason: {{ item.mainComplaints }}
+      </p>
 
-             <div class="mt-2 grid grid-cols-1 gap-2 text-sm text-gray-600 sm:grid-cols-2">
-             <p><strong>Dose:</strong> {{ medicine.dosage || 'Not specified' }}</p>
-            <p><strong>Frequency:</strong> {{ medicine.timing || 'Not specified' }}</p>
-             <p class="sm:col-span-2">
-             <strong>Instructions:</strong>
-        {{ medicine.instructions || 'Not specified' }}
+      <div
+        v-for="prescription in item.prescriptions"
+        :key="prescription.name"
+        class="mt-3 border-t border-gray-200 pt-3"
+      >
+        <p class="font-semibold text-gray-900">Prescription</p>
+
+        <p class="mt-1 text-sm text-gray-500">
+          Status: {{ prescription.workflow_state || 'Not available' }}
+        </p>
+
+        <p
+          v-if="prescription.completionDate"
+          class="mt-1 text-sm text-gray-500"
+        >
+          Completed on: {{ formatTimelineDate(prescription.completionDate) }}
+        </p>
+        </div>
+
+      <p
+        v-if="!item.prescriptions.length"
+        class="mt-3 text-sm text-gray-500"
+      >
+        No linked prescription found.
       </p>
     </div>
+
+    <div
+      v-else
+      class="rounded-xl border border-gray-200 bg-white p-4"
+    >
+      <h3 class="font-semibold text-gray-900">{{ item.title }}</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        {{ formatTimelineDate(item.date) }}
+      </p>
+      <p class="mt-1 text-sm text-gray-600">{{ item.description }}</p>
+    </div>
+  </template>
+</div>
+
+
+      <!-- Conditions -->
+<div v-else-if="activeTab === 'Conditions'" class="space-y-3">
+  <div
+    v-for="consultation in consultationHistory"
+    :key="consultation.patient_appointment"
+    class="rounded-lg border border-gray-200 bg-white p-4"
+  >
+    <h3 class="font-semibold text-gray-900">
+      Consultation — {{ formatTimelineDate(consultation.scheduled_time) }}
+    </h3>
+
+    <div
+      v-for="prescription in consultation.prescriptions || []"
+      :key="prescription.name"
+      class="mt-3 border-t border-gray-100 pt-3"
+    >
+      <p class="font-medium text-gray-800">History</p>
+      <p class="mt-1 whitespace-pre-wrap text-sm text-gray-600">
+        {{ prescription.history || 'No history recorded for this appointment.' }}
+      </p>
+    </div>
+
+    <p
+      v-if="!(consultation.prescriptions || []).length"
+      class="mt-3 text-sm text-gray-500"
+    >
+      No history recorded for this appointment.
+    </p>
   </div>
 
   <p
-    v-if="!prescriptionResource.data?.medicines?.length"
+    v-if="!consultationHistory.length"
+    class="text-sm text-gray-500"
+  >
+    No history recorded for this appointment.
+  </p>
+</div>
+
+       <!-- Medications -->
+<div v-else-if="activeTab === 'Medications'" class="space-y-3">
+  <div
+    v-for="(medicine, index) in historicalMedicines"
+    :key="`${medicine.prescription_name}-${medicine.name || index}`"
+    class="rounded-lg border border-gray-200 bg-white p-4"
+  >
+    <p class="text-sm font-semibold text-gray-500">
+      Consultation:
+      {{ formatTimelineDate(medicine.consultation_date) }}
+    </p>
+
+    <div class="mt-3 overflow-x-auto">
+      <table class="w-full border-collapse text-left text-sm">
+        <thead>
+          <tr class="bg-amber-100 text-gray-800">
+            <th class="border-b border-amber-200 px-3 py-2 font-semibold">
+              Medicine
+            </th>
+            <th class="border-b border-amber-200 px-3 py-2 font-semibold">
+              Dose
+            </th>
+            <th class="border-b border-amber-200 px-3 py-2 font-semibold">
+              Frequency
+            </th>
+            <th class="border-b border-amber-200 px-3 py-2 font-semibold">
+              Instructions
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class="text-gray-700">
+            <td class="border-b border-gray-100 px-3 py-2">
+              {{ medicine.medicine_name || 'Medicine' }}
+            </td>
+            <td class="border-b border-gray-100 px-3 py-2">
+              {{ medicine.dosage || 'Not specified' }}
+            </td>
+            <td class="border-b border-gray-100 px-3 py-2">
+              {{ medicine.timing || 'Not specified' }}
+            </td>
+            <td class="break-words border-b border-gray-100 px-3 py-2">
+              {{ medicine.instructions || 'Not specified' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p
+      v-if="medicine.main_complaints"
+      class="mt-2 text-sm text-gray-500"
+    >
+      Reason: {{ medicine.main_complaints }}
+    </p>
+  </div>
+
+  <p
+    v-if="!historicalMedicines.length"
     class="text-sm text-gray-500"
   >
     No medications found for this appointment.
   </p>
 </div>
 
-
-          
 <!-- Vitals -->
 <div v-else-if="activeTab === 'Vitals'" class="space-y-3">
   <div
-    v-if="vitalsResource.data?.vital_reading?.length"
-    class="grid grid-cols-1 gap-3 sm:grid-cols-2"
+    v-if="timelineResource.data?.vitals?.length"
+    class="space-y-4"
   >
     <div
-      v-for="(reading, index) in vitalsResource.data.vital_reading"
-      :key="index"
-      class="rounded-lg border p-4"
+      v-for="(vital, index) in timelineResource.data.vitals"
+      :key="vital.name || index"
+      class="rounded-lg border border-gray-200 bg-white p-4"
     >
-      <p class="text-sm text-gray-500">
-        {{ reading.vital_type || 'Vital' }}
-      </p>
-      <p class="mt-1 text-lg font-semibold text-gray-900">
-        {{ reading.value ?? '—' }}
-      </p>
+      <h3 class="font-semibold text-gray-900">
+        Consultation — {{ formatTimelineDate(vital.appointment_date || vital.recorded_on) }}
+      </h3>
+
+      <div
+        v-if="vital.vital_reading?.length"
+        class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2"
+      >
+        <div
+          v-for="(reading, readingIndex) in vital.vital_reading"
+          :key="readingIndex"
+          class="rounded-lg border border-gray-200 p-3"
+        >
+          <p class="text-sm text-gray-500">
+            {{ reading.vital_type || 'Vital' }}
+          </p>
+          <p class="mt-1 break-words font-semibold text-gray-900">
+            {{ reading.value ?? '—' }}
+            <span class="text-sm font-normal text-gray-500">
+              {{ reading.unit }}
+            </span>
+          </p>
+          <p
+            v-if="reading.remarks"
+            class="mt-1 whitespace-pre-wrap text-sm text-gray-600"
+          >
+            {{ reading.remarks }}
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 
   <p v-else class="text-sm text-gray-500">
-    No vitals recorded for this appointment.
+    No vitals recorded for this patient.
   </p>
 </div>
-        
 
 <!-- Prescriptions -->
 <div v-else-if="activeTab === 'Prescriptions'" class="space-y-3">
+  <!-- Historical prescriptions -->
   <div
-    v-if="prescriptionResource.data"
+    v-for="prescription in historicalPrescriptions"
+    :key="prescription.name"
     class="rounded-xl border border-gray-200 bg-white p-5"
   >
-    <div class="flex items-center justify-between gap-4">
-     
+    <div class="flex items-center justify-between gap-3">
+      <h3 class="font-semibold text-gray-900">
+       Prescription — {{
+  new Date(
+    prescription.prescription_date ||
+    prescription.creation ||
+    prescription.scheduled_time
+  ).toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  })
+}}
+      </h3>
 
       <button
         type="button"
         class="rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-600"
-        @click="showPrescriptionPreview = true"
+        @click="openPrescriptionPreview(prescription)"
       >
         Preview prescription
       </button>
     </div>
   </div>
 
-  <p v-else class="text-sm text-gray-500">
-    No prescription found for this appointment.
+  <!-- Selected appointment prescription -->
+  <div
+    v-if="
+      prescriptionResource.data &&
+      !historicalPrescriptions.some(
+        (item) => item.name === prescriptionResource.data.name
+      )
+    "
+    class="rounded-xl border border-gray-200 bg-white p-5"
+  >
+    <div class="flex items-center justify-between gap-3">
+      <h3 class="font-semibold text-gray-900">
+        Prescription — {{
+          formatTimelineDate(
+            prescriptionResource.data.prescription_date ||
+            prescriptionResource.data.creation
+          )
+        }}
+      </h3>
+
+      <button
+        type="button"
+        class="rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-600"
+        @click="openPrescriptionPreview(prescriptionResource.data)"
+      >
+        Preview prescription
+      </button>
+    </div>
+  </div>
+
+  <p
+    v-if="
+      !prescriptionResource.data &&
+      !historicalPrescriptions.length
+    "
+    class="text-sm text-gray-500"
+  >
+    No prescriptions found for this patient.
   </p>
+</div>
 
   <!-- Prescription Preview Modal -->
   <div
-    v-if="showPrescriptionPreview && prescriptionResource.data"
+    v-if="showPrescriptionPreview && activePrescriptionPreview"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
     @click.self="showPrescriptionPreview = false"
   >
@@ -255,7 +445,7 @@
             </div>
 
             <span class="shrink-0 rounded-lg bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-              {{ prescriptionResource.data.workflow_state || 'Prescription' }}
+              {{ activePrescriptionPreview.workflow_state || 'Prescription' }}
             </span>
           </div>
 
@@ -268,8 +458,25 @@
               <p class="text-xs text-gray-500">{{ item.label }}</p>
               <p class="mt-2 break-words font-bold text-gray-900">{{ item.value }}</p>
             </div>
-          </div> 
-          
+          </div>
+
+          <!-- Doctor Details -->
+          <div class="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
+            <div
+              v-for="item in prescriptionPreviewDoctorDetails"
+              :key="item.label"
+              class="rounded-xl border border-gray-200 bg-white p-4"
+            >
+              <p class="text-xs text-gray-500">{{ item.label }}</p>
+              <p class="mt-2 break-words font-bold text-gray-900">
+                {{ item.value }}
+              </p>
+              <p v-if="item.description" class="mt-1 text-xs text-gray-500">
+                {{ item.description }}
+              </p>
+            </div>
+          </div>
+
 <!-- Chief Complaints -->
 <div class="mt-6">
   <h3 class="font-bold text-gray-900">Chief Complaints</h3>
@@ -304,58 +511,45 @@
 <div class="mt-5">
   <h3 class="font-bold text-gray-900">History</h3>
   <p class="mt-2 whitespace-pre-wrap break-words text-sm text-gray-700">
-    {{ prescriptionResource.data.history || 'No history recorded.' }}
+   {{ activePrescriptionPreview.history || 'No history recorded.' }}
   </p>
 </div>
 
-<!-- Vitals -->
-<div class="mt-5">
-  <h3 class="font-bold text-gray-900">Vitals</h3>
+          <!-- Vitals -->
+          <div class="mt-5">
+            <h3 class="font-bold text-gray-900">Vitals</h3>
 
-  <div
-    v-if="vitalsResource.data?.vital_reading?.length"
-    class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3"
-  >
-    <div
-      v-for="(reading, index) in vitalsResource.data.vital_reading"
-      :key="index"
-      class="rounded-lg border border-gray-200 bg-white p-3"
-    >
-      <p class="text-sm text-gray-500">
-        {{ reading.vital_type || 'Vital' }}
-      </p>
-      <p class="mt-1 break-words font-semibold text-gray-900">
-        {{ reading.value ?? '—' }}
-        <span class="text-sm font-normal text-gray-500">
-          {{ reading.unit }}
-        </span>
-      </p>
-      <p
-        v-if="reading.remarks"
-        class="mt-1 whitespace-pre-wrap text-sm text-gray-600"
-      >
-        {{ reading.remarks }}
-      </p>
-    </div>
-  </div>
+            <div
+              v-if="prescriptionPreviewVitals.length"
+              class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3"
+            >
+              <div
+                v-for="vital in prescriptionPreviewVitals"
+                :key="vital.label"
+                class="rounded-xl border border-gray-200 bg-white p-4"
+              >
+                <p class="text-xs uppercase text-gray-500">{{ vital.label }}</p>
+                <p class="mt-2 font-bold text-gray-900">{{ vital.value }}</p>
+              </div>
+            </div>
 
-  <p v-else class="mt-2 text-sm text-gray-500">
-    No vitals recorded for this appointment.
-  </p>
-</div>
+            <p v-else class="mt-2 text-sm text-gray-500">
+              No vitals recorded for this consultation.
+            </p>
+          </div>
 
 <!-- Investigations -->
 <div class="mt-5">
   <h3 class="font-bold text-gray-900">Investigations Advised</h3>
   <p class="mt-2 whitespace-pre-wrap break-words text-sm text-gray-700">
-    {{ prescriptionResource.data.investigations || 'No investigations advised.' }}
+   {{ activePrescriptionPreview.investigations || 'No investigations advised.' }}
   </p>
 </div>
 
           <div class="mt-6">
             <h3 class="font-bold text-gray-900">Provisional Diagnosis</h3>
             <p class="mt-2 whitespace-pre-wrap text-sm text-gray-700">
-              {{ prescriptionResource.data.provisional_diagnosis || 'No provisional diagnosis recorded.' }}
+              {{ activePrescriptionPreview.provisional_diagnosis || 'No provisional diagnosis recorded.' }}
             </p>
           </div>
 
@@ -396,14 +590,14 @@
           <div class="mt-5">
             <h3 class="font-bold text-gray-900">Doctor Advice</h3>
             <p class="mt-2 whitespace-pre-wrap text-sm text-gray-700">
-              {{ prescriptionResource.data.doctor_advice || prescriptionResource.data.advice || 'No doctor advice recorded.' }}
+              {{ activePrescriptionPreview.doctor_advice || activePrescriptionPreview.advice || 'No doctor advice recorded.' }}
             </p>
           </div>
 
           <div class="mt-5">
             <h3 class="font-bold text-gray-900">Follow-up In (days)</h3>
             <p class="mt-2 text-sm text-gray-700">
-              {{ prescriptionResource.data.follow_up_in_days || 'Not specified' }}
+              {{ activePrescriptionPreview.follow_up_in_days || 'Not specified' }}
             </p>
           </div>
 
@@ -427,8 +621,7 @@
         </button>
       </div>
     </div>
-  </div>
-</div>
+      </div>
 
         <!-- Lab Reports -->
 <div v-else-if="activeTab === 'Lab Reports'" class="space-y-3">
@@ -459,11 +652,6 @@
   </p>
 </div>
 
-<!-- Fallback for other tabs -->
-<p v-else class="text-sm text-gray-500">
-  {{ activeTab }} content will be added in a future implementation.
-</p>
-
         </section>
       </div>
     </div>
@@ -480,6 +668,11 @@ const route = useRoute();
 const router = useRouter();
 const activeTab = ref('Timeline');
 const showPrescriptionPreview = ref(false);
+const selectedPrescriptionPreview = ref(null);
+
+const activePrescriptionPreview = computed(
+  () => selectedPrescriptionPreview.value || prescriptionResource.data,
+);
 
 
 const tabs = [
@@ -611,6 +804,45 @@ const prescriptionResource = createResource({
   auto: false,
 });
 
+const consultationHistoryResource = createResource({
+  url: 'wellnest.api.patient_history.get_patient_consultation_history',
+  makeParams() {
+    return {
+      patient: route.query.patient,
+    };
+  },
+  auto: false,
+});
+
+const consultationHistory = computed(
+  () => consultationHistoryResource.data || [],
+);
+
+const historicalPrescriptions = computed(() =>
+  consultationHistory.value.flatMap((consultation) =>
+    (consultation.prescriptions || []).map((prescription) => ({
+      ...prescription,
+      scheduled_time: consultation.scheduled_time,
+      main_complaints: consultation.main_complaints,
+    })),
+  ),
+);
+
+const historicalMedicines = computed(() =>
+  historicalPrescriptions.value.flatMap((prescription) =>
+    (prescription.medicines || []).map((medicine) => ({
+      ...medicine,
+      prescription_name: prescription.name,
+      patient_appointment: prescription.patient_appointment,
+      consultation_date:
+        prescription.scheduled_time ||
+        prescription.prescription_date ||
+        prescription.creation,
+      main_complaints: prescription.main_complaints,
+    })),
+  ),
+);
+
 const prescriptionPreviewDetails = computed(() => {
   const appointment = patientResource.data?.appointment || {};
 
@@ -631,8 +863,51 @@ const prescriptionPreviewDetails = computed(() => {
   ];
 });
 
+const prescriptionPreviewDoctorDetails = computed(() => {
+  const appointment = patientResource.data?.appointment || {};
+
+  return [
+    {
+  label: 'Consulting Doctor',
+  value: appointment.practitioner || 'Not Available',
+  description: '',
+    },
+    {
+      label: 'Qualification',
+      value: 'MBBS, MD (Internal Medicine)',
+      description: '34 Years Experience',
+    },
+    {
+      label: 'Registration',
+      value: appointment.registration_no || 'Not Available',
+      description: 'Digitally signed draft',
+    },
+  ];
+});
+
+const prescriptionPreviewVitals = computed(() => {
+  const readings =
+    prescriptionPreviewVitalsResource.data?.vital_reading || [];
+
+  const labels = {
+    Weight: 'Weight',
+    Height: 'Height',
+    'Heart Rate': 'Pulse',
+    BP: 'BP',
+    SPO2: 'SpO2',
+    Temperature: 'Temperature',
+    Sugar: 'Blood Sugar',
+    'Respiratory Rate': 'Respiratory Rate',
+  };
+
+  return readings.map((reading) => ({
+    label: labels[reading.vital_type] || reading.vital_type || 'Vital',
+    value: [reading.value, reading.unit].filter(Boolean).join(' ') || '—',
+  }));
+});
+
 const prescriptionMedicines = computed(() => {
-  const prescription = prescriptionResource.data;
+  const prescription = activePrescriptionPreview.value;
   if (!prescription) return [];
 
   const medicines =
@@ -679,22 +954,29 @@ const vitalsResource = createResource({
   auto: false,
 });
 
+const prescriptionPreviewVitalsResource = createResource({
+  url: 'wellnest.wellnest.doctype.vitals.vitals.get_consultation_vitals',
+  auto: false,
+});
+
 
 watch(
   () => [route.query.patient, route.query.appointment],
-  ([patientId]) => {
+  async ([patientId]) => {
     if (!patientId) {
       patientResource.reset();
       timelineResource.reset();
       prescriptionResource.reset();
       vitalsResource.reset();
       patientHistoryResource.reset();
+      consultationHistoryResource.reset();
       return;
     }
 
     patientResource.reload();
     timelineResource.reload();
     prescriptionResource.reload();
+    consultationHistoryResource.reload();
 
     if (route.query.appointment) {
   patientHistoryResource.submit({
@@ -705,67 +987,78 @@ watch(
 }
 
     if (route.query.appointment) {
-      vitalsResource.submit({
-        appointment: route.query.appointment,
-      });
-    }
+  await vitalsResource.submit({
+    appointment: route.query.appointment,
+  });
+} else {
+  vitalsResource.reset();
+}
   },
   { immediate: true },
 );
 
+
+
 const timeline = computed(() => {
   const data = timelineResource.data || {};
+  const appointmentCards = [];
+  const linkedAppointmentIds = new Set();
 
-  const events = [];
+  for (const consultation of consultationHistory.value) {
+    const appointmentId = consultation.patient_appointment;
 
+    const prescriptions = consultation.prescriptions || [];
 
+    if (appointmentId) {
+      linkedAppointmentIds.add(appointmentId);
+    }
 
-const appointment = patientResource.data?.appointment;
+    if (consultation.scheduled_time || prescriptions.length) {
+      appointmentCards.push({
+        type: 'appointment',
+        id: appointmentId || `consultation-${consultation.scheduled_time}`,
+        appointmentId,
+        scheduledTime: consultation.scheduled_time,
+        mainComplaints: consultation.main_complaints,
+        prescriptions: prescriptions.map((prescription) => ({
+          ...prescription,
+          completionDate:
+            ['Complete', 'Confirmed'].includes(prescription.workflow_state)
+              ? prescription.modified || prescription.creation
+              : null,
+        })),
+        sortDate:
+          consultation.scheduled_time ||
+          prescriptions[0]?.modified ||
+          prescriptions[0]?.creation,
+      });
+    }
+  }
 
-if (appointment?.scheduled_time) {
-  events.push({
-    date: appointment.scheduled_time,
-    title: 'Appointment scheduled',
-    description: appointment.main_complaints
-      ? `Consultation reason: ${appointment.main_complaints}`
-      : patient.consultationReason !== 'Not available'
-        ? `Consultation reason: ${patient.consultationReason}`
-        : 'Appointment scheduled.',
-  });
-}
+  const appointment = patientResource.data?.appointment;
 
-  const prescription = prescriptionResource.data;
+  if (
+    appointment?.name &&
+    !linkedAppointmentIds.has(appointment.name)
+  ) {
+    appointmentCards.push({
+      type: 'appointment',
+      id: appointment.name,
+      appointmentId: appointment.name,
+      scheduledTime: appointment.scheduled_time,
+      mainComplaints: appointment.main_complaints,
+      prescriptions: [],
+      sortDate: appointment.scheduled_time,
+    });
+  }
 
-  if (prescription?.creation) {
-  events.push({
-    date: prescription.creation,
-    title: 'Draft saved',
-    description: 'Doctor saved the prescription as a draft.',
-  });
-}
-
-if (prescription?.workflow_state === 'Draft') {
-  events.push({
-    date: prescription.modified || prescription.creation || new Date().toISOString(),
-    title: 'Draft saved',
-    description: 'Doctor saved the prescription as a draft.',
-  });
-}
-
-if (
-  prescription &&
-  ['Complete', 'Confirmed'].includes(prescription.workflow_state)
-) {
-  events.push({
-    date: prescription.modified || prescription.creation || new Date().toISOString(),
-    title: 'Prescription reviewed and shared',
-    description: 'Doctor completed the prescription workflow.',
-  });
-}
+  const otherEvents = [];
 
   for (const condition of data.medical_history || []) {
     if (condition.onset_date || condition.condition_name) {
-      events.push({
+      otherEvents.push({
+        type: 'event',
+        id: `condition-${condition.name || condition.condition_name}`,
         date: condition.onset_date,
         title: condition.condition_name || 'Medical history recorded',
         description: condition.notes || condition.status || 'Medical history entry.',
@@ -775,48 +1068,94 @@ if (
 
   for (const medication of data.medications || []) {
     if (medication.creation) {
-      events.push({
+      otherEvents.push({
+        type: 'event',
+        id: `medication-${medication.name}`,
         date: medication.creation,
         title: 'Medication record',
-        description: medication.notes || medication.adherence_status || 'Medication information recorded.',
+        description:
+          medication.notes ||
+          medication.adherence_status ||
+          'Medication information recorded.',
       });
     }
   }
 
   for (const visit of data.nurse_visits || []) {
     if (visit.visit_date) {
-      events.push({
+      otherEvents.push({
+        type: 'event',
+        id: `nurse-${visit.name || visit.visit_date}`,
         date: visit.visit_date,
         title: 'Nurse visit',
-        description: visit.concerns || visit.vitals_summary || 'Nurse visit recorded.',
+        description:
+          visit.concerns || visit.vitals_summary || 'Nurse visit recorded.',
       });
     }
   }
 
   for (const review of data.reviews || []) {
     if (review.review_date) {
-      events.push({
+      otherEvents.push({
+        type: 'event',
+        id: `review-${review.name || review.review_date}`,
         date: review.review_date,
         title: 'Geriatric review',
-        description: review.summary || review.recommendations || 'Review recorded.',
+        description:
+          review.summary || review.recommendations || 'Review recorded.',
       });
     }
   }
 
-  
-return events
-  .filter((event) => event.date)
-  .sort((a, b) => {
-    if (a.title === 'Appointment scheduled') return -1;
-    if (b.title === 'Appointment scheduled') return 1;
-    return new Date(b.date) - new Date(a.date);
-  })
-  .map((event) => ({
-    ...event,
-    title: `${formatTimelineDate(event.date)} — ${event.title}`,
-  }));
+  const currentPrescription = prescriptionResource.data;
 
+  if (
+    currentPrescription &&
+    !historicalPrescriptions.value.some(
+      (item) => item.name === currentPrescription.name,
+    )
+  ) {
+    const linkedId = currentPrescription.patient_appointment;
+    const linkedCard = appointmentCards.find(
+      (card) => card.appointmentId === linkedId,
+    );
+
+    if (linkedCard) {
+      linkedCard.prescriptions.push({
+        ...currentPrescription,
+        completionDate:
+          ['Complete', 'Confirmed'].includes(currentPrescription.workflow_state)
+            ? currentPrescription.modified || currentPrescription.creation
+            : null,
+      });
+    } else {
+      otherEvents.push({
+        type: 'event',
+        id: `prescription-${currentPrescription.name}`,
+        date: currentPrescription.modified || currentPrescription.creation,
+        title:
+          currentPrescription.workflow_state === 'Draft'
+            ? 'Draft saved'
+            : 'Prescription',
+        description: currentPrescription.workflow_state || 'Prescription recorded.',
+      });
+    }
+  }
+
+  return [
+    ...appointmentCards.map((card) => ({
+      ...card,
+      sortDate: card.sortDate || card.scheduledTime,
+    })),
+    ...otherEvents.map((event) => ({
+      ...event,
+      sortDate: event.date,
+    })),
+  ]
+    .filter((item) => item.sortDate)
+    .sort((a, b) => new Date(b.sortDate) - new Date(a.sortDate));
 });
+
 
 function formatTimelineDate(value) {
   const date = new Date(String(value).replace(' ', 'T'));
@@ -835,7 +1174,20 @@ function formatTimelineDate(value) {
   });
 }
 
+async function openPrescriptionPreview(prescription) {
+  selectedPrescriptionPreview.value = prescription;
+  showPrescriptionPreview.value = true;
 
+  prescriptionPreviewVitalsResource.reset();
+
+  const appointmentId = prescription?.patient_appointment;
+
+  if (!appointmentId) return;
+
+  await prescriptionPreviewVitalsResource.submit({
+    appointment: appointmentId,
+  });
+}
 
 function returnToSelectedConsult() {
   const appointmentId = route.query.appointment;

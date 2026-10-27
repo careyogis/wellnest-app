@@ -1189,6 +1189,8 @@ async function finalizePrescription() {
   }
 
   try {
+    await saveConsultationVitals();
+
     const medicinesPayload = medicines.value
       .filter((medicine) => medicine.medicine?.trim())
       .map((medicine) => ({

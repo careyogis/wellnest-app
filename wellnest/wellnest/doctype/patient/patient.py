@@ -122,10 +122,24 @@ def get_patient_timeline(patient):
 
         vital_doc = frappe.get_doc("Vitals", vital.name)
 
+        appointment = vital_doc.teleconsultation_appointment
+        appointment_date = (
+            frappe.db.get_value(
+               "Patient Appointment",
+                appointment,
+                "scheduled_time",
+                )
+                if appointment
+                else None
+        )
+
         vitals.append({
             "recorded_on": vital_doc.recorded_on,
             "recorded_by": vital_doc.recorded_by,
-            "vital_reading": vital_doc.vital_reading
+            "vital_reading": vital_doc.vital_reading,
+            "name": vital_doc.name,
+            "appointment": appointment,
+            "appointment_date": appointment_date,
         })
     
 
@@ -539,6 +553,7 @@ def get_doctor_patient_details(patient, appointment=None):
         fields=[
             "name",
             "patient",
+            "practitioner",
             "scheduled_time",
             "status",
             "consultation_type",
@@ -570,5 +585,12 @@ def get_doctor_patient_details(patient, appointment=None):
             }
             for contact in patient_doc.get("emergency_contact", [])
         ],
-        "appointment": appointments[0],
+        "appointment": {
+            **appointments[0],
+            "practitioner_name": frappe.db.get_value(
+                "Practitioner",
+                appointments[0].practitioner,
+                "full_name",
+            ),
+        },
     }
