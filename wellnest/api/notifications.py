@@ -14,18 +14,16 @@ def get_doctor_appointment_notifications():
 
     appointments = frappe.get_all(
         "Patient Appointment",
-       filters={
-           "practitioner": practitioner.name,
-           "status": ["not in", [
-               "Completed",
-               "Cancelled",
-               "Cancelled by Doctor",
-               "No Show",
-           ]],
-           "payment_status": "Paid",
-           "scheduled_time": [">=", frappe.utils.get_datetime().replace(
-               hour=0, minute=0, second=0, microsecond=0
-           )],
+        filters={
+            "practitioner": practitioner.name,
+            "consultation_type": "Online",
+            "status": ["not in", [
+                "Completed",
+                "Cancelled",
+                "Cancelled by Doctor",
+                "No Show",
+            ]],
+            "payment_status": "Paid",
         },
         fields=[
             "name",
@@ -34,8 +32,8 @@ def get_doctor_appointment_notifications():
             "creation",
         ],
         order_by="creation desc",
-        limit=20,
     )
+
 
     for appointment in appointments:
         appointment["patient_name"] = (
