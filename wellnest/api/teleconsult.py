@@ -78,7 +78,7 @@ def book_appointment(
             "consultation_type": consultation_type,
             "consultation_fee": consultation_fee,
             "main_complaints": main_complaints,
-            "status": "Unverified",
+            "status": "Scheduled" if follow_up_flag else "Unverified",
             "is_follow_up": 1 if follow_up_flag else 0,
             "follow_up_of": follow_up_reference,
         }
