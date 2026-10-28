@@ -30,8 +30,8 @@ class PatientAppointment(Document):
                 self.payout_status = "Accrued"
 
     def on_update(self):
-        # Only proceed if the status changed to "Scheduled"
-        if not (self.has_value_changed("status") and self.status == "Scheduled"):
+        # Only proceed if the status changed to "Scheduled" or if the appointment is being rescheduled
+        if not ((self.has_value_changed("status") or self.has_value_changed("scheduled_time")) and self.status == "Scheduled"):
             return
 
         try:

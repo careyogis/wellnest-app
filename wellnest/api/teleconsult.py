@@ -182,52 +182,52 @@ def cancel_appointment(appointment_id: str, cancel_reason: str, patient: str = N
 
 @frappe.whitelist()
 def reschedule_appointment(
-    old_appointment_id: str,
-    practitioner: str,
-    patient: str,
-    scheduled_time: str,
-    consultation_type: str,
-    consultation_fee: float = 0,
-    main_complaints: str = "",
-    is_follow_up: bool = False,
-    follow_up_of: str = None,
+    appointment_id: str = None,
+    scheduled_time: str = None,
+    old_appointment_id: str = None,
+    **kwargs,
 ) -> dict:
-    """Reschedule a Patient Appointment by cancelling the old one and
-    creating a new one at the requested time.
+    """Reschedule a Patient Appointment by updating its scheduled_time with the new time.
 
     Args:
-        old_appointment_id: The appointment to cancel.
-        practitioner:       Practitioner docname for the new appointment.
-        patient:            Patient docname.
+        appointment_id:     The Patient Appointment to reschedule.
         scheduled_time:     New datetime string ("YYYY-MM-DD HH:MM:SS").
-        consultation_type:  e.g. "Online".
-        consultation_fee:   Fee for the new appointment.
-        main_complaints:    Optional patient complaint text.
+        old_appointment_id: Alias for appointment_id for backwards compatibility. <TODO: remove>
 
     Returns:
-        {"success": True, "new_appointment": <new_appointment_name>}
+        {"success": True, "appointment": <appointment_name>, "new_appointment": <appointment_name>}
     """
-    # Cancel the old appointment with a neutral reason.
-    cancel_appointment(
-        appointment_id=old_appointment_id,
-        cancel_reason="Personal Commitment",
-    )
+    target_id = appointment_id or old_appointment_id
+    if not target_id:
+        frappe.throw(_("Appointment ID is required."), frappe.ValidationError)
 
-    # Create the new appointment by reusing the existing book_appointment logic.
-    result = book_appointment(
-        practitioner=practitioner,
-        patient=patient,
-        scheduled_time=scheduled_time,
-        consultation_type=consultation_type,
-        consultation_fee=consultation_fee,
-        main_complaints=main_complaints if main_complaints else None,
-        is_follow_up=is_follow_up,
-        follow_up_of=follow_up_of,
-    )
+    if not scheduled_time:
+        frappe.throw(_("New scheduled time is required."), frappe.ValidationError)
 
-    new_name = result.get("name") if isinstance(result, dict) else str(result)
+    doc = frappe.get_doc("Patient Appointment", target_id)
 
-    return {"success": True, "new_appointment": new_name}
+    # check if this appointment is already completed 
+    if doc.status == "Completed":
+        frappe.throw(_("This appointment is already completed. Can't reschedule."), frappe.ValidationError)
+
+    # check if this appointment is a follow-up appointment and if the new scheduled time is within 7 days of the original appointment
+    if doc.is_follow_up and doc.follow_up_of:
+        original_scheduled_time = frappe.get_value("Patient Appointment", doc.follow_up_of, "scheduled_time")
+        formatted_original_scheduled_time = frappe.utils.get_datetime(original_scheduled_time)
+        new_scheduled_time = frappe.utils.get_datetime(scheduled_time)
+        if (new_scheduled_time - formatted_original_scheduled_time).days > 7:
+            frappe.throw(
+                _("Follow-up appointments can only be rescheduled within 7 days of the original appointment."),
+                frappe.ValidationError,
+            )
+
+    doc.scheduled_time = scheduled_time
+    doc.save(ignore_permissions=True)
+
+    return {
+        "success": True,
+        "new_appointment": doc.name
+    }
 
 
 def _is_free_follow_up_eligible(practitioner, patient):
