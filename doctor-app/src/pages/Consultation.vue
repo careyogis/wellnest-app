@@ -199,12 +199,12 @@
           min="0"
           class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
           />
-           <div
-     v-if="(isFollowUpActive || isCompleted) && followUpThroughDate"
-    class="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800"
-  >
-    Prescription shared with the patient. Continue follow-up in chat until the follow-up period ends.
-  </div>
+         <div
+  v-if="isCompleted && followUpThroughDate"
+  class="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800"
+>
+  Prescription shared with the patient.
+</div>
         </section>
       </main>
       </fieldset>
@@ -553,10 +553,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  isFollowUpActive: {
-    type: Boolean,
-    default: false,
-  },
   isCompleted: {
     type: Boolean,
     default: false,
@@ -625,7 +621,19 @@ const consultation = computed(() => ({
 // Clinical Record data
 const complaints = ref([]);
 const investigations = ref([]);
+
 const vitalsExpanded = ref(false);
+
+watch(
+  () => props.isCompleted,
+  (isCompleted) => {
+    if (isCompleted) {
+      vitalsExpanded.value = true;
+    }
+  },
+  { immediate: true }
+);
+
 const vitalsSection = ref(null);
 const history = ref('');
 const examination = ref('');
@@ -644,7 +652,6 @@ const prescriptionWorkflowState = ref(null);
 
 const isPrescriptionSubmitted = computed(
   () =>
-  props.isFollowUpActive ||
     prescriptionWorkflowState.value === 'Confirmed' ||
     prescriptionWorkflowState.value === 'Complete'
 );

@@ -134,7 +134,6 @@ def get_teleconsultation_appointments():
             "practitioner",
             "scheduled_time",
             "status",
-            "consultation_workflow_state",
             "consultation_fee",
             "payment_status",
             "main_complaints",
@@ -262,7 +261,6 @@ def end_consultation(appointment):
         )
 
     appointment.db_set("status", "Completed")
-    appointment.db_set("consultation_workflow_state", "Prescription Due")
     appointment.db_set("consultation_ended_at", now_datetime())
 
     if appointment.consultation_type == "Online" and appointment.payment_status == "Paid":
@@ -275,29 +273,6 @@ def end_consultation(appointment):
     return {
         "appointment": appointment.name,
         "status": "Completed",
-    }
-
-@frappe.whitelist()
-def update_consultation_workflow_state(appointment, workflow_state):
-    allowed_states = {
-        "Prescription Due",
-        "Follow-up active",
-        "Complete",
-    }
-
-    if workflow_state not in allowed_states:
-        frappe.throw("Invalid consultation workflow state.")
-
-    appointment = _get_appointment_for_current_practitioner(appointment)
-
-    if not appointment.meta.has_field("consultation_workflow_state"):
-        frappe.throw("Consultation workflow state field is not configured.")
-
-    appointment.db_set("consultation_workflow_state", workflow_state)
-
-    return {
-        "appointment": appointment.name,
-        "consultation_workflow_state": workflow_state,
     }
 
 @frappe.whitelist()

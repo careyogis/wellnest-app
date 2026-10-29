@@ -204,10 +204,6 @@ class TestPatientAppointment(FrappeTestCase):
             "Completed",
         )
         self.assertEqual(
-            appointment.consultation_workflow_state,
-            "Prescription Due",
-        )
-        self.assertEqual(
             result["appointment"],
             appointment.name,
         )

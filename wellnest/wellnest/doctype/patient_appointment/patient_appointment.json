@@ -10,7 +10,6 @@
   "practitioner",
   "scheduled_time",
   "status",
-  "consultation_workflow_state",
   "consultation_ended_at",
   "prescription_sla_last_reminder_at",
   "patient_waiting_reminder_sent",
@@ -63,14 +62,6 @@
    "in_list_view": 1,
    "label": "Status",
    "options": "Unverified\nScheduled\nIn-Progress\nCompleted\nCancelled\nCancelled by Doctor\nNo Show"
-  },
-  {
-   "default": "Upcoming",
-   "fieldname": "consultation_workflow_state",
-   "fieldtype": "Select",
-   "label": "Consultation Workflow State",
-   "options": "Upcoming\nPrescription Due\nFollow-up active\nComplete",
-   "read_only": 1
   },
   {
    "fieldname": "consultation_ended_at",
