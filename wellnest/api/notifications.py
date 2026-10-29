@@ -2,6 +2,7 @@ import frappe
 import requests
 from frappe.utils import now_datetime
 from frappe.utils import get_site_name
+from wellnest.api.appointment_system_tracking import get_or_create_tracking
 
 @frappe.whitelist(allow_guest=False)
 def get_doctor_appointment_notifications():
@@ -339,27 +340,35 @@ def send_prescription_sla_reminders():
     sla_deadline = now - timedelta(hours=5)
 
     try:
-        appointments = frappe.get_all(
-            "Patient Appointment",
+        tracking_rows = frappe.get_all(
+            "Appointment System Tracking",
             filters=[
-                ["status", "=", "Completed"],
                 ["consultation_ended_at", "is", "set"],
                 ["consultation_ended_at", ">", sla_deadline],
             ],
             fields=[
                 "name",
-                "practitioner",
-                "patient",
+                "patient_appointment",
                 "consultation_ended_at",
                 "prescription_sla_last_reminder_at",
             ],
             ignore_permissions=True,
         )
 
-        for appointment in appointments:
-            if appointment.prescription_sla_last_reminder_at:
+        for tracking in tracking_rows:
+            appointment = frappe.db.get_value(
+                "Patient Appointment",
+                tracking.patient_appointment,
+                ["name", "status"],
+                as_dict=True,
+            )
+
+            if not appointment or appointment.status != "Completed":
+                continue
+
+            if tracking.prescription_sla_last_reminder_at:
                 hours_since_last_reminder = (
-                    now - appointment.prescription_sla_last_reminder_at
+                    now - tracking.prescription_sla_last_reminder_at
                 ).total_seconds() / 3600
 
                 if hours_since_last_reminder < 1:
@@ -367,33 +376,28 @@ def send_prescription_sla_reminders():
 
             prescription_name = frappe.db.get_value(
                 "Smart Prescription",
-                {
-                    "patient_appointment": appointment.name,
-                },
+                {"patient_appointment": appointment.name},
                 "name",
             )
 
-            if not prescription_name:
-                should_remind = True
-            else:
+            if prescription_name:
                 workflow_state = frappe.db.get_value(
                     "Smart Prescription",
                     prescription_name,
                     "workflow_state",
                 )
-
                 should_remind = workflow_state != "Complete"
+            else:
+                should_remind = True
 
             if not should_remind:
                 continue
 
-            notify_doctor_of_prescription_sla_reminder(
-                appointment.name
-            )
+            notify_doctor_of_prescription_sla_reminder(appointment.name)
 
             frappe.db.set_value(
-                "Patient Appointment",
-                appointment.name,
+                "Appointment System Tracking",
+                tracking.name,
                 "prescription_sla_last_reminder_at",
                 now,
             )
@@ -403,6 +407,7 @@ def send_prescription_sla_reminders():
             frappe.get_traceback(),
             "Prescription SLA Reminder Error",
         )
+
 
 
 def _send_prescription_review_whatsapp_message(
@@ -559,7 +564,6 @@ def send_doctor_whatsapp_alert():
     _logInfo(f"Finished sending WhatsApp alerts")
 
 
-
 def send_patient_waiting_reminders():
     """Notify the doctor when a patient has been waiting 10+ minutes."""
     import requests
@@ -577,7 +581,6 @@ def send_patient_waiting_reminders():
         filters=[
             ["status", "=", "Scheduled"],
             ["scheduled_time", "<=", cutoff],
-            ["patient_waiting_reminder_sent", "=", 0],
         ],
         fields=["name", "practitioner", "patient", "scheduled_time"],
         ignore_permissions=True,
@@ -585,6 +588,11 @@ def send_patient_waiting_reminders():
 
     for appointment in appointments:
         try:
+            tracking = get_or_create_tracking(appointment.name)
+
+            if tracking.patient_waiting_reminder_sent:
+                continue
+
             doctor = frappe.get_doc("Practitioner", appointment.practitioner)
             patient = frappe.get_doc("Patient", appointment.patient)
 
@@ -615,8 +623,14 @@ def send_patient_waiting_reminders():
                         {
                             "type": "body",
                             "parameters": [
-                                {"type": "text", "text": str(doctor.full_name or doctor.name)},
-                                {"type": "text", "text": str(patient.full_name or patient.name)},
+                                {
+                                    "type": "text",
+                                    "text": str(doctor.full_name or doctor.name),
+                                },
+                                {
+                                    "type": "text",
+                                    "text": str(patient.full_name or patient.name),
+                                },
                                 {"type": "text", "text": str(delay_minutes)},
                                 {"type": "text", "text": str(appointment.name)},
                                 {"type": "text", "text": consultation_link},
@@ -642,8 +656,8 @@ def send_patient_waiting_reminders():
 
             if response.ok:
                 frappe.db.set_value(
-                    "Patient Appointment",
-                    appointment.name,
+                    "Appointment System Tracking",
+                    tracking.name,
                     "patient_waiting_reminder_sent",
                     1,
                 )
@@ -659,6 +673,7 @@ def send_patient_waiting_reminders():
                 frappe.get_traceback(),
                 f"Patient Waiting Reminder Error: {appointment.name}",
             )
+
 
 
 def _send_whatsapp_message(doctor_phone, doctor_name, patient_name, age, reason, time, mode, appointment_id):

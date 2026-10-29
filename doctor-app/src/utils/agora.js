@@ -11,9 +11,10 @@ export class AgoraService {
     this.isScreenSharing = false;
   }
 
-  async join({ appId, channelName, token = null, uid = 2001, onUserPublished, onUserUnpublished }) {
+  async join({ appId, channelName, token = null, uid = 2001, onUserPublished, onUserUnpublished, onUserLeft }) {
     this.client.on('user-published', onUserPublished);
     this.client.on('user-unpublished', onUserUnpublished);
+    if (onUserLeft) this.client.on('user-left', onUserLeft);
 
     // Join the channel
     const actualAppId = appId || AGORA_APP_ID;

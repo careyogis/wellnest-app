@@ -64,8 +64,12 @@
     .pay-button, .secondary-button { min-height: 52px; padding: 12px 20px; border: 0; border-radius: 10px; font-weight: 700; cursor: pointer; transition: .2s ease; }
     .pay-button { color: #fff; background: var(--cy-green); box-shadow: 0 8px 16px rgba(91,178,134,.22); }
     .pay-button:hover { background: var(--cy-green-dark); transform: translateY(-1px); }
+    .pay-button:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; pointer-events: none; }
     .pay-button i { margin-right: 8px; }
     .secondary-button { color: #4f5c52; border: 1px solid #dce4db; background: #fff; }
+    .payment-status-banner { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 13px 16px; border-radius: 10px; font-size: 13px; font-weight: 500; line-height: 1.4; background: #eef7f0; border: 1px solid #c8e6d2; color: var(--cy-green-dark); }
+    .payment-status-banner.error { background: #fdf2f2; border-color: #f8b4b4; color: #9b1c1c; }
+    .payment-status-banner i { font-size: 15px; flex-shrink: 0; }
     .payment-note { display: flex; gap: 8px; align-items: flex-start; margin: 13px 1px 0; color: #7a8179; font-size: 11px; line-height: 1.5; }
     .payment-note i { margin-top: 2px; color: var(--cy-green); }
     .method-list { display: grid; gap: 10px; }
@@ -147,6 +151,7 @@
         </div>
         
         <div class="button-row"><button class="pay-button" type="button" id="make-payment"><i class="fas fa-lock"></i> Pay ₹{{ amount }} securely</button></div>
+        <div id="payment-status-banner" class="payment-status-banner" style="display: none;"></div>
         <p class="payment-note"><i class="fas fa-shield-alt"></i><span>Payments are processed through our secure payment partner. CareYogi does not store your card or UPI details.</span></p>
       </div>
 
@@ -169,21 +174,61 @@
 
   <script>
     const receiptMethod = document.getElementById('receipt-method');
+    const paymentBtn = document.getElementById('make-payment');
+    const statusBanner = document.getElementById('payment-status-banner');
+    const originalBtnText = paymentBtn.innerHTML;
     let selectedMethod = 'UPI';
+    let isProcessing = false;
+    let isPaymentCompleted = false;
+
+    function setStatus(type, message) {
+      if (!statusBanner) return;
+      if (!message) {
+        statusBanner.style.display = 'none';
+        statusBanner.innerHTML = '';
+        return;
+      }
+      statusBanner.className = 'payment-status-banner' + (type === 'error' ? ' error' : '');
+      const icon = type === 'loading'
+        ? '<i class="fas fa-circle-notch fa-spin"></i>'
+        : type === 'error'
+          ? '<i class="fas fa-exclamation-circle"></i>'
+          : '<i class="fas fa-info-circle"></i>';
+      statusBanner.innerHTML = `${icon}<span>${message}</span>`;
+      statusBanner.style.display = 'flex';
+    }
+
+    function resetButton() {
+      isProcessing = false;
+      paymentBtn.innerHTML = originalBtnText;
+      paymentBtn.disabled = false;
+    }
+
     function showSuccessView() {
       document.getElementById('checkout-view').classList.remove('active');
       document.getElementById('success-view').classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
     document.querySelectorAll('.method').forEach(method => method.addEventListener('click', () => {
+      if (isProcessing) return;
       document.querySelectorAll('.method').forEach(item => { item.classList.remove('selected'); item.setAttribute('aria-checked', 'false'); });
       method.classList.add('selected'); method.setAttribute('aria-checked', 'true'); selectedMethod = method.querySelector('b').textContent; if(receiptMethod) receiptMethod.textContent = selectedMethod;
     }));
-    document.getElementById('make-payment').addEventListener('click', async () => {
-      const btn = document.getElementById('make-payment');
-      const originalText = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-      btn.disabled = true;
+
+    const preventUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+
+    paymentBtn.addEventListener('click', async () => {
+      if (isProcessing) return;
+      isProcessing = true;
+      isPaymentCompleted = false;
+      setStatus(null);
+
+      paymentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      paymentBtn.disabled = true;
 
       try {
         const urlParams = new URLSearchParams(window.location.search);
@@ -214,36 +259,52 @@
             "description": "Secure Payment",
             "order_id": apiMessage.order_id,
             "handler": async function (response) {
-              // 3. Verify Payment
-              const verifyRes = await fetch('/api/method/wellnest.api.razorpay_payment.payment_verify', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-Frappe-CSRF-Token': '{{ csrf_token }}' },
-                body: JSON.stringify({
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  razorpay_order_id: response.razorpay_order_id,
-                  razorpay_signature: response.razorpay_signature,
-                  appointment_id: serviceId
-                })
-              });
-              const verifyData = await verifyRes.json();
-              if (verifyData.message && verifyData.message.success) {
-                // Document receipt 
-                document.getElementById('receipt-method').textContent = 'Razorpay / ' + selectedMethod;
-                showSuccessView();
-                
-                // Redirect back to Flutter app after 2 seconds
-                setTimeout(() => {
-                  window.location.href = 'careyogi://payment-success';
-                }, 2000);
-              } else {
-                alert("Payment verification failed. Please contact support.");
+              isPaymentCompleted = true;
+              window.addEventListener('beforeunload', preventUnload);
+              paymentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying payment...';
+              paymentBtn.disabled = true;
+              setStatus('loading', 'Payment received. Verifying your booking, please do not close or refresh this page...');
+
+              try {
+                // 3. Verify Payment
+                const verifyRes = await fetch('/api/method/wellnest.api.razorpay_payment.payment_verify', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-Frappe-CSRF-Token': '{{ csrf_token }}' },
+                  body: JSON.stringify({
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_signature: response.razorpay_signature,
+                    appointment_id: serviceId
+                  })
+                });
+                const verifyData = await verifyRes.json();
+                window.removeEventListener('beforeunload', preventUnload);
+
+                if (verifyData.message && verifyData.message.success) {
+                  // Document receipt 
+                  document.getElementById('receipt-method').textContent = 'Razorpay / ' + selectedMethod;
+                  showSuccessView();
+                  
+                  // Redirect back to Flutter app after 2 seconds
+                  setTimeout(() => {
+                    window.location.href = 'careyogi://payment-success';
+                  }, 2000);
+                } else {
+                  resetButton();
+                  setStatus('error', 'Payment verification failed. Please contact CareYogi support.');
+                  alert("Payment verification failed. Please contact support.");
+                }
+              } catch (verifyErr) {
+                window.removeEventListener('beforeunload', preventUnload);
+                resetButton();
+                setStatus('error', 'Network error during verification. Please contact support before retrying.');
+                alert("An error occurred during verification: " + verifyErr.message);
               }
             },
             "prefill": {
               "name": "{{ patient.full_name if patient else 'Patient' }}",
               "contact": "{{ patient_mobile }}",
               "email": "{{ patient_email }}"
-              // NOTE: `method` is NOT a valid prefill key – moved to config.display below
             },
             // Pre-select the payment method chosen on our UI
             "config": {
@@ -257,22 +318,34 @@
                 }
               }
             },
-            "theme": { "color": "#5bb286" }
+            "theme": { "color": "#5bb286" },
+            "modal": {
+              "ondismiss": function() {
+                if (!isPaymentCompleted) {
+                  resetButton();
+                  setStatus(null);
+                }
+              }
+            }
           };
           
           const rzp = new Razorpay(options);
           rzp.on('payment.failed', function (response){
-            alert("Payment failed: " + response.error.description);
+            resetButton();
+            setStatus('error', 'Payment failed: ' + (response.error.description || 'Transaction was not completed.'));
+            alert("Payment failed: " + (response.error.description || ''));
           });
           rzp.open();
         } else {
-           alert("Failed to initialize payment. " + (orderData.message?.error || ''));
+          resetButton();
+          const errMsg = orderData.message?.error || 'Failed to initialize payment.';
+          setStatus('error', errMsg);
+          alert(errMsg);
         }
       } catch (err) {
+        resetButton();
+        setStatus('error', 'An error occurred: ' + err.message);
         alert("An error occurred: " + err.message);
-      } finally {
-        btn.innerHTML = originalText;
-        btn.disabled = false;
       }
     });
 

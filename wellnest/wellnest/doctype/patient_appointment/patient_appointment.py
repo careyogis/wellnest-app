@@ -11,6 +11,7 @@ from wellnest.api.notifications import notify_doctor_of_new_booking
 from wellnest.health.doctype.app_notification.app_notification import (
     create_consultation_cancellation_notification,
 )
+from wellnest.api.appointment_system_tracking import get_or_create_tracking
 
 class PatientAppointment(Document):
     def validate(self):
@@ -30,8 +31,8 @@ class PatientAppointment(Document):
                 self.payout_status = "Accrued"
 
     def on_update(self):
-        # Only proceed if the status changed to "Scheduled"
-        if not (self.has_value_changed("status") and self.status == "Scheduled"):
+        # Only proceed if the status changed to "Scheduled" or if the appointment is being rescheduled
+        if not ((self.has_value_changed("status") or self.has_value_changed("scheduled_time")) and self.status == "Scheduled"):
             return
 
         try:
@@ -261,7 +262,9 @@ def end_consultation(appointment):
         )
 
     appointment.db_set("status", "Completed")
-    appointment.db_set("consultation_ended_at", now_datetime())
+
+    tracking = get_or_create_tracking(appointment.name)
+    tracking.db_set("consultation_ended_at", now_datetime())
 
     if appointment.consultation_type == "Online" and appointment.payment_status == "Paid":
         online_charge = frappe.db.get_value("Practitioner", appointment.practitioner, "online_charge") or 0.0

@@ -20,7 +20,7 @@ def create_payment_order(service_id):
     """
     # Fetch invoice details
     frappe.flags.ignore_permissions = True
-    patient_appointment = frappe.get_doc("Patient Appointment", service_id)
+    patient_appointment = frappe.get_value("Patient Appointment", service_id, ["name", "patient", "consultation_fee"], as_dict=True)
     frappe.flags.ignore_permissions = False
     price_inr = patient_appointment.consultation_fee or 1
     member_id = patient_appointment.patient

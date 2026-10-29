@@ -497,9 +497,11 @@ async function joinRoom() {
         }
       },
       onUserUnpublished: (user, mediaType) => {
-        if (mediaType === 'video') {
-          remoteUserConnected.value = false;
-        }
+        // User turned off camera or mic but is still in the channel — no action needed
+      },
+      onUserLeft: () => {
+        // User has fully left the channel
+        remoteUserConnected.value = false;
       },
     });
 
