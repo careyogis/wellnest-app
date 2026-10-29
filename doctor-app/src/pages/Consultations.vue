@@ -60,22 +60,6 @@
           {{ prescriptionDueCount }}
         </span>
       </button>
-      <!-- Follow-up active -->
-      <button
-        type="button"
-        class="h-14 w-[180px] min-w-[180px] shrink-0 whitespace-nowrap px-4 rounded-xl border flex items-center justify-between gap-3 text-sm font-semibold transition lg:w-full lg:min-w-0 lg:shrink"
-        :class="statusFilter === 'Follow-up active' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
-        @click="statusFilter = 'Follow-up active'"
-      >
-        <span class="whitespace-nowrap">Follow-up active</span>
-
-        <span
-          class="ml-3 w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-xs font-bold"
-          :class="statusFilter === 'Follow-up active' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'"
-        >
-          {{ followUpActiveCount }}
-        </span>
-      </button>
 
       <!-- Complete -->
       <button
@@ -170,10 +154,6 @@
               <span class="text-xs font-semibold text-amber-700"> Write prescription </span>
             </div>
 
-            <div v-else-if="statusFilter === 'Follow-up active'" class="mt-2">
-              <span class="text-xs font-semibold text-blue-700"> Reply to patient </span>
-            </div>
-
             <div v-else-if="statusFilter === 'Complete'" class="mt-2">
               <span class="text-xs font-semibold text-amber-700"> View summary </span>
             </div>
@@ -265,11 +245,6 @@
                 </div>
               </div>
 
-              <!-- Follow-up Active badge -->
-              <span v-if="statusFilter === 'Follow-up active'" class="absolute top-0 right-0 inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
-                Follow-up active
-              </span>
-
               <!-- Complete badge -->
               <span v-if="statusFilter === 'Complete'" class="absolute top-0 right-0 inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700">
                 Complete
@@ -322,6 +297,7 @@
 
                 <!-- Preview -->
                 <button
+                  v-if="statusFilter !== 'Complete'"
                   type="button"
                   class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition"
                   @click="previewPrescription"
@@ -412,18 +388,13 @@
               </div>
             </div>
 
-            <!-- Submitted status -->
-            <div
-              v-if="prescriptionSubmitted && ['Follow-up active', 'Complete'].includes(statusFilter)"
-              class="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-700"
-            >
-              <template v-if="selectedFollowUpThroughDate">
-                Prescription already shared · Follow-up through
-                {{ formatFollowUpDate(selectedFollowUpThroughDate) }}
-              </template>
-
-              <template v-else> Prescription already submitted for this patient. </template>
-            </div>
+           <!-- Submitted status -->
+<div
+  v-if="prescriptionSubmitted && statusFilter === 'Complete'"
+  class="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-700"
+>
+  Prescription already submitted for this patient.
+</div>
 
             <!-- Complete state -->
             <div v-if="statusFilter === 'Complete'" class="mt-4 rounded-xl border border-gray-200 bg-white px-4 py-4">
@@ -441,26 +412,6 @@
                   View prescription
                 </button>
               </div>
-            </div>
-
-            <!-- Follow-up period active -->
-            <div v-if="statusFilter === 'Follow-up active'" class="mt-3 flex flex-col gap-3 rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h3 class="text-sm font-semibold text-gray-800">Follow-up period active</h3>
-                <p class="mt-1 text-xs text-gray-500">
-                  Patient can message or send files until
-                  {{ selectedFollowUpThroughDate ? formatFollowUpDate(selectedFollowUpThroughDate) : 'the follow-up period ends' }}.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-amber-500 bg-white px-4 py-2 text-sm font-semibold text-amber-700 transition-colors hover:bg-amber-500 hover:text-white"
-                @click="patientChatRef?.openChat()"
-              >
-                <FeatherIcon name="message-circle" class="h-4 w-4" />
-                Open patient chat
-              </button>
             </div>
 
             <!-- Draft Saved Confirmation -->
@@ -498,18 +449,16 @@
 
         <!-- Patient Chat: only for follow-up states -->
         <PatientChat
-          ref="patientChatRef"
-          v-if="['Follow-up active', 'Complete'].includes(statusFilter)"
-          :appointment-id="selectedConsultation?.appointment"
-          :patient-id="selectedConsultation?.patientId"
-          :chat-status="'Active'"
-          :follow-up-text="statusFilter === 'Follow-up active' ? 'Follow-up period is active.' : 'Follow-up period ended. Chat option is available.'"
-        />
+  ref="patientChatRef"
+  v-if="statusFilter === 'Complete'"
+  :appointment-id="selectedConsultation?.appointment"
+  :patient-id="selectedConsultation?.patientId"
+  :chat-status="'Active'"
+/>
 
         <Consultation
           ref="consultationRef"
           :selected-consultation="selectedConsultation"
-          :is-follow-up-active="statusFilter === 'Follow-up active'"
           :is-completed="statusFilter === 'Complete'"
           :show-prescription-actions="['All', 'Upcoming', 'Prescription due'].includes(statusFilter)"
           :prescription-submitted="prescriptionSubmitted"
@@ -1086,10 +1035,6 @@ const consultationsResource = createResource({
   auto: true,
 });
 
-const updateConsultationWorkflowResource = createResource({
-  url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.update_consultation_workflow_state',
-});
-
 const startConsultationResource = createResource({
   url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.start_consultation',
 });
@@ -1112,7 +1057,7 @@ const historicalPrescriptionResource = createResource({
 
 const consultationRef = ref(null);
 
-const consultationSections = ['All', 'Upcoming', 'Prescription due', 'Follow-up active', 'Complete'];
+const consultationSections = ['All', 'Upcoming', 'Prescription due', 'Complete'];
 
 const statusFilter = ref(consultationSections.includes(route.query.status) ? route.query.status : 'Upcoming');
 
@@ -1229,20 +1174,22 @@ async function handlePrescriptionSubmitted(payload) {
 
   const consultationId = selectedConsultation.value?.id;
 
-  // Fetch the latest appointment data saved by the backend.
   try {
     await consultationsResource.reload();
   } catch (error) {
-    console.error('Failed to refresh consultations after prescription submission:', error);
+    console.error(
+      'Failed to refresh consultations after prescription submission:',
+      error
+    );
   }
 
-  const consultation = consultations.value.find((item) => item.id === consultationId);
+  const consultation = consultations.value.find(
+    (item) => item.id === consultationId
+  );
 
   if (consultation) {
     selectedConsultation.value = consultation;
   }
-
-  const followUpDays = Number(payload?.follow_up_in_days ?? consultation?.followUpInDays ?? selectedConsultation.value?.followUpInDays ?? 0);
 
   if (consultationId && payload?.follow_up_through_date) {
     followUpThroughDates.value = {
@@ -1255,28 +1202,7 @@ async function handlePrescriptionSubmitted(payload) {
     followUpThroughDate.value = null;
   }
 
-  const workflowState = followUpDays > 0 ? 'Follow-up active' : 'Complete';
-
-  if (consultationId) {
-    try {
-      await updateConsultationWorkflowResource.submit({
-        appointment: consultationId,
-        workflow_state: workflowState,
-      });
-
-      await consultationsResource.reload();
-
-      const updatedConsultation = consultations.value.find((item) => item.id === consultationId);
-
-      if (updatedConsultation) {
-        selectedConsultation.value = updatedConsultation;
-      }
-    } catch (error) {
-      console.error('Failed to update consultation workflow state:', error);
-    }
-  }
-
-  statusFilter.value = workflowState;
+  statusFilter.value = 'Complete';
 }
 
 function handlePrescriptionLoaded(prescription) {
@@ -1445,72 +1371,17 @@ const prescriptionDueConsultations = computed(() => {
 const prescriptionDueCount = computed(() => prescriptionDueConsultations.value.length);
 
 const completeConsultations = computed(() => {
-  const now = new Date();
-
   return consultations.value
     .filter((consultation) => {
-      if (consultation.prescriptionWorkflowState !== 'Complete') {
-        return false;
-      }
-
-      const followUpDays = Number(consultation.followUpInDays ?? 0);
-
-      if (followUpDays <= 0) {
-        return true;
-      }
-
-      if (!consultation.prescriptionCompletedAt) {
-        return false;
-      }
-
-      const completedAt = new Date(consultation.prescriptionCompletedAt);
-
-      if (Number.isNaN(completedAt.getTime())) {
-        return false;
-      }
-
-      const followUpUntil = new Date(completedAt);
-      followUpUntil.setDate(followUpUntil.getDate() + followUpDays);
-
-      return now >= followUpUntil;
+      return (
+        consultation.prescriptionWorkflowState === 'Confirmed' ||
+        consultation.prescriptionWorkflowState === 'Complete'
+      );
     })
     .sort((a, b) => new Date(b.scheduledTime) - new Date(a.scheduledTime));
 });
 
 const completeCount = computed(() => completeConsultations.value.length);
-
-const followUpActiveConsultations = computed(() => {
-  const now = new Date();
-
-   return consultations.value
-  .filter((consultation) => {
-    if (consultation.prescriptionWorkflowState !== 'Complete') {
-      return false;
-    }
-
-    const followUpDays = Number(consultation.followUpInDays ?? 0);
-
-    if (followUpDays <= 0 || !consultation.prescriptionCompletedAt) {
-      return false;
-    }
-
-    const completedAt = new Date(consultation.prescriptionCompletedAt);
-
-    if (Number.isNaN(completedAt.getTime())) {
-      return false;
-    }
-
-    const followUpUntil = new Date(completedAt);
-    followUpUntil.setDate(followUpUntil.getDate() + followUpDays);
-
-        return now < followUpUntil;
-  })
-  .sort(
-    (a, b) => new Date(b.scheduledTime) - new Date(a.scheduledTime)
-  );
-});
-
-const followUpActiveCount = computed(() => followUpActiveConsultations.value.length);
 
 const filteredConsultations = computed(() => {
   if (statusFilter.value === 'All') {
@@ -1523,10 +1394,6 @@ const filteredConsultations = computed(() => {
 
   if (statusFilter.value === 'Prescription due') {
     return prescriptionDueConsultations.value;
-  }
-
-  if (statusFilter.value === 'Follow-up active') {
-    return followUpActiveConsultations.value;
   }
 
   if (statusFilter.value === 'Complete') {

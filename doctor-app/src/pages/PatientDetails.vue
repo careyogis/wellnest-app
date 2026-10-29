@@ -279,11 +279,13 @@
 <!-- Vitals -->
 <div v-else-if="activeTab === 'Vitals'" class="space-y-3">
   <div
-    v-if="timelineResource.data?.vitals?.length"
+    v-if="timelineResource.data?.vitals?.some(vital => vital.vital_reading?.length)"
     class="space-y-4"
   >
     <div
-      v-for="(vital, index) in timelineResource.data.vitals"
+      v-for="(vital, index) in timelineResource.data.vitals.filter(
+        vital => vital.vital_reading?.length
+      )"
       :key="vital.name || index"
       class="rounded-lg border border-gray-200 bg-white p-4"
     >
@@ -291,10 +293,7 @@
         Consultation — {{ formatTimelineDate(vital.appointment_date || vital.recorded_on) }}
       </h3>
 
-      <div
-        v-if="vital.vital_reading?.length"
-        class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2"
-      >
+      <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div
           v-for="(reading, readingIndex) in vital.vital_reading"
           :key="readingIndex"
@@ -321,7 +320,7 @@
   </div>
 
   <p v-else class="text-sm text-gray-500">
-    No vitals recorded for this patient.
+    No vitals found for this appointment.
   </p>
 </div>
 
