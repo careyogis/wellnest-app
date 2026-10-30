@@ -279,7 +279,7 @@
                   >
                     <FeatherIcon :name="selectedConsultation.bookingStatus === 'In-Progress' ? 'play' : 'video'" class="w-4 h-4" />
 
-                    {{ selectedConsultation.bookingStatus === 'In-Progress' ? 'Continue Call' : 'Join Call' }}
+                    {{ selectedConsultation.bookingStatus === 'In-Progress' ? 'Continue Call' : 'Start Call' }}
                   </button>
                 </template>
                 <!-- Cancel Consultation -->

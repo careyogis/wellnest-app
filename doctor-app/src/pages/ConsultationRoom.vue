@@ -3,7 +3,6 @@
     <!-- Top Bar -->
     <header class="h-14 md:h-16 px-3 md:px-6 bg-gray-900 border-b border-gray-800 flex items-center flex-shrink-0 z-20">
       <!-- CareYogi Branding -->
-      <!-- CareYogi Branding -->
       <div class="flex items-center gap-1.5 md:gap-2 flex-shrink-0 order-2 md:order-none mx-4 md:mx-8">
         <img :src="logoUrl" alt="CareYogi" class="h-8 w-10 md:h-10 md:w-14 object-contain opacity-100" style="filter: brightness(1.2) contrast(1.15)" />
 
@@ -14,7 +13,7 @@
       </div>
       <!-- Left: Patient Info & Back -->
       <div class="flex items-center gap-2 md:gap-4 min-w-0 flex-1 order-1 md:order-none mr-4 md:mr-8">
-        <button @click="leaveRoom" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors flex-shrink-0" title="Back to Dashboard">
+        <button @click="handleBackClick" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors flex-shrink-0" title="Back to Dashboard">
           <FeatherIcon name="arrow-left" class="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
         <div class="min-w-0 max-w-[38vw] md:max-w-none">
@@ -45,22 +44,7 @@
       </div>
 
       <!-- Right: Quick Actions -->
-      <div class="flex items-center gap-1 md:gap-2 flex-shrink-0 order-3 md:order-none">
-        <!-- Chat Button -->
-        <!--
-<button @click="openDrawerTab('chat')" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors relative" title="In-call Chat">
-  <FeatherIcon name="message-square" class="w-4 h-4 sm:w-5 sm:h-5" />
-  <span v-if="unreadChatCount > 0" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-500 text-black text-[10px] font-bold flex items-center justify-center">
-    {{ unreadChatCount }}
-  </span>
-</button>
--->
-
-        <!-- EHR / Notes Button (Mobile quick open) -->
-        <!-- <button @click="openDrawerTab('summary')" type="button" class="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors lg:hidden" title="Patient EHR & Notes">
-          <FeatherIcon name="clipboard" class="w-4 h-4 sm:w-5 sm:h-5" />
-        </button> -->
-      </div>
+      <div class="flex items-center gap-1 md:gap-2 flex-shrink-0 order-3 md:order-none"></div>
     </header>
 
     <!-- Main Workspace (Split Video + Clinical Drawer) -->
@@ -119,8 +103,6 @@
             <FeatherIcon :name="isVideoOff ? 'video-off' : 'video'" class="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 
-          <!-- Screen Share Toggle -->
-
           <!-- End Call Button -->
           <button
             @click="confirmEndCall"
@@ -136,6 +118,78 @@
       <!-- Backdrop overlay for mobile drawer -->
       <div v-if="isMobileDrawerOpen" @click="isMobileDrawerOpen = false" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 transition-opacity"></div>
     </div>
+
+    <!-- Leave Consultation Confirmation Modal -->
+    <div
+      v-if="showLeaveModal"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      @click.self="showLeaveModal = false"
+    >
+      <div class="bg-gray-900 border border-gray-800 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl text-white">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 flex-shrink-0">
+            <FeatherIcon name="alert-triangle" class="w-5 h-5" />
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Leave Consultation Room?</h3>
+            <p class="text-xs text-gray-400">Choose how you would like to proceed</p>
+          </div>
+        </div>
+
+        <p class="text-xs sm:text-sm text-gray-300 mb-5 leading-relaxed">
+          Do you intend to return to this call, or would you like to conclude the consultation now?
+        </p>
+
+        <div class="flex flex-col gap-3">
+          <!-- Option 1: Step Away / Return Later (calls goBack) -->
+          <button
+            @click="handleStepAway"
+            type="button"
+            class="w-full p-3.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-left transition-colors flex items-center justify-between group"
+          >
+            <div>
+              <p class="text-xs sm:text-sm font-semibold text-white group-hover:text-amber-300 transition-colors">
+                Step Away & Return Later
+              </p>
+              <p class="text-[11px] text-gray-400 mt-0.5">
+                Keeps patient connected. Mutes mic & camera. You can resume from dashboard.
+              </p>
+            </div>
+            <FeatherIcon name="arrow-right" class="w-4 h-4 text-gray-400 group-hover:text-amber-300 ml-2 flex-shrink-0" />
+          </button>
+
+          <!-- Option 2: Leave & End Consultation (calls endConsultation) -->
+          <button
+            @click="handleEndConsultationFromModal"
+            :disabled="isEndingConsultation"
+            type="button"
+            class="w-full p-3.5 rounded-xl bg-red-600/15 hover:bg-red-600/25 border border-red-500/30 text-left transition-colors flex items-center justify-between group disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <div>
+              <p class="text-xs sm:text-sm font-semibold text-red-400 group-hover:text-red-300 transition-colors flex items-center gap-2">
+                <span v-if="isEndingConsultation" class="w-3 h-3 rounded-full border-2 border-red-400 border-t-transparent animate-spin"></span>
+                {{ isEndingConsultation ? 'Ending Consultation...' : 'End Consultation Completely' }}
+              </p>
+              <p class="text-[11px] text-red-400/80 mt-0.5">
+                Disconnects the call and takes you to prescription / consultation summary.
+              </p>
+            </div>
+            <FeatherIcon v-if="!isEndingConsultation" name="phone-off" class="w-4 h-4 text-red-400 group-hover:text-red-300 ml-2 flex-shrink-0" />
+          </button>
+        </div>
+
+        <!-- Cancel / Stay in call -->
+        <div class="mt-4 pt-3 border-t border-gray-800 flex justify-end">
+          <button
+            @click="showLeaveModal = false"
+            type="button"
+            class="px-4 py-2 rounded-lg text-xs font-medium text-gray-400 hover:text-white hover:bg-gray-800 transition-colors"
+          >
+            Stay in Call
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -143,32 +197,34 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { FeatherIcon, createResource } from 'frappe-ui';
-import { AgoraService } from '@/utils/agora';
+import { getAgoraService } from '@/utils/agora';
 import logoUrl from '@/assets/images/logo-01.png';
-import { io } from 'socket.io-client';
 
 const route = useRoute();
 const router = useRouter();
 
-let frappeSocket = null;
-
+// Reusable Frappe resources
 const endConsultationResource = createResource({
   url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.end_consultation',
 });
 
-// const bookingId = computed(() => route.params.bookingId || 'room_doc_doc_1');
-const bookingId = computed(() => route.params.bookingId);
-// const channelName = computed(() => `room_${bookingId.value.replace(/[^a-zA-Z0-9_]/g, '_')}`);
+const getPatientResource = createResource({
+  url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.get_appointment_details',
+});
+
+const logCallEventResource = createResource({
+  url: 'wellnest.api.logger.log_call_event',
+});
+
+const bookingId = computed(() => route.params.bookingId || route.query.bookingId || route.query.channelName || '');
 const channelName = bookingId;
 
 function logCallEvent(event, metadata = {}) {
   console.log('CALL EVENT:', event, metadata);
-  createResource({
-    url: 'wellnest.api.logger.log_call_event',
-  })
+  logCallEventResource
     .submit({
       event,
-      appointment_id: bookingId.value,
+      appointment_id: metadata.appointment_id || bookingId.value,
       ...metadata,
     })
     .catch((error) => {
@@ -177,12 +233,41 @@ function logCallEvent(event, metadata = {}) {
 }
 
 // Call State
-const agora = new AgoraService();
+const agora = getAgoraService();
+const isBackgrounded = ref(false);
 const isMuted = ref(false);
 const isVideoOff = ref(false);
 const isScreenSharing = ref(false);
 const remoteUserConnected = ref(false);
 const isMobileScreen = ref(false);
+const isMobileDrawerOpen = ref(false);
+const showLeaveModal = ref(false);
+const isEndingConsultation = ref(false);
+let isLeavingRoom = false;
+
+function handleBackClick() {
+  showLeaveModal.value = true;
+}
+
+function confirmEndCall() {
+  showLeaveModal.value = true;
+}
+
+async function handleStepAway() {
+  showLeaveModal.value = false;
+  await goBack();
+}
+
+async function handleEndConsultationFromModal() {
+  if (isEndingConsultation.value) return;
+  isEndingConsultation.value = true;
+  try {
+    await endConsultation();
+  } finally {
+    isEndingConsultation.value = false;
+    showLeaveModal.value = false;
+  }
+}
 
 function handleResize() {
   if (typeof window !== 'undefined') {
@@ -202,268 +287,51 @@ const formattedTime = computed(() => {
   return `${mins}:${secs}`;
 });
 
+function startTimer() {
+  if (timerInterval) return;
+
+  // Record the moment the call actually started (patient connected).
+  // Stored on singleton so it survives component unmount/remount.
+  if (!agora.callStartedAt) {
+    agora.callStartedAt = Date.now();
+  }
+
+  // Seed elapsed time in case we're resuming after a navigation away.
+  callDurationSeconds.value = Math.floor((Date.now() - agora.callStartedAt) / 1000);
+
+  timerInterval = setInterval(() => {
+    callDurationSeconds.value = Math.floor((Date.now() - agora.callStartedAt) / 1000);
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+// Helper to remove active playback into DOM video elements
+function stopVideoDomRendering() {
+  if (agora.localVideoTrack) {
+    agora.localVideoTrack.stop();
+  }
+  if (agora.client?.remoteUsers) {
+    for (const user of agora.client.remoteUsers) {
+      if (user.videoTrack) {
+        user.videoTrack.stop();
+      }
+    }
+  }
+}
+
 // Patient EHR Data
 const patient = ref({
-  patient_id: 'PAT-00001',
-  full_name: 'Randhir',
-  age: 42,
-  gender: 'Male',
-  concern: 'Follow-up for Blood Sugar Control & Routine Health Check',
-});
-
-// Notes & Chat
-const doctorNotes = ref('');
-const newChatMessage = ref('');
-const chatMessages = ref([{ sender: 'System', text: 'Encrypted channel active.', time: 'Just now' }]);
-
-
-function triggerRxCamera() {
-  rxPasteStatus.value = null;
-  rxCameraInput.value?.click();
-}
-
-function triggerRxGallery() {
-  rxPasteStatus.value = null;
-  rxGalleryInput.value?.click();
-}
-
-function requestRxImageCapture(skipConfirmation = false) {
-  if (!skipConfirmation && hasManualPrescriptionDetails()) {
-    showUploadConfirmation.value = true;
-    return;
-  }
-
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-  if (isMobile) {
-    showImageSourceChoice.value = true;
-  } else {
-    rxDesktopGalleryInput.value?.click();
-  }
-}
-
-function selectRxCamera() {
-  rxPasteStatus.value = null;
-  rxCameraInput.value?.click();
-  showImageSourceChoice.value = false;
-  triggerRxCamera();
-}
-
-function selectRxGallery() {
-  rxPasteStatus.value = null;
-  rxGalleryInput.value?.click();
-  showImageSourceChoice.value = false;
-  triggerRxGallery();
-}
-
-function cancelRxImageSourceChoice() {
-  showImageSourceChoice.value = false;
-}
-
-function cancelUploadConfirmation() {
-  showUploadConfirmation.value = false;
-}
-
-function confirmPrescriptionUpload() {
-  showUploadConfirmation.value = false;
-  requestRxImageCapture(true);
-}
-
-function onRxImageSelected(event) {
-  const file = event.target.files?.[0];
-  if (!file) return;
-  showImageSourceChoice.value = false;
-  rxSelectedFile.value = file;
-  if (rxImagePreview.value) {
-    URL.revokeObjectURL(rxImagePreview.value);
-  }
-  rxImagePreview.value = URL.createObjectURL(file);
-  event.target.value = '';
-}
-
-function populatePrescription(prescription) {
-  investigations.value = prescription?.investigations || '';
-  doctorAdvice.value = prescription?.doctor_advice || '';
-  followUpInDays.value = prescription?.follow_up_in_days || '';
-  examination.value = prescription?.examination || '';
-  provisionalDiagnosis.value = prescription?.provisional_diagnosis || '';
-
-  medicines.value = (prescription?.medicines || []).map((medicine) => ({
-    name: medicine.medicine_name || '',
-    dosage: medicine.dosage || '',
-    timing: medicine.timing || '',
-    instructions: medicine.instructions || '',
-  }));
-
-  prescriptionName.value = prescription?.name || null;
-  prescriptionWorkflowState.value = prescription?.workflow_state || 'Draft';
-
-  prescriptionParsed.value = true;
-  isEditingPrescription.value = true;
-  rxSubmitted.value = true;
-}
-
-async function submitRxImage() {
-  if (!rxSelectedFile.value) return;
-
-  rxParseLoading.value = true;
-  rxProcessingStarted.value = false;
-  rxParseStatus.value = null;
-
-  try {
-    const formData = new FormData();
-
-    formData.append('file', rxSelectedFile.value);
-    // formData.append('is_private', '1');
-
-    console.log('>>> PRESCRIPTION UPLOAD START');
-
-    const uploadResponse = await fetch('/api/method/upload_file', {
-      method: 'POST',
-      headers: {
-        'X-Frappe-CSRF-Token': window.csrf_token,
-      },
-      body: formData,
-    });
-
-    if (!uploadResponse.ok) {
-      throw new Error(`Prescription image upload failed (${uploadResponse.status})`);
-    }
-
-    const uploadResult = await uploadResponse.json();
-
-    const fileUrl = uploadResult?.message?.file_url;
-
-    if (!fileUrl) {
-      throw new Error('Prescription image upload succeeded, but no file URL was returned.');
-    }
-
-    console.log('>>> PRESCRIPTION UPLOAD SUCCESS:', fileUrl);
-
-    console.log('>>> PRESCRIPTION OCR QUEUE REQUEST START');
-
-    const parseResponse = await fetch('/api/method/wellnest.api.prescription.parse_and_create_prescription', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Frappe-CSRF-Token': window.csrf_token,
-      },
-      body: JSON.stringify({
-        file_url: fileUrl,
-        patient_appointment: bookingId.value,
-      }),
-    });
-
-    const parseResult = await parseResponse.json();
-
-    if (!parseResponse.ok) {
-      throw new Error(parseResult?.exception || parseResult?.message || 'Failed to start prescription processing.');
-    }
-
-    const result = parseResult?.message || parseResult;
-
-    console.log('>>> PRESCRIPTION OCR QUEUE RESPONSE:', result);
-
-    if (result?.status === 'already_exists') {
-      prescriptionName.value = result.name || null;
-      prescriptionWorkflowState.value = result.workflow_state || null;
-
-      console.log('>>> Existing prescription returned:', prescriptionName.value, prescriptionWorkflowState.value);
-
-      // Reload persisted state from backend.
-      await loadExistingPrescription();
-
-      if (prescriptionWorkflowState.value === 'Processing') {
-        rxProcessingStarted.value = true;
-
-        rxParseStatus.value = {
-          type: 'success',
-          message: 'Prescription submitted earlier. Processing is still running in the background.',
-        };
-      }
-
-      return;
-    }
-
-    if (result?.status !== 'queued') {
-      throw new Error(result?.message || 'Prescription processing could not be started.');
-    }
-
-    prescriptionName.value = result.name || null;
-
-    prescriptionWorkflowState.value = result.workflow_state || 'Processing';
-
-    rxProcessingStarted.value = true;
-    rxSubmitted.value = false;
-
-    rxPersistedImage.value = fileUrl;
-
-    if (rxImagePreview.value) {
-      URL.revokeObjectURL(rxImagePreview.value);
-    }
-
-    rxImagePreview.value = null;
-    rxSelectedFile.value = null;
-
-    rxParseStatus.value = {
-      type: 'success',
-      message: 'Prescription submitted. Processing has started in the background. You can continue with the consultation.',
-    };
-
-    console.log('>>> PRESCRIPTION OCR JOB ACCEPTED');
-    console.log('>>> Smart Prescription:', prescriptionName.value);
-    console.log('>>> Workflow state:', prescriptionWorkflowState.value);
-  } catch (error) {
-    console.error('>>> PRESCRIPTION SUBMISSION FAILED:', error);
-
-    rxProcessingStarted.value = false;
-
-    rxParseStatus.value = {
-      type: 'error',
-      message: error?.message || 'Failed to submit prescription. Please try again.',
-    };
-  } finally {
-    rxParseLoading.value = false;
-  }
-}
-
-function clearRxImage() {
-  if (rxImagePreview.value) URL.revokeObjectURL(rxImagePreview.value);
-  rxImagePreview.value = null;
-  rxSelectedFile.value = null;
-}
-
-onMounted(async () => {
-  handleResize();
-  window.addEventListener('resize', handleResize);
-
-  frappeSocket = io({
-    path: '/socket.io',
-    transports: ['websocket', 'polling'],
-  });
-
-  frappeSocket.on('connect', () => {
-    console.log('>>> Frappe Socket.IO connected:', frappeSocket.id);
-  });
-
-  frappeSocket.on('connect_error', (error) => {
-    console.error('>>> Frappe Socket.IO connection error:', error);
-  });
-
-  await getPatient();
-  await joinRoom();
-});
-
-onUnmounted(async () => {
-  window.removeEventListener('resize', handleResize);
-
-  if (frappeSocket) {
-    frappeSocket.disconnect();
-    frappeSocket = null;
-  }
-
-  clearInterval(timerInterval);
-  await agora.leave();
+  patient_id: '',
+  full_name: 'Patient',
+  age: '',
+  gender: '',
+  concern: '',
 });
 
 async function joinRoom() {
@@ -474,6 +342,9 @@ async function joinRoom() {
       throw new Error('Missing consultation session details');
     }
 
+    // Doctor came back before the background timeout — cancel the auto-leave.
+    agora.clearBackgroundTimeout();
+
     const { localVideoTrack } = await agora.join({
       appId,
       channelName: backendChannelName,
@@ -483,7 +354,6 @@ async function joinRoom() {
         await agora.client.subscribe(user, mediaType);
         if (mediaType === 'video') {
           remoteUserConnected.value = true;
-          // Play remote video in DOM element #remote-player
           setTimeout(() => {
             const playerElement = document.getElementById('remote-player');
             if (playerElement && user.videoTrack) {
@@ -496,11 +366,10 @@ async function joinRoom() {
           user.audioTrack.play();
         }
       },
-      onUserUnpublished: (user, mediaType) => {
-        // User turned off camera or mic but is still in the channel — no action needed
+      onUserUnpublished: () => {
+        // User turned off camera or mic but is still in the channel
       },
       onUserLeft: () => {
-        // User has fully left the channel
         remoteUserConnected.value = false;
       },
     });
@@ -512,118 +381,160 @@ async function joinRoom() {
       uid: Number(uid),
     });
 
-    // Play local camera feed in #local-player
-    setTimeout(() => {
-      const localElement = document.getElementById('local-player');
-      if (localElement && localVideoTrack) {
-        localVideoTrack.play(localElement);
-      }
-    }, 100);
+    // Play local camera feed in #local-player (first join only;
+    // resume re-plays it after restoring mic/camera below).
+    if (!isResume) {
+      setTimeout(() => {
+        const localElement = document.getElementById('local-player');
+        if (localElement && localVideoTrack) {
+          localVideoTrack.play(localElement);
+        }
+      }, 100);
+    } else {
+      // Restore A/V that was silenced when the doctor stepped away.
+      await agora.toggleAudio(true);
+      await agora.toggleVideo(true);
+      isMuted.value = false;
+      isVideoOff.value = false;
+
+      setTimeout(() => {
+        // Re-render local video into the PiP element.
+        const localElement = document.getElementById('local-player');
+        if (localElement && agora.localVideoTrack) {
+          agora.localVideoTrack.play(localElement);
+        }
+
+        // Re-render any remote streams already in the channel.
+        for (const user of agora.client.remoteUsers) {
+          if (user.videoTrack) {
+            remoteUserConnected.value = true;
+            const playerElement = document.getElementById('remote-player');
+            if (playerElement) user.videoTrack.play(playerElement);
+            startTimer();
+          }
+          if (user.audioTrack) {
+            user.audioTrack.play();
+          }
+        }
+      }, 200);
+    }
   } catch (error) {
     console.error('Failed to join Agora channel:', error);
   }
 }
 
-function startTimer() {
-  if (timerInterval) return;
-  timerInterval = setInterval(() => {
-    callDurationSeconds.value++;
-  }, 1000);
-}
-
 async function toggleAudio() {
   isMuted.value = !isMuted.value;
   await agora.toggleAudio(!isMuted.value);
-
-  // logCallEvent(isMuted.value ? 'doctor_muted' : 'doctor_unmuted');
 }
 
 async function toggleVideo() {
   isVideoOff.value = !isVideoOff.value;
   await agora.toggleVideo(!isVideoOff.value);
-
-  // logCallEvent(isVideoOff.value ? 'doctor_video_disabled' : 'doctor_video_enabled');
-}
-
-async function toggleScreenShare() {
-  if (isScreenSharing.value) {
-    await agora.stopScreenShare();
-    isScreenSharing.value = false;
-
-    // logCallEvent('screen_share_stopped');
-
-    // Replay local camera in local player
-    if (agora.localVideoTrack) {
-      const localElement = document.getElementById('local-player');
-      if (localElement) agora.localVideoTrack.play(localElement);
-    }
-  } else {
-    const screenTrack = await agora.startScreenShare();
-    if (screenTrack) {
-      isScreenSharing.value = true;
-
-      // logCallEvent('screen_share_started');
-    }
-  }
-}
-
-function sendChatMessage() {
-  const text = newChatMessage.value.trim();
-  if (!text) return;
-  chatMessages.value.push({
-    sender: 'Doctor',
-    text,
-    time: formattedTime.value,
-  });
-  newChatMessage.value = '';
-}
-
-
-async function confirmEndCall() {
-  await endConsultation();
 }
 
 async function endConsultation() {
-  if (!confirm('Are you sure you want to conclude this teleconsultation?')) {
-    return;
-  }
-
   try {
-    await endConsultationResource.submit({
-      appointment: bookingId.value,
-    });
+    if (bookingId.value) {
+      await endConsultationResource.submit({
+        appointment: bookingId.value,
+      });
 
-    logCallEvent('call_ended', {
-      duration_seconds: callDurationSeconds.value,
-      doctor_joined: true,
-    });
-
-    await leaveRoom();
+      logCallEvent('call_ended', {
+        duration_seconds: callDurationSeconds.value,
+        doctor_joined: true,
+      });
+    }
   } catch (error) {
-    console.error('Failed to end consultation:', error);
+    console.error('Failed to end consultation on backend:', error);
+  } finally {
+    await leaveRoom();
   }
 }
 
+// Navigate back to the dashboard WITHOUT leaving the Agora channel,
+// so the patient stays connected while the doctor reviews their documents.
+// Mic and camera are muted while away so the doctor isn't inadvertently broadcasting.
+// A 5-minute safety timeout auto-closes the channel if the doctor doesn't return.
+const BACKGROUND_TIMEOUT_MS = 5 * 60 * 1000;
+
+async function goBack() {
+  isBackgrounded.value = true;
+  stopTimer();
+
+  // Stop screen sharing if active
+  if (isScreenSharing.value) {
+    await agora.stopScreenShare();
+    isScreenSharing.value = false;
+  }
+
+  // Pause A/V — keeps the RTC slot alive but stops transmitting.
+  await agora.toggleAudio(false);
+  await agora.toggleVideo(false);
+  isMuted.value = true;
+  isVideoOff.value = true;
+
+  // Stop rendering to DOM elements to avoid detached DOM node leaks
+  stopVideoDomRendering();
+
+  // Auto-close if the doctor doesn't come back within the timeout window.
+  // Capture primitive strings/numbers to avoid retaining component closures.
+  const appointmentId = bookingId.value;
+  const durationSeconds = callDurationSeconds.value;
+
+  agora.scheduleBackgroundTimeout(async () => {
+    try {
+      await endConsultationResource.submit({ appointment: appointmentId });
+    } catch (error) {
+      console.error('Failed to end abandoned consultation:', error);
+    }
+    logCallEvent('doctor_abandoned_call', {
+      appointment_id: appointmentId,
+      duration_seconds: durationSeconds,
+    });
+    await agora.leave();
+  }, BACKGROUND_TIMEOUT_MS);
+
+  router.push({
+    name: 'Consultations',
+    query: {
+      status: 'Upcoming',
+      bookingId: bookingId.value,
+      resume: '1',
+    },
+  });
+}
+
 async function leaveRoom() {
-  clearInterval(timerInterval);
-  await agora.leave();
+  if (isLeavingRoom) return;
+  isLeavingRoom = true;
+
+  stopTimer();
+  stopVideoDomRendering();
+
+  try {
+    await agora.leave();
+  } catch (error) {
+    console.warn('Error during agora.leave():', error);
+  }
 
   logCallEvent('doctor_left_rtc_channel', {
     duration_seconds: callDurationSeconds.value,
   });
 
-  router.push({
-    name: 'Consultations',
-    query: {
-    status: 'Prescription due',
-    bookingId: bookingId.value,
-  },
-  });
+  try {
+    await router.push({
+      name: 'Consultations',
+      query: {
+        status: 'Prescription due',
+        bookingId: bookingId.value,
+      },
+    });
+  } catch (routerError) {
+    console.error('Router push failed, falling back to location replace:', routerError);
+    window.location.href = `/doctor-app/consultations?status=Prescription+due&bookingId=${encodeURIComponent(bookingId.value)}`;
+  }
 }
-
-const getPatientResource = createResource({
-  url: 'wellnest.wellnest.doctype.patient_appointment.patient_appointment.get_appointment_details',
-});
 
 async function getPatient() {
   try {
@@ -644,6 +555,25 @@ async function getPatient() {
     console.error('Failed to get appointment details: ', error);
   }
 }
+
+onMounted(async () => {
+  handleResize();
+  window.addEventListener('resize', handleResize);
+
+  await getPatient();
+  await joinRoom();
+});
+
+onUnmounted(async () => {
+  window.removeEventListener('resize', handleResize);
+  stopTimer();
+  stopVideoDomRendering();
+
+  // Only fully leave the Agora channel on true teardown if not already left
+  if (!isBackgrounded.value && !isLeavingRoom) {
+    await agora.leave();
+  }
+});
 </script>
 
 <style scoped>
