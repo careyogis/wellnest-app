@@ -147,20 +147,6 @@
 
         <div class="text-center py-10 text-gray-400 text-sm">No recent patient activity.</div>
       </div>
-
-      <div class="bg-amber-50 rounded-2xl border border-amber-100 p-6">
-        <div class="flex items-center justify-between mb-2">
-          <h5 class="text-lg font-bold text-gray-900">CareYogi AI</h5>
-          <button type="button" class="px-3 py-1 rounded-lg border border-amber-300 text-amber-700 text-xs font-semibold hover:bg-amber-100 transition-colors">Open</button>
-        </div>
-        <p class="text-sm text-gray-500 mb-4">Prototype assistant panel for summarizing history, drafting consultation summaries, OCR review, and follow-up suggestions.</p>
-
-        <div class="space-y-2">
-          <div class="px-3 py-2 rounded-lg bg-white border border-amber-100 text-sm font-medium text-gray-700">Summarize patient history</div>
-          <div class="px-3 py-2 rounded-lg bg-white border border-amber-100 text-sm font-medium text-gray-700">Generate post-consult summary</div>
-          <div class="px-3 py-2 rounded-lg bg-white border border-amber-100 text-sm font-medium text-gray-700">Suggest medication reminders</div>
-        </div>
-      </div>
     </div>
 
     <div class="text-center text-gray-400 text-xs mt-10 pb-6">CareYogi Doctor App v1.0 prototype. Designed for doctor feedback, not clinical production use.</div>
