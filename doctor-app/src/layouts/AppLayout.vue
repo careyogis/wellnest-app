@@ -363,7 +363,6 @@ function closeSidebar() {
 const navItems = [
   { name: 'Dashboard', label: 'Dashboard', icon: 'grid' },
   { name: 'Patients', label: 'Patients', icon: 'users' },
-  { name: 'Schedule', label: 'Schedule', icon: 'calendar' },
   { name: 'Consultations', label: 'Consultations', icon: 'video' },
   { name: 'Messages', label: 'Messages', icon: 'message-circle' },
   { name: 'Referrals', label: 'Referrals', icon: 'share-2' },

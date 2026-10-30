@@ -48,11 +48,6 @@ const routes = [
          component: () => import('@/pages/PatientDetails.vue'),
       },
       {
-        name: 'Schedule',
-        path: 'schedule',
-        component: () => import('@/pages/Schedule.vue'),
-      },
-      {
         name: 'Consultations',
         path: 'consultations',
         component: () => import('@/pages/Consultations.vue'),
