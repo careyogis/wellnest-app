@@ -1061,6 +1061,7 @@ const consultationSections = ['All', 'Upcoming', 'Prescription due', 'Complete']
 
 const statusFilter = ref(consultationSections.includes(route.query.status) ? route.query.status : 'Upcoming');
 
+
 watch(statusFilter, (status) => {
   if (route.query.status !== status) {
     router.replace({
@@ -1188,8 +1189,8 @@ async function handlePrescriptionSubmitted(payload) {
   );
 
   if (consultation) {
-    selectedConsultation.value = consultation;
-  }
+  selectedConsultation.value = consultation;
+}
 
   if (consultationId && payload?.follow_up_through_date) {
     followUpThroughDates.value = {
@@ -1378,8 +1379,12 @@ const completeConsultations = computed(() => {
         consultation.prescriptionWorkflowState === 'Complete'
       );
     })
-    .sort((a, b) => new Date(b.scheduledTime) - new Date(a.scheduledTime));
+    .sort((a, b) => {
+      return new Date(b.prescriptionCompletedAt || b.scheduledTime) -
+             new Date(a.prescriptionCompletedAt || a.scheduledTime);
+    });
 });
+
 
 const completeCount = computed(() => completeConsultations.value.length);
 
