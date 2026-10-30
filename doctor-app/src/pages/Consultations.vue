@@ -90,8 +90,6 @@
               <h2 class="text-lg font-bold text-gray-900">Consultations</h2>
               <p class="text-sm text-gray-500 mt-1">{{ filteredConsultations.length }} consultation<span v-if="filteredConsultations.length !== 1">s</span></p>
             </div>
-
-            <button type="button" class="text-sm font-semibold text-amber-600 hover:underline" @click="router.push({ name: 'Schedule' })">Manage slots</button>
           </div>
 
           <!-- Filter -->

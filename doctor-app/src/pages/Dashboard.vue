@@ -15,13 +15,6 @@
           <FeatherIcon name="video" class="w-4 h-4" />
           View Consultations
         </button>
-        <button
-          type="button"
-          @click="router.push({ name: 'Schedule', query: { openUnavailable: '1' } })"
-          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-amber-400 text-amber-600 text-sm font-semibold hover:bg-amber-50 transition-colors"
-        >
-          Publish Time Away
-        </button>
       </div>
     </div>
 
@@ -245,7 +238,6 @@ const quickActions = [
   { label: 'Join room', icon: 'video', to: { name: 'Consultations' } },
   { label: 'Message patient', icon: 'send', to: { name: 'Messages' } },
   { label: 'Refer patient', icon: 'share-2', to: { name: 'Referrals' } },
-  { label: 'Availability', icon: 'calendar', to: { name: 'Schedule' } },
   { label: 'Review report', icon: 'upload', to: { name: 'Patients' } },
   { label: 'Payouts', icon: 'briefcase', to: { name: 'Earnings' } },
 ];
