@@ -192,14 +192,18 @@ const todaysConsultations = computed(() => {
   const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 
   return data.filter((appointment) => {
+    if (appointment.status === 'Completed') {
+      return false;
+    }
+
     if (appointment.scheduled_time) {
       const datePart = String(appointment.scheduled_time).trim().split(' ')[0];
       return datePart === todayStr;
     }
+
     return false;
   });
 });
-
 const earningsResource = createResource({
   url: 'wellnest.api.earnings.get_doctor_earnings_summary',
   auto: true,
