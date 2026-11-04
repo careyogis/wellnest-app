@@ -18,11 +18,17 @@
     </div>
 
     <!-- Consultation Stages -->
-    <div class="mt-5 mb-5 grid w-full min-w-0 grid-cols-[repeat(auto-fit,minmax(min(100%,180px),1fr))] gap-2 pb-2">
+    <div class="flex w-full min-w-0 gap-2 overflow-x-auto pb-2
+         [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
+         md:grid md:grid-cols-[repeat(auto-fit,minmax(min(100%,180px),1fr))]
+         md:overflow-visible">
       <!-- All -->
       <button
         type="button"
-        class="h-14 w-full min-w-0 inline-flex px-2 rounded-xl border items-center justify-between gap-2 text-sm font-semibold transition"
+        class="h-14 w-max min-w-max shrink-0
+       inline-flex items-center justify-between gap-2
+       rounded-xl border px-2 text-sm font-semibold transition
+       md:w-full md:min-w-0 md:shrink"
         :class="statusFilter === 'All' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'All'"
       >
@@ -36,7 +42,10 @@
       <!-- Upcoming -->
       <button
         type="button"
-        class="h-14 w-full min-w-0 inline-flex px-2 rounded-xl border items-center justify-between gap-2 text-sm font-semibold transition"
+        class="h-14 w-max min-w-max shrink-0
+       inline-flex items-center justify-between gap-2
+       rounded-xl border px-2 text-sm font-semibold transition
+       md:w-full md:min-w-0 md:shrink"
         :class="statusFilter === 'Upcoming' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'Upcoming'"
       >
@@ -50,7 +59,10 @@
       <!-- Prescription due -->
       <button
         type="button"
-        class="h-14 w-full min-w-0 inline-flex px-2 rounded-xl border items-center justify-between gap-2 text-sm font-semibold transition"
+        class="h-14 w-max min-w-max shrink-0
+       inline-flex items-center justify-between gap-2
+       rounded-xl border px-2 text-sm font-semibold transition
+       md:w-full md:min-w-0 md:shrink"
         :class="statusFilter === 'Prescription due' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'Prescription due'"
       >
@@ -64,7 +76,10 @@
       <!-- Complete -->
       <button
         type="button"
-        class="h-14 w-full min-w-0 inline-flex px-2 rounded-xl border items-center justify-between gap-2 text-sm font-semibold transition"
+        class="h-14 w-max min-w-max shrink-0
+       inline-flex items-center justify-between gap-2
+       rounded-xl border px-2 text-sm font-semibold transition
+       md:w-full md:min-w-0 md:shrink"
         :class="statusFilter === 'Complete' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'Complete'"
       >
