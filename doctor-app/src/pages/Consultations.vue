@@ -18,15 +18,15 @@
     </div>
 
     <!-- Consultation Stages -->
-    <div class="mt-5 mb-5 flex w-full min-w-0 gap-2 overflow-x-auto overscroll-x-contain pb-2 [-webkit-overflow-scrolling:touch] lg:grid lg:grid-cols-5 lg:gap-3 lg:overflow-visible">
+    <div class="mt-5 mb-5 grid w-full min-w-0 grid-cols-[repeat(auto-fit,minmax(min(100%,180px),1fr))] gap-2 pb-2">
       <!-- All -->
       <button
         type="button"
-        class="h-14 w-[180px] min-w-[180px] shrink-0 whitespace-nowrap px-4 rounded-xl border flex items-center justify-between gap-3 text-sm font-semibold transition lg:w-full lg:min-w-0 lg:shrink"
+        class="h-14 w-full min-w-0 inline-flex px-2 rounded-xl border items-center justify-between gap-2 text-sm font-semibold transition"
         :class="statusFilter === 'All' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'All'"
       >
-        <span>All</span>
+        <span class="min-w-0 truncate">All</span>
 
         <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" :class="statusFilter === 'All' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'">
           {{ allCount }}
@@ -36,11 +36,11 @@
       <!-- Upcoming -->
       <button
         type="button"
-        class="h-14 w-[180px] min-w-[180px] shrink-0 whitespace-nowrap px-4 rounded-xl border flex items-center justify-between gap-3 text-sm font-semibold transition lg:w-full lg:min-w-0 lg:shrink"
+        class="h-14 w-full min-w-0 inline-flex px-2 rounded-xl border items-center justify-between gap-2 text-sm font-semibold transition"
         :class="statusFilter === 'Upcoming' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'Upcoming'"
       >
-        <span>Upcoming</span>
+        <span class="min-w-0 truncate">Upcoming</span>
 
         <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" :class="statusFilter === 'Upcoming' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'">
           {{ upcomingCount }}
@@ -50,13 +50,13 @@
       <!-- Prescription due -->
       <button
         type="button"
-        class="h-14 w-[180px] min-w-[180px] shrink-0 whitespace-nowrap px-4 rounded-xl border flex items-center justify-between gap-3 text-sm font-semibold transition lg:w-full lg:min-w-0 lg:shrink"
+        class="h-14 w-full min-w-0 inline-flex px-2 rounded-xl border items-center justify-between gap-2 text-sm font-semibold transition"
         :class="statusFilter === 'Prescription due' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'Prescription due'"
       >
-        <span class="flex-1">Prescription due</span>
+        <span class="min-w-0 truncate">Prescription due</span>
 
-        <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" :class="statusFilter === 'Prescription due' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'">
+        <span class="w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-xs font-bold" :class="statusFilter === 'Prescription due' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'">
           {{ prescriptionDueCount }}
         </span>
       </button>
@@ -64,14 +64,14 @@
       <!-- Complete -->
       <button
         type="button"
-        class="h-14 w-[180px] min-w-[180px] shrink-0 whitespace-nowrap px-4 rounded-xl border flex items-center justify-between gap-3 text-sm font-semibold transition lg:w-full lg:min-w-0 lg:shrink"
+        class="h-14 w-full min-w-0 inline-flex px-2 rounded-xl border items-center justify-between gap-2 text-sm font-semibold transition"
         :class="statusFilter === 'Complete' ? 'border-amber-500 bg-amber-50 text-amber-800' : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'"
         @click="statusFilter = 'Complete'"
       >
-        <span class="truncate">Complete</span>
+        <span class="min-w-0 truncate">Complete</span>
 
         <span
-          class="ml-3 w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-xs font-bold"
+          class="w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-xs font-bold"
           :class="statusFilter === 'Complete' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-700'"
         >
           {{ completeCount }}
