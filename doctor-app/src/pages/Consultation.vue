@@ -15,6 +15,12 @@
               <div class="flex items-center gap-2">
                 <h2 class="text-xl font-bold text-gray-900">Vitals</h2>
                 <span class="text-sm text-gray-500">Optional</span>
+
+                <FeatherIcon
+                  :name="vitalsExpanded ? 'chevron-down' : 'chevron-up'"
+                  class="w-5 h-5 text-gray-500"
+                />
+
               </div>
             </button>
 
@@ -43,11 +49,11 @@
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
               <h2 class="text-xl font-bold text-gray-900">Chief Complaints <span class="text-red-500">*</span></h2>
 
-              <button type="button" class="px-4 py-2 rounded-lg bg-gray-50 text-gray-900 font-semibold hover:bg-gray-100" @click="addComplaint">Add complaint</button>
+              <button type="button" class="px-4 py-2 rounded-lg bg-gray-50 text-gray-900 font-semibold hover:bg-gray-100 inline-flex items-center justify-center" @click="addComplaint"><FeatherIcon name="plus" class="w-4 h-4" /></button>
             </div>
 
             <div class="space-y-3">
-              <div v-for="(complaint, index) in complaints" :key="complaint.id" class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3">
+              <div v-for="(complaint, index) in complaints" :key="complaint.id" class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 w-full">
                 <input
                   v-model="complaint.text"
                   type="text"
@@ -55,7 +61,7 @@
                   class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
                 />
 
-                <button v-if="complaints.length > 1" type="button" class="px-3 py-2 rounded-lg text-red-600 hover:bg-red-50" @click="removeComplaint(index)">Remove</button>
+                <button v-if="complaints.length > 1" type="button" class="shrink-0 px-3 py-2 rounded-lg text-red-600 bg-red-50 hover:bg-red-100 font-semibold text-sm" @click="removeComplaint(index)"><FeatherIcon name="trash-2" class="w-4 h-4" /></button>
               </div>
             </div>
           </div>
@@ -95,19 +101,18 @@
                 <p class="text-gray-500 mt-1">Optional field, with autosuggest support for common advisories.</p>
               </div>
 
-              <button type="button" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-gray-50 text-gray-900 font-semibold hover:bg-gray-100" @click="addInvestigation">Add investigation</button>
+              <button type="button" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-gray-50 text-gray-900 font-semibold hover:bg-gray-100 inline-flex items-center justify-center" @click="addInvestigation"><FeatherIcon name="plus" class="w-4 h-4" /></button>
             </div>
 
             <div class="space-y-3">
-              <div v-for="(investigation, index) in investigations" :key="index" class="flex flex-col sm:flex-row sm:items-center gap-3">
+              <div v-for="(investigation, index) in investigations" :key="index" class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 w-full">
                 <input
-                  v-model="investigations[index]"
-                  type="text"
-                  placeholder="Investigation"
-                  class="flex-1 rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                  v-model="investigations[index]" type="text" :placeholder="investigationError && index === investigations.length - 1 ? 'Please enter here...' : 'Investigation'"
+                :class="{'placeholder:text-gray-500 placeholder:text-s': investigationError && index === investigations.length - 1 }" @input="investigationError = false"
+                class="flex-1 rounded-xl border border-gray-200 px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
                 />
 
-                <button type="button" class="shrink-0 px-3 py-2 rounded-lg text-red-600 bg-red-50 hover:bg-red-100 font-semibold text-sm" @click="removeInvestigation(index)">Remove</button>
+                <button type="button" class="shrink-0 px-3 py-2 rounded-lg text-red-600 bg-red-50 hover:bg-red-100 font-semibold text-sm" @click="removeInvestigation(index)"><FeatherIcon name="trash-2" class="w-4 h-4" /></button>
               </div>
             </div>
           </div>
@@ -123,7 +128,7 @@
               <p class="text-gray-500 mt-1">Brand or generic, dose, frequency, and instructions.</p>
             </div>
 
-            <button type="button" class="px-4 py-2 rounded-xl bg-gray-50 text-gray-900 font-semibold hover:bg-gray-100" @click="addMedicine">Add medicine</button>
+            <button type="button" class="px-4 py-2 rounded-xl bg-gray-50 text-gray-900 font-semibold hover:bg-gray-100 inline-flex items-center justify-center" @click="addMedicine"><FeatherIcon name="plus" class="w-4 h-4" /></button>
           </div>
 
           <!-- Table header -->
@@ -171,7 +176,7 @@
               />
 
               <!-- Remove -->
-              <button type="button" class="self-center shrink-0 px-3 py-2 rounded-lg bg-red-50 text-red-600 text-sm font-semibold hover:bg-red-100" @click="removeMedicine(index)">Remove</button>
+              <button type="button" class="self-center justify-self-end w-fit inline-flex items-center justify-center shrink-0 px-3 py-2 rounded-lg text-red-600 bg-red-50 hover:bg-red-100 font-semibold text-sm" @click="removeMedicine(index)"><FeatherIcon name="trash-2" class="w-4 h-4" /></button>
             </div>
           </div>
         </section>
@@ -621,6 +626,7 @@ const consultation = computed(() => ({
 // Clinical Record data
 const complaints = ref([]);
 const investigations = ref([]);
+const investigationError = ref(false);
 
 const vitalsExpanded = ref(false);
 
@@ -1134,6 +1140,24 @@ function addComplaint() {
 }
 
 function addInvestigation() {
+  // If no investigation box exists, create the first one
+  if (investigations.value.length === 0) {
+    investigations.value.push('');
+    investigationError.value = false;
+    return;
+  }
+
+  // Check the last investigation box
+  const lastInvestigation = investigations.value[investigations.value.length - 1];
+
+  // If empty, show validation instead of adding another box
+  if (!lastInvestigation?.trim()) {
+    investigationError.value = true;
+    return;
+  }
+
+  // If filled, allow the next investigation box
+  investigationError.value = false;
   investigations.value.push('');
 }
 
