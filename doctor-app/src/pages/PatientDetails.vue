@@ -1,5 +1,5 @@
 <template>
-  <div class="p-5 md:p-8">
+  <div class="p-4 md:p-6 lg:p-8">
     <!-- Header -->
     <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
@@ -87,8 +87,8 @@
       </div>
 
       <!-- Right column -->
-      <div class="min-w-0">
-        <div class="mb-4 flex flex-wrap gap-1 rounded-xl bg-gray-100 p-2">
+      <div class="min-w-0 flex flex-col xl:h-[calc(100vh-180px)] xl:min-h-0">
+        <div class="mb-4 flex shrink-0 flex-wrap gap-1 rounded-xl bg-gray-100 p-2">
           <button
             v-for="tab in tabs"
             :key="tab"
@@ -102,8 +102,9 @@
           </button>
         </div>
 
-        <section class="min-h-64 rounded-xl border border-gray-200 bg-white p-5 md:p-6">
-          <h2 class="mb-5 text-lg font-semibold">{{ activeTab }}</h2>
+        <section class="flex min-h-64 flex-1 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white p-5 md:p-6 md:min-h-0">
+  <h2 class="mb-5 shrink-0 text-lg font-semibold">{{ activeTab }}</h2>
+  <div class="min-h-0 flex-1 overflow-y-auto xl:pr-1">
 
           <div v-if="activeTab === 'Timeline'" class="space-y-4">
   <template v-for="item in timeline" :key="item.id">
@@ -649,6 +650,7 @@
   >
     No health records found for this patient.
   </p>
+</div>
 </div>
 
         </section>
