@@ -1,7 +1,7 @@
 <template>
-  <div class="p-4 md:p-6 lg:p-8">
+  <div class="flex flex-col p-4 md:p-6 lg:p-8 lg:h-[calc(100vh-72px)] lg:overflow-hidden">
     <!-- Header -->
-    <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div class="mb-6 flex shrink-0 flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h1 class="text-2xl font-bold text-gray-900">
           {{ patient.name }}
@@ -28,9 +28,9 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-5 xl:grid-cols-[0.8fr_1.8fr]">
+    <div class="grid min-h-0 grid-cols-1 gap-5 lg:flex-1 lg:grid-cols-[0.8fr_1.8fr]">
       <!-- Left column -->
-      <div class="space-y-5">
+      <div class="space-y-5 lg:min-h-0 lg:overflow-y-auto lg:pr-1">
         <section class="rounded-xl border border-gray-200 bg-white p-5">
           <div class="text-center">
             <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-emerald-600 text-xl font-bold text-white">
@@ -87,7 +87,7 @@
       </div>
 
       <!-- Right column -->
-      <div class="min-w-0 flex flex-col xl:h-[calc(100vh-180px)] xl:min-h-0">
+      <div class="min-w-0 flex flex-col lg:h-[calc(100vh-180px)] lg:min-h-0">
         <div class="mb-4 flex shrink-0 flex-wrap gap-1 rounded-xl bg-gray-100 p-2">
           <button
             v-for="tab in tabs"
