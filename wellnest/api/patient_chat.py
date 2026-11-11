@@ -1,5 +1,6 @@
 import frappe
 from frappe.utils import now_datetime
+from wellnest.api.doctor_notifications import create_doctor_notification
 
 
 # Public APIs
@@ -197,7 +198,7 @@ def send_patient_chat_message(
 
 @frappe.whitelist()
 def mark_patient_chat_read(patient):
-    """Mark unread patient messages as read across eligible appointments."""
+    """Mark unread patient messages and their notifications as read."""
 
     practitioner = _get_current_practitioner()
 
@@ -214,6 +215,7 @@ def mark_patient_chat_read(patient):
     )
 
     changed = False
+    read_time = now_datetime()
 
     for appointment_data in appointments:
         prescription = frappe.db.get_value(
@@ -230,10 +232,16 @@ def mark_patient_chat_read(patient):
             appointment_data.name,
         )
 
+        patient_message_ids = []
         appointment_changed = False
 
         for row in appointment.patient_chat_messages or []:
-            if row.sender_type == "Patient" and not row.read_by_doctor:
+            if row.sender_type != "Patient":
+                continue
+
+            patient_message_ids.append(row.name)
+
+            if not row.read_by_doctor:
                 row.read_by_doctor = 1
                 appointment_changed = True
 
@@ -241,11 +249,33 @@ def mark_patient_chat_read(patient):
             appointment.save(ignore_permissions=True)
             changed = True
 
+        # Synchronize unread notification records for these messages.
+        if patient_message_ids:
+            notification_names = frappe.get_all(
+                "Doctor Notification",
+                filters={
+                    "practitioner": practitioner,
+                    "patient_appointment": appointment.name,
+                    "message_id": ["in", patient_message_ids],
+                    "is_read": 0,
+                },
+                pluck="name",
+            )
+
+            for notification_name in notification_names:
+                frappe.db.set_value(
+                    "Doctor Notification",
+                    notification_name,
+                    {
+                        "is_read": 1,
+                        "read_at": read_time,
+                    },
+                )
+
     return {
         "success": True,
         "changed": changed,
     }
-
 
 @frappe.whitelist()
 def get_patient_appointments():
@@ -324,6 +354,29 @@ def send_patient_chat_message_from_patient(
     )
 
     appointment.save(ignore_permissions=True)
+
+    try:
+        patient_name = (
+            frappe.db.get_value("Patient", patient, "full_name")
+            or patient
+        )
+
+        create_doctor_notification(
+            practitioner=appointment.practitioner,
+            patient=patient,
+            patient_appointment=appointment.name,
+            notification_type="Patient Message",
+            event_key=f"patient-message:{appointment.name}:{row.name}",
+            title="New message from patient",
+            description=f"{patient_name} sent you a message.",
+            event_time=row.sent_at,
+            message_id=row.name,
+        )
+    except Exception:
+        frappe.log_error(
+            title="Failed to create doctor patient-message notification",
+            message=frappe.get_traceback(),
+        )
 
     return _serialize_message(row)
 
