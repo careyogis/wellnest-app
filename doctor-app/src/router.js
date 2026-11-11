@@ -81,8 +81,7 @@ const routes = [
       {
         name: 'Notifications',
         path: 'notifications',
-        component: () => import('@/pages/ComingSoon.vue'),
-        props: { title: 'Notifications' },
+        component: () => import('@/pages/Notifications.vue'),
       },
       {
         name: 'Settings',

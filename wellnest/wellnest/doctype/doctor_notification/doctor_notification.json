@@ -1,0 +1,111 @@
+{
+  "doctype": "DocType",
+  "name": "Doctor Notification",
+  "module": "WellNest",
+  "custom": 0,
+  "autoname": "hash",
+  "engine": "InnoDB",
+  "istable": 0,
+  "issingle": 0,
+  "is_submittable": 0,
+  "track_changes": 0,
+  "fields": [
+    {
+      "fieldname": "practitioner",
+      "label": "Practitioner",
+      "fieldtype": "Link",
+      "options": "Practitioner",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "notification_type",
+      "label": "Notification Type",
+      "fieldtype": "Select",
+      "options": "Consultation Booked\nPatient Message",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "patient",
+      "label": "Patient",
+      "fieldtype": "Link",
+      "options": "Patient",
+      "reqd": 1
+    },
+    {
+      "fieldname": "patient_appointment",
+      "label": "Patient Appointment",
+      "fieldtype": "Link",
+      "options": "Patient Appointment",
+      "reqd": 1
+    },
+    {
+      "fieldname": "message_id",
+      "label": "Message ID",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "event_key",
+      "label": "Event Key",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "unique": 1,
+      "hidden": 1
+    },
+    {
+      "fieldname": "title",
+      "label": "Title",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "description",
+      "label": "Description",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "event_time",
+      "label": "Event Time",
+      "fieldtype": "Datetime",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "is_read",
+      "label": "Is Read",
+      "fieldtype": "Check",
+      "default": "0",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "read_at",
+      "label": "Read At",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    }
+  ],
+  "field_order": [
+    "practitioner",
+    "notification_type",
+    "patient",
+    "patient_appointment",
+    "message_id",
+    "event_key",
+    "title",
+    "description",
+    "event_time",
+    "is_read",
+    "read_at"
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

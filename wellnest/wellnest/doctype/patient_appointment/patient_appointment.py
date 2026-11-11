@@ -12,10 +12,38 @@ from wellnest.health.doctype.app_notification.app_notification import (
     create_consultation_cancellation_notification,
 )
 from wellnest.api.appointment_system_tracking import get_or_create_tracking
+from wellnest.api.doctor_notifications import create_doctor_notification
 
 class PatientAppointment(Document):
     def validate(self):
         self.handle_payout_accrual()
+
+    def after_insert(self):
+        if self.status == "Scheduled":
+            try:
+                self.create_booking_notification()
+            except Exception:
+                frappe.log_error(
+                    title="Failed to create doctor booking notification",
+                    message=frappe.get_traceback(),
+                )
+
+    def create_booking_notification(self):
+        patient_name = (
+            frappe.db.get_value("Patient", self.patient, "full_name")
+            or self.patient
+        )
+
+        create_doctor_notification(
+            practitioner=self.practitioner,
+            patient=self.patient,
+            patient_appointment=self.name,
+            notification_type="Consultation Booked",
+            event_key=f"consultation-booked:{self.name}",
+            title="New consultation booked",
+            description=f"{patient_name} has booked a consultation.",
+            event_time=now_datetime(),
+        )
 
     def handle_payout_accrual(self):
         if (
@@ -31,12 +59,16 @@ class PatientAppointment(Document):
                 self.payout_status = "Accrued"
 
     def on_update(self):
-        # Only proceed if the status changed to "Scheduled" or if the appointment is being rescheduled
-        if not ((self.has_value_changed("status") or self.has_value_changed("scheduled_time")) and self.status == "Scheduled"):
+        if not (
+            (self.has_value_changed("status") or self.has_value_changed("scheduled_time"))
+            and self.status == "Scheduled"
+        ):
             return
 
         try:
-            # 1. Notify the doctor of the new booking
+            if self.has_value_changed("status"):
+                self.create_booking_notification()
+
             practitioner = frappe.get_value(
                 "Practitioner",
                 self.practitioner,
