@@ -694,3 +694,91 @@ def get_consultation_prescription(appointment):
             for item in doc.medicines
         ],
     }
+
+@frappe.whitelist()
+def search_medicines(search_text=None):
+    import difflib
+    import re
+
+    if frappe.session.user == "Guest":
+        frappe.throw(
+            "Please log in to search medicines.",
+            frappe.PermissionError,
+        )
+
+    search_text = (search_text or "").strip().lower()
+
+    if len(search_text) < 2:
+        return []
+
+    medicines = frappe.get_all(
+        "Medicine Master",
+        fields=[
+            "generic_name",
+            "unit_size",
+            "group_name",
+        ],
+    )
+
+    def get_similarity(medicine_name):
+        name = medicine_name.lower()
+
+        # Compare the search text with individual words
+        words = re.findall(r"[a-z0-9]+", name)
+
+        scores = [
+            difflib.SequenceMatcher(None, search_text, word).ratio()
+            for word in words
+        ]
+
+        # Also compare against the complete medicine name
+        scores.append(
+            difflib.SequenceMatcher(None, search_text, name).ratio()
+        )
+
+        return max(scores, default=0)
+
+    matching_medicines = []
+
+    for medicine in medicines:
+        name = (medicine.get("generic_name") or "").strip()
+        normalized_name = name.lower()
+
+        score = get_similarity(normalized_name)
+
+        # 0 = Exact match
+        if normalized_name == search_text:
+            priority = 0
+
+        # 1 = Starts with search text
+        elif normalized_name.startswith(search_text):
+            priority = 1
+
+        # 2 = Contains search text
+        elif search_text in normalized_name:
+            priority = 2
+
+        # 3 = Similar spelling (fuzzy match)
+        elif score >= 0.75:
+            priority = 3
+
+        else:
+            continue
+
+        matching_medicines.append(
+            (medicine, priority, score)
+        )
+
+    # Rank by priority, similarity, and shorter medicine names
+    matching_medicines.sort(
+        key=lambda item: (
+            item[1],
+            -item[2],
+            len(item[0].get("generic_name") or ""),
+        )
+    )
+
+    return [
+        medicine
+        for medicine, priority, score in matching_medicines
+    ]

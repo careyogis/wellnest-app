@@ -142,44 +142,91 @@
 
           <!-- Medicine rows -->
           <div class="space-y-0">
-            <div v-for="(medicine, index) in medicines" :key="index" class="grid grid-cols-1 md:grid-cols-[1.2fr_1fr_1fr_1.2fr_auto] gap-4 py-3 border-b border-gray-200">
-              <!-- Medicine -->
-              <input
-                v-model="medicine.medicine"
-                type="text"
-                placeholder="Brand / generic"
-                class="w-full rounded-xl border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
-              />
+            <div v-for="(medicine, index) in medicines" :key="index" class="space-y-4 py-4 border-b border-gray-200">
+              <!-- Medicine name + Remove button -->
+              <div class="grid grid-cols-1 gap-3 items-center">
 
-              <!-- Dose -->
-              <input
-                v-model="medicine.dose"
-                type="text"
-                placeholder="Dose"
-                class="w-full rounded-xl border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
-              />
+                <!-- Medicine search -->
+                <div class="relative min-w-0">
+                  <input
+                    v-model="medicine.medicine"
+                    type="text"
+                    placeholder="Medicine"
+                    autocomplete="off"
+                    @input="searchMedicines(index)"
+                    @focus="activeMedicineIndex = index"
+                    class="w-full rounded-xl border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                  />
 
-              <!-- Frequency -->
-              <input
-                v-model="medicine.frequency"
-                type="text"
-                placeholder="Frequency"
-                class="w-full rounded-xl border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
-              />
 
-              <!-- Instruction -->
-              <input
-                v-model="medicine.instruction"
-                type="text"
-                placeholder="Instruction"
-                class="w-full rounded-xl border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
-              />
 
-              <!-- Remove -->
-              <button type="button" class="self-center justify-self-end w-fit inline-flex items-center justify-center shrink-0 px-3 py-2 rounded-lg text-red-600 bg-red-50 hover:bg-red-100 font-semibold text-sm" @click="removeMedicine(index)"><FeatherIcon name="trash-2" class="w-4 h-4" /></button>
+                  <!-- Medicine suggestions -->
+                  <div
+                    v-if="activeMedicineIndex === index && medicineSuggestions[index]?.length"
+                    class="absolute z-20 mt-1 max-h-56 w-full overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg"
+                  >
+                    <button
+                      v-for="(suggestion, suggestionIndex) in medicineSuggestions[index]"
+                      :key="suggestionIndex"
+                      type="button"
+                      class="w-full border-b border-gray-100 px-4 py-3 text-left hover:bg-amber-50 last:border-0"
+                      @mousedown.prevent="selectMedicine(index, suggestion)"
+                    >
+                      <div class="font-medium text-gray-900">
+                        {{ suggestion.generic_name }}
+                      </div>
+
+
+                    </button>
+                  </div>
+                </div>
+
+
+
+              </div>
+
+              <!-- Dose, Frequency and Instruction -->
+              <div class="grid grid-cols-1 sm:grid-cols-[repeat(3,minmax(0,1fr))_auto] gap-3 items-center">
+
+                <!-- Dose -->
+                <input
+                  v-model="medicine.dose"
+                  type="text"
+                  placeholder="Dose"
+                  class="w-full rounded-xl border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                />
+
+                <!-- Frequency -->
+                <input
+                  v-model="medicine.frequency"
+                  type="text"
+                  placeholder="Frequency"
+                  class="w-full rounded-xl border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                />
+
+                <!-- Instruction -->
+                <input
+                  v-model="medicine.instruction"
+                  type="text"
+                  placeholder="Instruction"
+                  class="w-full rounded-xl border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                />
+
+                <!-- Remove button -->
+                <button
+                  type="button"
+                  class="w-10 h-10 inline-flex items-center justify-center rounded-lg text-red-600 bg-red-50 hover:bg-red-100 shrink-0 ml-auto"
+                  @click="removeMedicine(index)"
+                  title="Remove medicine"
+                >
+                  <FeatherIcon name="trash-2" class="w-4 h-4" />
+                </button>
+
+              </div>
+
             </div>
           </div>
-        </section>
+          </section>
 
         <!-- Doctor Advice -->
         <section class="mt-6 bg-white border border-gray-200 rounded-2xl p-6">
@@ -533,7 +580,7 @@
   </div>
 </template>
 <script setup>
-import { computed, ref, watch, onUnmounted } from 'vue';
+import { computed, ref, watch, onUnmounted, onMounted, onBeforeUnmount } from 'vue';
 import { FeatherIcon, createResource } from 'frappe-ui';
 import careyogiLogo from '@/assets/images/logo-01.png';
 
@@ -585,6 +632,10 @@ const savePrescriptionDraftResource = createResource({
 
 const getPrescriptionResource = createResource({
   url: 'wellnest.api.prescription.get_consultation_prescription',
+});
+
+const searchMedicinesResource = createResource({
+  url: 'wellnest.api.prescription.search_medicines',
 });
 
 const saveOcrPrescriptionResource = createResource({
@@ -653,6 +704,10 @@ const exerciseAdvice = ref('');
 
 // Existing prescription data - KEEP FOR NOW
 const medicines = ref([]);
+const medicineSuggestions = ref({});
+const activeMedicineIndex = ref(null);
+const medicineSearchLoading = ref({});
+const medicineSearchTimers = {};
 const prescriptionName = ref(null);
 const prescriptionWorkflowState = ref(null);
 
@@ -909,9 +964,9 @@ async function loadPrescription() {
 
     ocrPrescriptionName.value = response.name || '';
 
-    
+
  // Load History and Chief Complaints from the selected Smart Prescription
- 
+
 const savedHistory = (response.history || '').trim();
 
 history.value = savedHistory.toLowerCase() === 'history'
@@ -1173,6 +1228,76 @@ function addMedicine() {
     instruction: '',
   });
 }
+
+
+function searchMedicines(index) {
+  const query = medicines.value[index].medicine?.trim();
+
+  // Clear the previous timer for this row
+  clearTimeout(medicineSearchTimers[index]);
+
+  // Clear previous suggestions
+  medicineSuggestions.value[index] = [];
+  activeMedicineIndex.value = index;
+
+  // Search only when at least 2 characters are entered
+  if (!query || query.length < 2) {
+    medicineSearchLoading.value[index] = false;
+    return;
+  }
+
+  // Wait 300ms after typing before calling the API
+  medicineSearchTimers[index] = setTimeout(async () => {
+    try {
+      medicineSearchLoading.value[index] = true;
+
+      const response = await searchMedicinesResource.submit({
+        search_text: query,
+      });
+
+      // Ignore outdated search results
+      if (medicines.value[index]?.medicine?.trim() !== query) {
+        return;
+      }
+
+      medicineSuggestions.value[index] =
+        response?.message || response || [];
+
+    } catch (error) {
+      console.error('Medicine search failed:', error);
+      medicineSuggestions.value[index] = [];
+
+    } finally {
+      medicineSearchLoading.value[index] = false;
+    }
+  }, 300);
+}
+
+function selectMedicine(index, medicine) {
+  medicines.value[index].medicine = medicine.generic_name;
+
+  // Clear suggestions after selection
+  medicineSuggestions.value[index] = [];
+
+  // Close the dropdown
+  activeMedicineIndex.value = null;
+}
+
+function handleOutsideMedicineClick(event) {
+  if (!(event.target instanceof Element)) return;
+
+  if (!event.target.closest('.medicine-search-wrapper')) {
+    activeMedicineIndex.value = null;
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleOutsideMedicineClick);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleOutsideMedicineClick);
+});
 
 async function finalizePrescription() {
   if (prescriptionWorkflowState.value === 'Processing') {
