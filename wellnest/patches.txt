@@ -6,3 +6,4 @@
 # Patches added in this section will be executed after doctypes are migrated
 wellnest.wellnest.patches.v1_0.switch_event_log_to_myisam
 wellnest.wellnest.patches.v1_0.backfill_appointment_payout_rates
+wellnest.wellnest.patches.v1_0.import_medicine_master
