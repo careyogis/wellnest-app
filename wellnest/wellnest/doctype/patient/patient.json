@@ -10,6 +10,7 @@
   "abha_id",
   "gender",
   "emergency_contact",
+  "referral_coupon",
   "column_break_cpfu",
   "full_name",
   "date_of_birth",
@@ -83,11 +84,17 @@
    "fieldtype": "Table",
    "label": "Family Members Network",
    "options": "Patient Family Member"
+  },
+  {
+   "fieldname": "referral_coupon",
+   "fieldtype": "Link",
+   "label": "Referral Coupon",
+   "options": "Coupon Code"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-02 08:14:17.584398",
+ "modified": "2026-11-13 20:21:31.486959",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Patient",
@@ -107,16 +114,13 @@
    "write": 1
   },
   {
-   "role": "Customer",
    "create": 1,
-   "delete": 0,
    "email": 1,
-   "export": 0,
    "print": 1,
    "read": 1,
    "report": 1,
+   "role": "Customer",
    "select": 1,
-   "share": 0,
    "write": 1
   }
  ],
