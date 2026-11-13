@@ -131,23 +131,20 @@
             <button type="button" class="px-4 py-2 rounded-xl bg-gray-50 text-gray-900 font-semibold hover:bg-gray-100 inline-flex items-center justify-center" @click="addMedicine"><FeatherIcon name="plus" class="w-4 h-4" /></button>
           </div>
 
-          <!-- Table header -->
-          <div class="hidden md:grid grid-cols-[1.2fr_1fr_1fr_1.2fr_auto] gap-4 px-2 pb-3 border-b border-gray-200 text-sm font-semibold text-gray-900">
-            <div>Medicine</div>
-            <div>Dose</div>
-            <div>Frequency</div>
-            <div>Instruction</div>
-            <div></div>
-          </div>
+
 
           <!-- Medicine rows -->
           <div class="space-y-0">
-            <div v-for="(medicine, index) in medicines" :key="index" class="space-y-4 py-4 border-b border-gray-200">
+            <div v-for="(medicine, index) in medicines" :key="index" class="space-y-4 p-4 !mb-4 bg-amber-50/30 border border-amber-200/70 rounded-xl">
+
               <!-- Medicine name + Remove button -->
               <div class="grid grid-cols-1 gap-3 items-center">
 
                 <!-- Medicine search -->
                 <div class="relative min-w-0">
+                <label class="block text-base font-semibold text-gray-900 mb-2 pl-2">
+                  Medicine
+                </label>
                   <input
                     v-model="medicine.medicine"
                     type="text"
@@ -189,33 +186,51 @@
               <div class="grid grid-cols-1 sm:grid-cols-[repeat(3,minmax(0,1fr))_auto] gap-3 items-center">
 
                 <!-- Dose -->
-                <input
-                  v-model="medicine.dose"
-                  type="text"
-                  placeholder="Dose"
-                  class="w-full rounded-xl border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
-                />
+                <div>
+                  <label class="block text-base font-semibold text-gray-900 mb-2 pl-2">
+                    Dose
+                  </label>
+                  <input
+                    v-model="medicine.dose"
+                    type="text"
+                    placeholder="Dose"
+                    class="w-full rounded-xl border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                  />
+                </div>
+
+
 
                 <!-- Frequency -->
+                <div>
+                <label class="block text-base font-semibold text-gray-900 mb-2 pl-2">
+                  Frequency
+                </label>
                 <input
                   v-model="medicine.frequency"
                   type="text"
                   placeholder="Frequency"
                   class="w-full rounded-xl border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
                 />
+                </div>
+
 
                 <!-- Instruction -->
+                <div>
+                <label class="block text-base font-semibold text-gray-900 mb-2 pl-2">
+                  Instruction
+                </label>
                 <input
                   v-model="medicine.instruction"
                   type="text"
                   placeholder="Instruction"
                   class="w-full rounded-xl border border-gray-200 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-200"
                 />
+                </div>
 
                 <!-- Remove button -->
                 <button
                   type="button"
-                  class="w-10 h-10 inline-flex items-center justify-center rounded-lg text-red-600 bg-red-50 hover:bg-red-100 shrink-0 ml-auto"
+                  class="w-10 h-10 inline-flex items-center justify-center rounded-lg text-red-600 bg-red-50 hover:bg-red-100 shrink-0 ml-auto self-end mb-0.5"
                   @click="removeMedicine(index)"
                   title="Remove medicine"
                 >
