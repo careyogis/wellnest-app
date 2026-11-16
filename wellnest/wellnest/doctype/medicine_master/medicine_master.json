@@ -8,7 +8,8 @@
  "field_order": [
   "generic_name",
   "unit_size",
-  "group_name"
+  "group_name",
+  "is_custom"
  ],
  "fields": [
   {
@@ -29,12 +30,19 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Group Name"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_custom",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Manually Added"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-11-12 18:12:29.337969",
+ "modified": "2026-11-16 20:12:01.179661",
  "modified_by": "Administrator",
  "module": "WellNest",
  "name": "Medicine Master",
