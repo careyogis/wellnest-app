@@ -317,7 +317,7 @@ def create_consultation_prescription(
         )
 
     medicines = frappe.parse_json(medicines or "[]")
-    
+
     chief_complaints = frappe.parse_json(
         chief_complaints or "[]"
     )
@@ -331,7 +331,7 @@ def create_consultation_prescription(
     doc.provisional_diagnosis = provisional_diagnosis or ""
     doc.follow_up_in_days = follow_up_in_days or None
     doc.doctor_advice = doctor_advice or ""
-    
+
     doc.history = history or ""
 
     doc.set("chief_complaints", [])
@@ -661,7 +661,7 @@ def get_consultation_prescription(appointment):
     print(
         f">>> Prescription original uploaded file: "
         f"{file_url}"
-    ) 
+    )
 
     return {
         "name": doc.name,
@@ -717,6 +717,7 @@ def search_medicines(search_text=None):
             "generic_name",
             "unit_size",
             "group_name",
+            "is_custom",
         ],
     )
 
@@ -782,3 +783,100 @@ def search_medicines(search_text=None):
         medicine
         for medicine, priority, score in matching_medicines
     ]
+
+
+
+@frappe.whitelist()
+def create_medicine(generic_name=None):
+    if frappe.session.user == "Guest":
+        frappe.throw(
+            "Please log in to add medicines.",
+            frappe.PermissionError,
+        )
+
+    generic_name = (generic_name or "").strip()
+
+    if not generic_name:
+        frappe.throw("Medicine name is required.")
+
+    # Check whether this medicine already exists,
+    # ignoring differences in capitalization and surrounding spaces.
+    existing = frappe.db.sql(
+        """
+        SELECT generic_name, unit_size, group_name, is_custom
+        FROM `tabMedicine Master`
+        WHERE LOWER(TRIM(generic_name)) = LOWER(%s)
+        LIMIT 1
+        """,
+        (generic_name,),
+        as_dict=True,
+    )
+
+    if existing:
+        return {
+            "generic_name": existing[0].generic_name,
+            "unit_size": existing[0].unit_size,
+            "group_name": existing[0].group_name,
+            "is_custom": existing[0].is_custom,
+        }
+
+    # Create a new Medicine Master record.
+    doc = frappe.get_doc({
+        "doctype": "Medicine Master",
+        "generic_name": generic_name,
+        "unit_size": "",
+        "group_name": "",
+        "is_custom": 1,
+    })
+
+    # Creation is allowed through this authenticated API,
+    # even though the DocType's normal Create permission is restricted.
+    doc.insert(ignore_permissions=True)
+
+    return {
+        "generic_name": doc.generic_name,
+        "unit_size": doc.unit_size,
+        "group_name": doc.group_name,
+        "is_custom": doc.is_custom,
+    }
+
+
+@frappe.whitelist()
+def delete_medicine(generic_name=None):
+    if frappe.session.user == "Guest":
+        frappe.throw(
+            "Please log in to delete medicines.",
+            frappe.PermissionError,
+        )
+
+    generic_name = (generic_name or "").strip()
+
+    if not generic_name:
+        frappe.throw("Medicine name is required.")
+
+    medicine = frappe.db.sql(
+        """
+        SELECT name, is_custom
+        FROM `tabMedicine Master`
+        WHERE LOWER(TRIM(generic_name)) = LOWER(%s)
+        LIMIT 1
+        """,
+        (generic_name,),
+        as_dict=True,
+    )
+
+    if not medicine:
+        frappe.throw("Medicine not found.")
+
+    medicine = medicine[0]
+
+    if not medicine.is_custom:
+        frappe.throw("Only manually added medicines can be deleted.")
+
+    frappe.delete_doc(
+        "Medicine Master",
+        medicine.name,
+        ignore_permissions=True,
+    )
+
+    return {"success": True}

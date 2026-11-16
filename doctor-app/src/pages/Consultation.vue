@@ -141,7 +141,7 @@
               <div class="grid grid-cols-1 gap-3 items-center">
 
                 <!-- Medicine search -->
-                <div class="relative min-w-0">
+                <div class="relative min-w-0 medicine-search-wrapper">
                 <label class="block text-base font-semibold text-gray-900 mb-2 pl-2">
                   Medicine
                 </label>
@@ -159,21 +159,47 @@
 
                   <!-- Medicine suggestions -->
                   <div
-                    v-if="activeMedicineIndex === index && medicineSuggestions[index]?.length"
+                    v-if="activeMedicineIndex === index && (medicineSuggestions[index]?.length || canAddMedicine(index))"
                     class="absolute z-20 mt-1 max-h-56 w-full overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg"
                   >
-                    <button
+                    <div
                       v-for="(suggestion, suggestionIndex) in medicineSuggestions[index]"
                       :key="suggestionIndex"
-                      type="button"
-                      class="w-full border-b border-gray-100 px-4 py-3 text-left hover:bg-amber-50 last:border-0"
-                      @mousedown.prevent="selectMedicine(index, suggestion)"
+                      class="flex items-center border-b border-gray-100 last:border-0"
                     >
-                      <div class="font-medium text-gray-900">
-                        {{ suggestion.generic_name }}
-                      </div>
+                      <!-- Medicine name: click to select -->
+                      <button
+                        type="button"
+                        class="flex-1 min-w-0 px-4 py-3 text-left hover:bg-amber-50"
+                        @mousedown.prevent="selectMedicine(index, suggestion)"
+                      >
+                        <div class="font-medium text-gray-900">
+                          {{ suggestion.generic_name }}
+                        </div>
+                      </button>
 
+                      <!-- Delete icon: only for manually added medicines -->
+                      <button
+                        v-if="suggestion.is_custom"
+                        type="button"
+                        title="Delete medicine"
+                        aria-label="Delete medicine"
+                        class="w-10 h-10 inline-flex items-center justify-center rounded-lg text-red-600 bg-red-50 hover:bg-red-100 shrink-0"
+                        @mousedown.prevent.stop
+                        @click.stop="deleteMedicineFromSuggestions(index, suggestion)"
+                      >
+                        <FeatherIcon name="trash-2" class="w-4 h-4" />
+                      </button>
+                    </div>
 
+                    <!-- Add new medicine option -->
+                    <button
+                      v-if="canAddMedicine(index)"
+                      type="button"
+                      class="w-full border-t border-gray-200 px-4 py-3 text-left text-amber-600 hover:bg-amber-50"
+                      @mousedown.prevent="createMedicineFromSearch(index)"
+                    >
+                      + Add "{{ medicine.medicine }}"
                     </button>
                   </div>
                 </div>
@@ -651,6 +677,14 @@ const getPrescriptionResource = createResource({
 
 const searchMedicinesResource = createResource({
   url: 'wellnest.api.prescription.search_medicines',
+});
+
+const createMedicineResource = createResource({
+  url: 'wellnest.api.prescription.create_medicine',
+});
+
+const deleteMedicineResource = createResource({
+  url: 'wellnest.api.prescription.delete_medicine',
 });
 
 const saveOcrPrescriptionResource = createResource({
@@ -1260,6 +1294,7 @@ function searchMedicines(index) {
     medicineSearchLoading.value[index] = false;
     return;
   }
+  medicineSearchLoading.value[index] = true;
 
   // Wait 300ms after typing before calling the API
   medicineSearchTimers[index] = setTimeout(async () => {
@@ -1296,6 +1331,81 @@ function selectMedicine(index, medicine) {
 
   // Close the dropdown
   activeMedicineIndex.value = null;
+}
+
+
+async function createMedicineFromSearch(index) {
+  const genericName = medicines.value[index]?.medicine?.trim();
+
+  if (!genericName) return;
+
+  try {
+    const response = await createMedicineResource.submit({
+      generic_name: genericName,
+    });
+
+    const result = response?.message || response;
+
+    medicines.value[index].medicine =
+      result?.generic_name || genericName;
+
+    medicineSuggestions.value[index] = [];
+    activeMedicineIndex.value = null;
+
+  } catch (error) {
+    console.error('Failed to add medicine:', error);
+    alert('Could not add this medicine.');
+  }
+}
+
+async function deleteMedicineFromSuggestions(index, suggestion) {
+  if (!suggestion?.is_custom) return;
+
+  const confirmed = window.confirm(
+    `Are you sure you want to delete "${suggestion.generic_name}" from Medicine List?`
+  );
+
+  if (!confirmed) return;
+
+  try {
+    await deleteMedicineResource.submit({
+      generic_name: suggestion.generic_name,
+    });
+
+    // Refresh suggestions after deletion
+    const query = medicines.value[index]?.medicine?.trim();
+
+    if (query && query.length >= 2) {
+      const response = await searchMedicinesResource.submit({
+        search_text: query,
+      });
+
+      // Avoid updating suggestions if the user has changed the search
+      if (medicines.value[index]?.medicine?.trim() === query) {
+        medicineSuggestions.value[index] =
+          response?.message || response || [];
+      }
+    } else {
+      medicineSuggestions.value[index] = [];
+    }
+
+  } catch (error) {
+    console.error('Failed to delete medicine:', error);
+    alert('Could not delete this medicine.');
+  }
+}
+
+function canAddMedicine(index) {
+  const query = medicines.value[index]?.medicine?.trim().toLowerCase();
+
+  return Boolean(
+    query &&
+    query.length >= 2 &&
+    !medicineSearchLoading.value[index] &&
+    !medicineSuggestions.value[index]?.some(
+      (item) => item.generic_name?.trim().toLowerCase() === query
+    )
+  );
 }
 
 function handleOutsideMedicineClick(event) {
