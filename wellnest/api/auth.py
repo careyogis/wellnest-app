@@ -8,524 +8,550 @@ import re
 
 IDENTITY_TOOLKIT_BASE = "https://identitytoolkit.googleapis.com/v1"
 
+
 @frappe.whitelist(allow_guest=True)
 def send_practitioner_otp(phone: str, recaptcha_token: str):
-	if not phone or not recaptcha_token:
-		frappe.throw("phone and recaptcha_token are required")
+    if not phone or not recaptcha_token:
+        frappe.throw("phone and recaptcha_token are required")
 
-	phone, practitioner = _lookup_practitioner_by_phone(phone)
+    phone, practitioner = _lookup_practitioner_by_phone(phone)
 
-	if not practitioner:
-		frappe.throw("No doctor found with this number")
+    if not practitioner:
+        frappe.throw("No doctor found with this number")
 
-	return _send_firebase_otp(phone, recaptcha_token)
+    return _send_firebase_otp(phone, recaptcha_token)
+
 
 @frappe.whitelist(allow_guest=True)
 def send_practitioner_registration_otp(phone: str, recaptcha_token: str):
-	if not phone or not recaptcha_token:
-		frappe.throw("phone and recaptcha_token are required")
+    if not phone or not recaptcha_token:
+        frappe.throw("phone and recaptcha_token are required")
 
-	# Check if the phone number is already registered
-	phone, practitioner = _lookup_practitioner_by_phone(phone)
+    # Check if the phone number is already registered
+    phone, practitioner = _lookup_practitioner_by_phone(phone)
 
-	if practitioner:
-		frappe.throw("This phone is already registered.", frappe.DuplicateEntryError)
+    if practitioner:
+        frappe.throw("This phone is already registered.", frappe.DuplicateEntryError)
 
-	return _send_firebase_otp(phone, recaptcha_token)
+    return _send_firebase_otp(phone, recaptcha_token)
+
 
 @frappe.whitelist(allow_guest=True)
 def verify_practitioner_otp_and_login(session_info: str, phone: str, otp: str):
-	firebase_data = _verify_firebase_otp(session_info, otp)
+    firebase_data = _verify_firebase_otp(session_info, otp)
 
-	uid = firebase_data["uid"]
-	is_new_user = firebase_data["is_new_user"]
+    uid = firebase_data["uid"]
+    is_new_user = firebase_data["is_new_user"]
 
-	phone, practitioner_name = _lookup_practitioner_by_phone(phone)
+    phone, practitioner_name = _lookup_practitioner_by_phone(phone)
 
-	if not practitioner_name:
-		frappe.throw("Practitioner not found for this mobile number")
+    if not practitioner_name:
+        frappe.throw("Practitioner not found for this mobile number")
 
-	practitioner_user_id = frappe.db.get_value("Practitioner", practitioner_name, "user_id")
+    practitioner_user_id = frappe.db.get_value("Practitioner", practitioner_name, "user_id")
 
-	if not practitioner_user_id:
-		frappe.throw("User not linked to this Practitioner")
-		
-	# Ensure we use the exact name from the User table (fixes case mismatch and trailing spaces)
-	user = frappe.db.get_value("User", practitioner_user_id.strip(), "name")
-	
-	if not user:
-		frappe.throw(f"The linked user account ({practitioner_user_id}) does not exist in the system.")
+    if not practitioner_user_id:
+        frappe.throw("User not linked to this Practitioner")
 
-	frappe.set_user(user)
+    # Ensure we use the exact name from the User table (fixes case mismatch and trailing spaces)
+    user = frappe.db.get_value("User", practitioner_user_id.strip(), "name")
 
-	from frappe.auth import LoginManager
+    if not user:
+        frappe.throw(f"The linked user account ({practitioner_user_id}) does not exist in the system.")
 
-	login_manager = LoginManager()
-	login_manager.user = user
-	login_manager.post_login()
+    frappe.set_user(user)
 
-	# Persist session cookies for 30 days so mobile PWA and native wrappers persist login
-	max_age = 30 * 24 * 60 * 60
-	frappe.local.cookie_manager.set_cookie("user_id", user, max_age=max_age)
-	sid = getattr(getattr(frappe.local, "session", None), "sid", None)
-	if sid:
-		frappe.local.cookie_manager.set_cookie("sid", sid, max_age=max_age, httponly=True)
+    from frappe.auth import LoginManager
 
-	_get_firebase_app()
-	custom_token = firebase_auth.create_custom_token(uid)
+    login_manager = LoginManager()
+    login_manager.user = user
+    login_manager.post_login()
 
-	# The CSRF token for a fresh session is not set during Session.start() — it
-	# is generated lazily. Call get_csrf_token() to force its creation so the
-	# client can store the correct token without an extra round-trip.
-	from frappe.sessions import get_csrf_token
+    # Persist session cookies for 30 days so mobile PWA and native wrappers persist login
+    max_age = 30 * 24 * 60 * 60
+    frappe.local.cookie_manager.set_cookie("user_id", user, max_age=max_age)
+    sid = getattr(getattr(frappe.local, "session", None), "sid", None)
+    if sid:
+        frappe.local.cookie_manager.set_cookie("sid", sid, max_age=max_age, httponly=True)
 
-	return {
-		"success": True,
-		"user": user,
-		"csrf_token": get_csrf_token(),
-		"custom_token": custom_token.decode("utf-8"),
-		"uid": uid,
-		"phone_number": phone,
-		"is_new_user": is_new_user,
-	}
+    _get_firebase_app()
+    custom_token = firebase_auth.create_custom_token(uid)
+
+    # The CSRF token for a fresh session is not set during Session.start() — it
+    # is generated lazily. Call get_csrf_token() to force its creation so the
+    # client can store the correct token without an extra round-trip.
+    from frappe.sessions import get_csrf_token
+
+    return {
+        "success": True,
+        "user": user,
+        "csrf_token": get_csrf_token(),
+        "custom_token": custom_token.decode("utf-8"),
+        "uid": uid,
+        "phone_number": phone,
+        "is_new_user": is_new_user,
+    }
+
 
 @frappe.whitelist(allow_guest=True)
 def verify_customer_firebase_token(id_token: str):
-	customer_app = _get_customer_firebase_app()
-	try:
-		decoded_token = firebase_auth.verify_id_token(id_token, app=customer_app)
-	except Exception as e:
-		frappe.throw(f"Invalid Token: {str(e)}")
+    customer_app = _get_customer_firebase_app()
+    try:
+        decoded_token = firebase_auth.verify_id_token(id_token, app=customer_app)
+    except Exception as e:
+        frappe.throw(f"Invalid Token: {str(e)}")
 
-	phone_number = decoded_token.get("phone_number")
-	if not phone_number:
-		frappe.throw("Phone number not found in token")
+    phone_number = decoded_token.get("phone_number")
+    if not phone_number:
+        frappe.throw("Phone number not found in token")
 
-	lookup_phone = phone_number
-	if lookup_phone.startswith("+91"):
-		lookup_phone = lookup_phone[3:]
+    lookup_phone = phone_number
+    if lookup_phone.startswith("+91"):
+        lookup_phone = lookup_phone[3:]
 
-	patient = frappe.db.get_value("Patient", {"mobile": lookup_phone}, ["name", "full_name", "customer"], as_dict=True)
+    patient = frappe.db.get_value(
+        "Patient", {"mobile": lookup_phone}, ["name", "full_name", "customer"], as_dict=True
+    )
 
-	if not patient:
-		return {"success": True, "needs_registration": True, "phone_number": phone_number}
+    if not patient:
+        return {"success": True, "needs_registration": True, "phone_number": phone_number}
 
-	user = frappe.db.get_value("User", {"mobile_no": phone_number}, "name")
-	if not user:
-		user = frappe.db.get_value("User", {"mobile_no": lookup_phone}, "name")
+    user = frappe.db.get_value("User", {"mobile_no": phone_number}, "name")
+    if not user:
+        user = frappe.db.get_value("User", {"mobile_no": lookup_phone}, "name")
 
-	if not user:
-		frappe.throw("User account not found. Contact support.")
+    if not user:
+        frappe.throw("User account not found. Contact support.")
 
-	frappe.set_user(user)
-	from frappe.auth import LoginManager
-	login_manager = LoginManager()
-	login_manager.user = user
-	login_manager.post_login()
+    frappe.set_user(user)
+    from frappe.auth import LoginManager
 
-	frappe.db.set_value("Patient", patient.name, "is_phone_verified", 1)
+    login_manager = LoginManager()
+    login_manager.user = user
+    login_manager.post_login()
 
-	return {
-		"success": True,
-		"user": user,
-		"full_name": patient.full_name,
-		"phone_number": phone_number,
-		"customer": patient.customer,
-		"patient": patient.name
-	}
+    frappe.db.set_value("Patient", patient.name, "is_phone_verified", 1)
+
+    return {
+        "success": True,
+        "user": user,
+        "full_name": patient.full_name,
+        "phone_number": phone_number,
+        "customer": patient.customer,
+        "patient": patient.name,
+    }
+
 
 @frappe.whitelist(allow_guest=True)
 def verify_practitioner_registration_otp_and_register(
-	session_info: str,
-	code: str,
-	first_name: str,
-	last_name: str,
-	email: str,
-	mobile: str,
+    session_info: str,
+    code: str,
+    first_name: str,
+    last_name: str,
+    email: str,
+    mobile: str,
 ):
-	firebase_data = _verify_firebase_otp(session_info, code)
+    firebase_data = _verify_firebase_otp(session_info, code)
 
-	uid = firebase_data["uid"]
-	phone_number = firebase_data["phone_number"]
+    uid = firebase_data["uid"]
+    phone_number = firebase_data["phone_number"]
 
-	if not first_name or not last_name or not email or not mobile:
-		frappe.throw("Registration details are incomplete")
+    if not first_name or not last_name or not email or not mobile:
+        frappe.throw("Registration details are incomplete")
 
-	first_name = first_name.strip()
-	last_name = last_name.strip()
-	email = email.strip().lower()
-	mobile = mobile.strip()
+    first_name = first_name.strip()
+    last_name = last_name.strip()
+    email = email.strip().lower()
+    mobile = mobile.strip()
 
-	# Check if the phone number is already registered
-	mobile, practitioner = _lookup_practitioner_by_phone(mobile)
+    # Check if the phone number is already registered
+    mobile, practitioner = _lookup_practitioner_by_phone(mobile)
 
-	if practitioner:
-		frappe.throw("A Practitioner already exists with this mobile number.")
+    if practitioner:
+        frappe.throw("A Practitioner already exists with this mobile number.")
 
-	try:
-		# manually starting transaction for multi-doctype updates 
-		frappe.db.begin()
-		user = frappe.get_doc(
-			{
-				"doctype": "User",
-				"first_name": first_name,
-				"last_name": last_name,
-				"email": email,
-				"mobile_no": mobile,
-				"user_type": "Website User",
-				"username": email,
-				"roles": [{"role": "Doctor"}],
-				"send_welcome_email": 0,
-			}
-		).insert(ignore_permissions=True)
+    try:
+        # manually starting transaction for multi-doctype updates
+        frappe.db.begin()
+        user = frappe.get_doc(
+            {
+                "doctype": "User",
+                "first_name": first_name,
+                "last_name": last_name,
+                "email": email,
+                "mobile_no": mobile,
+                "user_type": "Website User",
+                "username": email,
+                "roles": [{"role": "Doctor"}],
+                "send_welcome_email": 0,
+            }
+        ).insert(ignore_permissions=True)
 
-		practitioner = frappe.get_doc(
-			{
-				"doctype": "Practitioner",
-				"first_name": first_name,
-				"last_name": last_name,
-				"email": email,
-				"mobile": mobile,
-				"user_id": user.name,
-				"title": "Dr.",
-			}
-		).insert(ignore_permissions=True)
-	except frappe.ValidationError as e:
-		frappe.db.rollback()
-		frappe.log_error(
-			title="Duplicate entry error while creating User account",
-			message=frappe.as_json({"error": str(e), "email": email, "mobile": mobile}),
-		)
-		frappe.throw("Practitioner/user account with this email/mobile already exists. Please login instead.", frappe.DuplicateEntryError)
-	except Exception as e:
-		frappe.db.rollback()
-		frappe.log_error(
-			title="Error creating Practitioner/User account",
-			message=frappe.as_json({"error": str(e), "email": email, "mobile": mobile}),
-		)
-		frappe.throw("Unexpected error creating user or practitioner. Please contact support.", frappe.DataError)
-	else:
-		frappe.db.commit()
+        practitioner = frappe.get_doc(
+            {
+                "doctype": "Practitioner",
+                "first_name": first_name,
+                "last_name": last_name,
+                "email": email,
+                "mobile": mobile,
+                "user_id": user.name,
+                "title": "Dr.",
+            }
+        ).insert(ignore_permissions=True)
+    except frappe.ValidationError as e:
+        frappe.db.rollback()
+        frappe.log_error(
+            title="Duplicate entry error while creating User account",
+            message=frappe.as_json({"error": str(e), "email": email, "mobile": mobile}),
+        )
+        frappe.throw(
+            "Practitioner/user account with this email/mobile already exists. Please login instead.",
+            frappe.DuplicateEntryError,
+        )
+    except Exception as e:
+        frappe.db.rollback()
+        frappe.log_error(
+            title="Error creating Practitioner/User account",
+            message=frappe.as_json({"error": str(e), "email": email, "mobile": mobile}),
+        )
+        frappe.throw(
+            "Unexpected error creating user or practitioner. Please contact support.", frappe.DataError
+        )
+    else:
+        frappe.db.commit()
 
-	frappe.set_user(user.name)
+    frappe.set_user(user.name)
 
-	from frappe.auth import LoginManager
+    from frappe.auth import LoginManager
 
-	login_manager = LoginManager()
-	login_manager.user = user.name
-	login_manager.post_login()
+    login_manager = LoginManager()
+    login_manager.user = user.name
+    login_manager.post_login()
 
-	_get_firebase_app()
-	custom_token = firebase_auth.create_custom_token(uid)
+    _get_firebase_app()
+    custom_token = firebase_auth.create_custom_token(uid)
 
-	return {
-		"success": True,
-		"user": user.name,
-		"practitioner": practitioner.name,
-		"custom_token": custom_token.decode("utf-8"),
-		"uid": uid,
-		"phone_number": phone_number,
-	}
+    return {
+        "success": True,
+        "user": user.name,
+        "practitioner": practitioner.name,
+        "custom_token": custom_token.decode("utf-8"),
+        "uid": uid,
+        "phone_number": phone_number,
+    }
+
 
 @frappe.whitelist(allow_guest=True)
 def validate_coupon_code(coupon_code: str):
-	"""
-	Lightweight pre-check: returns whether a Coupon Code exists and is currently valid.
-	Called on-the-fly from the Customer	 app as the user fills in the registration form.
-	Does NOT consume the coupon — that happens only at registration time.
-	"""
-	if not coupon_code or not coupon_code.strip():
-		return {"valid": False, "message": "Please enter a coupon code"}
+    """
+    Lightweight pre-check: returns whether a Coupon Code exists and is currently valid.
+    Called on-the-fly from the Customer	 app as the user fills in the registration form.
+    Does NOT consume the coupon — that happens only at registration time.
+    """
+    if not coupon_code or not coupon_code.strip():
+        return {"valid": False, "message": "Please enter a coupon code"}
 
-	code = coupon_code.strip().upper()
+    code = coupon_code.strip().upper()
 
-	coupon = frappe.db.get_value(
-		"Coupon Code",
-		{"coupon_code": code},
-		["name", "coupon_name", "valid_from", "valid_upto", "maximum_use", "used"],
-		as_dict=True,
-	)
+    coupon = frappe.db.get_value(
+        "Coupon Code",
+        {"coupon_code": code},
+        ["name", "coupon_name", "valid_from", "valid_upto", "maximum_use", "used"],
+        as_dict=True,
+    )
 
-	if not coupon:
-		return {"valid": False, "message": "Invalid coupon code"}
+    if not coupon:
+        return {"valid": False, "message": "Invalid coupon code"}
 
-	today = frappe.utils.getdate()  # returns datetime.date — safe to compare with date fields
+    today = frappe.utils.getdate()  # returns datetime.date — safe to compare with date fields
 
-	if coupon.valid_from and frappe.utils.getdate(coupon.valid_from) > today:
-		return {"valid": False, "message": "Coupon is not yet active"}
+    if coupon.valid_from and frappe.utils.getdate(coupon.valid_from) > today:
+        return {"valid": False, "message": "Coupon is not yet active"}
 
-	if coupon.valid_upto and frappe.utils.getdate(coupon.valid_upto) < today:
-		return {"valid": False, "message": "Coupon has expired"}
+    if coupon.valid_upto and frappe.utils.getdate(coupon.valid_upto) < today:
+        return {"valid": False, "message": "Coupon has expired"}
 
-	if coupon.maximum_use and (coupon.used or 0) >= coupon.maximum_use:
-		return {"valid": False, "message": "Coupon usage limit has been reached"}
+    if coupon.maximum_use and (coupon.used or 0) >= coupon.maximum_use:
+        return {"valid": False, "message": "Coupon usage limit has been reached"}
 
-	return {"valid": True, "message": "Coupon applied!", "coupon_name": coupon.coupon_name}
+    return {"valid": True, "message": "Coupon applied!", "coupon_name": coupon.coupon_name}
 
 
 @frappe.whitelist(allow_guest=True)
 def register_customer(id_token: str, full_name: str, referral_coupon: str = None):
-	customer_app = _get_customer_firebase_app()
-	try:
-		decoded_token = firebase_auth.verify_id_token(id_token, app=customer_app)
-	except Exception as e:
-		frappe.throw(f"Invalid Token: {str(e)}")
+    customer_app = _get_customer_firebase_app()
+    try:
+        decoded_token = firebase_auth.verify_id_token(id_token, app=customer_app)
+    except Exception as e:
+        frappe.throw(f"Invalid Token: {str(e)}")
 
-	phone_number = decoded_token.get("phone_number")
-	if not phone_number:
-		frappe.throw("Phone number not found in token")
+    phone_number = decoded_token.get("phone_number")
+    if not phone_number:
+        frappe.throw("Phone number not found in token")
 
-	lookup_phone = phone_number
-	if lookup_phone.startswith("+91"):
-		lookup_phone = lookup_phone[3:]
+    lookup_phone = phone_number
+    if lookup_phone.startswith("+91"):
+        lookup_phone = lookup_phone[3:]
 
-	if frappe.db.exists("Patient", {"mobile": lookup_phone}):
-		frappe.throw("Patient already exists with this mobile number")
+    if frappe.db.exists("Patient", {"mobile": lookup_phone}):
+        frappe.throw("Patient already exists with this mobile number")
 
-	lookup_phone = lookup_phone.replace(" ", "")
-	email = f"{lookup_phone}@customer.careyogis.com"
-	full_name = full_name.strip() if full_name else f"Customer-{lookup_phone}"
-	first_name = full_name.split(" ")[0]
-	last_name = " ".join(full_name.split(" ")[1:]) if len(full_name.split(" ")) > 1 else ""
+    lookup_phone = lookup_phone.replace(" ", "")
+    email = f"{lookup_phone}@customer.careyogis.com"
+    full_name = full_name.strip() if full_name else f"Customer-{lookup_phone}"
+    first_name = full_name.split(" ")[0]
+    last_name = " ".join(full_name.split(" ")[1:]) if len(full_name.split(" ")) > 1 else ""
 
-	# Need to capture Terms and Conditions acceptance as well
-	# User can proceed to register only after checking "I agree to the Terms & Conditions" 
-	terms_and_conditions = frappe.db.get_value(
-			"Terms and Conditions", 
-			filters=[["custom_is_active", "=", "1"], ["custom_type", "=", "General"]],
-			order_by="custom_effective_date desc",
-		)
+    # Need to capture Terms and Conditions acceptance as well
+    # User can proceed to register only after checking "I agree to the Terms & Conditions"
+    terms_and_conditions = frappe.db.get_value(
+        "Terms and Conditions",
+        filters=[["custom_is_active", "=", "1"], ["custom_type", "=", "General"]],
+        order_by="custom_effective_date desc",
+    )
 
-	# Hard-validate the referral coupon before creating any documents.
-	# Normalise to upper-case so the UI field is case-insensitive.
-	coupon_name = None
-	if referral_coupon and referral_coupon.strip():
-		check = validate_coupon_code(referral_coupon.strip().upper())
-		if check.get("valid"):
-			coupon_name = check.get("coupon_name")
-			# Update the coupon usage count immediately to prevent race conditions.
-			frappe.db.set_value("Coupon Code", coupon_name, "used", (frappe.db.get_value("Coupon Code", coupon_name, "used") or 0) + 1)
-		else:
-			frappe.throw(check.get("message", "Invalid referral coupon code"))
+    # Hard-validate the referral coupon before creating any documents.
+    # Normalise to upper-case so the UI field is case-insensitive.
+    coupon_name = None
+    if referral_coupon and referral_coupon.strip():
+        check = validate_coupon_code(referral_coupon.strip().upper())
+        if check.get("valid"):
+            coupon_name = check.get("coupon_name")
+            # Update the coupon usage count immediately to prevent race conditions.
+            frappe.db.set_value(
+                "Coupon Code",
+                coupon_name,
+                "used",
+                (frappe.db.get_value("Coupon Code", coupon_name, "used") or 0) + 1,
+            )
+        else:
+            frappe.throw(check.get("message", "Invalid referral coupon code"))
 
-	# Create User
-	try:
-		user_doc = frappe.get_doc({
-			"doctype": "User",
-			"email": email,
-			"first_name": first_name,
-			"last_name": last_name,
-			"mobile_no": phone_number,
-			"send_welcome_email": 0,
-			"user_type": "Website User"
-		})
-		user_doc.insert(ignore_permissions=True)
-		user_doc.add_roles("Customer")
-	except Exception as exp:
-		frappe.db.rollback()
-		traceback_details = frappe.get_traceback()
-		frappe.log_error(title="User Creation failed. Debug Info: ", message=traceback_details)
-		raise exp
+    # Create User
+    try:
+        user_doc = frappe.get_doc(
+            {
+                "doctype": "User",
+                "email": email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "mobile_no": phone_number,
+                "send_welcome_email": 0,
+                "user_type": "Website User",
+            }
+        )
+        user_doc.insert(ignore_permissions=True)
+        user_doc.add_roles("Customer")
+    except Exception as exp:
+        frappe.db.rollback()
+        traceback_details = frappe.get_traceback()
+        frappe.log_error(title="User Creation failed. Debug Info: ", message=traceback_details)
+        raise exp
 
-	# Set user in the session so that all other documents get created with this id
-	# This enables us to set permissions for the creator
-	frappe.set_user(user_doc.name)
+    # Set user in the session so that all other documents get created with this id
+    # This enables us to set permissions for the creator
+    frappe.set_user(user_doc.name)
 
-	try:
-		# Now Create Customer, Patient and Terms Acceptance.
-		# NOTE: include email_id on the Customer so that ERPNext's
-		# Customer.on_update → create_primary_contact() → make_contact() adds the
-		# user's email to the Customer-linked Contact.  Frappe's background job
-		# (enqueued by User.on_update) calls create_contact(), which checks for an
-		# existing Contact by email via get_contact_name().  If the email is present
-		# on the Customer Contact, the job will UPDATE that Contact instead of
-		# inserting a second bare Contact with no Customer link.
-		customer_doc = frappe.get_doc({
-			"doctype": "Customer",
-			"customer_name": full_name,
-			"customer_type": "Individual",
-			"customer_group": "Individual",
-			"mobile_no": phone_number,
-			"email_id": email,  # ← ensures make_contact() embeds email in the Contact
-		})
-		customer_doc.insert()
+    try:
+        # Now Create Customer, Patient and Terms Acceptance.
+        # NOTE: include email_id on the Customer so that ERPNext's
+        # Customer.on_update → create_primary_contact() → make_contact() adds the
+        # user's email to the Customer-linked Contact.  Frappe's background job
+        # (enqueued by User.on_update) calls create_contact(), which checks for an
+        # existing Contact by email via get_contact_name().  If the email is present
+        # on the Customer Contact, the job will UPDATE that Contact instead of
+        # inserting a second bare Contact with no Customer link.
+        customer_doc = frappe.get_doc(
+            {
+                "doctype": "Customer",
+                "customer_name": full_name,
+                "customer_type": "Individual",
+                "customer_group": "Individual",
+                "mobile_no": phone_number,
+                "email_id": email,  # ← ensures make_contact() embeds email in the Contact
+            }
+        )
+        customer_doc.insert()
 
-		# Backfill the `user` field on the Customer-linked Contact so that it is
-		# fully associated with the User account (Frappe's async job will also set
-		# this, but doing it synchronously here is safer and faster).
-		contact_name = frappe.db.get_value(
-			"Dynamic Link",
-			{"link_doctype": "Customer", "link_name": customer_doc.name, "parenttype": "Contact"},
-			"parent",
-		)
-		if contact_name:
-			frappe.db.set_value("Contact", contact_name, "user", user_doc.name)
+        # Backfill the `user` field on the Customer-linked Contact so that it is
+        # fully associated with the User account (Frappe's async job will also set
+        # this, but doing it synchronously here is safer and faster).
+        contact_name = frappe.db.get_value(
+            "Dynamic Link",
+            {"link_doctype": "Customer", "link_name": customer_doc.name, "parenttype": "Contact"},
+            "parent",
+        )
+        if contact_name:
+            frappe.db.set_value("Contact", contact_name, "user", user_doc.name)
 
-		patient_doc = frappe.get_doc({
-			"doctype": "Patient",
-			"full_name": full_name,
-			"mobile": lookup_phone,
-			"is_phone_verified": 1,
-			"customer": customer_doc.get("name"),
-			**({"referral_coupon": coupon_name} if coupon_name else {}),
-		})
-		patient_doc.insert()
+        patient_doc = frappe.get_doc(
+            {
+                "doctype": "Patient",
+                "full_name": full_name,
+                "mobile": lookup_phone,
+                "is_phone_verified": 1,
+                "customer": customer_doc.get("name"),
+                **({"referral_coupon": coupon_name} if coupon_name else {}),
+            }
+        )
+        patient_doc.insert()
 
-		terms_acceptance_doc = frappe.get_doc({
-			"doctype": "Terms Acceptance",
-			"party_type": "Customer",
-			"party": customer_doc.get("name"),
-			"terms_version": terms_and_conditions,
-			"accepted_on": datetime.now(),
-		})
-		terms_acceptance_doc.insert()
+        terms_acceptance_doc = frappe.get_doc(
+            {
+                "doctype": "Terms Acceptance",
+                "party_type": "Customer",
+                "party": customer_doc.get("name"),
+                "terms_version": terms_and_conditions,
+                "accepted_on": datetime.now(),
+            }
+        )
+        terms_acceptance_doc.insert()
 
-		from frappe.auth import LoginManager
-		login_manager = LoginManager()
-		login_manager.user = user_doc.name
-		login_manager.post_login()
-	except Exception as exp:
-		frappe.db.rollback()
-		traceback_details = frappe.get_traceback()
-		frappe.log_error(title="Customer Registration failed. Debug Info: ", message=traceback_details)
-		frappe.throw(f"Registration failed: {str(exp)}")
+        from frappe.auth import LoginManager
 
-	return {
-		"success": True,
-		"user": user_doc.name,
-		"full_name": full_name,
-		"customer": customer_doc.name,
-		"patient": patient_doc.name
-	}
+        login_manager = LoginManager()
+        login_manager.user = user_doc.name
+        login_manager.post_login()
+    except Exception as exp:
+        frappe.db.rollback()
+        traceback_details = frappe.get_traceback()
+        frappe.log_error(title="Customer Registration failed. Debug Info: ", message=traceback_details)
+        frappe.throw(f"Registration failed: {str(exp)}")
+
+    return {
+        "success": True,
+        "user": user_doc.name,
+        "full_name": full_name,
+        "customer": customer_doc.name,
+        "patient": patient_doc.name,
+    }
 
 
 # Helper/private functions area
 def _get_firebase_app():
-	# Use get_app() first so that RQ worker processes (which fork fresh and reset
-	# module-level globals to None) don't crash with "app already exists" when a
-	# second job runs in the same worker after the first call initialised the app.
-	try:
-		return firebase_admin.get_app()
-	except ValueError:
-		service_account_path = frappe.conf.get("firebase_service_principal_cert_path")
-		if not service_account_path:
-			frappe.throw("firebase_service_principal_cert_path not set in site config")
-		cred = credentials.Certificate(service_account_path)
-		return firebase_admin.initialize_app(cred)
+    # Use get_app() first so that RQ worker processes (which fork fresh and reset
+    # module-level globals to None) don't crash with "app already exists" when a
+    # second job runs in the same worker after the first call initialised the app.
+    try:
+        return firebase_admin.get_app()
+    except ValueError:
+        service_account_path = frappe.conf.get("firebase_service_principal_cert_path")
+        if not service_account_path:
+            frappe.throw("firebase_service_principal_cert_path not set in site config")
+        cred = credentials.Certificate(service_account_path)
+        return firebase_admin.initialize_app(cred)
+
 
 def _get_customer_firebase_app():
-	# Same as _get_firebase_app() — avoids ValueError on re-init across
-	# worker forks or gunicorn reloads.
-	try:
-		return firebase_admin.get_app(name="customer")
-	except ValueError:
-		service_account_path = frappe.conf.get("customer_firebase_service_principal_cert_path")
-		if not service_account_path:
-			frappe.throw("customer_firebase_service_principal_cert_path not set in site config")
-		cred = credentials.Certificate(service_account_path)
-		return firebase_admin.initialize_app(cred, name="customer")
+    # Same as _get_firebase_app() — avoids ValueError on re-init across
+    # worker forks or gunicorn reloads.
+    try:
+        return firebase_admin.get_app(name="customer")
+    except ValueError:
+        service_account_path = frappe.conf.get("customer_firebase_service_principal_cert_path")
+        if not service_account_path:
+            frappe.throw("customer_firebase_service_principal_cert_path not set in site config")
+        cred = credentials.Certificate(service_account_path)
+        return firebase_admin.initialize_app(cred, name="customer")
+
 
 def _get_firebase_web_api_key():
-	api_key = frappe.conf.get("firebase_web_api_key")
-	if not api_key:
-		frappe.throw("firebase_web_api_key not set in site config")
-	return api_key
+    api_key = frappe.conf.get("firebase_web_api_key")
+    if not api_key:
+        frappe.throw("firebase_web_api_key not set in site config")
+    return api_key
+
 
 def _send_firebase_otp(phone: str, recaptcha_token: str):
-	if not phone or not recaptcha_token:
-		frappe.throw("phone and recaptcha_token are required")
+    if not phone or not recaptcha_token:
+        frappe.throw("phone and recaptcha_token are required")
 
-	api_key = _get_firebase_web_api_key()
-	url = f"{IDENTITY_TOOLKIT_BASE}/accounts:sendVerificationCode?key={api_key}"
+    api_key = _get_firebase_web_api_key()
+    url = f"{IDENTITY_TOOLKIT_BASE}/accounts:sendVerificationCode?key={api_key}"
 
-	payload = {
-		"phoneNumber": phone,
-		"recaptchaToken": recaptcha_token,
-	}
+    payload = {
+        "phoneNumber": phone,
+        "recaptchaToken": recaptcha_token,
+    }
 
-	resp = requests.post(url, json=payload, timeout=15)
-	data = resp.json()
+    resp = requests.post(url, json=payload, timeout=15)
+    data = resp.json()
 
-	if resp.status_code != 200:
-		error_message = data.get("error", {}).get("message", "UNKNOWN_ERROR")
+    if resp.status_code != 200:
+        error_message = data.get("error", {}).get("message", "UNKNOWN_ERROR")
 
-		frappe.log_error(
-			title="Firebase sendVerificationCode failed",
-			message=frappe.as_json(data),
-		)
+        frappe.log_error(
+            title="Firebase sendVerificationCode failed",
+            message=frappe.as_json(data),
+        )
 
-		frappe.throw(f"Failed to send OTP: {error_message}")
+        frappe.throw(f"Failed to send OTP: {error_message}")
 
-	return {
-		"success": True,
-		"session_info": data["sessionInfo"],
-	}
+    return {
+        "success": True,
+        "session_info": data["sessionInfo"],
+    }
+
 
 def _verify_firebase_otp(session_info: str, code: str):
-	if not session_info or not code:
-		frappe.throw("session_info and code are required")
+    if not session_info or not code:
+        frappe.throw("session_info and code are required")
 
-	api_key = _get_firebase_web_api_key()
-	url = f"{IDENTITY_TOOLKIT_BASE}/accounts:signInWithPhoneNumber?key={api_key}"
+    api_key = _get_firebase_web_api_key()
+    url = f"{IDENTITY_TOOLKIT_BASE}/accounts:signInWithPhoneNumber?key={api_key}"
 
-	payload = {
-		"sessionInfo": session_info,
-		"code": code,
-	}
+    payload = {
+        "sessionInfo": session_info,
+        "code": code,
+    }
 
-	resp = requests.post(url, json=payload, timeout=15)
-	data = resp.json()
+    resp = requests.post(url, json=payload, timeout=15)
+    data = resp.json()
 
-	if resp.status_code != 200:
-		error_message = data.get("error", {}).get("message", "UNKNOWN_ERROR")
+    if resp.status_code != 200:
+        error_message = data.get("error", {}).get("message", "UNKNOWN_ERROR")
 
-		frappe.log_error(
-			title="Firebase signInWithPhoneNumber failed",
-			message=frappe.as_json(data),
-		)
+        frappe.log_error(
+            title="Firebase signInWithPhoneNumber failed",
+            message=frappe.as_json(data),
+        )
 
-		frappe.throw(f"{error_message}", frappe.AuthenticationError)
+        frappe.throw(f"{error_message}", frappe.AuthenticationError)
 
-	return {
-		"uid": data["localId"],
-		"phone_number": data.get("phoneNumber"),
-		"is_new_user": data.get("isNewUser", False),
-	}
+    return {
+        "uid": data["localId"],
+        "phone_number": data.get("phoneNumber"),
+        "is_new_user": data.get("isNewUser", False),
+    }
+
 
 def _lookup_practitioner_by_phone(phone):
     # Remove everything except digits and + sign.
     phone = re.sub(r"[^\d+]", "", phone)
-    
-	# Strip the +91 prefix for the clean lookup number
+
+    # Strip the +91 prefix for the clean lookup number
     lookup_phone = phone[3:] if phone.startswith("+91") else phone
 
-	# unique string set
+    # unique string set
     phone_variants = list(set([phone, lookup_phone]))
 
-	# one single query checks for phone with country code and without it
-    practitioner = frappe.db.get_value(
-		"Practitioner", 
-		{"mobile": ["in", phone_variants]}, 
-		"name"
-	)	 
+    # one single query checks for phone with country code and without it
+    practitioner = frappe.db.get_value("Practitioner", {"mobile": ["in", phone_variants]}, "name")
     return phone, practitioner
 
+
 def _lookup_user_by_phone(phone):
-	# Remove everything except digits and + sign.
-	phone = re.sub(r"[^\d+]", "", phone)
+    # Remove everything except digits and + sign.
+    phone = re.sub(r"[^\d+]", "", phone)
 
-	lookup_phone = phone
-    
-	# Strip the +91 prefix for the clean lookup number
-	lookup_phone = phone[3:] if phone.startswith("+91") else phone
+    lookup_phone = phone
 
-	# unique string set
-	phone_variants = list(set([phone, lookup_phone]))
+    # Strip the +91 prefix for the clean lookup number
+    lookup_phone = phone[3:] if phone.startswith("+91") else phone
 
-	# one single query checks for phone with country code and without it
-	user = frappe.db.get_value(
-		"User", 
-		{"mobile_no": ["in", phone_variants]}, 
-		"name"
-	)
-	return phone, user
+    # unique string set
+    phone_variants = list(set([phone, lookup_phone]))
+
+    # one single query checks for phone with country code and without it
+    user = frappe.db.get_value("User", {"mobile_no": ["in", phone_variants]}, "name")
+    return phone, user
