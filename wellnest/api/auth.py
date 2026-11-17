@@ -228,7 +228,43 @@ def verify_practitioner_registration_otp_and_register(
 	}
 
 @frappe.whitelist(allow_guest=True)
-def register_customer(id_token: str, full_name: str):
+def validate_coupon_code(coupon_code: str):
+	"""
+	Lightweight pre-check: returns whether a Coupon Code exists and is currently valid.
+	Called on-the-fly from the Customer	 app as the user fills in the registration form.
+	Does NOT consume the coupon — that happens only at registration time.
+	"""
+	if not coupon_code or not coupon_code.strip():
+		return {"valid": False, "message": "Please enter a coupon code"}
+
+	code = coupon_code.strip().upper()
+
+	coupon = frappe.db.get_value(
+		"Coupon Code",
+		{"coupon_code": code},
+		["name", "coupon_name", "valid_from", "valid_upto", "maximum_use", "used"],
+		as_dict=True,
+	)
+
+	if not coupon:
+		return {"valid": False, "message": "Invalid coupon code"}
+
+	today = frappe.utils.getdate()  # returns datetime.date — safe to compare with date fields
+
+	if coupon.valid_from and frappe.utils.getdate(coupon.valid_from) > today:
+		return {"valid": False, "message": "Coupon is not yet active"}
+
+	if coupon.valid_upto and frappe.utils.getdate(coupon.valid_upto) < today:
+		return {"valid": False, "message": "Coupon has expired"}
+
+	if coupon.maximum_use and (coupon.used or 0) >= coupon.maximum_use:
+		return {"valid": False, "message": "Coupon usage limit has been reached"}
+
+	return {"valid": True, "message": "Coupon applied!", "coupon_name": coupon.coupon_name}
+
+
+@frappe.whitelist(allow_guest=True)
+def register_customer(id_token: str, full_name: str, referral_coupon: str = None):
 	customer_app = _get_customer_firebase_app()
 	try:
 		decoded_token = firebase_auth.verify_id_token(id_token, app=customer_app)
@@ -259,6 +295,18 @@ def register_customer(id_token: str, full_name: str):
 			filters=[["custom_is_active", "=", "1"], ["custom_type", "=", "General"]],
 			order_by="custom_effective_date desc",
 		)
+
+	# Hard-validate the referral coupon before creating any documents.
+	# Normalise to upper-case so the UI field is case-insensitive.
+	coupon_name = None
+	if referral_coupon and referral_coupon.strip():
+		check = validate_coupon_code(referral_coupon.strip().upper())
+		if check.get("valid"):
+			coupon_name = check.get("coupon_name")
+			# Update the coupon usage count immediately to prevent race conditions.
+			frappe.db.set_value("Coupon Code", coupon_name, "used", (frappe.db.get_value("Coupon Code", coupon_name, "used") or 0) + 1)
+		else:
+			frappe.throw(check.get("message", "Invalid referral coupon code"))
 
 	# Create User
 	try:
@@ -319,6 +367,7 @@ def register_customer(id_token: str, full_name: str):
 			"mobile": lookup_phone,
 			"is_phone_verified": 1,
 			"customer": customer_doc.get("name"),
+			**({"referral_coupon": coupon_name} if coupon_name else {}),
 		})
 		patient_doc.insert()
 
