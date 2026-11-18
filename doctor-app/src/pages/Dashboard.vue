@@ -75,21 +75,28 @@
       </RouterLink>
     </div>
 
+
+    <!-- What needs attention + Quick actions -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
       <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-200 p-6">
         <div class="flex items-center justify-between mb-4">
           <h5 class="text-lg font-bold text-gray-900">What needs attention</h5>
-          <RouterLink :to="{ name: 'Consultations' }" class="text-sm font-semibold text-amber-600 hover:underline">View consultations</RouterLink>
+          <RouterLink
+            :to="{ name: 'Consultations' }"
+            class="text-sm font-semibold text-amber-600 hover:underline"
+          >
+            View consultations
+          </RouterLink>
         </div>
 
         <div class="space-y-3">
           <div
-  v-for="consultation in todaysConsultations.filter(
-    (item) => item.status !== 'Completed'
-  )"
-  :key="consultation.name"
-  class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border border-gray-200 rounded-xl p-4"
->
+            v-for="consultation in todaysConsultations.filter(
+              (item) => item.status !== 'Completed'
+            )"
+            :key="consultation.name"
+            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border border-gray-200 rounded-xl p-4"
+          >
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
                 <FeatherIcon name="video" class="w-5 h-5" />
@@ -99,10 +106,8 @@
                 <p class="font-semibold text-gray-900">
                   {{ consultation.patient_name || consultation.patient }}
                 </p>
-
                 <p class="text-sm text-gray-500">
-                  {{ consultation.scheduled_time }}
-                  · Teleconsultation
+                  {{ consultation.scheduled_time }} · Teleconsultation
                 </p>
               </div>
             </div>
@@ -110,13 +115,21 @@
             <button
               type="button"
               class="px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-semibold hover:bg-amber-600"
-              @click="router.push({ name: 'ConsultationDetails', params: { bookingId: consultation.name } })"
+              @click="router.push({
+                name: 'ConsultationDetails',
+                params: { bookingId: consultation.name }
+              })"
             >
               Open consultation
             </button>
           </div>
 
-          <div v-if="!todaysConsultations.length" class="text-center py-10 text-gray-400 text-sm">Nothing needs your attention right now.</div>
+          <div
+            v-if="!todaysConsultations.length"
+            class="text-center py-10 text-gray-400 text-sm"
+          >
+            Nothing needs your attention right now.
+          </div>
         </div>
       </div>
 
@@ -132,20 +145,103 @@
             class="flex flex-col items-start gap-2 p-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors text-left cursor-pointer"
           >
             <FeatherIcon :name="action.icon" class="w-4 h-4 text-amber-500" />
-            <span class="text-sm font-medium text-gray-700">{{ action.label }}</span>
+            <span class="text-sm font-medium text-gray-700">
+              {{ action.label }}
+            </span>
           </button>
         </div>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
       <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-200 p-6">
         <div class="flex items-center justify-between mb-4">
           <h5 class="text-lg font-bold text-gray-900">Patient activity</h5>
-          <RouterLink :to="{ name: 'Patients' }" class="text-sm font-semibold text-amber-600 hover:underline">All patients</RouterLink>
+          <RouterLink
+            :to="{ name: 'Patients' }"
+            class="text-sm font-semibold text-amber-600 hover:underline"
+          >
+            All patients
+          </RouterLink>
         </div>
 
-        <div class="text-center py-10 text-gray-400 text-sm">No recent patient activity.</div>
+        <div class="max-h-[420px] overflow-y-auto pr-2">
+          <div
+            v-if="patientActivitiesResource.loading"
+            class="text-center py-10 text-gray-400 text-sm"
+          >
+            Loading patient activity...
+          </div>
+
+          <div
+            v-else-if="patientActivities.length"
+            class="space-y-3"
+          >
+            <RouterLink
+              v-for="activity in patientActivities"
+              :key="activity.event_key"
+              :to="activity.activity_type === 'Sent a new message'
+                    ? {
+                        name: 'Messages',
+                        query: {
+                          patient: activity.patient,
+                        },
+                      }
+                    : {
+                        name: 'Consultations',
+                        query: {
+                          bookingId: activity.patient_appointment,
+                          highlight: activity.activity_type === 'Medical report uploaded'
+                            ? 'health-record'
+                            : undefined,
+                        },
+                      }"
+              class="flex items-start gap-3 rounded-xl border border-gray-100 p-4 cursor-pointer hover:bg-gray-50 hover:border-amber-200 transition-colors"
+            >
+              <div
+                class="w-9 h-9 shrink-0 rounded-full flex items-center justify-center"
+                :class="activity.activity_type === 'Sent a new message'
+                  ? 'bg-blue-50 text-blue-600'
+                  : activity.activity_type === 'Medical report uploaded'
+                  ? 'bg-purple-100 text-purple-700'
+                  : 'bg-green-50 text-green-600'"
+              >
+                <FeatherIcon
+                  :name="activity.activity_type === 'Sent a new message'
+                    ? 'message-circle'
+                    : activity.activity_type === 'Medical report uploaded'
+                      ? 'file-text'
+                      : 'check-circle'"
+                  class="w-5 h-5"
+                />
+              </div>
+
+              <div class="min-w-0 flex-1">
+                <p class="font-semibold text-gray-900">
+                  {{ activity.patient_name || activity.patient }}
+                </p>
+
+                <p class="text-sm text-gray-500 mt-0.5">
+                  {{ activity.activity_type }}
+                </p>
+
+                <div class="flex flex-wrap items-center gap-1 mt-2 text-xs text-gray-400">
+                  <span>{{ formatActivityDate(activity.event_time) }}</span>
+                  <span>·</span>
+                  <span>{{ formatActivityTime(activity.event_time) }}</span>
+                </div>
+              </div>
+            </RouterLink>
+          </div>
+
+          <div
+            v-else
+            class="text-center py-10 text-gray-400 text-sm"
+          >
+            No recent patient activity.
+          </div>
+        </div>
       </div>
     </div>
 
@@ -208,6 +304,56 @@ const earningsResource = createResource({
   url: 'wellnest.api.earnings.get_doctor_earnings_summary',
   auto: true,
 });
+
+const patientActivitiesResource = createResource({
+  url: 'wellnest.api.appointment_system_tracking.get_patient_activities',
+  auto: true,
+});
+
+const patientActivities = computed(() => {
+  const data = patientActivitiesResource.data;
+  return Array.isArray(data) ? data : [];
+});
+
+function formatActivityDate(eventTime) {
+  if (!eventTime) return '';
+
+  const date = new Date(String(eventTime).replace(' ', 'T'));
+
+  if (Number.isNaN(date.getTime())) return '';
+
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  if (date.toDateString() === today.toDateString()) {
+    return 'Today';
+  }
+
+  if (date.toDateString() === yesterday.toDateString()) {
+    return 'Yesterday';
+  }
+
+  return new Intl.DateTimeFormat('en-IN', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(date);
+}
+
+function formatActivityTime(eventTime) {
+  if (!eventTime) return '';
+
+  const date = new Date(String(eventTime).replace(' ', 'T'));
+
+  if (Number.isNaN(date.getTime())) return '';
+
+  return new Intl.DateTimeFormat('en-IN', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).format(date);
+}
 
 const monthlyEarningsAmount = computed(() => {
   const data = earningsResource.data;

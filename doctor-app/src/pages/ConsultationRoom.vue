@@ -526,13 +526,12 @@ async function leaveRoom() {
     await router.push({
       name: 'Consultations',
       query: {
-        status: 'Prescription due',
         bookingId: bookingId.value,
       },
     });
   } catch (routerError) {
     console.error('Router push failed, falling back to location replace:', routerError);
-    window.location.href = `/doctor-app/consultations?status=Prescription+due&bookingId=${encodeURIComponent(bookingId.value)}`;
+    window.location.href = `/doctor-app/consultations?bookingId=${encodeURIComponent(bookingId.value)}`;
   }
 }
 

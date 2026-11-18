@@ -4,6 +4,9 @@
 import frappe
 from frappe.model.document import Document
 from frappe.utils import now
+from wellnest.api.appointment_system_tracking import (
+    update_consultation_completion,
+)
 
 class SmartPrescription(Document):
     pass
@@ -14,16 +17,29 @@ class SmartPrescription(Document):
         if not self.workflow_state == "Complete":
             return
 
+        if self.patient_appointment:
+            update_consultation_completion(
+                self.patient_appointment,
+                "prescription",
+            )
+
         _create_new_notification(self.patient)
 
 
     # Push Notify upon prescription submit
     def on_update(self):
-        # Only proceed if the status changed to "Scheduled"
-        if not (self.has_value_changed("workflow_state") and self.workflow_state == "Complete"):
+        if not (
+            self.has_value_changed("workflow_state")
+            and self.workflow_state == "Complete"
+        ):
             return
 
-        # Notify users that the prescription is ready
+        if self.patient_appointment:
+            update_consultation_completion(
+                self.patient_appointment,
+                "prescription",
+            )
+
         _create_new_notification(self.patient)
 
 def _create_new_notification(patient):

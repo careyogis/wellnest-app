@@ -131,11 +131,12 @@ update_website_context = "wellnest.utils.website.update_website_context"
 # Hook on document methods and events
 
 doc_events = {
-	"Terms and Conditions": {
-		"on_update": "wellnest.utils.terms_and_conditions_versioning.validate_terms_immutability",
-		# "on_cancel": "method",
-		# "on_trash": "method"
-	}
+    "Terms and Conditions": {
+        "on_update": "wellnest.utils.terms_and_conditions_versioning.validate_terms_immutability",
+    },
+    "Health Vault": {
+        "after_insert": "wellnest.api.appointment_system_tracking.create_health_vault_patient_activity",
+    },
 }
 
 # Scheduled Tasks

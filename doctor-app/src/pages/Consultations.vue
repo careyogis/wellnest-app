@@ -333,6 +333,9 @@
                 <button
                   type="button"
                   class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition"
+                  :class="route.query.highlight === 'health-record'
+                    ? 'border-amber-500 bg-amber-50 text-amber-800 ring-4 ring-amber-100 animate-pulse'
+                    : ''"
                   @click="openHealthVault"
                 >
                   <FeatherIcon name="clipboard" class="w-4 h-4" />
@@ -1202,8 +1205,8 @@ async function handlePrescriptionSubmitted(payload) {
   );
 
   if (consultation) {
-  selectedConsultation.value = consultation;
-}
+    selectedConsultation.value = consultation;
+  }
 
   if (consultationId && payload?.follow_up_through_date) {
     followUpThroughDates.value = {
@@ -1216,7 +1219,15 @@ async function handlePrescriptionSubmitted(payload) {
     followUpThroughDate.value = null;
   }
 
-  statusFilter.value = 'Complete';
+  if (
+    consultation?.bookingStatus === 'Completed' &&
+    (
+      consultation.prescriptionWorkflowState === 'Confirmed' ||
+      consultation.prescriptionWorkflowState === 'Complete'
+    )
+  ) {
+    statusFilter.value = 'Complete';
+  }
 }
 
 function handlePrescriptionLoaded(prescription) {
@@ -1313,25 +1324,42 @@ function getDocumentType(documentUrl) {
   return 'File';
 }
 
+
 const consultations = computed(() => {
-  return (consultationsResource.data || []).map((appointment) => ({
-    id: appointment.name,
-    time: formatAppointmentTime(appointment.scheduled_time),
-    patient: appointment.patient_name || appointment.patient,
-    patientId: appointment.patient,
-    practitioner: appointment.practitioner,
-    bookingStatus: appointment.status,
-    paymentStatus: appointment.payment_status,
-    prescriptionWorkflowState: appointment.prescription_workflow_state,
-    followUpInDays: appointment.follow_up_in_days,
-    prescriptionCompletedAt: appointment.prescription_completed_at,
-    mode: 'Video',
-    reason: appointment.main_complaints || 'No reason provided',
-    workflow: 'Clinical consultation',
-    appointment: appointment.name,
-    scheduledTime: appointment.scheduled_time,
-  }));
+  return (consultationsResource.data || []).map((appointment) => {
+    const isOverallComplete =
+      appointment.status === 'Completed' &&
+      (
+        appointment.prescription_workflow_state === 'Confirmed' ||
+        appointment.prescription_workflow_state === 'Complete'
+      );
+
+    return {
+      id: appointment.name,
+      time: formatAppointmentTime(
+        isOverallComplete && appointment.overall_completed_at
+          ? appointment.overall_completed_at
+          : appointment.scheduled_time
+      ),
+      patient: appointment.patient_name || appointment.patient,
+      patientId: appointment.patient,
+      practitioner: appointment.practitioner,
+      bookingStatus: appointment.status,
+      paymentStatus: appointment.payment_status,
+      prescriptionWorkflowState: appointment.prescription_workflow_state,
+      followUpInDays: appointment.follow_up_in_days,
+      prescriptionCompletedAt: appointment.prescription_completed_at,
+      consultationEndedAt: appointment.consultation_ended_at,
+      overallCompletedAt: appointment.overall_completed_at,
+      mode: 'Video',
+      reason: appointment.main_complaints || 'No reason provided',
+      workflow: 'Clinical consultation',
+      appointment: appointment.name,
+      scheduledTime: appointment.scheduled_time,
+    };
+  });
 });
+
 
 const allCount = computed(() => {
   return consultations.value.length;
@@ -1388,13 +1416,16 @@ const completeConsultations = computed(() => {
   return consultations.value
     .filter((consultation) => {
       return (
-        consultation.prescriptionWorkflowState === 'Confirmed' ||
-        consultation.prescriptionWorkflowState === 'Complete'
+        consultation.bookingStatus === 'Completed' &&
+        (
+          consultation.prescriptionWorkflowState === 'Confirmed' ||
+          consultation.prescriptionWorkflowState === 'Complete'
+        )
       );
     })
     .sort((a, b) => {
-      return new Date(b.prescriptionCompletedAt || b.scheduledTime) -
-             new Date(a.prescriptionCompletedAt || a.scheduledTime);
+      return new Date(b.overallCompletedAt || b.scheduledTime) -
+         new Date(a.overallCompletedAt || a.scheduledTime);
     });
 });
 
@@ -1612,6 +1643,11 @@ async function openPatientHistory() {
 }
 
 async function openHealthVault() {
+  if (route.query.highlight === 'health-record') {
+    const { highlight, ...query } = route.query;
+    await router.replace({ query });
+  }
+
   showHealthVaultModal.value = true;
 
   await loadPatientHistory();

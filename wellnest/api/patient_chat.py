@@ -356,6 +356,22 @@ def send_patient_chat_message_from_patient(
     appointment.save(ignore_permissions=True)
 
     try:
+        frappe.get_doc({
+            "doctype": "Patient Activity",
+            "practitioner": appointment.practitioner,
+            "patient": patient,
+            "patient_appointment": appointment.name,
+            "activity_type": "Sent a new message",
+            "event_key": f"patient-message:{appointment.name}:{row.name}",
+            "event_time": row.sent_at,
+        }).insert(ignore_permissions=True)
+    except Exception:
+        frappe.log_error(
+            title="Failed to create patient message activity",
+            message=frappe.get_traceback(),
+        )
+
+    try:
         patient_name = (
             frappe.db.get_value("Patient", patient, "full_name")
             or patient
