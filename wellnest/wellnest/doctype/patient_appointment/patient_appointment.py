@@ -11,7 +11,9 @@ from wellnest.api.notifications import notify_doctor_of_new_booking
 from wellnest.health.doctype.app_notification.app_notification import (
     create_consultation_cancellation_notification,
 )
-from wellnest.api.appointment_system_tracking import get_or_create_tracking
+from wellnest.api.appointment_system_tracking import (
+    update_consultation_completion,
+)
 from wellnest.api.doctor_notifications import create_doctor_notification
 
 class PatientAppointment(Document):
@@ -194,9 +196,21 @@ def get_teleconsultation_appointments():
         )
 
         appointment["prescription_completed_at"] = frappe.db.get_value(
-            "Smart Prescription",
+            "Appointment System Tracking",
             {"patient_appointment": appointment["name"]},
-            "modified",
+            "prescription_completed_at",
+        )
+
+        appointment["consultation_ended_at"] = frappe.db.get_value(
+            "Appointment System Tracking",
+            {"patient_appointment": appointment["name"]},
+            "consultation_ended_at",
+        )
+
+        appointment["overall_completed_at"] = frappe.db.get_value(
+            "Appointment System Tracking",
+            {"patient_appointment": appointment["name"]},
+            "overall_completed_at",
         )
 
     return appointments
@@ -295,8 +309,13 @@ def end_consultation(appointment):
 
     appointment.db_set("status", "Completed")
 
-    tracking = get_or_create_tracking(appointment.name)
-    tracking.db_set("consultation_ended_at", now_datetime())
+    completed_at = now_datetime()
+
+    update_consultation_completion(
+        appointment.name,
+        "consultation",
+        completed_at,
+    )
 
     if appointment.consultation_type == "Online" and appointment.payment_status == "Paid":
         online_charge = frappe.db.get_value("Practitioner", appointment.practitioner, "online_charge") or 0.0
