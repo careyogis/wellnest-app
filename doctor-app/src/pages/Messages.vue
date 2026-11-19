@@ -1,63 +1,92 @@
 <template>
-  <div class="flex h-[calc(100vh-112px)] min-h-[560px] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white">
-    <!-- Page header -->
-    <header class="flex items-center justify-between gap-4 border-b border-gray-200 px-5 py-4">
+  <div class="flex h-[calc(100vh-112px)] min-h-[600px] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+    <!-- Page heading -->
+    <header class="flex shrink-0 items-center justify-between gap-4 border-b border-slate-200 bg-white px-5 py-4 sm:px-7">
       <div class="min-w-0">
-        <h1 class="text-xl font-bold text-gray-900">Messages</h1>
-        <p class="mt-1 text-sm text-gray-500">Conversations with your patients</p>
+        <div class="flex items-center gap-2">
+          <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-50">
+            <FeatherIcon name="message-square" class="h-4 w-4 text-teal-700" />
+          </div>
+          <div>
+            <h1 class="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">Messages</h1>
+            <p class="mt-0.5 text-xs text-slate-500 sm:text-sm">Patient communication centre</p>
+          </div>
+        </div>
       </div>
 
       <button
         type="button"
-        class="inline-flex h-10 items-center gap-2 rounded-lg border border-gray-200 px-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        class="inline-flex h-10 shrink-0 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-600 shadow-sm transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-700 disabled:cursor-not-allowed disabled:opacity-50"
         :disabled="listLoading"
         @click="loadConversations"
       >
         <FeatherIcon name="refresh-cw" class="h-4 w-4" :class="{ 'animate-spin': listLoading }" />
-        Refresh
+        <span class="hidden sm:inline">Refresh</span>
       </button>
     </header>
 
     <!-- Main workspace -->
-    <div class="grid min-h-0 flex-1 grid-cols-1 md:grid-cols-[320px_minmax(0,1fr)]">
-      <!-- Conversation list -->
-      <aside class="flex min-h-0 flex-col border-b border-gray-200 md:border-b-0 md:border-r">
-        <div class="border-b border-gray-100 p-4">
+    <div class="grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(150px,32%)_minmax(0,1fr)] md:grid-cols-[310px_minmax(0,1fr)] md:grid-rows-1 lg:grid-cols-[340px_minmax(0,1fr)]">
+
+      <!-- Conversation sidebar -->
+      <aside class="flex min-h-0 flex-col border-b border-slate-200 bg-white md:border-b-0 md:border-r">
+
+        <!-- Search and list heading -->
+        <div class="shrink-0 border-b border-slate-100 p-4 sm:p-5">
+          <div class="mb-3 flex items-center justify-between">
+            <div>
+              <h2 class="text-sm font-bold text-slate-800">Your conversations</h2>
+              <p class="mt-0.5 text-xs text-slate-400">Stay connected with your patients</p>
+            </div>
+
+            <span class="inline-flex h-7 min-w-7 items-center justify-center rounded-lg bg-teal-50 px-2 text-xs font-bold text-teal-700">
+              {{ filteredConversations.length }}
+            </span>
+          </div>
+
           <label class="relative block">
-            <FeatherIcon name="search" class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <FeatherIcon name="search" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
               v-model="searchQuery"
               type="search"
               placeholder="Search patients..."
-              class="h-10 w-full rounded-lg border border-gray-200 bg-gray-50 pl-9 pr-3 text-sm outline-none focus:border-teal-500 focus:bg-white focus:ring-1 focus:ring-teal-500"
+              aria-label="Search conversations"
+              class="h-10 w-full rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-100"
             />
           </label>
-
-          <div class="mt-3 flex items-center justify-between">
-            <span class="text-xs font-semibold uppercase tracking-wide text-gray-500"> Conversations </span>
-            <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
-              {{ filteredConversations.length }}
-            </span>
-          </div>
         </div>
 
+        <!-- Conversation list -->
         <div class="min-h-0 flex-1 overflow-y-auto">
-          <div v-if="listLoading && conversations.length === 0" class="p-6 text-center text-sm text-gray-500">Loading conversations...</div>
 
-          <div v-else-if="listError" class="p-4 text-sm text-red-600">
-            {{ listError }}
-            <button type="button" class="mt-2 block font-semibold underline" @click="loadConversations">Try again</button>
+          <div v-if="listLoading && conversations.length === 0" class="flex h-full min-h-32 flex-col items-center justify-center gap-3 p-6 text-center">
+            <div class="flex h-9 w-9 items-center justify-center rounded-full bg-teal-50">
+              <FeatherIcon name="loader" class="h-5 w-5 animate-spin text-teal-600" />
+            </div>
+            <p class="text-sm text-slate-500">Loading conversations...</p>
           </div>
 
-          <div v-else-if="filteredConversations.length === 0" class="px-5 py-12 text-center">
-            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
-              <FeatherIcon name="message-circle" class="h-5 w-5 text-gray-400" />
+          <div v-else-if="listError" class="m-4 rounded-xl border border-red-100 bg-red-50 p-4">
+            <div class="flex items-center gap-2 text-sm font-semibold text-red-700">
+              <FeatherIcon name="alert-circle" class="h-4 w-4" />
+              Unable to load conversations
             </div>
-            <p class="mt-3 text-sm font-medium text-gray-800">
+            <p class="mt-1 text-xs leading-5 text-red-600">{{ listError }}</p>
+            <button type="button" class="mt-3 text-xs font-bold text-red-700 underline underline-offset-2" @click="loadConversations">
+              Try again
+            </button>
+          </div>
+
+          <div v-else-if="filteredConversations.length === 0" class="flex h-full min-h-36 flex-col items-center justify-center px-5 py-8 text-center">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100">
+              <FeatherIcon name="message-circle" class="h-5 w-5 text-slate-400" />
+            </div>
+            <p class="mt-3 text-sm font-semibold text-slate-700">
               {{ searchQuery ? 'No matching patients' : 'No conversations yet' }}
             </p>
-            <p class="mt-1 text-xs text-gray-500">
-              {{ searchQuery ? 'Try another name.' : 'Patient conversations will appear here.' }}
+            <p class="mt-1 max-w-[220px] text-xs leading-5 text-slate-400">
+              {{ searchQuery ? 'Try searching with another patient name.' : 'Patient conversations will appear here.' }}
             </p>
           </div>
 
@@ -65,34 +94,47 @@
             v-for="conversation in filteredConversations"
             :key="conversation.patient"
             type="button"
-            class="flex w-full items-start gap-3 border-b border-gray-100 px-4 py-4 text-left transition hover:bg-gray-50"
+            class="group relative flex w-full items-start gap-3 border-b border-slate-100 px-4 py-4 text-left transition duration-150 hover:bg-slate-50 sm:px-5"
             :class="{
-              'bg-teal-50 hover:bg-teal-50 border-l-4 border-l-teal-600': selectedPatientId === conversation.patient,
+              'bg-teal-50/80 hover:bg-teal-50': selectedPatientId === conversation.patient,
             }"
             @click="selectConversation(conversation)"
           >
-            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-teal-100 text-sm font-bold text-teal-800">
+            <!-- Active conversation indicator -->
+            <span
+              v-if="selectedPatientId === conversation.patient"
+              class="absolute bottom-3 left-0 top-3 w-[3px] rounded-r-full bg-teal-600"
+            ></span>
+
+            <!-- Patient avatar -->
+            <div
+              class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-sm font-bold transition"
+              :class="selectedPatientId === conversation.patient ? 'bg-teal-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 group-hover:bg-teal-100 group-hover:text-teal-800'"
+            >
               {{ initials(conversation.patient_name) }}
             </div>
 
+            <!-- Conversation preview -->
             <div class="min-w-0 flex-1">
               <div class="flex items-start justify-between gap-2">
-                <p class="truncate text-sm font-semibold text-gray-900">
+                <p class="truncate text-sm font-semibold text-slate-800">
                   {{ conversation.patient_name || conversation.patient }}
                 </p>
-                <span class="shrink-0 text-[11px] text-gray-400">
+                <span class="shrink-0 pt-0.5 text-[10px] font-medium text-slate-400">
                   {{ formatListTime(conversation.latest_message_at || conversation.scheduled_time) }}
                 </span>
               </div>
 
-              <p class="mt-1 truncate text-xs text-gray-500">
+              <p class="mt-1 truncate text-xs leading-5 text-slate-500">
                 {{ conversation.latest_message || 'No messages yet' }}
               </p>
 
-              <div class="mt-2 flex flex-wrap items-center gap-2">
+              <div class="mt-2 flex items-center justify-between">
+                <span class="text-[10px] font-medium text-slate-400">Patient conversation</span>
+
                 <span
                   v-if="Number(conversation.unread_count) > 0"
-                  class="ml-auto inline-flex h-6 min-w-5 items-center justify-center rounded-md bg-red-500 px-1.5 py-0.5 text-[10px] font-bold text-white"
+                  class="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-teal-600 px-1.5 text-[10px] font-bold text-white shadow-sm"
                 >
                   {{ conversation.unread_count }}
                 </span>
@@ -102,147 +144,261 @@
         </div>
       </aside>
 
-      <!-- Selected conversation -->
-      <section class="flex min-h-0 min-w-0 flex-col">
+      <!-- Conversation panel -->
+      <section class="flex min-h-0 min-w-0 flex-col bg-slate-50/70">
+
         <template v-if="selectedConversation">
-          <!-- Conversation header -->
-          <header class="flex items-center justify-between gap-3 border-b border-gray-200 px-5 py-4">
+
+          <!-- Selected patient header -->
+          <header class="z-10 flex shrink-0 items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3.5 sm:px-6 sm:py-4">
             <div class="flex min-w-0 items-center gap-3">
-              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal-100 text-sm font-bold text-teal-800">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-100 text-sm font-bold text-teal-800">
                 {{ initials(selectedConversation.patient_name) }}
               </div>
 
               <div class="min-w-0">
-                <h2 class="truncate text-sm font-bold text-gray-900">
+                <h2 class="truncate text-sm font-bold text-slate-900 sm:text-base">
                   {{ selectedConversation.patient_name || selectedConversation.patient }}
                 </h2>
-                <p class="mt-0.5 truncate text-xs text-gray-500">Consultation {{ selectedConversation.appointment }}</p>
+                <p class="mt-0.5 truncate text-[11px] text-slate-500 sm:text-xs">
+                  Consultation {{ selectedConversation.appointment }}
+                </p>
               </div>
             </div>
 
             <div class="flex shrink-0 items-center gap-2">
-              <!-- <button
-                type="button"
-                class="hidden items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 sm:inline-flex"
-                @click="openConsultation"
-              >
-                Open record
-                <FeatherIcon name="external-link" class="h-3.5 w-3.5" />
-              </button> -->
+              <span class="hidden items-center gap-1.5 rounded-full border border-emerald-100 bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-700 sm:inline-flex">
+                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                Conversation
+              </span>
             </div>
           </header>
 
-          <!-- Messaging information -->
-          <div class="flex items-start gap-2 border-b border-gray-100 bg-gray-50 px-5 py-3">
-            <FeatherIcon name="info" class="mt-0.5 h-4 w-4 shrink-0 text-gray-400" />
-            <p class="text-xs leading-5 text-gray-600">You can view previous messages and continue communicating with this patient.</p>
+          <!-- Information banner -->
+          <div class="flex shrink-0 items-start gap-2.5 border-b border-teal-100 bg-teal-50/70 px-4 py-3 sm:px-6">
+            <FeatherIcon name="info" class="mt-0.5 h-4 w-4 shrink-0 text-teal-700" />
+            <p class="text-[11px] leading-5 text-teal-900 sm:text-xs">
+              Messages exchanged with this patient are displayed below. You can continue the conversation here.
+            </p>
           </div>
 
-          <!-- Messages -->
-          <div ref="messagesContainer" class="min-h-0 flex-1 overflow-y-auto bg-[#f8fafc] px-4 py-5 sm:px-6">
-            <div v-if="messagesLoading" class="flex h-full min-h-40 items-center justify-center text-sm text-gray-500">Loading messages...</div>
+          <!-- Message history -->
+          <div ref="messagesContainer" class="min-h-0 flex-1 overflow-y-auto bg-[#f5f7fa] px-3 py-5 sm:px-6 sm:py-6">
+
+            <div v-if="messagesLoading" class="flex h-full min-h-40 flex-col items-center justify-center gap-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm">
+                <FeatherIcon name="loader" class="h-5 w-5 animate-spin text-teal-600" />
+              </div>
+              <p class="text-xs font-medium text-slate-500">Loading message history...</p>
+            </div>
 
             <div v-else-if="messagesError" class="flex h-full min-h-40 flex-col items-center justify-center gap-3 text-center">
+              <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50">
+                <FeatherIcon name="alert-circle" class="h-5 w-5 text-red-500" />
+              </div>
               <p class="max-w-md text-sm text-red-600">{{ messagesError }}</p>
-              <button type="button" class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700" @click="loadMessages">Try again</button>
+              <button
+                type="button"
+                class="rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                @click="loadMessages"
+              >
+                Try again
+              </button>
             </div>
 
             <div v-else-if="messages.length === 0" class="flex h-full min-h-40 flex-col items-center justify-center text-center">
-              <div class="flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm">
-                <FeatherIcon name="message-circle" class="h-5 w-5 text-gray-400" />
+              <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-slate-100">
+                <FeatherIcon name="messages-square" class="h-6 w-6 text-slate-400" />
               </div>
-              <p class="mt-3 text-sm font-medium text-gray-700">No messages yet</p>
-              <p class="mt-1 text-xs text-gray-500">Messages exchanged with this patient will appear here.</p>
+              <p class="mt-4 text-sm font-semibold text-slate-700">Start a conversation</p>
+              <p class="mt-1 max-w-xs text-xs leading-5 text-slate-400">
+                There are no messages in this conversation yet. Send a message to get started.
+              </p>
             </div>
 
-            <div v-else class="space-y-5">
-              <div v-for="item in messages" :key="item.name" class="flex" :class="item.sender_type === 'Doctor' ? 'justify-end' : 'justify-start'">
-                <div class="max-w-[85%] sm:max-w-[72%]">
-                  <div
-                    class="rounded-2xl px-4 py-3 shadow-sm"
-                    :class="item.sender_type === 'Doctor' ? 'rounded-br-md border border-amber-500 bg-amber-500 text-white' : 'rounded-bl-md border border-gray-200 bg-white'"
-                  >
-                    <p v-if="item.message" class="whitespace-pre-wrap break-words text-sm leading-6" :class="item.sender_type === 'Doctor' ? 'text-white' : 'text-gray-800'">
-                      {{ item.message }}
-                    </p>
+            <div v-else class="mx-auto flex w-full max-w-4xl flex-col gap-5">
 
-                    <a v-if="item.attachment" :href="getFileUrl(item.attachment)" target="_blank" rel="noopener noreferrer" class="mt-2 flex items-center gap-2 text-sm text-teal-700 hover:underline">
-                      <FeatherIcon name="paperclip" class="h-4 w-4 shrink-0" />
-                      <span class="break-all">{{ getAttachmentName(item.attachment) }}</span>
-                    </a>
+              <div
+                v-for="item in messages"
+                :key="item.name"
+                class="flex w-full"
+                :class="item.sender_type === 'Doctor' ? 'justify-end' : 'justify-start'"
+              >
+                <div class="flex max-w-[90%] items-end gap-2 sm:max-w-[75%]">
+
+                  <div
+                    v-if="item.sender_type !== 'Doctor'"
+                    class="mb-5 hidden h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-[10px] font-bold text-slate-600 shadow-sm ring-1 ring-slate-100 sm:flex"
+                  >
+                    {{ initials(selectedConversation.patient_name) }}
                   </div>
 
-                  <p class="mt-1 text-[11px] text-gray-400" :class="item.sender_type === 'Doctor' ? 'text-right' : 'text-left'">
-                    {{ item.sender_type === 'Doctor' ? 'You' : 'Patient' }}
-                    <span v-if="item.sent_at"> · {{ formatMessageTime(item.sent_at) }}</span>
-                  </p>
+                  <div class="min-w-0">
+                    <!-- Message bubble -->
+                    <div
+                      class="rounded-2xl px-4 py-3 shadow-sm"
+                      :class="item.sender_type === 'Doctor'
+                        ? 'rounded-br-md border border-teal-700 bg-teal-700 text-white'
+                        : 'rounded-bl-md border border-slate-200 bg-white text-slate-800'"
+                    >
+                      <p
+                        v-if="item.message"
+                        class="whitespace-pre-wrap break-words text-[13px] leading-6 sm:text-sm"
+                        :class="item.sender_type === 'Doctor' ? 'text-white' : 'text-slate-700'"
+                      >
+                        {{ item.message }}
+                      </p>
+
+                      <!-- Attachment -->
+                      <a
+                        v-if="item.attachment"
+                        :href="getFileUrl(item.attachment)"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="mt-2 flex min-w-0 items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-medium transition hover:opacity-80"
+                        :class="item.sender_type === 'Doctor' ? 'bg-white/10 text-white' : 'bg-slate-50 text-teal-700'"
+                      >
+                        <FeatherIcon name="paperclip" class="h-4 w-4 shrink-0" />
+                        <span class="break-all">{{ getAttachmentName(item.attachment) }}</span>
+                        <FeatherIcon name="external-link" class="ml-auto h-3 w-3 shrink-0" />
+                      </a>
+                    </div>
+
+                    <!-- Sender and timestamp -->
+                    <div
+                      class="mt-1.5 flex items-center gap-1.5 px-1 text-[10px] text-slate-400 sm:text-[11px]"
+                      :class="item.sender_type === 'Doctor' ? 'justify-end' : 'justify-start'"
+                    >
+                      <span class="font-semibold" :class="item.sender_type === 'Doctor' ? 'text-teal-700' : 'text-slate-500'">
+                        {{ item.sender_type === 'Doctor' ? 'You' : 'Patient' }}
+                      </span>
+                      <span v-if="item.sent_at">· {{ formatMessageTime(item.sent_at) }}</span>
+                    </div>
+                  </div>
+
+                  <div
+                    v-if="item.sender_type === 'Doctor'"
+                    class="mb-5 hidden h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-teal-100 text-[10px] font-bold text-teal-800 sm:flex"
+                  >
+                    You
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Composer -->
-          <div class="border-t border-gray-200 bg-white p-4">
-            <div v-if="sendError" class="mb-3 rounded-lg border border-red-100 bg-red-50 px-3 py-2 text-sm text-red-700">
-              {{ sendError }}
+          <!-- Message composer -->
+          <div class="shrink-0 border-t border-slate-200 bg-white px-3 py-3 sm:px-6 sm:py-4">
+
+            <!-- Send error -->
+            <div v-if="sendError" class="mb-3 flex items-start gap-2 rounded-xl border border-red-100 bg-red-50 px-3 py-2.5 text-xs text-red-700">
+              <FeatherIcon name="alert-circle" class="mt-0.5 h-4 w-4 shrink-0" />
+              <span>{{ sendError }}</span>
             </div>
 
-            <div v-if="selectedFile" class="mb-3 flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2">
-              <div class="flex min-w-0 items-center gap-2 text-xs text-gray-600">
-                <FeatherIcon name="paperclip" class="h-4 w-4 shrink-0" />
-                <span class="truncate">{{ selectedFile.name }}</span>
+            <!-- Selected attachment -->
+            <div v-if="selectedFile" class="mb-3 flex items-center justify-between gap-3 rounded-xl border border-teal-100 bg-teal-50/60 px-3 py-2.5">
+              <div class="flex min-w-0 items-center gap-2.5">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-teal-700">
+                  <FeatherIcon name="file" class="h-4 w-4" />
+                </div>
+                <div class="min-w-0">
+                  <p class="truncate text-xs font-semibold text-slate-700">{{ selectedFile.name }}</p>
+                  <p class="text-[10px] text-slate-400">Attachment ready to send</p>
+                </div>
               </div>
-              <button type="button" class="text-xs font-medium text-red-600 hover:text-red-700" :disabled="sending" @click="removeSelectedFile">Remove</button>
+
+              <button
+                type="button"
+                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+                title="Remove attachment"
+                aria-label="Remove attachment"
+                :disabled="sending"
+                @click="removeSelectedFile"
+              >
+                <FeatherIcon name="x" class="h-4 w-4" />
+              </button>
             </div>
 
-            <form class="flex items-end gap-2" @submit.prevent="sendMessage">
-              <input ref="fileInput" type="file" class="hidden" @change="handleFileChange" />
+            <form class="mx-auto flex w-full max-w-4xl items-end gap-2 sm:gap-3" @submit.prevent="sendMessage">
 
+              <input
+                ref="fileInput"
+                type="file"
+                class="hidden"
+                @change="handleFileChange"
+              />
+
+              <!-- Attach file -->
               <button
                 type="button"
                 title="Attach file"
                 aria-label="Attach file"
-                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50"
+                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-700 disabled:cursor-not-allowed disabled:opacity-50"
                 :disabled="sending"
                 @click="fileInput?.click()"
               >
                 <FeatherIcon name="paperclip" class="h-5 w-5" />
               </button>
 
-              <textarea
-                v-model="newMessage"
-                rows="1"
-                placeholder="Write a message..."
-                class="max-h-32 min-h-11 min-w-0 flex-1 resize-y rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 disabled:bg-gray-50"
-                :disabled="sending"
-                @keydown.enter.exact.prevent="sendMessage"
-              />
+              <!-- Message input -->
+              <div class="min-w-0 flex-1">
+                <textarea
+                  v-model="newMessage"
+                  rows="1"
+                  placeholder="Write a message..."
+                  aria-label="Write a message"
+                  class="max-h-32 min-h-11 w-full resize-y rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-100 disabled:bg-slate-100"
+                  :disabled="sending"
+                  @keydown.enter.exact.prevent="sendMessage"
+                ></textarea>
+              </div>
 
+              <!-- Send -->
               <button
                 type="submit"
-                class="flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-amber-500 px-4 text-sm font-semibold text-white hover:bg-amber-600 disabled:cursor-not-allowed disabled:opacity-50"
+                class="flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-teal-700 px-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-800 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 sm:px-5"
                 :disabled="sending || (!newMessage.trim() && !selectedFile)"
               >
                 <FeatherIcon v-if="!sending" name="send" class="h-4 w-4" />
-                <span v-else class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                <span v-else class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"></span>
                 <span class="hidden sm:inline">{{ sending ? 'Sending' : 'Send' }}</span>
               </button>
             </form>
+
+            <p class="mx-auto mt-2 hidden max-w-4xl text-[10px] text-slate-400 sm:block">
+              Press Enter to send · Attach files using the paperclip
+            </p>
           </div>
         </template>
 
-        <!-- No selection -->
-        <div v-else class="flex min-h-0 flex-1 flex-col items-center justify-center px-6 text-center">
-          <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50">
-            <FeatherIcon name="message-circle" class="h-7 w-7 text-teal-600" />
+        <!-- No conversation selected -->
+        <div v-else class="flex min-h-0 flex-1 flex-col items-center justify-center px-6 py-10 text-center">
+          <div class="relative flex h-20 w-20 items-center justify-center rounded-3xl bg-teal-50 ring-1 ring-teal-100">
+            <FeatherIcon name="messages-square" class="h-9 w-9 text-teal-700" />
+            <span class="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-emerald-500">
+              <FeatherIcon name="check" class="h-3 w-3 text-white" />
+            </span>
           </div>
-          <h2 class="mt-4 text-base font-semibold text-gray-900">Select a conversation</h2>
-          <p class="mt-2 max-w-xs text-sm leading-6 text-gray-500">Choose a patient from the list to view the conversation and message history.</p>
+
+          <h2 class="mt-6 text-lg font-bold tracking-tight text-slate-900">
+            Your patient conversations
+          </h2>
+
+          <p class="mt-2 max-w-sm text-sm leading-6 text-slate-500">
+            Select a patient from your conversation list to view previous messages and continue communicating.
+          </p>
+
+          <div class="mt-6 flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-500 shadow-sm">
+            <FeatherIcon name="shield-check" class="h-4 w-4 text-teal-600" />
+            Patient communication workspace
+          </div>
         </div>
       </section>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
