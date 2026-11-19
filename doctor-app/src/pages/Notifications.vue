@@ -1,4 +1,3 @@
-
 <template>
   <main class="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 sm:py-7 lg:px-8">
     <!-- Page heading -->
@@ -8,12 +7,8 @@
           <span class="h-2 w-2 rounded-full bg-teal-500"></span>
           Activity centre
         </div>
-        <h1 class="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl">
-          Notifications
-        </h1>
-        <p class="mt-2 max-w-xl text-sm leading-6 text-gray-500 sm:text-base">
-          Stay informed about your consultations and patient conversations.
-        </p>
+        <h1 class="text-2xl font-bold tracking-tight text-gray-950 sm:text-3xl">Notifications</h1>
+        <p class="mt-2 max-w-xl text-sm leading-6 text-gray-500 sm:text-base">Stay informed about your consultations and patient conversations.</p>
       </div>
 
       <div class="flex flex-wrap items-center gap-2">
@@ -23,11 +18,7 @@
           :disabled="loading"
           @click="loadNotifications"
         >
-          <FeatherIcon
-            name="refresh-cw"
-            class="h-4 w-4"
-            :class="{ 'animate-spin': loading }"
-          />
+          <FeatherIcon name="refresh-cw" class="h-4 w-4" :class="{ 'animate-spin': loading }" />
           <span>Refresh</span>
         </button>
 
@@ -38,11 +29,7 @@
           :disabled="markingAll"
           @click="markAllAsRead"
         >
-          <FeatherIcon
-            :name="markingAll ? 'loader' : 'check-check'"
-            class="h-4 w-4"
-            :class="{ 'animate-spin': markingAll }"
-          />
+          <FeatherIcon :name="markingAll ? 'loader' : 'check-check'" class="h-4 w-4" :class="{ 'animate-spin': markingAll }" />
           Mark all as read
         </button>
       </div>
@@ -90,16 +77,10 @@
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 class="text-base font-bold text-gray-900">Your activity</h2>
-            <p class="mt-0.5 text-xs text-gray-500">
-              Consultation bookings and messages from patients
-            </p>
+            <p class="mt-0.5 text-xs text-gray-500">Consultation bookings and messages from patients</p>
           </div>
 
-          <div
-            class="flex w-full items-center gap-1 rounded-xl bg-gray-100 p-1 sm:w-auto"
-            role="tablist"
-            aria-label="Filter notifications"
-          >
+          <div class="flex w-full items-center gap-1 rounded-xl bg-gray-100 p-1 sm:w-auto" role="tablist" aria-label="Filter notifications">
             <button
               v-for="tab in tabs"
               :key="tab.value"
@@ -107,16 +88,11 @@
               role="tab"
               :aria-selected="activeFilter === tab.value"
               class="flex-1 rounded-lg px-3 py-2 text-xs font-semibold transition sm:flex-none sm:px-4"
-              :class="activeFilter === tab.value
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-800'"
+              :class="activeFilter === tab.value ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-800'"
               @click="changeFilter(tab.value)"
             >
               {{ tab.label }}
-              <span
-                v-if="tab.value === 'Unread' && unreadCount > 0"
-                class="ml-1.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] text-amber-800"
-              >
+              <span v-if="tab.value === 'Unread' && unreadCount > 0" class="ml-1.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] text-amber-800">
                 {{ unreadCount }}
               </span>
             </button>
@@ -133,11 +109,7 @@
             <p class="mt-1 break-words text-xs leading-5 text-red-700">{{ error }}</p>
           </div>
         </div>
-        <button
-          type="button"
-          class="self-start rounded-lg border border-red-200 bg-white px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-100 sm:self-center"
-          @click="loadNotifications"
-        >
+        <button type="button" class="self-start rounded-lg border border-red-200 bg-white px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-100 sm:self-center" @click="loadNotifications">
           Try again
         </button>
       </div>
@@ -157,10 +129,7 @@
       <!-- Empty state -->
       <div v-else-if="!notifications.length" class="px-5 py-16 text-center sm:py-20">
         <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-50 ring-1 ring-gray-100">
-          <FeatherIcon
-            :name="activeFilter === 'Unread' ? 'check-circle' : 'bell'"
-            class="h-7 w-7 text-gray-400"
-          />
+          <FeatherIcon :name="activeFilter === 'Unread' ? 'check-circle' : 'bell'" class="h-7 w-7 text-gray-400" />
         </div>
         <h3 class="mt-5 text-base font-bold text-gray-900">
           {{ emptyTitle }}
@@ -168,29 +137,17 @@
         <p class="mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500">
           {{ emptyDescription }}
         </p>
-        <button
-          v-if="activeFilter !== 'All'"
-          type="button"
-          class="mt-5 text-sm font-semibold text-teal-700 hover:text-teal-800"
-          @click="changeFilter('All')"
-        >
-          View all notifications
-        </button>
+        <button v-if="activeFilter !== 'All'" type="button" class="mt-5 text-sm font-semibold text-teal-700 hover:text-teal-800" @click="changeFilter('All')">View all notifications</button>
       </div>
 
       <!-- Notification list -->
       <div v-else class="divide-y divide-gray-100">
-        <section
-          v-for="group in groupedNotifications"
-          :key="group.key"
-        >
+        <section v-for="group in groupedNotifications" :key="group.key">
           <div class="flex items-center justify-between bg-gray-50/70 px-4 py-3 sm:px-6">
             <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500">
               {{ group.label }}
             </h3>
-            <span class="text-[11px] font-medium text-gray-400">
-              {{ group.items.length }} {{ group.items.length === 1 ? 'notification' : 'notifications' }}
-            </span>
+            <span class="text-[11px] font-medium text-gray-400"> {{ group.items.length }} {{ group.items.length === 1 ? 'notification' : 'notifications' }} </span>
           </div>
 
           <article
@@ -201,14 +158,9 @@
           >
             <div
               class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
-              :class="notification.notification_type === 'Consultation Booked'
-                ? 'bg-blue-50 text-blue-700'
-                : 'bg-teal-50 text-teal-700'"
+              :class="notification.notification_type === 'Consultation Booked' ? 'bg-blue-50 text-blue-700' : 'bg-teal-50 text-teal-700'"
             >
-              <FeatherIcon
-                :name="notification.notification_type === 'Consultation Booked' ? 'calendar-check' : 'message-circle'"
-                class="h-5 w-5"
-              />
+              <FeatherIcon :name="notification.notification_type === 'Consultation Booked' ? 'calendar-check' : 'message-circle'" class="h-5 w-5" />
             </div>
 
             <div class="min-w-0 flex-1">
@@ -216,10 +168,7 @@
                 <h4 class="min-w-0 break-words text-sm font-bold text-gray-900">
                   {{ notification.title }}
                 </h4>
-                <span
-                  v-if="!notification.is_read"
-                  class="inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800"
-                >
+                <span v-if="!notification.is_read" class="inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800">
                   <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
                   New
                 </span>
@@ -264,20 +213,13 @@
               </div>
             </div>
 
-            <span
-              v-if="!notification.is_read"
-              class="mt-2 h-2 w-2 shrink-0 rounded-full bg-amber-500"
-              aria-label="Unread"
-            ></span>
+            <span v-if="!notification.is_read" class="mt-2 h-2 w-2 shrink-0 rounded-full bg-amber-500" aria-label="Unread"></span>
           </article>
         </section>
       </div>
 
       <!-- Pagination -->
-      <footer
-        v-if="totalPages > 1"
-        class="flex flex-col gap-3 border-t border-gray-100 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6"
-      >
+      <footer v-if="totalPages > 1" class="flex flex-col gap-3 border-t border-gray-100 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <p class="text-xs text-gray-500">
           Showing
           <span class="font-semibold text-gray-800">{{ firstItem }}</span>
@@ -297,9 +239,7 @@
             <FeatherIcon name="chevron-left" class="h-4 w-4" />
             Previous
           </button>
-          <span class="px-2 text-xs font-medium text-gray-500">
-            {{ page }} / {{ totalPages }}
-          </span>
+          <span class="px-2 text-xs font-medium text-gray-500"> {{ page }} / {{ totalPages }} </span>
           <button
             type="button"
             class="inline-flex h-9 items-center gap-1 rounded-lg border border-gray-200 px-3 text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
@@ -331,91 +271,86 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const router = useRouter()
+const router = useRouter();
 
-const PAGE_LENGTH = 20
-const API_BASE = '/api/method/wellnest.api.doctor_notifications'
+const PAGE_LENGTH = 20;
+const API_BASE = '/api/method/wellnest.api.doctor_notifications';
 
 const tabs = [
   { label: 'All', value: 'All' },
   { label: 'Unread', value: 'Unread' },
   { label: 'Read', value: 'Read' },
-]
+];
 
-const notifications = ref([])
-const activeFilter = ref('All')
-const loading = ref(false)
-const error = ref('')
-const page = ref(1)
-const filteredTotal = ref(0)
-const totalCount = ref(0)
-const unreadCount = ref(0)
-const busyNotification = ref(null)
-const markingAll = ref(false)
-const successMessage = ref('')
-let requestVersion = 0
-let successTimer = null
+const notifications = ref([]);
+const activeFilter = ref('All');
+const loading = ref(false);
+const error = ref('');
+const page = ref(1);
+const filteredTotal = ref(0);
+const totalCount = ref(0);
+const unreadCount = ref(0);
+const busyNotification = ref(null);
+const markingAll = ref(false);
+const successMessage = ref('');
+let requestVersion = 0;
+let successTimer = null;
 
-const totalPages = computed(() =>
-  Math.max(1, Math.ceil(filteredTotal.value / PAGE_LENGTH)),
-)
+const totalPages = computed(() => Math.max(1, Math.ceil(filteredTotal.value / PAGE_LENGTH)));
 
-const firstItem = computed(() =>
-  filteredTotal.value ? (page.value - 1) * PAGE_LENGTH + 1 : 0,
-)
+const firstItem = computed(() => (filteredTotal.value ? (page.value - 1) * PAGE_LENGTH + 1 : 0));
 
-const lastItem = computed(() =>
-  Math.min(page.value * PAGE_LENGTH, filteredTotal.value),
-)
+const lastItem = computed(() => Math.min(page.value * PAGE_LENGTH, filteredTotal.value));
 
 const emptyTitle = computed(() => {
-  if (activeFilter.value === 'Unread') return "You're all caught up"
-  if (activeFilter.value === 'Read') return 'No read notifications yet'
-  return 'Your inbox is quiet'
-})
+  if (activeFilter.value === 'Unread') return "You're all caught up";
+  if (activeFilter.value === 'Read') return 'No read notifications yet';
+  return 'Your inbox is quiet';
+});
 
 const emptyDescription = computed(() => {
   if (activeFilter.value === 'Unread') {
-    return 'There are no unread notifications. New consultation bookings and patient messages will appear here.'
+    return 'There are no unread notifications. New consultation bookings and patient messages will appear here.';
   }
   if (activeFilter.value === 'Read') {
-    return 'Notifications you have read will remain available here for future reference.'
+    return 'Notifications you have read will remain available here for future reference.';
   }
-  return 'When patients book consultations or send you messages, you will see them here.'
-})
+  return 'When patients book consultations or send you messages, you will see them here.';
+});
 
 const groupedNotifications = computed(() => {
-  const groups = new Map()
+  const groups = new Map();
 
   for (const item of notifications.value) {
-    const date = item.event_time ? new Date(item.event_time.replace(' ', 'T')) : null
-    const key = date && !Number.isNaN(date.getTime())
-      ? date.toLocaleDateString('en-IN', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-        })
-      : 'unknown'
+    const date = item.event_time ? new Date(item.event_time.replace(' ', 'T')) : null;
+    const key =
+      date && !Number.isNaN(date.getTime())
+        ? date.toLocaleDateString('en-IN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          })
+        : 'unknown';
 
     if (!groups.has(key)) {
       groups.set(key, {
         key,
         label: getDateGroupLabel(date),
         items: [],
-      })
+      });
     }
 
-    groups.get(key).items.push(item)
+    groups.get(key).items.push(item);
   }
 
-  return Array.from(groups.values())
-})
+  return Array.from(groups.values());
+});
 
 async function requestApi(method, args = {}, httpMethod = 'GET') {
-  const url = new URL(`${API_BASE}.${method}`, window.location.origin)
+  const url = new URL(`${API_BASE}.${method}`, window.location.origin);
 
   const options = {
     method: httpMethod,
@@ -423,37 +358,36 @@ async function requestApi(method, args = {}, httpMethod = 'GET') {
     headers: {
       Accept: 'application/json',
     },
-  }
+  };
 
   if (httpMethod === 'GET') {
     Object.entries(args).forEach(([key, value]) => {
-      url.searchParams.set(key, String(value))
-    })
+      url.searchParams.set(key, String(value));
+    });
   } else {
-    options.headers['Content-Type'] = 'application/json'
-    options.headers['X-Frappe-CSRF-Token'] = window.csrf_token || ''
-    options.body = JSON.stringify(args)
+    options.headers['Content-Type'] = 'application/json';
+    options.headers['X-Frappe-CSRF-Token'] = window.csrf_token || '';
+    options.body = JSON.stringify(args);
   }
 
-  const response = await fetch(url.toString(), options)
-  const result = await response.json()
+  const response = await fetch(url.toString(), options);
+  const result = await response.json();
 
   if (!response.ok || result.exc || result.exception) {
-    throw new Error(
-      result.message || result._server_messages || `Request failed (${response.status})`,
-    )
+    throw new Error(result.message || result._server_messages || `Request failed (${response.status})`);
   }
 
-  return result.message
+  return result.message;
 }
 
+
 async function loadNotifications() {
-  const currentRequest = ++requestVersion
-  loading.value = true
-  error.value = ''
+  const currentRequest = ++requestVersion;
+  loading.value = true;
+  error.value = '';
 
   try {
-    const [listResult, unreadResult, allResult] = await Promise.all([
+    const [listResult, unreadResult, allResult] = await Promise.allSettled([
       requestApi('get_doctor_notifications', {
         page: page.value,
         page_length: PAGE_LENGTH,
@@ -469,117 +403,133 @@ async function loadNotifications() {
         page_length: 1,
         status: 'All',
       }),
-    ])
+    ]);
 
-    if (currentRequest !== requestVersion) return
+    if (currentRequest !== requestVersion) return;
 
-    notifications.value = listResult?.notifications || []
-    filteredTotal.value = Number(listResult?.total || 0)
-    unreadCount.value = Number(unreadResult?.total || 0)
-    totalCount.value = Number(allResult?.total || 0)
+    if (listResult.status === 'rejected') {
+      throw listResult.reason;
+    }
+
+    const listData = listResult.value;
+
+    notifications.value = listData?.notifications || [];
+    filteredTotal.value = Number(listData?.total || 0);
+
+    unreadCount.value =
+      unreadResult.status === 'fulfilled'
+        ? Number(unreadResult.value?.total || 0)
+        : notifications.value.filter(item => !item.is_read).length;
+
+    totalCount.value =
+      allResult.status === 'fulfilled'
+        ? Number(allResult.value?.total || 0)
+        : activeFilter.value === 'All'
+          ? filteredTotal.value
+          : totalCount.value;
 
     if (page.value > totalPages.value) {
-      page.value = totalPages.value
-      await loadNotifications()
+      page.value = totalPages.value;
+      await loadNotifications();
     }
+
   } catch (err) {
-    if (currentRequest !== requestVersion) return
-    console.error('Failed to load doctor notifications:', err)
-    error.value = typeof err.message === 'string'
-      ? err.message
-      : 'Please check your connection and try again.'
+    if (currentRequest !== requestVersion) return;
+
+    console.error('Failed to load doctor notifications:', err);
+    error.value =
+      typeof err.message === 'string'
+        ? err.message
+        : 'Please check your connection and try again.';
+
   } finally {
     if (currentRequest === requestVersion) {
-      loading.value = false
+      loading.value = false;
     }
   }
 }
 
 async function changeFilter(filter) {
-  if (activeFilter.value === filter) return
-  activeFilter.value = filter
-  page.value = 1
-  await loadNotifications()
+  if (activeFilter.value === filter) return;
+  activeFilter.value = filter;
+  page.value = 1;
+  await loadNotifications();
 }
 
 async function changePage(nextPage) {
-  if (nextPage < 1 || nextPage > totalPages.value) return
-  page.value = nextPage
-  await loadNotifications()
+  if (nextPage < 1 || nextPage > totalPages.value) return;
+  page.value = nextPage;
+  await loadNotifications();
 }
 
 async function markAsRead(notification) {
-  if (notification.is_read || busyNotification.value) return
+  if (notification.is_read || busyNotification.value) return;
 
-  busyNotification.value = notification.name
+  busyNotification.value = notification.name;
 
   try {
-    const result = await requestApi(
-      'mark_doctor_notification_read',
-      { notification_name: notification.name },
-      'POST',
-    )
+    const result = await requestApi('mark_doctor_notification_read', { notification_name: notification.name }, 'POST');
 
-    notification.is_read = true
-    notification.read_at = result?.read_at || new Date().toISOString()
-    unreadCount.value = Math.max(0, unreadCount.value - 1)
+    notification.is_read = true;
+    notification.read_at = result?.read_at || new Date().toISOString();
+    unreadCount.value = Math.max(0, unreadCount.value - 1);
 
     if (activeFilter.value === 'Unread') {
-      await loadNotifications()
+      await loadNotifications();
     }
 
-    showSuccess('Notification marked as read')
+    showSuccess('Notification marked as read');
   } catch (err) {
-    console.error('Failed to mark notification as read:', err)
-    error.value = err.message || 'Could not update notification.'
+    console.error('Failed to mark notification as read:', err);
+    error.value = err.message || 'Could not update notification.';
   } finally {
-    busyNotification.value = null
+    busyNotification.value = null;
   }
 }
 
 async function markAllAsRead() {
-  if (!unreadCount.value || markingAll.value) return
+  if (!unreadCount.value || markingAll.value) return;
 
-  markingAll.value = true
+  markingAll.value = true;
 
   try {
-    await requestApi('mark_all_doctor_notifications_read', {}, 'POST')
+    await requestApi('mark_all_doctor_notifications_read', {}, 'POST');
 
     notifications.value.forEach((item) => {
-      item.is_read = true
-      item.read_at = new Date().toISOString()
-    })
+      item.is_read = true;
+      item.read_at = new Date().toISOString();
+    });
 
-    unreadCount.value = 0
+    unreadCount.value = 0;
 
     if (activeFilter.value === 'Unread') {
-      page.value = 1
-      await loadNotifications()
+      page.value = 1;
+      await loadNotifications();
     } else {
-      await loadNotifications()
+      await loadNotifications();
     }
 
-    showSuccess('All notifications marked as read')
+    showSuccess('All notifications marked as read');
   } catch (err) {
-    console.error('Failed to mark all notifications as read:', err)
-    error.value = err.message || 'Could not update notifications.'
+    console.error('Failed to mark all notifications as read:', err);
+    error.value = err.message || 'Could not update notifications.';
   } finally {
-    markingAll.value = false
+    markingAll.value = false;
   }
 }
 
 async function openNotification(notification) {
   try {
     if (!notification.is_read) {
-      await markAsRead(notification)
+      await markAsRead(notification);
     }
 
     if (notification.notification_type === 'Consultation Booked') {
       await router.push({
         name: 'ConsultationDetails',
         params: { bookingId: notification.patient_appointment },
-      })
-      return
+      });
+      return;
     }
 
     if (notification.notification_type === 'Patient Message') {
@@ -588,44 +538,45 @@ async function openNotification(notification) {
         query: {
           patient: notification.patient,
           appointment: notification.patient_appointment,
+          message: notification.message_id,
         },
-      })
+      });
     }
   } catch (err) {
-    console.error('Failed to open notification destination:', err)
+    console.error('Failed to open notification destination:', err);
   }
 }
 
 function showSuccess(message) {
-  successMessage.value = message
-  if (successTimer) clearTimeout(successTimer)
+  successMessage.value = message;
+  if (successTimer) clearTimeout(successTimer);
   successTimer = setTimeout(() => {
-    successMessage.value = ''
-  }, 2600)
+    successMessage.value = '';
+  }, 2600);
 }
 
 function getDateGroupLabel(date) {
-  if (!date || Number.isNaN(date.getTime())) return 'Date unavailable'
+  if (!date || Number.isNaN(date.getTime())) return 'Date unavailable';
 
-  const today = new Date()
-  const yesterday = new Date()
-  yesterday.setDate(today.getDate() - 1)
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
 
-  if (date.toDateString() === today.toDateString()) return 'Today'
-  if (date.toDateString() === yesterday.toDateString()) return 'Yesterday'
+  if (date.toDateString() === today.toDateString()) return 'Today';
+  if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
 
   return date.toLocaleDateString('en-IN', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
-  })
+  });
 }
 
 function formatDateTime(value) {
-  if (!value) return 'Time unavailable'
+  if (!value) return 'Time unavailable';
 
-  const date = new Date(value.replace(' ', 'T'))
-  if (Number.isNaN(date.getTime())) return 'Time unavailable'
+  const date = new Date(value.replace(' ', 'T'));
+  if (Number.isNaN(date.getTime())) return 'Time unavailable';
 
   return date.toLocaleString('en-IN', {
     day: 'numeric',
@@ -633,22 +584,22 @@ function formatDateTime(value) {
     year: 'numeric',
     hour: 'numeric',
     minute: '2-digit',
-  })
+  });
 }
 
 function formatRelativeTime(value) {
-  if (!value) return ''
+  if (!value) return '';
 
-  const date = new Date(value.replace(' ', 'T'))
-  if (Number.isNaN(date.getTime())) return ''
+  const date = new Date(value.replace(' ', 'T'));
+  if (Number.isNaN(date.getTime())) return '';
 
   return date.toLocaleString('en-IN', {
     day: 'numeric',
     month: 'short',
     hour: 'numeric',
     minute: '2-digit',
-  })
+  });
 }
 
-onMounted(loadNotifications)
+onMounted(loadNotifications);
 </script>
